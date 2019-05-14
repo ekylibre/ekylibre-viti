@@ -288,7 +288,11 @@ Rails.application.routes.draw do
           get :count
         end
       end
-      resources :letters, only: %i[create destroy]
+      resources :letters, only: %i[create] do
+        collection do
+          delete :destroy
+        end
+      end
     end
 
     resources :bank_statements, concerns: %i[list unroll], path: 'bank-statements' do
