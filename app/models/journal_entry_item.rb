@@ -76,6 +76,7 @@
 #   * real_(credit|debit|balance) are in currency of the financial year
 #   * absolute_(credit|debit|balance) are in currency of the company
 class JournalEntryItem < Ekylibre::Record::Base
+  include ActionView::Helpers::UrlHelper
   attr_readonly :entry_id, :journal_id, :state
   refers_to :absolute_currency, class_name: 'Currency'
   refers_to :currency
@@ -420,5 +421,24 @@ class JournalEntryItem < Ekylibre::Record::Base
     return unless account
     third_parties = Entity.uniq.where('client_account_id = ? OR supplier_account_id = ? OR employee_account_id = ?', account.id, account.id, account.id)
     third_parties.take if third_parties.count == 1
+  end
+
+  # Method is only used in general_ledger journal_entry_items list
+  def tax_account
+    return '' unless account_number.match(/^[267].*/).present?
+    entry_items = entry.items
+    items_with_tax = entry_items.select(:tax_id, :account_id)
+    items_with_tax = items_with_tax.select{|k| k[:tax_id] }.as_json.uniq
+    # items_with_tax should look like : [{"id"=>nil, "account_id"=>5063, "tax_id"=>26}, {"id"=>nil, "account_id"=>5269, "tax_id"=>26}]
+    return '' if items_with_tax.empty?
+    if items_with_tax.count > 1
+      # If there 2 different accounts with tax, it means the tax is an intracommunautary tax and the intracommunity_payable_account is displayed
+      tax = Tax.find items_with_tax.first["tax_id"]
+      return '' unless tax.intracommunity
+      account = tax.intracommunity_payable_account
+    else
+      account = Account.find items_with_tax.first["account_id"]
+    end
+    link_to account.label, Rails.application.routes.url_helpers.backend_account_path(id: account_id)
   end
 end

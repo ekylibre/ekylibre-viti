@@ -2584,6 +2584,7 @@ arb:
     transports: "وسائل النقل" #?
     trouble_description: "وصف المتاعب"
     trouble_encountered: "مشكلة واجهتها"
+    # tax_account: "TVA account"
     type: "النوع"
     # uid: "UID"
     unconfirmed_email: "البريد الإلكتروني غير مؤكد"
