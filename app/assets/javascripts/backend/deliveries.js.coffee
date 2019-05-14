@@ -1,11 +1,11 @@
 ((E, $) ->
   'use strict'
 
-  $(document).behave "load click", "form label input[name='parcel[delivery_mode]']", ->
+  $(document).behave "load click", "form label input[name='shipment[delivery_mode]']", ->
     input = $(this)
     if input.is(':checked')
       form = input.closest('form')
-      form.find("input[name='parcel[delivery_mode]']").each ->
+      form.find("input[name='shipment[delivery_mode]']").each ->
         $("#delivery-mode-#{$(this).val()}").hide()
       $("#delivery-mode-#{input.val()}").show()
 
