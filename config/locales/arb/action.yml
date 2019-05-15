@@ -1427,6 +1427,7 @@ arb:
     dont_use_journal: "-- عدم استعمال الدفتر اليومي --"
     down: "للاسفل"
     down_to_level: "نزولا الى مستوى" #?
+    # download: "Download"
     download_firefox: "تحميل موزيلا فاير فوكس" #?
     downpayment: "شروط العربون"
     draft: "المسودات"
@@ -1515,6 +1516,10 @@ arb:
     export_as_csv: "التصدير، CSV"
     export_as_ods: "التصدير، المواد المستنفدة للأوزون"
     export_as_xcsv: "تصدير واكسل CSV"
+    # export_fec_all: "Export FEC corporate tax"
+    # export_fec_ba_bnc_ir_commercial_accountancy: "Export FEC for agriculture and professional operations income taxation commercial accountancy"
+    # export_fec_ba_ir_cash_accountancy: "Export FEC agriculture income taxation cash accountancy"
+    # export_fec_bnc_ir_cash_accountancy: "Export FEC professional operations income taxation cash accountancy"
     extract: "يستخرج" #?
     # extract_account_x: "Extract account %{account_number}"
     # extract_unlettered_account_x: "Extract unlettered account %{account_number}"
@@ -1526,6 +1531,7 @@ arb:
     file_to_download: "ملف الاستيراد" #?
     file_to_import: "ملف للاستيراد" #?
     file_to_upload: "ملف لتحميل"
+    # file_trimming: "File trimming"
     filter: "تصفية"
     filter_entries_with: "تصفية الادخالات مع" #?
     final_balance: "الرصيد النهائي"
@@ -1533,6 +1539,7 @@ arb:
     financial_expenses: "نفقات مالية"
     financial_products: "المنتجات المالية"
     financial_state: "الوضع المالي" #?
+    # financial_year: "Financial year"
     financial_year_create: "فتح مهنة جديدة للمحاسبة" #?
     financials_assets: "الأصول المالية" #?
     finish: "انهاء"
@@ -2449,6 +2456,7 @@ arb:
     transport_create: "اضافة وسيلة نقل جديدة" #?
     transport_deliveries: "تسليم وسائل النقل" #?
     trimester: "الثلث"
+    # type_of_structure: "Type of structure"
     unavailable: #?
       entity: "السجل المطلوب غير متاح" #?
       financial_year: "السنة المالية غير متوفرة %{value}" #?
@@ -3035,6 +3043,7 @@ arb:
       edit_many: "تعديل العديد"
       evaluate: "تقييم"
       export: "تصدير"
+      # export_fec: "FEC export"
       export_to_sepa: "تصدير إلى المصلحة"
       extract: "استخراج"
       family: "أسرة"

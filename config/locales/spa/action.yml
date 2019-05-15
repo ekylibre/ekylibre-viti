@@ -1199,6 +1199,7 @@ spa:
     dont_use_journal: "-- No utilizar el periodico --"
     down: "Abajo"
     down_to_level: "Detallar hasta el nivel" #?
+    # download: "Download"
     download_firefox: "Carga Mozilla Firefox..." #?
     downpayment: "Pago inicial"
     draft: "Niebla"
@@ -1271,6 +1272,10 @@ spa:
     export_as_csv: "Exportar como CSV"
     export_as_ods: "Exportar como ODS"
     export_as_xcsv: "Exportar como Excel CSV"
+    # export_fec_all: "Export FEC corporate tax"
+    # export_fec_ba_bnc_ir_commercial_accountancy: "Export FEC for agriculture and professional operations income taxation commercial accountancy"
+    # export_fec_ba_ir_cash_accountancy: "Export FEC agriculture income taxation cash accountancy"
+    # export_fec_bnc_ir_cash_accountancy: "Export FEC professional operations income taxation cash accountancy"
     # extract_account_x: "Extract account %{account_number}"
     # extract_unlettered_account_x: "Extract unlettered account %{account_number}"
     # fees: "Fees"
@@ -1280,12 +1285,14 @@ spa:
     file_preview: "Avance"
     file_to_import: "Fichero a importar" #?
     file_to_upload: "Un archivo para subir"
+    # file_trimming: "File trimming"
     filter: "Filtrar"
     filter_entries_with: "Flitrar las escrituras con" #?
     final_balance: "Saldo final"
     financial_assets: "Activos financieros"
     financial_expenses: "Gastos financieros"
     financial_products: "Productos financieros"
+    # financial_year: "Financial year"
     financial_year_create: "Abrir un nuevo ejercicio contable" #?
     financials_assets: "Activos Finanzas" #?
     finish: "Acabado"
@@ -2054,6 +2061,7 @@ spa:
     transformations: "Transformaciones" #?
     transport: "Transporte"
     trimester: "Trimestre"
+    # type_of_structure: "Type of structure"
     unbalanced_clients: "Clientes desequilibradas"
     unbalanced_suppliers: "Proveedores desequilibradas"
     unbilled_payables: "Cuentas a pagar no facturadas"
@@ -2549,6 +2557,7 @@ spa:
       edit_many: "Editar muchos"
       evaluate: "Evaluar"
       export: "Exportar"
+      # export_fec: "FEC export"
       export_to_sepa: "Exportar a la SEPA"
       extract: "Extraer"
       family: "Familia"
