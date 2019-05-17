@@ -423,6 +423,17 @@ class JournalEntryItem < Ekylibre::Record::Base
     third_parties.take if third_parties.count == 1
   end
 
+  def associated_journal_entry_items_on_bank_reconciliation
+    return [] unless bank_statement_letter
+    items = JournalEntryItem.where("bank_statement_letter = '#{self.bank_statement_letter}' AND account_id = '#{self.account_id}'")
+    items - [self]
+  end
+
+  def associated_bank_statement_items
+    return [] unless bank_statement_letter
+    BankStatementItem.joins(cash: :suspense_account).where("letter = '#{self.bank_statement_letter}' AND cashes.suspense_account_id = '#{self.account_id}'")
+  end
+
   # Method is only used in general_ledger journal_entry_items list
   def tax_account
     return '' unless account_number.match(/^[267].*/).present?

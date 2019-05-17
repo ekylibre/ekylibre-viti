@@ -52,7 +52,7 @@
       .date-section
         - bank_statement = items.select{ |item| item.is_a?(BankStatementItem) }.map(&:bank_statement).uniq.first
         = render 'date_header', date: date, bank_statement: bank_statement, cash_id: cash_id
-        - items.each do |item|
+        - items.uniq.each do |item|
           = render 'reconciliation_item', item: item
 
   .totals
