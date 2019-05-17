@@ -1612,6 +1612,7 @@ por:
     transports: "Transportes" #?
     trouble_description: "A inscrição problemas"
     trouble_encountered: "O problema encontrado"
+    # tax_account: "TVA account"
     type: "Digitar"
     # uid: "UID"
     unconfirmed_email: "Email não confirmado"

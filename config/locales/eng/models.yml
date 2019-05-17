@@ -1057,6 +1057,7 @@ eng:
     irregular_batch: "Irregular batch" #?
     irrigated: "Irrigated"
     irrigation_water_nitrogen: "Irrigation water nitrogen"
+    # is_partially_planned: "Is partially planned"
     islet: "Islet"
     islet_number: "Islet number"
     islets: "Islets"
@@ -1721,6 +1722,7 @@ eng:
     # treatment: "Treatment"
     trouble_description: "Trouble description"
     trouble_encountered: "Trouble encountered"
+    tax_account: "TVA account"
     type: "Type"
     uid: "UID"
     unconfirmed_email: "Unconfirmed email"

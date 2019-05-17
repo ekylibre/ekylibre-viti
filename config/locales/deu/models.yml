@@ -1611,6 +1611,7 @@ deu:
     transports: "Transporte" #?
     trouble_description: "Fehlerbeschreibung"
     trouble_encountered: "Schwierigkeiten gestoßen"
+    # tax_account: "TVA account"
     type: "Art"
     # uid: "UID"
     unconfirmed_email: "Unbestätigten E-Mail"
