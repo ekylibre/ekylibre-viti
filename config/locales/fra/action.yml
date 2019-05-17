@@ -875,11 +875,6 @@ fra:
       zoomInTitle: "Zoomer"
       zoomOutTitle: "Dézoomer"
   labels:
-    duplicate_x_selected_interventions:
-      one: "Dupliquer l'intervention sélectionnée"
-      other: "Dupliquer les interventions sélectionnées"
-    duplicate_intervention: "Dupliquer l'intervention"
-    planned_again_intervention_in: "Planifier de nouveau cette intervention le"
     abilities: "Compétences" #?
     accepted: "Acceptée"
     accepted_for_paiment: "Acceptée pour paiement"
@@ -1343,12 +1338,17 @@ fra:
     dont_use_journal: "— Ne pas utiliser de journal —"
     down: "Descendre"
     down_to_level: "Détailler jusqu’au niveau" #?
+    download: "Télécharger"
     download_firefox: "Télécharger Mozilla Firefox…" #?
     downpayment: "Acompte"
     draft: "Brouillard"
     driver: "Conducteur"
     drug: "Médicament" #?
     duplicate: "Dupliquer"
+    duplicate_intervention: "Dupliquer l'intervention"
+    duplicate_x_selected_interventions:
+      one: "Dupliquer l'intervention sélectionnée"
+      other: "Dupliquer les interventions sélectionnées"
     duration: "Durée"
     duration_in_hours_and_minutes: "%{hours}h %{minutes}min"
     during: "Pendant"
@@ -1424,10 +1424,20 @@ fra:
     export_as_pdf: "Exporter en PDF" #?
     export_as_xcsv: "Exporter en CSV pour Excel"
     export_backup: "Export d’un fichier de sauvegarde" #?
+    export_xml_fec_all: "Export FEC - Cas général - impôt sur les sociétés (XML)"
+    export_xml_fec_ba_bnc_ir_commercial_accountancy: "Export FEC - Cas BA BNC IR - comptabilité commerciale (XML)"
+    export_xml_fec_ba_ir_cash_accountancy: "Export FEC - Cas BA IR - comptabilité de trésorerie (XML)"
+    export_xml_fec_bnc_ir_cash_accountancy: "Export FEC - Cas BNC IR - comptabilité de trésorerie (XML)"
+    export_text_fec_all: "Export FEC - Cas général - impôt sur les sociétés (Texte)"
+    export_text_fec_ba_bnc_ir_commercial_accountancy: "Export FEC - Cas BA BNC IR - comptabilité commerciale (Texte)"
+    export_text_fec_ba_ir_cash_accountancy: "Export FEC - Cas BA IR - comptabilité de trésorerie (Texte)"
+    export_text_fec_bnc_ir_cash_accountancy: "Export FEC - Cas BNC IR - comptabilité de trésorerie (Texte)"
     exportation: "Exportation" #?
     extract: "Extraire" #?
+    extract_account_x: "Extrait de compte %{account_number}"
     extract_non_letter_odt: "Extrait de compte - Non lettrés en ODT" #?
     extract_non_letter_pdf: "Extrait de compte - Non lettrés en PDF" #?
+    extract_unlettered_account_x: "Extrait de compte non lettrés %{account_number}"
     fat_matters_concentration: "Teneur en matières grasses" #?
     fax: "Fax" #?
     fees: "Frais"
@@ -1439,6 +1449,7 @@ fra:
     file_to_download: "Fichier à importer" #?
     file_to_import: "Fichier à importer" #?
     file_to_upload: "Fichier à importer"
+    file_trimming: "Découpage du fichier :"
     filter: "Filtrer"
     filter_entries_with: "Filtrer les écritures avec" #?
     final_balance: "Solde final"
@@ -1446,6 +1457,7 @@ fra:
     financial_expenses: "Charges financières"
     financial_products: "Produits financiers"
     financial_state: "État financier" #?
+    financial_year: "Exercice comptable"
     finish: "Terminer"
     finished: "Terminé"
     finished_income_statement: "Produits" #?
@@ -1941,6 +1953,7 @@ fra:
     planned: #? String expected ("Planned")
       one: "Planifiée" #?
       other: "Planifiées" #?
+    planned_again_intervention_in: "Planifier de nouveau cette intervention le"
     planned_at: "Date prévisionnelle" #?
     planned_by: "Planifiée par" #?
     # planning: "Planning"
@@ -2408,6 +2421,7 @@ fra:
     treatment: "Traitement" #?
     trimester: "Trimestre"
     true: "Vrai" #?
+    type_of_structure: "Type de structure"
     unbalanced_clients: "Comptes à réconcilier - Clients"
     unbalanced_suppliers: "Comptes à réconcilier - Fournisseurs"
     unbilled_payables: "Factures non parvenues"
@@ -2960,6 +2974,7 @@ fra:
       edit_many: "Modifier plusieurs"
       evaluate: "Évaluer"
       export: "Exporter"
+      export_fec: "Export FEC"
       export_to_sepa: "Export SEPA"
       extract: "Extraire"
       family: "Famille"

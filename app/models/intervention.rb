@@ -60,6 +60,9 @@ class Intervention < Ekylibre::Record::Base
   include CastGroupable
   include PeriodicCalculable
   include Customizable
+
+  PLANNED_REALISED_ACCEPTED_GAP = { intervention_doer: 1.2, intervention_tool: 1.2, intervention_input: 1.2 }.freeze
+
   attr_readonly :procedure_name, :production_id, :currency
   refers_to :currency
   enumerize :procedure_name, in: Procedo.procedure_names, i18n_scope: ['procedures']
@@ -366,7 +369,21 @@ class Intervention < Ekylibre::Record::Base
   # | outputs      | stock (3X)                | stock_movement (603X/71X) |
   # | inputs       | stock_movement (603X/71X) | stock (3X)                |
   bookkeep do |b|
-    stock_journal = Journal.find_or_create_by!(name: :stocks.tl, nature: :various, used_for_permanent_stock_inventory: true)
+    if Preference[:permanent_stock_inventory]
+      stock_journal = Journal.find_by(nature: :various, used_for_permanent_stock_inventory: true)
+      #HACK: adding other code choices instead of properly addressing the problem
+      #of code collision
+      unless stock_journal
+        stock_journal = Journal.new(name: :stocks.tl, nature: :various, used_for_permanent_stock_inventory: true).tap(&:valid?)
+        [stock_journal.code, *%i(STOC IVNT)].each do |new_code|
+          conflicting_journals = Journal.where(code: new_code)
+          next if conflicting_journals.any?
+          stock_journal.code = new_code
+          break if stock_journal.save
+        end
+      end
+    end
+
     b.journal_entry(stock_journal, printed_on: printed_on, if: (Preference[:permanent_stock_inventory] && record?)) do |entry|
       write_parameter_entry_items = lambda do |parameter, input|
         variant      = parameter.variant
@@ -401,7 +418,7 @@ class Intervention < Ekylibre::Record::Base
   def compare_planned_and_realised
     return :no_request if request_intervention.nil? || request_intervention.parameters.blank?
     return false if request_intervention.duration != self.duration
-    accepted_error = { intervention_doer: 1.2, intervention_tool: 1.2, intervention_input: 1.2 }
+    accepted_error = PLANNED_REALISED_ACCEPTED_GAP
     params_result = true
 
     associations = %i[doers tools inputs targets]
