@@ -147,7 +147,7 @@ class Purchase < Ekylibre::Record::Base
   end
 
   def self.affair_class
-    "#{name}Affair".constantize
+    PurchaseAffair
   end
 
   def default_currency

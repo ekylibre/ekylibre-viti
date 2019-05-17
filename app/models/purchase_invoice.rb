@@ -74,6 +74,7 @@ class PurchaseInvoice < Purchase
   scope :unpaid, -> { where(state: %w[order invoice]).where.not(affair: Affair.closeds) }
   scope :current, -> { unpaid }
   scope :current_or_self, ->(purchase) { where(unpaid).or(where(id: (purchase.is_a?(Purchase) ? purchase.id : purchase))) }
+  scope :with_nature, ->(id) { where(nature_id: id) }
 
   before_validation(on: :create) do
     self.state = :invoice

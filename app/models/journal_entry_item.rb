@@ -421,4 +421,34 @@ class JournalEntryItem < Ekylibre::Record::Base
     third_parties = Entity.uniq.where('client_account_id = ? OR supplier_account_id = ? OR employee_account_id = ?', account.id, account.id, account.id)
     third_parties.take if third_parties.count == 1
   end
+
+  def associated_journal_entry_items_on_bank_reconciliation
+    return [] unless bank_statement_letter
+    items = JournalEntryItem.where("bank_statement_letter = '#{self.bank_statement_letter}' AND account_id = '#{self.account_id}'")
+    items - [self]
+  end
+
+  def associated_bank_statement_items
+    return [] unless bank_statement_letter
+    BankStatementItem.joins(cash: :suspense_account).where("letter = '#{self.bank_statement_letter}' AND cashes.suspense_account_id = '#{self.account_id}'")
+  end
+
+  # Method is only used in general_ledger journal_entry_items list
+  def tax_account
+    return '' unless account_number.match(/^[267].*/).present?
+    entry_items = entry.items
+    items_with_tax = entry_items.select(:tax_id, :account_id)
+    items_with_tax = items_with_tax.select{|k| k[:tax_id] }.as_json.uniq
+    # items_with_tax should look like : [{"id"=>nil, "account_id"=>5063, "tax_id"=>26}, {"id"=>nil, "account_id"=>5269, "tax_id"=>26}]
+    return '' if items_with_tax.empty?
+    if items_with_tax.count > 1
+      # If there 2 different accounts with tax, it means the tax is an intracommunautary tax and the intracommunity_payable_account is displayed
+      tax = Tax.find items_with_tax.first["tax_id"]
+      return '' unless tax.intracommunity
+      account = tax.intracommunity_payable_account
+    else
+      account = Account.find items_with_tax.first["account_id"]
+    end
+    link_to account.label, Rails.application.routes.url_helpers.backend_account_path(id: account_id)
+  end
 end
