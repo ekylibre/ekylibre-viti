@@ -124,8 +124,12 @@ fra:
       parcel_item:
         population: "Quantité"
       parcel_item_storing:
+        conditionning: "Conditionnement" #?
+        conditionning_quantity: "Quantité" #?
+        quantity: "Quantité totale"
         reception_given_at: "Donné le"
         reception_planned_at: "Prévu le"
+        product_name: "Nom du produit"
       payslip_payment: #?
         delivered: "Remis au bénéficiaire" #?
         list: "Lot de décaissements" #?
@@ -1919,6 +1923,7 @@ fra:
     transports: "Transports" #?
     trouble_description: "Description du problème"
     trouble_encountered: "Problème durant l'intervention"
+    tax_account: "Compte TVA"
     type: "Type"
     # uid: "UID"
     unconfirmed_email: "E-mail non confirmé"

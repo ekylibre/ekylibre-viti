@@ -1623,6 +1623,7 @@ spa:
     transports: "Transportes" #?
     trouble_description: "Descripción problemas"
     trouble_encountered: "El problema encontrado"
+    # tax_account: "TVA account"
     type: "Tipo"
     # uid: "UID"
     unconfirmed_email: "Correo electrónico sin confirmar"

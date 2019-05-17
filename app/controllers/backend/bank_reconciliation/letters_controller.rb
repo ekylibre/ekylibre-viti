@@ -17,20 +17,16 @@ module Backend
       end
 
       def destroy
-        return unless request.xhr?
-
-        @bank_statement = BankStatement.find_by(id: params[:id])
-        return unless @bank_statement
+        return unless request.xhr? && find_cash
 
         letter = params[:letter]
-        JournalEntryItem
-          .pointed_by(@bank_statement)
-          .where(bank_statement_letter: letter)
-          .update_all(bank_statement_letter: nil, bank_statement_id: nil)
-        @bank_statement
-          .items
-          .where(letter: letter)
-          .update_all(letter: nil)
+        account_id = @cash.account_id
+
+        bsi = BankStatementItem.joins(cash: :suspense_account).where("letter = '#{letter}' AND accounts.id = #{account_id}")
+        jei = bsi.first.associated_journal_entry_items
+
+        bsi.update_all(letter: nil)
+        jei.update_all(bank_statement_letter: nil, bank_statement_id: nil, letter: nil)
 
         respond_to do |format|
           format.json {  render json: { letter: letter } }
@@ -38,11 +34,6 @@ module Backend
       end
 
       private
-
-      def find_bank_statement
-        @bank_statement = BankStatement.find_by(id: params[:bank_statement_id])
-        @bank_statement || (head(:bad_request) && nil)
-      end
 
       def find_cash
         @cash = Cash.find_by(id: params[:cash_id])

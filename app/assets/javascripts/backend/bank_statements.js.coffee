@@ -386,6 +386,7 @@
     # AJAX CALLS
 
     _letterItems: (lines) ->
+      # bankStatementId = $('.reconciliation-list').data('id')
       journalLines = lines.filter(":not(.lettered)[data-type=journal_entry_item]")
       journalIds = journalLines.get().map (line) =>
         @_idForLine line
@@ -400,6 +401,7 @@
           cash_id: $('#cash_id').val()
           journal_entry_items: journalIds
           bank_statement_items: bankIds
+          # bank_statement_id: bankStatementId
         success: (response) =>
           lines.find(".details .letter").text response.letter
           lines.removeClass "selected"
@@ -413,11 +415,13 @@
           return false
 
     _unletterItems: (letter) ->
-      # url = '/backend/bank-reconciliation/letters/' + letter
-      url = $(event.target).closest('#clear').attr('href')
-      $.ajax url,
+      $.ajax
+        url: '/backend/bank-reconciliation/letters/'
         type: 'DELETE'
         dataType: 'JSON'
+        data:
+          cash_id: $('#cash_id').val()
+          letter: letter
         success: (response) =>
           lines = @_linesWithReconciliationLetter(response.letter)
           lines.find(".details .letter").text ""

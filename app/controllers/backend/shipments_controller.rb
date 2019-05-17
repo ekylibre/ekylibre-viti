@@ -110,6 +110,15 @@ module Backend
       end
     end
 
+    def new
+      @shipment = Shipment.new
+      @shipment.recipient_id = params[:recipient_id] if params[:recipient_id]
+      @shipment.sale_id = params[:sale_id] if params[:sale_id]
+      if items_attributes = params[:items_attributes]
+        items_attributes.each { |item| @shipment.items.build(source_product_id: item[:source_product_id], population: item[:population]) }
+      end
+    end
+
     # Converts parcel to trade
     def invoice
       parcels = find_parcels

@@ -1392,6 +1392,7 @@ eng:
     dont_use_journal: "— Do not use journal —" #?!
     # dose: "Dose"
     down: "Down" #?
+    download: "Download"
     downpayment: "Downpayment"
     draft: "Draft" #?
     driver: "Driver"
@@ -1460,6 +1461,14 @@ eng:
     # export_as_odt: "Export as odt"
     # export_as_pdf: "Export as pdf"
     export_as_xcsv: "Export as Excel CSV"
+    export_text_fec_all: "Export FEC corporate tax (Text)"
+    export_text_fec_ba_bnc_ir_commercial_accountancy: "Export FEC for agriculture and professional operations income taxation commercial accountancy (Text)"
+    export_text_fec_ba_ir_cash_accountancy: "Export FEC agriculture income taxation cash accountancy (Text)"
+    export_text_fec_bnc_ir_cash_accountancy: "Export FEC professional operations income taxation cash accountancy (Text)"
+    export_xml_fec_all: "Export FEC corporate tax (XML)"
+    export_xml_fec_ba_bnc_ir_commercial_accountancy: "Export FEC for agriculture and professional operations income taxation commercial accountancy (XML)"
+    export_xml_fec_ba_ir_cash_accountancy: "Export FEC agriculture income taxation cash accountancy (XML)"
+    export_xml_fec_bnc_ir_cash_accountancy: "Export FEC professional operations income taxation cash accountancy (XML)"
     extract_account_x: "Extract account %{account_number}"
     # extract_non_letter_odt: "Extract non letter odt"
     # extract_non_letter_pdf: "Extract non letter pdf"
@@ -1470,11 +1479,13 @@ eng:
     file_nature: "File type"
     file_preview: "Preview" #?
     file_to_upload: "File to upload"
+    file_trimming: "File trimming"
     filter: "Filter" #?
     final_balance: "Final balance"
     financial_assets: "Financial assets" #?
     financial_expenses: "Financial expenses" #??
     financial_products: "Financial products" #??
+    financial_year: "Financial year"
     # financials_assets: "Financials assets"
     finish: "Finish" #?
     finished: "Finished"
@@ -1684,7 +1695,7 @@ eng:
     mode: "Mode" #?
     model: "Model" #?
     modes: "Modes" #?
-    month: "Month" #?
+    month: "Month"
     month_period: "%{code} - %{month} %{year}"
     monthly: "Monthly" #?
     months: "Months"
@@ -1898,7 +1909,7 @@ eng:
     quandl: "Quandl" #?
     quantity: "Quantity"
     quantity_available: "Quantity available" #??
-    quantity_to_receive: "Quantity to receive" #?
+    quantity_to_receive: "Quantity to receive"
     query: "Query:" #?
     raw_income: "Raw income"
     reading_tasks: "Reading tasks" #?
@@ -1990,7 +2001,7 @@ eng:
     select_file_to_upload: "Select file to upload"
     select_forward_journal: "Selected Journal to renew" #??
     selection: "Selection" #?
-    semester: "Semester" #?
+    semester: "Semester"
     send_mail: "Send mail"
     send_test_mail: "Send test mail"
     sensor_model: "Sensor model"
@@ -2142,7 +2153,8 @@ eng:
     transactions_by_month: "Transactions by month" #?
     transfer: "Transfer" #?
     transport: "Transport" #?
-    trimester: "Trimester" #?
+    trimester: "Trimester"
+    type_of_structure: "Type of structure"
     unbalanced_clients: "Unbalanced clients" #?
     unbalanced_suppliers: "Unbalanced suppliers" #?
     unbilled_payables: "Unbilled payables"
@@ -2391,7 +2403,7 @@ eng:
     x_years:
       one: "%{count} year"
       other: "%{count} years"
-    year: "Year" #?
+    year: "Year"
     yield: "Yield" #?
     yield_by_calibration: "Yield by calibration" #?
     # yield_by_calibration_x: "Yield by calibration x"
@@ -2607,6 +2619,7 @@ eng:
       # ekylibre: "Ekylibre"
       evaluate: "Evaluate"
       export: "Export"
+      export_fec: "FEC export" #?
       export_to_sepa: "Export to SEPA"
       extract: "Extract"
       # failure: "Failure"
