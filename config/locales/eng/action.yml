@@ -717,6 +717,8 @@ eng:
       # put_accepted_state: "Put accepted state reconcilation state: %{name}"
       # put_reconcile_state: "Put reconcile state reconcilation state: %{name}"
       # put_to_reconcile_state: "Put to reconcile state reconcilation state: %{name}"
+    backend/purchases:
+      # show: "Purchase: %{name}"
     backend/quick_affairs:
       # new: "New quick affair"
     backend/quick_purchases:
@@ -1788,6 +1790,7 @@ eng:
     options: "Options"
     or: "Or"
     # order: "Order"
+    order_again: "Order again" #?
     organic_matter_concentration: "Organic matter concentration" #?
     original_component: "original"
     other_debts: "Other debts" #?!
@@ -1893,9 +1896,11 @@ eng:
     profits_and_losses: "Profits and losses"
     provisions_revenues: "Provisions revenues" #?!
     purchase: "Purchase"
+    purchase_invoice_items: "Invoice items"
     purchase_items: "Purchase items" #?
     purchase_number: "Purchase number" #?
     purchase_order: "Purchase order" #?
+    purchase_order_items: "Order items"
     purchase_payments: "Purchase payments"
     purchases: "Purchases"
     purchases_prices: "Purchases prices"
@@ -2061,6 +2066,7 @@ eng:
     supplier_payment_mode: "Supplier payment mode"
     supplier_receivables: "Supplier receivables" #?!
     supplier_reference: "Supplier reference"
+    # suppliers: "Suppliers"
     supply: "Supply" #?
     support: "Support" #?
     supports: "Supports" #?
@@ -2198,6 +2204,7 @@ eng:
     variable_indicators: "Variable indicators"
     variant: "Variant" #?
     variants: "Variants" #?
+    # various: "Various"
     vat: "VAT"
     vat_rate: "VAT rate"
     view: "View"

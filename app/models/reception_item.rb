@@ -64,6 +64,8 @@
 #  variant_id                    :integer
 #
 class ReceptionItem < ParcelItem
+  include Rails.application.routes.url_helpers
+  include ActionView::Helpers::UrlHelper
   belongs_to :reception, inverse_of: :items, class_name: 'Reception', foreign_key: :parcel_id
   belongs_to :project_budget, class_name: 'ProjectBudget', foreign_key: :project_budget_id
   belongs_to :purchase_order_to_close, class_name: 'PurchaseOrder', foreign_key: :purchase_order_to_close_id
@@ -76,7 +78,9 @@ class ReceptionItem < ParcelItem
   delegate :allow_items_update?, :remain_owner, :planned_at,
            :ordered_at, :recipient, :in_preparation_at,
            :prepared_at, :given_at,
-           :separated_stock?, :currency, to: :reception, prefix: true
+           :separated_stock?, :currency, :number, to: :reception, prefix: true
+
+  delegate :sender, to: :reception
 
   scope :with_nature, ->(nature) { joins(:reception).merge(Reception.with_nature(nature)) }
 
