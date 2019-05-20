@@ -1,11 +1,11 @@
 ((E, $) ->
   'use strict'
 
-  $(document).behave "load click", "form label input[name='parcel[delivery_mode]']", ->
+  $(document).behave "load click", "form label input[name='shipment[delivery_mode]']", ->
     input = $(this)
     if input.is(':checked')
       form = input.closest('form')
-      form.find("input[name='parcel[delivery_mode]']").each ->
+      form.find("input[name='shipment[delivery_mode]']").each ->
         $("#delivery-mode-#{$(this).val()}").hide()
       $("#delivery-mode-#{input.val()}").show()
 
@@ -104,6 +104,7 @@
                     $(this).show()
                   else
                     $(this).hide()
+                  $(this).trigger('visibility:change')
 
               if typeof $(this).data("when-filter-value") != "undefined"
                 key_filter = Object.keys($(this).data('when-filter-value'))[0]
@@ -124,6 +125,7 @@
                     $(this).hide()
                   else
                     $(this).show()
+                  $(this).trigger('visibility:change')
 
           # shape = item.find(options.population_field or ".item-shape")
           # if data.shape

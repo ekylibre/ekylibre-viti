@@ -57,6 +57,9 @@ deu:
         contract: "Vertrag"
       parcel_item:
         population: "Menge"
+      parcel_item_storing:
+        # reception_given_at: "Given at"
+        # reception_planned_at: "Planned at"
       plant:
         born_at: "gepflanzt bei"
       plant_counting:
@@ -72,7 +75,11 @@ deu:
       purchase:
         # affair_balance: "Balance"
       purchase_item:
+        # average_unit_pretax_amount: "Average unit pretax amount"
         # fixed_asset_stopped_on: "Fixed asset stopped on"
+        # last_unit_pretax_amount: "Last unit pretax amount"
+        # ordered_quantity: "Ordered quantity"
+        # supplier_name: "Supplier"
       purchase_payment: #?
         delivered: "Da an Empfänger" #?
         list: "Abgehende Zahlungsliste" #?
@@ -1611,6 +1618,7 @@ deu:
     transports: "Transporte" #?
     trouble_description: "Fehlerbeschreibung"
     trouble_encountered: "Schwierigkeiten gestoßen"
+    # tax_account: "TVA account"
     type: "Art"
     # uid: "UID"
     unconfirmed_email: "Unbestätigten E-Mail"

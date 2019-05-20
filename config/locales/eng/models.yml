@@ -57,6 +57,9 @@ eng:
         contract: "Contract"
       parcel_item:
         population: "Quantity"
+      parcel_item_storing:
+        reception_given_at: "Given at"
+        reception_planned_at: "Planned at"
       plant:
         born_at: "Planted at"
       plant_counting:
@@ -72,7 +75,11 @@ eng:
       purchase:
         affair_balance: "Balance"
       purchase_item:
+        average_unit_pretax_amount: "Average unit pretax amount"
         fixed_asset_stopped_on: "Fixed asset stopped on"
+        last_unit_pretax_amount: "Last unit pretax amount"
+        ordered_quantity: "Ordered quantity"
+        supplier_name: "Supplier"
       sale:
         affair_balance: "Balance"
         contact: "Address for the estimate"
@@ -666,6 +673,7 @@ eng:
     content: "Content"
     content_localizations: "Content localizations"
     contents: "Contents"
+    # continuous_number: "Continuous number"
     contract: "Contract"
     contract_items: "Contract items"
     contracts: "Contracts"
@@ -1056,6 +1064,7 @@ eng:
     irregular_batch: "Irregular batch" #?
     irrigated: "Irrigated"
     irrigation_water_nitrogen: "Irrigation water nitrogen"
+    # is_partially_planned: "Is partially planned"
     islet: "Islet"
     islet_number: "Islet number"
     islets: "Islets"
@@ -1720,6 +1729,7 @@ eng:
     # treatment: "Treatment"
     trouble_description: "Trouble description"
     trouble_encountered: "Trouble encountered"
+    tax_account: "TVA account"
     type: "Type"
     uid: "UID"
     unconfirmed_email: "Unconfirmed email"
@@ -1765,6 +1775,7 @@ eng:
     user: "User"
     users: "Users"
     uuid: "UUID"
+    # validated_at: "Validated at"
     # validator: "Validator"
     value: "Value"
     variable_indicators_list: "Variable indicators list"
