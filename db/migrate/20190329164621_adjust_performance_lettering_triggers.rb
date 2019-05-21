@@ -89,6 +89,10 @@ class AdjustPerformanceLetteringTriggers < ActiveRecord::Migration
         SQL
 
         execute <<-SQL.strip_heredoc
+          DROP TRIGGER IF EXISTS compute_partial_lettering_status_insert_delete ON journal_entry_items
+        SQL
+
+        execute <<-SQL.strip_heredoc
           CREATE TRIGGER compute_partial_lettering_status_insert_delete
             AFTER INSERT OR DELETE
             ON journal_entry_items
