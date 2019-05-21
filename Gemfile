@@ -93,7 +93,7 @@ gem 'charta', '>= 0.1.9'
 gem 'foreman'
 
 # active_list alternative
-gem 'font-awesome-sass'
+gem 'font-awesome-sass', '~> 5.8.1'
 gem 'kaminari', '~> 0.16.0'
 gem 'wice_grid' # , github: "leikind/wice_grid", branch: "rails3"
 
