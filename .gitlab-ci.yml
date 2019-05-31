@@ -6,22 +6,16 @@ variables:
 before_script: 
   - echo "--------------------------------------------------------------------------------"
   - echo "Dependencies install..."
-  - echo 'deb http://ftp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list.d/postgresql.list
-  - echo 'deb http://ftp.debian.org/debian stretch main' >> /etc/apt/sources.list.d/postgresql.list
   - curl -sL https://deb.nodesource.com/setup_8.x | bash -
   - apt-get update -qq
   - apt-get install -y nodejs
-  - apt-get install -fy apt-transport-https
-  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
   - apt-get install -fy aptitude
   - aptitude update
-  - apt-get install -y postgresql-9.6=9.6.6-0+deb9u1~bpo8+1 postgresql-client-9.6=9.6.6-0+deb9u1~bpo8+1 postgresql-contrib-9.6=9.6.6-0+deb9u1~bpo8+1 postgresql-9.6-postgis-2.3
+  - apt-get install -y postgresql-9.6 postgresql-client-9.6 postgresql-contrib-9.6 postgresql-9.6-postgis-2.3
   - apt install -fy graphicsmagick tesseract-ocr tesseract-ocr-fra tesseract-ocr-eng tesseract-ocr-spa pdftk libreoffice poppler-utils poppler-data qt5-default libqt5webkit5-dev gstreamer1.0-x gstreamer1.0-tools gstreamer1.0-plugins-base libgeos-dev libproj-dev redis-server libicu-dev
-  - apt-get install -y tzdata=2018e-0+deb8u1
+  - apt-get install -y tzdata
   - aptitude remove -fy default-jre-headless openjdk-8-jre openjdk-8-jre-headless
   - aptitude install -fy openjdk-7-jdk libicu52
-  - aptitude install -fy -t jessie-backports libpq5 libpq-dev postgresql-client-9.6
   - aptitude install -fy build-essential
   - aptitude install -fy yarn
   - service redis-server start
