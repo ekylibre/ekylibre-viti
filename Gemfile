@@ -113,7 +113,7 @@ gem 'loofah', group: :production
 gem 'unicorn', group: :production
 
 # Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+gem 'capistrano-rails', group: :development
 
 # Exception management
 gem 'exception_notification'
