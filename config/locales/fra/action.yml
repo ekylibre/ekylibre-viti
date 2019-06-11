@@ -350,8 +350,8 @@ fra:
       new_specified: "Nouvelle intervention de %{procedure_name}"
       new_specified_request: "Nouvelle planification de %{procedure_name}"
       show: "%{procedure_name} n°%{number}"
-    backend/invalid_journal_entries:
-      index: "Écritures à équilibrer"
+    backend/invalid_journal_entries: #?
+      index: "Écritures à équilibrer" #?
     backend/inventories:
       edit: "Modifier l’inventaire"
       index: "Inventaires"
@@ -460,7 +460,7 @@ fra:
       index: "Formats de nommage" #?
     backend/naming_formats:
       index: "Formats de nommage"
-      new: "Nouveau format de nommage"
+      new: "Nouveau format de nommage" #?
     backend/net_services:
       edit: "Modifier un service en ligne"
       index: "Services en ligne"
@@ -979,6 +979,7 @@ fra:
     add_an_account: "Ajouter un compte"
     add_an_evaluation_for_this_intervention: "Evaluer cette intervention avant de la valider" #?
     add_animal: "Ajouter un animal"
+    add_animals: "Ajouter un lot d'animaux"
     add_animal_group: "Ajouter un troupeau"
     add_annotation: "Ajouter une annotation"
     add_attachment: "Ajouter une pièce jointe"
@@ -1142,6 +1143,8 @@ fra:
     balance_of_selection: "Solde de la sélection"
     balanced: "Soldés"
     bank_account: "Compte bancaire"
+    bank_check_number: " n°%{number}"
+    bank_check_number_text: "Chèque n°%{number}"
     bank_reconciliation: "Rapprochement bancaire" #?
     bank_statement_number: "N° du relevé de compte bancaire"
     bank_statements: "Relevés de compte bancaire"
@@ -1201,6 +1204,7 @@ fra:
     chart: "Graphique"
     check: "Vérifier"
     check_fields: "Vous devez cocher au moins une case pour effectuer la modification" #?
+    check_letter: "Lettre-chèque"
     check_x_entries_to_balance:
       one: "Consulter l'écriture à équilibrer (%{count})"
       other: "Consulter les écritures à équilibrer (%{count})"
@@ -1351,8 +1355,8 @@ fra:
     data_to_export: "Données à exporter" #?
     data_to_extract: "Données à extraire" #?
     date: "Date" #?
-    dated_cash: "%{cash}\_: %{on}"
     date_range: "%{from} au %{to}"
+    dated_cash: "%{cash}\_: %{on}"
     dates: "Saisissez les dates de début et de fin de la période"
     day: "Jour" #?
     days: "Jours"
@@ -1448,9 +1452,9 @@ fra:
     drug: "Médicament" #?
     due_date: "À régler le"
     duplicate: "Dupliquer"
-    duplicate_intervention: "Dupliquer l'intervention"
+    duplicate_intervention: "Dupliquer l’intervention"
     duplicate_x_selected_interventions:
-      one: "Dupliquer l'intervention sélectionnée"
+      one: "Dupliquer l’intervention sélectionnée"
       other: "Dupliquer les interventions sélectionnées"
     duration: "Durée"
     duration_in_hours_and_minutes: "%{hours}h %{minutes}min"
@@ -1531,8 +1535,8 @@ fra:
     export: "Exporter"
     export_as_csv: "Exporter en CSV"
     export_as_ods: "Exporter en ODS"
-    export_as_odt: "Exporter en ODT" #?
-    export_as_pdf: "Exporter en PDF" #?
+    export_as_odt: "Exporter en ODT"
+    export_as_pdf: "Exporter en PDF"
     export_as_xcsv: "Exporter en CSV pour Excel"
     export_backup: "Export d’un fichier de sauvegarde" #?
     export_xml_fec_all: "Export FEC - Cas général - impôt sur les sociétés (XML)"
@@ -1729,6 +1733,7 @@ fra:
     invoices_only: "Utiliser seulement les factures" #?
     irreversible_operation: "Cette opération est irréversible"
     is: "Est"
+    # is_equipment_set_as_inactive_by_intervention: "This intervention set the equipment as inactive ?"
     issue: "Incident"
     issues: "Incidents"
     issues_count: "Nombre d’incidents"
@@ -2051,6 +2056,7 @@ fra:
     outgoing_parcel_quantities: "Quantités (Colis sortant)"
     outgoing_parcels: "Colis sortants"
     outgoing_payment: "Décaissement"
+    outgoing_payment_list_text: "Veuillez trouver ci-dessous les références correspondant au règlement de la somme de %{amount} %{currency}."
     outgoing_payments: "Décaissements"
     outgoing_payments_states: #?
       all: "Tous" #?
@@ -2212,7 +2218,6 @@ fra:
     purchases: "Achats"
     purchases_bar: "Achats par type" #?
     purchases_expense_bar: "Dépenses par mois" #?
-    purchase_order: "Bon de commande"
     purchases_prices: "Evolution du prix d'achat"
     purchases_selections: #?
       aborted: "Annulée" #?
@@ -2309,7 +2314,7 @@ fra:
       one: "%{count} résultat" #?
       other: "%{count} résultats" #?
     revenues: "Recettes"
-    revenues_by_product_nature: "Chiffre d’affaire par type de produit"
+    revenues_by_product_nature: "Chiffre d’affaires par type de produit"
     reverse: "Appliquer la condition inverse"
     revise: "Mettre à jour"
     right_parts: #?
@@ -2441,6 +2446,7 @@ fra:
     sowable: "Semable" #?
     sowed_at: "Semé le" #?
     spraying_map: "Carte de pulvérisation" #?
+    standard: "Standard"
     start: "Du"
     start_new_intervention_here: "Commencer une nouvelle intervention ici"
     started: "Nouveaux"
@@ -2511,10 +2517,11 @@ fra:
     taxes_and_wages: "Taxes et charges de personnels"
     temperature: "Température" #?
     theoric_quantity: "Quantité théorique" #?
-    third_informations: "Informations tierces" #?
     third_balance: "(solde - solde comptable fournisseur : %{balance} - %{supplier_account_balance})"
+    third_informations: "Informations tierces" #?
     third_is_unbalanced: "Tiers à soldes non-rapprochés. (solde - solde comptable fournisseur)"
     this_archive_is_digitally_signed: "Cette archive est signée numériquement."
+    threshold_commercialization_by_production: "Seuil de commercialisation par production"
     thumb: "Miniature"
     time_cost: "Coût de main d’œuvre"
     time_cost_per_hectare: "Coût de main d’œuvre par hectare" #?
@@ -2614,7 +2621,6 @@ fra:
       shipped: "Expédié" #?
       waiting: "En attente" #?
     treatment: "Traitement" #?
-    threshold_commercialization_by_production: "Seuil de commercialisation par production"
     trimester: "Trimestre"
     true: "Vrai" #?
     type_of_structure: "Type de structure"
@@ -2952,6 +2958,7 @@ fra:
       access_denied: "Vous n’avez pas le droit d’accéder à cette page. %{reason} (%{url})"
       accountant_notified: "Le comptable a bien été notifié"
       accountant_without_email: "Merci de renseigner l’email du comptable"
+      # aggeratio_not_found: "The export requested was not found"
       all_fixed_assets_must_be_depreciable: "Tous les immobilisations doivent être amortissables"
       all_parcels_must_be_invoiceable_and_of_same_nature_and_third: "Tous les colis doivent être facturables de la même nature et au même tiers"
       all_purchases_must_be_ordered: "Tous les achats doivent être commandés ou facturés." #?
@@ -3025,6 +3032,7 @@ fra:
       journal_entry_items_marked_with_letter: "Les lignes d’écritures ont été lettrées avec la lettre %{letter}"
       journal_reopened_on: "Le %{journal} a été déclôturé au %{closed_on} correctement."
       locked_exercice_info: "Cet exercice est verrouillé. Veuillez vous rapprocher de la personne qui a clôturé cet exercice pour récupérer vos documents et exports de fin d’exercice."
+      # locking_version_error: "Sorry, please retry in a moment, someone else is updating this record"
       mails_are_sent: "Les courriels ont été envoyés"
       merge_is_done: "La fusion est terminée"
       n: "Non" #?
@@ -3204,8 +3212,8 @@ fra:
       index: "Index"
       interval_reconciliation: "Rapprocher" #?
       invoice: "Facturer"
-      journal_entries_export: "Télécharger le CSV"
       journal_entries_csv_export: "Exporter un CSV"
+      journal_entries_export: "Télécharger le CSV"
       journal_entries_import: "Importer un CSV"
       list: "Lister"
       load: "Charger"
@@ -3222,7 +3230,7 @@ fra:
       notify_accountant: "Notifier le comptable"
       open: "Ouvrir"
       order: "Commander"
-      order_again: "Commander à nouveau" #?
+      order_again: "Commander à nouveau"
       pay: "Payer"
       payment_gap: "Écart de réglement"
       payment_mode: "Payer (Mode)"

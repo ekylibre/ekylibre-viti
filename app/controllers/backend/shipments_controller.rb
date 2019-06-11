@@ -1,10 +1,11 @@
 module Backend
   class ShipmentsController < Backend::ParcelsController
-    manage_restfully continue: true
+    manage_restfully continue: true, except: :new
     before_action :save_search_preference, only: :index
 
     before_action only: :new do
-      params[:planned_at] ||= Time.zone.now
+      params[:shipment] ||= {}
+      params[:shipment][:planned_at] ||= Time.zone.now
     end
 
     respond_to :csv, :ods, :xlsx, :pdf, :odt, :docx, :html, :xml, :json
@@ -111,12 +112,7 @@ module Backend
     end
 
     def new
-      @shipment = Shipment.new
-      @shipment.recipient_id = params[:recipient_id] if params[:recipient_id]
-      @shipment.sale_id = params[:sale_id] if params[:sale_id]
-      if items_attributes = params[:items_attributes]
-        items_attributes.each { |item| @shipment.items.build(source_product_id: item[:source_product_id], population: item[:population]) }
-      end
+      @shipment = Shipment.new(shipment_params)
     end
 
     # Converts parcel to trade
@@ -154,5 +150,11 @@ module Backend
         redirect_to(params[:redirect] || { action: :index })
       end
     end
+
+    private
+    
+      def shipment_params
+        params.require(:shipment).permit(:planned_at, :sale_id, :recipient_id, items_attributes: %i[source_product_id population])
+      end
   end
 end

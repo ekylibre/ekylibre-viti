@@ -1,6 +1,10 @@
 ((E, $) ->
   'use strict'
 
+  $(document).on "keydown", '.nested-item-form', (event) ->
+    if event.which == 13
+      event.preventDefault()
+
   E.Purchases =
     fillStocksCounters: (event) ->
       currentForm = $(event.target).closest('.nested-item-form')
@@ -21,7 +25,7 @@
             quantity = $(quantityElement).val()
 
           newStock = parseFloat(data.stock) + parseFloat(quantity)
-          $(currentForm).find('.merchandise-stock-after-purchase .stock-value').text(newStock)
+          $(currentForm).find('.merchandise-stock-after-purchase .stock-value').text(newStock.toFixed(2))
           $(currentForm).find('.merchandise-stock-after-purchase .stock-unit').text(data.unit.name)
 
 ) ekylibre, jQuery

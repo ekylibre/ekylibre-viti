@@ -5,7 +5,7 @@
 # Ekylibre - Simple agricultural ERP
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
-# Copyright (C) 2012-2018 Brice Texier, David Joulin
+# Copyright (C) 2012-2019 Brice Texier, David Joulin
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -435,22 +435,14 @@ class JournalEntryItem < Ekylibre::Record::Base
     BankStatementItem.joins(cash: :suspense_account).where("letter = '#{self.bank_statement_letter}' AND cashes.suspense_account_id = '#{self.account_id}'")
   end
 
-  # Method is only used in general_ledger journal_entry_items list
-  def tax_account
-    return '' unless account_number.match(/^[267].*/).present?
-    entry_items = entry.items
-    items_with_tax = entry_items.select(:tax_id, :account_id)
-    items_with_tax = items_with_tax.select{|k| k[:tax_id] }.as_json.uniq
-    # items_with_tax should look like : [{"id"=>nil, "account_id"=>5063, "tax_id"=>26}, {"id"=>nil, "account_id"=>5269, "tax_id"=>26}]
-    return '' if items_with_tax.empty?
-    if items_with_tax.count > 1
-      # If there 2 different accounts with tax, it means the tax is an intracommunautary tax and the intracommunity_payable_account is displayed
-      tax = Tax.find items_with_tax.first["tax_id"]
-      return '' unless tax.intracommunity
-      account = tax.intracommunity_payable_account
-    else
-      account = Account.find items_with_tax.first["account_id"]
-    end
-    link_to account.label, Rails.application.routes.url_helpers.backend_account_path(id: account_id)
+  # fixed_assets, expenses and revenues are used into tax declaration
+  def vat_account
+   prefixes = Account.tax_declarations.pluck(:number).join
+   return unless account_number =~ /^[#{prefixes}].*/
+   entry.items.find_by(resource_prism: ["item_tax_reverse_charge", "item_tax"])&.account
+  end
+
+  def vat_account_label
+    vat_account&.label
   end
 end

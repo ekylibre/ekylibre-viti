@@ -17,16 +17,6 @@
         $("##{$(this).val()}").hide()
       $("##{input.val()}").show()
 
-  $(document).behave "load click", "form label input[name='parcel[delivery_mode]'],
-    form label input[name='delivery[mode]'],
-    form label input[name='shipment[delivery_mode]']", ->
-      input = $(this)
-      if input.is(':checked')
-        form = input.closest('form')
-        form.find("input[name='#{input.attr('name')}']").each ->
-          $("##{$(this).val()}").hide()
-        $("##{input.val()}").show()
-
   # Manage fields filling in sales/purchases
   $(document).on "selector:set", "*[data-product-of-delivery-item]", ->
     element = $(this)

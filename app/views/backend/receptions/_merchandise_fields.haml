@@ -21,10 +21,10 @@
       - display = ""
       - display = "display: none;" unless variant.identifiable?.or_else(false)
     .unitary-variant-fields{style: display, data: {"when-item": "identifiable", "when-display-value": 'true', "when-scope": 'unit'}}
-      = f.input :name, wrapper: :nested_append do
-        = f.input_field :product_name, placeholder: ParcelItem.human_attribute_name(:product_name)
-      = f.input :work_number, wrapper: :nested_append do
-        = f.input_field :product_work_number, placeholder: ParcelItem.human_attribute_name(:product_work_number)
+      = f.input :product_name, required: true do
+        = f.input_field :product_name, data: { required: true }
+      = f.input :product_work_number do
+        = f.input_field :product_work_number
 
   .item-block-delivery-mode{style: "display: flex"}
     = f.label :delivery_mode.tl
@@ -35,13 +35,14 @@
         - full_name = f.object.transporter.full_name if f.object.transporter
         %input.hidden{data: { 'when-item': 'full_name', 'when-set-value': 'RECORD_VALUE' }, value: full_name }
 
-%div.storing-row.storing-row--merchandise
+%div#add-storing.storing-row.storing-row--merchandise
   .item-block__storing.control-group
     .div.storing__content
 
       - f.object.storings.new if f.object.storings.size == 0
-      = f.simple_fields_for :storings, f.object.storings do |storing|
-        = render 'storing_fields', f: storing
+      %div{data: {association_insertion_minimum: 1}}
+        = f.simple_fields_for :storings, f.object.storings do |storing|
+          = render 'storing_fields', f: storing
     .div.storing__footer
       = link_to_add_association :add_storing.tl, f, :storings, partial: 'storing_fields', class: "link-add-storing", data: { :'association-insertion-traversal' => :closest, :'association-insertion-node' => '.storing__footer', :'association-insertion-method' => :before }
       %label.total-labels
