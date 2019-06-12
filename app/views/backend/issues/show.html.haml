@@ -15,15 +15,21 @@
   - if resource.picture.exists?
     .picture= image_tag(resource.picture.url(:identity))
   = infos do
+    .med-info
+      %span.title= Issue.human_attribute_name(:nature)
+      %span.value= resource.nature.l
+    .med-info
+      %span.title= Issue.human_attribute_name(:observed_at)
+      %span.value= resource.observed_at.l
     .med-info.important
       %span.title= Issue.human_attribute_name(:state)
       %span.value= lights(resource.status)
     .med-info
-      %span.title= Issue.human_attribute_name(:gravity)
-      %span.value= resource.gravity.to_s + "/4"
-    .med-info
       %span.title= Issue.human_attribute_name(:priority)
       %span.value= resource.priority.to_s + "/4"
+    .med-info
+      %span.title= Issue.human_attribute_name(:gravity)
+      %span.value= resource.gravity.to_s + "/4"
     - if resource.target
       .med-info.important
         %span.title= Issue.human_attribute_name(:target)
@@ -34,11 +40,15 @@
 = janus do |j|
   - j.face :cobbles do
     = cobbles do |c|
-      - if resource.geolocation
+      - if resource.geolocation || (resource.target && resource.target.shape)
         - c.cobble :map do
           = visualization(view: {zoom: 18}) do |v|
-            - v.serie :main, [{name: "origine", shape: resource.geolocation}]
-            - v.points :geolocation, :main
+            - if resource.geolocation
+              - v.serie :main, [{name: "origine", shape: resource.geolocation}]
+              - v.points :geolocation, :main
+            - if resource.target && resource.target.shape
+              - v.serie :target, [{name: "origine", shape: resource.target.shape}]
+              - v.simple :target, :target
             - v.control :zoom, 18
             - v.control :scale
             - v.control :fullscreen
