@@ -1,0 +1,4 @@
+[submodule "plugins/cap"]
+	path = plugins/cap
+	url = git@gitlab.com:ekylibre/ekylibre-cap.git
+  branch = master
