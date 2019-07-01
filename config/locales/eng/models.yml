@@ -122,7 +122,11 @@ eng:
         contract: "Contract"
       parcel_item:
         population: "Quantity"
+        product_name: "Product name"
       parcel_item_storing:
+        conditionning: "Conditionning"
+        conditionning_quantity: "Conditionning quantity"
+        quantity: "Total quantity"
         reception_given_at: "Given at"
         reception_planned_at: "Planned at"
       plant:
@@ -2167,6 +2171,7 @@ eng:
           ordered: "Ordered"
           prepared: "Prepared"
           received: "Received"
+      undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     role:
       default:
         administrator: "Administrator"

@@ -99,14 +99,11 @@ class ParcelItem < Ekylibre::Record::Base
   validates :parted, inclusion: { in: [true, false] }
   validates :population, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
   validates :pretax_amount, :unit_pretax_amount, :unit_pretax_stock_amount, presence: true, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }
-  validates :parcel, presence: true
   # ]VALIDATORS]
   validates :variant, presence: true
   # validates :product, presence: true, unless: proc { |item| !item.parcel.try(:prepared?) }
 
-  validates :population, presence: true, numericality: { less_than_or_equal_to: 1,
-                                                         if: :product_is_unitary?,
-                                                         message: 'activerecord.errors.messages.unitary_in_parcel'.t }
+  validates :population, presence: true
   # validates :product_identification_number, presence: { if: -> { product_is_identifiable? && parcel_incoming? } }
 
   alias_attribute :quantity, :population
@@ -128,7 +125,7 @@ class ParcelItem < Ekylibre::Record::Base
       end
     end
 
-    self.population ||= product_is_unitary? ? 1 : 0
+    self.population ||= 0
 
     # Use the unit_amount of purchase_order_item if amount equal to zero
     if purchase_order_item.present? && unit_pretax_amount.zero?
@@ -140,6 +137,13 @@ class ParcelItem < Ekylibre::Record::Base
     self.pretax_amount = population * self.unit_pretax_amount
 
     true
+  end
+
+  validate do
+    computed_population = storings.map(&:quantity).reduce(&:+) || 0
+    if product_is_unitary? && computed_population > 1
+      errors.add(:population, 'activerecord.errors.messages.unitary_in_parcel'.t)
+    end
   end
 
   ALLOWED = %w[
