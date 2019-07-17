@@ -10,6 +10,7 @@ module Backend
         # We try to get weather from cultivable zones
         coordinates ||= CultivableZone.geom_union(:shape).centroid
 
+        # We use the 5days forecast free from openwheathermap
         if coordinates.present? && openweathermap_api_key
           http = Net::HTTP.new('api.openweathermap.org')
           http.open_timeout = 3
