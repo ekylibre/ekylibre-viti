@@ -37,7 +37,7 @@ module Backend
                   humidity: (day[:main][:humidity] || 0).in_percent,
                   wind_speed: (day[:wind][:speed] || 0).in_meter_per_second,
                   wind_direction: (day[:wind][:deg] || 0).in_degree,
-                  #rain: (day[:rain] || 0).in_millimeter,
+                  rain: Maybe(day[:rain])[:'3h'].or_else(0).in_millimeter,
                   clouds: (day[:clouds][:all] || 0).in_percent,
                   # weather: day[:weather]
                 }

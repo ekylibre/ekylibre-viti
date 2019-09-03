@@ -36,6 +36,7 @@ module Ekylibre
         Preference.set!(:demo_password, @manifest[:users][demo_user][:password])
       end
       Preference.set!(:create_activities_from_telepac, !!@manifest[:create_activities_from_telepac], :boolean)
+      Preference.set!(:create_cultivable_zones_with_islet_from_telepac, !!@manifest[:create_cultivable_zones_with_islet_from_telepac], :boolean)
       ::I18n.locale = Preference[:language]
 
       w.check_point
