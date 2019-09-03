@@ -2,3 +2,7 @@
 	path = plugins/cap
 	url = git@gitlab.com:ekylibre/ekylibre-cap.git
   branch = master
+[submodule "plugins/hajimari"]
+	path = plugins/hajimari
+	url = git@gitlab.com:ekylibre/ekylibre-hajimari.git
+	branch = master
