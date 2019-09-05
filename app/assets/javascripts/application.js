@@ -10,9 +10,9 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require webpack_bridge
 //= require modernizr
 //= require jquery
-//= require jquery/jquery.lazy
 //= require jquery-ui/widgets/datepicker
 //= require jquery-ui/i18n/datepicker-fr
 // require jquery-ui/i18n/datepicker-ar
@@ -98,16 +98,7 @@
 //= require ext-plugins/vuejs/vue-chartjs
 
 //= require vue
-//= require utils/location_utils
 //= require lodash
-
-
-var visualization = {};
-var mapeditor = {};
-var ekylibre = {};
-var calcul = {};
-
-var golumn = {};
 
 // FIX Browser interoperability
 // href function seems to be ineffective

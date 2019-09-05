@@ -1794,6 +1794,7 @@ spa:
     operations: "Operaciones"
     options: "Opciones"
     or: "O"
+    # order_again: "Order again"
     organic_matter_concentration: "Concentración de materia orgánica"
     original_component: "Original"
     other_assessable_operations: "Autras operaciones imponibles" #?

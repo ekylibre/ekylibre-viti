@@ -289,7 +289,11 @@ Rails.application.routes.draw do
           get :count
         end
       end
-      resources :letters, only: %i[create destroy]
+      resources :letters, only: %i[create] do
+        collection do
+          delete :destroy
+        end
+      end
     end
 
     resources :bank_statements, concerns: %i[list unroll], path: 'bank-statements' do
@@ -910,6 +914,9 @@ Rails.application.routes.draw do
     end
 
     resources :product_nature_variants, concerns: %i[incorporate list picture unroll] do
+      collection do
+        get :unroll_saleables
+      end
       member do
         get :detail
         get :list_components

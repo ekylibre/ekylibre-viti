@@ -4,40 +4,33 @@ module Letterable
   extend ActiveSupport::Concern
 
   def letter_with(bank_statement_items)
-    items = letterable_items(bank_statement_items)
-    return false unless items
+    letterable_items(bank_statement_items)
+    return false unless bank_statement_items
 
-    letters = items.pluck(:letter)
-    items.update_all(letter: nil)
-    JournalEntryItem.pointed_by(items.first.bank_statement)
-                    .where(bank_statement_letter: letters)
-                    .update_all(bank_statement_letter: nil, bank_statement_id: nil)
-
-    join_to_bank_statement_items(items)
+    join_to_bank_statement_items(bank_statement_items)
   end
 
   protected
 
-  def join_to_bank_statement_items(items)
-    bank_statement = items.first.bank_statement
-    letter = bank_statement.next_letter
+  def join_to_bank_statement_items(bank_statement_items)
+    cash = bank_statement_items.first.cash
+    letter = cash.next_reconciliation_letter
     JournalEntryItem
       .where(id: journal_entry.items.to_a
                               .select { |item| item.balance == relative_amount })
-      .update_all(bank_statement_id: bank_statement.id, bank_statement_letter: letter)
-    items.update_all(letter: letter)
-    letter
+      .update_all(bank_statement_letter: letter)
+    bank_statement_items.update_all(letter: letter)
   end
 
   def letterable_items(bank_statement_items)
     return false unless journal_entry && bank_statement_items.present?
 
-    bank_statement = bank_statement_items.first.bank_statement
-    return false unless mode.cash_id == bank_statement.cash_id
+    cash_id = bank_statement_items.first.cash.id
+    return false unless mode.cash_id == cash_id
 
-    items = BankStatementItem.where(id: bank_statement_items)
-    bank_items_balance = items.sum(:credit) - items.sum(:debit)
+    # items = BankStatementItem.where(id: bank_statement_items)
+    bank_items_balance = bank_statement_items.sum(:credit) - bank_statement_items.sum(:debit)
     return false unless relative_amount == bank_items_balance
-    items
+    bank_statement_items
   end
 end

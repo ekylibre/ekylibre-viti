@@ -54,23 +54,32 @@ module Backend
         @bank_statement = find_and_check :bank_statement, params[:bank_statement_id]
       end
 
-      def find_bank_statements(cash)
-        @bank_statements = BankStatement.where(cash: cash.id) || redirect_to_back
+      def find_bank_statements
+        @bank_statements = BankStatement.where(cash: params[:cash_id])
+        if @bank_statements
+          start = params[:period_start].to_date.beginning_of_day
+          stop = params[:period_end].to_date.end_of_day
+          start_range = @bank_statements.where(started_on: start..stop)
+          stop_range = @bank_statements.where(stopped_on: start..stop)
+          final_range = (start_range + stop_range).uniq
+          bs_ids = final_range.map(&:id)
+          @bank_statements = BankStatement.where(id: bs_ids)
+        end
+        @bank_statements || (head(:bad_request) && nil)
       end
 
       def reconciliate_one(bank_statement)
         bank_statement_items = bank_statement.items unless @bank_statement.nil?
         bank_statement_items = bank_statement.items.transfered_between(@period_start, @period_end) unless @bank_statements.nil?
 
-        journal_entry_items  = bank_statement.eligible_entries_in(@period_start, @period_end) unless @bank_statement.nil?
-        journal_entry_items  = JournalEntryItem.pointed_by(bank_statement).between(@period_start, @period_end) unless @bank_statements.nil?
+        @journal_entry_items ||= bank_statement.eligible_entries_in(@period_start, @period_end)
 
-        return no_entries if journal_entry_items.blank? && @bank_statements.nil?
+        return no_entries if @journal_entry_items.blank? && @bank_statements.nil?
 
-        auto_reconciliate!(bank_statement, bank_statement_items, journal_entry_items)
+        auto_reconciliate!(bank_statement, bank_statement_items, @journal_entry_items)
 
         @items = [] if @items.nil?
-        @items += bank_statement_items + journal_entry_items
+        @items += bank_statement_items + @journal_entry_items
       end
 
       def set_period!

@@ -167,13 +167,13 @@ class BankStatement < Ekylibre::Record::Base
 
   def eligible_journal_entry_items
     unpointed = cash.unpointed_journal_entry_items
-    pointed = JournalEntryItem.pointed_by(self)
+    pointed = JournalEntryItem.where.not(bank_statement_letter: nil).where(account_id: self.account_id)
     JournalEntryItem.where(id: unpointed.pluck(:id) + pointed.pluck(:id))
   end
 
   def eligible_entries_in(start, finish)
     unpointed = cash.unpointed_journal_entry_items.between(start, finish)
-    pointed = JournalEntryItem.pointed_by(self).between(start, finish)
+    pointed = JournalEntryItem.where.not(bank_statement_letter: nil).where(account_id: self.cash.account_id).between(start, finish)
     JournalEntryItem.where(id: unpointed.pluck(:id) + pointed.pluck(:id))
   end
 
