@@ -10,9 +10,9 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require webpack_bridge
 //= require modernizr
 //= require jquery
-//= require jquery/jquery.lazy
 //= require jquery-ui/widgets/datepicker
 //= require jquery-ui/i18n/datepicker-fr
 // require jquery-ui/i18n/datepicker-ar
@@ -25,16 +25,16 @@
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require jquery.turbolinks
-//= require flatpickr
-//= require flatpickr/plugins/confirmDate/confirmDate
-//= require flatpickr/l10n/ar
-//= require flatpickr/l10n/de
-//= require flatpickr/l10n/es
-//= require flatpickr/l10n/fr
-//= require flatpickr/l10n/it
-//= require flatpickr/l10n/ja
-//= require flatpickr/l10n/pt
-//= require flatpickr/l10n/zh
+//= require flatpickr/dist/flatpickr
+//= require flatpickr/dist/plugins/confirmDate/confirmDate
+//= require flatpickr/dist/l10n/ar
+//= require flatpickr/dist/l10n/de
+//= require flatpickr/dist/l10n/es
+//= require flatpickr/dist/l10n/fr
+//= require flatpickr/dist/l10n/it
+//= require flatpickr/dist/l10n/ja
+//= require flatpickr/dist/l10n/pt
+//= require flatpickr/dist/l10n/zh
 //= require turbolinks
 //= require active_list.jquery
 //= require knockout
@@ -98,16 +98,7 @@
 //= require ext-plugins/vuejs/vue-chartjs
 
 //= require vue
-//= require utils/location_utils
 //= require lodash
-
-
-var visualization = {};
-var mapeditor = {};
-var ekylibre = {};
-var calcul = {};
-
-var golumn = {};
 
 // FIX Browser interoperability
 // href function seems to be ineffective

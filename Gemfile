@@ -7,8 +7,12 @@ end
 
 ruby '>= 2.3.8', '< 3.0.0'
 
+gem 'elastic-apm'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.11.1'
+
+gem 'webpacker', '~> 4.x'
 
 # Security fix for mail
 gem 'mail', '~> 2.6.6.rc1'
@@ -69,8 +73,6 @@ gem 'jquery-ui-rails'
 gem 'jquery-scrollto-rails'
 gem 'momentjs-rails', '>= 2.9.0'
 
-gem 'flatpickr', '~> 4.5', '>= 4.5.2.0'
-
 # Forms helper
 gem 'formize', '~> 2.1.0'
 # gem 'codemirror-rails'
@@ -87,7 +89,7 @@ gem 'rake', '~>12.0'
 gem 'timecop'
 
 # Manipulate map data
-gem 'charta', '>= 0.1.9'
+gem 'charta', '~> 0.1.14'
 
 # Manage daemons
 gem 'foreman'
