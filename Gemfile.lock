@@ -656,7 +656,7 @@ DEPENDENCIES
   feedjira
   ffaker (>= 2.0.0)
   figaro
-  font-awesome-sass
+  font-awesome-sass (~> 5.8.1)
   foreman
   formize (~> 2.1.0)
   haml
