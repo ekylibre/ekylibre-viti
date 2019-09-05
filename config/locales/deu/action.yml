@@ -1630,6 +1630,7 @@ deu:
     operations: "Geschäftstätigkeit"
     options: "Optionen"
     or: "Oder"
+    # order_again: "Order again"
     organic_matter_concentration: "Bio-Stoffkonzentration"
     original_component: "Original"
     other_debts: "Andere Schulden"

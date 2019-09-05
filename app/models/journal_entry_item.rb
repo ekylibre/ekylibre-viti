@@ -76,6 +76,7 @@
 #   * real_(credit|debit|balance) are in currency of the financial year
 #   * absolute_(credit|debit|balance) are in currency of the company
 class JournalEntryItem < Ekylibre::Record::Base
+  include ActionView::Helpers::UrlHelper
   attr_readonly :entry_id, :journal_id, :state
   refers_to :absolute_currency, class_name: 'Currency'
   refers_to :currency
@@ -421,6 +422,17 @@ class JournalEntryItem < Ekylibre::Record::Base
     return unless account
     third_parties = Entity.uniq.where('client_account_id = ? OR supplier_account_id = ? OR employee_account_id = ?', account.id, account.id, account.id)
     third_parties.take if third_parties.count == 1
+  end
+
+  def associated_journal_entry_items_on_bank_reconciliation
+    return [] unless bank_statement_letter
+    items = JournalEntryItem.where("bank_statement_letter = '#{self.bank_statement_letter}' AND account_id = '#{self.account_id}'")
+    items - [self]
+  end
+
+  def associated_bank_statement_items
+    return [] unless bank_statement_letter
+    BankStatementItem.joins(cash: :suspense_account).where("letter = '#{self.bank_statement_letter}' AND cashes.suspense_account_id = '#{self.account_id}'")
   end
 
   # fixed_assets, expenses and revenues are used into tax declaration

@@ -2123,6 +2123,7 @@ arb:
     operations: "عمليات"
     options: "خيارات"
     or: "أو"
+    # order_again: "Order again"
     order_amount_with_taxes: "قيمة الطلب مع الضرائب" #?
     order_print: "طباعة الطلب" #?
     organic_matter_concentration: "تركيز المواد العضوية"

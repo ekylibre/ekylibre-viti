@@ -93,7 +93,13 @@ class BankStatementItem < Ekylibre::Record::Base
 
   def associated_journal_entry_items
     return [] unless bank_statement && letter
-    JournalEntryItem.pointed_by(bank_statement).where(bank_statement_letter: letter)
+    JournalEntryItem.where("bank_statement_letter = '#{self.letter}' AND account_id = '#{self.cash.suspense_account_id}'")
+  end
+
+  def associated_bank_statement_items
+    return [] unless bank_statement && letter
+    items = BankStatementItem.joins(cash: :suspense_account).where("letter = '#{self.letter}' AND accounts.id = #{self.cash.suspense_account_id}")
+    items - [self]
   end
 
   def cash_currency

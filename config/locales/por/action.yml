@@ -1635,6 +1635,7 @@ por:
     operations: "Operações"
     options: "Opções"
     or: "Ou"
+    # order_again: "Order again"
     organic_matter_concentration: "Concentração de matéria orgânica"
     original_component: "Original"
     other_debts: "Outras dívidas"

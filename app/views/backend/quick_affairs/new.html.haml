@@ -1,6 +1,7 @@
 - trade_model_name   = @trade.class.model_name
 - payment_model_name = @payment.class.model_name
-- url_helper = :"backend_quick_#{@trade.class.name.underscore.pluralize}_path"
+- url_interpolate = @trade.is_a?(PurchaseInvoice) ? 'purchases' : 'sales'
+- url_helper = :"backend_quick_#{url_interpolate}_path"
 - payment_scope = { scope: { matching_cash: @bank_statement_items.first.bank_statement.cash_id } } if @bank_statement_items
 
 = backend_form_for @affair, as: :affair, url: send(url_helper, redirect: @redirect_to) do |a|

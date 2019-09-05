@@ -66,6 +66,8 @@
 #  variant_id                    :integer
 #
 class ReceptionItem < ParcelItem
+  include Rails.application.routes.url_helpers
+  include ActionView::Helpers::UrlHelper
   belongs_to :reception, inverse_of: :items, class_name: 'Reception', foreign_key: :parcel_id
   belongs_to :project_budget, class_name: 'ProjectBudget', foreign_key: :project_budget_id
   belongs_to :purchase_order_to_close, class_name: 'PurchaseOrder', foreign_key: :purchase_order_to_close_id
@@ -118,6 +120,9 @@ class ReceptionItem < ParcelItem
     end
   end
 
+  after_destroy do
+    purchase_order_item.purchase.update_reconciliation_status! if purchase_order_item
+  end
   # protect(allow_update_on: ALLOWED, on: %i[create destroy update]) do
   #  !reception_allow_items_update?
   # end
