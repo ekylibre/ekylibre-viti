@@ -38,6 +38,9 @@ set :default_env, 'JAVA_HOME' => '/usr/lib/jvm/java-8-openjdk-amd64'
 
 set :rails_env, 'production'
 
+set :nvm_node, 'v12.4.0'
+set :nvm_map_bins, %w{node npm yarn rake}
+
 namespace :deploy do
   after :published, :restart_daemons do |_host|
     on roles(:app) do
