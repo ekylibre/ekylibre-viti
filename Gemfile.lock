@@ -130,6 +130,8 @@ GEM
       capistrano (~> 3.1)
     capistrano-git-with-submodules (2.0.3)
       capistrano (~> 3.7)
+    capistrano-nvm (0.0.7)
+      capistrano (~> 3.1)
     capistrano-rails (1.4.0)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -633,6 +635,7 @@ DEPENDENCIES
   browser
   bullet (< 5.6.0)
   capistrano-git-with-submodules (~> 2.0)
+  capistrano-nvm
   capistrano-rails
   charlock_holmes
   charta (~> 0.1.14)
