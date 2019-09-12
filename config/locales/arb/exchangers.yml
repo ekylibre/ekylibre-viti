@@ -19,6 +19,7 @@ arb:
     # ekylibre_cash_transferts: "Ekylibre cash transferts"
     ekylibre_cultivable_zones: "مناطق Ekylibre الصالحة"
     ekylibre_cultivable_zones_json: "Ekylibre المناطق الصالحة للزراعة JSON"
+    # ekylibre_cvi_csv: "Computerised Vineyard Register"
     ekylibre_entities: "الكيانات Ekylibre"
     ekylibre_equipments: "المعدات Ekylibre"
     ekylibre_equipments_json: "Ekylibre المعدات JSON"

@@ -815,6 +815,7 @@ fra:
       intervention_already_planned: "Attention, une autre intervention est prévue pour cette %{product_type} dans la planification (%{intervention_name})" #?
       # invalid: "%{attribute} is invalid"
       # invalid_at: "%{attribute} is_invalid. Error near %{error}"
+      # invalid_child: "At least one value of %{attribute} is invalid."
       # invalid_date: "%{attribute} is not a valid date"
       # invalid_datetime: "%{attribute} is not a valid datetime"
       # invalid_time: "%{attribute} is not a valid time"
@@ -979,8 +980,8 @@ fra:
     add_an_account: "Ajouter un compte"
     add_an_evaluation_for_this_intervention: "Evaluer cette intervention avant de la valider" #?
     add_animal: "Ajouter un animal"
-    add_animals: "Ajouter un lot d'animaux"
     add_animal_group: "Ajouter un troupeau"
+    add_animals: "Ajouter un lot d'animaux"
     add_annotation: "Ajouter une annotation"
     add_attachment: "Ajouter une pièce jointe"
     add_bank_statement: "Ajouter un relevé de compte"
@@ -1541,14 +1542,14 @@ fra:
     export_as_pdf: "Exporter en PDF"
     export_as_xcsv: "Exporter en CSV pour Excel"
     export_backup: "Export d’un fichier de sauvegarde" #?
-    export_xml_fec_all: "Export FEC - Cas général - impôt sur les sociétés (XML)"
-    export_xml_fec_ba_bnc_ir_commercial_accountancy: "Export FEC - Cas BA BNC IR - comptabilité commerciale (XML)"
-    export_xml_fec_ba_ir_cash_accountancy: "Export FEC - Cas BA IR - comptabilité de trésorerie (XML)"
-    export_xml_fec_bnc_ir_cash_accountancy: "Export FEC - Cas BNC IR - comptabilité de trésorerie (XML)"
     export_text_fec_all: "Export FEC - Cas général - impôt sur les sociétés (Texte)"
     export_text_fec_ba_bnc_ir_commercial_accountancy: "Export FEC - Cas BA BNC IR - comptabilité commerciale (Texte)"
     export_text_fec_ba_ir_cash_accountancy: "Export FEC - Cas BA IR - comptabilité de trésorerie (Texte)"
     export_text_fec_bnc_ir_cash_accountancy: "Export FEC - Cas BNC IR - comptabilité de trésorerie (Texte)"
+    export_xml_fec_all: "Export FEC - Cas général - impôt sur les sociétés (XML)"
+    export_xml_fec_ba_bnc_ir_commercial_accountancy: "Export FEC - Cas BA BNC IR - comptabilité commerciale (XML)"
+    export_xml_fec_ba_ir_cash_accountancy: "Export FEC - Cas BA IR - comptabilité de trésorerie (XML)"
+    export_xml_fec_bnc_ir_cash_accountancy: "Export FEC - Cas BNC IR - comptabilité de trésorerie (XML)"
     exportation: "Exportation" #?
     extract: "Extraire" #?
     extract_account_x: "Extrait de compte %{account_number}"
@@ -1905,8 +1906,8 @@ fra:
     month_period: "%{code} — %{month} %{year}"
     monthly: "Mensuelle"
     months: "Mois"
-    more_detail: "Plus de détail"
-    more_details: "Plus de détails"
+    more_detail: "Plus de détail" #?
+    more_details: "Plus de détails" #?
     move_animal: "Déplacement des animaux"
     moved_at: "Fait le" #?
     movements: "Mouvements"
@@ -2244,7 +2245,7 @@ fra:
     quit_financial_year_closure_preparation: "Quitter le mode préparatoire sur %{code}"
     radical_class_accounts_dont_have_entries: "Les comptes de classes radicales ne comportent pas d'écritures."
     radical_class_accounts_have_entries: "Les comptes de classes radicales comportent des écritures."
-    rain: "Pluviométrie"
+    rain: "Pluviométrie" #?
     raw_income: "Résultat d’exploitation"
     raw_margin: "Marge brute" #?
     reading_tasks: "Relevés d’indicateur"
@@ -3027,8 +3028,8 @@ fra:
       importation_cancelled: "Vos données n’ont été pas été importées. L’importation a été annulée" #?
       importation_finished: "L’importation est terminée."
       incompatible_browser: "Votre navigateur ne semble pas compatible. Le navigateur Firefox est recommandé pour utiliser Ekylibre."
-      informations_feed_is_unreachable: "Le flux d’informations (%{url}) est inaccessible. Message d’erreur\_: %{message}"
       information_success_print: "Création réussie ! Vous pouvez maintenant lancer l'impression via le bouton 'Imprimer'."
+      informations_feed_is_unreachable: "Le flux d’informations (%{url}) est inaccessible. Message d’erreur\_: %{message}"
       integrate_tools_you_are_using_every_day: "Intégrez les outils que vous utilisez tous les jours"
       invalid_file_nature: "Type de fichier invalide" #?
       invalid_reference_name: "Référence invalide"
@@ -3094,9 +3095,9 @@ fra:
       prices_import_succeeded: "Vos données ont été correctement importées" #?
       print_failure: "Impossible d’imprimer. Essayer de recharger les modèles de documents pour corriger le problème. %{error} (%{class})." #?
       purchase_already_invoiced: "Achat déjà facturé" #?
-      purchases_invalid_for_sepa: "Achats sélectionnés invalides pour un transfert SEPA (mode de décaissement invalide ou devise différente de celle du mode de décaissement ou IBAN ou Titulaire du compte du créditeur manquant.)"
       purchase_invoice_need_at_least_one_item: "Une facture doit avoir au moins un élément dans les lignes d'achat"
       purchase_order_need_at_least_one_item: "Une commande doit avoir au moins un élément dans les lignes d'achat"
+      purchases_invalid_for_sepa: "Achats sélectionnés invalides pour un transfert SEPA (mode de décaissement invalide ou devise différente de celle du mode de décaissement ou IBAN ou Titulaire du compte du créditeur manquant.)"
       reception_need_at_least_one_item: "Une réception doit avoir au moins un élément dans les lignes d'achat"
       record_already_imported: "Enregistrement déjà importé"
       record_cannot_be_removed: "L’enregistrement ne peut pas être supprimé"
@@ -3318,7 +3319,7 @@ fra:
     backend/prescriptions: "%{reference_number}"
     backend/product_memberships: "%{started_at}"
     backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
-    backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
+    backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}" #?
     backend/product_natures: "%{name}"
     backend/products: "%{work_number} %{name} (%{number}) - %{container_name}"
     backend/purchase_payments: "%{number}. %{mode_name} pour %{payee_full_name} de %{amount} %{currency}"

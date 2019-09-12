@@ -19,6 +19,7 @@ deu:
     # ekylibre_cash_transferts: "Ekylibre cash transferts"
     ekylibre_cultivable_zones: "Ekylibre Kultivierbare Zonen"
     ekylibre_cultivable_zones_json: "Ekylibre kultivierbaren Zonen JSON"
+    # ekylibre_cvi_csv: "Computerised Vineyard Register"
     # ekylibre_entities: "Ekylibre Entities"
     ekylibre_equipments: "Ekylibre Ausrüstungen"
     ekylibre_equipments_json: "Ekylibre Ausrüstungen JSON"

@@ -366,7 +366,7 @@ arb:
       new_request: "طلب تدخل جديد"
       new_specified: "تدخل جديد"
       new_specified_request: "تدخل طلب جديد"
-      # show: "%{procedure_name}"
+      # show: "%{nature} %{procedure_name} #%{number}"
     backend/inventories:
       edit: "تعديل الجرد"
       index: "الجرد"
@@ -922,6 +922,7 @@ arb:
       # inclusion: "%{attribute} is not included in the list"
       # invalid: "%{attribute} is invalid"
       # invalid_at: "%{attribute} is_invalid. Error near %{error}"
+      # invalid_child: "At least one value of %{attribute} is invalid."
       # invalid_date: "%{attribute} is not a valid date"
       # invalid_datetime: "%{attribute} is not a valid datetime"
       # invalid_time: "%{attribute} is not a valid time"
@@ -1087,6 +1088,7 @@ arb:
     # add_an_account: "Add an account"
     add_animal: "إضافة الحيوانية"
     add_animal_group: "إضافة مجموعة الحيوانات"
+    # add_animals: "Add a consignment of animals"
     add_annotation: "إضافة تعليق توضيحي"
     add_attachment: "إضافة مرفق"
     add_bank_statement: "إضافة كشف حساب بنكي"
@@ -1248,6 +1250,8 @@ arb:
     # balanced: "Balanced"
     bank_account: "حساب البنك"
     bank_accounts: "" #?
+    # bank_check_number: " no. %{number}"
+    # bank_check_number_text: "Check no. %{number}"
     bank_statement_number: "عدد بيان البنك"
     bank_statement_point: "الاشارة للكشف المصرفي" #?
     bank_statement_update: "تعديل الكشف المصرفي" #?
@@ -1304,6 +1308,7 @@ arb:
     # charges: "Charges"
     chart: "خريطة"
     check: "نحقق"
+    # check_letter: "Check letter"
     check_x_entries_to_balance:
       # one: "Check entry to balance (%{count})"
       # other: "Check entries to balance (%{count})"
@@ -1330,6 +1335,7 @@ arb:
     # close_settings: "Close settings"
     # close_the_financial_year: "Close the financial year"
     closed: "مغلق"
+    # clouds: "Clouds"
     cobbles: "الحصى"
     code: "الرمز" #?
     column: "البيانات"
@@ -1365,6 +1371,7 @@ arb:
     consume: "تستهلك"
     contact: "العنوان" #?
     contact_create: "اضافة مشترك جديد" #?
+    # contact_support_to_delete_production: "To delete this production, please contact us with the chat."
     contained_products: "المنتجات الواردة"
     container: "وعاء"
     convert_balance_into_loss: "تحويل الرصيد إلى فقدان"
@@ -1646,7 +1653,7 @@ arb:
     file_to_download: "ملف الاستيراد" #?
     file_to_import: "ملف للاستيراد" #?
     file_to_upload: "ملف لتحميل"
-    # file_trimming: "File trimming"
+    # file_trimming: "File trimming :"
     filter: "تصفية"
     filter_entries_with: "تصفية الادخالات مع" #?
     # filter_on: "Filter on"
@@ -1733,6 +1740,7 @@ arb:
     # hours_label: "Hours"
     human_working_duration: "مدة العمل"
     # humans: "HR"
+    # humidity: "Humidity"
     iban: "رقم الحساب المصرفي الدولي (IBAN)"
     identification: "اسم ورمز المنتج"
     identifiers: "معرفات"
@@ -2147,6 +2155,7 @@ arb:
     outgoing_parcels: "الطرود الصادرة"
     outgoing_payment: "دفع المنتهية ولايته"
     outgoing_payment_create: "اضافة نفقة" #?
+    # outgoing_payment_list_text: "You will find below the references covered by the payment in the amount of %{amount} %{currency}."
     outgoing_payment_update: "تعديل دفعة الشراء" #?
     outgoing_payment_use_create: "تسديد سعر الشراء" #?
     outgoing_payments: "المدفوعات الصادرة"
@@ -2224,6 +2233,7 @@ arb:
     # prerequisites_checks_before_closure: "Prerequisites checks before closure"
     prescription: "وصفة طبية"
     prescriptions: "وصفات"
+    # pressure: "Pressure"
     # pretax: "pre-tax"
     pretax_amount: "كمية ما قبل الضريبة"
     previous: "السابق"
@@ -2317,6 +2327,7 @@ arb:
     # receipt_date: "Receipt date"
     # receipt_responsible: "Receipt responsible"
     received: "مستلم"
+    # received_quantity: "Received quantity"
     # receiving_address: "Receiving address"
     recent_events: "الاحداث الاخيرة"
     # reception: "Reception"
@@ -2501,6 +2512,7 @@ arb:
     social_expenses: "النفقات الاجتماعية"
     sold_on: "تباع في"
     source: "مصدر البيانات"
+    # standard: "Standard"
     start: "ابتداء من"
     start_new_intervention_here: "بدء التدخل الجديد هنا"
     started: "بدأت"
@@ -3041,6 +3053,7 @@ arb:
       importation_cancelled: "لم تم استيراد بياناتك، تم الغاء الاستيراد" #?
       importation_finished: "انتهاء الاستيراد"
       incompatible_browser: "المتصفح غير متوافق"
+      # information_success_print: "Creation successful! You can now print the file with the button 'Print'."
       # informations_feed_is_unreachable: "Informations feed (%{url}) is unreachable. Error message: %{message}"
       integrate_tools_you_are_using_every_day: "دمج الأدوات التي تستخدم كل يوم"
       invalid_file_nature: "نوع الملف غير صحيح" #?
@@ -3104,7 +3117,10 @@ arb:
       # previouos_financial_year_is_not_closed: "The previous financial year hasn't been closed."
       prices_import_succeeded: "تم استيراد بياناتك بشكل صحيح" #?
       print_failure: " غير قابل للطباعة، حاول تحديث نماذج الوئائق لتصحيح المشكلة%{error} (%{class})." #?
+      # purchase_invoice_need_at_least_one_item: "An invoice should have at least one item"
+      # purchase_order_need_at_least_one_item: "An order should have at least one item"
       purchases_invalid_for_sepa: "الشراء المحددة غير صالحة لنقل المصلحة (الوضع صرف العملة غير صالح أو خاطئة أو مفقودة المستفيد IBAN أو صاحب حساب مصرفي الاسم)"
+      # reception_need_at_least_one_item: "A reception should have at least one item"
       record_already_imported: "سجل استيراد بالفعل"
       record_cannot_be_removed: "لا يمكن حذف السجل"
       record_has_been_correctly_removed: "تم حذف السجل بشكل صحيح"
@@ -3295,6 +3311,7 @@ arb:
       notify_accountant: "إبلاغ محاسب"
       open: "فتح"
       order: "طلب"
+      # order_again: "Order again"
       pay: "دفع"
       payment_gap: "الفجوة الدفع"
       payment_mode: "طريقة الدفع"

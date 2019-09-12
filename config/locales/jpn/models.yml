@@ -42,6 +42,8 @@ jpn:
         stopped_at:
           # one: "Stopped at is inferior than expected"
           # other: "{{count}} Stopped at is inferior than expected"
+      inventory:
+        # disable_accountancy: "Do not update accounting"
       journal_entry_item:
         # cumulated_absolute_credit_balance: "Credit balance"
         # cumulated_absolute_debit_balance: "Debit balance"
@@ -64,7 +66,11 @@ jpn:
         contract: "契約する"
       parcel_item:
         population: "量"
+        # product_name: "Product name"
       parcel_item_storing:
+        # conditionning: "Conditionning"
+        # conditionning_quantity: "Conditionning quantity"
+        # quantity: "Total quantity"
         # reception_given_at: "Given at"
         # reception_planned_at: "Planned at"
       plant:
@@ -790,6 +796,7 @@ jpn:
     document: "資料"
     documents: "ドキュメント"
     doers: "徒"
+    # doers_cost: "Doers cost"
     # dose_quantity: "Dose quantity"
     # dose_unit: "Dose unit"
     # dose_unit_name: "Dose unit name"
@@ -1415,6 +1422,7 @@ jpn:
     # reception_items: "Reception items"
     reception_journal_entry: "レセプション仕訳"
     # receptions: "Receptions"
+    # receptions_cost: "Receptions cost"
     recipient: "受信者"
     recommended: "推奨されます"
     recommender: "推薦"
@@ -1659,7 +1667,6 @@ jpn:
     transports: "トランスポート" #?
     trouble_description: "トラブルの説明"
     trouble_encountered: "トラブルに遭遇"
-    # vat_account: "VAT account"
     type: "タイプ"
     # uid: "UID"
     unconfirmed_email: "未確認メール"
@@ -1712,6 +1719,7 @@ jpn:
     variants: "バリアント"
     variety: "多様"
     variety_name: "バラエティ名"
+    # vat_account: "VAT account"
     vat_number: "VAT番号"
     vat_subjected: "VAT受けます"
     vendor_euid: "ベンダー"
@@ -1781,14 +1789,21 @@ jpn:
       # purchase_regularization: "Purchase regularization"
       # sale_regularization: "Sale regularization"
     delivery:
-      state_machine:
-        states:
-          draft: "ドラフト"
-          finished: "完成しました"
-          in_preparation: "準備中"
-          ordered: "順序付けられました"
-          prepared: "準備"
-          started: "開始"
+      state_machine: #?
+        states: #?
+          draft: "ドラフト" #?
+          finished: "完成しました" #?
+          in_preparation: "準備中" #?
+          ordered: "順序付けられました" #?
+          prepared: "準備" #?
+          started: "開始" #?
+      states:
+        # draft: "Draft"
+        # finished: "Finished"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # started: "Started"
     deposit:
       bookkeep:
         # one: "[%{resource} %{number}] %{count} payment %{mode} %{description}"
@@ -1815,12 +1830,17 @@ jpn:
       # bookkeep_exit_assets: "[%{resource} %{number}] Scrapped of %{name}"
       # bookkeep_in_sold_assets: "[%{resource} %{number}] Sold of %{name}"
       # bookkeep_in_use_assets: "[%{resource} %{number}] In use of %{name}"
-      state_machine:
-        states:
-          draft: "ドラフト"
-          in_use: "使用中で"
-          scrapped: "スクラップ"
-          sold: "販売"
+      state_machine: #?
+        states: #?
+          draft: "ドラフト" #?
+          in_use: "使用中で" #?
+          scrapped: "スクラップ" #?
+          sold: "販売" #?
+      states:
+        # draft: "Draft"
+        # in_use: "In use"
+        # scrapped: "Scrapped"
+        # sold: "Sold"
     fixed_asset_depreciation:
       # bookkeep: "[%{resource} %{number}] Depreciation of %{name} (%{position}/%{total})"
       # bookkeep_partial: "[%{resource} %{number}] Partial depreciation of %{name} (%{position}/%{total})"
@@ -1896,11 +1916,15 @@ jpn:
     loan:
       # bookkeep: "[%{resource} %{name}] Fund reception"
       # bookkeep_guarantee_payment: "[%{resource} %{name}] Guarantee payment"
-      state_machine:
-        states:
-          draft: "ドラフト"
-          ongoing: "継続的な"
-          repaid: "返済"
+      state_machine: #?
+        states: #?
+          draft: "ドラフト" #?
+          ongoing: "継続的な" #?
+          repaid: "返済" #?
+      states:
+        # draft: "Draft"
+        # ongoing: "Ongoing"
+        # repaid: "Repaid"
     loan_repayment:
       # bookkeep: "[%{resource} %{name}] Repayment #%{position}"
     outgoing_payment:
@@ -1916,14 +1940,21 @@ jpn:
           name: "転送"
     parcel:
       # bookkeep: "[%{resource} %{mode} %{number}] %{entity}"
-      state_machine:
-        states:
-          draft: "ドラフト"
-          given: "与えられました"
-          in_preparation: "準備中"
-          ordered: "順序付けられました"
-          prepared: "準備"
-          received: "受け"
+      state_machine: #?
+        states: #?
+          draft: "ドラフト" #?
+          given: "与えられました" #?
+          in_preparation: "準備中" #?
+          ordered: "順序付けられました" #?
+          prepared: "準備" #?
+          received: "受け" #?
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
       # undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     payslip:
       # bookkeep: "[%{resource} %{number}] %{employee} from %{started_on} to %{stopped_on}"
@@ -1991,14 +2022,14 @@ jpn:
       # label: "%{number}. %{amount}, %{mode} for %{payee} on %{date}"
     reception:
       # bookkeep: "[%{resource} %{number}] %{entity}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # given: "Given"
-          # in_preparation: "In preparation"
-          # ordered: "Ordered"
-          # prepared: "Prepared"
-          # received: "Received"
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
+      # undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     role:
       default:
         administrator: "管理者"
@@ -2043,15 +2074,23 @@ jpn:
       default:
         name: "標準販売"
     sale_opportunity:
-      state_machine:
-        states:
-          lost: "失われました"
-          negociation: "交渉"
-          price_quote: "価格の見積もり"
-          prospecting: "試掘"
-          qualification: "資格"
-          value_proposition: "価値命題"
-          won: "勝った"
+      state_machine: #?
+        states: #?
+          lost: "失われました" #?
+          negociation: "交渉" #?
+          price_quote: "価格の見積もり" #?
+          prospecting: "試掘" #?
+          qualification: "資格" #?
+          value_proposition: "価値命題" #?
+          won: "勝った" #?
+      states:
+        # lost: "Lost"
+        # negociation: "Negociation"
+        # price_quote: "Price quote"
+        # prospecting: "Prospecting"
+        # qualification: "Qualification"
+        # value_proposition: "Value proposition"
+        # won: "Won"
     sequence:
       default:
         affairs: "A[number|12]"
@@ -2080,27 +2119,29 @@ jpn:
         transports: "TR[number|8]"
     shipment:
       # bookkeep: "[%{resource} %{number}] %{entity}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # given: "Given"
-          # in_preparation: "In preparation"
-          # ordered: "Ordered"
-          # prepared: "Prepared"
-          # received: "Received"
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
     task:
-      state_machine:
-        states:
-          doing: "実行"
-          done: "終わりました"
-          todo: "実行します"
+      state_machine: #?
+        states: #?
+          doing: "実行" #?
+          done: "終わりました" #?
+          todo: "実行します" #?
+      states:
+        # doing: "Doing"
+        # done: "Done"
+        # todo: "To do"
     tax_declaration:
       # bookkeep: "[%{resource} %{number}] From %{started_on} to %{stopped_on}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # sent: "Sent"
-          # validated: "Validated"
+      states:
+        # draft: "Draft"
+        # sent: "Sent"
+        # validated: "Validated"
     team:
       default: "メインチーム"
     user:

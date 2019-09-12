@@ -24,6 +24,7 @@ fra:
     ekylibre_crumbs: "Miettes ‒ Ekylibre" #?
     ekylibre_cultivable_zones: "Zones cultivables (SHP/ZIP) ‒ Ekylibre"
     ekylibre_cultivable_zones_json: "Zones cultivables (JSON) ‒ Ekylibre"
+    ekylibre_cvi_csv: "Casier viticole informatisé (CSV)"
     ekylibre_entities: "Tiers ‒ Ekylibre"
     ekylibre_equipments: "Équipements ‒ Ekylibre"
     ekylibre_equipments_json: "Équipements (JSON) ‒ Ekylibre"

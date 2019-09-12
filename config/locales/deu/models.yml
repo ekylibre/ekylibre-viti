@@ -42,6 +42,8 @@ deu:
         stopped_at:
           # one: "Stopped at is inferior than expected"
           # other: "{{count}} Stopped at is inferior than expected"
+      inventory:
+        # disable_accountancy: "Do not update accounting"
       journal_entry_item:
         # cumulated_absolute_credit_balance: "Credit balance"
         # cumulated_absolute_debit_balance: "Debit balance"
@@ -64,7 +66,11 @@ deu:
         contract: "Vertrag"
       parcel_item:
         population: "Menge"
+        # product_name: "Product name"
       parcel_item_storing:
+        # conditionning: "Conditionning"
+        # conditionning_quantity: "Conditionning quantity"
+        # quantity: "Total quantity"
         # reception_given_at: "Given at"
         # reception_planned_at: "Planned at"
       plant:
@@ -790,6 +796,7 @@ deu:
     document: "Dokument"
     documents: "Unterlagen"
     doers: "Macher"
+    # doers_cost: "Doers cost"
     # dose_quantity: "Dose quantity"
     # dose_unit: "Dose unit"
     # dose_unit_name: "Dose unit name"
@@ -1415,6 +1422,7 @@ deu:
     # reception_items: "Reception items"
     reception_journal_entry: "Rezeption Journaleintrag"
     # receptions: "Receptions"
+    # receptions_cost: "Receptions cost"
     recipient: "Empfänger"
     recommended: "empfohlen"
     recommender: "Empfehlender"
@@ -1658,7 +1666,6 @@ deu:
     transports: "Transporte" #?
     trouble_description: "Fehlerbeschreibung"
     trouble_encountered: "Schwierigkeiten gestoßen"
-    # vat_account: "VAT account"
     type: "Art"
     # uid: "UID"
     unconfirmed_email: "Unbestätigten E-Mail"
@@ -1711,6 +1718,7 @@ deu:
     variants: "Varianten"
     variety: "Vielfalt"
     variety_name: "Sortenname"
+    # vat_account: "VAT account"
     vat_number: "Umsatzsteuer-Identifikationsnummer"
     vat_subjected: "Mehrwertsteuer unterworfen"
     vendor_euid: "Verkäufer"
@@ -1780,14 +1788,21 @@ deu:
       # purchase_regularization: "Purchase regularization"
       # sale_regularization: "Sale regularization"
     delivery:
-      state_machine:
-        states:
-          draft: "Entwurf"
-          finished: "Fertig"
-          in_preparation: "In Vorbereitung"
-          ordered: "bestellt"
-          prepared: "Bereit"
-          started: "Erste"
+      state_machine: #?
+        states: #?
+          draft: "Entwurf" #?
+          finished: "Fertig" #?
+          in_preparation: "In Vorbereitung" #?
+          ordered: "bestellt" #?
+          prepared: "Bereit" #?
+          started: "Erste" #?
+      states:
+        # draft: "Draft"
+        # finished: "Finished"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # started: "Started"
     deposit:
       bookkeep:
         # one: "[%{resource} %{number}] %{count} payment %{mode} %{description}"
@@ -1814,12 +1829,17 @@ deu:
       # bookkeep_exit_assets: "[%{resource} %{number}] Scrapped of %{name}"
       # bookkeep_in_sold_assets: "[%{resource} %{number}] Sold of %{name}"
       # bookkeep_in_use_assets: "[%{resource} %{number}] In use of %{name}"
-      state_machine:
-        states:
-          draft: "Entwurf"
-          in_use: "In Benutzung"
-          scrapped: "Verschrottet"
-          sold: "Verkauft"
+      state_machine: #?
+        states: #?
+          draft: "Entwurf" #?
+          in_use: "In Benutzung" #?
+          scrapped: "Verschrottet" #?
+          sold: "Verkauft" #?
+      states:
+        # draft: "Draft"
+        # in_use: "In use"
+        # scrapped: "Scrapped"
+        # sold: "Sold"
     fixed_asset_depreciation:
       # bookkeep: "[%{resource} %{number}] Depreciation of %{name} (%{position}/%{total})"
       # bookkeep_partial: "[%{resource} %{number}] Partial depreciation of %{name} (%{position}/%{total})"
@@ -1895,11 +1915,15 @@ deu:
     loan:
       # bookkeep: "[%{resource} %{name}] Fund reception"
       # bookkeep_guarantee_payment: "[%{resource} %{name}] Guarantee payment"
-      state_machine:
-        states:
-          draft: "Entwurf"
-          ongoing: "Laufend"
-          repaid: "Vergolten"
+      state_machine: #?
+        states: #?
+          draft: "Entwurf" #?
+          ongoing: "Laufend" #?
+          repaid: "Vergolten" #?
+      states:
+        # draft: "Draft"
+        # ongoing: "Ongoing"
+        # repaid: "Repaid"
     loan_repayment:
       # bookkeep: "[%{resource} %{name}] Repayment #%{position}"
     outgoing_payment:
@@ -1915,14 +1939,21 @@ deu:
           name: "Übertragung"
     parcel:
       # bookkeep: "[%{resource} %{mode} %{number}] %{entity}"
-      state_machine:
-        states:
-          draft: "Entwurf"
-          given: "Gegeben"
-          in_preparation: "In Vorbereitung"
-          ordered: "bestellt"
-          prepared: "Bereit"
-          received: "Empfangen"
+      state_machine: #?
+        states: #?
+          draft: "Entwurf" #?
+          given: "Gegeben" #?
+          in_preparation: "In Vorbereitung" #?
+          ordered: "bestellt" #?
+          prepared: "Bereit" #?
+          received: "Empfangen" #?
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
       # undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     payslip:
       # bookkeep: "[%{resource} %{number}] %{employee} from %{started_on} to %{stopped_on}"
@@ -1990,14 +2021,14 @@ deu:
       # label: "%{number}. %{amount}, %{mode} for %{payee} on %{date}"
     reception:
       # bookkeep: "[%{resource} %{number}] %{entity}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # given: "Given"
-          # in_preparation: "In preparation"
-          # ordered: "Ordered"
-          # prepared: "Prepared"
-          # received: "Received"
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
+      # undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     role:
       default:
         # administrator: "Administrator"
@@ -2042,15 +2073,22 @@ deu:
       default:
         name: "Standard-Verkauf"
     sale_opportunity:
-      state_machine:
-        states:
-          lost: "Hat verloren"
-          negociation: "Verhandlung"
-          price_quote: "Preisangebot"
-          # prospecting: "Prospecting"
-          qualification: "Qualifikation"
-          value_proposition: "Wertversprechen"
-          won: "Gewonnen"
+      state_machine: #?
+        states: #?
+          lost: "Hat verloren" #?
+          negociation: "Verhandlung" #?
+          price_quote: "Preisangebot" #?
+          qualification: "Qualifikation" #?
+          value_proposition: "Wertversprechen" #?
+          won: "Gewonnen" #?
+      states:
+        # lost: "Lost"
+        # negociation: "Negociation"
+        # price_quote: "Price quote"
+        # prospecting: "Prospecting"
+        # qualification: "Qualification"
+        # value_proposition: "Value proposition"
+        # won: "Won"
     sequence:
       default:
         affairs: "A[number|12]"
@@ -2079,27 +2117,29 @@ deu:
         transports: "TR[number|8]"
     shipment:
       # bookkeep: "[%{resource} %{number}] %{entity}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # given: "Given"
-          # in_preparation: "In preparation"
-          # ordered: "Ordered"
-          # prepared: "Prepared"
-          # received: "Received"
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
     task:
-      state_machine:
-        states:
-          doing: "Tun"
-          done: "Erledigt"
-          todo: "Tun"
+      state_machine: #?
+        states: #?
+          doing: "Tun" #?
+          done: "Erledigt" #?
+          todo: "Tun" #?
+      states:
+        # doing: "Doing"
+        # done: "Done"
+        # todo: "To do"
     tax_declaration:
       # bookkeep: "[%{resource} %{number}] From %{started_on} to %{stopped_on}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # sent: "Sent"
-          # validated: "Validated"
+      states:
+        # draft: "Draft"
+        # sent: "Sent"
+        # validated: "Validated"
     team:
       default: "Haupt-Team"
     user:

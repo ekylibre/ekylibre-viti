@@ -24,6 +24,7 @@ ita:
     ekylibre_crumbs: "Ekylibre Briciole" #?
     ekylibre_cultivable_zones: "zone coltivabili Ekylibre"
     ekylibre_cultivable_zones_json: "Ekylibre zone coltivabili JSON"
+    # ekylibre_cvi_csv: "Computerised Vineyard Register"
     ekylibre_entities: "Entità Ekylibre"
     ekylibre_equipments: "attrezzature Ekylibre"
     ekylibre_equipments_json: "Ekylibre attrezzature JSON"

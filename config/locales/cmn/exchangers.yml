@@ -19,6 +19,7 @@ cmn:
     # ekylibre_cash_transferts: "Ekylibre cash transferts"
     ekylibre_cultivable_zones: "Ekylibre区可培养"
     ekylibre_cultivable_zones_json: "Ekylibre可种植区JSON"
+    # ekylibre_cvi_csv: "Computerised Vineyard Register"
     ekylibre_entities: "Ekylibre实体"
     ekylibre_equipments: "Ekylibre设备"
     ekylibre_equipments_json: "Ekylibre设备JSON"

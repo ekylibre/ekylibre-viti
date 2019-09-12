@@ -42,6 +42,8 @@ cmn:
         stopped_at:
           # one: "Stopped at is inferior than expected"
           # other: "{{count}} Stopped at is inferior than expected"
+      inventory:
+        # disable_accountancy: "Do not update accounting"
       journal_entry_item:
         # cumulated_absolute_credit_balance: "Credit balance"
         # cumulated_absolute_debit_balance: "Debit balance"
@@ -64,7 +66,11 @@ cmn:
         contract: "合同"
       parcel_item:
         population: "数量"
+        # product_name: "Product name"
       parcel_item_storing:
+        # conditionning: "Conditionning"
+        # conditionning_quantity: "Conditionning quantity"
+        # quantity: "Total quantity"
         # reception_given_at: "Given at"
         # reception_planned_at: "Planned at"
       plant:
@@ -790,6 +796,7 @@ cmn:
     document: "文件"
     documents: "文件"
     doers: "实干家"
+    # doers_cost: "Doers cost"
     # dose_quantity: "Dose quantity"
     # dose_unit: "Dose unit"
     # dose_unit_name: "Dose unit name"
@@ -1415,6 +1422,7 @@ cmn:
     # reception_items: "Reception items"
     reception_journal_entry: "接待日记帐分录"
     # receptions: "Receptions"
+    # receptions_cost: "Receptions cost"
     recipient: "接受者"
     recommended: "推荐"
     recommender: "导购"
@@ -1659,7 +1667,6 @@ cmn:
     transports: "传输" #?
     trouble_description: "故障描述"
     trouble_encountered: "遇到麻烦"
-    # vat_account: "VAT account"
     type: "类型"
     # uid: "UID"
     unconfirmed_email: "未经证实的邮件"
@@ -1712,6 +1719,7 @@ cmn:
     variants: "变种"
     variety: "品种"
     variety_name: "品种名称"
+    # vat_account: "VAT account"
     vat_number: "增值税号"
     vat_subjected: "受增值税"
     vendor_euid: "供应商"
@@ -1781,14 +1789,21 @@ cmn:
       # purchase_regularization: "Purchase regularization"
       # sale_regularization: "Sale regularization"
     delivery:
-      state_machine:
-        states:
-          draft: "草案"
-          finished: "完"
-          in_preparation: "在准备"
-          ordered: "有序"
-          prepared: "准备"
-          started: "入门"
+      state_machine: #?
+        states: #?
+          draft: "草案" #?
+          finished: "完" #?
+          in_preparation: "在准备" #?
+          ordered: "有序" #?
+          prepared: "准备" #?
+          started: "入门" #?
+      states:
+        # draft: "Draft"
+        # finished: "Finished"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # started: "Started"
     deposit:
       bookkeep:
         # one: "[%{resource} %{number}] %{count} payment %{mode} %{description}"
@@ -1815,12 +1830,17 @@ cmn:
       # bookkeep_exit_assets: "[%{resource} %{number}] Scrapped of %{name}"
       # bookkeep_in_sold_assets: "[%{resource} %{number}] Sold of %{name}"
       # bookkeep_in_use_assets: "[%{resource} %{number}] In use of %{name}"
-      state_machine:
-        states:
-          draft: "草案"
-          in_use: "正在使用"
-          scrapped: "报废"
-          sold: "出售"
+      state_machine: #?
+        states: #?
+          draft: "草案" #?
+          in_use: "正在使用" #?
+          scrapped: "报废" #?
+          sold: "出售" #?
+      states:
+        # draft: "Draft"
+        # in_use: "In use"
+        # scrapped: "Scrapped"
+        # sold: "Sold"
     fixed_asset_depreciation:
       # bookkeep: "[%{resource} %{number}] Depreciation of %{name} (%{position}/%{total})"
       # bookkeep_partial: "[%{resource} %{number}] Partial depreciation of %{name} (%{position}/%{total})"
@@ -1896,11 +1916,15 @@ cmn:
     loan:
       # bookkeep: "[%{resource} %{name}] Fund reception"
       # bookkeep_guarantee_payment: "[%{resource} %{name}] Guarantee payment"
-      state_machine:
-        states:
-          draft: "草案"
-          ongoing: "不断的"
-          repaid: "偿还"
+      state_machine: #?
+        states: #?
+          draft: "草案" #?
+          ongoing: "不断的" #?
+          repaid: "偿还" #?
+      states:
+        # draft: "Draft"
+        # ongoing: "Ongoing"
+        # repaid: "Repaid"
     loan_repayment:
       # bookkeep: "[%{resource} %{name}] Repayment #%{position}"
     outgoing_payment:
@@ -1916,14 +1940,21 @@ cmn:
           name: "转让"
     parcel:
       # bookkeep: "[%{resource} %{mode} %{number}] %{entity}"
-      state_machine:
-        states:
-          draft: "草案"
-          given: "特定"
-          in_preparation: "在准备"
-          ordered: "有序"
-          prepared: "准备"
-          received: "收到"
+      state_machine: #?
+        states: #?
+          draft: "草案" #?
+          given: "特定" #?
+          in_preparation: "在准备" #?
+          ordered: "有序" #?
+          prepared: "准备" #?
+          received: "收到" #?
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
       # undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     payslip:
       # bookkeep: "[%{resource} %{number}] %{employee} from %{started_on} to %{stopped_on}"
@@ -1991,14 +2022,14 @@ cmn:
       # label: "%{number}. %{amount}, %{mode} for %{payee} on %{date}"
     reception:
       # bookkeep: "[%{resource} %{number}] %{entity}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # given: "Given"
-          # in_preparation: "In preparation"
-          # ordered: "Ordered"
-          # prepared: "Prepared"
-          # received: "Received"
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
+      # undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     role:
       default:
         administrator: "管理员"
@@ -2043,15 +2074,22 @@ cmn:
       default:
         name: "标准销售"
     sale_opportunity:
-      state_machine:
-        states:
-          lost: "丢失"
-          # negociation: "Negociation"
-          price_quote: "报价"
-          prospecting: "勘探"
-          qualification: "合格"
-          value_proposition: "价值主张"
-          won: "韩元"
+      state_machine: #?
+        states: #?
+          lost: "丢失" #?
+          price_quote: "报价" #?
+          prospecting: "勘探" #?
+          qualification: "合格" #?
+          value_proposition: "价值主张" #?
+          won: "韩元" #?
+      states:
+        # lost: "Lost"
+        # negociation: "Negociation"
+        # price_quote: "Price quote"
+        # prospecting: "Prospecting"
+        # qualification: "Qualification"
+        # value_proposition: "Value proposition"
+        # won: "Won"
     sequence:
       default:
         affairs: "A[number|12]"
@@ -2080,27 +2118,29 @@ cmn:
         transports: "TR[number|8]"
     shipment:
       # bookkeep: "[%{resource} %{number}] %{entity}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # given: "Given"
-          # in_preparation: "In preparation"
-          # ordered: "Ordered"
-          # prepared: "Prepared"
-          # received: "Received"
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
     task:
-      state_machine:
-        states:
-          doing: "干"
-          done: "做"
-          todo: "去做"
+      state_machine: #?
+        states: #?
+          doing: "干" #?
+          done: "做" #?
+          todo: "去做" #?
+      states:
+        # doing: "Doing"
+        # done: "Done"
+        # todo: "To do"
     tax_declaration:
       # bookkeep: "[%{resource} %{number}] From %{started_on} to %{stopped_on}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # sent: "Sent"
-          # validated: "Validated"
+      states:
+        # draft: "Draft"
+        # sent: "Sent"
+        # validated: "Validated"
     team:
       default: "主队"
     user:
