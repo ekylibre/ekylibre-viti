@@ -162,6 +162,11 @@ arb:
       new: "انشاء حقل مخصص"
       show: "الحقل المخصص : %{name}"
       sort: "خيارات فرز الحقول المخصصة"
+    backend/cvi_statements:
+      # edit: "Edit CVI statement: %{id}"
+      # index: "CVI statements"
+      # new: "New CVI statement"
+      # show: "CVI statement: %{id}"
     backend/dashboards:
       accountancy: "المحاسبة لوحة القيادة"
       # edit: "Edit dashboard: %{name}"

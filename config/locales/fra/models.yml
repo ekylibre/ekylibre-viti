@@ -89,6 +89,14 @@ fra:
         variety: "Type" #?
       cashes:
         main_account: "Compte principal"
+      cvi_statement:
+        cadastral_plant_count: "Nombre de cultures cadastrales"
+        cadastral_sub_plant_count: "Nombre de sous-cultures cadastrales"
+        created_at: "Date d'import"
+        cvi_number: "N° de CVI"
+        extraction_date: "Date d'extraction"
+        farm_name: "Nom du domaine"
+        total_area: "Superficie encépagée déclarée"
       document:
         filename: "Fichier"
       document_archive: #?
@@ -550,6 +558,7 @@ fra:
       cultivable_zone: "Zone cultivable"
       custom_field: "Champ complémentaire"
       custom_field_choice: "Choix de champ complémentaire"
+      cvi_statement: "Casier Viticole Informatisé"
       dashboard: "Tableau de bord"
       debt_transfer: "Transfert de dettes"
       delivery: "Livraison"
@@ -1042,7 +1051,7 @@ fra:
     debtor: "Debiteur"
     decimal: "Décimal" #?
     decimal_value: "Valeur décimale"
-    declarant: "Declarant"
+    declarant: "Déclarant"
     declared_at: "Déclarée le" #?
     deductible_pretax_amount: "Montant HT déductible"
     deductible_tax_amount: "Montant de la taxe déductible"
@@ -2055,6 +2064,7 @@ fra:
     tool: "Outil"
     tools: "Outils"
     tools_cost: "Coût des outils" #?
+    # total_area: "Total area"
     total_cost: "Coût total"
     total_doer_cost: "Total des coûts"
     total_input_cost: "Coût total des intrants"

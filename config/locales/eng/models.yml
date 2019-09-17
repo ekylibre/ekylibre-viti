@@ -15,6 +15,14 @@ eng:
         born_at: "Built at"
       cashes:
         main_account: "Main account"
+      cvi_statement:
+        cadastral_plant_count: "Cadastral plant count"
+        cadastral_sub_plant_count: "Cadastral sub plant count"
+        created_at: "Date of import"
+        cvi_number: "Cvi number"
+        extraction_date: "Extraction date"
+        farm_name: "Wine estate"
+        total_area: "Total area"
       document:
         filename: "File"
       document_template:
@@ -310,6 +318,7 @@ eng:
       cultivable_zone: "Cultivable zone"
       custom_field: "Custom field"
       custom_field_choice: "Custom field choice"
+      cvi_statement: "Cvi statement"
       dashboard: "Dashboard"
       debt_transfer: "Debt transfer"
       delivery: "Delivery"
@@ -613,6 +622,8 @@ eng:
     by_default: "By default"
     cached_payment_count: "Cached payment count"
     # cached_total_sum: "Cached total sum"
+    # cadastral_plant_count: "Cadastral plant count"
+    # cadastral_sub_plant_count: "Cadastral sub plant count"
     calibrations: "Calibrations"
     # calls: "Calls"
     campaign: "Campaign"
@@ -758,6 +769,7 @@ eng:
     custom_fields: "Custom fields"
     custom_fields_columns: "Custom fields columns"
     customized_type: "Customized type"
+    # cvi_number: "Cvi number"
     daily_charges: "Daily charges" #?
     daily_nitrogen_production: "Daily nitrogen production"
     dashboards: "Dashboards"
@@ -899,6 +911,7 @@ eng:
     exportable_columns: "Exportable columns"
     exportable_fields: "Exportable fields"
     external: "External"
+    # extraction_date: "Extraction date"
     failed_attempts: "Failed attempts"
     family: "Family"
     farm_name: "Farm name"
@@ -1757,6 +1770,7 @@ eng:
     tool: "Tool"
     tools: "Tools"
     # tools_cost: "Tools cost"
+    total_area: "Total area"
     total_cost: "Total cost"
     total_doer_cost: "Total doer cost" #?
     total_input_cost: "Total input cost" #?

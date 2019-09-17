@@ -157,6 +157,11 @@ fra:
       new: "Nouveau champ personnalisé"
       show: "Champ personnalisé\_: %{name}"
       sort: "Trier les choix du champ personnalisé"
+    backend/cvi_statements:
+      edit: "Modifier le Casier Viticole Informatisé (CVI)\_: %{id}"
+      index: "Casier Viticole Informatisés (CVI)"
+      new: "Nouveau Casier Viticole Informatisé (CVI)"
+      show: "Casier Viticole informatisé (CVI) \_: %{id}"
     backend/dashboards:
       accountancy: "Tableau de bord comptable"
       edit: "Modifier le tableau de bord\_: %{name}"

@@ -142,6 +142,11 @@ ita:
       new: "Nuovo campo personalizzato"
       # show: "Custom field: %{name}"
       sort: "scelte di campo ordinamento personalizzato"
+    backend/cvi_statements:
+      # edit: "Edit CVI statement: %{id}"
+      # index: "CVI statements"
+      # new: "New CVI statement"
+      # show: "CVI statement: %{id}"
     backend/dashboards:
       accountancy: "Contabilità cruscotto"
       # edit: "Edit dashboard: %{name}"

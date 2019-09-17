@@ -15,6 +15,14 @@ jpn:
         born_at: "で構築されました"
       cashes:
         main_account: "メインアカウント"
+      cvi_statement:
+        # cadastral_plant_count: "Cadastral plant count"
+        # cadastral_sub_plant_count: "Cadastral sub plant count"
+        # created_at: "Date of import"
+        # cvi_number: "Cvi number"
+        # extraction_date: "Extraction date"
+        # farm_name: "Wine estate"
+        # total_area: "Total area"
       document:
         filename: "ファイル"
       document_template:
@@ -314,6 +322,7 @@ jpn:
       cultivable_zone: "耕作地帯"
       custom_field: "カスタムフィールド"
       custom_field_choice: "カスタムフィールドの選択"
+      # cvi_statement: "Cvi statement"
       dashboard: "ダッシュボード"
       debt_transfer: "債務転送"
       delivery: "配信"
@@ -1647,6 +1656,7 @@ jpn:
     token: "トークン"
     tool: "ツール"
     tools: "ツール"
+    # total_area: "Total area"
     total_cost: "総費用"
     total_doer_cost: "総従業員費用"
     total_input_cost: "合計入力コスト"

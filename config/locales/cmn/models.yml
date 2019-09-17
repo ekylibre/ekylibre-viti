@@ -15,6 +15,14 @@ cmn:
         born_at: "建于"
       cashes:
         main_account: "主账户"
+      cvi_statement:
+        # cadastral_plant_count: "Cadastral plant count"
+        # cadastral_sub_plant_count: "Cadastral sub plant count"
+        # created_at: "Date of import"
+        # cvi_number: "Cvi number"
+        # extraction_date: "Extraction date"
+        # farm_name: "Wine estate"
+        # total_area: "Total area"
       document:
         filename: "文件"
       document_template:
@@ -314,6 +322,7 @@ cmn:
       cultivable_zone: "可种植区"
       custom_field: "自定义字段"
       custom_field_choice: "自定义字段选择"
+      # cvi_statement: "Cvi statement"
       dashboard: "仪表盘"
       debt_transfer: "债权转让"
       delivery: "交货"
@@ -1647,6 +1656,7 @@ cmn:
     token: "象征"
     tool: "工具"
     tools: "工具"
+    # total_area: "Total area"
     total_cost: "总成本"
     total_doer_cost: "总成本"
     total_input_cost: "总投入成本"

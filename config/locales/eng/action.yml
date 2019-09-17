@@ -198,6 +198,11 @@ eng:
       new: "New custom field"
       show: "Custom field: %{name}"
       sort: "Sort custom field choices"
+    backend/cvi_statements:
+      edit: "Edit CVI statement: %{id}"
+      index: "CVI statements"
+      new: "New CVI statement"
+      show: "CVI statement: %{id}"
     backend/dashboards:
       accountancy: "Accountancy dashboard"
       edit: "Edit dashboard: %{name}"

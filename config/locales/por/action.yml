@@ -147,6 +147,11 @@ por:
       new: "Novo campo customizado"
       show: "Campo customizado: %{name}"
       sort: "Ordenar campos customizados"
+    backend/cvi_statements:
+      # edit: "Edit CVI statement: %{id}"
+      # index: "CVI statements"
+      # new: "New CVI statement"
+      # show: "CVI statement: %{id}"
     backend/dashboards:
       accountancy: "Dashboard de contabilidade"
       edit: "Editar dashboard: %{name}"

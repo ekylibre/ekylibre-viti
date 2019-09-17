@@ -93,6 +93,14 @@ arb:
         entity_id: "ملف" #?
         string_value: "قيمة النص" #?
         updater_id: "تحديث" #?
+      cvi_statement:
+        # cadastral_plant_count: "Cadastral plant count"
+        # cadastral_sub_plant_count: "Cadastral sub plant count"
+        # created_at: "Date of import"
+        # cvi_number: "Cvi number"
+        # extraction_date: "Extraction date"
+        # farm_name: "Wine estate"
+        # total_area: "Total area"
       delay: #?
         active: "صالحة للاستخدام" #?
         sale_natures: "نوع البيع" #?
@@ -913,6 +921,7 @@ arb:
       custom_field: "الحقول التكميلية"
       custom_field_choice: "اختيار الحقل التكميلي"
       custom_field_datum: "بيانات الملف التكميلية" #?
+      # cvi_statement: "Cvi statement"
       dashboard: "لوحة القيادة"
       debt_transfer: "نقل الديون"
       delay: "التأجيل" #?
@@ -2610,6 +2619,7 @@ arb:
     tool_id: "اداة" #?
     tools: "الادوات"
     tools_list: "معدات" #?
+    # total_area: "Total area"
     total_cost: "التكلفة الإجمالية"
     total_doer_cost: "مجموع تكلفة د"
     total_input_cost: "إجمالي تكلفة المدخلات"

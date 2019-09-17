@@ -15,6 +15,14 @@ por:
         born_at: "Construído no"
       cashes:
         main_account: "Conta principal"
+      cvi_statement:
+        # cadastral_plant_count: "Cadastral plant count"
+        # cadastral_sub_plant_count: "Cadastral sub plant count"
+        # created_at: "Date of import"
+        # cvi_number: "Cvi number"
+        # extraction_date: "Extraction date"
+        # farm_name: "Wine estate"
+        # total_area: "Total area"
       document:
         filename: "Arquivo"
       document_template:
@@ -314,6 +322,7 @@ por:
       cultivable_zone: "Zona cultivável"
       custom_field: "Campo customizado"
       custom_field_choice: "Escolha campo personalizado"
+      # cvi_statement: "Cvi statement"
       dashboard: "Painel de instrumentos"
       debt_transfer: "Transferência de dívida"
       delivery: "Entrega"
@@ -1647,6 +1656,7 @@ por:
     token: "Símbolo"
     tool: "Ferramenta"
     tools: "Ferramentas"
+    # total_area: "Total area"
     total_cost: "Custo total"
     total_doer_cost: "Custo total do vendedor"
     total_input_cost: "Custo de entrada total"
