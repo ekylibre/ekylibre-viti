@@ -15,6 +15,17 @@ jpn:
         born_at: "で構築されました"
       cashes:
         main_account: "メインアカウント"
+      cvi_cadastral_plant:
+        # area: "area"
+        # cadastral_reference: "Cadastral reference"
+        # commune: "Commune"
+        # grape_variety: "Grape variety"
+        # inter_row_distance: "Inter row distance"
+        # inter_vine_plant_distance: "Inter vine plant distance"
+        # locality: "locality"
+        # product: "Product"
+        # rootstock: "Roostock"
+        # state: "State"
       cvi_statement:
         # cadastral_plant_count: "Cadastral plant count"
         # cadastral_sub_plant_count: "Cadastral sub plant count"
@@ -322,7 +333,8 @@ jpn:
       cultivable_zone: "耕作地帯"
       custom_field: "カスタムフィールド"
       custom_field_choice: "カスタムフィールドの選択"
-      # cvi_statement: "Cvi statement"
+      # cvi_cadastral_plant: "CVI cadastral plant"
+      # cvi_statement: "CVI statement"
       dashboard: "ダッシュボード"
       debt_transfer: "債務転送"
       delivery: "配信"

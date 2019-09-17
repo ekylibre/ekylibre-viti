@@ -93,6 +93,17 @@ arb:
         entity_id: "ملف" #?
         string_value: "قيمة النص" #?
         updater_id: "تحديث" #?
+      cvi_cadastral_plant:
+        # area: "area"
+        # cadastral_reference: "Cadastral reference"
+        # commune: "Commune"
+        # grape_variety: "Grape variety"
+        # inter_row_distance: "Inter row distance"
+        # inter_vine_plant_distance: "Inter vine plant distance"
+        # locality: "locality"
+        # product: "Product"
+        # rootstock: "Roostock"
+        # state: "State"
       cvi_statement:
         # cadastral_plant_count: "Cadastral plant count"
         # cadastral_sub_plant_count: "Cadastral sub plant count"
@@ -921,7 +932,8 @@ arb:
       custom_field: "الحقول التكميلية"
       custom_field_choice: "اختيار الحقل التكميلي"
       custom_field_datum: "بيانات الملف التكميلية" #?
-      # cvi_statement: "Cvi statement"
+      # cvi_cadastral_plant: "CVI cadastral plant"
+      # cvi_statement: "CVI statement"
       dashboard: "لوحة القيادة"
       debt_transfer: "نقل الديون"
       delay: "التأجيل" #?

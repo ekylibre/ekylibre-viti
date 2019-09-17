@@ -89,6 +89,17 @@ fra:
         variety: "Type" #?
       cashes:
         main_account: "Compte principal"
+      cvi_cadastral_plant:
+        area: "Superficie déclarée"
+        cadastral_reference: "Ref. cadastrale"
+        commune: "Commune"
+        grape_variety: "Cépage"
+        inter_row_distance: "Inter rang"
+        inter_vine_plant_distance: "Inter pied"
+        locality: "Lieu-dit"
+        product: "Produit"
+        rootstock: "Porte-greffe"
+        state: "Etat"
       cvi_statement:
         cadastral_plant_count: "Nombre de cultures cadastrales"
         cadastral_sub_plant_count: "Nombre de sous-cultures cadastrales"
@@ -558,6 +569,7 @@ fra:
       cultivable_zone: "Zone cultivable"
       custom_field: "Champ complémentaire"
       custom_field_choice: "Choix de champ complémentaire"
+      # cvi_cadastral_plant: "CVI cadastral plant"
       cvi_statement: "Casier Viticole Informatisé"
       dashboard: "Tableau de bord"
       debt_transfer: "Transfert de dettes"

@@ -15,6 +15,17 @@ eng:
         born_at: "Built at"
       cashes:
         main_account: "Main account"
+      cvi_cadastral_plant:
+        area: "area"
+        cadastral_reference: "Cadastral reference"
+        commune: "Commune"
+        grape_variety: "Grape variety"
+        inter_row_distance: "Inter row distance"
+        inter_vine_plant_distance: "Inter vine plant distance"
+        locality: "locality"
+        product: "Product"
+        rootstock: "Roostock"
+        state: "State"
       cvi_statement:
         cadastral_plant_count: "Cadastral plant count"
         cadastral_sub_plant_count: "Cadastral sub plant count"
@@ -318,7 +329,8 @@ eng:
       cultivable_zone: "Cultivable zone"
       custom_field: "Custom field"
       custom_field_choice: "Custom field choice"
-      cvi_statement: "Cvi statement"
+      cvi_cadastral_plant: "CVI cadastral plant"
+      cvi_statement: "CVI statement"
       dashboard: "Dashboard"
       debt_transfer: "Debt transfer"
       delivery: "Delivery"
@@ -570,7 +582,7 @@ eng:
     archive_file_size: "Archive file size"
     archive_updated_at: "Archive updated at"
     archiving: "Archiving"
-    area: "Area" #?
+    area: "Area"
     arguments: "Arguments"
     assembly: "Assembly"
     asset_account: "Asset account"
@@ -623,6 +635,7 @@ eng:
     cached_payment_count: "Cached payment count"
     # cached_total_sum: "Cached total sum"
     # cadastral_plant_count: "Cadastral plant count"
+    # cadastral_reference: "Cadastral reference"
     # cadastral_sub_plant_count: "Cadastral sub plant count"
     calibrations: "Calibrations"
     # calls: "Calls"
@@ -699,6 +712,7 @@ eng:
     commission_base_amount: "Base amount of the commission"
     commission_percentage: "Commission percentage"
     commissioned_incoming_payment_modes: "Commissioned incoming payment modes"
+    # commune: "Commune"
     company_creation_date: "Company creation date" #?
     company_name: "Company name" #?
     # complete_name: "Complete name"
@@ -769,7 +783,9 @@ eng:
     custom_fields: "Custom fields"
     custom_fields_columns: "Custom fields columns"
     customized_type: "Customized type"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
     # cvi_number: "Cvi number"
+    # cvi_statement: "Cvi statement"
     daily_charges: "Daily charges" #?
     daily_nitrogen_production: "Daily nitrogen production"
     dashboards: "Dashboards"
@@ -989,6 +1005,7 @@ eng:
     grading_sizes_unit_name: "Grading sizes unit name"
     gradings: "Gradings" #?
     grains_yield: "Grains Yield"
+    # grape_variety: "Grape variety"
     gravity: "Gravity"
     # grid_name: "Grid name"
     gross_items_count: "Gross items count" #?
@@ -1075,6 +1092,8 @@ eng:
     insurance_repayment_method: "Insurance repayment method"
     integer_value: "Integer value"
     integration_name: "Integration name"
+    # inter_row_distance: "Inter row distance"
+    # inter_vine_plant_distance: "Inter vine plant distance"
     # interest_account: "Interest account"
     interest_amount: "Interest amount"
     interest_percentage: "Interest percentage"
@@ -1186,6 +1205,7 @@ eng:
     local_count: "Local count"
     local_credit: "Local credit"
     local_debit: "Local debit"
+    # locality: "Locality"
     localizations: "Localizations"
     lock_version: "Version"
     locked: "Locked"
@@ -1594,6 +1614,7 @@ eng:
     root_model_name: "Root model name"
     root_node: "Root node"
     root_parameters: "Root parameters"
+    # rootstock: "Rootstock"
     rows_count_value: "Rows count"
     sale: "Sale"
     sale_credit: "Sale credit"
