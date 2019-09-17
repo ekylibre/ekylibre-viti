@@ -1,0 +1,45 @@
+- main_toolbar do |t|
+  = t.edit resource
+
+= janus do |j|
+  - j.face :list do
+    = cobbles do |c|
+      - c.cobble :general_informations do
+        = infos do
+          - unless resource.cvi_number.blank?
+            .med-info
+              %span.title= CviStatement.human_attribute_name(:cvi_number)
+              %span.value= resource.cvi_number
+            .med-info
+              %span.title= CviStatement.human_attribute_name(:extraction_date)
+              %span.value= resource.extraction_date.to_date(:default)
+            .med-info
+              %span.title= CviStatement.human_attribute_name(:imported_at)
+              %span.value= resource.created_at.to_date(:default)
+
+          - unless resource.siret_number.blank?
+            .med-info
+              %span.title= CviStatement.human_attribute_name(:siret_number)
+              %span.value= resource.siret_number
+          - unless resource.declarant.blank?
+            .med-info
+              %span.title= CviStatement.human_attribute_name(:declarant)
+              %span.value= resource.declarant
+          - unless resource.farm_name.blank?
+            .med-info
+              %span.title= CviStatement.human_attribute_name(:farm_name)
+              %span.value= resource.farm_name
+          
+            .med-info
+              %span.title= CviStatement.human_attribute_name(:cadastral_plant_count)
+              %span.value= resource.cadastral_plant_count
+            .med-info
+              %span.title= CviStatement.human_attribute_name(:cadastral_sub_plant_count)
+              %span.value= resource.cadastral_sub_plant_count
+            .med-info
+              %span.title= CviStatement.human_attribute_name(:total_area)
+              %span.value= resource.total_area_formated
+
+      
+
+ 

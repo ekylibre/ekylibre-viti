@@ -409,6 +409,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :cvi_statements, concerns: %i[list]
+
     resources :deliveries, concerns: %i[list unroll] do
       member do
         get :list_parcels

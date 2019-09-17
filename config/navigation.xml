@@ -1158,6 +1158,10 @@
         <page to="backend/cap_land_parcels#show"/>
         <page to="backend/cap_land_parcels#update"/>
       </item>
+      <item name="cvi_statements">
+        <page to="backend/cvi_statements#index"/>
+        <page to="backend/cvi_statements#show"/>
+      </item>
     </group>
     <group name="exchange">
       <item name="listings">
