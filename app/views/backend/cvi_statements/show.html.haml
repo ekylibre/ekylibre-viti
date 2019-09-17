@@ -12,10 +12,10 @@
               %span.value= resource.cvi_number
             .med-info
               %span.title= CviStatement.human_attribute_name(:extraction_date)
-              %span.value= resource.extraction_date.to_date(:default)
+              %span.value= resource.extraction_date.to_formatted_s(:default) 
             .med-info
               %span.title= CviStatement.human_attribute_name(:imported_at)
-              %span.value= resource.created_at.to_date(:default)
+              %span.value= resource.created_at.to_date.to_formatted_s(:default) 
 
           - unless resource.siret_number.blank?
             .med-info

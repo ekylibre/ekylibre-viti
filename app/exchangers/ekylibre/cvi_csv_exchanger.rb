@@ -54,7 +54,7 @@ module Ekylibre
         convert_types(row)
         calculate_total_area(row)
         convert_states(row)
-        import_cvi_statements(row)
+        import_cvi_statement(row)
         w.check_point
       end
 
