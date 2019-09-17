@@ -6,18 +6,18 @@ HEADER_CONVERSION = {
   'N° SIRET' => :siret_number,
   'Nom Exploitation' => :farm_name,
   'Nom Gestionnaire' => :declarant,
-  'Commune' => :municipality,
+  'Commune' => :commune,
   'Lieu-dit' => :locality,
   'Code INSEE' => :insee_code,
   'feuille' => :sheet,
   'numéro' => :plot_number,
   'Sous Parcelle' => :sub_plot_number,
-  'Produit Vin' => :wine_product,
+  'Produit Vin' => :product,
   'Cepage' => :grape_variety,
   'superficie (ha)' => :ha_area,
   'superficie  (ar)' => :ar_area,
   'superficie  (ca)' => :ca_area,
-  'Campagne de plantation' => :plant_campaign,
+  'Campagne de plantation' => :campaign,
   'Porte-greffe_Code_Douane' => :rootstock,
   'Ecart pied (cm)' => :inter_vine_plant_distance,
   'Ecart rang (cm)' => :inter_row_distance,
@@ -32,8 +32,7 @@ STATES = {
 }.freeze
 
 CVI_STATEMENT_KEYS = %i[cvi_number extraction_date siret_number farm_name declarant state total_area].freeze
-PLOT_KEYS = %i[cvi_number sheet total_area plot_number plant_campaign rootstock inter_row_distance inter_vine_plant_distance].freeze
-SUB_PLOT_KEYS = %i[cvi_number sheet total_area plot_number sub_plot_number plant_campaign rootstock inter_row_distance inter_vine_plant_distance].freeze
+CVI_CADASTRAL_PLANT_KEYS = %i[commune locality area product grape_variety cadastral_reference campaign rootstock inter_row_distance inter_vine_plant_distance state].freeze
 
 module Ekylibre
   class CviCsvExchanger < ActiveExchanger::Base
@@ -48,33 +47,39 @@ module Ekylibre
 
     def import
       cvi_list ||= []
-      w.count = (CSV.read(file).count) - 1 
-      
+      w.count = CSV.read(file).count - 1
+
       CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise "Unknown column name #{h}") }) do |row|
         convert_types(row)
         calculate_total_area(row)
+        concat_cadastral_reference(row)
         convert_states(row)
-        import_cvi_statement(row)
+        import_cvi_statements(row)
+        import_cvi_cadastral_plants(row)
         w.check_point
       end
-
-      # plot_list =  cvi_list.map{|cvi_statement| cvi_statement.select { |key,_| PLOT_KEYS.include? key }}
-      #                      .uniq! {|e| e[:sheet] + e[:plot_number] }
-
     end
 
     private
 
-    def import_cvi_statement(row)
+    def import_cvi_cadastral_plants(row)
+      cvi_statement = CviStatement.find_by(cvi_number: row[:cvi_number])
+      CviCadastralPlant.create(
+        row.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }.merge(cvi_statement_id: cvi_statement.id)
+      )
+    end
+
+    def import_cvi_statements(row)
       cvi_statement = CviStatement.find_by(cvi_number: row[:cvi_number])
       if cvi_statement
+        total_area = cvi_statement.total_area + row[:area]
         cadastral_sub_plant_count = cvi_statement.cadastral_sub_plant_count + 1
         cadastral_plant_count = if !row[:sub_plot_number] || row[:sub_plot_number] == '1'
                                   cvi_statement.cadastral_plant_count + 1
                                 else
                                   cvi_statement.cadastral_plant_count
                                 end
-        cvi_statement.update(cadastral_sub_plant_count: cadastral_sub_plant_count, cadastral_plant_count: cadastral_plant_count)
+        cvi_statement.update(cadastral_sub_plant_count: cadastral_sub_plant_count, cadastral_plant_count: cadastral_plant_count, total_area: total_area)
       else
         CviStatement.create(
           row.to_h.select { |key, _| CVI_STATEMENT_KEYS.include? key }.merge(cadastral_sub_plant_count: 1, cadastral_plant_count: 1)
@@ -107,9 +112,18 @@ module Ekylibre
       row[:state] = STATES[row[:state]]
     end
 
+    def concat_cadastral_reference(row)
+      row << if row[:sub_plot_number]
+               [:cadastral_reference, "#{row[:plot_number].rjust(4, '0')}-#{row[:sub_plot_number]}"]
+             else
+               [:cadastral_reference, row[:plot_number].rjust(4, '0')]
+             end
+    end
+
     def calculate_total_area(row)
       total_area = row[:ha_area] + 0.01 * row[:ar_area] + 0.0001 * row[:ca_area]
       row << [:total_area, total_area]
+      row << [:area, total_area]
       %i[ha_area ar_area ca_area].each do |header|
         row.delete(header)
       end
