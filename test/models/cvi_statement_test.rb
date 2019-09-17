@@ -22,6 +22,10 @@ class CviStatementTest < ActiveSupport::TestCase
     should validate_presence_of(:state)
   end
 
+  context 'associations' do
+    should have_many(:cvi_cadastral_plants)
+  end
+
   context '#total_area_formated' do
     should 'format area' do
       cvi_statement = create(:cvi_statement, total_area: 1.1456)

@@ -1846,6 +1846,43 @@ cvi_statements:
     type: integer
   cadastral_sub_plant_count:
     type: integer
+cvi_cadastral_plant:
+  commune:
+    type: string
+    required: true
+  locality:
+    type: string
+  cadastral_reference:
+    type: string
+    required: true
+  product:
+    type: string
+    required: true
+  grape_variety:
+    type: string
+    required: true
+  area:
+    type: decimal
+    required: true
+  campaign:
+    type: datetime
+    required: true
+  rootstock:
+    type: string
+    required: true
+  inter_vine_plant_distance:
+    type: decimal
+    required: true
+  inter_row_distance:
+    type: decimal
+    required: true
+  state:
+    type: string
+    required: true
+  cvi_statement_id:
+    type: integer
+    references: cvi_statement
+    required: true
 dashboards:
   created_at:
     type: datetime

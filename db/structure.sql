@@ -2017,6 +2017,48 @@ ALTER SEQUENCE public.custom_fields_id_seq OWNED BY public.custom_fields.id;
 
 
 --
+-- Name: cvi_cadastral_plants; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_cadastral_plants (
+    id integer NOT NULL,
+    commune character varying NOT NULL,
+    locality character varying,
+    cadastral_reference character varying NOT NULL,
+    product character varying NOT NULL,
+    grape_variety character varying NOT NULL,
+    area character varying NOT NULL,
+    campaign character varying NOT NULL,
+    rootstock character varying,
+    inter_vine_plant_distance integer NOT NULL,
+    inter_row_distance integer NOT NULL,
+    state character varying NOT NULL,
+    cvi_statement_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cvi_cadastral_plants_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_cadastral_plants_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_cadastral_plants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_cadastral_plants_id_seq OWNED BY public.cvi_cadastral_plants.id;
+
+
+--
 -- Name: cvi_statements; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -7570,6 +7612,13 @@ ALTER TABLE ONLY public.custom_fields ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: cvi_cadastral_plants id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants ALTER COLUMN id SET DEFAULT nextval('public.cvi_cadastral_plants_id_seq'::regclass);
+
+
+--
 -- Name: cvi_statements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -8704,6 +8753,14 @@ ALTER TABLE ONLY public.custom_field_choices
 
 ALTER TABLE ONLY public.custom_fields
     ADD CONSTRAINT custom_fields_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_cadastral_plants cvi_cadastral_plants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants
+    ADD CONSTRAINT cvi_cadastral_plants_pkey PRIMARY KEY (id);
 
 
 --
@@ -11315,6 +11372,13 @@ CREATE INDEX index_custom_fields_on_updated_at ON public.custom_fields USING btr
 --
 
 CREATE INDEX index_custom_fields_on_updater_id ON public.custom_fields USING btree (updater_id);
+
+
+--
+-- Name: index_cvi_cadastral_plants_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_cadastral_plants_on_cvi_statement_id ON public.cvi_cadastral_plants USING btree (cvi_statement_id);
 
 
 --
@@ -18028,6 +18092,14 @@ ALTER TABLE ONLY public.journal_entries
 
 
 --
+-- Name: cvi_cadastral_plants fk_rails_5a05077b24; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants
+    ADD CONSTRAINT fk_rails_5a05077b24 FOREIGN KEY (cvi_statement_id) REFERENCES public.cvi_statements(id);
+
+
+--
 -- Name: tax_declaration_item_parts fk_rails_5be0cd019c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -18968,4 +19040,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190807075910');
 INSERT INTO schema_migrations (version) VALUES ('20190808152235');
 
 INSERT INTO schema_migrations (version) VALUES ('20190912144103');
+
+INSERT INTO schema_migrations (version) VALUES ('20190917120742');
 

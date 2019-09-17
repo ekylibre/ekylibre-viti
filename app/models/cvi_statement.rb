@@ -4,6 +4,8 @@ class CviStatement < Ekylibre::Record::Base
   validates :extraction_date, :siret_number, :farm_name, :declarant, :state, presence: true
   validates :siret_number, siret_format: true
 
+  has_many :cvi_cadastral_plants, dependent: :destroy 
+
   def total_area_formated
     total_area_to_s = (total_area * 10_000).floor.to_s.rjust(6, '0')
     [
