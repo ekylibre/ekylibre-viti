@@ -2017,6 +2017,45 @@ ALTER SEQUENCE public.custom_fields_id_seq OWNED BY public.custom_fields.id;
 
 
 --
+-- Name: cvi_statements; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_statements (
+    id integer NOT NULL,
+    cvi_number character varying NOT NULL,
+    extraction_date date NOT NULL,
+    siret_number character varying NOT NULL,
+    farm_name character varying NOT NULL,
+    declarant character varying NOT NULL,
+    total_area numeric,
+    cadastral_plant_count integer DEFAULT 0,
+    cadastral_sub_plant_count integer DEFAULT 0,
+    state character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cvi_statements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_statements_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_statements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_statements_id_seq OWNED BY public.cvi_statements.id;
+
+
+--
 -- Name: dashboards; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -7531,6 +7570,13 @@ ALTER TABLE ONLY public.custom_fields ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: cvi_statements id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_statements ALTER COLUMN id SET DEFAULT nextval('public.cvi_statements_id_seq'::regclass);
+
+
+--
 -- Name: dashboards id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -8658,6 +8704,14 @@ ALTER TABLE ONLY public.custom_field_choices
 
 ALTER TABLE ONLY public.custom_fields
     ADD CONSTRAINT custom_fields_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_statements cvi_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_statements
+    ADD CONSTRAINT cvi_statements_pkey PRIMARY KEY (id);
 
 
 --
@@ -18225,7 +18279,7 @@ ALTER TABLE ONLY public.cap_neutral_areas
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO public,postgis;
+SET search_path TO "public", "postgis", "lexicon";
 
 INSERT INTO schema_migrations (version) VALUES ('20121212122000');
 
@@ -18912,4 +18966,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190710002904');
 INSERT INTO schema_migrations (version) VALUES ('20190807075910');
 
 INSERT INTO schema_migrations (version) VALUES ('20190808152235');
+
+INSERT INTO schema_migrations (version) VALUES ('20190912144103');
 

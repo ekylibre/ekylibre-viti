@@ -1812,6 +1812,40 @@ custom_fields:
   updater_id:
     type: integer
     references: user
+cvi_statements:
+  created_at:
+    type: datetime
+    required: true
+  cvi_number:
+    type: string
+    required: true
+  extraction_date:
+    type: date
+    required: true
+  farm_name:
+    type: string
+    required: true
+  id:
+    type: integer
+    required: true
+  declarant:
+    type: string
+    required: true
+  siret_number:
+    type: string
+    required: true
+  updated_at:
+    type: datetime
+    required: true
+  total_area:
+    type: decimal
+  state:
+    type: string
+    required: true
+  cadastral_plant_count:
+    type: integer
+  cadastral_sub_plant_count:
+    type: integer
 dashboards:
   created_at:
     type: datetime
@@ -3032,6 +3066,8 @@ imports:
   nature:
     type: string
     required: true
+  options:
+    type: jsonb
   progression_percentage:
     type: decimal
     precision: 19
@@ -3761,6 +3797,9 @@ inventories:
     type: string
   custom_fields:
     type: jsonb
+  disable_accountancy:
+    type: boolean
+    default: false
   financial_year_id:
     type: integer
     references: financial_year
@@ -5296,6 +5335,8 @@ parcel_items:
   analysis_id:
     type: integer
     references: analysis
+  annotation:
+    type: text
   created_at:
     type: datetime
     required: true
