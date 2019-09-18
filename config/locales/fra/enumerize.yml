@@ -117,6 +117,14 @@ fra:
         datetime: "Date et heure"
         decimal: "Chiffre (décimal)"
         text: "Texte"
+    cvi_cadastral_plant:
+      state:
+        planted: "En production"
+        removed_with_authorization: "Arraché"
+    cvi_statement:
+      state:
+        converted: "Parcellaire converti"
+        to_convert: "Parcellaire à convertir"
     debt_transfer:
       nature:
         purchase_regularization: "Régularisation d'achat"

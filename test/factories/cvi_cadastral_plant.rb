@@ -10,7 +10,7 @@ FactoryBot.define do
     rootstock { Faker::Lorem.sentence }
     inter_vine_plant_distance { Faker::Number.number(digits: 3) }
     inter_row_distance { Faker::Number.number(digits: 3) }
-    state { ['planted, removed with autorization'].sample }
+    state { [:planted, :removed_with_authorization].sample }
     cvi_statement
   end
 end

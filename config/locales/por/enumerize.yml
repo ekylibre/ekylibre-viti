@@ -115,6 +115,14 @@ por:
         datetime: "Data e Hora"
         decimal: "Decimal"
         text: "Texto"
+    cvi_cadastral_plant:
+      state:
+        # planted: "Planted"
+        # removed_with_authorization: "Removed with authorization"
+    cvi_statement:
+      state:
+        # converted: "Converted"
+        # to_convert: "To convert"
     debt_transfer:
       nature:
         purchase_regularization: "Regularização de compra"

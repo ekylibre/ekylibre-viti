@@ -43,7 +43,7 @@ require 'test_helper'
 class CviCadastralPlantTest < ActiveSupport::TestCase
   should 'be creatable' do
     cvi_cadastral_plant = create(:cvi_cadastral_plant)
-    first_cvi_cadastral_plant = CviCadastralPlant.first
+    first_cvi_cadastral_plant = CviCadastralPlant.last
     assert_equal cvi_cadastral_plant, first_cvi_cadastral_plant
   end
 
@@ -62,4 +62,6 @@ class CviCadastralPlantTest < ActiveSupport::TestCase
   context 'associations' do
     should belong_to(:cvi_statement)
   end
+
+  should enumerize(:state).in(:planted, :removed_with_authorization).with_predicates(true)
 end

@@ -8,6 +8,6 @@ FactoryBot.define do
     total_area { Faker::Number.decimal(l_digits: 2) }
     cadastral_plant_count { Faker::Number.number(digits: 2) }
     cadastral_sub_plant_count { Faker::Number.number(digits: 2) }
-    state { ['planted, removed with autorization'].sample }
+    state { [:to_convert, :converted].sample.to_sym }
   end
 end

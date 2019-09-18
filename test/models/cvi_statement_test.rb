@@ -38,7 +38,7 @@
 require 'test_helper'
 
 class CviStatementTest < ActiveSupport::TestCase
-  should 'be creatable' do
+  should 'be creatable' d
     cvi_statement = create(:cvi_statement)
     first_cvi_statement = CviStatement.first
     assert_equal cvi_statement, first_cvi_statement
@@ -58,10 +58,12 @@ class CviStatementTest < ActiveSupport::TestCase
     should validate_presence_of(:declarant)
     should validate_presence_of(:state)
   end
-
+  
   context 'associations' do
     should have_many(:cvi_cadastral_plants)
   end
+
+  should enumerize(:state).in(:to_convert, :converted).with_default(:to_convert).with_predicates(true)
 
   context '#total_area_formated' do
     should 'format area' do

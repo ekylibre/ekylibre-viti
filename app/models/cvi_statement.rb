@@ -37,6 +37,8 @@
 #
 
 class CviStatement < Ekylibre::Record::Base
+  enumerize :state, in: %i[to_convert converted], default: :to_convert,  predicates: true
+
   validates :extraction_date, :siret_number, :farm_name, :declarant, :state, presence: true
   validates :siret_number, siret_format: true
 

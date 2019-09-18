@@ -111,6 +111,7 @@ arb:
         # cvi_number: "Cvi number"
         # extraction_date: "Extraction date"
         # farm_name: "Wine estate"
+        # state: "State"
         # total_area: "Total area"
       delay: #?
         active: "صالحة للاستخدام" #?

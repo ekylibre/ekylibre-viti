@@ -107,6 +107,7 @@ fra:
         cvi_number: "N° de CVI"
         extraction_date: "Date d'extraction"
         farm_name: "Nom du domaine"
+        state: "Status"
         total_area: "Superficie encépagée déclarée"
       document:
         filename: "Fichier"

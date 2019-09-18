@@ -38,7 +38,9 @@
 #  state                     :string           not null
 #  updated_at                :datetime         not null
 #
-class CviCadastralPlant < ActiveRecord::Base
+class CviCadastralPlant < Ekylibre::Record::Base
+  enumerize :state, in: %i[planted removed_with_authorization],  predicates: true
+
   belongs_to :cvi_statement
 
   validates :commune, :cadastral_reference, :product, :grape_variety, :area, :campaign,:inter_vine_plant_distance, :inter_row_distance, :state, presence: true

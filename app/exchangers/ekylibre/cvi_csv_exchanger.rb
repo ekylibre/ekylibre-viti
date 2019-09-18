@@ -27,11 +27,11 @@ HEADER_CONVERSION = {
 }.freeze
 
 STATES = {
-  'PLANTÉES' => 'planted',
-  'Arrachées avec autorisation' => 'removed with authorization'
+  'PLANTÉES' => :planted,
+  'Arrachées avec autorisation' => :removed_with_authorization
 }.freeze
 
-CVI_STATEMENT_KEYS = %i[cvi_number extraction_date siret_number farm_name declarant state total_area].freeze
+CVI_STATEMENT_KEYS = %i[cvi_number extraction_date siret_number farm_name declarant total_area].freeze
 CVI_CADASTRAL_PLANT_KEYS = %i[commune locality area product grape_variety cadastral_reference campaign rootstock inter_row_distance inter_vine_plant_distance state].freeze
 
 module Ekylibre
