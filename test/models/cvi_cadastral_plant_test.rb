@@ -30,6 +30,7 @@
 #  cvi_statement_id          :integer
 #  grape_variety             :string           not null
 #  id                        :integer          not null, primary key
+#  insee_number              :string           not null
 #  inter_row_distance        :integer          not null
 #  inter_vine_plant_distance :integer          not null
 #  locality                  :string
@@ -57,6 +58,7 @@ class CviCadastralPlantTest < ActiveSupport::TestCase
     should validate_presence_of(:inter_vine_plant_distance)
     should validate_presence_of(:inter_row_distance)
     should validate_presence_of(:state)
+    should validate_presence_of(:insee_number)
   end
 
   context 'associations' do

@@ -1080,6 +1080,7 @@ eng:
     initiated_on: "Initiated on"
     inputs: "Inputs"
     # inputs_cost: "Inputs cost"
+    insee_number: "Insee number"
     inspection: "Inspection"
     inspection_calibration_natures: "Inspection calibration types"
     inspection_calibration_scales: "Inspection calibration scales"

@@ -1361,6 +1361,7 @@ fra:
     initiated_on: "Lancé le"
     inputs: "Intrants"
     inputs_cost: "Coût des intrants" #?
+    # insee_number: "Insee number"
     inspection: "Agréage"
     inspection_calibration_natures: "Natures d’étalonnage d’inspection"
     inspection_calibration_scales: "Échelles d’étalonnage d’inspection"

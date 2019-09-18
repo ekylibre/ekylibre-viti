@@ -2024,6 +2024,7 @@ CREATE TABLE public.cvi_cadastral_plants (
     id integer NOT NULL,
     commune character varying NOT NULL,
     locality character varying,
+    insee_number character varying NOT NULL,
     cadastral_reference character varying NOT NULL,
     product character varying NOT NULL,
     grape_variety character varying NOT NULL,

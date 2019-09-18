@@ -30,6 +30,7 @@
 #  cvi_statement_id          :integer
 #  grape_variety             :string           not null
 #  id                        :integer          not null, primary key
+#  insee_number              :string           not null
 #  inter_row_distance        :integer          not null
 #  inter_vine_plant_distance :integer          not null
 #  locality                  :string
@@ -43,5 +44,5 @@ class CviCadastralPlant < Ekylibre::Record::Base
 
   belongs_to :cvi_statement
 
-  validates :commune, :cadastral_reference, :product, :grape_variety, :area, :campaign,:inter_vine_plant_distance, :inter_row_distance, :state, presence: true
+  validates :commune, :cadastral_reference, :insee_number, :product, :grape_variety, :area, :campaign,:inter_vine_plant_distance, :inter_row_distance, :state, presence: true
 end

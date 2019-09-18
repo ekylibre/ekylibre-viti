@@ -1027,6 +1027,7 @@ cmn:
     initialization_vectors: "初始化向量"
     initiated_on: "启动了"
     inputs: "输入"
+    # insee_number: "Insee number"
     inspection: "检查"
     inspection_calibration_natures: "检查校准性质"
     inspection_calibration_scales: "检验校准的秤"

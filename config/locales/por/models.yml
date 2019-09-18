@@ -1027,6 +1027,7 @@ por:
     initialization_vectors: "Vetores de inicialização"
     initiated_on: "Iniciado em"
     inputs: "Entradas"
+    # insee_number: "Insee number"
     inspection: "Inspeção"
     inspection_calibration_natures: "Naturezas calibração inspecção"
     inspection_calibration_scales: "Escalas de calibração de inspeção"

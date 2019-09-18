@@ -8,7 +8,7 @@ HEADER_CONVERSION = {
   'Nom Gestionnaire' => :declarant,
   'Commune' => :commune,
   'Lieu-dit' => :locality,
-  'Code INSEE' => :insee_code,
+  'Code INSEE' => :insee_number,
   'feuille' => :sheet,
   'numéro' => :plot_number,
   'Sous Parcelle' => :sub_plot_number,
@@ -32,7 +32,7 @@ STATES = {
 }.freeze
 
 CVI_STATEMENT_KEYS = %i[cvi_number extraction_date siret_number farm_name declarant total_area].freeze
-CVI_CADASTRAL_PLANT_KEYS = %i[commune locality area product grape_variety cadastral_reference campaign rootstock inter_row_distance inter_vine_plant_distance state].freeze
+CVI_CADASTRAL_PLANT_KEYS = %i[commune locality insee_number area product grape_variety cadastral_reference campaign rootstock inter_row_distance inter_vine_plant_distance state].freeze
 
 module Ekylibre
   class CviCsvExchanger < ActiveExchanger::Base

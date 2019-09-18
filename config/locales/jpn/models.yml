@@ -1027,6 +1027,7 @@ jpn:
     initialization_vectors: "初期化ベクトル"
     initiated_on: "で開始"
     inputs: "入力"
+    # insee_number: "Insee number"
     inspection: "検査"
     inspection_calibration_natures: "検査校正性質"
     inspection_calibration_scales: "検査校正スケール"

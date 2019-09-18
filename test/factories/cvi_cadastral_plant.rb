@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :cvi_cadastral_plant do
     commune { Faker::Address.city }
     locality { Faker::Address.city }
+    insee_number { Faker::Number.number(digits: 6) }
     cadastral_reference { Faker::Number.number(digits: 4) }
     product { Faker::Beer.name }
     grape_variety { Faker::Beer.style }

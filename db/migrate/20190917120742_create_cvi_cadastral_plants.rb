@@ -3,6 +3,7 @@ class CreateCviCadastralPlants < ActiveRecord::Migration
     create_table :cvi_cadastral_plants do |t|
       t.string :commune, null: false
       t.string :locality
+      t.string :insee_number, null: false
       t.string :cadastral_reference, null: false
       t.string :product, null: false
       t.string :grape_variety, null: false

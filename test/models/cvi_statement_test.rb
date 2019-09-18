@@ -58,7 +58,7 @@ class CviStatementTest < ActiveSupport::TestCase
     should validate_presence_of(:declarant)
     should validate_presence_of(:state)
   end
-  
+
   context 'associations' do
     should have_many(:cvi_cadastral_plants)
   end

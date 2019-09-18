@@ -1031,6 +1031,7 @@ spa:
     initialization_vectors: "Vectores de inicialización"
     initiated_on: "Iniciado el"
     inputs: "Entradas"
+    # insee_number: "Insee number"
     inspection: "Inspección"
     inspection_calibration_natures: "Naturalezas de calibración de Inspección"
     inspection_calibration_scales: "Escalas de calibración de Inspección"

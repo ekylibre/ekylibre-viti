@@ -1837,6 +1837,9 @@ cvi_cadastral_plants:
   id:
     type: integer
     required: true
+  insee_number:
+    type: string
+    required: true
   inter_row_distance:
     type: integer
     required: true
