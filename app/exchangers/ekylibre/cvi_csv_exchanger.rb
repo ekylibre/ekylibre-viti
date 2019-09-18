@@ -46,7 +46,6 @@ module Ekylibre
     end
 
     def import
-      cvi_list ||= []
       w.count = CSV.read(file).count - 1
 
       CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise "Unknown column name #{h}") }) do |row|
@@ -85,17 +84,6 @@ module Ekylibre
           row.to_h.select { |key, _| CVI_STATEMENT_KEYS.include? key }.merge(cadastral_sub_plant_count: 1, cadastral_plant_count: 1)
         )
       end
-    end
-
-    def csv_to_array_of_hash(file)
-      cvi_list ||= []
-      CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise "Unknown column name #{h}") }) do |row|
-        convert_types(row)
-        calculate_total_area(row)
-        convert_states(row)
-        cvi_list << row.to_h
-      end
-      cvi_list
     end
 
     def convert_types(row)
