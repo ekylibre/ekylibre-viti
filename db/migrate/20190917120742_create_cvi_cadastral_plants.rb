@@ -1,7 +1,7 @@
 class CreateCviCadastralPlants < ActiveRecord::Migration
   def change
     create_table :cvi_cadastral_plants do |t|
-      t.string :commune, null: false 
+      t.string :commune, null: false
       t.string :locality
       t.string :cadastral_reference, null: false
       t.string :product, null: false

@@ -152,7 +152,7 @@ module Backend
     end
 
     private
-    
+
       def shipment_params
         params.require(:shipment).permit(:planned_at, :sale_id, :recipient_id, items_attributes: %i[source_product_id population])
       end

@@ -1812,11 +1812,62 @@ custom_fields:
   updater_id:
     type: integer
     references: user
+cvi_cadastral_plants:
+  area:
+    type: string
+    required: true
+  cadastral_reference:
+    type: string
+    required: true
+  campaign:
+    type: string
+    required: true
+  commune:
+    type: string
+    required: true
+  created_at:
+    type: datetime
+    required: true
+  cvi_statement_id:
+    type: integer
+    references: cvi_statement
+  grape_variety:
+    type: string
+    required: true
+  id:
+    type: integer
+    required: true
+  inter_row_distance:
+    type: integer
+    required: true
+  inter_vine_plant_distance:
+    type: integer
+    required: true
+  locality:
+    type: string
+  product:
+    type: string
+    required: true
+  rootstock:
+    type: string
+  state:
+    type: string
+    required: true
+  updated_at:
+    type: datetime
+    required: true
 cvi_statements:
+  cadastral_plant_count:
+    type: integer
+  cadastral_sub_plant_count:
+    type: integer
   created_at:
     type: datetime
     required: true
   cvi_number:
+    type: string
+    required: true
+  declarant:
     type: string
     required: true
   extraction_date:
@@ -1828,60 +1879,16 @@ cvi_statements:
   id:
     type: integer
     required: true
-  declarant:
-    type: string
-    required: true
   siret_number:
     type: string
     required: true
-  updated_at:
-    type: datetime
+  state:
+    type: string
     required: true
   total_area:
     type: decimal
-  state:
-    type: string
-    required: true
-  cadastral_plant_count:
-    type: integer
-  cadastral_sub_plant_count:
-    type: integer
-cvi_cadastral_plant:
-  commune:
-    type: string
-    required: true
-  locality:
-    type: string
-  cadastral_reference:
-    type: string
-    required: true
-  product:
-    type: string
-    required: true
-  grape_variety:
-    type: string
-    required: true
-  area:
-    type: decimal
-    required: true
-  campaign:
+  updated_at:
     type: datetime
-    required: true
-  rootstock:
-    type: string
-    required: true
-  inter_vine_plant_distance:
-    type: decimal
-    required: true
-  inter_row_distance:
-    type: decimal
-    required: true
-  state:
-    type: string
-    required: true
-  cvi_statement_id:
-    type: integer
-    references: cvi_statement
     required: true
 dashboards:
   created_at:

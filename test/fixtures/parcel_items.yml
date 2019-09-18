@@ -24,6 +24,7 @@
 #
 #  activity_budget_id            :integer
 #  analysis_id                   :integer
+#  annotation                    :text
 #  created_at                    :datetime         not null
 #  creator_id                    :integer
 #  currency                      :string

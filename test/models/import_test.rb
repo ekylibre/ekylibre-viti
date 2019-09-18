@@ -33,6 +33,7 @@
 #  importer_id            :integer
 #  lock_version           :integer          default(0), not null
 #  nature                 :string           not null
+#  options                :jsonb
 #  progression_percentage :decimal(19, 4)
 #  state                  :string           not null
 #  updated_at             :datetime         not null

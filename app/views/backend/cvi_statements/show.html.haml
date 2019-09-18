@@ -12,10 +12,10 @@
               %span.value= resource.cvi_number
             .med-info
               %span.title= CviStatement.human_attribute_name(:extraction_date)
-              %span.value= resource.extraction_date.to_formatted_s(:default) 
+              %span.value= resource.extraction_date.to_formatted_s(:default)
             .med-info
               %span.title= CviStatement.human_attribute_name(:imported_at)
-              %span.value= resource.created_at.to_date.to_formatted_s(:default) 
+              %span.value= resource.created_at.to_date.to_formatted_s(:default)
 
           - unless resource.siret_number.blank?
             .med-info
@@ -29,7 +29,7 @@
             .med-info
               %span.title= CviStatement.human_attribute_name(:farm_name)
               %span.value= resource.farm_name
-          
+
             .med-info
               %span.title= CviStatement.human_attribute_name(:cadastral_plant_count)
               %span.value= resource.cadastral_plant_count
@@ -42,6 +42,6 @@
 
               - c.cobble(:cvi_cadastral_plants) do
                 = cobble_list(:cvi_cadastral_plants)
-      
+
 
  
