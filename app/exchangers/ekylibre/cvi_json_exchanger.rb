@@ -54,13 +54,17 @@ module Ekylibre
       w.count = data.length
 
       data.each do |h_cvi_statement| 
-        convert_keys(h_cvi_statement)
-        convert_types(h_cvi_statement)
-        calculate_total_area(h_cvi_statement)
-        concat_cadastral_reference(h_cvi_statement)
-        convert_states(h_cvi_statement)
-        import_cvi_statements(h_cvi_statement)
-        import_cvi_cadastral_plants(h_cvi_statement)
+        begin  
+          convert_keys(h_cvi_statement)
+          convert_types(h_cvi_statement)
+          calculate_total_area(h_cvi_statement)
+          concat_cadastral_reference(h_cvi_statement)
+          convert_states(h_cvi_statement)
+          import_cvi_statements(h_cvi_statement)
+          import_cvi_cadastral_plants(h_cvi_statement)
+        rescue StandardError => e
+          raise e 
+        end
         w.check_point
       end
     end
@@ -73,7 +77,7 @@ module Ekylibre
 
     def import_cvi_cadastral_plants(h_cvi_statement)
       cvi_statement = CviStatement.find_by(cvi_number: h_cvi_statement[:cvi_number])
-      CviCadastralPlant.create(
+      CviCadastralPlant.create!(
         h_cvi_statement.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }.merge(cvi_statement_id: cvi_statement.id)
       )
     end
@@ -90,7 +94,7 @@ module Ekylibre
                                 end
         cvi_statement.update(cadastral_sub_plant_count: cadastral_sub_plant_count, cadastral_plant_count: cadastral_plant_count, total_area: total_area)
       else
-        CviStatement.create(
+        CviStatement.create!(
           h_cvi_statement.to_h.select { |key, _| CVI_STATEMENT_KEYS.include? key }.merge(cadastral_sub_plant_count: 1, cadastral_plant_count: 1)
         )
       end
@@ -102,7 +106,7 @@ module Ekylibre
       end
 
       %i[ha_area ar_area ca_area inter_vine_plant_distance inter_h_cvi_statement_distance].each do |key|
-        h_cvi_statement[key] = h_cvi_statement[key].to_i
+        h_cvi_statement[key] = h_cvi_statement[key].to_i if h_cvi_statement[key]
       end
     end
 
@@ -111,10 +115,10 @@ module Ekylibre
     end
 
     def concat_cadastral_reference(h_cvi_statement)
-      h_cvi_statement[:cadastral_reference] = unless h_cvi_statement[:sub_plot_number].to_s.empty?
-              "#{h_cvi_statement[:plot_number].to_s.rjust(4, '0')}-#{h_cvi_statement[:sub_plot_number]}"
+      h_cvi_statement[:cadastral_reference] = if h_cvi_statement[:sub_plot_number].to_s.empty?
+                h_cvi_statement[:plot_number].to_s.rjust(4, '0')
              else
-               h_cvi_statement[:plot_number].to_s.rjust(4, '0')
+               "#{h_cvi_statement[:plot_number].to_s.rjust(4, '0')}-#{h_cvi_statement[:sub_plot_number]}"
              end
     end
 

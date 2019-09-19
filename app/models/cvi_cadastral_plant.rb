@@ -39,7 +39,7 @@
 #  state                     :string           not null
 #  updated_at                :datetime         not null
 #
-class CviCadastralPlant < Ekylibre::Record::Base
+class CviCadastralPlant < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
   enumerize :state, in: %i[planted removed_with_authorization],  predicates: true
 
   belongs_to :cvi_statement

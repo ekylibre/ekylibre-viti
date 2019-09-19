@@ -49,12 +49,16 @@ module Ekylibre
       w.count = CSV.read(file).count - 1
 
       CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise "Unknown column name #{h}") }) do |row|
-        convert_types(row)
-        calculate_total_area(row)
-        concat_cadastral_reference(row)
-        convert_states(row)
-        import_cvi_statements(row)
-        import_cvi_cadastral_plants(row)
+        begin
+          convert_types(row)
+          calculate_total_area(row)
+          concat_cadastral_reference(row)
+          convert_states(row)
+          import_cvi_statements(row)
+          import_cvi_cadastral_plants(row)
+        rescue StandardError => e
+          raise e 
+        end
         w.check_point
       end
     end
@@ -63,7 +67,7 @@ module Ekylibre
 
     def import_cvi_cadastral_plants(row)
       cvi_statement = CviStatement.find_by(cvi_number: row[:cvi_number])
-      CviCadastralPlant.create(
+      CviCadastralPlant.create!(
         row.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }.merge(cvi_statement_id: cvi_statement.id)
       )
     end
@@ -80,7 +84,7 @@ module Ekylibre
                                 end
         cvi_statement.update(cadastral_sub_plant_count: cadastral_sub_plant_count, cadastral_plant_count: cadastral_plant_count, total_area: total_area)
       else
-        CviStatement.create(
+        CviStatement.create!(
           row.to_h.select { |key, _| CVI_STATEMENT_KEYS.include? key }.merge(cadastral_sub_plant_count: 1, cadastral_plant_count: 1)
         )
       end
@@ -92,7 +96,7 @@ module Ekylibre
       end
 
       %i[ha_area ar_area ca_area inter_vine_plant_distance inter_row_distance].each do |header|
-        row[header] = row[header].to_i
+        row[header] = row[header].to_i if row[header]
       end
     end
 

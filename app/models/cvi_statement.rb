@@ -44,6 +44,7 @@ class CviStatement < Ekylibre::Record::Base
 
   has_many :cvi_cadastral_plants, dependent: :destroy
 
+  # format area: 1,0056 ha => 01ha 56ca,  1,3456 ha => 01ha 34ar 56ca 
   def total_area_formated
     total_area_to_s = (total_area * 10_000).floor.to_s.rjust(6, '0')
     [
