@@ -37,7 +37,7 @@
 #
 require 'test_helper'
 
-class CviStatementTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
+class CviStatementTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   should 'be creatable' do
     cvi_statement = create(:cvi_statement)
     first_cvi_statement = CviStatement.first

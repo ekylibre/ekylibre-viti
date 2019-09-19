@@ -41,7 +41,7 @@
 #
 require 'test_helper'
 
-class CviCadastralPlantTest < ActiveSupport::TestCase
+class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   should 'be creatable' do
     cvi_cadastral_plant = create(:cvi_cadastral_plant)
     first_cvi_cadastral_plant = CviCadastralPlant.last
