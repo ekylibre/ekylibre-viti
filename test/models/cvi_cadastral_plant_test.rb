@@ -23,21 +23,26 @@
 # == Table: cvi_cadastral_plants
 #
 #  area                      :string           not null
-#  cadastral_reference       :string           not null
 #  campaign                  :string           not null
 #  commune                   :string           not null
 #  created_at                :datetime         not null
 #  cvi_statement_id          :integer
+#  designation_of_origin_id  :string
 #  grape_variety             :string           not null
 #  id                        :integer          not null, primary key
 #  insee_number              :string           not null
 #  inter_row_distance        :integer          not null
 #  inter_vine_plant_distance :integer          not null
+#  land_parcel_id            :string
+#  land_parcel_number        :string
 #  locality                  :string
 #  product                   :string           not null
 #  rootstock                 :string
+#  section                   :string           not null
 #  state                     :string           not null
 #  updated_at                :datetime         not null
+#  vine_variety_id           :string
+#  work_number               :string           not null
 #
 require 'test_helper'
 
@@ -50,7 +55,8 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
 
   context 'validations' do
     should validate_presence_of(:commune)
-    should validate_presence_of(:cadastral_reference)
+    should validate_presence_of(:section)
+    should validate_presence_of(:work_number)
     should validate_presence_of(:product)
     should validate_presence_of(:grape_variety)
     should validate_presence_of(:area)
@@ -63,6 +69,9 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
 
   context 'associations' do
     should belong_to(:cvi_statement)
+    should belong_to(:land_parcel)
+    should belong_to(:designation_of_origin).with_foreign_key('designation_of_origin_id')
+    should belong_to(:vine_variety).with_foreign_key('vine_variety_id')
   end
 
   should enumerize(:state).in(:planted, :removed_with_authorization).with_predicates(true)

@@ -29,7 +29,10 @@
 #  shape            :geometry({:srid=>4326, :type=>"multi_polygon"}) not null
 #  work_number      :string
 #
-class CadastralLandParcelZone < ActiveRecord::Base
-    include Lexiconable
-    has_one :cvi_cadastral_plant, foreign_key: :land_parcel_id
+require 'test_helper'
+
+class CadastralLandParcelZoneTest < ActiveSupport::TestCase
+  context 'associations' do
+    should have_one(:cvi_cadastral_plant)
   end
+end

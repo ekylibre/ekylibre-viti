@@ -4,8 +4,12 @@ class CreateCviCadastralPlants < ActiveRecord::Migration
       t.string :commune, null: false
       t.string :locality
       t.string :insee_number, null: false
-      t.string :cadastral_reference, null: false
+      t.string :section, null: false
+      t.string :work_number, null: false
+      t.string :land_parcel_number
       t.string :product, null: false
+      t.string :designation_of_origin_id
+      t.string :vine_variety_id
       t.string :grape_variety, null: false
       t.string :area, null: false
       t.string :campaign, null: false
@@ -14,6 +18,7 @@ class CreateCviCadastralPlants < ActiveRecord::Migration
       t.integer :inter_row_distance, null: false
       t.string :state, null: false
       t.references :cvi_statement, index: true, foreign_key: true
+      t.string :land_parcel_id
 
       t.timestamps null: false
     end

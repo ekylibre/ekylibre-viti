@@ -3,7 +3,9 @@ FactoryBot.define do
     commune { Faker::Address.city }
     locality { Faker::Address.city }
     insee_number { Faker::Number.number(digits: 6) }
-    cadastral_reference { Faker::Number.number(digits: 4) }
+    work_number { Faker::Number.number(digits: 4) }
+    section { %w(A,F,G).sample }
+    land_parcel_number { Faker::Number.number(digits: 1) }
     product { Faker::Beer.name }
     grape_variety { Faker::Beer.style }
     area { Faker::Number.decimal_part(digits: 3) }

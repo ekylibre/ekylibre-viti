@@ -20,16 +20,19 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
-# == Table: cadastral_land_parcel_zones
+# == Table: master_vine_varieties
 #
-#  centroid         :geometry({:srid=>4326, :type=>"st_point"})
+#  category_name    :string           not null
+#  color            :string
+#  customs_code     :string
+#  fr_validated     :string
 #  id               :string           not null, primary key
-#  net_surface_area :integer
-#  section          :string
-#  shape            :geometry({:srid=>4326, :type=>"multi_polygon"}) not null
-#  work_number      :string
+#  specie_long_name :string
+#  specie_name      :string           not null
+#  utility          :string
 #
-class CadastralLandParcelZone < ActiveRecord::Base
+class MasterVineVariety < ActiveRecord::Base
+    self.primary_key = 'id'
     include Lexiconable
-    has_one :cvi_cadastral_plant, foreign_key: :land_parcel_id
+    has_many :cvi_cadastral_plants, foreign_key: :vine_variety_id
   end

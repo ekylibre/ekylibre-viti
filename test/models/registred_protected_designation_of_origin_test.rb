@@ -20,16 +20,20 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
-# == Table: cadastral_land_parcel_zones
+# == Table: registred_protected_designation_of_origins
 #
-#  centroid         :geometry({:srid=>4326, :type=>"st_point"})
-#  id               :string           not null, primary key
-#  net_surface_area :integer
-#  section          :string
-#  shape            :geometry({:srid=>4326, :type=>"multi_polygon"}) not null
-#  work_number      :string
+#  eu_sign                :string
+#  fr_sign                :string
+#  geographic_area        :string
+#  ida                    :integer          not null, primary key
+#  product_human_name     :jsonb
+#  product_human_name_fra :string
+#  reference_number       :string
 #
-class CadastralLandParcelZone < ActiveRecord::Base
-    include Lexiconable
-    has_one :cvi_cadastral_plant, foreign_key: :land_parcel_id
+require 'test_helper'
+
+class RegistredProtectedDesignationOfOriginTest < ActiveSupport::TestCase
+  context 'associations' do
+    should have_many(:cvi_cadastral_plants).with_foreign_key('designation_of_origin_id')
   end
+end

@@ -2025,8 +2025,12 @@ CREATE TABLE public.cvi_cadastral_plants (
     commune character varying NOT NULL,
     locality character varying,
     insee_number character varying NOT NULL,
-    cadastral_reference character varying NOT NULL,
+    section character varying NOT NULL,
+    work_number character varying NOT NULL,
+    land_parcel_number character varying,
     product character varying NOT NULL,
+    designation_of_origin_id character varying,
+    vine_variety_id character varying,
     grape_variety character varying NOT NULL,
     area character varying NOT NULL,
     campaign character varying NOT NULL,
@@ -2035,6 +2039,7 @@ CREATE TABLE public.cvi_cadastral_plants (
     inter_row_distance integer NOT NULL,
     state character varying NOT NULL,
     cvi_statement_id integer,
+    land_parcel_id character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );

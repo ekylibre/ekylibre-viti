@@ -23,26 +23,35 @@
 # == Table: cvi_cadastral_plants
 #
 #  area                      :string           not null
-#  cadastral_reference       :string           not null
 #  campaign                  :string           not null
 #  commune                   :string           not null
 #  created_at                :datetime         not null
 #  cvi_statement_id          :integer
+#  designation_of_origin_id  :string
 #  grape_variety             :string           not null
 #  id                        :integer          not null, primary key
 #  insee_number              :string           not null
 #  inter_row_distance        :integer          not null
 #  inter_vine_plant_distance :integer          not null
+#  land_parcel_id            :string
+#  land_parcel_number        :string
 #  locality                  :string
 #  product                   :string           not null
 #  rootstock                 :string
+#  section                   :string           not null
 #  state                     :string           not null
 #  updated_at                :datetime         not null
+#  vine_variety_id           :string
+#  work_number               :string           not null
 #
 class CviCadastralPlant < Ekylibre::Record::Base
   enumerize :state, in: %i[planted removed_with_authorization],  predicates: true
 
   belongs_to :cvi_statement
+  belongs_to :land_parcel, class_name: 'CadastralLandParcelZone', foreign_key: :land_parcel_id
+  belongs_to :designation_of_origin, class_name: 'RegistredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
+  belongs_to :vine_variety, class_name: 'MasterVineVariety', foreign_key: :vine_variety_id
 
-  validates :commune, :cadastral_reference, :insee_number, :product, :grape_variety, :area, :campaign,:inter_vine_plant_distance, :inter_row_distance, :state, presence: true
+  validates :commune, :insee_number,:work_number,:section, :product, :grape_variety, :area, :campaign,:inter_vine_plant_distance, :inter_row_distance, :state, presence: true
+
 end
