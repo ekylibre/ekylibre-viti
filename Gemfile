@@ -116,7 +116,8 @@ gem 'unicorn', group: :production
 
 # Use Capistrano for deployment
 gem 'capistrano-rails', group: :development
-gem 'capistrano-git-with-submodules', '~> 2.0'
+gem 'capistrano-git-with-submodules', '~> 2.0', group: :development
+gem 'capistrano-nvm', require: false, group: :development
 
 # Exception management
 gem 'exception_notification'
