@@ -1,65 +1,34 @@
 require 'csv'
 
-HEADER_CONVERSION = {
-  'CVI_ID' => :cvi_number,
-  'Date extraction' => :extraction_date,
-  'N° SIRET' => :siret_number,
-  'Nom Exploitation' => :farm_name,
-  'Nom Gestionnaire' => :declarant,
-  'Commune' => :commune,
-  'Lieu-dit' => :locality,
-  'Code INSEE' => :insee_number,
-  'feuille' => :sheet,
-  'numéro' => :plot_number,
-  'Sous Parcelle' => :sub_plot_number,
-  'Produit Vin' => :product,
-  'Cepage' => :grape_variety,
-  'superficie (ha)' => :ha_area,
-  'superficie  (ar)' => :ar_area,
-  'superficie  (ca)' => :ca_area,
-  'Campagne de plantation' => :campaign,
-  'Porte-greffe_Code_Douane' => :rootstock,
-  'Ecart pied (cm)' => :inter_vine_plant_distance,
-  'Ecart rang (cm)' => :inter_row_distance,
-  'Etat' => :state,
-  'Mode faire valoir' => :type_of_occupancy,
-  'Date Modification foncière' => :property_assessment_change
-}.freeze
-
-STATES = {
-  'PLANTÉES' => :planted,
-  'Arrachées avec autorisation' => :removed_with_authorization
-}.freeze
-
-CVI_STATEMENT_KEYS = %i[cvi_number extraction_date siret_number farm_name declarant total_area].freeze
-CVI_CADASTRAL_PLANT_KEYS = %i[commune locality insee_number area product grape_variety cadastral_reference campaign rootstock inter_row_distance inter_vine_plant_distance state].freeze
-
 module Ekylibre
-  class CviCsvExchanger < ActiveExchanger::Base
+  class CviCsvExchanger < CviExchanger
     def check
-      raise 'wrong file extension' if File.extname(file) != '.csv'
+      file_extension = File.extname(file)
+      raise I18n.translate('exchangers.ekylibre_cvi.errors.wrong_file_extension',file_extension: file_extension,required_file_extension:'.csv') if file_extension != '.csv'
 
-      CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise "Unknown column name #{h}") }) do |row|
-        raise "Unknow state #{row[:state]}" unless STATES[row[:state]]
+      CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise I18n.translate('exchangers.ekylibre_cvi.errors.unknown_column_name',column_name: h)) }) do |row|
+        raise I18n.translate('exchangers.ekylibre_cvi.errors.unknown_state',state: cvi[:state]) unless STATES[row[:state]]
       end
       true
     end
 
     def import
       w.count = CSV.read(file).count - 1
-
-      CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise "Unknown column name #{h}") }) do |row|
-        begin
-          convert_types(row)
-          calculate_total_area(row)
-          concat_cadastral_reference(row)
-          convert_states(row)
-          import_cvi_statements(row)
-          import_cvi_cadastral_plants(row)
-        rescue StandardError => e
-          raise e 
+      ActiveRecord::Base.transaction do
+        CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise "Unknown column name #{h}") }) do |row|
+          begin
+            convert_types(row)
+            calculate_total_area(row)
+            format_insee_code(row)
+            format_work_number(row)
+            convert_states(row)
+            import_cvi_statements(row)
+            import_cvi_cadastral_plants(row)
+          rescue StandardError => e
+            raise e
+          end
+          w.check_point
         end
-        w.check_point
       end
     end
 
@@ -67,25 +36,59 @@ module Ekylibre
 
     def import_cvi_cadastral_plants(row)
       cvi_statement = CviStatement.find_by(cvi_number: row[:cvi_number])
+
+      designation_of_origin = RegistredProtectedDesignationOfOrigin.where("geographic_area = ?", row[:product]).first
+      unless designation_of_origin
+        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_designation_of_origin',value:row[:product])
+        raise message
+        w.error message
+      end
+
+      vine_variety = MasterVineVariety.where(specie_name: row[:grape_variety], category_name:"Cépage" ).first
+      unless vine_variety
+        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_vine_variety',value:row[:grape_variety])
+        raise message
+        w.error message
+      end
+
+      rootstock = MasterVineVariety.where(customs_code: row[:rootstock] , category_name: "Porte-greffe").first
+      unless rootstock
+        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_rootstock',value:row[:rootstock])
+        raise message
+        w.error message
+      end
+
+      insee_number = "\"#{row[:insee_number]}%"
+      work_number = row[:work_number].prepend("\"") << "\""
+      section = row[:section].prepend("\"") << "\""
+
+      cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
+      unless cadastral_land_parcel_zone
+        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_cadastral_land_parcel',value:insee_number+section+work_number)
+        raise message
+        w.error message
+      end
+
       CviCadastralPlant.create!(
-        row.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }.merge(cvi_statement_id: cvi_statement.id)
+        row.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }
+          .merge(cvi_statement_id: cvi_statement.id, land_parcel_id: cadastral_land_parcel_zone.id,designation_of_origin_id: designation_of_origin.id, vine_variety_id: vine_variety.id, rootstock_id: rootstock.id, measure_value_value: row[:area], measure_value_unit:"hectare")
       )
     end
 
     def import_cvi_statements(row)
       cvi_statement = CviStatement.find_by(cvi_number: row[:cvi_number])
       if cvi_statement
-        total_area = cvi_statement.total_area + row[:area]
+        total_area = cvi_statement.measure_value_value + row[:area]
         cadastral_sub_plant_count = cvi_statement.cadastral_sub_plant_count + 1
-        cadastral_plant_count = if !row[:sub_plot_number] || row[:sub_plot_number] == '1'
+        cadastral_plant_count = if row[:land_parcel_number].blank? || row[:land_parcel_number] == '1'
                                   cvi_statement.cadastral_plant_count + 1
                                 else
                                   cvi_statement.cadastral_plant_count
                                 end
-        cvi_statement.update(cadastral_sub_plant_count: cadastral_sub_plant_count, cadastral_plant_count: cadastral_plant_count, total_area: total_area)
+        cvi_statement.update!(cadastral_sub_plant_count: cadastral_sub_plant_count, cadastral_plant_count: cadastral_plant_count, measure_value_value: total_area)
       else
         CviStatement.create!(
-          row.to_h.select { |key, _| CVI_STATEMENT_KEYS.include? key }.merge(cadastral_sub_plant_count: 1, cadastral_plant_count: 1)
+          row.to_h.select { |key, _| CVI_STATEMENT_KEYS.include? key }.merge(cadastral_sub_plant_count: 1, cadastral_plant_count: 1, measure_value_value: row[:total_area], measure_value_unit:"hectare")
         )
       end
     end
@@ -100,16 +103,19 @@ module Ekylibre
       end
     end
 
-    def convert_states(row)
-      row[:state] = STATES[row[:state]]
+    def format_insee_code(row)
+      insee_number = row[:insee_number].to_s
+      insee_number.slice!(2)
+      row[:insee_number] = insee_number
     end
 
-    def concat_cadastral_reference(row)
-      row << if row[:sub_plot_number]
-               [:cadastral_reference, "#{row[:plot_number].rjust(4, '0')}-#{row[:sub_plot_number]}"]
-             else
-               [:cadastral_reference, row[:plot_number].rjust(4, '0')]
-             end
+    def format_work_number(row)
+      row[:work_number] = row[:work_number].to_s.sub!(/^0*/, "")
+    end
+
+
+    def convert_states(row)
+      row[:state] = STATES[row[:state]]
     end
 
     def calculate_total_area(row)
