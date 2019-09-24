@@ -16,16 +16,16 @@ ita:
       cashes:
         main_account: "Account principale"
       cvi_cadastral_plant:
-        # area: "area"
         # cadastral_reference: "Cadastral reference"
         # commune: "Commune"
-        # grape_variety: "Grape variety"
+        # designation_of_origin_name: "Protected designation of origin"
         # inter_row_distance: "Inter row distance"
         # inter_vine_plant_distance: "Inter vine plant distance"
         # locality: "locality"
-        # product: "Product"
-        # rootstock: "Roostock"
+        # measure_value_value: "Area"
+        # rootstock_number: "Rootstock"
         # state: "State"
+        # vine_variety_name: "Variety of vine"
       cvi_statement:
         # cadastral_plant_count: "Cadastral plant count"
         # cadastral_sub_plant_count: "Cadastral sub plant count"
@@ -33,8 +33,8 @@ ita:
         # cvi_number: "Cvi number"
         # extraction_date: "Extraction date"
         # farm_name: "Wine estate"
+        # measure_value_value: "Total area"
         # state: "State"
-        # total_area: "Total area"
       document:
         # filename: "File"
       document_template:
@@ -787,6 +787,7 @@ ita:
     custom_fields: "Campi personalizzati"
     custom_fields_columns: "I campi personalizzati colonne"
     customized_type: "tipo personalizzato"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "produzione di azoto giornaliera"
     dashboards: "Dashboard"
@@ -1259,6 +1260,7 @@ ita:
     net_mass_value: "valore della massa netta"
     net_mass_yield: "Rendimento Massa netta"
     net_service: "il servizio net"
+    # net_surface_area: "Net surface area"
     new_container: "Nuovo contenitore"
     new_group: "Nuovo gruppo"
     new_name: "Nuovo nome"
@@ -1570,6 +1572,7 @@ ita:
     season: "stagionalità"
     seasons: "stagionalità"
     second_producer: "secondo produttore" #?
+    # section: "Section"
     seeding_density_unit: "unità di densità di semina"
     seeding_density_value: "densità di semina"
     selected: "selezionata"

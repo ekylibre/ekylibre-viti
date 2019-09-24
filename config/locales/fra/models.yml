@@ -90,16 +90,16 @@ fra:
       cashes:
         main_account: "Compte principal"
       cvi_cadastral_plant:
-        area: "Superficie déclarée"
         cadastral_reference: "Ref. cadastrale"
         commune: "Commune"
-        grape_variety: "Cépage"
+        designation_of_origin_name: "Produit"
         inter_row_distance: "Inter rang"
         inter_vine_plant_distance: "Inter pied"
         locality: "Lieu-dit"
-        product: "Produit"
-        rootstock: "Porte-greffe"
+        measure_value_value: "Superficie déclarée"
+        rootstock_number: "Porte-greffe"
         state: "Etat"
+        vine_variety_name: "Cépage"
       cvi_statement:
         cadastral_plant_count: "Nombre de cultures cadastrales"
         cadastral_sub_plant_count: "Nombre de sous-cultures cadastrales"
@@ -107,8 +107,8 @@ fra:
         cvi_number: "N° de CVI"
         extraction_date: "Date d'extraction"
         farm_name: "Nom du domaine"
+        measure_value_value: "Superficie encépagée déclarée"
         state: "Status"
-        total_area: "Superficie encépagée déclarée"
       document:
         filename: "Fichier"
       document_archive: #?
@@ -1047,6 +1047,7 @@ fra:
     custom_fields_columns: "Champs personnalisés colonnes"
     customized: "Enregistrement personnalisé" #?
     customized_type: "Type d’enregistrement personnalisé"
+    cvi_cadastral_plants: "Cultures cadastrales CVI"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "Excrétion d’azote journalière"
     dashboards: "Tableaux de bord"
@@ -1581,7 +1582,7 @@ fra:
     net_mass_value: "Masse nette"
     net_mass_yield: "Rendement net"
     net_service: "Service web"
-    net_surface_area: "Surface" #?
+    net_surface_area: "Surface"
     net_volume: "Volume net" #?
     new_container: "Nouvel emplacement"
     new_group: "Nouveau groupe"
@@ -1936,6 +1937,7 @@ fra:
     seasons: "Saisonnalités"
     second_producer: "Second producteur" #?
     second_producer_way: "Voie du second producteur" #?
+    # section: "Section"
     seeding_density_unit: "Unité de densité de semis"
     seeding_density_value: "Densité de semis"
     selected: "Sélectionné"

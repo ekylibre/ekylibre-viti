@@ -114,10 +114,30 @@ eng:
         decimal: "Decimal"
         text: "Text"
     cvi_cadastral_plant:
+      indicator_datatype:
+        # boolean: "Boolean"
+        # choice: "Choice"
+        # decimal: "Decimal"
+        # geometry: "Geometry"
+        # integer: "Integer"
+        # measure: "Measure"
+        # multi_polygon: "Multi polygon"
+        # point: "Point"
+        # string: "String"
       state:
         planted: "Planted"
         removed_with_authorization: "Removed with authorization"
     cvi_statement:
+      indicator_datatype:
+        # boolean: "Boolean"
+        # choice: "Choice"
+        # decimal: "Decimal"
+        # geometry: "Geometry"
+        # integer: "Integer"
+        # measure: "Measure"
+        # multi_polygon: "Multi polygon"
+        # point: "Point"
+        # string: "String"
       state:
         converted: "Converted"
         to_convert: "To convert"

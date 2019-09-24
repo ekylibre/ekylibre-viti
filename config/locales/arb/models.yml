@@ -94,16 +94,16 @@ arb:
         string_value: "قيمة النص" #?
         updater_id: "تحديث" #?
       cvi_cadastral_plant:
-        # area: "area"
         # cadastral_reference: "Cadastral reference"
         # commune: "Commune"
-        # grape_variety: "Grape variety"
+        # designation_of_origin_name: "Protected designation of origin"
         # inter_row_distance: "Inter row distance"
         # inter_vine_plant_distance: "Inter vine plant distance"
         # locality: "locality"
-        # product: "Product"
-        # rootstock: "Roostock"
+        # measure_value_value: "Area"
+        # rootstock_number: "Rootstock"
         # state: "State"
+        # vine_variety_name: "Variety of vine"
       cvi_statement:
         # cadastral_plant_count: "Cadastral plant count"
         # cadastral_sub_plant_count: "Cadastral sub plant count"
@@ -111,8 +111,8 @@ arb:
         # cvi_number: "Cvi number"
         # extraction_date: "Extraction date"
         # farm_name: "Wine estate"
+        # measure_value_value: "Total area"
         # state: "State"
-        # total_area: "Total area"
       delay: #?
         active: "صالحة للاستخدام" #?
         sale_natures: "نوع البيع" #?
@@ -1464,6 +1464,7 @@ arb:
     custom_fields: "الحقول الاضافية"
     custom_fields_columns: "الحقول المخصصة الأعمدة"
     customized_type: "نوع مرغوب"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "إنتاج النيتروجين اليومي"
     dashboards: "لوحات"
@@ -2055,6 +2056,7 @@ arb:
     net_mass_value: "صافي القيمة الجماعية"
     net_mass_yield: "العائد الصافي الشامل"
     net_service: "خدمة صافي"
+    # net_surface_area: "Net surface area"
     new_container: "حاويات جديدة"
     new_group: "مجموعة جديدة"
     new_name: "اسم جديد"
@@ -2462,6 +2464,7 @@ arb:
     second_building_id: "موقع تخزين الوصول" #?
     second_move_id: "الحركة الثانية" #?
     second_producer: "منتج الثاني" #?
+    # section: "Section"
     seeding_density_unit: "وحدة كثافة بذر"
     seeding_density_value: "كثافة بذر"
     selected: "مختار"

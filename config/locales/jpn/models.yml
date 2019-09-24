@@ -16,16 +16,16 @@ jpn:
       cashes:
         main_account: "メインアカウント"
       cvi_cadastral_plant:
-        # area: "area"
         # cadastral_reference: "Cadastral reference"
         # commune: "Commune"
-        # grape_variety: "Grape variety"
+        # designation_of_origin_name: "Protected designation of origin"
         # inter_row_distance: "Inter row distance"
         # inter_vine_plant_distance: "Inter vine plant distance"
         # locality: "locality"
-        # product: "Product"
-        # rootstock: "Roostock"
+        # measure_value_value: "Area"
+        # rootstock_number: "Rootstock"
         # state: "State"
+        # vine_variety_name: "Variety of vine"
       cvi_statement:
         # cadastral_plant_count: "Cadastral plant count"
         # cadastral_sub_plant_count: "Cadastral sub plant count"
@@ -33,8 +33,8 @@ jpn:
         # cvi_number: "Cvi number"
         # extraction_date: "Extraction date"
         # farm_name: "Wine estate"
+        # measure_value_value: "Total area"
         # state: "State"
-        # total_area: "Total area"
       document:
         filename: "ファイル"
       document_template:
@@ -756,6 +756,7 @@ jpn:
     custom_fields: "カスタムフィールド"
     custom_fields_columns: "カスタムフィールドの列"
     customized_type: "カスタマイズされたタイプ"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "毎日の窒素製造"
     dashboards: "ダッシュボード"
@@ -1228,6 +1229,7 @@ jpn:
     net_mass_value: "正味質量値"
     net_mass_yield: "正味質量収率"
     net_service: "ネットサービス"
+    # net_surface_area: "Net surface area"
     new_container: "新しいコンテナ"
     new_group: "新しいグループ"
     new_name: "新名称"
@@ -1539,6 +1541,7 @@ jpn:
     season: "季節性"
     seasons: "季節性"
     second_producer: "セカンドプロデューサー" #?
+    # section: "Section"
     seeding_density_unit: "播種密度ユニット"
     seeding_density_value: "播種密度"
     selected: "選択しました"

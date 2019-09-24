@@ -16,16 +16,16 @@ spa:
       cashes:
         main_account: "Cuenta principal"
       cvi_cadastral_plant:
-        # area: "area"
         # cadastral_reference: "Cadastral reference"
         # commune: "Commune"
-        # grape_variety: "Grape variety"
+        # designation_of_origin_name: "Protected designation of origin"
         # inter_row_distance: "Inter row distance"
         # inter_vine_plant_distance: "Inter vine plant distance"
         # locality: "locality"
-        # product: "Product"
-        # rootstock: "Roostock"
+        # measure_value_value: "Area"
+        # rootstock_number: "Rootstock"
         # state: "State"
+        # vine_variety_name: "Variety of vine"
       cvi_statement:
         # cadastral_plant_count: "Cadastral plant count"
         # cadastral_sub_plant_count: "Cadastral sub plant count"
@@ -33,8 +33,8 @@ spa:
         # cvi_number: "Cvi number"
         # extraction_date: "Extraction date"
         # farm_name: "Wine estate"
+        # measure_value_value: "Total area"
         # state: "State"
-        # total_area: "Total area"
       document:
         filename: "Archivo"
       document_template:
@@ -759,6 +759,7 @@ spa:
     custom_fields: "Campos Personalizados"
     custom_fields_columns: "Campos personalizados columnas"
     customized_type: "Tipo personalizado"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "La producción diaria de nitrógeno"
     dashboards: "Cuadros de mando"
@@ -1232,6 +1233,7 @@ spa:
     net_mass_value: "valor de la masa neta"
     net_mass_yield: "rendimiento de la masa neta"
     net_service: "Servicio Net"
+    # net_surface_area: "Net surface area"
     new_container: "Nuevo envase"
     new_group: "Nuevo grupo"
     new_name: "Nuevo nombre"
@@ -1543,6 +1545,7 @@ spa:
     season: "Estacionalidad"
     seasons: "Estacionalidades"
     second_producer: "En segundo productor" #?
+    # section: "Section"
     seeding_density_unit: "unidad de densidad de siembra"
     seeding_density_value: "densidad de siembra"
     selected: "Seleccionado"

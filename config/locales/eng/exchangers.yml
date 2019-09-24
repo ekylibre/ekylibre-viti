@@ -19,6 +19,15 @@ eng:
     ekylibre_cash_transferts: "Ekylibre cash transferts"
     ekylibre_cultivable_zones: "Ekylibre Cultivable zones"
     ekylibre_cultivable_zones_json: "Ekylibre cultivable zones JSON"
+    ekylibre_cvi:
+      errors:
+        unknown_cadastral_land_parcel: "Unknown cadastral land parcel zone %{value}"
+        unknown_column_name: "Unknown column name %{column_name}"
+        unknown_designation_of_origin: "Unknown protected designation of origin for %{value}"
+        unknown_rootstock: "Unknown rootstock for %{value}"
+        unknown_state: "Unknown state %{state}"
+        unknown_vine_variety: "Unknown vine variety for %{value}"
+        wrong_file_extension: "Wrong file extension %{file_extension}, required %{required_file_exension}"
     ekylibre_cvi_csv: "Computerised Vineyard Register (CSV)"
     ekylibre_cvi_json: "Computerised Vineyard Register (JSON)"
     ekylibre_entities: "Ekylibre Entities"

@@ -20,14 +20,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
-# == Table: registered_phytosanitary_risks
+# == Table: registred_protected_designation_of_origins
 #
-#  product_id  :integer          not null
-#  risk_code   :string           not null
-#  risk_phrase :string           not null
+#  eu_sign                :string
+#  fr_sign                :string
+#  geographic_area        :string
+#  ida                    :integer          not null, primary key
+#  product_human_name     :jsonb
+#  product_human_name_fra :string
+#  reference_number       :string
 #
-require 'test_helper'
-
-class RegisteredPhytosanitaryRiskTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
-  # Add tests here...
-end
+class RegistredProtectedDesignationOfOrigin < ActiveRecord::Base
+    self.primary_key = 'ida'
+    include Lexiconable
+    has_many :cvi_cadastral_plants, foreign_key: :designation_of_origin_id
+  end
