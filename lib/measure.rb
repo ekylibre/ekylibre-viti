@@ -4,6 +4,7 @@ class Measure
 
   MEASURE_FORMATS = {
     ha_ar_ca: lambda { |area|
+      # format area: 1,0056 ha => 01ha 56ca,  1,3456 ha => 01ha 34ar 56ca
       area.convert('hectare')
       total_area_to_s = (area.value * 10_000).floor.to_s.rjust(6, '0')
       [[total_area_to_s[0..-5], 'Ha'], [total_area_to_s[-4, 2], 'Ar'], [total_area_to_s[-2, 2], 'Ca']].reject { |n| n[0] == '00' }.flatten.join(' ')
