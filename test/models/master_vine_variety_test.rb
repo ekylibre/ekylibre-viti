@@ -35,6 +35,5 @@ require 'test_helper'
 
 class MasterVineVarietyTest < ActiveSupport::TestCase
   context 'associations' do
-    should have_many(:cvi_cadastral_plants).with_foreign_key('vine_variety_id')
   end
 end

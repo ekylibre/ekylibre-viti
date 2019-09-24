@@ -34,5 +34,4 @@
 class MasterVineVariety < ActiveRecord::Base
     self.primary_key = 'id'
     include Lexiconable
-    has_many :cvi_cadastral_plants, foreign_key: :vine_variety_id
   end

@@ -30,9 +30,10 @@
 #  extraction_date           :date             not null
 #  farm_name                 :string           not null
 #  id                        :integer          not null, primary key
+#  measure_value_unit        :string
+#  measure_value_value       :decimal(19, 4)
 #  siret_number              :string           not null
 #  state                     :string           not null
-#  total_area                :decimal(, )
 #  updated_at                :datetime         not null
 #
 require 'test_helper'
@@ -67,8 +68,8 @@ class CviStatementTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
 
   context '#total_area_formated' do
     should 'format area' do
-      cvi_statement = create(:cvi_statement, total_area: 1.1456)
-      assert_equal '01 HA 14 AR 56 CA', cvi_statement.total_area_formated
+      cvi_statement = create(:cvi_statement, measure_value_value: 1.1456)
+      assert_equal '01 Ha 14 Ar 56 Ca', cvi_statement.total_area_formated
     end
   end
 end

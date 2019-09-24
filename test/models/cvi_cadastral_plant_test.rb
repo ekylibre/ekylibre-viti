@@ -22,13 +22,11 @@
 #
 # == Table: cvi_cadastral_plants
 #
-#  area                      :string           not null
 #  campaign                  :string           not null
 #  commune                   :string           not null
 #  created_at                :datetime         not null
 #  cvi_statement_id          :integer
 #  designation_of_origin_id  :string
-#  grape_variety             :string           not null
 #  id                        :integer          not null, primary key
 #  insee_number              :string           not null
 #  inter_row_distance        :integer          not null
@@ -36,8 +34,9 @@
 #  land_parcel_id            :string
 #  land_parcel_number        :string
 #  locality                  :string
-#  product                   :string           not null
-#  rootstock                 :string
+#  measure_value_unit        :string
+#  measure_value_value       :decimal(19, 4)
+#  rootstock_id              :string
 #  section                   :string           not null
 #  state                     :string           not null
 #  updated_at                :datetime         not null
@@ -57,9 +56,6 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
     should validate_presence_of(:commune)
     should validate_presence_of(:section)
     should validate_presence_of(:work_number)
-    should validate_presence_of(:product)
-    should validate_presence_of(:grape_variety)
-    should validate_presence_of(:area)
     should validate_presence_of(:campaign)
     should validate_presence_of(:inter_vine_plant_distance)
     should validate_presence_of(:inter_row_distance)

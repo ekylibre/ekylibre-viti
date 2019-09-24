@@ -5,7 +5,8 @@ FactoryBot.define do
     siret_number { Faker::Company.french_siret_number }
     farm_name { Faker::Company }
     declarant { Faker::Artist.name }
-    total_area { Faker::Number.decimal(l_digits: 2) }
+    measure_value_value { Faker::Number.decimal_part(digits: 3) }
+    measure_value_unit { 'hectare' }
     cadastral_plant_count { Faker::Number.number(digits: 2) }
     cadastral_sub_plant_count { Faker::Number.number(digits: 2) }
     state { [:to_convert, :converted].sample.to_sym }

@@ -30,27 +30,25 @@
 #  extraction_date           :date             not null
 #  farm_name                 :string           not null
 #  id                        :integer          not null, primary key
+#  measure_value_unit        :string
+#  measure_value_value       :decimal(19, 4)
 #  siret_number              :string           not null
 #  state                     :string           not null
-#  total_area                :decimal(, )
 #  updated_at                :datetime         not null
 #
 
 class CviStatement < Ekylibre::Record::Base
+  composed_of :measure_value, class_name: 'Measure', mapping: [%w[measure_value_value to_d], %w[measure_value_unit unit]]
   enumerize :state, in: %i[to_convert converted], default: :to_convert,  predicates: true
 
   validates :extraction_date, :siret_number, :farm_name, :declarant, :state, presence: true
   validates :siret_number, siret_format: true
+  validates :measure_value_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
 
   has_many :cvi_cadastral_plants, dependent: :destroy
 
-  # format area: 1,0056 ha => 01ha 56ca,  1,3456 ha => 01ha 34ar 56ca
   def total_area_formated
-    total_area_to_s = (total_area * 10_000).floor.to_s.rjust(6, '0')
-    [
-      [total_area_to_s[0..-5], 'HA'],
-      [total_area_to_s[-4, 2], 'AR'],
-      [total_area_to_s[-2, 2], 'CA']
-    ].reject { |n| n[0] == '00' }.flatten.join(' ')
+    measure_value.to_s(:ha_ar_ca)
   end
+    
 end

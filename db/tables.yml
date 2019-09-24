@@ -1814,9 +1814,6 @@ custom_fields:
     type: integer
     references: user
 cvi_cadastral_plants:
-  area:
-    type: string
-    required: true
   campaign:
     type: string
     required: true
@@ -1831,9 +1828,6 @@ cvi_cadastral_plants:
     references: cvi_statement
   designation_of_origin_id:
     type: string
-  grape_variety:
-    type: string
-    required: true
   id:
     type: integer
     required: true
@@ -1852,10 +1846,13 @@ cvi_cadastral_plants:
     type: string
   locality:
     type: string
-  product:
+  measure_value_unit:
     type: string
-    required: true
-  rootstock:
+  measure_value_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  rootstock_id:
     type: string
   section:
     type: string
@@ -1894,14 +1891,18 @@ cvi_statements:
   id:
     type: integer
     required: true
+  measure_value_unit:
+    type: string
+  measure_value_value:
+    type: decimal
+    precision: 19
+    scale: 4
   siret_number:
     type: string
     required: true
   state:
     type: string
     required: true
-  total_area:
-    type: decimal
   updated_at:
     type: datetime
     required: true

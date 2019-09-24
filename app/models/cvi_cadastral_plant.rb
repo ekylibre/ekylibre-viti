@@ -22,13 +22,11 @@
 #
 # == Table: cvi_cadastral_plants
 #
-#  area                      :string           not null
 #  campaign                  :string           not null
 #  commune                   :string           not null
 #  created_at                :datetime         not null
 #  cvi_statement_id          :integer
 #  designation_of_origin_id  :string
-#  grape_variety             :string           not null
 #  id                        :integer          not null, primary key
 #  insee_number              :string           not null
 #  inter_row_distance        :integer          not null
@@ -36,8 +34,9 @@
 #  land_parcel_id            :string
 #  land_parcel_number        :string
 #  locality                  :string
-#  product                   :string           not null
-#  rootstock                 :string
+#  measure_value_unit        :string
+#  measure_value_value       :decimal(19, 4)
+#  rootstock_id              :string
 #  section                   :string           not null
 #  state                     :string           not null
 #  updated_at                :datetime         not null
@@ -45,13 +44,39 @@
 #  work_number               :string           not null
 #
 class CviCadastralPlant < Ekylibre::Record::Base
+  composed_of :measure_value, class_name: 'Measure', mapping: [%w[measure_value_value to_d], %w[measure_value_unit unit]]
+
   enumerize :state, in: %i[planted removed_with_authorization],  predicates: true
 
   belongs_to :cvi_statement
   belongs_to :land_parcel, class_name: 'CadastralLandParcelZone', foreign_key: :land_parcel_id
   belongs_to :designation_of_origin, class_name: 'RegistredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
   belongs_to :vine_variety, class_name: 'MasterVineVariety', foreign_key: :vine_variety_id
+  belongs_to :rootstock, class_name: 'MasterVineVariety', foreign_key: :rootstock_id
 
-  validates :commune, :insee_number,:work_number,:section, :product, :grape_variety, :area, :campaign,:inter_vine_plant_distance, :inter_row_distance, :state, presence: true
+  validates :commune, :insee_number,:work_number,:section, :campaign, :inter_vine_plant_distance, :inter_row_distance, :state, presence: true
+  validates :measure_value_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
+
+  def cadastral_reference
+    base = insee_number + section + work_number
+    if land_parcel_number.blank?
+      base
+    else
+      base + '-' + land_parcel_number
+    end
+  end
+
+  def area_formated
+    measure_value.to_s(:ha_ar_ca)
+  end
+
+  delegate :geographic_area, to: :designation_of_origin
+  alias_method :designation_of_origin_name, :geographic_area
+
+  delegate :specie_name, to: :vine_variety
+  alias_method :vine_variety_name, :specie_name
+
+  delegate :customs_code,to: :rootstock
+  alias_method :rootstock_number, :customs_code
 
 end
