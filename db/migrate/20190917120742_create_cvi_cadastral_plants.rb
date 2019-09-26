@@ -7,7 +7,7 @@ class CreateCviCadastralPlants < ActiveRecord::Migration
       t.string :section, null: false
       t.string :work_number, null: false
       t.string :land_parcel_number
-      t.string :designation_of_origin_id
+      t.integer :designation_of_origin_id
       t.string :vine_variety_id
       t.decimal :measure_value_value, precision: 19, scale: 4
       t.string :measure_value_unit

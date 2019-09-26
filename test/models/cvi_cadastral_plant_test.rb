@@ -26,7 +26,7 @@
 #  commune                   :string           not null
 #  created_at                :datetime         not null
 #  cvi_statement_id          :integer
-#  designation_of_origin_id  :string
+#  designation_of_origin_id  :integer
 #  id                        :integer          not null, primary key
 #  insee_number              :string           not null
 #  inter_row_distance        :integer          not null
