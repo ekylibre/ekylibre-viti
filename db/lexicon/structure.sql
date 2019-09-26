@@ -1,11 +1,12 @@
 CREATE TABLE cadastral_land_parcel_zones (
-  id character varying,
+  id character varying PRIMARY KEY NOT NULL,
   section character varying,
   work_number character varying,
   net_surface_area integer,
   shape postgis.geometry(MultiPolygon,4326) NOT NULL,
   centroid postgis.geometry(Point,4326)
 );
+CREATE INDEX cadastral_land_parcel_zones_id ON cadastral_land_parcel_zones(id);
 CREATE INDEX cadastral_land_parcel_zones_shape ON cadastral_land_parcel_zones USING GIST (shape);
 CREATE INDEX cadastral_land_parcel_zones_centroid ON cadastral_land_parcel_zones USING GIST (centroid);
 

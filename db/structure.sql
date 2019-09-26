@@ -2028,7 +2028,7 @@ CREATE TABLE public.cvi_cadastral_plants (
     section character varying NOT NULL,
     work_number character varying NOT NULL,
     land_parcel_number character varying,
-    designation_of_origin_id character varying,
+    designation_of_origin_id integer,
     vine_variety_id character varying,
     measure_value_value numeric(19,4),
     measure_value_unit character varying,
@@ -4140,6 +4140,78 @@ CREATE SEQUENCE public.issues_id_seq
 --
 
 ALTER SEQUENCE public.issues_id_seq OWNED BY public.issues.id;
+
+
+--
+-- Name: jailer_config; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_config (
+    jversion character varying(20),
+    jkey character varying(200),
+    jvalue character varying(200)
+);
+
+
+--
+-- Name: jailer_dependency; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_dependency (
+    r_entitygraph integer NOT NULL,
+    assoc integer NOT NULL,
+    depend_id integer NOT NULL,
+    traversed integer,
+    from_type integer NOT NULL,
+    to_type integer NOT NULL,
+    from_pk0 character varying,
+    to_pk0 character varying
+);
+
+
+--
+-- Name: jailer_entity; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_entity (
+    r_entitygraph integer NOT NULL,
+    pk0 character varying,
+    birthday integer NOT NULL,
+    type integer NOT NULL,
+    orig_birthday integer,
+    association integer
+);
+
+
+--
+-- Name: jailer_graph; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_graph (
+    id integer NOT NULL,
+    age integer NOT NULL
+);
+
+
+--
+-- Name: jailer_set; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_set (
+    set_id integer NOT NULL,
+    type integer NOT NULL,
+    pk0 character varying
+);
+
+
+--
+-- Name: jailer_tmp; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_tmp (
+    c1 integer,
+    c2 integer
+);
 
 
 --
@@ -17888,6 +17960,41 @@ CREATE INDEX index_wice_grid_serialized_queries_on_grid_name ON public.wice_grid
 --
 
 CREATE INDEX index_wice_grid_serialized_queries_on_grid_name_and_id ON public.wice_grid_serialized_queries USING btree (grid_name, id);
+
+
+--
+-- Name: jlr_dep_from1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX jlr_dep_from1 ON public.jailer_dependency USING btree (r_entitygraph, assoc, from_pk0);
+
+
+--
+-- Name: jlr_dep_to1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX jlr_dep_to1 ON public.jailer_dependency USING btree (r_entitygraph, to_pk0);
+
+
+--
+-- Name: jlr_enty_brthdy; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX jlr_enty_brthdy ON public.jailer_entity USING btree (r_entitygraph, type, birthday);
+
+
+--
+-- Name: jlr_enty_upk1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX jlr_enty_upk1 ON public.jailer_entity USING btree (r_entitygraph, pk0, type, birthday);
+
+
+--
+-- Name: jlr_pk_set1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX jlr_pk_set1 ON public.jailer_set USING btree (set_id, pk0, type);
 
 
 --

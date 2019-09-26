@@ -70,9 +70,9 @@ module Ekylibre
         w.error message
       end
 
-      insee_number = "\"#{h_cvi_statement[:insee_number]}%"
-      work_number = h_cvi_statement[:work_number].prepend("\"") << "\""
-      section = h_cvi_statement[:section].prepend("\"") << "\""
+      insee_number = "#{h_cvi_statement[:insee_number]}%"
+      work_number = h_cvi_statement[:work_number]
+      section = h_cvi_statement[:section]
 
       cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
       unless cadastral_land_parcel_zone

@@ -58,9 +58,9 @@ module Ekylibre
         w.error message
       end
 
-      insee_number = "\"#{row[:insee_number]}%"
-      work_number = row[:work_number].prepend("\"") << "\""
-      section = row[:section].prepend("\"") << "\""
+      insee_number = "#{row[:insee_number]}%"
+      work_number = row[:work_number]
+      section = row[:section]
 
       cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
       unless cadastral_land_parcel_zone
