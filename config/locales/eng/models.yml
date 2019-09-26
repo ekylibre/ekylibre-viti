@@ -1063,7 +1063,7 @@ eng:
     indicator_datatype: "Indicator datatype"
     indicator_name: "Indicator name"
     indicator_unit: "Indicator unit" #?
-    indicator_value: "Indicator value"
+    indicator_value: "Indicator value" #?
     indicators: "Indicators"
     indirect_links: "Indirect links"
     initial_balance_credit: "Initial balance credit"

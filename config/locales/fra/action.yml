@@ -2136,6 +2136,7 @@ fra:
     plant_countings: "Comptages"
     plant_productions: "Productions végétales" #?
     plantation_density: "Densité de plantation"
+    planted: "En production"
     plants: "Plantes"
     please_wait: "Merci de patienter…"
     point: "Point"
@@ -2300,6 +2301,7 @@ fra:
     remove_subscription: "Supprimer l’abonnement"
     remove_treatment: "Supprimer un traitement" #?
     remove_watching: "Supprimer un produit de référence" #?
+    removed_with_authorization: "Arraché"
     renewed: "Renouvellés"
     reopen: "Déclôturer" #?
     reopen_journal: "Déclôturer le journal" #?

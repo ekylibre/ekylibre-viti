@@ -2225,6 +2225,7 @@ arb:
     plant_counting: "عد"
     plant_countings: "فرزان"
     plantation_density: "كثافة المزارع"
+    # planted: "Planted"
     plants: "النباتات"
     please_wait: "أرجو الإنتظار…"
     point: "نقطة"
@@ -2367,6 +2368,7 @@ arb:
     remove: "إزالة"
     remove_item: "إزالة بند"
     remove_subscription: "إزالة الاشتراك"
+    # removed_with_authorization: "Removed with authorization"
     renewed: "متجدد"
     reopen: "فتح الدفتر اليومي" #?
     repayment_period: "فترة السداد"

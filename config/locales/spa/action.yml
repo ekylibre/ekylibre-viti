@@ -1882,6 +1882,7 @@ spa:
     plant_counting: "Contando"
     plant_countings: "Los recuentos"
     plantation_density: "La densidad de plantación"
+    # planted: "Planted"
     plants: "Plantas"
     please_wait: "Por favor espera…"
     point: "Punto"
@@ -2007,6 +2008,7 @@ spa:
     remove: "Retirar"
     remove_item: "Remover el artículo"
     remove_subscription: "Retirar la suscripción"
+    # removed_with_authorization: "Removed with authorization"
     renewed: "Renovado"
     reopen: "Volver a abrir el periodico" #?
     repayment_period: "Período de reembolso"

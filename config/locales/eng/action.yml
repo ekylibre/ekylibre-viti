@@ -2032,6 +2032,7 @@ eng:
     plant_counting: "Counting" #?
     plant_countings: "Countings" #?
     plantation_density: "Plantation density" #?
+    planted: "Planted" #?
     plants: "Crops" #?
     please_wait: "Please wait…"
     point: "Point" #?
@@ -2147,6 +2148,7 @@ eng:
     remove: "Remove" #?
     remove_item: "Remove item"
     remove_subscription: "Remove subscription"
+    removed_with_authorization: "Removed with authorization" #?
     renewed: "Renewed"
     repayment_period: "Repayment period"
     repayments: "Repayments"
