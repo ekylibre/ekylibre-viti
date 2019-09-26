@@ -50,5 +50,5 @@ class CviStatement < Ekylibre::Record::Base
   def total_area_formated
     measure_value.to_s(:ha_ar_ca)
   end
-    
+  
 end
