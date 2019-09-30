@@ -1,13 +1,12 @@
-require 'csv'
-
 module Ekylibre
   class CviCsvExchanger < CviExchanger
     def check
       file_extension = File.extname(file)
-      raise I18n.translate('exchangers.ekylibre_cvi.errors.wrong_file_extension',file_extension: file_extension,required_file_extension:'.csv') if file_extension != '.csv'
+      raise I18n.translate('exchangers.ekylibre_cvi.errors.wrong_file_extension', file_extension: file_extension, required_file_extension: '.csv') if file_extension != '.csv'
 
-      CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise I18n.translate('exchangers.ekylibre_cvi.errors.unknown_column_name',column_name: h)) }) do |row|
-        raise I18n.translate('exchangers.ekylibre_cvi.errors.unknown_state',state: cvi[:state]) unless STATES[row[:state]]
+      CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise I18n.translate('exchangers.ekylibre_cvi.errors.unknown_column_name', column_name: h)) }) do |row|
+        raise I18n.translate('exchangers.ekylibre_cvi.errors.unknown_state', state: row[:state]) unless STATES[row[:state]]
+        raise I18n.translate('exchangers.ekylibre_cvi.errors.invalid_siret', value: row[:siret_number]) unless Luhn.valid?(row[:siret_number])
       end
       true
     end
@@ -37,25 +36,25 @@ module Ekylibre
     def import_cvi_cadastral_plants(row)
       cvi_statement = CviStatement.find_by(cvi_number: row[:cvi_number])
 
-      designation_of_origin = RegistredProtectedDesignationOfOrigin.where("geographic_area = ?", row[:product]).first
+      designation_of_origin = RegistredProtectedDesignationOfOrigin.find_by(geographic_area: row[:product])
       unless designation_of_origin
-        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_designation_of_origin',value:row[:product])
-        raise message
+        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_designation_of_origin', value: row[:product])
         w.error message
+        raise message
       end
 
-      vine_variety = MasterVineVariety.where(specie_name: row[:grape_variety], category_name:"Cépage" ).first
+      vine_variety = MasterVineVariety.find_by(specie_name: row[:grape_variety], category_name: 'Cépage')
       unless vine_variety
-        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_vine_variety',value:row[:grape_variety])
-        raise message
+        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_vine_variety', value: row[:grape_variety])
         w.error message
+        raise message
       end
 
-      rootstock = MasterVineVariety.where(customs_code: row[:rootstock] , category_name: "Porte-greffe").first
+      rootstock = MasterVineVariety.find_by(customs_code: row[:rootstock], category_name: 'Porte-greffe')
       unless rootstock
-        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_rootstock',value:row[:rootstock])
-        raise message
+        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_rootstock', value: row[:rootstock])
         w.error message
+        raise message
       end
 
       insee_number = "#{row[:insee_number]}%"
@@ -64,41 +63,44 @@ module Ekylibre
 
       cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
       unless cadastral_land_parcel_zone
-        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_cadastral_land_parcel',value:insee_number+section+work_number)
-        raise message
+        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_cadastral_land_parcel', value: insee_number + section + work_number)
         w.error message
+        raise message
       end
 
       CviCadastralPlant.create!(
         row.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }
-          .merge(cvi_statement_id: cvi_statement.id, land_parcel_id: cadastral_land_parcel_zone.id,designation_of_origin_id: designation_of_origin.id, vine_variety_id: vine_variety.id, rootstock_id: rootstock.id, measure_value_value: row[:area], measure_value_unit:"hectare")
+          .merge(cvi_statement_id: cvi_statement.id, land_parcel_id: cadastral_land_parcel_zone.id, designation_of_origin_id: designation_of_origin.id, vine_variety_id: vine_variety.id, rootstock_id: rootstock.id, area: row[:area])
       )
     end
 
     def import_cvi_statements(row)
       cvi_statement = CviStatement.find_by(cvi_number: row[:cvi_number])
-      if cvi_statement
-        total_area = cvi_statement.measure_value_value + row[:area]
-        cadastral_sub_plant_count = cvi_statement.cadastral_sub_plant_count + 1
-        cadastral_plant_count = if row[:land_parcel_number].blank? || row[:land_parcel_number] == '1'
-                                  cvi_statement.cadastral_plant_count + 1
-                                else
-                                  cvi_statement.cadastral_plant_count
-                                end
-        cvi_statement.update!(cadastral_sub_plant_count: cadastral_sub_plant_count, cadastral_plant_count: cadastral_plant_count, measure_value_value: total_area)
-      else
-        CviStatement.create!(
-          row.to_h.select { |key, _| CVI_STATEMENT_KEYS.include? key }.merge(cadastral_sub_plant_count: 1, cadastral_plant_count: 1, measure_value_value: row[:total_area], measure_value_unit:"hectare")
-        )
-      end
+      return CviStatement.create!(
+        row.to_h
+          .select { |key, _| CVI_STATEMENT_KEYS.include? key }
+          .merge(cadastral_sub_plant_count: 1, cadastral_plant_count: 1, total_area: row[:area])
+      ) unless cvi_statement
+      total_area = cvi_statement.total_area + row[:area]
+      cadastral_sub_plant_count = cvi_statement.cadastral_sub_plant_count + 1
+      cadastral_plant_count = if row[:land_parcel_number].blank? || row[:land_parcel_number] == '1'
+                                cvi_statement.cadastral_plant_count + 1
+                              else
+                                cvi_statement.cadastral_plant_count
+                              end
+      cvi_statement.update!(cadastral_sub_plant_count: cadastral_sub_plant_count, cadastral_plant_count: cadastral_plant_count, total_area: total_area)
     end
 
     def convert_types(row)
       %i[extraction_date property_assessment_change].each do |header|
-        row[header] = Date.parse(row[header]) if row[header]
+        row[header] = Date.soft_parse(row[header]) if row[header]
       end
 
-      %i[ha_area ar_area ca_area inter_vine_plant_distance inter_row_distance].each do |header|
+      %i[inter_vine_plant_distance inter_row_distance].each do |header|
+        row[header] = Measure.new(row[header].to_i, :centimeter) if row[header]
+      end
+
+      %i[ha_area ar_area ca_area].each do |header|
         row[header] = row[header].to_i if row[header]
       end
     end
@@ -110,9 +112,8 @@ module Ekylibre
     end
 
     def format_work_number(row)
-      row[:work_number] = row[:work_number].to_s.sub!(/^0*/, "")
+      row[:work_number] = row[:work_number].to_s.sub!(/^0*/, '')
     end
-
 
     def convert_states(row)
       row[:state] = STATES[row[:state]]
@@ -120,11 +121,8 @@ module Ekylibre
 
     def calculate_total_area(row)
       total_area = row[:ha_area] + 0.01 * row[:ar_area] + 0.0001 * row[:ca_area]
-      row << [:total_area, total_area]
-      row << [:area, total_area]
-      %i[ha_area ar_area ca_area].each do |header|
-        row.delete(header)
-      end
+      area = Measure.new(total_area, :hectare)
+      row << [:area, area]
     end
   end
 end

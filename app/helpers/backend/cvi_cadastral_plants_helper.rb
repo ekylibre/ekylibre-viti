@@ -3,7 +3,8 @@ module Backend
     def range_slider_values(maximum, params = nil, minimum = 0)
       if params.present?
         params.split(',').map do |number|
-          number.include?('.') ? number.to_f : number.to_i
+          number = number.to_f
+          number.to_i if number == number.to_i
         end
       else
         [minimum, maximum]
