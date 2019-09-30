@@ -1,21 +1,24 @@
 FactoryBot.define do
   factory :cvi_cadastral_plant do
-    commune { Faker::Address.city }
-    locality { Faker::Address.city }
-    insee_number { Faker::Number.number(digits: 6) }
-    work_number { Faker::Number.number(digits: 4) }
-    section { %w(A,F,G).sample }
-    land_parcel_number { Faker::Number.number(digits: 1) }
-    measure_value_value { Faker::Number.decimal_part(digits: 3) }
-    measure_value_unit { 'hectare' }
-    campaign { Faker::Date.between(from: 10.years.ago, to: Date.today).year }
-    land_parcel_id { Faker::Alphanumeric.alphanumeric(number: 10) }
-    designation_of_origin_id { Faker::Alphanumeric.alphanumeric(number: 10) }
-    vine_variety_id { Faker::Alphanumeric.alphanumeric(number: 10) }
-    rootstock_id { Faker::Alphanumeric.alphanumeric(number: 10) }
-    inter_vine_plant_distance { Faker::Number.number(digits: 3) }
-    inter_row_distance { Faker::Number.number(digits: 3) }
-    state { [:planted, :removed_with_authorization].sample }
+    commune { FFaker::AddressFR.city }
+    locality { FFaker::AddressFR.city }
+    insee_number { rand(1_000_000) }
+    work_number { rand(5) }
+    section { %w[A,F,G].sample }
+    land_parcel_number { rand(10) }
+    area_value { rand.round(2) }
+    area_unit { :hectare }
+    inter_vine_plant_distance_value { rand.round(2) }
+    inter_vine_plant_distance_unit { :centimeter }
+    inter_row_distance_value { rand.round(2) }
+    inter_row_distance_unit { :centimeter }
+    campaign { FFaker::Time.between(10.years.ago, Date.today).year }
+    land_parcel_id { rand(36**10).to_s(36) }
+    designation_of_origin_id { rand(36**10).to_s(36) }
+    vine_variety_id { rand(36**10).to_s(36) }
+    rootstock_id { rand(36**10).to_s(36) }
+    state { %i[planted removed_with_authorization].sample }
     cvi_statement
   end
 end
+

@@ -274,7 +274,6 @@ group :test do
 
   gem 'factory_bot', '< 5'
   gem 'ruby-terminfo'
-  gem 'faker'
   gem 'shoulda', '~> 3.5'
   gem 'shoulda-matchers', '~> 2.0'
 end
