@@ -22,31 +22,35 @@
 #
 # == Table: cvi_cadastral_plants
 #
-#  campaign                  :string           not null
-#  commune                   :string           not null
-#  created_at                :datetime         not null
-#  cvi_statement_id          :integer
-#  designation_of_origin_id  :integer
-#  id                        :integer          not null, primary key
-#  insee_number              :string           not null
-#  inter_row_distance        :integer          not null
-#  inter_vine_plant_distance :integer          not null
-#  land_parcel_id            :string
-#  land_parcel_number        :string
-#  locality                  :string
-#  measure_value_unit        :string
-#  measure_value_value       :decimal(19, 4)
-#  rootstock_id              :string
-#  section                   :string           not null
-#  state                     :string           not null
-#  updated_at                :datetime         not null
-#  vine_variety_id           :string
-#  work_number               :string           not null
+#  area_unit                       :string
+#  area_value                      :decimal(19, 4)
+#  campaign                        :string           not null
+#  commune                         :string           not null
+#  created_at                      :datetime         not null
+#  cvi_statement_id                :integer
+#  designation_of_origin_id        :integer
+#  id                              :integer          not null, primary key
+#  insee_number                    :string           not null
+#  inter_row_distance_unit         :string
+#  inter_row_distance_value        :decimal(19, 4)
+#  inter_vine_plant_distance_unit  :string
+#  inter_vine_plant_distance_value :decimal(19, 4)
+#  land_parcel_id                  :string
+#  land_parcel_number              :string
+#  locality                        :string
+#  rootstock_id                    :string
+#  section                         :string           not null
+#  state                           :string           not null
+#  updated_at                      :datetime         not null
+#  vine_variety_id                 :string
+#  work_number                     :string           not null
 #
 class CviCadastralPlant < Ekylibre::Record::Base
-  composed_of :measure_value, class_name: 'Measure', mapping: [%w[measure_value_value to_d], %w[measure_value_unit unit]]
+  composed_of :area, class_name: 'Measure', mapping: [%w[area_value to_d], %w[area_unit unit]]
+  composed_of :inter_row_distance, class_name: 'Measure', mapping: [%w[inter_row_distance_value to_d], %w[inter_row_distance_unit unit]]
+  composed_of :inter_vine_plant_distance, class_name: 'Measure', mapping: [%w[inter_vine_plant_distance_value to_d], %w[inter_vine_plant_distance_unit unit]]
 
-  enumerize :state, in: %i[planted removed_with_authorization],  predicates: true
+  enumerize :state, in: %i[planted removed_with_authorization], predicates: true
 
   belongs_to :cvi_statement
   belongs_to :land_parcel, class_name: 'CadastralLandParcelZone', foreign_key: :land_parcel_id
@@ -54,8 +58,10 @@ class CviCadastralPlant < Ekylibre::Record::Base
   belongs_to :vine_variety, class_name: 'MasterVineVariety', foreign_key: :vine_variety_id
   belongs_to :rootstock, class_name: 'MasterVineVariety', foreign_key: :rootstock_id
 
-  validates :commune, :insee_number,:work_number,:section, :campaign, :inter_vine_plant_distance, :inter_row_distance, :state, presence: true
-  validates :measure_value_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
+  validates :commune, :insee_number, :work_number, :section, :campaign, :state, presence: true
+  validates :area_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
+  validates :inter_row_distance_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
+  validates :inter_vine_plant_distance_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
 
   def cadastral_reference
     base = section + work_number
@@ -67,16 +73,15 @@ class CviCadastralPlant < Ekylibre::Record::Base
   end
 
   def area_formated
-    measure_value.to_s(:ha_ar_ca)
+    area.to_s(:ha_ar_ca)
   end
 
   delegate :geographic_area, to: :designation_of_origin
-  alias_method :designation_of_origin_name, :geographic_area
+  alias designation_of_origin_name geographic_area
 
   delegate :specie_name, to: :vine_variety
-  alias_method :vine_variety_name, :specie_name
+  alias vine_variety_name specie_name
 
-  delegate :customs_code,to: :rootstock
-  alias_method :rootstock_number, :customs_code
-
+  delegate :customs_code, to: :rootstock
+  alias rootstock_number customs_code
 end

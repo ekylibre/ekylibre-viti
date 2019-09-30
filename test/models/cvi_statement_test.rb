@@ -30,10 +30,10 @@
 #  extraction_date           :date             not null
 #  farm_name                 :string           not null
 #  id                        :integer          not null, primary key
-#  measure_value_unit        :string
-#  measure_value_value       :decimal(19, 4)
 #  siret_number              :string           not null
 #  state                     :string           not null
+#  total_area_unit           :string
+#  total_area_value          :decimal(19, 4)
 #  updated_at                :datetime         not null
 #
 require 'test_helper'
@@ -43,6 +43,13 @@ class CviStatementTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
     cvi_statement = create(:cvi_statement)
     first_cvi_statement = CviStatement.first
     assert_equal cvi_statement, first_cvi_statement
+  end
+
+  context 'Aggregations' do
+    should 'respond to area, inter_row_distance, inter_vine_plant_distance  with measure object'do
+      cvi_cadastral_plant = create(:cvi_statement)
+      assert_equal 'Measure', cvi_cadastral_plant.total_area.class.name
+    end
   end
 
   context 'with wrong siret number format' do
@@ -68,8 +75,8 @@ class CviStatementTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
 
   context '#total_area_formated' do
     should 'format area' do
-      cvi_statement = create(:cvi_statement, measure_value_value: 1.1456)
-      assert_equal '01 Ha 14 Ar 56 Ca', cvi_statement.total_area_formated
+      cvi_statement = create(:cvi_statement, total_area: Measure.new(1.1455, :hectare))
+      assert_equal '01 Ha 14 Ar 55 Ca', cvi_statement.total_area_formated
     end
   end
 end

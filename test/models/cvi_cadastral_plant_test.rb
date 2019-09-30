@@ -22,26 +22,28 @@
 #
 # == Table: cvi_cadastral_plants
 #
-#  campaign                  :string           not null
-#  commune                   :string           not null
-#  created_at                :datetime         not null
-#  cvi_statement_id          :integer
-#  designation_of_origin_id  :integer
-#  id                        :integer          not null, primary key
-#  insee_number              :string           not null
-#  inter_row_distance        :integer          not null
-#  inter_vine_plant_distance :integer          not null
-#  land_parcel_id            :string
-#  land_parcel_number        :string
-#  locality                  :string
-#  measure_value_unit        :string
-#  measure_value_value       :decimal(19, 4)
-#  rootstock_id              :string
-#  section                   :string           not null
-#  state                     :string           not null
-#  updated_at                :datetime         not null
-#  vine_variety_id           :string
-#  work_number               :string           not null
+#  area_unit                       :string
+#  area_value                      :decimal(19, 4)
+#  campaign                        :string           not null
+#  commune                         :string           not null
+#  created_at                      :datetime         not null
+#  cvi_statement_id                :integer
+#  designation_of_origin_id        :integer
+#  id                              :integer          not null, primary key
+#  insee_number                    :string           not null
+#  inter_row_distance_unit         :string
+#  inter_row_distance_value        :decimal(19, 4)
+#  inter_vine_plant_distance_unit  :string
+#  inter_vine_plant_distance_value :decimal(19, 4)
+#  land_parcel_id                  :string
+#  land_parcel_number              :string
+#  locality                        :string
+#  rootstock_id                    :string
+#  section                         :string           not null
+#  state                           :string           not null
+#  updated_at                      :datetime         not null
+#  vine_variety_id                 :string
+#  work_number                     :string           not null
 #
 require 'test_helper'
 
@@ -52,13 +54,20 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
     assert_equal cvi_cadastral_plant, first_cvi_cadastral_plant
   end
 
+  context 'Aggregations' do
+    should 'respond to area, inter_row_distance, inter_vine_plant_distance  with measure object'do
+      cvi_cadastral_plant = create(:cvi_cadastral_plant)
+      assert_equal 'Measure', cvi_cadastral_plant.area.class.name
+      assert_equal 'Measure', cvi_cadastral_plant.inter_row_distance.class.name
+      assert_equal 'Measure', cvi_cadastral_plant.inter_vine_plant_distance.class.name
+    end
+  end
+
   context 'validations' do
     should validate_presence_of(:commune)
     should validate_presence_of(:section)
     should validate_presence_of(:work_number)
     should validate_presence_of(:campaign)
-    should validate_presence_of(:inter_vine_plant_distance)
-    should validate_presence_of(:inter_row_distance)
     should validate_presence_of(:state)
     should validate_presence_of(:insee_number)
   end

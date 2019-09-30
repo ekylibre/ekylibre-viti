@@ -9,12 +9,14 @@ class CreateCviCadastralPlants < ActiveRecord::Migration
       t.string :land_parcel_number
       t.integer :designation_of_origin_id
       t.string :vine_variety_id
-      t.decimal :measure_value_value, precision: 19, scale: 4
-      t.string :measure_value_unit
+      t.decimal :area_value, precision: 19, scale: 4
+      t.string :area_unit
       t.string :campaign, null: false
       t.string :rootstock_id
-      t.integer :inter_vine_plant_distance, null: false
-      t.integer :inter_row_distance, null: false
+      t.decimal :inter_vine_plant_distance_value, precision: 19, scale: 4
+      t.string :inter_vine_plant_distance_unit
+      t.decimal :inter_row_distance_value, precision: 19, scale: 4
+      t.string :inter_row_distance_unit
       t.string :state, null: false
       t.references :cvi_statement, index: true, foreign_key: true
       t.string :land_parcel_id
