@@ -40,7 +40,7 @@
   E.toggleValidateButton = (container) ->
     requiredFields = container.find('input[data-required]')
     validateItemButton = container.find('button[data-validate]')
-    
+
     toggleState = ->
       toDisable = requiredFields.not(':hidden').filter () ->
         $(this).val() == ''

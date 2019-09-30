@@ -985,6 +985,7 @@ cadastral_land_parcel_zones:
       type: st_point
   id:
     type: string
+    required: true
   net_surface_area:
     type: integer
   section:
@@ -1812,6 +1813,106 @@ custom_fields:
   updater_id:
     type: integer
     references: user
+cvi_cadastral_plants:
+  area_unit:
+    type: string
+  area_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  campaign:
+    type: string
+    required: true
+  commune:
+    type: string
+    required: true
+  created_at:
+    type: datetime
+    required: true
+  cvi_statement_id:
+    type: integer
+    references: cvi_statement
+  designation_of_origin_id:
+    type: integer
+    references: registred_protected_designation_of_origin
+  id:
+    type: integer
+    required: true
+  insee_number:
+    type: string
+    required: true
+  inter_row_distance_unit:
+    type: string
+  inter_row_distance_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  inter_vine_plant_distance_unit:
+    type: string
+  inter_vine_plant_distance_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  land_parcel_id:
+    type: string
+  land_parcel_number:
+    type: string
+  locality:
+    type: string
+  rootstock_id:
+    type: string
+  section:
+    type: string
+    required: true
+  state:
+    type: string
+    required: true
+  updated_at:
+    type: datetime
+    required: true
+  vine_variety_id:
+    type: string
+  work_number:
+    type: string
+    required: true
+cvi_statements:
+  cadastral_plant_count:
+    type: integer
+  cadastral_sub_plant_count:
+    type: integer
+  created_at:
+    type: datetime
+    required: true
+  cvi_number:
+    type: string
+    required: true
+  declarant:
+    type: string
+    required: true
+  extraction_date:
+    type: date
+    required: true
+  farm_name:
+    type: string
+    required: true
+  id:
+    type: integer
+    required: true
+  siret_number:
+    type: string
+    required: true
+  state:
+    type: string
+    required: true
+  total_area_unit:
+    type: string
+  total_area_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  updated_at:
+    type: datetime
+    required: true
 dashboards:
   created_at:
     type: datetime
@@ -3032,6 +3133,8 @@ imports:
   nature:
     type: string
     required: true
+  options:
+    type: jsonb
   progression_percentage:
     type: decimal
     precision: 19
@@ -3416,6 +3519,44 @@ intervention_labellings:
   updater_id:
     type: integer
     references: user
+intervention_model_items:
+  article_reference:
+    type: string
+  id:
+    type: string
+    required: true
+  indicator_name:
+    type: string
+  indicator_unit:
+    type: string
+  indicator_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  intervention_model_id:
+    type: string
+  procedure_item_reference:
+    type: string
+    required: true
+intervention_models:
+  category_name:
+    type: jsonb
+  id:
+    type: string
+    required: true
+  name:
+    type: jsonb
+  number:
+    type: string
+  procedure_reference:
+    type: string
+    required: true
+  working_flow:
+    type: decimal
+    precision: 19
+    scale: 4
+  working_flow_unit:
+    type: string
 intervention_parameter_readings:
   absolute_measure_value_unit:
     type: string
@@ -3761,6 +3902,9 @@ inventories:
     type: string
   custom_fields:
     type: jsonb
+  disable_accountancy:
+    type: boolean
+    default: false
   financial_year_id:
     type: integer
     references: financial_year
@@ -3903,6 +4047,77 @@ issues:
   updater_id:
     type: integer
     references: user
+jailer_config:
+  jkey:
+    type: string
+    limit: 200
+  jvalue:
+    type: string
+    limit: 200
+  jversion:
+    type: string
+    limit: 20
+jailer_dependency:
+  assoc:
+    type: integer
+    required: true
+  depend_id:
+    type: integer
+    references: ''
+    required: true
+  from_pk0:
+    type: string
+  from_type:
+    type: integer
+    required: true
+  r_entitygraph:
+    type: integer
+    required: true
+  to_pk0:
+    type: string
+  to_type:
+    type: integer
+    required: true
+  traversed:
+    type: integer
+jailer_entity:
+  association:
+    type: integer
+  birthday:
+    type: integer
+    required: true
+  orig_birthday:
+    type: integer
+  pk0:
+    type: string
+  r_entitygraph:
+    type: integer
+    required: true
+  type:
+    type: integer
+    required: true
+jailer_graph:
+  age:
+    type: integer
+    required: true
+  id:
+    type: integer
+    required: true
+jailer_set:
+  pk0:
+    type: string
+  set_id:
+    type: integer
+    references: ''
+    required: true
+  type:
+    type: integer
+    required: true
+jailer_tmp:
+  c1:
+    type: integer
+  c2:
+    type: integer
 journal_entries:
   absolute_credit:
     type: decimal
@@ -4754,158 +4969,6 @@ map_layers:
   url:
     type: string
     required: true
-master_accountancy_profiles:
-  charge_account:
-    type: string
-  depreciation_percentage:
-    type: integer
-  fixed_asset_account:
-    type: string
-  fixed_asset_allocation_account:
-    type: string
-  fixed_asset_expenses_account:
-    type: string
-  id:
-    type: integer
-    required: true
-  nature:
-    type: string
-    required: true
-  revenue_account:
-    type: string
-  stock_account:
-    type: string
-  stock_movement_account:
-    type: string
-master_equipment_costs:
-  currency:
-    type: string
-    required: true
-  equipment_nature_id:
-    type: integer
-    references: master_equipment_nature
-    required: true
-  id:
-    type: integer
-    required: true
-  indicator_name:
-    type: string
-  indicator_unit:
-    type: string
-  maximal_value:
-    type: decimal
-    precision: 19
-    scale: 4
-  minimal_value:
-    type: decimal
-    precision: 19
-    scale: 4
-  segment_1_amount:
-    type: decimal
-    precision: 19
-    scale: 4
-  segment_1_threshold:
-    type: decimal
-    precision: 19
-    scale: 4
-  segment_2_amount:
-    type: decimal
-    precision: 19
-    scale: 4
-  segment_2_threshold:
-    type: decimal
-    precision: 19
-    scale: 4
-  segment_3_amount:
-    type: decimal
-    precision: 19
-    scale: 4
-  segment_3_threshold:
-    type: decimal
-    precision: 19
-    scale: 4
-  segment_average_amount:
-    type: decimal
-    precision: 19
-    scale: 4
-    required: true
-  unit:
-    type: string
-    required: true
-master_equipment_flows:
-  equipment_nature_id:
-    type: integer
-    references: master_equipment_nature
-    required: true
-  id:
-    type: integer
-    required: true
-  indicator_name:
-    type: string
-  indicator_unit:
-    type: string
-  indicator_value:
-    type: decimal
-    precision: 19
-    scale: 4
-  intervention_flow:
-    type: decimal
-    precision: 19
-    scale: 4
-  procedure_name:
-    type: string
-master_equipment_natures:
-  id:
-    type: integer
-    required: true
-  main_frozen_indicator_name:
-    type: string
-  main_frozen_indicator_unit:
-    type: string
-  name:
-    type: jsonb
-  nature:
-    type: string
-    required: true
-  other_frozen_indicator_name:
-    type: string
-master_fertilizers:
-  derivative_of:
-    type: string
-  id:
-    type: integer
-    required: true
-  label_fra:
-    type: string
-    required: true
-  name:
-    type: string
-    required: true
-  nature:
-    type: string
-    required: true
-  nitrogen_concentration:
-    type: decimal
-    precision: 19
-    scale: 4
-  phosphorus_concentration:
-    type: decimal
-    precision: 19
-    scale: 4
-  potassium_concentration:
-    type: decimal
-    precision: 19
-    scale: 4
-  sulfur_trioxyde_concentration:
-    type: decimal
-    precision: 19
-    scale: 4
-  variant:
-    type: string
-    required: true
-  variety:
-    type: string
-    required: true
 master_production_natures:
   agroedi_crop_code:
     type: string
@@ -4956,6 +5019,26 @@ master_production_outputs:
   production_system_name:
     type: string
     required: true
+master_vine_varieties:
+  category_name:
+    type: string
+    required: true
+  color:
+    type: string
+  customs_code:
+    type: string
+  fr_validated:
+    type: string
+  id:
+    type: string
+    required: true
+  specie_long_name:
+    type: string
+  specie_name:
+    type: string
+    required: true
+  utility:
+    type: string
 naming_format_fields:
   created_at:
     type: datetime
@@ -5296,6 +5379,8 @@ parcel_items:
   analysis_id:
     type: integer
     references: analysis
+  annotation:
+    type: text
   created_at:
     type: datetime
     required: true
@@ -7211,6 +7296,26 @@ registered_enterprises:
     type: string
   postal_code:
     type: string
+registered_legal_positions:
+  code:
+    type: string
+    required: true
+  country:
+    type: string
+    required: true
+  fiscal_positions:
+    type: text
+  id:
+    type: integer
+    required: true
+  insee_code:
+    type: string
+    required: true
+  name:
+    type: jsonb
+  nature:
+    type: string
+    required: true
 registered_pfi_crops:
   id:
     type: integer
@@ -7250,24 +7355,18 @@ registered_pfi_targets:
     required: true
   reference_label_fra:
     type: string
-registered_phytosanitary_phrases:
-  phrase_code:
-    type: string
-    required: true
-  product_id:
-    type: integer
-    references: product
-    required: true
 registered_phytosanitary_products:
+  active_compounds:
+    type: string
+  allowed_mentions:
+    type: jsonb
   firm_name:
     type: string
-    required: true
   id:
     type: integer
     required: true
   in_field_reentry_delay:
     type: integer
-    required: true
   maaid:
     type: string
     required: true
@@ -7279,7 +7378,21 @@ registered_phytosanitary_products:
     required: true
   nature:
     type: string
+  operator_protection_mentions:
+    type: text
+  other_name:
+    type: string
+  product_type:
+    type: string
+  restricted_mentions:
+    type: string
+  started_on:
+    type: date
+  state:
+    type: string
     required: true
+  stopped_on:
+    type: date
 registered_phytosanitary_risks:
   product_id:
     type: integer
@@ -7288,39 +7401,62 @@ registered_phytosanitary_risks:
   risk_code:
     type: string
     required: true
+  risk_phrase:
+    type: string
+    required: true
 registered_phytosanitary_usages:
   applications_count:
     type: integer
-    required: true
   applications_frequency:
     type: jsonb
+  decision_date:
+    type: date
   description:
     type: jsonb
+  development_stage_max:
+    type: integer
+  development_stage_min:
+    type: integer
   dose_quantity:
     type: decimal
     precision: 19
     scale: 4
-    required: true
   dose_unit:
     type: string
+  dose_unit_factor:
+    type: float
   dose_unit_name:
     type: string
+  ephy_usage_phrase:
+    type: string
+    required: true
+  id:
+    type: string
+    required: true
   pre_harvest_delay:
     type: integer
-    required: true
+  pre_harvest_delay_bbch:
+    type: integer
   product_id:
     type: integer
     references: product
     required: true
   specie:
     type: string
-    required: true
   target_name:
     type: jsonb
   treatment:
     type: jsonb
+  untreated_buffer_aquatic:
+    type: integer
+  untreated_buffer_arthropod:
+    type: integer
   untreated_buffer_distance:
     type: integer
+  untreated_buffer_plants:
+    type: integer
+  usage_conditions:
+    type: string
 registered_postal_zones:
   city_centroid:
     type: geometry
@@ -7372,6 +7508,22 @@ registered_water_rivers:
       srid: 4326
       type: line_string
     required: true
+registred_protected_designation_of_origins:
+  eu_sign:
+    type: string
+  fr_sign:
+    type: string
+  geographic_area:
+    type: string
+  ida:
+    type: integer
+    required: true
+  product_human_name:
+    type: jsonb
+  product_human_name_fra:
+    type: string
+  reference_number:
+    type: string
 regularizations:
   affair_id:
     type: integer
@@ -8352,6 +8504,96 @@ teams:
   updater_id:
     type: integer
     references: user
+technical_worflow_procedure_items:
+  actor_reference:
+    type: string
+  article_reference:
+    type: string
+  id:
+    type: string
+    required: true
+  procedure_item_reference:
+    type: string
+  procedure_reference:
+    type: string
+    required: true
+  quantity:
+    type: decimal
+    precision: 19
+    scale: 4
+  technical_worflow_procedure_id:
+    type: string
+    required: true
+  unit:
+    type: string
+technical_worflow_procedures:
+  frequency:
+    type: string
+  id:
+    type: string
+    required: true
+  name:
+    type: jsonb
+    required: true
+  period:
+    type: string
+  position:
+    type: integer
+    required: true
+  procedure_reference:
+    type: string
+    required: true
+  repetition:
+    type: integer
+  technical_worflow_id:
+    type: string
+    required: true
+technical_worflow_sequences:
+  family:
+    type: string
+  id:
+    type: string
+    required: true
+  name:
+    type: jsonb
+    required: true
+  production_system:
+    type: string
+  specie:
+    type: string
+  technical_worflow_id:
+    type: string
+    required: true
+  technical_worflow_sequence_id:
+    type: string
+    required: true
+  year_start:
+    type: integer
+  year_stop:
+    type: integer
+technical_worflows:
+  family:
+    type: string
+  id:
+    type: string
+    required: true
+  life_cycle:
+    type: string
+  life_state:
+    type: string
+  name:
+    type: jsonb
+    required: true
+  production_system:
+    type: string
+  specie:
+    type: string
+  start_day:
+    type: integer
+  start_month:
+    type: integer
+  unit:
+    type: string
 tokens:
   created_at:
     type: datetime
@@ -8541,6 +8783,211 @@ users:
   updater_id:
     type: integer
     references: user
+variant_categories:
+  depreciable:
+    type: boolean
+  depreciation_percentage:
+    type: integer
+  fixed_asset_account:
+    type: string
+  fixed_asset_allocation_account:
+    type: string
+  fixed_asset_expenses_account:
+    type: string
+  id:
+    type: integer
+    required: true
+  name:
+    type: jsonb
+  nature:
+    type: string
+    required: true
+  purchasable:
+    type: boolean
+  purchase_account:
+    type: string
+  reference_name:
+    type: string
+    required: true
+  sale_account:
+    type: string
+  saleable:
+    type: boolean
+  stock_account:
+    type: string
+  stock_movement_account:
+    type: string
+  storable:
+    type: boolean
+variant_doer_contracts:
+  coefficient_total_cost:
+    type: decimal
+    precision: 19
+    scale: 4
+  duration:
+    type: string
+  gross_hourly_wage:
+    type: decimal
+    precision: 19
+    scale: 4
+  id:
+    type: string
+    required: true
+  name:
+    type: jsonb
+  net_hourly_wage:
+    type: decimal
+    precision: 19
+    scale: 4
+  reference_name:
+    type: string
+    required: true
+  variant_id:
+    type: string
+  weekly_working_time:
+    type: string
+variant_natures:
+  abilities:
+    type: text
+  derivative_of:
+    type: string
+  id:
+    type: integer
+    required: true
+  indicators:
+    type: text
+  name:
+    type: jsonb
+  nature:
+    type: string
+  population_counting:
+    type: string
+    required: true
+  reference_name:
+    type: string
+    required: true
+variant_prices:
+  currency:
+    type: string
+    required: true
+  id:
+    type: string
+    required: true
+  main_indicator:
+    type: string
+  main_indicator_maximal_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  main_indicator_minimal_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  main_indicator_unit:
+    type: string
+  packaging_id:
+    type: string
+  reference_article_name:
+    type: string
+    required: true
+  reference_name:
+    type: string
+    required: true
+  reference_packaging_name:
+    type: string
+    required: true
+  started_on:
+    type: date
+    required: true
+  threshold_max_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  threshold_min_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  unit_pretax_amount:
+    type: decimal
+    precision: 19
+    scale: 4
+    required: true
+  usage:
+    type: string
+    required: true
+  variant_id:
+    type: string
+  working_flow_unit:
+    type: string
+  working_flow_value:
+    type: decimal
+    precision: 19
+    scale: 4
+variant_units:
+  a:
+    type: decimal
+    precision: 25
+    scale: 10
+  b:
+    type: decimal
+    precision: 25
+    scale: 10
+  capacity:
+    type: decimal
+    precision: 25
+    scale: 10
+  capacity_unit:
+    type: string
+  class_name:
+    type: string
+    required: true
+  d:
+    type: decimal
+    precision: 25
+    scale: 10
+  dimension:
+    type: string
+  id:
+    type: string
+    required: true
+  name:
+    type: jsonb
+  reference_name:
+    type: string
+    required: true
+  symbol:
+    type: string
+  unit_id:
+    type: string
+variants:
+  category:
+    type: string
+  class_name:
+    type: string
+  default_unit:
+    type: string
+  id:
+    type: string
+    required: true
+  indicators:
+    type: jsonb
+  name:
+    type: jsonb
+  nature:
+    type: string
+  reference_name:
+    type: string
+    required: true
+  specie:
+    type: string
+  target_specie:
+    type: string
+  variant_category_id:
+    type: integer
+    references: ''
+  variant_nature_id:
+    type: integer
+    references: ''
 versions:
   created_at:
     type: datetime

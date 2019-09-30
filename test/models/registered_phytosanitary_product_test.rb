@@ -22,13 +22,22 @@
 #
 # == Table: registered_phytosanitary_products
 #
-#  firm_name              :string           not null
-#  id                     :integer          not null, primary key
-#  in_field_reentry_delay :integer          not null
-#  maaid                  :string           not null
-#  mix_category_code      :string           not null
-#  name                   :string           not null
-#  nature                 :string           not null
+#  active_compounds             :string
+#  allowed_mentions             :jsonb
+#  firm_name                    :string
+#  id                           :integer          not null, primary key
+#  in_field_reentry_delay       :integer
+#  maaid                        :string           not null
+#  mix_category_code            :string           not null
+#  name                         :string           not null
+#  nature                       :string
+#  operator_protection_mentions :text
+#  other_name                   :string
+#  product_type                 :string
+#  restricted_mentions          :string
+#  started_on                   :date
+#  state                        :string           not null
+#  stopped_on                   :date
 #
 require 'test_helper'
 

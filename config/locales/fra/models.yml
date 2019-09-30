@@ -1,60 +1,57 @@
 fra:
-  errors:
-    messages: &error_messages
-      accepted: "%{attribute} doit être accepté"
-      after: "%{attribute} doit être après le %{restriction}"
-      before: "%{attribute} doit être avant le %{restriction}"
-      blank: "%{attribute} ne peut pas être vide"
-      confirmation: "%{attribute} est différent du champ de confirmation"
-      contains_blank_line: "%{attribute} contient une ligne vide" #?
-      contains_blank_page: "%{attribute} contient une page vide" #?
-      currency_does_not_match: "La devise de «\_%{attribute}\_» ne correspond pas celle attendue\_: %{currency}"
-      empty: "%{attribute} ne peut pas être vide"
-      entry_has_been_already_validated: "La pièce a été validée et ne peut plus être modifiée" #?
-      equal_to: "%{attribute} doit être égal à %{count}"
-      even: "%{attribute} doit être impair"
-      exclusion: "%{attribute} est reservé"
-      greater_than: "%{attribute} doit être plus grand que %{count}"
-      greater_than_or_equal_to: "%{attribute} doit être plus grand ou égal à %{count}"
-      included_in: "La valeur de %{attribute} doit être comprise entre %{minimum} et %{maximum}"
-      inclusion: "%{attribute} n’est pas inclus dans la liste"
-      invalid: "%{attribute} est invalide"
-      invalid_at: "%{attribute} est invalide. Erreur près de %{error}"
-      invalid_child: "Au moins une des valeurs de %{attribute} n'est pas valide."
-      invalid_date: "Veuillez saisir une date au format jj-mm-aaaa ou jj/mm/aaaa"
-      invalid_datetime: "%{attribute} est invalide"
-      invalid_siret: "%{value} n'est pas un numéro de SIRET valide" #?
-      invalid_syntax: "%{attribute} comporte des erreurs de syntaxe : %{errors}" #?
-      invalid_time: "%{attribute} est invalide"
-      invalid_token: "%{attribute} est invalide. Symbole inconnu %{error}. Les symboles acceptés sont %{accepted}."
-      is: "%{attribute} doit être un(e) %{thing}"
-      is_at: "%{attribute} doit être le %{restriction}"
-      less_than: "%{attribute} doit être inférieur à %{count}"
-      less_than_or_equal_to: "%{attribute} doit être inférieur ou égal à %{count}"
-      missing_bank_details_for_sepa: "Les valeurs IBAN et/ou Titulaire du compte sont manquantes pour la trésorerie sélectionnée."
-      must_be_a_mail_address: "%{attribute} doit être une adresse e-mail"
-      not_a_number: "%{attribute} n’est pas un nombre"
-      not_an_end_of_month: "%{attribute} doit être une fin de mois"
-      not_an_integer: "%{attribute} doit être un nombre entier"
-      nothing_to_pay: "Il n’y a rien à payer. Si vous voulez enregistrer un acompte, n’oubliez pas de le préciser."
-      odd: "%{attribute} doit être pair"
-      on_or_after: "%{attribute} doit être le ou après le %{restriction}"
-      on_or_before: "%{attribute} doit être le ou avant le %{restriction}"
-      overlap: "%{attribute} se trouve sur un enregistrement existant"
-      overlap_sibling: "%{attribute} se trouve sur une période d'un autre enregistrement"
-      period_overlap: "%{attribute} se trouve sur une période d’un enregistrement existant" #?
-      posterior: "%{attribute} doit être postérieure à %{to}"
-      record_invalid: "Validations échouées\_: %{errors}"
-      should_be_the_last_day_of_month: "%{attribute} doit être le dernier jour du mois."
-      taken: "%{attribute} a déjà été pris"
-      too_long: "%{attribute} est trop long (%{count} caractères maximum)"
-      too_short: "%{attribute} est trop court (%{count} caractères minimum)"
-      unitary_in_parcel: "Articles unitaires ne peuvent être envoyés un par un"
-      wrong_length: "%{attribute} n’est pas d’une bonne longueur (%{count} caractères)"
-  activemodel:
-    errors:
-      messages:
-        <<: *error_messages
+  activemodel: #?
+    errors: #?
+      messages: #?
+        accepted: "%{attribute} doit être accepté" #?
+        after: "%{attribute} doit être après le %{restriction}" #?
+        before: "%{attribute} doit être avant le %{restriction}" #?
+        blank: "%{attribute} ne peut pas être vide" #?
+        confirmation: "%{attribute} est différent du champ de confirmation" #?
+        contains_blank_line: "%{attribute} contient une ligne vide" #?
+        contains_blank_page: "%{attribute} contient une page vide" #?
+        currency_does_not_match: "La devise de «\_%{attribute}\_» ne correspond pas celle attendue\_: %{currency}" #?
+        empty: "%{attribute} ne peut pas être vide" #?
+        entry_has_been_already_validated: "La pièce a été validée et ne peut plus être modifiée" #?
+        equal_to: "%{attribute} doit être égal à %{count}" #?
+        even: "%{attribute} doit être impair" #?
+        exclusion: "%{attribute} est reservé" #?
+        greater_than: "%{attribute} doit être plus grand que %{count}" #?
+        greater_than_or_equal_to: "%{attribute} doit être plus grand ou égal à %{count}" #?
+        included_in: "La valeur de %{attribute} doit être comprise entre %{minimum} et %{maximum}" #?
+        inclusion: "%{attribute} n’est pas inclus dans la liste" #?
+        invalid: "%{attribute} est invalide" #?
+        invalid_at: "%{attribute} est invalide. Erreur près de %{error}" #?
+        invalid_child: "Au moins une des valeurs de %{attribute} n'est pas valide." #?
+        invalid_date: "Veuillez saisir une date au format jj-mm-aaaa ou jj/mm/aaaa" #?
+        invalid_datetime: "%{attribute} est invalide" #?
+        invalid_siret: "%{value} n'est pas un numéro de SIRET valide" #?
+        invalid_syntax: "%{attribute} comporte des erreurs de syntaxe : %{errors}" #?
+        invalid_time: "%{attribute} est invalide" #?
+        invalid_token: "%{attribute} est invalide. Symbole inconnu %{error}. Les symboles acceptés sont %{accepted}." #?
+        is: "%{attribute} doit être un(e) %{thing}" #?
+        is_at: "%{attribute} doit être le %{restriction}" #?
+        less_than: "%{attribute} doit être inférieur à %{count}" #?
+        less_than_or_equal_to: "%{attribute} doit être inférieur ou égal à %{count}" #?
+        missing_bank_details_for_sepa: "Les valeurs IBAN et/ou Titulaire du compte sont manquantes pour la trésorerie sélectionnée." #?
+        must_be_a_mail_address: "%{attribute} doit être une adresse e-mail" #?
+        not_a_number: "%{attribute} n’est pas un nombre" #?
+        not_an_end_of_month: "%{attribute} doit être une fin de mois" #?
+        not_an_integer: "%{attribute} doit être un nombre entier" #?
+        nothing_to_pay: "Il n’y a rien à payer. Si vous voulez enregistrer un acompte, n’oubliez pas de le préciser." #?
+        odd: "%{attribute} doit être pair" #?
+        on_or_after: "%{attribute} doit être le ou après le %{restriction}" #?
+        on_or_before: "%{attribute} doit être le ou avant le %{restriction}" #?
+        overlap: "%{attribute} se trouve sur un enregistrement existant" #?
+        overlap_sibling: "%{attribute} se trouve sur une période d'un autre enregistrement" #?
+        period_overlap: "%{attribute} se trouve sur une période d’un enregistrement existant" #?
+        posterior: "%{attribute} doit être postérieure à %{to}" #?
+        record_invalid: "Validations échouées\_: %{errors}" #?
+        should_be_the_last_day_of_month: "%{attribute} doit être le dernier jour du mois." #?
+        taken: "%{attribute} a déjà été pris" #?
+        too_long: "%{attribute} est trop long (%{count} caractères maximum)" #?
+        too_short: "%{attribute} est trop court (%{count} caractères minimum)" #?
+        unitary_in_parcel: "Articles unitaires ne peuvent être envoyés un par un" #?
+        wrong_length: "%{attribute} n’est pas d’une bonne longueur (%{count} caractères)" #?
       models: #?
         sepa/credit_transfer_transaction: #?
           attributes: #?
@@ -92,6 +89,26 @@ fra:
         variety: "Type" #?
       cashes:
         main_account: "Compte principal"
+      cvi_cadastral_plant:
+        area: "Superficie déclarée"
+        cadastral_reference: "Ref. cadastrale"
+        commune: "Commune"
+        designation_of_origin_name: "Produit"
+        inter_row_distance: "Inter rang"
+        inter_vine_plant_distance: "Inter pied"
+        locality: "Lieu-dit"
+        rootstock_number: "Porte-greffe"
+        state: "Etat"
+        vine_variety_name: "Cépage"
+      cvi_statement:
+        cadastral_plant_count: "Nombre de cultures cadastrales"
+        cadastral_sub_plant_count: "Nombre de sous-cultures cadastrales"
+        created_at: "Date d'import"
+        cvi_number: "N° de CVI"
+        extraction_date: "Date d'extraction"
+        farm_name: "Nom du domaine"
+        state: "Status"
+        total_area: "Superficie encépagée déclarée"
       document:
         filename: "Fichier"
       document_archive: #?
@@ -553,6 +570,8 @@ fra:
       cultivable_zone: "Zone cultivable"
       custom_field: "Champ complémentaire"
       custom_field_choice: "Choix de champ complémentaire"
+      # cvi_cadastral_plant: "CVI cadastral plant"
+      cvi_statement: "Casier Viticole Informatisé"
       dashboard: "Tableau de bord"
       debt_transfer: "Transfert de dettes"
       delivery: "Livraison"
@@ -594,7 +613,7 @@ fra:
       interest_account: "Compte d'intérêt" #?
       intervention: "Intervention"
       intervention_agent: "Agent d’intervention"
-      intervention_costing: "Coût d’intervention"
+      intervention_costing: "Coût d’intervention" #?
       intervention_doer: "Opérateur d’intervention"
       intervention_group_parameter: "Groupe de paramètre d’intervention"
       intervention_input: "Intrant d’intervention"
@@ -624,16 +643,16 @@ fra:
       manure_management_plan: "Plan de fumure"
       manure_management_plan_zone: "Zone de plan de fumure"
       map_layer: "Couche de carte"
-      master_equipment_cost: "Coûts d'usage des équipements"
-      master_equipment_flow: "Débits de chantier des équipements"
-      master_equipment_nature: "Référence des tyoes d'équipements"
-      master_production_nature: "Codes de référence des productions"
-      master_production_output: "Référence des rendements de production"
+      master_equipment_cost: "Coûts d'usage des équipements" #?
+      master_equipment_flow: "Débits de chantier des équipements" #?
+      master_equipment_nature: "Référence des tyoes d'équipements" #?
+      master_production_nature: "Codes de référence des productions" #?
+      master_production_output: "Référence des rendements de production" #?
       matter: "Matière"
-      naming_format: "Format de nommage"
-      naming_format_field: "Champ du format de nommage"
-      naming_format_field_land_parcel: "Champ du format de nommage des parcelles"
-      naming_format_land_parcel: "Format de nommage des parcelles"
+      naming_format: "Format de nommage" #?
+      naming_format_field: "Champ du format de nommage" #?
+      naming_format_field_land_parcel: "Champ du format de nommage des parcelles" #?
+      naming_format_land_parcel: "Format de nommage des parcelles" #?
       net_service: "Service en ligne"
       notification: "Notification"
       observation: "Observation"
@@ -642,7 +661,7 @@ fra:
       outgoing_payment_mode: "Mode de décaissement"
       parcel: "Colis"
       parcel_item: "Élément de colis"
-      parcel_item_storing: "Zone de stockage des éléments de colis"
+      parcel_item_storing: "Zone de stockage des éléments de colis" #?
       payslip: "Salaire"
       payslip_affair: "Affaire de salaire"
       payslip_nature: "Type de salaire"
@@ -675,7 +694,7 @@ fra:
       product_population: "Population de produit"
       product_reading: "Valeur d’indicateur"
       production: "Production" #?
-      project_budget: "Budget interne"
+      project_budget: "Budget interne" #?
       purchase: "Achat"
       purchase_affair: "Affaire d’achat"
       purchase_gap: "Écart d’achat"
@@ -687,7 +706,7 @@ fra:
       reception: "Réception"
       reception_item: "Élément de réception"
       registered_agroedi_code: "Code agroedi référencé"
-      registered_building_zone: "Zone de bâtiment référencée"
+      registered_building_zone: "Zone de bâtiment référencée" #?
       registered_pfi_crop: "Récolte pfi référencée"
       registered_pfi_dose: "Dose pfi référencée"
       registered_pfi_target: "Cible pfi référencée"
@@ -697,8 +716,8 @@ fra:
       registered_phytosanitary_usage: "Usage phytosanitaire référencé"
       registered_postal_zone: "Code postal référencé"
       registered_seed: "Graine référencée"
-      registered_water_lake: "Eau de lac référencée"
-      registered_water_river: "Eau de rivière référencée"
+      registered_water_lake: "Eau de lac référencée" #?
+      registered_water_river: "Eau de rivière référencée" #?
       regularization: "Régularisation"
       role: "Rôle"
       sale: "Vente"
@@ -731,7 +750,7 @@ fra:
       user: "Utilisateur"
       vegetal_activity: "Activité végétale" #?
       version: "Version"
-      wice_grid_serialized_query: "Requête de tableau en série"
+      wice_grid_serialized_query: "Requête de tableau en série" #?
       worker: "Équipier"
       zone: "Zone"
   attributes:
@@ -884,7 +903,7 @@ fra:
     cap_land_parcel: "Parcelle PAC"
     cap_land_parcels: "Parcelles PAC"
     cap_neutral_areas: "Surfaces non agricole (SNA)"
-    cap_number: "Numéro PAC"
+    cap_number: "Numéro PAC" #?
     cap_statement: "Déclaration PAC"
     cap_statements: "Déclarations PAC"
     carried: "Tracté"
@@ -1028,6 +1047,7 @@ fra:
     custom_fields_columns: "Champs personnalisés colonnes"
     customized: "Enregistrement personnalisé" #?
     customized_type: "Type d’enregistrement personnalisé"
+    cvi_cadastral_plants: "Cultures cadastrales CVI"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "Excrétion d’azote journalière"
     dashboards: "Tableaux de bord"
@@ -1045,7 +1065,7 @@ fra:
     debtor: "Debiteur"
     decimal: "Décimal" #?
     decimal_value: "Valeur décimale"
-    declarant: "Declarant"
+    declarant: "Déclarant"
     declared_at: "Déclarée le" #?
     deductible_pretax_amount: "Montant HT déductible"
     deductible_tax_amount: "Montant de la taxe déductible"
@@ -1341,7 +1361,8 @@ fra:
     initialization_vectors: "Vecteurs d’initialisation"
     initiated_on: "Lancé le"
     inputs: "Intrants"
-    inputs_cost: "Coût des intrants"
+    inputs_cost: "Coût des intrants" #?
+    # insee_number: "Insee number"
     inspection: "Agréage"
     inspection_calibration_natures: "Natures d’étalonnage d’inspection"
     inspection_calibration_scales: "Échelles d’étalonnage d’inspection"
@@ -1552,6 +1573,7 @@ fra:
     name: "Nom"
     name_1_to_2: "Nom «\_Personne 1 vers Personne 2\_»" #?
     name_2_to_1: "Nom «\_Personne 2 vers Personne 1\_»" #?
+    # naming_format: "Naming format"
     nature: "Type"
     nature_name: "Nom de la nature du produit"
     natures: "Natures"
@@ -1560,7 +1582,7 @@ fra:
     net_mass_value: "Masse nette"
     net_mass_yield: "Rendement net"
     net_service: "Service web"
-    net_surface_area: "Surface" #?
+    net_surface_area: "Surface"
     net_volume: "Volume net" #?
     new_container: "Nouvel emplacement"
     new_group: "Nouveau groupe"
@@ -1915,6 +1937,7 @@ fra:
     seasons: "Saisonnalités"
     second_producer: "Second producteur" #?
     second_producer_way: "Voie du second producteur" #?
+    # section: "Section"
     seeding_density_unit: "Unité de densité de semis"
     seeding_density_value: "Densité de semis"
     selected: "Sélectionné"
@@ -2056,7 +2079,8 @@ fra:
     token: "Jeton"
     tool: "Outil"
     tools: "Outils"
-    tools_cost: "Coût des outils"
+    tools_cost: "Coût des outils" #?
+    # total_area: "Total area"
     total_cost: "Coût total"
     total_doer_cost: "Total des coûts"
     total_input_cost: "Coût total des intrants"
@@ -2079,7 +2103,6 @@ fra:
     transports: "Transports" #?
     trouble_description: "Description du problème"
     trouble_encountered: "Problème durant l'intervention"
-    vat_account: "Compte TVA"
     type: "Type"
     # uid: "UID"
     unconfirmed_email: "E-mail non confirmé"
@@ -2133,6 +2156,7 @@ fra:
     variants: "Variantes"
     variety: "Variété"
     variety_name: "nom de la variété"
+    vat_account: "Compte TVA"
     vat_number: "Numéro de TVA intra-communautaire"
     vat_subjected: "Assujetti à la TVA"
     vendor_euid: "Constructeur"
@@ -2164,6 +2188,58 @@ fra:
     working_zone_area: "Surface de la zone travaillée"
     zone_memberships: "Appartenances de zone"
     zones: "Zones"
+  errors: #?
+    messages: #?
+      accepted: "%{attribute} doit être accepté" #?
+      after: "%{attribute} doit être après le %{restriction}" #?
+      before: "%{attribute} doit être avant le %{restriction}" #?
+      blank: "%{attribute} ne peut pas être vide" #?
+      confirmation: "%{attribute} est différent du champ de confirmation" #?
+      contains_blank_line: "%{attribute} contient une ligne vide" #?
+      contains_blank_page: "%{attribute} contient une page vide" #?
+      currency_does_not_match: "La devise de «\_%{attribute}\_» ne correspond pas celle attendue\_: %{currency}" #?
+      empty: "%{attribute} ne peut pas être vide" #?
+      entry_has_been_already_validated: "La pièce a été validée et ne peut plus être modifiée" #?
+      equal_to: "%{attribute} doit être égal à %{count}" #?
+      even: "%{attribute} doit être impair" #?
+      exclusion: "%{attribute} est reservé" #?
+      greater_than: "%{attribute} doit être plus grand que %{count}" #?
+      greater_than_or_equal_to: "%{attribute} doit être plus grand ou égal à %{count}" #?
+      included_in: "La valeur de %{attribute} doit être comprise entre %{minimum} et %{maximum}" #?
+      inclusion: "%{attribute} n’est pas inclus dans la liste" #?
+      invalid: "%{attribute} est invalide" #?
+      invalid_at: "%{attribute} est invalide. Erreur près de %{error}" #?
+      invalid_child: "Au moins une des valeurs de %{attribute} n'est pas valide." #?
+      invalid_date: "Veuillez saisir une date au format jj-mm-aaaa ou jj/mm/aaaa" #?
+      invalid_datetime: "%{attribute} est invalide" #?
+      invalid_siret: "%{value} n'est pas un numéro de SIRET valide" #?
+      invalid_syntax: "%{attribute} comporte des erreurs de syntaxe : %{errors}" #?
+      invalid_time: "%{attribute} est invalide" #?
+      invalid_token: "%{attribute} est invalide. Symbole inconnu %{error}. Les symboles acceptés sont %{accepted}." #?
+      is: "%{attribute} doit être un(e) %{thing}" #?
+      is_at: "%{attribute} doit être le %{restriction}" #?
+      less_than: "%{attribute} doit être inférieur à %{count}" #?
+      less_than_or_equal_to: "%{attribute} doit être inférieur ou égal à %{count}" #?
+      missing_bank_details_for_sepa: "Les valeurs IBAN et/ou Titulaire du compte sont manquantes pour la trésorerie sélectionnée." #?
+      must_be_a_mail_address: "%{attribute} doit être une adresse e-mail" #?
+      not_a_number: "%{attribute} n’est pas un nombre" #?
+      not_an_end_of_month: "%{attribute} doit être une fin de mois" #?
+      not_an_integer: "%{attribute} doit être un nombre entier" #?
+      nothing_to_pay: "Il n’y a rien à payer. Si vous voulez enregistrer un acompte, n’oubliez pas de le préciser." #?
+      odd: "%{attribute} doit être pair" #?
+      on_or_after: "%{attribute} doit être le ou après le %{restriction}" #?
+      on_or_before: "%{attribute} doit être le ou avant le %{restriction}" #?
+      overlap: "%{attribute} se trouve sur un enregistrement existant" #?
+      overlap_sibling: "%{attribute} se trouve sur une période d'un autre enregistrement" #?
+      period_overlap: "%{attribute} se trouve sur une période d’un enregistrement existant" #?
+      posterior: "%{attribute} doit être postérieure à %{to}" #?
+      record_invalid: "Validations échouées\_: %{errors}" #?
+      should_be_the_last_day_of_month: "%{attribute} doit être le dernier jour du mois." #?
+      taken: "%{attribute} a déjà été pris" #?
+      too_long: "%{attribute} est trop long (%{count} caractères maximum)" #?
+      too_short: "%{attribute} est trop court (%{count} caractères minimum)" #?
+      unitary_in_parcel: "Articles unitaires ne peuvent être envoyés un par un" #?
+      wrong_length: "%{attribute} n’est pas d’une bonne longueur (%{count} caractères)" #?
   models:
     account:
       label: "%{number} - %{name}"

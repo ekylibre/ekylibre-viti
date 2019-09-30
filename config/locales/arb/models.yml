@@ -93,6 +93,26 @@ arb:
         entity_id: "ملف" #?
         string_value: "قيمة النص" #?
         updater_id: "تحديث" #?
+      cvi_cadastral_plant:
+        # area: "Area"
+        # cadastral_reference: "Cadastral reference"
+        # commune: "Commune"
+        # designation_of_origin_name: "Protected designation of origin"
+        # inter_row_distance: "Inter row distance"
+        # inter_vine_plant_distance: "Inter vine plant distance"
+        # locality: "locality"
+        # rootstock_number: "Rootstock"
+        # state: "State"
+        # vine_variety_name: "Variety of vine"
+      cvi_statement:
+        # cadastral_plant_count: "Cadastral plant count"
+        # cadastral_sub_plant_count: "Cadastral sub plant count"
+        # created_at: "Date of import"
+        # cvi_number: "Cvi number"
+        # extraction_date: "Extraction date"
+        # farm_name: "Wine estate"
+        # state: "State"
+        # total_area: "Total area"
       delay: #?
         active: "صالحة للاستخدام" #?
         sale_natures: "نوع البيع" #?
@@ -238,9 +258,10 @@ arb:
         stopped_at:
           # one: "Stopped at is inferior than expected"
           # other: "{{count}} Stopped at is inferior than expected"
-      inventory: #?
+      inventory:
         comment: "تعليق" #?
         created_at: "اكتمل يوم" #?
+        # disable_accountancy: "Do not update accounting"
         journal_record_id: "السجلات الحسلبية" #?
         lines: "طرق عملية الجرد" #?
       inventory_item: #?
@@ -351,7 +372,11 @@ arb:
         contract: "عقد"
       parcel_item:
         population: "كمية"
+        # product_name: "Product name"
       parcel_item_storing:
+        # conditionning: "Conditionning"
+        # conditionning_quantity: "Conditionning quantity"
+        # quantity: "Total quantity"
         # reception_given_at: "Given at"
         # reception_planned_at: "Planned at"
       plant:
@@ -908,6 +933,8 @@ arb:
       custom_field: "الحقول التكميلية"
       custom_field_choice: "اختيار الحقل التكميلي"
       custom_field_datum: "بيانات الملف التكميلية" #?
+      # cvi_cadastral_plant: "CVI cadastral plant"
+      # cvi_statement: "CVI statement"
       dashboard: "لوحة القيادة"
       debt_transfer: "نقل الديون"
       delay: "التأجيل" #?
@@ -1437,6 +1464,7 @@ arb:
     custom_fields: "الحقول الاضافية"
     custom_fields_columns: "الحقول المخصصة الأعمدة"
     customized_type: "نوع مرغوب"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "إنتاج النيتروجين اليومي"
     dashboards: "لوحات"
@@ -1532,6 +1560,7 @@ arb:
     document_templates: "نماذج الوثائق" #?
     documents: "الوثائق"
     doers: "الفاعلون"
+    # doers_cost: "Doers cost"
     # dose_quantity: "Dose quantity"
     # dose_unit: "Dose unit"
     # dose_unit_name: "Dose unit name"
@@ -1785,6 +1814,7 @@ arb:
     initialization_vectors: "ناقلات التهيئة"
     initiated_on: "بدأت يوم"
     inputs: "المدخلات"
+    # insee_number: "Insee number"
     inspection: "تفتيش"
     inspection_calibration_natures: "طبائع معايرة التفتيش"
     inspection_calibration_scales: "جداول المعايرة التفتيش"
@@ -2026,6 +2056,7 @@ arb:
     net_mass_value: "صافي القيمة الجماعية"
     net_mass_yield: "العائد الصافي الشامل"
     net_service: "خدمة صافي"
+    # net_surface_area: "Net surface area"
     new_container: "حاويات جديدة"
     new_group: "مجموعة جديدة"
     new_name: "اسم جديد"
@@ -2311,6 +2342,7 @@ arb:
     # reception_items: "Reception items"
     reception_journal_entry: "دخول مجلة الاستقبال"
     # receptions: "Receptions"
+    # receptions_cost: "Receptions cost"
     recipient: "مستلم"
     recommended: "موصى به"
     recommender: "المزكي"
@@ -2432,6 +2464,7 @@ arb:
     second_building_id: "موقع تخزين الوصول" #?
     second_move_id: "الحركة الثانية" #?
     second_producer: "منتج الثاني" #?
+    # section: "Section"
     seeding_density_unit: "وحدة كثافة بذر"
     seeding_density_value: "كثافة بذر"
     selected: "مختار"
@@ -2603,6 +2636,7 @@ arb:
     tool_id: "اداة" #?
     tools: "الادوات"
     tools_list: "معدات" #?
+    # total_area: "Total area"
     total_cost: "التكلفة الإجمالية"
     total_doer_cost: "مجموع تكلفة د"
     total_input_cost: "إجمالي تكلفة المدخلات"
@@ -2628,7 +2662,6 @@ arb:
     transports: "وسائل النقل" #?
     trouble_description: "وصف المتاعب"
     trouble_encountered: "مشكلة واجهتها"
-    # vat_account: "VAT account"
     type: "النوع"
     # uid: "UID"
     unconfirmed_email: "البريد الإلكتروني غير مؤكد"
@@ -2692,6 +2725,7 @@ arb:
     variants: "المتغيرات"
     variety: "تشكيلة"
     variety_name: "اسم متنوعة"
+    # vat_account: "VAT account"
     vat_number: "عدد القيمة الضريبية المضافة داخل المجتمع المحلي"
     vat_subjected: "ضريبة القيمة المضافة تعرض"
     vat_submissive: "القيمة الضريبية المضافة التابعة" #?
@@ -2902,14 +2936,21 @@ arb:
     delay: #?
       error_unvalid_format_for_expression: "الاسلوب ليس بالشكل الصحيح" #?
     delivery:
-      state_machine:
-        states:
-          draft: "مسودة"
-          finished: "تم الانتهاء من"
-          in_preparation: "قيد التحضير"
-          ordered: "أمر"
-          prepared: "أعدت"
-          started: "بدأت"
+      state_machine: #?
+        states: #?
+          draft: "مسودة" #?
+          finished: "تم الانتهاء من" #?
+          in_preparation: "قيد التحضير" #?
+          ordered: "أمر" #?
+          prepared: "أعدت" #?
+          started: "بدأت" #?
+      states:
+        # draft: "Draft"
+        # finished: "Finished"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # started: "Started"
     deposit:
       bookkeep:
         one: "[%{resource} %{number}] %{count} دفعة %{mode} %{comment}"
@@ -2980,12 +3021,17 @@ arb:
       # bookkeep_exit_assets: "[%{resource} %{number}] Scrapped of %{name}"
       # bookkeep_in_sold_assets: "[%{resource} %{number}] Sold of %{name}"
       # bookkeep_in_use_assets: "[%{resource} %{number}] In use of %{name}"
-      state_machine:
-        states:
-          draft: "مشروع"
-          in_use: "في الاستخدام"
-          scrapped: "ألغت"
-          sold: "تم البيع"
+      state_machine: #?
+        states: #?
+          draft: "مشروع" #?
+          in_use: "في الاستخدام" #?
+          scrapped: "ألغت" #?
+          sold: "تم البيع" #?
+      states:
+        # draft: "Draft"
+        # in_use: "In use"
+        # scrapped: "Scrapped"
+        # sold: "Sold"
     fixed_asset_depreciation:
       # bookkeep: "[%{resource} %{number}] Depreciation of %{name} (%{position}/%{total})"
       # bookkeep_partial: "[%{resource} %{number}] Partial depreciation of %{name} (%{position}/%{total})"
@@ -3074,11 +3120,15 @@ arb:
     loan:
       # bookkeep: "[%{resource} %{name}] Fund reception"
       # bookkeep_guarantee_payment: "[%{resource} %{name}] Guarantee payment"
-      state_machine:
-        states:
-          draft: "مشروع"
-          ongoing: "جاري التنفيذ"
-          repaid: "سداد"
+      state_machine: #?
+        states: #?
+          draft: "مشروع" #?
+          ongoing: "جاري التنفيذ" #?
+          repaid: "سداد" #?
+      states:
+        # draft: "Draft"
+        # ongoing: "Ongoing"
+        # repaid: "Repaid"
     loan_repayment:
       # bookkeep: "[%{resource} %{name}] Repayment #%{position}"
     meeting_nature: #?
@@ -3122,14 +3172,21 @@ arb:
       bookkeep: "[%{resource}] %{mode} (%{payment_number}) وردت من %{attorney} ل %{supplier} (%{expense_number})" #?
     parcel:
       # bookkeep: "[%{resource} %{mode} %{number}] %{entity}"
-      state_machine:
-        states:
-          draft: "مسودة"
-          given: "معطى"
-          in_preparation: "قيد التحضير"
-          ordered: "أمر"
-          prepared: "أعدت"
-          received: "تم الاستلام"
+      state_machine: #?
+        states: #?
+          draft: "مسودة" #?
+          given: "معطى" #?
+          in_preparation: "قيد التحضير" #?
+          ordered: "أمر" #?
+          prepared: "أعدت" #?
+          received: "تم الاستلام" #?
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
       # undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     payslip:
       # bookkeep: "[%{resource} %{number}] %{employee} from %{started_on} to %{stopped_on}"
@@ -3258,14 +3315,14 @@ arb:
       label: "%{number}. %{amount} (%{usable_amount} restants) من %{date} بواسطة %{mode} ل %{payee}"
     reception:
       # bookkeep: "[%{resource} %{number}] %{entity}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # given: "Given"
-          # in_preparation: "In preparation"
-          # ordered: "Ordered"
-          # prepared: "Prepared"
-          # received: "Received"
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
+      # undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     role:
       default:
         administrator: "مدير"
@@ -3318,15 +3375,23 @@ arb:
       default:
         name: "بيع قياسية"
     sale_opportunity:
-      state_machine:
-        states:
-          lost: "ضائع"
-          negociation: "مفاوضات"
-          price_quote: "سعر الاقتباس"
-          prospecting: "تنقيب"
-          qualification: "المؤهل العلمي"
-          value_proposition: "قيمة العرض"
-          won: "وون"
+      state_machine: #?
+        states: #?
+          lost: "ضائع" #?
+          negociation: "مفاوضات" #?
+          price_quote: "سعر الاقتباس" #?
+          prospecting: "تنقيب" #?
+          qualification: "المؤهل العلمي" #?
+          value_proposition: "قيمة العرض" #?
+          won: "وون" #?
+      states:
+        # lost: "Lost"
+        # negociation: "Negociation"
+        # price_quote: "Price quote"
+        # prospecting: "Prospecting"
+        # qualification: "Qualification"
+        # value_proposition: "Value proposition"
+        # won: "Won"
     sales_invoice: #?
       bookkeep: "[%{resource} %{number}] %{products} لاجل %{client} (%{sale})" #?
       label: #?
@@ -3362,27 +3427,29 @@ arb:
         transports: "TR[number|8]"
     shipment:
       # bookkeep: "[%{resource} %{number}] %{entity}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # given: "Given"
-          # in_preparation: "In preparation"
-          # ordered: "Ordered"
-          # prepared: "Prepared"
-          # received: "Received"
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
     task:
-      state_machine:
-        states:
-          doing: "فعل"
-          done: "فعله"
-          todo: "لكى يفعل"
+      state_machine: #?
+        states: #?
+          doing: "فعل" #?
+          done: "فعله" #?
+          todo: "لكى يفعل" #?
+      states:
+        # doing: "Doing"
+        # done: "Done"
+        # todo: "To do"
     tax_declaration:
       # bookkeep: "[%{resource} %{number}] From %{started_on} to %{stopped_on}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # sent: "Sent"
-          # validated: "Validated"
+      states:
+        # draft: "Draft"
+        # sent: "Sent"
+        # validated: "Validated"
     team:
       default: "فريق الرئيسي"
     user:

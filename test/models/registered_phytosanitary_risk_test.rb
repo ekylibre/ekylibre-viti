@@ -22,8 +22,9 @@
 #
 # == Table: registered_phytosanitary_risks
 #
-#  product_id :integer          not null
-#  risk_code  :string           not null
+#  product_id  :integer          not null
+#  risk_code   :string           not null
+#  risk_phrase :string           not null
 #
 require 'test_helper'
 

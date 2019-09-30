@@ -1,6 +1,17 @@
 # Measure represents a decimal value and a unit.
 # It depends on nomenclatures Unit and Dimension.
 class Measure
+  MEASURE_FORMATS = {
+    ha_ar_ca: lambda { |area|
+      # format area: 1,0056 ha => 01ha 56ca,  1,3456 ha => 01ha 34ar 56ca
+      area.in(:hectare)
+      total_area_to_s = (area.value * 10_000).to_f.floor.to_s.rjust(6, '0')
+      [[total_area_to_s[0..-5], Nomen::Unit[:hectare].symbol],
+       [total_area_to_s[-4, 2], Nomen::Unit[:are].symbol],
+       [total_area_to_s[-2, 2], Nomen::Unit[:centiare].symbol]].reject { |n| n[0] == '00' }.flatten.join(' ')
+    }
+  }.freeze
+
   class AmbiguousUnit < ArgumentError
   end
 
@@ -118,8 +129,16 @@ class Measure
     "#{@value.to_f} #{@unit}"
   end
 
-  def to_s
-    inspect
+  def to_s(format = :default)
+    if formatter = MEASURE_FORMATS[format]
+      if formatter.respond_to?(:call)
+        formatter.call(self).to_s
+      else
+        format(formatter, @value)
+      end
+    else
+      inspect
+    end
   end
 
   # Returns the dimension of a measure

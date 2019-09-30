@@ -28,6 +28,7 @@
 #  creator_id                 :integer
 #  currency                   :string
 #  custom_fields              :jsonb
+#  disable_accountancy        :boolean          default(FALSE)
 #  financial_year_id          :integer
 #  id                         :integer          not null, primary key
 #  journal_entry_id           :integer

@@ -1,6 +1,11 @@
 require 'minitest/mock'
 require 'rake'
 
+include FactoryBot::Syntax::Methods
+class ActiveSupport::TestCase
+  require 'enumerize/integrations/rspec'
+  extend Enumerize::Integrations::RSpec
+end
 ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../../config/environment', __FILE__)
@@ -29,11 +34,12 @@ Ekylibre::Tenant.setup!('test_without_fixtures')
 puts "Setup tenant: #{'test'.green}".yellow
 Ekylibre::Tenant.setup!('test', keep_files: true)
 
-
 Ekylibre::Tenant.switch 'test_without_fixtures' do
   puts "Cleaning tenant: #{'test_without_fixtures'.green}".yellow
   DatabaseCleaner.clean_with :truncation, { except: ['spatial_ref_sys'] }
 end
+
+Lexicon.reload! if File.exist?(Rails.root.join('test', 'fixture-files', 'lexicon', 'data.sql'))
 
 DatabaseCleaner.strategy = :transaction
 

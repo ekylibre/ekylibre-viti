@@ -2018,6 +2018,95 @@ ALTER SEQUENCE public.custom_fields_id_seq OWNED BY public.custom_fields.id;
 
 
 --
+-- Name: cvi_cadastral_plants; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_cadastral_plants (
+    id integer NOT NULL,
+    commune character varying NOT NULL,
+    locality character varying,
+    insee_number character varying NOT NULL,
+    section character varying NOT NULL,
+    work_number character varying NOT NULL,
+    land_parcel_number character varying,
+    designation_of_origin_id integer,
+    vine_variety_id character varying,
+    area_value numeric(19,4),
+    area_unit character varying,
+    campaign character varying NOT NULL,
+    rootstock_id character varying,
+    inter_vine_plant_distance_value numeric(19,4),
+    inter_vine_plant_distance_unit character varying,
+    inter_row_distance_value numeric(19,4),
+    inter_row_distance_unit character varying,
+    state character varying NOT NULL,
+    cvi_statement_id integer,
+    land_parcel_id character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cvi_cadastral_plants_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_cadastral_plants_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_cadastral_plants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_cadastral_plants_id_seq OWNED BY public.cvi_cadastral_plants.id;
+
+
+--
+-- Name: cvi_statements; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_statements (
+    id integer NOT NULL,
+    cvi_number character varying NOT NULL,
+    extraction_date date NOT NULL,
+    siret_number character varying NOT NULL,
+    farm_name character varying NOT NULL,
+    declarant character varying NOT NULL,
+    total_area_value numeric(19,4),
+    total_area_unit character varying,
+    cadastral_plant_count integer DEFAULT 0,
+    cadastral_sub_plant_count integer DEFAULT 0,
+    state character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cvi_statements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_statements_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_statements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_statements_id_seq OWNED BY public.cvi_statements.id;
+
+
+--
 -- Name: dashboards; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4055,6 +4144,78 @@ CREATE SEQUENCE public.issues_id_seq
 --
 
 ALTER SEQUENCE public.issues_id_seq OWNED BY public.issues.id;
+
+
+--
+-- Name: jailer_config; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_config (
+    jversion character varying(20),
+    jkey character varying(200),
+    jvalue character varying(200)
+);
+
+
+--
+-- Name: jailer_dependency; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_dependency (
+    r_entitygraph integer NOT NULL,
+    assoc integer NOT NULL,
+    depend_id integer NOT NULL,
+    traversed integer,
+    from_type integer NOT NULL,
+    to_type integer NOT NULL,
+    from_pk0 character varying,
+    to_pk0 character varying
+);
+
+
+--
+-- Name: jailer_entity; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_entity (
+    r_entitygraph integer NOT NULL,
+    pk0 character varying,
+    birthday integer NOT NULL,
+    type integer NOT NULL,
+    orig_birthday integer,
+    association integer
+);
+
+
+--
+-- Name: jailer_graph; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_graph (
+    id integer NOT NULL,
+    age integer NOT NULL
+);
+
+
+--
+-- Name: jailer_set; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_set (
+    set_id integer NOT NULL,
+    type integer NOT NULL,
+    pk0 character varying
+);
+
+
+--
+-- Name: jailer_tmp; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE UNLOGGED TABLE public.jailer_tmp (
+    c1 integer,
+    c2 integer
+);
 
 
 --
@@ -7532,6 +7693,20 @@ ALTER TABLE ONLY public.custom_fields ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: cvi_cadastral_plants id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants ALTER COLUMN id SET DEFAULT nextval('public.cvi_cadastral_plants_id_seq'::regclass);
+
+
+--
+-- Name: cvi_statements id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_statements ALTER COLUMN id SET DEFAULT nextval('public.cvi_statements_id_seq'::regclass);
+
+
+--
 -- Name: dashboards id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -8659,6 +8834,22 @@ ALTER TABLE ONLY public.custom_field_choices
 
 ALTER TABLE ONLY public.custom_fields
     ADD CONSTRAINT custom_fields_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_cadastral_plants cvi_cadastral_plants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants
+    ADD CONSTRAINT cvi_cadastral_plants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_statements cvi_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_statements
+    ADD CONSTRAINT cvi_statements_pkey PRIMARY KEY (id);
 
 
 --
@@ -11262,6 +11453,13 @@ CREATE INDEX index_custom_fields_on_updated_at ON public.custom_fields USING btr
 --
 
 CREATE INDEX index_custom_fields_on_updater_id ON public.custom_fields USING btree (updater_id);
+
+
+--
+-- Name: index_cvi_cadastral_plants_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_cadastral_plants_on_cvi_statement_id ON public.cvi_cadastral_plants USING btree (cvi_statement_id);
 
 
 --
@@ -17768,6 +17966,41 @@ CREATE INDEX index_wice_grid_serialized_queries_on_grid_name_and_id ON public.wi
 
 
 --
+-- Name: jlr_dep_from1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX jlr_dep_from1 ON public.jailer_dependency USING btree (r_entitygraph, assoc, from_pk0);
+
+
+--
+-- Name: jlr_dep_to1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX jlr_dep_to1 ON public.jailer_dependency USING btree (r_entitygraph, to_pk0);
+
+
+--
+-- Name: jlr_enty_brthdy; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX jlr_enty_brthdy ON public.jailer_entity USING btree (r_entitygraph, type, birthday);
+
+
+--
+-- Name: jlr_enty_upk1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX jlr_enty_upk1 ON public.jailer_entity USING btree (r_entitygraph, pk0, type, birthday);
+
+
+--
+-- Name: jlr_pk_set1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX jlr_pk_set1 ON public.jailer_set USING btree (set_id, pk0, type);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -17972,6 +18205,14 @@ ALTER TABLE ONLY public.crumbs
 
 ALTER TABLE ONLY public.journal_entries
     ADD CONSTRAINT fk_rails_5076105ec1 FOREIGN KEY (financial_year_exchange_id) REFERENCES public.financial_year_exchanges(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: cvi_cadastral_plants fk_rails_5a05077b24; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants
+    ADD CONSTRAINT fk_rails_5a05077b24 FOREIGN KEY (cvi_statement_id) REFERENCES public.cvi_statements(id);
 
 
 --
@@ -18927,4 +19168,8 @@ INSERT INTO schema_migrations (version) VALUES ('20190726092304');
 INSERT INTO schema_migrations (version) VALUES ('20190807075910');
 
 INSERT INTO schema_migrations (version) VALUES ('20190808152235');
+
+INSERT INTO schema_migrations (version) VALUES ('20190912144103');
+
+INSERT INTO schema_migrations (version) VALUES ('20190917120742');
 

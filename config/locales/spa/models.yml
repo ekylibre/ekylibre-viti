@@ -15,6 +15,26 @@ spa:
         born_at: "Construido a"
       cashes:
         main_account: "Cuenta principal"
+      cvi_cadastral_plant:
+        # area: "Area"
+        # cadastral_reference: "Cadastral reference"
+        # commune: "Commune"
+        # designation_of_origin_name: "Protected designation of origin"
+        # inter_row_distance: "Inter row distance"
+        # inter_vine_plant_distance: "Inter vine plant distance"
+        # locality: "locality"
+        # rootstock_number: "Rootstock"
+        # state: "State"
+        # vine_variety_name: "Variety of vine"
+      cvi_statement:
+        # cadastral_plant_count: "Cadastral plant count"
+        # cadastral_sub_plant_count: "Cadastral sub plant count"
+        # created_at: "Date of import"
+        # cvi_number: "Cvi number"
+        # extraction_date: "Extraction date"
+        # farm_name: "Wine estate"
+        # state: "State"
+        # total_area: "Total area"
       document:
         filename: "Archivo"
       document_template:
@@ -42,6 +62,8 @@ spa:
         stopped_at:
           # one: "Stopped at is inferior than expected"
           # other: "{{count}} Stopped at is inferior than expected"
+      inventory:
+        # disable_accountancy: "Do not update accounting"
       journal_entry_item:
         # cumulated_absolute_credit_balance: "Credit balance"
         # cumulated_absolute_debit_balance: "Debit balance"
@@ -64,7 +86,11 @@ spa:
         contract: "Contrato"
       parcel_item:
         population: "Cantidad"
+        # product_name: "Product name"
       parcel_item_storing:
+        # conditionning: "Conditionning"
+        # conditionning_quantity: "Conditionning quantity"
+        # quantity: "Total quantity"
         # reception_given_at: "Given at"
         # reception_planned_at: "Planned at"
       plant:
@@ -309,6 +335,8 @@ spa:
       cultivable_zone: "Zona cultivable"
       custom_field: "Campo personalizado"
       custom_field_choice: "Elección campo personalizado"
+      # cvi_cadastral_plant: "CVI cadastral plant"
+      # cvi_statement: "CVI statement"
       dashboard: "Tablero"
       debt_transfer: "Transferencia de la deuda"
       delivery: "Entrega"
@@ -731,6 +759,7 @@ spa:
     custom_fields: "Campos Personalizados"
     custom_fields_columns: "Campos personalizados columnas"
     customized_type: "Tipo personalizado"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "La producción diaria de nitrógeno"
     dashboards: "Cuadros de mando"
@@ -794,6 +823,7 @@ spa:
     document: "Documento"
     documents: "Documentos"
     doers: "Hacedores"
+    # doers_cost: "Doers cost"
     # dose_quantity: "Dose quantity"
     # dose_unit: "Dose unit"
     # dose_unit_name: "Dose unit name"
@@ -1002,6 +1032,7 @@ spa:
     initialization_vectors: "Vectores de inicialización"
     initiated_on: "Iniciado el"
     inputs: "Entradas"
+    # insee_number: "Insee number"
     inspection: "Inspección"
     inspection_calibration_natures: "Naturalezas de calibración de Inspección"
     inspection_calibration_scales: "Escalas de calibración de Inspección"
@@ -1202,6 +1233,7 @@ spa:
     net_mass_value: "valor de la masa neta"
     net_mass_yield: "rendimiento de la masa neta"
     net_service: "Servicio Net"
+    # net_surface_area: "Net surface area"
     new_container: "Nuevo envase"
     new_group: "Nuevo grupo"
     new_name: "Nuevo nombre"
@@ -1419,6 +1451,7 @@ spa:
     # reception_items: "Reception items"
     reception_journal_entry: "La entrada de recepción revista"
     # receptions: "Receptions"
+    # receptions_cost: "Receptions cost"
     recipient: "Recipiente"
     recommended: "Recomendado"
     recommender: "Recomendador"
@@ -1512,6 +1545,7 @@ spa:
     season: "Estacionalidad"
     seasons: "Estacionalidades"
     second_producer: "En segundo productor" #?
+    # section: "Section"
     seeding_density_unit: "unidad de densidad de siembra"
     seeding_density_value: "densidad de siembra"
     selected: "Seleccionado"
@@ -1643,6 +1677,7 @@ spa:
     token: "Simbólico"
     tool: "Herramienta"
     tools: "Instrumentos"
+    # total_area: "Total area"
     total_cost: "Coste total"
     total_doer_cost: "Costo total del hacedor"
     total_input_cost: "Costo total de entrada"
@@ -1663,7 +1698,6 @@ spa:
     transports: "Transportes" #?
     trouble_description: "Descripción problemas"
     trouble_encountered: "El problema encontrado"
-    # vat_account: "VAT account"
     type: "Tipo"
     # uid: "UID"
     unconfirmed_email: "Correo electrónico sin confirmar"
@@ -1716,6 +1750,7 @@ spa:
     variants: "Variantes"
     variety: "Variedad"
     variety_name: "nombre de la variedad"
+    # vat_account: "VAT account"
     vat_number: "Número de valor agregado"
     vat_subjected: "IVA sometido"
     vendor_euid: "Vendedor"
@@ -1785,14 +1820,21 @@ spa:
       # purchase_regularization: "Purchase regularization"
       # sale_regularization: "Sale regularization"
     delivery:
-      state_machine:
-        states:
-          draft: "Borrador"
-          finished: "Terminado"
-          in_preparation: "En la preparación de"
-          ordered: "Ordenado"
-          prepared: "Preparado"
-          started: "Empezado"
+      state_machine: #?
+        states: #?
+          draft: "Borrador" #?
+          finished: "Terminado" #?
+          in_preparation: "En la preparación de" #?
+          ordered: "Ordenado" #?
+          prepared: "Preparado" #?
+          started: "Empezado" #?
+      states:
+        # draft: "Draft"
+        # finished: "Finished"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # started: "Started"
     deposit:
       bookkeep:
         # one: "[%{resource} %{number}] %{count} payment %{mode} %{description}"
@@ -1819,12 +1861,17 @@ spa:
       # bookkeep_exit_assets: "[%{resource} %{number}] Scrapped of %{name}"
       # bookkeep_in_sold_assets: "[%{resource} %{number}] Sold of %{name}"
       # bookkeep_in_use_assets: "[%{resource} %{number}] In use of %{name}"
-      state_machine:
-        states:
-          draft: "Borrador"
-          in_use: "En uso"
-          scrapped: "Desechado"
-          sold: "Vendido"
+      state_machine: #?
+        states: #?
+          draft: "Borrador" #?
+          in_use: "En uso" #?
+          scrapped: "Desechado" #?
+          sold: "Vendido" #?
+      states:
+        # draft: "Draft"
+        # in_use: "In use"
+        # scrapped: "Scrapped"
+        # sold: "Sold"
     fixed_asset_depreciation:
       # bookkeep: "[%{resource} %{number}] Depreciation of %{name} (%{position}/%{total})"
       # bookkeep_partial: "[%{resource} %{number}] Partial depreciation of %{name} (%{position}/%{total})"
@@ -1900,11 +1947,15 @@ spa:
     loan:
       # bookkeep: "[%{resource} %{name}] Fund reception"
       # bookkeep_guarantee_payment: "[%{resource} %{name}] Guarantee payment"
-      state_machine:
-        states:
-          draft: "Borrador"
-          ongoing: "En marcha"
-          repaid: "Reembolsado"
+      state_machine: #?
+        states: #?
+          draft: "Borrador" #?
+          ongoing: "En marcha" #?
+          repaid: "Reembolsado" #?
+      states:
+        # draft: "Draft"
+        # ongoing: "Ongoing"
+        # repaid: "Repaid"
     loan_repayment:
       # bookkeep: "[%{resource} %{name}] Repayment #%{position}"
     outgoing_payment:
@@ -1920,14 +1971,21 @@ spa:
           name: "Transferir"
     parcel:
       # bookkeep: "[%{resource} %{mode} %{number}] %{entity}"
-      state_machine:
-        states:
-          draft: "Borrador"
-          given: "Dado"
-          in_preparation: "En la preparación de"
-          ordered: "Ordenado"
-          prepared: "Preparado"
-          received: "Recibido"
+      state_machine: #?
+        states: #?
+          draft: "Borrador" #?
+          given: "Dado" #?
+          in_preparation: "En la preparación de" #?
+          ordered: "Ordenado" #?
+          prepared: "Preparado" #?
+          received: "Recibido" #?
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
       # undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     payslip:
       # bookkeep: "[%{resource} %{number}] %{employee} from %{started_on} to %{stopped_on}"
@@ -1995,14 +2053,14 @@ spa:
       # label: "%{number}. %{amount}, %{mode} for %{payee} on %{date}"
     reception:
       # bookkeep: "[%{resource} %{number}] %{entity}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # given: "Given"
-          # in_preparation: "In preparation"
-          # ordered: "Ordered"
-          # prepared: "Prepared"
-          # received: "Received"
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
+      # undelivered_invoice: "Undelivered invoice [%{resource} %{mode} %{number}] %{entity}"
     role:
       default:
         administrator: "Administrador"
@@ -2047,15 +2105,22 @@ spa:
       default:
         # name: "Standard sale"
     sale_opportunity:
-      state_machine:
-        states:
-          lost: "Perdido"
-          negociation: "Negociación"
-          price_quote: "Cotización"
-          prospecting: "Prospección"
-          qualification: "Calificación"
-          value_proposition: "Propuesta de valor"
-          # won: "Won"
+      state_machine: #?
+        states: #?
+          lost: "Perdido" #?
+          negociation: "Negociación" #?
+          price_quote: "Cotización" #?
+          prospecting: "Prospección" #?
+          qualification: "Calificación" #?
+          value_proposition: "Propuesta de valor" #?
+      states:
+        # lost: "Lost"
+        # negociation: "Negociation"
+        # price_quote: "Price quote"
+        # prospecting: "Prospecting"
+        # qualification: "Qualification"
+        # value_proposition: "Value proposition"
+        # won: "Won"
     sequence:
       default:
         affairs: "A[number|12]"
@@ -2084,27 +2149,29 @@ spa:
         transports: "TR[number|8]"
     shipment:
       # bookkeep: "[%{resource} %{number}] %{entity}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # given: "Given"
-          # in_preparation: "In preparation"
-          # ordered: "Ordered"
-          # prepared: "Prepared"
-          # received: "Received"
+      states:
+        # draft: "Draft"
+        # given: "Given"
+        # in_preparation: "In preparation"
+        # ordered: "Ordered"
+        # prepared: "Prepared"
+        # received: "Received"
     task:
-      state_machine:
-        states:
-          doing: "Obra"
-          done: "Hecho"
-          todo: "Que hacer"
+      state_machine: #?
+        states: #?
+          doing: "Obra" #?
+          done: "Hecho" #?
+          todo: "Que hacer" #?
+      states:
+        # doing: "Doing"
+        # done: "Done"
+        # todo: "To do"
     tax_declaration:
       # bookkeep: "[%{resource} %{number}] From %{started_on} to %{stopped_on}"
-      state_machine:
-        states:
-          # draft: "Draft"
-          # sent: "Sent"
-          # validated: "Validated"
+      states:
+        # draft: "Draft"
+        # sent: "Sent"
+        # validated: "Validated"
     team:
       default: "Equipo principal"
     user:

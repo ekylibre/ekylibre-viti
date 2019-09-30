@@ -198,6 +198,11 @@ eng:
       new: "New custom field"
       show: "Custom field: %{name}"
       sort: "Sort custom field choices"
+    backend/cvi_statements:
+      edit: "Edit CVI statement: %{id}"
+      index: "CVI statements"
+      new: "New CVI statement"
+      show: "CVI statement: %{id}"
     backend/dashboards:
       accountancy: "Accountancy dashboard"
       edit: "Edit dashboard: %{name}"
@@ -545,7 +550,12 @@ eng:
       edit: "Edit observation"
       new: "New observation"
     backend/outgoing_payment_lists:
+      # archive_report: "Archive report outgoing payment list: %{name}"
       # export_to_sepa: "Export to sepa outgoing payment list: %{name}"
+      # find_open_document_template: "Find open document template outgoing payment list: %{name}"
+      # generate_document: "Generate document outgoing payment list: %{name}"
+      # generate_report: "Generate report outgoing payment list: %{name}"
+      # generate_report_file: "Generate report file outgoing payment list: %{name}"
       index: "Disbursement lists"
       new: "New disbursement list"
       show: "Disbursement list: %{number} "
@@ -984,6 +994,7 @@ eng:
       inclusion: "%{attribute} is not included in the list"
       invalid: "%{attribute} is invalid"
       invalid_at: "%{attribute} is_invalid. Error near %{error}"
+      invalid_child: "At least one value of %{attribute} is invalid."
       invalid_date: "%{attribute} is not a valid date"
       invalid_datetime: "%{attribute} is not a valid datetime"
       invalid_time: "%{attribute} is not a valid time"
@@ -1120,11 +1131,9 @@ eng:
     add: "Add"
     add_a_worker: "Add a worker"
     add_an_account: "Add an account"
-    # add_an_evaluation_for_this_intervention: "Add an evaluation for this intervention"
-    add_animals: "Add a consignment of animals"
     add_animal: "Add animal"
     add_animal_group: "Add animal group"
-    # add_animals: "Add animals"
+    add_animals: "Add a consignment of animals"
     add_annotation: "Add annotation"
     add_attachment: "Add attachment"
     add_bank_statement: "Add bank statement"
@@ -1260,8 +1269,8 @@ eng:
     balance_of_selection: "Balance of selection"
     balanced: "Balanced" #?
     bank_account: "Bank account"
-    bank_check_number: " no. %{number}"
-    bank_check_number_text: "Check no. %{number}"
+    bank_check_number: " no. %{number}" #?
+    bank_check_number_text: "Check no. %{number}" #?
     # bank_guarantees: "Bank guarantees"
     bank_statement_number: "Bank statement number" #?
     bank_statements: "Bank statements" #?
@@ -1421,6 +1430,7 @@ eng:
     current_stocks_by_variety: "Current stocks by variety" #?
     currently_subscribed_to: "Currently subscribed to"
     custom_fields: "Custom fields"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
     # data: "Data"
     # data_transmissions: "Data transmissions"
     # date: "Date"
@@ -1480,7 +1490,7 @@ eng:
     disease_percentage_evolution: "Disease percentage evolution"
     display: "Display" #?
     display_accounts: "Display accounts" #?!
-    display_n_1: "Display N-1" #??
+    display_n_1: "Display N-1" #?!
     distribute_unaffected_products: "Distribute unaffected products"
     distributions: "Distributions" #?
     divide: "Divide"
@@ -1498,7 +1508,7 @@ eng:
     dont_use_journal: "— Do not use journal —" #?!
     # dose: "Dose"
     down: "Down" #?
-    download: "Download" #?
+    download: "Download"
     download_archive: "Download archive (ZIP)" #?!
     downpayment: "Downpayment"
     draft: "Draft" #?
@@ -1599,7 +1609,7 @@ eng:
     file_nature: "File type"
     file_preview: "Preview" #?
     file_to_upload: "File to upload"
-    file_trimming: "File trimming :" #?!
+    file_trimming: "File trimming :"
     filter: "Filter" #?
     filter_on: "Filter on" #?
     final_balance: "Final balance"
@@ -1607,7 +1617,7 @@ eng:
     financial_expenses: "Financial expenses" #??
     financial_products: "Financial products" #??
     financial_result: "Financial result" #??
-    financial_year: "Financial year" #?
+    financial_year: "Financial year"
     financial_year_close_message: "<p> The close will definitively validate all entries of the financial year, which may not be modified or deleted. It will not be possible to add new ones too. </p>" #?!
     financial_year_closing: "Financial year closure in progress" #?!
     financial_year_closure_in_preparation_initiated_by_someone_else: "Closure of %{code} in preparation, you can't edit entries related to this financial year anymore." #?!
@@ -1617,7 +1627,7 @@ eng:
     financial_year_results: "Financial year results : %{results}" #?!
     financial_year_warning: "<p> If the financial year is not closed or locked before the %{last_financial_year_end_date}, you will not be able to open a financial year on %{new_financial_year_start_date}. Indeed, it is not possible to have more than 2 financial years opened simultaneously. Furthermore, it is necessary to have an opened financial year on the ongoing date to input commercial and financial operations. <br/> If you don't manage your accountacy with Ekylibre, you have the possibility to lock your financial year. <br/> Attention : locked financial years can't be modified like a closed financial year." #?!
     # financials_assets: "Financials assets"
-    fingerprint_sha256: "Fingerprint (SHA256)" #?!
+    fingerprint_sha256: "Fingerprint (SHA256)" #??
     finish: "Finish" #?
     finished: "Finished"
     first_check_number: "Number of the first check"
@@ -1718,7 +1728,7 @@ eng:
     invalid_file: "Invalid file" #?
     invalid_format: "Invalid format" #?
     inventories: "Inventories" #?
-    inventory: "Inventory" #?
+    inventory: "Inventory"
     inventory_variations: "Inventory variations" #?
     investment_security: "Investment security" #?!
     investment_subsidies: "Investment subsidies" #?!
@@ -1784,7 +1794,7 @@ eng:
     last_purchases_invoices: "Last purchases"
     last_purchases_orders: "Last orders"
     last_sales: "Last sales"
-    late: "Late"
+    late: "Late" #?
     late_delivery: "Late delivery"
     # legal_dose: "Legal dose"
     letter: "Letter" #?
@@ -1831,7 +1841,7 @@ eng:
     mask_draft_items: "Mask draft items" #?!
     mask_lettered_items: "Mask lettered items"
     mass: "Masse" #?
-    maximal_temperature: "Maximal temperature"
+    maximal_temperature: "Maximal temperature" #?!
     maximum_amount: "Maximum amount"
     members: "Members"
     menus: "Menus"
@@ -1841,7 +1851,7 @@ eng:
     merchandises_services_costs: "Merchandises, services or costs" #?!
     merge: "Merge"
     method: "Method" #?
-    minimal_temperature: "Minimal temperature"
+    minimal_temperature: "Minimal temperature" #?!
     minimum_amount: "Minimum amount"
     minutes: "Min" #?
     missing_attributes: "Some attributes are missing" #?!
@@ -1850,7 +1860,7 @@ eng:
     mode: "Mode" #?
     model: "Model" #?
     modes: "Modes" #?
-    month: "Month" #?
+    month: "Month"
     month_period: "%{code} - %{month} %{year}"
     monthly: "Monthly" #?
     months: "Months"
@@ -1968,7 +1978,7 @@ eng:
     outgoing_parcel_quantities: "Quantities (Outgoing parcel)"
     outgoing_parcels: "Outgoing parcels"
     outgoing_payment: "Disbursement" #?
-    outgoing_payment_list_text: "You will find below the references covered by the payment in the amount of %{amount} %{currency}."
+    outgoing_payment_list_text: "You will find below the references covered by the payment in the amount of %{amount} %{currency}." #?
     outgoing_payments: "Disbursements" #?
     page_title: "%{company_code} · %{menu} · %{action}"
     page_title_by_default: "Ekylibre · %{action}"
@@ -2022,6 +2032,7 @@ eng:
     plant_counting: "Counting" #?
     plant_countings: "Countings" #?
     plantation_density: "Plantation density" #?
+    planted: "Planted" #?
     plants: "Crops" #?
     please_wait: "Please wait…"
     point: "Point" #?
@@ -2029,7 +2040,7 @@ eng:
     population: "Population"
     potassium_concentration: "Potassium concentration" #?
     potential_hydrogen: "Potential hydrogen" #?
-    precipitation: "Precipitation"
+    precipitation: "Precipitation" #?
     preferences: "Preferences"
     prepare_financial_year_for_closure: "Prepare %{code} for closure" #?!
     prerequisites_checks_before_closure: "Prerequisites checks before closure" #?!
@@ -2095,6 +2106,7 @@ eng:
     quit_financial_year_closure_preparation: "Quit preparation mode for %{code}" #?!
     radical_class_accounts_dont_have_entries: "Radical class accounts does not contain any entry" #?!
     radical_class_accounts_have_entries: "Radical class accounts contains entries" #?!
+    # rain: "Rain"
     raw_income: "Raw income"
     reading_tasks: "Reading tasks" #?
     readings: "Readings"
@@ -2103,12 +2115,12 @@ eng:
     receipt_date: "Receipt date"
     receipt_responsible: "Receipt responsible"
     received: "Received" #?
-    received_quantity: "Received quantity"
+    received_quantity: "Received quantity" #?
     receiving_address: "Receiving address"
     recent_events: "Recent events"
     reception: "Reception"
     # reception_date: "Reception date"
-    reception_incident: "Reception incident"
+    reception_incident: "Reception incident" #?
     reception_items: "Reception items"
     reception_number: "Reception number"
     # reception_number_with_reference: "Reception number with reference"
@@ -2136,6 +2148,7 @@ eng:
     remove: "Remove" #?
     remove_item: "Remove item"
     remove_subscription: "Remove subscription"
+    removed_with_authorization: "Removed with authorization" #?
     renewed: "Renewed"
     repayment_period: "Repayment period"
     repayments: "Repayments"
@@ -2199,7 +2212,7 @@ eng:
     select_file_to_upload: "Select file to upload"
     select_forward_journal: "Selected Journal to renew" #??
     selection: "Selection" #?
-    semester: "Semester" #?
+    semester: "Semester"
     send_mail: "Send mail"
     send_test_mail: "Send test mail"
     sensor_model: "Sensor model"
@@ -2268,7 +2281,7 @@ eng:
     supplier_payment_mode: "Supplier payment mode"
     supplier_receivables: "Supplier receivables" #?!
     supplier_reference: "Supplier reference"
-    suppliers: "Suppliers" #?
+    suppliers: "Suppliers"
     supply: "Supply" #?
     support: "Support" #?
     supports: "Supports" #?
@@ -2282,6 +2295,7 @@ eng:
     taxations: "Taxations"
     taxes: "Taxes"
     taxes_and_wages: "Taxes and wages"
+    # temperature: "Temperature"
     third_balance: "(balance - supplier account balance : %{balance} - %{supplier_account_balance})" #?
     third_is_unbalanced: "Third is unbalanced. (balance - supplier account balance)" #?!
     this_archive_is_digitally_signed: "This archive is digitally signed." #?!
@@ -2290,7 +2304,7 @@ eng:
     time_cost: "Time cost" #?
     time_spent_by_activity: "Time spent by activity"
     time_zone: "Time zone"
-    timeline: "Timeline"
+    timeline: "Timeline" #?
     timeline_comment: "%{author} commented %{when}"
     timeline_entity_link: "Timeline entity link"
     timeline_event: "%{name} with %{participants} %{when}"
@@ -2360,8 +2374,8 @@ eng:
     transactions_by_month: "Transactions by month" #?
     transfer: "Transfer" #?
     transport: "Transport" #?
-    trimester: "Trimester" #?
-    type_of_structure: "Type of structure" #?!
+    trimester: "Trimester"
+    type_of_structure: "Type of structure"
     unbalanced: "Unbalanced" #?
     unbalanced_clients: "Unbalanced clients" #?
     unbalanced_suppliers: "Unbalanced suppliers" #?
@@ -2417,7 +2431,6 @@ eng:
     variable_indicators: "Variable indicators"
     variant: "Variant" #?
     variants: "Variants" #?
-    # various: "Various"
     vat: "VAT"
     vat_rate: "VAT rate"
     view: "View"
@@ -2616,7 +2629,7 @@ eng:
     x_years:
       one: "%{count} year"
       other: "%{count} years"
-    year: "Year" #?
+    year: "Year"
     year_end: "Year end" #??
     year_start: "Year start" #?
     yield: "Yield" #?
@@ -2732,9 +2745,9 @@ eng:
       no_replacements_since_beginning: "No replacements since beginning"
       # no_worker_associated_with_user_account: "No worker associated with user account"
       previouos_financial_year_is_not_closed: "The previous financial year hasn't been closed." #?
-      purchases_invalid_for_sepa: "Purchases selected invalid for SEPA transfer (invalid disbursement mode or wrong currency or missing payee's IBAN or bank account holder name)"
-      purchase_order_need_at_least_one_item: "An order should have at least one item"
       purchase_invoice_need_at_least_one_item: "An invoice should have at least one item"
+      purchase_order_need_at_least_one_item: "An order should have at least one item"
+      purchases_invalid_for_sepa: "Purchases selected invalid for SEPA transfer (invalid disbursement mode or wrong currency or missing payee's IBAN or bank account holder name)"
       reception_need_at_least_one_item: "A reception should have at least one item"
       record_already_imported: "Record already imported"
       record_cannot_be_removed: "The record can not be deleted"
@@ -2789,6 +2802,7 @@ eng:
     client_account_radix: "Client account radix"
     country: "Country"
     create_activities_from_telepac: "Create activities during Telepac import"
+    # create_cultivable_zones_with_islet_from_telepac: "Create cultivable zones with islet from telepac"
     currency: "Currency"
     default_depreciation_period: "Default depreciation period"
     detail_payments_in_deposit_bookkeeping: "Detail all the payments in deposit bookkeeping"
@@ -2814,6 +2828,7 @@ eng:
       # add_to_container: "Add to container"
       # add_to_group: "Add to group"
       # add_to_variant: "Add to variant"
+      # archive_report: "Archive report"
       attach: "Attach"
       # autocomplete: "Autocomplete"
       bookkeep: "Bookkeep"
@@ -2860,10 +2875,14 @@ eng:
       extract: "Extract"
       # failure: "Failure"
       family: "Family"
+      # find_open_document_template: "Find open document template"
       finish: "Finish"
       # fixed_assets_datas: "Fixed assets datas"
       # generate_buttons: "Generate buttons"
+      # generate_document: "Generate document"
       generate_last_journal_entry: "Generate last journal entry" #?
+      # generate_report: "Generate report"
+      # generate_report_file: "Generate report file"
       give: "Give"
       # has_harvesting: "Has harvesting"
       import: "Import"
@@ -2894,7 +2913,7 @@ eng:
       notify_accountant: "Notify accountant"
       open: "Open"
       order: "Order"
-      order_again: "Order again"
+      order_again: "Order again" #?
       # parameter_cost: "Parameter cost"
       # participations_modal: "Participations modal"
       # passthru: "Passthru"
@@ -2954,6 +2973,7 @@ eng:
       unlock: "Unlock"
       unmark: "Unmark"
       unroll: "Unroll"
+      # unroll_saleables: "Unroll saleables"
       unvalidateds: "Unvalidateds"
       up: "Up"
       update: "Update"

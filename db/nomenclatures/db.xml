@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<nomenclatures xmlns="http://www.ekylibre.org/XML/2013/nomenclatures" version="20190823091727">
+<nomenclatures xmlns="http://www.ekylibre.org/XML/2013/nomenclatures" version="20190930093312">
   <nomenclature name="abilities" translateable="true">
     <properties>
       <property name="parameters" type="choice_list" choices="variety, issue_nature" required="true"/>
@@ -9868,6 +9868,7 @@
       <item name="billionth" dimension="none" symbol="n." a="1.0e-09"/>
       <item name="candela" dimension="luminous_intensity" symbol="cd"/>
       <item name="celsius" dimension="temperature" symbol="&#xB0;C" b="273.15"/>
+      <item name="centiare" dimension="surface_area" symbol="ca" a="1.0"/>
       <item name="centiliter" dimension="volume" symbol="cl" a="1.0e-05"/>
       <item name="centiliter_per_hectoliter" dimension="volume_concentration" symbol="cl/hl" a="1.0e-05" d="0.1"/>
       <item name="centiliter_per_liter" dimension="volume_concentration" symbol="cl/l" a="1.0e-05" d="0.001"/>

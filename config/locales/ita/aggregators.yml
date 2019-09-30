@@ -4,16 +4,16 @@ ita:
     started_on: "iniziato il"
     stopped_on: "Arrestato su"
   aggregator_properties:
-    active: "Attivo"
+    active: "Attivo" #?
     area: "La zona"
     area_in_hectare: "Area in ettari"
     born_at: "nato a"
     breeding_number: "numero di allevamento"
     campaigns: "campagne"
     capitalised_production: "produzione capitalizzati" #?
-    catalog_name: "Nome del catalogo"
-    charge_account_label: "Etichetta dell’account di carica"
-    company: "Società"
+    catalog_name: "Nome del catalogo" #?
+    charge_account_label: "Etichetta dell’account di carica" #?
+    company: "Società" #?
     container_name: "nome del contenitore"
     current_result_before_taxes: "risultato corrente al lordo delle imposte"
     depreciations_inputations_expenses: "Ammortamenti inputations spese" #?
@@ -63,17 +63,17 @@ ita:
     other_expenses: "Altre spese" #?
     other_products: "Altri prodotti" #?
     other_purchases: "altri acquisti" #?
-    owner_name: "Nome del proprietario"
+    owner_name: "Nome del proprietario" #?
     payment_ratio: "rapporto di pagamento"
     person_name: "Nome della persona"
-    pictogram: "pittogramma"
+    pictogram: "pittogramma" #?
     picture_path: "percorso Picture"
     plan: "Piano"
     population: "Popolazione" #?
     prescription: "Prescrizione"
     pretax_amount: "importo prima delle imposte"
     printed_on: "stampato su"
-    product_account_label: "Etichetta conto del prodotto"
+    product_account_label: "Etichetta conto del prodotto" #?
     production_support: "supporto alla produzione"
     productions_sales: "vendite Productions" #?
     products_purchases: "Prodotti acquisti" #?
@@ -89,7 +89,7 @@ ita:
     raw_matters_stocks_variation: "Raw conta scorte variazione" #?
     sex: "Sesso"
     social_expenses: "spese sociali" #?
-    stock_account_label: "Etichetta del conto di riserva"
+    stock_account_label: "Etichetta del conto di riserva" #?
     stock_production: "produzione della" #?
     stocks_variation: "Azioni variazione" #?
     subsidies: "sussidi" #?
