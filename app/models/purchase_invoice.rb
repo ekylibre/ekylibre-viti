@@ -72,10 +72,18 @@ class PurchaseInvoice < Purchase
   }
 
   scope :accepted_reconcile, -> { where(reconciliation_state: %w[accepted reconcile]) }
-  scope :unpaid, -> { where(state: %w[order invoice]).where.not(affair: Affair.closeds) }
+  scope :unpaid, -> { where(state: %w[order invoice]).where.not(affair: Affair.closeds.where("debit != 0 OR credit != 0")) }
   scope :current, -> { unpaid }
   scope :current_or_self, ->(purchase) { where(unpaid).or(where(id: (purchase.is_a?(Purchase) ? purchase.id : purchase))) }
   scope :with_nature, ->(id) { where(nature_id: id) }
+
+  protect on: :update, allow_update_on: %i[reference_number responsible_id invoiced_at payment_delay tax_payability description] do
+    items.any? && !self.unpaid?
+  end
+
+  protect on: :destroy do
+    items.any? && !self.unpaid?
+  end
 
   before_validation(on: :create) do
     self.state = :invoice
@@ -214,7 +222,10 @@ class PurchaseInvoice < Purchase
   end
 
   def status
-    return affair.status
-    :stop
+    affair.status
+  end
+
+  def unpaid?
+    PurchaseInvoice.unpaid.include?(self)
   end
 end

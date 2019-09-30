@@ -1662,7 +1662,8 @@ CREATE TABLE public.cashes (
     custom_fields jsonb,
     bank_account_holder_name character varying,
     suspend_until_reconciliation boolean DEFAULT false NOT NULL,
-    suspense_account_id integer
+    suspense_account_id integer,
+    by_default boolean DEFAULT false
 );
 
 
@@ -4032,6 +4033,7 @@ CREATE TABLE public.inventories (
     financial_year_id integer,
     currency character varying,
     product_nature_category_id integer,
+    journal_id integer,
     disable_accountancy boolean DEFAULT false
 );
 
@@ -6563,7 +6565,6 @@ CREATE TABLE public.sale_natures (
     sales_conditions text,
     expiration_delay character varying NOT NULL,
     payment_delay character varying NOT NULL,
-    with_accounting boolean DEFAULT false NOT NULL,
     journal_id integer,
     description text,
     created_at timestamp without time zone NOT NULL,
@@ -18287,6 +18288,14 @@ ALTER TABLE ONLY public.payslip_natures
 
 
 --
+-- Name: inventories fk_rails_86687e98ce; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.inventories
+    ADD CONSTRAINT fk_rails_86687e98ce FOREIGN KEY (journal_id) REFERENCES public.journals(id);
+
+
+--
 -- Name: intervention_working_periods fk_rails_8903897a2c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -19146,9 +19155,15 @@ INSERT INTO schema_migrations (version) VALUES ('20190617200314');
 
 INSERT INTO schema_migrations (version) VALUES ('20190619021714');
 
+INSERT INTO schema_migrations (version) VALUES ('20190703060513');
+
 INSERT INTO schema_migrations (version) VALUES ('20190705094729');
 
+INSERT INTO schema_migrations (version) VALUES ('20190705143350');
+
 INSERT INTO schema_migrations (version) VALUES ('20190710002904');
+
+INSERT INTO schema_migrations (version) VALUES ('20190726092304');
 
 INSERT INTO schema_migrations (version) VALUES ('20190807075910');
 
