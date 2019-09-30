@@ -4426,6 +4426,7 @@ spa:
         billionth: "Billonésimo"
         # candela: "Candela"
         # celsius: "Celsius"
+        # centiare: "Centiare"
         centiliter: "Centilitro"
         centiliter_per_hectoliter: "Por hectolitro centilitro"
         centiliter_per_liter: "Centiliter por litro"

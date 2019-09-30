@@ -4420,6 +4420,7 @@ deu:
         billionth: "Milliardstel"
         # candela: "Candela"
         # celsius: "Celsius"
+        # centiare: "Centiare"
         centiliter: "centiliter"
         centiliter_per_hectoliter: "Centiliter pro Hektoliter"
         centiliter_per_liter: "Centiliter pro Liter"

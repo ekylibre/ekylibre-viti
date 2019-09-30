@@ -16,13 +16,13 @@ eng:
       cashes:
         main_account: "Main account"
       cvi_cadastral_plant:
+        area: "Area"
         cadastral_reference: "Cadastral reference"
         commune: "Commune"
         designation_of_origin_name: "Protected designation of origin"
         inter_row_distance: "Inter row distance"
         inter_vine_plant_distance: "Inter vine plant distance"
         locality: "locality"
-        measure_value_value: "Area"
         rootstock_number: "Rootstock"
         state: "State"
         vine_variety_name: "Variety of vine"
@@ -33,8 +33,8 @@ eng:
         cvi_number: "Cvi number"
         extraction_date: "Extraction date"
         farm_name: "Wine estate"
-        measure_value_value: "Total area"
         state: "State"
+        total_area: "Total area"
       document:
         filename: "File"
       document_template:
@@ -583,7 +583,9 @@ eng:
     archive_file_size: "Archive file size"
     archive_updated_at: "Archive updated at"
     archiving: "Archiving"
-    area: "Area" #?
+    area: "Area"
+    # area_unit: "Area unit"
+    # area_value: "Area value"
     arguments: "Arguments"
     assembly: "Assembly"
     asset_account: "Asset account"
@@ -1099,8 +1101,10 @@ eng:
     insurance_repayment_method: "Insurance repayment method"
     integer_value: "Integer value"
     integration_name: "Integration name"
-    # inter_row_distance: "Inter row distance"
-    # inter_vine_plant_distance: "Inter vine plant distance"
+    # inter_row_distance_unit: "Inter row distance unit"
+    # inter_row_distance_value: "Inter row distance value"
+    # inter_vine_plant_distance_unit: "Inter vine plant distance unit"
+    # inter_vine_plant_distance_value: "Inter vine plant distance value"
     # interest_account: "Interest account"
     interest_amount: "Interest amount"
     interest_percentage: "Interest percentage"
@@ -1789,6 +1793,8 @@ eng:
     tools: "Tools"
     # tools_cost: "Tools cost"
     total_area: "Total area"
+    # total_area_unit: "Total area unit"
+    # total_area_value: "Total area value"
     total_cost: "Total cost"
     total_doer_cost: "Total doer cost" #?
     total_input_cost: "Total input cost" #?

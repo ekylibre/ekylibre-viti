@@ -4420,6 +4420,7 @@ ita:
         billionth: "bilionesimo"
         # candela: "Candela"
         celsius: "Centigrado"
+        # centiare: "Centiare"
         centiliter: "Centilitro"
         centiliter_per_hectoliter: "Centiliter per ettolitro"
         centiliter_per_liter: "Centiliter per litro"

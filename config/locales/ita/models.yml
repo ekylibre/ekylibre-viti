@@ -16,13 +16,13 @@ ita:
       cashes:
         main_account: "Account principale"
       cvi_cadastral_plant:
+        # area: "Area"
         # cadastral_reference: "Cadastral reference"
         # commune: "Commune"
         # designation_of_origin_name: "Protected designation of origin"
         # inter_row_distance: "Inter row distance"
         # inter_vine_plant_distance: "Inter vine plant distance"
         # locality: "locality"
-        # measure_value_value: "Area"
         # rootstock_number: "Rootstock"
         # state: "State"
         # vine_variety_name: "Variety of vine"
@@ -33,8 +33,8 @@ ita:
         # cvi_number: "Cvi number"
         # extraction_date: "Extraction date"
         # farm_name: "Wine estate"
-        # measure_value_value: "Total area"
         # state: "State"
+        # total_area: "Total area"
       document:
         # filename: "File"
       document_template:

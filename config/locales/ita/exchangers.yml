@@ -26,6 +26,7 @@ ita:
     ekylibre_cultivable_zones_json: "Ekylibre zone coltivabili JSON"
     ekylibre_cvi:
       errors:
+        # invalid_siret: "SIRET number %{value} is invalid"
         # unknown_cadastral_land_parcel: "Unknown cadastral land parcel zone %{value}"
         # unknown_column_name: "Unknown column name %{column_name}"
         # unknown_designation_of_origin: "Unknown protected designation of origin for %{value}"

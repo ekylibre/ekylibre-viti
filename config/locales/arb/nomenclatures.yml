@@ -4429,6 +4429,7 @@ arb:
         billionth: "المليار"
         candela: "كانديلا"
         celsius: "درجة مئوية"
+        # centiare: "Centiare"
         centiliter: "سنتي لتر"
         centiliter_per_hectoliter: "سنتي لتر لكل الهيكتوليتر"
         centiliter_per_liter: "سنتي لتر لكل لتر"

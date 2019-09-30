@@ -90,13 +90,13 @@ fra:
       cashes:
         main_account: "Compte principal"
       cvi_cadastral_plant:
+        area: "Superficie déclarée"
         cadastral_reference: "Ref. cadastrale"
         commune: "Commune"
         designation_of_origin_name: "Produit"
         inter_row_distance: "Inter rang"
         inter_vine_plant_distance: "Inter pied"
         locality: "Lieu-dit"
-        measure_value_value: "Superficie déclarée"
         rootstock_number: "Porte-greffe"
         state: "Etat"
         vine_variety_name: "Cépage"
@@ -107,8 +107,8 @@ fra:
         cvi_number: "N° de CVI"
         extraction_date: "Date d'extraction"
         farm_name: "Nom du domaine"
-        measure_value_value: "Superficie encépagée déclarée"
         state: "Status"
+        total_area: "Superficie encépagée déclarée"
       document:
         filename: "Fichier"
       document_archive: #?

@@ -4420,6 +4420,7 @@ cmn:
         billionth: "十亿"
         candela: "坎德拉"
         celsius: "摄氏"
+        # centiare: "Centiare"
         centiliter: "厘升"
         centiliter_per_hectoliter: "每百升厘升"
         centiliter_per_liter: "每升厘升"

@@ -4431,6 +4431,7 @@ jpn:
         billionth: "10億分の1"
         candela: "カンデラ"
         celsius: "摂氏"
+        # centiare: "Centiare"
         centiliter: "センチリットル"
         centiliter_per_hectoliter: "ヘクトリットルあたりセンチリットル"
         centiliter_per_liter: "リットル当たりセンチリットル"
