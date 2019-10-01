@@ -73,7 +73,6 @@ module Ekylibre
 
       cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
       unless cadastral_land_parcel_zone
-        binding.pry
         message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_cadastral_land_parcel', value: insee_number + section + work_number)
         w.error message
         raise message
