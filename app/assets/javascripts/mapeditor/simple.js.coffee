@@ -4,14 +4,14 @@ class mapeditor.Simple
 
   buildLayerGroup: (widget, globalStyle = {}) ->
     if @data == 'no_data'
-      L.featureGroup()
+      Leaflet.featureGroup()
     else
-      L.geoJson(@data, {
+      Leaflet.geoJson(@data, {
         onEachFeature: (feature, layer) =>
           feature.properties ||= {}
           feature.properties['internal_id'] = new Date().getTime()
           if feature.properties.name
-            label = new L.GhostLabel(className: 'leaflet-ghost-label', toBack: false).setContent(feature.properties.name).toCentroidOfBounds(layer.getLatLngs())
+            label = new Leaflet.GhostLabel(className: 'leaflet-ghost-label', toBack: false).setContent(feature.properties.name).toCentroidOfBounds(layer.getLatLngs())
             widget.ghostLabelCluster.bind label, layer
           feature.properties['popupAttributes'] = globalStyle.popup || []
           widget.popupizeSerie(feature, layer) if @layer.popup

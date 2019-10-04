@@ -34,7 +34,7 @@ class visualization.Points
           stroke: false
           fillOpacity: 0.8
         console.log zone.point
-        group.push new L.circleMarker(zone.point, zoneStyle)
+        group.push new Leaflet.circleMarker(zone.point, zoneStyle)
     # Core
     for zone in @items
       console.log zone
@@ -44,7 +44,7 @@ class visualization.Points
         stroke: false
         fillOpacity: 1
       console.log zoneStyle
-      zoneLayer = new L.circleMarker(zone.point, zoneStyle)
+      zoneLayer = new Leaflet.circleMarker(zone.point, zoneStyle)
       widget._bindPopup(zoneLayer, zone)
       group.push(zoneLayer)
     group

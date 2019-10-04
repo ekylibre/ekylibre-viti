@@ -1,4 +1,4 @@
-L.GeographicUtil = L.extend L.GeographicUtil || {},
+Leaflet.GeographicUtil = Leaflet.extend Leaflet.GeographicUtil || {},
   geod: GeographicLib.Geodesic.WGS84
 
 # Use Karney distance formula
@@ -16,7 +16,7 @@ L.GeographicUtil = L.extend L.GeographicUtil || {},
     @poly = @poly.Compute(false, true)
     return
 
-L.GeographicUtil.Polygon.prototype =
+Leaflet.GeographicUtil.Polygon.prototype =
   perimeter: ->
     @poly.perimeter
   area: ->

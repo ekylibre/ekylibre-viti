@@ -17,7 +17,7 @@ class visualization.Heatmap
   # Build layer as wanted
   buildLayerGroup: (widget, globalStyle = {}) ->
     group = []
-    overlay = new L.TileLayer.WebGLHeatMap
+    overlay = new Leaflet.TileLayer.WebGLHeatMap
       size: 12
       opacity: 0.8
       autoresize: true

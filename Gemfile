@@ -221,6 +221,9 @@ gem 'luhn'
 # For interval selector
 gem 'bootstrap-slider-rails'
 
+# Using git until we have a proper release system for cartography
+gem 'cartography', github: 'ekylibre/cartography'
+
 group :development do
   gem 'bullet', '< 5.6.0'
 

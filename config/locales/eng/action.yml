@@ -1036,15 +1036,25 @@ eng:
     bank_reconciliation:
       remove: "Remove"
     leaflet:
+      cut:
+        panel:
+          coordinatesProperty: "Coordinates"
+          surfacesProperty: "Surfaces"
+          title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "Click and drag to draw circle."
+          circlemarker:
+            tooltip:
+              start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "Click map to place marker."
           polygon:
+            errors:
+              overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "Click to continue drawing shape."
               end: "Click first point to close this shape."
@@ -1061,6 +1071,9 @@ eng:
           simpleshape:
             tooltip:
               end: "Release mouse to finish drawing."
+        panel:
+          coordinatesProperty: "Coordinates"
+          title: "Plot creation"
         toolbar:
           actions:
             text: "Cancel"
@@ -1068,9 +1081,12 @@ eng:
           buttons:
             circle: "Draw a circle"
             marker: "Draw a marker"
-            polygon: "Draw a polygon"
+            polygon: "Draw a plot"
             polyline: "Draw a polyline"
             rectangle: "Draw a rectangle"
+          finish:
+            text: "Finish"
+            title: "Finish drawing"
           undo:
             text: "Delete last point"
             title: "Delete last point drawn"
@@ -1083,6 +1099,8 @@ eng:
           remove:
             tooltip:
               text: "Click on a feature to remove"
+        panel:
+          title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -1093,13 +1111,48 @@ eng:
               title: "Save changes"
           buttons:
             edit: "Edit layers"
-            editDisabled: "No layers to edit"
+            editDisabled: "No plots to edit"
             remove: "Delete layers"
             removeDisabled: "No layers to delete"
       fullscreenTitle: "Full Screen"
       importerButtonTitle: "Import"
-      zoomInTitle: "Zoom in"
-      zoomOutTitle: "Zoom out"
+      merge:
+        panel:
+          title: "Plot merging"
+      snap:
+        panel:
+          surfaceProperty: "Surface"
+      home:
+        toolbar:
+          buttons:
+            home: 'Center to my plots'
+      split:
+        handlers:
+          cut:
+            tooltip:
+              subtext: "Click cancel to undo changes"
+              text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              text: "Cancel"
+              title: "Cancel splitting, discards all changes"
+            save:
+              text: "Save"
+              title: "Save changes"
+          buttons:
+            cutPolyline: "Split a plot"
+      zoom:
+        zoomInTitle: "Zoom in"
+        zoomOutTitle: "Zoom out"
+      locking:
+        label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        from_date_html: "from {{from}}<br>({{production}})"
+        to_date_html: "until {{to}}<br>({{production}})"
   labels:
     accepted: "Accepted"
     accepted_for_paiment: "Accepted for paiment"

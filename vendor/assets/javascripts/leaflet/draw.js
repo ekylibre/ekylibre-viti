@@ -9,9 +9,9 @@
                                           * Leaflet.draw assumes that you have already included the Leaflet library.
                                           */
 
-    L.drawVersion = '0.3.0-dev';
+    Leaflet.drawVersion = '0.3.0-dev';
 
-    L.drawLocal = {
+    Leaflet.drawLocal = {
         draw: {
             toolbar: {
                 // #TODO: this should be reorganized where actions are nested in actions
@@ -111,10 +111,10 @@
     };
 
 
-    L.Draw = {};
+    Leaflet.Draw = {};
 
-    L.Draw.Feature = L.Handler.extend({
-        includes: L.Mixin.Events,
+    Leaflet.Draw.Feature = Leaflet.Handler.extend({
+        includes: Leaflet.Mixin.Events,
 
         initialize: function (map, options) {
             this._map = map;
@@ -124,15 +124,15 @@
 
             // Merge default shapeOptions options with custom shapeOptions
             if (options && options.shapeOptions) {
-                options.shapeOptions = L.Util.extend({}, this.options.shapeOptions, options.shapeOptions);
+                options.shapeOptions = Leaflet.Util.extend({}, this.options.shapeOptions, options.shapeOptions);
             }
-            L.setOptions(this, options);
+            Leaflet.setOptions(this, options);
         },
 
         enable: function () {
             if (this._enabled) { return; }
 
-            L.Handler.prototype.enable.call(this);
+            Leaflet.Handler.prototype.enable.call(this);
 
             this.fire('enabled', { handler: this.type });
 
@@ -142,7 +142,7 @@
         disable: function () {
             if (!this._enabled) { return; }
 
-            L.Handler.prototype.disable.call(this);
+            Leaflet.Handler.prototype.disable.call(this);
 
             this._map.fire('draw:drawstop', { layerType: this.type });
 
@@ -153,29 +153,29 @@
             var map = this._map;
 
             if (map) {
-                L.DomUtil.disableTextSelection();
+                Leaflet.DomUtil.disableTextSelection();
 
                 map.getContainer().focus();
 
-                this._tooltip = new L.Tooltip(this._map);
+                this._tooltip = new Leaflet.Tooltip(this._map);
 
-                L.DomEvent.on(this._container, 'keyup', this._cancelDrawing, this);
+                Leaflet.DomEvent.on(this._container, 'keyup', this._cancelDrawing, this);
             }
         },
 
         removeHooks: function () {
             if (this._map) {
-                L.DomUtil.enableTextSelection();
+                Leaflet.DomUtil.enableTextSelection();
 
                 this._tooltip.dispose();
                 this._tooltip = null;
 
-                L.DomEvent.off(this._container, 'keyup', this._cancelDrawing, this);
+                Leaflet.DomEvent.off(this._container, 'keyup', this._cancelDrawing, this);
             }
         },
 
         setOptions: function (options) {
-            L.setOptions(this, options);
+            Leaflet.setOptions(this, options);
         },
 
         _fireCreatedEvent: function (layer) {
@@ -190,12 +190,12 @@
         }
     });
 
-    L.Draw.Polyline = L.Draw.Feature.extend({
+    Leaflet.Draw.Polyline = Leaflet.Draw.Feature.extend({
         statics: {
             TYPE: 'polyline'
         },
 
-        Poly: L.Polyline,
+        Poly: Leaflet.Polyline,
 
         options: {
             allowIntersection: true,
@@ -204,12 +204,12 @@
                 color: '#b00b00',
                 timeout: 2500
             },
-            icon: new L.DivIcon({
-                iconSize: new L.Point(8, 8),
+            icon: new Leaflet.DivIcon({
+                iconSize: new Leaflet.Point(8, 8),
                 className: 'leaflet-div-icon leaflet-editing-icon'
             }),
-            touchIcon: new L.DivIcon({
-                iconSize: new L.Point(20, 20),
+            touchIcon: new Leaflet.DivIcon({
+                iconSize: new Leaflet.Point(20, 20),
                 className: 'leaflet-div-icon leaflet-editing-icon leaflet-touch-icon'
             }),
             guidelineDistance: 20,
@@ -230,33 +230,33 @@
 
         initialize: function (map, options) {
             // if touch, switch to touch icon
-            if (L.Browser.touch) {
+            if (Leaflet.Browser.touch) {
                 this.options.icon = this.options.touchIcon;
             }
 
             // Need to set this here to ensure the correct message is used.
-            this.options.drawError.message = L.drawLocal.draw.handlers.polyline.error;
+            this.options.drawError.message = Leaflet.drawLocal.draw.handlers.polyline.error;
 
             // Merge default drawError options with custom options
             if (options && options.drawError) {
-                options.drawError = L.Util.extend({}, this.options.drawError, options.drawError);
+                options.drawError = Leaflet.Util.extend({}, this.options.drawError, options.drawError);
             }
 
             // Save the type so super can fire, need to do this as cannot do this.TYPE :(
-            this.type = L.Draw.Polyline.TYPE;
+            this.type = Leaflet.Draw.Polyline.TYPE;
 
-            L.Draw.Feature.prototype.initialize.call(this, map, options);
+            Leaflet.Draw.Feature.prototype.initialize.call(this, map, options);
         },
 
         addHooks: function () {
-            L.Draw.Feature.prototype.addHooks.call(this);
+            Leaflet.Draw.Feature.prototype.addHooks.call(this);
             if (this._map) {
                 this._markers = [];
 
-                this._markerGroup = new L.LayerGroup();
+                this._markerGroup = new Leaflet.LayerGroup();
                 this._map.addLayer(this._markerGroup);
 
-                this._poly = new L.Polyline([], this.options.shapeOptions);
+                this._poly = new Leaflet.Polyline([], this.options.shapeOptions);
 
                 this._tooltip.updateContent(this._getTooltipText());
 
@@ -266,8 +266,8 @@
                 // also do not want to trigger any click handlers of objects we are clicking on
                 // while drawing.
                 if (!this._mouseMarker) {
-                    this._mouseMarker = L.marker(this._map.getCenter(), {
-                        icon: L.divIcon({
+                    this._mouseMarker = Leaflet.marker(this._map.getCenter(), {
+                        icon: Leaflet.divIcon({
                             className: 'leaflet-mouse-marker',
                             iconAnchor: [20, 20],
                             iconSize: [40, 40]
@@ -284,7 +284,7 @@
                     .on('mousemove', this._onMouseMove, this) // Necessary to prevent 0.8 stutter
                     .addTo(this._map);
 
-                if(!L.Browser.touch){
+                if(!Leaflet.Browser.touch){
                     this._map.on('mouseup', this._onMouseUp, this); // Necessary for 0.7 compatibility
                 }
 
@@ -298,7 +298,7 @@
         },
 
         removeHooks: function () {
-            L.Draw.Feature.prototype.removeHooks.call(this);
+            Leaflet.Draw.Feature.prototype.removeHooks.call(this);
 
             this._clearHideErrorTimeout();
 
@@ -425,7 +425,7 @@
             // Update the mouse marker position
             this._mouseMarker.setLatLng(latlng);
 
-            L.DomEvent.preventDefault(e.originalEvent);
+            Leaflet.DomEvent.preventDefault(e.originalEvent);
         },
 
         _vertexChanged: function (latlng, added) {
@@ -441,14 +441,14 @@
 
         _onMouseDown: function (e) {
             var originalEvent = e.originalEvent;
-            this._mouseDownOrigin = L.point(originalEvent.clientX, originalEvent.clientY);
+            this._mouseDownOrigin = Leaflet.point(originalEvent.clientX, originalEvent.clientY);
         },
 
         _onMouseUp: function (e) {
             if (this._mouseDownOrigin) {
                 // We detect clicks within a certain tolerance, otherwise let it
                 // be interpreted as a drag by the map
-                var distance = L.point(e.originalEvent.clientX, e.originalEvent.clientY)
+                var distance = Leaflet.point(e.originalEvent.clientX, e.originalEvent.clientY)
                     .distanceTo(this._mouseDownOrigin);
                 if (Math.abs(distance) < 9 * (window.devicePixelRatio || 1)) {
                     this.addVertex(e.latlng);
@@ -459,7 +459,7 @@
 
         _onTouch: function (e) {
             // #TODO: use touchstart and touchend vs using click(touch start & end).
-            if (L.Browser.touch) { // #TODO: get rid of this once leaflet fixes their click/touch.
+            if (Leaflet.Browser.touch) { // #TODO: get rid of this once leaflet fixes their click/touch.
                 this._onMouseDown(e);
                 this._onMouseUp(e);
             }
@@ -485,7 +485,7 @@
         },
 
         _createMarker: function (latlng) {
-            var marker = new L.Marker(latlng, {
+            var marker = new Leaflet.Marker(latlng, {
                 icon: this.options.icon,
                 zIndexOffset: this.options.zIndexOffset * 2
             });
@@ -534,7 +534,7 @@
 
             //create the guides container if we haven't yet
             if (!this._guidesContainer) {
-                this._guidesContainer = L.DomUtil.create('div', 'leaflet-draw-guides', this._overlayPane);
+                this._guidesContainer = Leaflet.DomUtil.create('div', 'leaflet-draw-guides', this._overlayPane);
             }
 
             //draw a dash every GuildeLineDistance
@@ -549,11 +549,11 @@
                 };
 
                 //add guide dash to guide container
-                dash = L.DomUtil.create('div', 'leaflet-draw-guide-dash', this._guidesContainer);
+                dash = Leaflet.DomUtil.create('div', 'leaflet-draw-guide-dash', this._guidesContainer);
                 dash.style.backgroundColor =
                     !this._errorShown ? this.options.shapeOptions.color : this.options.drawError.color;
 
-                L.DomUtil.setPosition(dash, dashPoint);
+                Leaflet.DomUtil.setPosition(dash, dashPoint);
             }
         },
 
@@ -580,19 +580,19 @@
 
             if (this._markers.length === 0) {
                 labelText = {
-                    text: L.drawLocal.draw.handlers.polyline.tooltip.start
+                    text: Leaflet.drawLocal.draw.handlers.polyline.tooltip.start
                 };
             } else {
                 distanceStr = showLength ? this._getMeasurementString() : '';
 
                 if (this._markers.length === 1) {
                     labelText = {
-                        text: L.drawLocal.draw.handlers.polyline.tooltip.cont,
+                        text: Leaflet.drawLocal.draw.handlers.polyline.tooltip.cont,
                         subtext: distanceStr
                     };
                 } else {
                     labelText = {
-                        text: L.drawLocal.draw.handlers.polyline.tooltip.end,
+                        text: Leaflet.drawLocal.draw.handlers.polyline.tooltip.end,
                         subtext: distanceStr
                     };
                 }
@@ -622,7 +622,7 @@
             // calculate the distance from the last fixed point to the mouse position
             distance = this._measurementRunningTotal + currentLatLng.distanceTo(previousLatLng);
 
-            return L.GeometryUtil.readableDistance(distance, this.options.metric, this.options.feet);
+            return Leaflet.GeometryUtil.readableDistance(distance, this.options.metric, this.options.feet);
         },
 
         _showErrorTooltip: function () {
@@ -639,7 +639,7 @@
 
             // Hide the error after 2 seconds
             this._clearHideErrorTimeout();
-            this._hideErrorTimeout = setTimeout(L.Util.bind(this._hideErrorTooltip, this), this.options.drawError.timeout);
+            this._hideErrorTimeout = setTimeout(Leaflet.Util.bind(this._hideErrorTooltip, this), this.options.drawError.timeout);
         },
 
         _hideErrorTooltip: function () {
@@ -672,17 +672,17 @@
 
         _fireCreatedEvent: function () {
             var poly = new this.Poly(this._poly.getLatLngs(), this.options.shapeOptions);
-            L.Draw.Feature.prototype._fireCreatedEvent.call(this, poly);
+            Leaflet.Draw.Feature.prototype._fireCreatedEvent.call(this, poly);
         }
     });
 
 
-    L.Draw.Polygon = L.Draw.Polyline.extend({
+    Leaflet.Draw.Polygon = Leaflet.Draw.Polyline.extend({
         statics: {
             TYPE: 'polygon'
         },
 
-        Poly: L.Polygon,
+        Poly: Leaflet.Polygon,
 
         options: {
             showArea: false,
@@ -699,10 +699,10 @@
         },
 
         initialize: function (map, options) {
-            L.Draw.Polyline.prototype.initialize.call(this, map, options);
+            Leaflet.Draw.Polyline.prototype.initialize.call(this, map, options);
 
             // Save the type so super can fire, need to do this as cannot do this.TYPE :(
-            this.type = L.Draw.Polygon.TYPE;
+            this.type = Leaflet.Draw.Polygon.TYPE;
         },
 
         _updateFinishHandler: function () {
@@ -727,11 +727,11 @@
             var text, subtext;
 
             if (this._markers.length === 0) {
-                text = L.drawLocal.draw.handlers.polygon.tooltip.start;
+                text = Leaflet.drawLocal.draw.handlers.polygon.tooltip.start;
             } else if (this._markers.length < 3) {
-                text = L.drawLocal.draw.handlers.polygon.tooltip.cont;
+                text = Leaflet.drawLocal.draw.handlers.polygon.tooltip.cont;
             } else {
-                text = L.drawLocal.draw.handlers.polygon.tooltip.end;
+                text = Leaflet.drawLocal.draw.handlers.polygon.tooltip.end;
                 subtext = this._getMeasurementString();
             }
 
@@ -748,7 +748,7 @@
                 return null;
             }
 
-            return L.GeometryUtil.readableArea(area, this.options.metric);
+            return Leaflet.GeometryUtil.readableArea(area, this.options.metric);
         },
 
         _shapeIsValid: function () {
@@ -762,10 +762,10 @@
             if (!this.options.allowIntersection && this.options.showArea) {
                 latLngs = this._poly.getLatLngs();
 
-                this._area = L.GeometryUtil.geodesicArea(latLngs);
+                this._area = Leaflet.GeometryUtil.geodesicArea(latLngs);
             }
 
-            L.Draw.Polyline.prototype._vertexChanged.call(this, latlng, added);
+            Leaflet.Draw.Polyline.prototype._vertexChanged.call(this, latlng, added);
         },
 
         _cleanUpShape: function () {
@@ -782,21 +782,21 @@
     });
 
 
-    L.SimpleShape = {};
+    Leaflet.SimpleShape = {};
 
-    L.Draw.SimpleShape = L.Draw.Feature.extend({
+    Leaflet.Draw.SimpleShape = Leaflet.Draw.Feature.extend({
         options: {
             repeatMode: false
         },
 
         initialize: function (map, options) {
-            this._endLabelText = L.drawLocal.draw.handlers.simpleshape.tooltip.end;
+            this._endLabelText = Leaflet.drawLocal.draw.handlers.simpleshape.tooltip.end;
 
-            L.Draw.Feature.prototype.initialize.call(this, map, options);
+            Leaflet.Draw.Feature.prototype.initialize.call(this, map, options);
         },
 
         addHooks: function () {
-            L.Draw.Feature.prototype.addHooks.call(this);
+            Leaflet.Draw.Feature.prototype.addHooks.call(this);
             if (this._map) {
                 this._mapDraggable = this._map.dragging.enabled();
 
@@ -818,7 +818,7 @@
         },
 
         removeHooks: function () {
-            L.Draw.Feature.prototype.removeHooks.call(this);
+            Leaflet.Draw.Feature.prototype.removeHooks.call(this);
             if (this._map) {
                 if (this._mapDraggable) {
                     this._map.dragging.enable();
@@ -833,8 +833,8 @@
                     .off('touchstart', this._onMouseDown, this)
                     .off('touchmove', this._onMouseMove, this);
 
-                L.DomEvent.off(document, 'mouseup', this._onMouseUp, this);
-                L.DomEvent.off(document, 'touchend', this._onMouseUp, this);
+                Leaflet.DomEvent.off(document, 'mouseup', this._onMouseUp, this);
+                Leaflet.DomEvent.off(document, 'touchend', this._onMouseUp, this);
 
                 // If the box element doesn't exist they must not have moved the mouse, so don't need to destroy/return
                 if (this._shape) {
@@ -855,7 +855,7 @@
             this._isDrawing = true;
             this._startLatLng = e.latlng;
 
-            L.DomEvent
+            Leaflet.DomEvent
                 .on(document, 'mouseup', this._onMouseUp, this)
                 .on(document, 'touchend', this._onMouseUp, this)
                 .preventDefault(e.originalEvent);
@@ -883,7 +883,7 @@
         }
     });
 
-    L.Draw.Rectangle = L.Draw.SimpleShape.extend({
+    Leaflet.Draw.Rectangle = Leaflet.Draw.SimpleShape.extend({
         statics: {
             TYPE: 'rectangle'
         },
@@ -904,36 +904,36 @@
 
         initialize: function (map, options) {
             // Save the type so super can fire, need to do this as cannot do this.TYPE :(
-            this.type = L.Draw.Rectangle.TYPE;
+            this.type = Leaflet.Draw.Rectangle.TYPE;
 
-            this._initialLabelText = L.drawLocal.draw.handlers.rectangle.tooltip.start;
+            this._initialLabelText = Leaflet.drawLocal.draw.handlers.rectangle.tooltip.start;
 
-            L.Draw.SimpleShape.prototype.initialize.call(this, map, options);
+            Leaflet.Draw.SimpleShape.prototype.initialize.call(this, map, options);
         },
 
         _drawShape: function (latlng) {
             if (!this._shape) {
-                this._shape = new L.Rectangle(new L.LatLngBounds(this._startLatLng, latlng), this.options.shapeOptions);
+                this._shape = new Leaflet.Rectangle(new Leaflet.LatLngBounds(this._startLatLng, latlng), this.options.shapeOptions);
                 this._map.addLayer(this._shape);
             } else {
-                this._shape.setBounds(new L.LatLngBounds(this._startLatLng, latlng));
+                this._shape.setBounds(new Leaflet.LatLngBounds(this._startLatLng, latlng));
             }
         },
 
         _fireCreatedEvent: function () {
-            var rectangle = new L.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
-            L.Draw.SimpleShape.prototype._fireCreatedEvent.call(this, rectangle);
+            var rectangle = new Leaflet.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
+            Leaflet.Draw.SimpleShape.prototype._fireCreatedEvent.call(this, rectangle);
         },
 
         _getTooltipText: function () {
-            var tooltipText = L.Draw.SimpleShape.prototype._getTooltipText.call(this),
+            var tooltipText = Leaflet.Draw.SimpleShape.prototype._getTooltipText.call(this),
                 shape = this._shape,
                 latLngs, area, subtext;
 
             if (shape) {
                 latLngs = this._shape.getLatLngs();
-                area = L.GeometryUtil.geodesicArea(latLngs);
-                subtext = L.GeometryUtil.readableArea(area, this.options.metric);
+                area = Leaflet.GeometryUtil.geodesicArea(latLngs);
+                subtext = Leaflet.GeometryUtil.readableArea(area, this.options.metric);
             }
 
             return {
@@ -944,7 +944,7 @@
     });
 
 
-    L.Draw.Circle = L.Draw.SimpleShape.extend({
+    Leaflet.Draw.Circle = Leaflet.Draw.SimpleShape.extend({
         statics: {
             TYPE: 'circle'
         },
@@ -967,16 +967,16 @@
 
         initialize: function (map, options) {
             // Save the type so super can fire, need to do this as cannot do this.TYPE :(
-            this.type = L.Draw.Circle.TYPE;
+            this.type = Leaflet.Draw.Circle.TYPE;
 
-            this._initialLabelText = L.drawLocal.draw.handlers.circle.tooltip.start;
+            this._initialLabelText = Leaflet.drawLocal.draw.handlers.circle.tooltip.start;
 
-            L.Draw.SimpleShape.prototype.initialize.call(this, map, options);
+            Leaflet.Draw.SimpleShape.prototype.initialize.call(this, map, options);
         },
 
         _drawShape: function (latlng) {
             if (!this._shape) {
-                this._shape = new L.Circle(this._startLatLng, this._startLatLng.distanceTo(latlng), this.options.shapeOptions);
+                this._shape = new Leaflet.Circle(this._startLatLng, this._startLatLng.distanceTo(latlng), this.options.shapeOptions);
                 this._map.addLayer(this._shape);
             } else {
                 this._shape.setRadius(this._startLatLng.distanceTo(latlng));
@@ -984,8 +984,8 @@
         },
 
         _fireCreatedEvent: function () {
-            var circle = new L.Circle(this._startLatLng, this._shape.getRadius(), this.options.shapeOptions);
-            L.Draw.SimpleShape.prototype._fireCreatedEvent.call(this, circle);
+            var circle = new Leaflet.Circle(this._startLatLng, this._shape.getRadius(), this.options.shapeOptions);
+            Leaflet.Draw.SimpleShape.prototype._fireCreatedEvent.call(this, circle);
         },
 
         _onMouseMove: function (e) {
@@ -1003,42 +1003,42 @@
 
                 this._tooltip.updateContent({
                     text: this._endLabelText,
-                    subtext: showRadius ? L.drawLocal.draw.handlers.circle.radius + ': ' +
-                        L.GeometryUtil.readableDistance(radius, useMetric, this.options.feet) : ''
+                    subtext: showRadius ? Leaflet.drawLocal.draw.handlers.circle.radius + ': ' +
+                        Leaflet.GeometryUtil.readableDistance(radius, useMetric, this.options.feet) : ''
                 });
             }
         }
     });
 
 
-    L.Draw.Marker = L.Draw.Feature.extend({
+    Leaflet.Draw.Marker = Leaflet.Draw.Feature.extend({
         statics: {
             TYPE: 'marker'
         },
 
         options: {
-            icon: new L.Icon.Default(),
+            icon: new Leaflet.Icon.Default(),
             repeatMode: false,
             zIndexOffset: 2000 // This should be > than the highest z-index any markers
         },
 
         initialize: function (map, options) {
             // Save the type so super can fire, need to do this as cannot do this.TYPE :(
-            this.type = L.Draw.Marker.TYPE;
+            this.type = Leaflet.Draw.Marker.TYPE;
 
-            L.Draw.Feature.prototype.initialize.call(this, map, options);
+            Leaflet.Draw.Feature.prototype.initialize.call(this, map, options);
         },
 
         addHooks: function () {
-            L.Draw.Feature.prototype.addHooks.call(this);
+            Leaflet.Draw.Feature.prototype.addHooks.call(this);
 
             if (this._map) {
-                this._tooltip.updateContent({ text: L.drawLocal.draw.handlers.marker.tooltip.start });
+                this._tooltip.updateContent({ text: Leaflet.drawLocal.draw.handlers.marker.tooltip.start });
 
                 // Same mouseMarker as in Draw.Polyline
                 if (!this._mouseMarker) {
-                    this._mouseMarker = L.marker(this._map.getCenter(), {
-                        icon: L.divIcon({
+                    this._mouseMarker = Leaflet.marker(this._map.getCenter(), {
+                        icon: Leaflet.divIcon({
                             className: 'leaflet-mouse-marker',
                             iconAnchor: [20, 20],
                             iconSize: [40, 40]
@@ -1058,7 +1058,7 @@
         },
 
         removeHooks: function () {
-            L.Draw.Feature.prototype.removeHooks.call(this);
+            Leaflet.Draw.Feature.prototype.removeHooks.call(this);
 
             if (this._map) {
                 if (this._marker) {
@@ -1085,7 +1085,7 @@
             this._mouseMarker.setLatLng(latlng);
 
             if (!this._marker) {
-                this._marker = new L.Marker(latlng, {
+                this._marker = new Leaflet.Marker(latlng, {
                     icon: this.options.icon,
                     zIndexOffset: this.options.zIndexOffset
                 });
@@ -1117,18 +1117,18 @@
         },
 
         _fireCreatedEvent: function () {
-            var marker = new L.Marker.Touch(this._marker.getLatLng(), { icon: this.options.icon });
-            L.Draw.Feature.prototype._fireCreatedEvent.call(this, marker);
+            var marker = new Leaflet.Marker.Touch(this._marker.getLatLng(), { icon: this.options.icon });
+            Leaflet.Draw.Feature.prototype._fireCreatedEvent.call(this, marker);
         }
     });
 
 
-    L.Edit = L.Edit || {};
+    Leaflet.Edit = Leaflet.Edit || {};
 
-    L.Edit.Marker = L.Handler.extend({
+    Leaflet.Edit.Marker = Leaflet.Handler.extend({
         initialize: function (marker, options) {
             this._marker = marker;
-            L.setOptions(this, options);
+            Leaflet.setOptions(this, options);
         },
 
         addHooks: function () {
@@ -1166,13 +1166,13 @@
             // This is quite naughty, but I don't see another way of doing it. (short of setting a new icon)
             icon.style.display = 'none';
 
-            if (L.DomUtil.hasClass(icon, 'leaflet-edit-marker-selected')) {
-                L.DomUtil.removeClass(icon, 'leaflet-edit-marker-selected');
+            if (Leaflet.DomUtil.hasClass(icon, 'leaflet-edit-marker-selected')) {
+                Leaflet.DomUtil.removeClass(icon, 'leaflet-edit-marker-selected');
                 // Offset as the border will make the icon move.
                 this._offsetMarker(icon, -4);
 
             } else {
-                L.DomUtil.addClass(icon, 'leaflet-edit-marker-selected');
+                Leaflet.DomUtil.addClass(icon, 'leaflet-edit-marker-selected');
                 // Offset as the border will make the icon move.
                 this._offsetMarker(icon, 4);
             }
@@ -1189,9 +1189,9 @@
         }
     });
 
-    L.Marker.addInitHook(function () {
-        if (L.Edit.Marker) {
-            this.editing = new L.Edit.Marker(this);
+    Leaflet.Marker.addInitHook(function () {
+        if (Leaflet.Edit.Marker) {
+            this.editing = new Leaflet.Edit.Marker(this);
 
             if (this.options.editable) {
                 this.editing.enable();
@@ -1200,12 +1200,12 @@
     });
 
 
-    L.Edit = L.Edit || {};
+    Leaflet.Edit = Leaflet.Edit || {};
 
     /*
-     * L.Edit.Poly is an editing handler for polylines and polygons.
+     * Leaflet.Edit.Poly is an editing handler for polylines and polygons.
      */
-    L.Edit.Poly = L.Handler.extend({
+    Leaflet.Edit.Poly = Leaflet.Handler.extend({
         options: {},
 
         initialize: function (poly, options) {
@@ -1217,11 +1217,11 @@
 
             this._verticesHandlers = [];
             for (var i = 0; i < this.latlngs.length; i++) {
-                this._verticesHandlers.push(new L.Edit.PolyVerticesEdit(poly, this.latlngs[i], options));
+                this._verticesHandlers.push(new Leaflet.Edit.PolyVerticesEdit(poly, this.latlngs[i], options));
             }
 
             this._poly = poly;
-            L.setOptions(this, options);
+            Leaflet.setOptions(this, options);
         },
 
         _eachVertexHandler: function (callback) {
@@ -1250,14 +1250,14 @@
 
     });
 
-    L.Edit.PolyVerticesEdit = L.Handler.extend({
+    Leaflet.Edit.PolyVerticesEdit = Leaflet.Handler.extend({
         options: {
-            icon: new L.DivIcon({
-                iconSize: new L.Point(8, 8),
+            icon: new Leaflet.DivIcon({
+                iconSize: new Leaflet.Point(8, 8),
                 className: 'leaflet-div-icon leaflet-editing-icon'
             }),
-            touchIcon: new L.DivIcon({
-                iconSize: new L.Point(20, 20),
+            touchIcon: new Leaflet.DivIcon({
+                iconSize: new Leaflet.Point(20, 20),
                 className: 'leaflet-div-icon leaflet-editing-icon leaflet-touch-icon'
             }),
             drawError: {
@@ -1270,24 +1270,24 @@
 
         initialize: function (poly, latlngs, options) {
             // if touch, switch to touch icon
-            if (L.Browser.touch) {
+            if (Leaflet.Browser.touch) {
                 this.options.icon = this.options.touchIcon;
             }
             this._poly = poly;
 
             if (options && options.drawError) {
-                options.drawError = L.Util.extend({}, this.options.drawError, options.drawError);
+                options.drawError = Leaflet.Util.extend({}, this.options.drawError, options.drawError);
             }
 
             this._latlngs = latlngs;
 
-            L.setOptions(this, options);
+            Leaflet.setOptions(this, options);
         },
 
         addHooks: function () {
             var poly = this._poly;
 
-            if (!(poly instanceof L.Polygon)) {
+            if (!(poly instanceof Leaflet.Polygon)) {
                 poly.options.editing.fill = false;
             }
 
@@ -1323,7 +1323,7 @@
 
         _initMarkers: function () {
             if (!this._markerGroup) {
-                this._markerGroup = new L.LayerGroup();
+                this._markerGroup = new Leaflet.LayerGroup();
             }
             this._markers = [];
 
@@ -1340,7 +1340,7 @@
             var markerLeft, markerRight;
 
             for (i = 0, j = len - 1; i < len; j = i++) {
-                if (i === 0 && !(L.Polygon && (this._poly instanceof L.Polygon))) {
+                if (i === 0 && !(Leaflet.Polygon && (this._poly instanceof Leaflet.Polygon))) {
                     continue;
                 }
 
@@ -1353,8 +1353,8 @@
         },
 
         _createMarker: function (latlng, index) {
-            // Extending L.Marker in TouchEvents.js to include touch.
-            var marker = new L.Marker.Touch(latlng, {
+            // Extending Leaflet.Marker in TouchEvents.js to include touch.
+            var marker = new Leaflet.Marker.Touch(latlng, {
                 draggable: true,
                 icon: this.options.icon,
             });
@@ -1414,7 +1414,7 @@
             var marker = e.target;
             var poly = this._poly;
 
-            L.extend(marker._origLatLng, marker._latlng);
+            Leaflet.extend(marker._origLatLng, marker._latlng);
 
             if (marker._middleLeft) {
                 marker._middleLeft.setLatLng(this._getMiddleLatLng(marker._prev, marker));
@@ -1434,7 +1434,7 @@
 
                     if (tooltip) {
                         tooltip.updateContent({
-                            text: L.drawLocal.draw.handlers.polyline.error
+                            text: Leaflet.drawLocal.draw.handlers.polyline.error
                         });
                     }
 
@@ -1443,8 +1443,8 @@
                         poly.setStyle({ color: originalColor });
                         if (tooltip) {
                             tooltip.updateContent({
-                                text:  L.drawLocal.edit.handlers.edit.tooltip.text,
-                                subtext:  L.drawLocal.edit.handlers.edit.tooltip.subtext
+                                text:  Leaflet.drawLocal.edit.handlers.edit.tooltip.text,
+                                subtext:  Leaflet.drawLocal.edit.handlers.edit.tooltip.subtext
                             });
                         }
                     }, 1000);
@@ -1458,7 +1458,7 @@
 
         _onMarkerClick: function (e) {
 
-            var minPoints = L.Polygon && (this._poly instanceof L.Polygon) ? 4 : 3,
+            var minPoints = Leaflet.Polygon && (this._poly instanceof Leaflet.Polygon) ? 4 : 3,
                 marker = e.target;
 
             // If removing this point would create an invalid polyline/polygon don't remove
@@ -1500,7 +1500,7 @@
                 latlng = this._map.layerPointToLatLng(layerPoint),
                 marker = e.target;
 
-            L.extend(marker._origLatLng, latlng);
+            Leaflet.extend(marker._origLatLng, latlng);
 
             if (marker._middleLeft) {
                 marker._middleLeft.setLatLng(this._getMiddleLatLng(marker._prev, marker));
@@ -1600,16 +1600,16 @@
         }
     });
 
-    L.Polyline.addInitHook(function () {
+    Leaflet.Polyline.addInitHook(function () {
 
-        // Check to see if handler has already been initialized. This is to support versions of Leaflet that still have L.Handler.PolyEdit
+        // Check to see if handler has already been initialized. This is to support versions of Leaflet that still have Leaflet.Handler.PolyEdit
         if (this.editing) {
             return;
         }
 
-        if (L.Edit.Poly) {
+        if (Leaflet.Edit.Poly) {
 
-            this.editing = new L.Edit.Poly(this, this.options.poly);
+            this.editing = new Leaflet.Edit.Poly(this, this.options.poly);
 
             if (this.options.editable) {
                 this.editing.enable();
@@ -1630,37 +1630,37 @@
     });
 
 
-    L.Edit = L.Edit || {};
+    Leaflet.Edit = Leaflet.Edit || {};
 
-    L.Edit.SimpleShape = L.Handler.extend({
+    Leaflet.Edit.SimpleShape = Leaflet.Handler.extend({
         options: {
-            moveIcon: new L.DivIcon({
-                iconSize: new L.Point(8, 8),
+            moveIcon: new Leaflet.DivIcon({
+                iconSize: new Leaflet.Point(8, 8),
                 className: 'leaflet-div-icon leaflet-editing-icon leaflet-edit-move'
             }),
-            resizeIcon: new L.DivIcon({
-                iconSize: new L.Point(8, 8),
+            resizeIcon: new Leaflet.DivIcon({
+                iconSize: new Leaflet.Point(8, 8),
                 className: 'leaflet-div-icon leaflet-editing-icon leaflet-edit-resize'
             }),
-            touchMoveIcon: new L.DivIcon({
-                iconSize: new L.Point(20, 20),
+            touchMoveIcon: new Leaflet.DivIcon({
+                iconSize: new Leaflet.Point(20, 20),
                 className: 'leaflet-div-icon leaflet-editing-icon leaflet-edit-move leaflet-touch-icon'
             }),
-            touchResizeIcon: new L.DivIcon({
-                iconSize: new L.Point(20, 20),
+            touchResizeIcon: new Leaflet.DivIcon({
+                iconSize: new Leaflet.Point(20, 20),
                 className: 'leaflet-div-icon leaflet-editing-icon leaflet-edit-resize leaflet-touch-icon'
             }),
         },
 
         initialize: function (shape, options) {
             // if touch, switch to touch icon
-            if (L.Browser.touch) {
+            if (Leaflet.Browser.touch) {
                 this.options.moveIcon = this.options.touchMoveIcon;
                 this.options.resizeIcon = this.options.touchResizeIcon;
             }
 
             this._shape = shape;
-            L.Util.setOptions(this, options);
+            Leaflet.Util.setOptions(this, options);
         },
 
         addHooks: function () {
@@ -1706,7 +1706,7 @@
 
         _initMarkers: function () {
             if (!this._markerGroup) {
-                this._markerGroup = new L.LayerGroup();
+                this._markerGroup = new Leaflet.LayerGroup();
             }
 
             // Create center marker
@@ -1725,8 +1725,8 @@
         },
 
         _createMarker: function (latlng, icon) {
-            // Extending L.Marker in TouchEvents.js to include touch.
-            var marker = new L.Marker.Touch(latlng, {
+            // Extending Leaflet.Marker in TouchEvents.js to include touch.
+            var marker = new Leaflet.Marker.Touch(latlng, {
                 draggable: true,
                 icon: icon,
                 zIndexOffset: 10
@@ -1797,7 +1797,7 @@
         },
 
         _onTouchStart: function (e) {
-            L.Edit.SimpleShape.prototype._onMarkerDragStart.call(this, e);
+            Leaflet.Edit.SimpleShape.prototype._onMarkerDragStart.call(this, e);
 
             if (typeof(this._getCorners) === 'function') {
                 // Save a reference to the opposite point
@@ -1851,9 +1851,9 @@
     });
 
 
-    L.Edit = L.Edit || {};
+    Leaflet.Edit = Leaflet.Edit || {};
 
-    L.Edit.Rectangle = L.Edit.SimpleShape.extend({
+    Leaflet.Edit.Rectangle = Leaflet.Edit.SimpleShape.extend({
         _createMoveMarker: function () {
             var bounds = this._shape.getBounds(),
                 center = bounds.getCenter();
@@ -1874,7 +1874,7 @@
         },
 
         _onMarkerDragStart: function (e) {
-            L.Edit.SimpleShape.prototype._onMarkerDragStart.call(this, e);
+            Leaflet.Edit.SimpleShape.prototype._onMarkerDragStart.call(this, e);
 
             // Save a reference to the opposite point
             var corners = this._getCorners(),
@@ -1902,7 +1902,7 @@
 
             this._repositionCornerMarkers();
 
-            L.Edit.SimpleShape.prototype._onMarkerDragEnd.call(this, e);
+            Leaflet.Edit.SimpleShape.prototype._onMarkerDragEnd.call(this, e);
         },
 
         _move: function (newCenter) {
@@ -1927,7 +1927,7 @@
             var bounds;
 
             // Update the shape based on the current position of this corner and the opposite point
-            this._shape.setBounds(L.latLngBounds(latlng, this._oppositeCorner));
+            this._shape.setBounds(Leaflet.latLngBounds(latlng, this._oppositeCorner));
 
             // Reposition the move marker
             bounds = this._shape.getBounds();
@@ -1959,9 +1959,9 @@
         }
     });
 
-    L.Rectangle.addInitHook(function () {
-        if (L.Edit.Rectangle) {
-            this.editing = new L.Edit.Rectangle(this);
+    Leaflet.Rectangle.addInitHook(function () {
+        if (Leaflet.Edit.Rectangle) {
+            this.editing = new Leaflet.Edit.Rectangle(this);
 
             if (this.options.editable) {
                 this.editing.enable();
@@ -1970,9 +1970,9 @@
     });
 
 
-    L.Edit = L.Edit || {};
+    Leaflet.Edit = Leaflet.Edit || {};
 
-    L.Edit.Circle = L.Edit.SimpleShape.extend({
+    Leaflet.Edit.Circle = Leaflet.Edit.SimpleShape.extend({
         _createMoveMarker: function () {
             var center = this._shape.getLatLng();
 
@@ -1988,7 +1988,7 @@
         },
 
         _getResizeMarkerPoint: function (latlng) {
-            // From L.shape.getBounds()
+            // From Leaflet.shape.getBounds()
             var delta = this._shape._radius * Math.cos(Math.PI / 4),
                 point = this._map.project(latlng);
             return this._map.unproject([point.x + delta, point.y - delta]);
@@ -2012,9 +2012,9 @@
         }
     });
 
-    L.Circle.addInitHook(function () {
-        if (L.Edit.Circle) {
-            this.editing = new L.Edit.Circle(this);
+    Leaflet.Circle.addInitHook(function () {
+        if (Leaflet.Edit.Circle) {
+            this.editing = new Leaflet.Edit.Circle(this);
 
             if (this.options.editable) {
                 this.editing.enable();
@@ -2034,11 +2034,11 @@
         });
     });
 
-    L.Map.mergeOptions({
+    Leaflet.Map.mergeOptions({
         touchExtend: true
     });
 
-    L.Map.TouchExtend = L.Handler.extend({
+    Leaflet.Map.TouchExtend = Leaflet.Handler.extend({
 
         initialize: function (map) {
             this._map = map;
@@ -2047,33 +2047,33 @@
         },
 
         addHooks: function () {
-            L.DomEvent.on(this._container, 'touchstart', this._onTouchStart, this);
-            L.DomEvent.on(this._container, 'touchend', this._onTouchEnd, this);
-            L.DomEvent.on(this._container, 'touchmove', this._onTouchMove, this);
+            Leaflet.DomEvent.on(this._container, 'touchstart', this._onTouchStart, this);
+            Leaflet.DomEvent.on(this._container, 'touchend', this._onTouchEnd, this);
+            Leaflet.DomEvent.on(this._container, 'touchmove', this._onTouchMove, this);
             if (this._detectIE()) {
-                L.DomEvent.on(this._container, 'MSPointerDown', this._onTouchStart, this);
-                L.DomEvent.on(this._container, 'MSPointerUp', this._onTouchEnd, this);
-                L.DomEvent.on(this._container, 'MSPointerMove', this._onTouchMove, this);
-                L.DomEvent.on(this._container, 'MSPointerCancel', this._onTouchCancel, this);
+                Leaflet.DomEvent.on(this._container, 'MSPointerDown', this._onTouchStart, this);
+                Leaflet.DomEvent.on(this._container, 'MSPointerUp', this._onTouchEnd, this);
+                Leaflet.DomEvent.on(this._container, 'MSPointerMove', this._onTouchMove, this);
+                Leaflet.DomEvent.on(this._container, 'MSPointerCancel', this._onTouchCancel, this);
 
             } else {
-                L.DomEvent.on(this._container, 'touchcancel', this._onTouchCancel, this);
-                L.DomEvent.on(this._container, 'touchleave', this._onTouchLeave, this);
+                Leaflet.DomEvent.on(this._container, 'touchcancel', this._onTouchCancel, this);
+                Leaflet.DomEvent.on(this._container, 'touchleave', this._onTouchLeave, this);
             }
         },
 
         removeHooks: function () {
-            L.DomEvent.off(this._container, 'touchstart', this._onTouchStart);
-            L.DomEvent.off(this._container, 'touchend', this._onTouchEnd);
-            L.DomEvent.off(this._container, 'touchmove', this._onTouchMove);
+            Leaflet.DomEvent.off(this._container, 'touchstart', this._onTouchStart);
+            Leaflet.DomEvent.off(this._container, 'touchend', this._onTouchEnd);
+            Leaflet.DomEvent.off(this._container, 'touchmove', this._onTouchMove);
             if (this._detectIE()) {
-                L.DomEvent.off(this._container, 'MSPointerDowm', this._onTouchStart);
-                L.DomEvent.off(this._container, 'MSPointerUp', this._onTouchEnd);
-                L.DomEvent.off(this._container, 'MSPointerMove', this._onTouchMove);
-                L.DomEvent.off(this._container, 'MSPointerCancel', this._onTouchCancel);
+                Leaflet.DomEvent.off(this._container, 'MSPointerDowm', this._onTouchStart);
+                Leaflet.DomEvent.off(this._container, 'MSPointerUp', this._onTouchEnd);
+                Leaflet.DomEvent.off(this._container, 'MSPointerMove', this._onTouchMove);
+                Leaflet.DomEvent.off(this._container, 'MSPointerCancel', this._onTouchCancel);
             } else {
-                L.DomEvent.off(this._container, 'touchcancel', this._onTouchCancel);
-                L.DomEvent.off(this._container, 'touchleave', this._onTouchLeave);
+                Leaflet.DomEvent.off(this._container, 'touchcancel', this._onTouchCancel);
+                Leaflet.DomEvent.off(this._container, 'touchleave', this._onTouchLeave);
             }
         },
 
@@ -2114,17 +2114,17 @@
         /** Borrowed from Leaflet and modified for bool ops **/
         _filterClick: function (e) {
             var timeStamp = (e.timeStamp || e.originalEvent.timeStamp),
-                elapsed = L.DomEvent._lastClick && (timeStamp - L.DomEvent._lastClick);
+                elapsed = Leaflet.DomEvent._lastClick && (timeStamp - Leaflet.DomEvent._lastClick);
 
             // are they closer together than 500ms yet more than 100ms?
             // Android typically triggers them ~300ms apart while multiple listeners
             // on the same event should be triggered far faster;
             // or check if click is simulated on the element, and if it is, reject any non-simulated events
             if ((elapsed && elapsed > 100 && elapsed < 500) || (e.target._simulatedClick && !e._simulated)) {
-                L.DomEvent.stop(e);
+                Leaflet.DomEvent.stop(e);
                 return false;
             }
-            L.DomEvent._lastClick = timeStamp;
+            Leaflet.DomEvent._lastClick = timeStamp;
             return true;
         },
 
@@ -2204,11 +2204,11 @@
         }
     });
 
-    L.Map.addInitHook('addHandler', 'touchExtend', L.Map.TouchExtend);
+    Leaflet.Map.addInitHook('addHandler', 'touchExtend', Leaflet.Map.TouchExtend);
 
     // This isn't full Touch support. This is just to get makers to also support dom touch events after creation
     // #TODO: find a better way of getting markers to support touch.
-    L.Marker.Touch = L.Marker.extend({
+    Leaflet.Marker.Touch = Leaflet.Marker.extend({
 
         // This is an exact copy of https://github.com/Leaflet/Leaflet/blob/v0.7/src/layer/marker/Marker.js
         // with the addition of the touch event son line 15.
@@ -2228,16 +2228,16 @@
                 events.concat(['touchcancel']);
             }
 
-            L.DomUtil.addClass(icon, 'leaflet-clickable');
-            L.DomEvent.on(icon, 'click', this._onMouseClick, this);
-            L.DomEvent.on(icon, 'keypress', this._onKeyPress, this);
+            Leaflet.DomUtil.addClass(icon, 'leaflet-clickable');
+            Leaflet.DomEvent.on(icon, 'click', this._onMouseClick, this);
+            Leaflet.DomEvent.on(icon, 'keypress', this._onKeyPress, this);
 
             for (var i = 0; i < events.length; i++) {
-                L.DomEvent.on(icon, events[i], this._fireMouseEvent, this);
+                Leaflet.DomEvent.on(icon, events[i], this._fireMouseEvent, this);
             }
 
-            if (L.Handler.MarkerDrag) {
-                this.dragging = new L.Handler.MarkerDrag(this);
+            if (Leaflet.Handler.MarkerDrag) {
+                this.dragging = new Leaflet.Handler.MarkerDrag(this);
 
                 if (this.options.draggable) {
                     this.dragging.enable();
@@ -2273,10 +2273,10 @@
 
 
     /*
-     * L.LatLngUtil contains different utility functions for LatLngs.
+     * Leaflet.LatLngUtil contains different utility functions for LatLngs.
      */
 
-    L.LatLngUtil = {
+    Leaflet.LatLngUtil = {
         // Clones a LatLngs[], returns [][]
         cloneLatLngs: function (latlngs) {
             var clone = [];
@@ -2287,16 +2287,16 @@
         },
 
         cloneLatLng: function (latlng) {
-            return L.latLng(latlng.lat, latlng.lng);
+            return Leaflet.latLng(latlng.lat, latlng.lng);
         }
     };
 
-    L.GeometryUtil = L.extend(L.GeometryUtil || {}, {
+    Leaflet.GeometryUtil = Leaflet.extend(Leaflet.GeometryUtil || {}, {
         // Ported from the OpenLayers implementation. See https://github.com/openlayers/openlayers/blob/master/lib/OpenLayers/Geometry/LinearRing.js#L270
         geodesicArea: function (latLngs) {
             var pointsCount = latLngs.length,
                 area = 0.0,
-                d2r = L.LatLng.DEG_TO_RAD,
+                d2r = Leaflet.LatLng.DEG_TO_RAD,
                 p1, p2;
 
             if (pointsCount > 2) {
@@ -2366,7 +2366,7 @@
     });
 
 
-    L.Util.extend(L.LineUtil, {
+    Leaflet.Util.extend(Leaflet.LineUtil, {
         // Checks to see if two line segments intersect. Does not handle degenerate cases.
         // http://compgeom.cs.uiuc.edu/~jeffe/teaching/373/notes/x06-sweepline.pdf
         segmentsIntersect: function (/*Point*/ p, /*Point*/ p1, /*Point*/ p2, /*Point*/ p3) {
@@ -2382,7 +2382,7 @@
         }
     });
 
-    L.Polyline.include({
+    Leaflet.Polyline.include({
         // Check to see if this polyline has any linesegments that intersect.
         // NOTE: does not support detecting intersection for degenerate cases.
         intersects: function () {
@@ -2459,7 +2459,7 @@
                 p2 = points[j - 1];
                 p3 = points[j];
 
-                if (L.LineUtil.segmentsIntersect(p, p1, p2, p3)) {
+                if (Leaflet.LineUtil.segmentsIntersect(p, p1, p2, p3)) {
                     return true;
                 }
             }
@@ -2469,7 +2469,7 @@
     });
 
 
-    L.Polygon.include({
+    Leaflet.Polygon.include({
         // Checks a polygon for any intersecting line segments. Ignores holes.
         intersects: function () {
             var polylineIntersects,
@@ -2480,7 +2480,7 @@
                 return false;
             }
 
-            polylineIntersects = L.Polyline.prototype.intersects.call(this);
+            polylineIntersects = Leaflet.Polyline.prototype.intersects.call(this);
 
             // If already found an intersection don't need to check for any more.
             if (polylineIntersects) {
@@ -2497,7 +2497,7 @@
         }
     });
 
-    L.Control.Draw = L.Control.extend({
+    Leaflet.Control.Draw = Leaflet.Control.extend({
 
         options: {
             position: 'topleft',
@@ -2506,39 +2506,39 @@
         },
 
         initialize: function (options) {
-            if (L.version < '0.7') {
+            if (Leaflet.version < '0.7') {
                 throw new Error('Leaflet.draw 0.2.3+ requires Leaflet 0.7.0+. Download latest from https://github.com/Leaflet/Leaflet/');
             }
 
-            L.Control.prototype.initialize.call(this, options);
+            Leaflet.Control.prototype.initialize.call(this, options);
 
             var toolbar;
 
             this._toolbars = {};
 
             // Initialize toolbars
-            if (L.DrawToolbar && this.options.draw) {
-                toolbar = new L.DrawToolbar(this.options.draw);
+            if (Leaflet.DrawToolbar && this.options.draw) {
+                toolbar = new Leaflet.DrawToolbar(this.options.draw);
 
-                this._toolbars[L.DrawToolbar.TYPE] = toolbar;
-
-                // Listen for when toolbar is enabled
-                this._toolbars[L.DrawToolbar.TYPE].on('enable', this._toolbarEnabled, this);
-            }
-
-            if (L.EditToolbar && this.options.edit) {
-                toolbar = new L.EditToolbar(this.options.edit);
-
-                this._toolbars[L.EditToolbar.TYPE] = toolbar;
+                this._toolbars[Leaflet.DrawToolbar.TYPE] = toolbar;
 
                 // Listen for when toolbar is enabled
-                this._toolbars[L.EditToolbar.TYPE].on('enable', this._toolbarEnabled, this);
+                this._toolbars[Leaflet.DrawToolbar.TYPE].on('enable', this._toolbarEnabled, this);
             }
-            L.toolbar = this; //set global var for editing the toolbar
+
+            if (Leaflet.EditToolbar && this.options.edit) {
+                toolbar = new Leaflet.EditToolbar(this.options.edit);
+
+                this._toolbars[Leaflet.EditToolbar.TYPE] = toolbar;
+
+                // Listen for when toolbar is enabled
+                this._toolbars[Leaflet.EditToolbar.TYPE].on('enable', this._toolbarEnabled, this);
+            }
+            Leaflet.toolbar = this; //set global var for editing the toolbar
         },
 
         onAdd: function (map) {
-            var container = L.DomUtil.create('div', 'leaflet-draw'),
+            var container = Leaflet.DomUtil.create('div', 'leaflet-draw'),
                 addedTopClass = false,
                 topClassName = 'leaflet-draw-toolbar-top',
                 toolbarContainer;
@@ -2550,8 +2550,8 @@
                     if (toolbarContainer) {
                         // Add class to the first toolbar to remove the margin
                         if (!addedTopClass) {
-                            if (!L.DomUtil.hasClass(toolbarContainer, topClassName)) {
-                                L.DomUtil.addClass(toolbarContainer.childNodes[0], topClassName);
+                            if (!Leaflet.DomUtil.hasClass(toolbarContainer, topClassName)) {
+                                Leaflet.DomUtil.addClass(toolbarContainer.childNodes[0], topClassName);
                             }
                             addedTopClass = true;
                         }
@@ -2574,7 +2574,7 @@
 
         setDrawingOptions: function (options) {
             for (var toolbarId in this._toolbars) {
-                if (this._toolbars[toolbarId] instanceof L.DrawToolbar) {
+                if (this._toolbars[toolbarId] instanceof Leaflet.DrawToolbar) {
                     this._toolbars[toolbarId].setOptions(options);
                 }
             }
@@ -2591,24 +2591,24 @@
         }
     });
 
-    L.Map.mergeOptions({
+    Leaflet.Map.mergeOptions({
         drawControlTooltips: true,
         drawControl: false
     });
 
-    L.Map.addInitHook(function () {
+    Leaflet.Map.addInitHook(function () {
         if (this.options.drawControl) {
-            this.drawControl = new L.Control.Draw();
+            this.drawControl = new Leaflet.Control.Draw();
             this.addControl(this.drawControl);
         }
     });
 
 
-    L.Toolbar = L.Class.extend({
-        includes: [L.Mixin.Events],
+    Leaflet.Toolbar = Leaflet.Class.extend({
+        includes: [Leaflet.Mixin.Events],
 
         initialize: function (options) {
-            L.setOptions(this, options);
+            Leaflet.setOptions(this, options);
 
             this._modes = {};
             this._actionButtons = [];
@@ -2626,13 +2626,13 @@
         },
 
         addToolbar: function (map) {
-            var container = L.DomUtil.create('div', 'leaflet-draw-section'),
+            var container = Leaflet.DomUtil.create('div', 'leaflet-draw-section'),
                 buttonIndex = 0,
                 buttonClassPrefix = this._toolbarClass || '',
                 modeHandlers = this.getModeHandlers(map),
                 i;
 
-            this._toolbarContainer = L.DomUtil.create('div', 'leaflet-draw-toolbar leaflet-bar');
+            this._toolbarContainer = Leaflet.DomUtil.create('div', 'leaflet-draw-toolbar leaflet-bar');
             this._map = map;
 
             for (i = 0; i < modeHandlers.length; i++) {
@@ -2656,7 +2656,7 @@
             this._lastButtonIndex = --buttonIndex;
 
             // Create empty actions part of the toolbar
-            this._actionsContainer = L.DomUtil.create('ul', 'leaflet-draw-actions');
+            this._actionsContainer = Leaflet.DomUtil.create('ul', 'leaflet-draw-actions');
 
             // Add draw and cancel containers to the control container
             container.appendChild(this._toolbarContainer);
@@ -2724,7 +2724,7 @@
 
         _createButton: function (options) {
 
-            var link = L.DomUtil.create('a', options.className || '', options.container);
+            var link = Leaflet.DomUtil.create('a', options.className || '', options.container);
             link.href = '#';
 
             if (options.text) {
@@ -2735,22 +2735,22 @@
                 link.title = options.title;
             }
 
-            L.DomEvent
-                .on(link, 'click', L.DomEvent.stopPropagation)
-                .on(link, 'mousedown', L.DomEvent.stopPropagation)
-                .on(link, 'dblclick', L.DomEvent.stopPropagation)
-                .on(link, 'click', L.DomEvent.preventDefault)
+            Leaflet.DomEvent
+                .on(link, 'click', Leaflet.DomEvent.stopPropagation)
+                .on(link, 'mousedown', Leaflet.DomEvent.stopPropagation)
+                .on(link, 'dblclick', Leaflet.DomEvent.stopPropagation)
+                .on(link, 'click', Leaflet.DomEvent.preventDefault)
                 .on(link, 'click', options.callback, options.context);
 
             return link;
         },
 
         _disposeButton: function (button, callback) {
-            L.DomEvent
-                .off(button, 'click', L.DomEvent.stopPropagation)
-                .off(button, 'mousedown', L.DomEvent.stopPropagation)
-                .off(button, 'dblclick', L.DomEvent.stopPropagation)
-                .off(button, 'click', L.DomEvent.preventDefault)
+            Leaflet.DomEvent
+                .off(button, 'click', Leaflet.DomEvent.stopPropagation)
+                .off(button, 'mousedown', Leaflet.DomEvent.stopPropagation)
+                .off(button, 'dblclick', Leaflet.DomEvent.stopPropagation)
+                .off(button, 'click', Leaflet.DomEvent.preventDefault)
                 .off(button, 'click', callback);
         },
 
@@ -2761,7 +2761,7 @@
             // Cache new active feature
             this._activeMode = this._modes[e.handler];
 
-            L.DomUtil.addClass(this._activeMode.button, 'leaflet-draw-toolbar-button-enabled');
+            Leaflet.DomUtil.addClass(this._activeMode.button, 'leaflet-draw-toolbar-button-enabled');
 
             this._showActionsToolbar();
 
@@ -2771,7 +2771,7 @@
         _handlerDeactivated: function () {
             this._hideActionsToolbar();
 
-            L.DomUtil.removeClass(this._activeMode.button, 'leaflet-draw-toolbar-button-enabled');
+            Leaflet.DomUtil.removeClass(this._activeMode.button, 'leaflet-draw-toolbar-button-enabled');
 
             this._activeMode = null;
 
@@ -2800,7 +2800,7 @@
                     continue;
                 }
 
-                li = L.DomUtil.create('li', '', container);
+                li = Leaflet.DomUtil.create('li', '', container);
 
                 button = this._createButton({
                     title: buttons[i].title,
@@ -2829,13 +2829,13 @@
             this._actionsContainer.style.top = toolbarPosition + 'px';
 
             if (buttonIndex === 0) {
-                L.DomUtil.addClass(this._toolbarContainer, 'leaflet-draw-toolbar-notop');
-                L.DomUtil.addClass(this._actionsContainer, 'leaflet-draw-actions-top');
+                Leaflet.DomUtil.addClass(this._toolbarContainer, 'leaflet-draw-toolbar-notop');
+                Leaflet.DomUtil.addClass(this._actionsContainer, 'leaflet-draw-actions-top');
             }
 
             if (buttonIndex === lastButtonIndex) {
-                L.DomUtil.addClass(this._toolbarContainer, 'leaflet-draw-toolbar-nobottom');
-                L.DomUtil.addClass(this._actionsContainer, 'leaflet-draw-actions-bottom');
+                Leaflet.DomUtil.addClass(this._toolbarContainer, 'leaflet-draw-toolbar-nobottom');
+                Leaflet.DomUtil.addClass(this._actionsContainer, 'leaflet-draw-actions-bottom');
             }
 
             this._actionsContainer.style.display = 'block';
@@ -2844,20 +2844,20 @@
         _hideActionsToolbar: function () {
             this._actionsContainer.style.display = 'none';
 
-            L.DomUtil.removeClass(this._toolbarContainer, 'leaflet-draw-toolbar-notop');
-            L.DomUtil.removeClass(this._toolbarContainer, 'leaflet-draw-toolbar-nobottom');
-            L.DomUtil.removeClass(this._actionsContainer, 'leaflet-draw-actions-top');
-            L.DomUtil.removeClass(this._actionsContainer, 'leaflet-draw-actions-bottom');
+            Leaflet.DomUtil.removeClass(this._toolbarContainer, 'leaflet-draw-toolbar-notop');
+            Leaflet.DomUtil.removeClass(this._toolbarContainer, 'leaflet-draw-toolbar-nobottom');
+            Leaflet.DomUtil.removeClass(this._actionsContainer, 'leaflet-draw-actions-top');
+            Leaflet.DomUtil.removeClass(this._actionsContainer, 'leaflet-draw-actions-bottom');
         }
     });
 
 
-    L.Tooltip = L.Class.extend({
+    Leaflet.Tooltip = Leaflet.Class.extend({
         initialize: function (map) {
             this._map = map;
             this._popupPane = map._panes.popupPane;
 
-            this._container = map.options.drawControlTooltips ? L.DomUtil.create('div', 'leaflet-draw-tooltip', this._popupPane) : null;
+            this._container = map.options.drawControlTooltips ? Leaflet.DomUtil.create('div', 'leaflet-draw-tooltip', this._popupPane) : null;
             this._singleLineLabel = false;
 
             this._map.on('mouseout', this._onMouseOut, this);
@@ -2880,11 +2880,11 @@
 
             // update the vertical position (only if changed)
             if (labelText.subtext.length === 0 && !this._singleLineLabel) {
-                L.DomUtil.addClass(this._container, 'leaflet-draw-tooltip-single');
+                Leaflet.DomUtil.addClass(this._container, 'leaflet-draw-tooltip-single');
                 this._singleLineLabel = true;
             }
             else if (labelText.subtext.length > 0 && this._singleLineLabel) {
-                L.DomUtil.removeClass(this._container, 'leaflet-draw-tooltip-single');
+                Leaflet.DomUtil.removeClass(this._container, 'leaflet-draw-tooltip-single');
                 this._singleLineLabel = false;
             }
 
@@ -2901,7 +2901,7 @@
 
             if (this._container) {
                 tooltipContainer.style.visibility = 'inherit';
-                L.DomUtil.setPosition(tooltipContainer, pos);
+                Leaflet.DomUtil.setPosition(tooltipContainer, pos);
             }
 
             return this;
@@ -2909,14 +2909,14 @@
 
         showAsError: function () {
             if (this._container) {
-                L.DomUtil.addClass(this._container, 'leaflet-error-draw-tooltip');
+                Leaflet.DomUtil.addClass(this._container, 'leaflet-error-draw-tooltip');
             }
             return this;
         },
 
         removeError: function () {
             if (this._container) {
-                L.DomUtil.removeClass(this._container, 'leaflet-error-draw-tooltip');
+                Leaflet.DomUtil.removeClass(this._container, 'leaflet-error-draw-tooltip');
             }
             return this;
         },
@@ -2929,7 +2929,7 @@
     });
 
 
-    L.DrawToolbar = L.Toolbar.extend({
+    Leaflet.DrawToolbar = Leaflet.Toolbar.extend({
 
         statics: {
             TYPE: 'draw'
@@ -2944,45 +2944,45 @@
         },
 
         initialize: function (options) {
-            // Ensure that the options are merged correctly since L.extend is only shallow
+            // Ensure that the options are merged correctly since Leaflet.extend is only shallow
             for (var type in this.options) {
                 if (this.options.hasOwnProperty(type)) {
                     if (options[type]) {
-                        options[type] = L.extend({}, this.options[type], options[type]);
+                        options[type] = Leaflet.extend({}, this.options[type], options[type]);
                     }
                 }
             }
 
             this._toolbarClass = 'leaflet-draw-draw';
-            L.Toolbar.prototype.initialize.call(this, options);
+            Leaflet.Toolbar.prototype.initialize.call(this, options);
         },
 
         getModeHandlers: function (map) {
             return [
                 {
                     enabled: this.options.polyline,
-                    handler: new L.Draw.Polyline(map, this.options.polyline),
-                    title: L.drawLocal.draw.toolbar.buttons.polyline
+                    handler: new Leaflet.Draw.Polyline(map, this.options.polyline),
+                    title: Leaflet.drawLocal.draw.toolbar.buttons.polyline
                 },
                 {
                     enabled: this.options.polygon,
-                    handler: new L.Draw.Polygon(map, this.options.polygon),
-                    title: L.drawLocal.draw.toolbar.buttons.polygon
+                    handler: new Leaflet.Draw.Polygon(map, this.options.polygon),
+                    title: Leaflet.drawLocal.draw.toolbar.buttons.polygon
                 },
                 {
                     enabled: this.options.rectangle,
-                    handler: new L.Draw.Rectangle(map, this.options.rectangle),
-                    title: L.drawLocal.draw.toolbar.buttons.rectangle
+                    handler: new Leaflet.Draw.Rectangle(map, this.options.rectangle),
+                    title: Leaflet.drawLocal.draw.toolbar.buttons.rectangle
                 },
                 {
                     enabled: this.options.circle,
-                    handler: new L.Draw.Circle(map, this.options.circle),
-                    title: L.drawLocal.draw.toolbar.buttons.circle
+                    handler: new Leaflet.Draw.Circle(map, this.options.circle),
+                    title: Leaflet.drawLocal.draw.toolbar.buttons.circle
                 },
                 {
                     enabled: this.options.marker,
-                    handler: new L.Draw.Marker(map, this.options.marker),
-                    title: L.drawLocal.draw.toolbar.buttons.marker
+                    handler: new Leaflet.Draw.Marker(map, this.options.marker),
+                    title: Leaflet.drawLocal.draw.toolbar.buttons.marker
                 }
             ];
         },
@@ -2992,21 +2992,21 @@
             return [
                 {
                     enabled: handler.completeShape,
-                    title: L.drawLocal.draw.toolbar.finish.title,
-                    text: L.drawLocal.draw.toolbar.finish.text,
+                    title: Leaflet.drawLocal.draw.toolbar.finish.title,
+                    text: Leaflet.drawLocal.draw.toolbar.finish.text,
                     callback: handler.completeShape,
                     context: handler
                 },
                 {
                     enabled: handler.deleteLastVertex,
-                    title: L.drawLocal.draw.toolbar.undo.title,
-                    text: L.drawLocal.draw.toolbar.undo.text,
+                    title: Leaflet.drawLocal.draw.toolbar.undo.title,
+                    text: Leaflet.drawLocal.draw.toolbar.undo.text,
                     callback: handler.deleteLastVertex,
                     context: handler
                 },
                 {
-                    title: L.drawLocal.draw.toolbar.actions.title,
-                    text: L.drawLocal.draw.toolbar.actions.text,
+                    title: Leaflet.drawLocal.draw.toolbar.actions.title,
+                    text: Leaflet.drawLocal.draw.toolbar.actions.text,
                     callback: this.disable,
                     context: this
                 }
@@ -3014,7 +3014,7 @@
         },
 
         setOptions: function (options) {
-            L.setOptions(this, options);
+            Leaflet.setOptions(this, options);
 
             for (var type in this._modes) {
                 if (this._modes.hasOwnProperty(type) && options.hasOwnProperty(type)) {
@@ -3025,11 +3025,11 @@
     });
 
 
-    /*L.Map.mergeOptions({
+    /*Leaflet.Map.mergeOptions({
       editControl: true
       });*/
 
-    L.EditToolbar = L.Toolbar.extend({
+    Leaflet.EditToolbar = Leaflet.Toolbar.extend({
         statics: {
             TYPE: 'edit'
         },
@@ -3058,19 +3058,19 @@
                 if (typeof options.edit.selectedPathOptions === 'undefined') {
                     options.edit.selectedPathOptions = this.options.edit.selectedPathOptions;
                 }
-                options.edit.selectedPathOptions = L.extend({}, this.options.edit.selectedPathOptions, options.edit.selectedPathOptions);
+                options.edit.selectedPathOptions = Leaflet.extend({}, this.options.edit.selectedPathOptions, options.edit.selectedPathOptions);
             }
 
             if (options.remove) {
-                options.remove = L.extend({}, this.options.remove, options.remove);
+                options.remove = Leaflet.extend({}, this.options.remove, options.remove);
             }
 
             if (options.poly) {
-                options.poly = L.extend({}, this.options.poly, options.poly);
+                options.poly = Leaflet.extend({}, this.options.poly, options.poly);
             }
 
             this._toolbarClass = 'leaflet-draw-edit';
-            L.Toolbar.prototype.initialize.call(this, options);
+            Leaflet.Toolbar.prototype.initialize.call(this, options);
 
             this._selectedFeatureCount = 0;
         },
@@ -3080,19 +3080,19 @@
             return [
                 {
                     enabled: this.options.edit,
-                    handler: new L.EditToolbar.Edit(map, {
+                    handler: new Leaflet.EditToolbar.Edit(map, {
                         featureGroup: featureGroup,
                         selectedPathOptions: this.options.edit.selectedPathOptions,
                         poly : this.options.poly
                     }),
-                    title: L.drawLocal.edit.toolbar.buttons.edit
+                    title: Leaflet.drawLocal.edit.toolbar.buttons.edit
                 },
                 {
                     enabled: this.options.remove,
-                    handler: new L.EditToolbar.Delete(map, {
+                    handler: new Leaflet.EditToolbar.Delete(map, {
                         featureGroup: featureGroup
                     }),
-                    title: L.drawLocal.edit.toolbar.buttons.remove
+                    title: Leaflet.drawLocal.edit.toolbar.buttons.remove
                 }
             ];
         },
@@ -3100,14 +3100,14 @@
         getActions: function () {
             return [
                 {
-                    title: L.drawLocal.edit.toolbar.actions.save.title,
-                    text: L.drawLocal.edit.toolbar.actions.save.text,
+                    title: Leaflet.drawLocal.edit.toolbar.actions.save.title,
+                    text: Leaflet.drawLocal.edit.toolbar.actions.save.text,
                     callback: this._save,
                     context: this
                 },
                 {
-                    title: L.drawLocal.edit.toolbar.actions.cancel.title,
-                    text: L.drawLocal.edit.toolbar.actions.cancel.text,
+                    title: Leaflet.drawLocal.edit.toolbar.actions.cancel.title,
+                    text: Leaflet.drawLocal.edit.toolbar.actions.cancel.text,
                     callback: this.disable,
                     context: this
                 }
@@ -3115,7 +3115,7 @@
         },
 
         addToolbar: function (map) {
-            var container = L.Toolbar.prototype.addToolbar.call(this, map);
+            var container = Leaflet.Toolbar.prototype.addToolbar.call(this, map);
 
             this._checkDisabled();
 
@@ -3127,7 +3127,7 @@
         removeToolbar: function () {
             this.options.featureGroup.off('layeradd layerremove', this._checkDisabled, this);
 
-            L.Toolbar.prototype.removeToolbar.call(this);
+            Leaflet.Toolbar.prototype.removeToolbar.call(this);
         },
 
         disable: function () {
@@ -3135,7 +3135,7 @@
 
             this._activeMode.handler.revertLayers();
 
-            L.Toolbar.prototype.disable.call(this);
+            Leaflet.Toolbar.prototype.disable.call(this);
         },
 
         _save: function () {
@@ -3149,65 +3149,65 @@
                 button;
 
             if (this.options.edit) {
-                button = this._modes[L.EditToolbar.Edit.TYPE].button;
+                button = this._modes[Leaflet.EditToolbar.Edit.TYPE].button;
 
                 if (hasLayers) {
-                    L.DomUtil.removeClass(button, 'leaflet-disabled');
+                    Leaflet.DomUtil.removeClass(button, 'leaflet-disabled');
                 } else {
-                    L.DomUtil.addClass(button, 'leaflet-disabled');
+                    Leaflet.DomUtil.addClass(button, 'leaflet-disabled');
                 }
 
                 button.setAttribute(
                     'title',
                     hasLayers ?
-                        L.drawLocal.edit.toolbar.buttons.edit
-                        : L.drawLocal.edit.toolbar.buttons.editDisabled
+                        Leaflet.drawLocal.edit.toolbar.buttons.edit
+                        : Leaflet.drawLocal.edit.toolbar.buttons.editDisabled
                 );
             }
 
             if (this.options.remove) {
-                button = this._modes[L.EditToolbar.Delete.TYPE].button;
+                button = this._modes[Leaflet.EditToolbar.Delete.TYPE].button;
 
                 if (hasLayers) {
-                    L.DomUtil.removeClass(button, 'leaflet-disabled');
+                    Leaflet.DomUtil.removeClass(button, 'leaflet-disabled');
                 } else {
-                    L.DomUtil.addClass(button, 'leaflet-disabled');
+                    Leaflet.DomUtil.addClass(button, 'leaflet-disabled');
                 }
 
                 button.setAttribute(
                     'title',
                     hasLayers ?
-                        L.drawLocal.edit.toolbar.buttons.remove
-                        : L.drawLocal.edit.toolbar.buttons.removeDisabled
+                        Leaflet.drawLocal.edit.toolbar.buttons.remove
+                        : Leaflet.drawLocal.edit.toolbar.buttons.removeDisabled
                 );
             }
         }
     });
 
 
-    L.EditToolbar.Edit = L.Handler.extend({
+    Leaflet.EditToolbar.Edit = Leaflet.Handler.extend({
         statics: {
             TYPE: 'edit'
         },
 
-        includes: L.Mixin.Events,
+        includes: Leaflet.Mixin.Events,
 
         initialize: function (map, options) {
-            L.Handler.prototype.initialize.call(this, map);
+            Leaflet.Handler.prototype.initialize.call(this, map);
 
-            L.setOptions(this, options);
+            Leaflet.setOptions(this, options);
 
             // Store the selectable layer group for ease of access
             this._featureGroup = options.featureGroup;
 
-            if (!(this._featureGroup instanceof L.FeatureGroup)) {
-                throw new Error('options.featureGroup must be a L.FeatureGroup');
+            if (!(this._featureGroup instanceof Leaflet.FeatureGroup)) {
+                throw new Error('options.featureGroup must be a Leaflet.FeatureGroup');
             }
 
             this._uneditedLayerProps = {};
 
             // Save the type so super can fire, need to do this as cannot do this.TYPE :(
-            this.type = L.EditToolbar.Edit.TYPE;
+            this.type = Leaflet.EditToolbar.Edit.TYPE;
         },
 
         enable: function () {
@@ -3220,7 +3220,7 @@
             this._map.fire('draw:editstart', { handler: this.type });
             //allow drawLayer to be updated before beginning edition.
 
-            L.Handler.prototype.enable.call(this);
+            Leaflet.Handler.prototype.enable.call(this);
             this._featureGroup
                 .on('layeradd', this._enableLayerEdit, this)
                 .on('layerremove', this._disableLayerEdit, this);
@@ -3231,7 +3231,7 @@
             this._featureGroup
                 .off('layeradd', this._enableLayerEdit, this)
                 .off('layerremove', this._disableLayerEdit, this);
-            L.Handler.prototype.disable.call(this);
+            Leaflet.Handler.prototype.disable.call(this);
             this._map.fire('draw:editstop', { handler: this.type });
             this.fire('disabled', {handler: this.type});
         },
@@ -3244,10 +3244,10 @@
 
                 this._featureGroup.eachLayer(this._enableLayerEdit, this);
 
-                this._tooltip = new L.Tooltip(this._map);
+                this._tooltip = new Leaflet.Tooltip(this._map);
                 this._tooltip.updateContent({
-                    text: L.drawLocal.edit.handlers.edit.tooltip.text,
-                    subtext: L.drawLocal.edit.handlers.edit.tooltip.subtext
+                    text: Leaflet.drawLocal.edit.handlers.edit.tooltip.text,
+                    subtext: Leaflet.drawLocal.edit.handlers.edit.tooltip.subtext
                 });
 
                 // Quickly access the tooltip to update for intersection checking
@@ -3291,7 +3291,7 @@
         },
 
         save: function () {
-            var editedLayers = new L.LayerGroup();
+            var editedLayers = new Leaflet.LayerGroup();
             this._featureGroup.eachLayer(function (layer) {
                 if (layer.edited) {
                     editedLayers.addLayer(layer);
@@ -3302,22 +3302,22 @@
         },
 
         _backupLayer: function (layer) {
-            var id = L.Util.stamp(layer);
+            var id = Leaflet.Util.stamp(layer);
 
             if (!this._uneditedLayerProps[id]) {
                 // Polyline, Polygon or Rectangle
-                if (layer instanceof L.Polyline || layer instanceof L.Polygon || layer instanceof L.Rectangle) {
+                if (layer instanceof Leaflet.Polyline || layer instanceof Leaflet.Polygon || layer instanceof Leaflet.Rectangle) {
                     this._uneditedLayerProps[id] = {
-                        latlngs: L.LatLngUtil.cloneLatLngs(layer.getLatLngs())
+                        latlngs: Leaflet.LatLngUtil.cloneLatLngs(layer.getLatLngs())
                     };
-                } else if (layer instanceof L.Circle) {
+                } else if (layer instanceof Leaflet.Circle) {
                     this._uneditedLayerProps[id] = {
-                        latlng: L.LatLngUtil.cloneLatLng(layer.getLatLng()),
+                        latlng: Leaflet.LatLngUtil.cloneLatLng(layer.getLatLng()),
                         radius: layer.getRadius()
                     };
-                } else if (layer instanceof L.Marker) { // Marker
+                } else if (layer instanceof Leaflet.Marker) { // Marker
                     this._uneditedLayerProps[id] = {
-                        latlng: L.LatLngUtil.cloneLatLng(layer.getLatLng())
+                        latlng: Leaflet.LatLngUtil.cloneLatLng(layer.getLatLng())
                     };
                 }
             }
@@ -3325,8 +3325,8 @@
 
         _getTooltipText: function () {
             return ({
-                text: L.drawLocal.edit.handlers.edit.tooltip.text,
-                subtext: L.drawLocal.edit.handlers.edit.tooltip.subtext
+                text: Leaflet.drawLocal.edit.handlers.edit.tooltip.text,
+                subtext: Leaflet.drawLocal.edit.handlers.edit.tooltip.subtext
             });
         },
 
@@ -3335,16 +3335,16 @@
         },
 
         _revertLayer: function (layer) {
-            var id = L.Util.stamp(layer);
+            var id = Leaflet.Util.stamp(layer);
             layer.edited = false;
             if (this._uneditedLayerProps.hasOwnProperty(id)) {
                 // Polyline, Polygon or Rectangle
-                if (layer instanceof L.Polyline || layer instanceof L.Polygon || layer instanceof L.Rectangle) {
+                if (layer instanceof Leaflet.Polyline || layer instanceof Leaflet.Polygon || layer instanceof Leaflet.Rectangle) {
                     layer.setLatLngs(this._uneditedLayerProps[id].latlngs);
-                } else if (layer instanceof L.Circle) {
+                } else if (layer instanceof Leaflet.Circle) {
                     layer.setLatLng(this._uneditedLayerProps[id].latlng);
                     layer.setRadius(this._uneditedLayerProps[id].radius);
-                } else if (layer instanceof L.Marker) { // Marker
+                } else if (layer instanceof Leaflet.Marker) { // Marker
                     layer.setLatLng(this._uneditedLayerProps[id].latlng);
                 }
 
@@ -3360,13 +3360,13 @@
             this._backupLayer(layer);
 
             if (this.options.poly) {
-                poly = L.Util.extend({}, this.options.poly);
+                poly = Leaflet.Util.extend({}, this.options.poly);
                 layer.options.poly = poly;
             }
 
             // Set different style for editing mode
             if (this.options.selectedPathOptions) {
-                pathOptions = L.Util.extend({}, this.options.selectedPathOptions);
+                pathOptions = Leaflet.Util.extend({}, this.options.selectedPathOptions);
 
                 // Use the existing color of the layer
                 if (pathOptions.maintainColor) {
@@ -3374,7 +3374,7 @@
                     pathOptions.fillColor = layer.options.fillColor;
                 }
 
-                layer.options.original = L.extend({}, layer.options);
+                layer.options.original = Leaflet.extend({}, layer.options);
                 layer.options.editing = pathOptions;
 
             }
@@ -3403,7 +3403,7 @@
             delete layer.options.original;
             // Reset layer styles to that of before select
             if (this._selectedPathOptions) {
-                if (layer instanceof L.Marker) {
+                if (layer instanceof Leaflet.Marker) {
                     this._toggleMarkerHighlight(layer);
                 } else {
                     // reset the layer style to what is was before being selected
@@ -3413,7 +3413,7 @@
                 }
             }
 
-            if (layer instanceof L.Marker) {
+            if (layer instanceof Leaflet.Marker) {
                 layer.dragging.disable();
                 layer
                     .off('dragend', this._onMarkerDragEnd, this)
@@ -3443,27 +3443,27 @@
     });
 
 
-    L.EditToolbar.Delete = L.Handler.extend({
+    Leaflet.EditToolbar.Delete = Leaflet.Handler.extend({
         statics: {
             TYPE: 'remove' // not delete as delete is reserved in js
         },
 
-        includes: L.Mixin.Events,
+        includes: Leaflet.Mixin.Events,
 
         initialize: function (map, options) {
-            L.Handler.prototype.initialize.call(this, map);
+            Leaflet.Handler.prototype.initialize.call(this, map);
 
-            L.Util.setOptions(this, options);
+            Leaflet.Util.setOptions(this, options);
 
             // Store the selectable layer group for ease of access
             this._deletableLayers = this.options.featureGroup;
 
-            if (!(this._deletableLayers instanceof L.FeatureGroup)) {
-                throw new Error('options.featureGroup must be a L.FeatureGroup');
+            if (!(this._deletableLayers instanceof Leaflet.FeatureGroup)) {
+                throw new Error('options.featureGroup must be a Leaflet.FeatureGroup');
             }
 
             // Save the type so super can fire, need to do this as cannot do this.TYPE :(
-            this.type = L.EditToolbar.Delete.TYPE;
+            this.type = Leaflet.EditToolbar.Delete.TYPE;
         },
 
         enable: function () {
@@ -3474,7 +3474,7 @@
 
             this._map.fire('draw:deletestart', { handler: this.type });
 
-            L.Handler.prototype.enable.call(this);
+            Leaflet.Handler.prototype.enable.call(this);
 
             this._deletableLayers
                 .on('layeradd', this._enableLayerDelete, this)
@@ -3488,7 +3488,7 @@
                 .off('layeradd', this._enableLayerDelete, this)
                 .off('layerremove', this._disableLayerDelete, this);
 
-            L.Handler.prototype.disable.call(this);
+            Leaflet.Handler.prototype.disable.call(this);
 
             this._map.fire('draw:deletestop', { handler: this.type });
 
@@ -3502,10 +3502,10 @@
                 map.getContainer().focus();
 
                 this._deletableLayers.eachLayer(this._enableLayerDelete, this);
-                this._deletedLayers = new L.LayerGroup();
+                this._deletedLayers = new Leaflet.LayerGroup();
 
-                this._tooltip = new L.Tooltip(this._map);
-                this._tooltip.updateContent({ text: L.drawLocal.edit.handlers.remove.tooltip.text });
+                this._tooltip = new Leaflet.Tooltip(this._map);
+                this._tooltip.updateContent({ text: Leaflet.drawLocal.edit.handlers.remove.tooltip.text });
 
                 this._map.on('mousemove', this._onMouseMove, this);
             }

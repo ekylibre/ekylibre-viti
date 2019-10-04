@@ -47,6 +47,7 @@
 @import "interventions";
 @import "intervention_participations";
 @import "leaflet";
+@import "leaflet-2";
 @import "main";
 @import "map_layers";
 @import "modals";
@@ -68,3 +69,6 @@
 
 // Optimization
 @import "symbolic_icons";
+
+@import "cartography";
+

@@ -87,6 +87,8 @@
 
 //= require ext-plugins/vuejs/vue-chartjs
 
+//= require main.js
+
 // FIX Browser interoperability
 // href function seems to be ineffective
 $.rails.href = function (element) {
@@ -97,7 +99,7 @@ Turbolinks.enableTransitionCache();
 Turbolinks.enableProgressBar();
 
 $(document).ready(function() {
-  L.Icon.Default.imagePath = '/assets';
+  Leaflet.Icon.Default.imagePath = '/assets';
   $(".snippet-content > ul > li").click(function(e) {
     localStorage.scrollTop = $('.inner').scrollTop();
   });

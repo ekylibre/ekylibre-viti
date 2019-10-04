@@ -1,0 +1,303 @@
+$drawer-header-height: 50px;
+$drawer-padding: $fs-normal;
+$drawer-width: 500px;
+$polygon-slice-collection: (#FFDA6A, #1195F5, #E6007E, #EB5D0B, #009BA4, #B14191, #8CC63F, #0071BC, #FF7BAC, #F7931E, #3F51B5, #ED1C24);
+
+body {
+  .full-map {
+    background: #aaa;
+    @include box-shadow(0 0 200px rgba(black, 0.5) inset);
+    height: 100%;
+    @include calc(width, "100% - #{$drawer-width}");
+    @media only screen and (max-width: ceil($drawer-width/0.95)) {
+      width: 100%;
+    }
+  }
+
+  .leaflet-touch .leaflet-draw-toolbar .leaflet-cut-polyline-cut-polyline,
+  .leaflet-cut-polyline-cut-polyline {
+    background-color: #fff;
+    background-image: image-url("map/toolbars/splitter.png");
+    background-size: 30px 30px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon,
+  .leaflet-draw-draw-polygon {
+    background-color: #fff;
+    background-image: image-url("map/toolbars/create.png");
+    background-size: 30px 30px;
+    background-position: 0;
+    width: 30px;
+    height: 30px;
+  }
+
+  .leaflet-merge-merge {
+    @include is-icon;
+    @include use-icon(columns);
+    width: 30px;
+    height: 30px;
+  }
+
+  .leaflet-home-home {
+    @include is-icon;
+    @include use-icon(crosshairs);
+    width: 30px;
+    height: 30px;
+  }
+
+  .leaflet-hidden {
+    display: none;
+  }
+
+  .leaflet-control-controlPanel {
+    border: $menu-border;
+    &.large {
+      height: auto;
+      width: 300px;
+    }
+    .leaflet-control-controlPanel-title {
+      line-height: 30px;
+      font-size: 15px;
+      color: $text-color;
+    }
+    .leaflet-control-controlPanel-properties {
+      padding: 0;
+      width: 100%;
+      height: auto;
+      .property {
+        margin: 0;
+        .property-title {
+          padding: 5px;
+        }
+        .property-content {
+          padding: 5px;
+          img {
+            max-width: 100% !important;
+            height: auto;
+          }
+        }
+      }
+    }
+    .leaflet-control-controlPanel-actions {
+      background: $desktop-background;
+      width: 100%;
+      .button {
+        @include button();
+        padding: 0 9px;
+        margin-top: 0;
+        a {
+          color: $text-color;
+        }
+        &:first-child {
+          @include button($background-color: $brand-primary);
+          padding: 0 9px;
+          margin-right: 10px;
+          a {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  .leaflet-no-pointer {
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+  }
+
+  .ghost-icon {
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(black, 0.28);
+    border-radius: 50%;
+    line-height: 37px;
+    &.warning {
+      color: #ff8a65;
+      border-color: #ff8a65;
+    }
+  }
+  .plus-ghost-icon,
+  .minus-ghost-icon {
+    text-align: center;
+    color: #1195f5;
+    border: 2px solid #1195f5;
+    border-radius: 50%;
+    &.warning {
+      color: #ff9d00;
+      border-color: #ff9d00;
+    }
+  }
+  .plus-ghost-icon {
+    @include is-icon(12px);
+    @include use-icon(plus);
+  }
+
+  .minus-ghost-icon {
+    @include is-icon(12px);
+    @include use-icon(minus);
+    color: #44b51b !important;
+    border-color: #44b51b !important;
+  }
+
+  .insertion-ghost-icon {
+    @include is-icon(20px);
+    @include use-icon(plus);
+    color: #1195f5;
+    border: 3px solid #1195f5;
+  }
+
+  .cut-ghost-icon {
+    @include is-icon(20px);
+    @include use-icon(scissors);
+    color: #1195f5;
+    border: 3px solid #1195f5;
+  }
+
+  .deletion-ghost-icon {
+    @include is-icon(20px);
+    @include use-icon(minus);
+    color: #44b51b;
+    border: 3px solid #44b51b;
+    box-shadow: 0 0 4px rgba(black, 0.16);
+  }
+
+  .leaflet-selected-plot {
+    fill: #44b51b;
+    fill-opacity: 0.35;
+    stroke: #44b51b;
+    stroke-opacity: 1;
+    stroke-width: 2px;
+    stroke-dasharray: 0;
+  }
+
+  .leaflet-layer-editable {
+    fill: #1195f5;
+    fill-opacity: 0.35;
+    stroke: #1195f5;
+    stroke-opacity: 1;
+    stroke-width: 2px;
+    stroke-dasharray: 0;
+  }
+
+  .leaflet-locked-plot {
+    fill: #ff9d00;
+    fill-opacity: 0.5;
+    stroke: #ff9d00;
+    stroke-opacity: 1;
+    stroke-width: 2px;
+    stroke-dasharray: 0;
+  }
+  .leaflet-locking-label {
+    text-shadow: 0 0 5px black;
+    color: white;
+    opacity: 1;
+    font-family: Lato;
+    font-size: 15px;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .leaflet-unavailable-plot {
+    .title {
+      font-weight: bold;
+    }
+  }
+
+  .marker-origin {
+    animation: none;
+
+    &:after {
+      content: "";
+      -webkit-border-radius: 100%;
+      border-radius: 100%;
+      height: 200%;
+      width: 200%;
+      position: absolute;
+      margin: -50% 0 0 -50%;
+      box-shadow: 0 0 6px 2px #fff;
+      animation: pulsate 1s ease-out;
+      animation-iteration-count: infinite;
+      animation-delay: 1.1s;
+    }
+  }
+  @keyframes pulsate {
+    0% {
+      transform: scale(0.1, 0.1);
+      opacity: 0;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      filter: alpha(opacity=0);
+    }
+    50% {
+      opacity: 1;
+      -ms-filter: none;
+      filter: none;
+    }
+    100% {
+      transform: scale(1.2, 1.2);
+      opacity: 0;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      filter: alpha(opacity=0);
+    }
+  }
+
+  .leaflet-draw-tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    display: none;
+  }
+
+  @mixin colorize-slice($colors) {
+    @for $i from 0 to length($colors) {
+      &.c-#{$i} {
+        fill: nth($colors, $i + 1);
+        stroke: nth($colors, $i + 1);
+        background: rgba(nth($colors, $i + 1), 0.4);
+      }
+    }
+  }
+
+  .leaflet-polygon-slice {
+    fill-opacity: 0.35;
+    stroke-opacity: 1;
+    stroke-width: 1px;
+
+    @include colorize-slice($polygon-slice-collection);
+  }
+  .leaflet-polygon-slice-icon {
+    font-family: $font-family-sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    border-radius: 50%;
+    text-align: center;
+  }
+
+  .leaflet-polygon-splitter,
+  .leaflet-polygon-drawer {
+    stroke: #ff6226;
+    stroke-dasharray: 10, 10;
+    stroke-width: 3px;
+    stroke-opacity: 1;
+    fill: #ff6226;
+  }
+
+  .leaflet-draw-guide-dash {
+    border-radius: 50%;
+    opacity: 1;
+    z-index: 1000;
+  }
+  .leaflet-polygon-splitter {
+    fill-opacity: 0;
+  }
+}

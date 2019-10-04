@@ -35,7 +35,7 @@ class visualization.PointGroup
           stroke: false
           fillOpacity: 0.8
         console.log zone.point
-        shadow = new L.circleMarker(zone.point, zoneStyle)
+        shadow = new Leaflet.circleMarker(zone.point, zoneStyle)
         shadow.markerSensorId = zone.sensorId
         group.push shadow
     # Core
@@ -47,7 +47,7 @@ class visualization.PointGroup
         stroke: false
         fillOpacity: 1
       console.log zoneStyle
-      zoneLayer = new L.circleMarker(zone.point, zoneStyle)
+      zoneLayer = new Leaflet.circleMarker(zone.point, zoneStyle)
       zoneLayer.sensorId = zone.sensorId
       widget._bindPopup(zoneLayer, zone)
       group.push(zoneLayer)

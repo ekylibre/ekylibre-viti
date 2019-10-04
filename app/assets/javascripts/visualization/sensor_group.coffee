@@ -30,13 +30,13 @@ class visualization.SensorGroup
     for zone in @items
       console.log zone
       zoneStyle =
-        icon: new L.Icon.SensorDefault()
+        icon: new Leaflet.Icon.SensorDefault()
         fillColor: zone.fillColor ? @options.fillColor
         radius: zone.radius ? @options.radius
         stroke: false
         fillOpacity: 1
       console.log zoneStyle
-      zoneLayer = new L.marker(zone.point, zoneStyle)
+      zoneLayer = new Leaflet.marker(zone.point, zoneStyle)
       zoneLayer.sensorId = zone.sensorId
       widget._bindPopup(zoneLayer, zone)
       group.push(zoneLayer)

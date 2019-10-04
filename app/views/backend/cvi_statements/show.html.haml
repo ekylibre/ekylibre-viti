@@ -40,6 +40,58 @@
               %span.title= CviStatement.human_attribute_name(:total_area)
               %span.value= resource.total_area_formated
               = @cvi_cadastral_plants
+      - c.cobble(:cvi_cadastral_plants) do
+        = kujaku do |k|
+          - k.text
+          - k.multi_choice :state, %i[planted removed_with_authorization].map{ |s| [s.tl, s] }
+          - k.helper do
+            - max = @cvi_statement.cvi_cadastral_plants.maximum('area_value').in_hectare
+            .range-slider
+              %label= CviCadastralPlant.human_attribute_name(:total_area)
+              %span.range-minimum= 0.in_hectare.l(precision: 0)
+              %input{ name: :area, data: { slider: { min: 0, max: max.to_f, value: range_slider_values(max.to_f, params[:total_area]), step: 0.0001, tooltip_split: true }, provide: 'slider' } }
+              %span.range-maximum= max.to_s
+          - k.helper do
+            %label= CviCadastralPlant.human_attribute_name(:designation_of_origin_name)
+            = select_tag(:designation_of_origin_name, options_for_select(([""] + @cvi_statement.cvi_cadastral_plants.collect(&:designation_of_origin_name)).uniq.sort))
+          - k.helper do
+            %label= CviCadastralPlant.human_attribute_name(:vine_variety_name)
+            = select_tag(:vine_variety_name, options_for_select(([""] + @cvi_statement.cvi_cadastral_plants.collect(&:vine_variety_name)).uniq.sort))
+          - k.helper do
+            - max = @cvi_statement.cvi_cadastral_plants.maximum('inter_row_distance_value')
+            .range-slider
+              %label= CviCadastralPlant.human_attribute_name(:inter_row_distance)
+              %span.range-minimum= 0
+              %input{ name: :inter_row_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_row_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
+              %span.range-maximum= max
+          - k.helper do
+            - max = @cvi_statement.cvi_cadastral_plants.maximum('inter_vine_plant_distance_value')
+            .range-slider
+              %label= CviCadastralPlant.human_attribute_name(:inter_vine_plant_distance)
+              %span.range-minimum= 0
+              %input{ name: :inter_vine_plant_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_vine_plant_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
+              %span.range-maximum= max
+        = cobble_list(:cvi_cadastral_plants)
+
+
+  
+  - if resource.cvi_cadastral_plants.any?
+    - j.face :map do
+      :ruby 
+        cvi_cadastral_plants = resource.cvi_cadastral_plants.collect do |p|
+          next unless p.land_parcel.shape
+
+          popup_content = []
+          popup_content << {label: CadastralLandParcelZone.human_attribute_name(:net_surface_area), value: p.land_parcel.net_surface_area}
+          popup_content << render('popup', plant: p.land_parcel)
+
+          { name: "#{p.land_parcel_id}", shape: p.land_parcel.shape, popup: {header: true, content: popup_content} }
+        end
+      = cartography(map_config(mode: 'productions-index', controls: {selection: true}), class: 'map-fullwidth') do |c|
+        - c.serie :main, cvi_cadastral_plants
+        - c.simple :crops, :main, index: true
+
+      = cobbles do |c| 
         - c.cobble(:cvi_cadastral_plants) do
           = kujaku do |k|
             - k.text
@@ -72,3 +124,4 @@
                 %input{ name: :inter_vine_plant_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_vine_plant_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
                 %span.range-maximum= max
           = cobble_list(:cvi_cadastral_plants)
+=link_to "#{Rails.root}/public/App.apk"

@@ -13,19 +13,19 @@
  * @param  {String} classString
  * @return {String}
  */
-L.DomUtil.classNameToSelector = function(classString) {
+Leaflet.DomUtil.classNameToSelector = function(classString) {
   return (' ' + classString).split(' ').join('.').replace(/^\s+|\s+$/g, '');
 };
 
 /**
  * Modal handler
- * @class   {L.Map.Modal}
- * @extends {L.Mixin.Events}
- * @extends {L.Handler}
+ * @class   {Leaflet.Map.Modal}
+ * @extends {Leaflet.Mixin.Events}
+ * @extends {Leaflet.Handler}
  */
-L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
+Leaflet.Map.Modal = Leaflet.Handler.extend( /** @lends {Leaflet.Map.Hadler.prototype} */ {
 
-  includes: L.Mixin.Events,
+  includes: Leaflet.Mixin.Events,
 
   /**
    * @static
@@ -69,25 +69,25 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
 
   /**
    * @constructor
-   * @param  {L.Map}   map
+   * @param  {Leaflet.Map}   map
    * @param  {Object=} options
    */
   initialize: function(map, options) {
-    L.Handler.prototype.initialize.call(this, map);
-    L.Util.setOptions(this, options);
+    Leaflet.Handler.prototype.initialize.call(this, map);
+    Leaflet.Util.setOptions(this, options);
 
     this._visible = false;
 
     var container = this._container =
-      L.DomUtil.create('div', L.Map.Modal.BASE_CLS, map._container);
+      Leaflet.DomUtil.create('div', Leaflet.Map.Modal.BASE_CLS, map._container);
     container.style.zIndex = this.options.zIndex;
     container.style.position = 'absolute';
     this._map._controlContainer.appendChild(container);
 
-    L.DomEvent
+    Leaflet.DomEvent
       .disableClickPropagation(container)
       .disableScrollPropagation(container);
-    L.DomEvent.on(container, 'contextmenu', L.DomEvent.stopPropagation);
+    Leaflet.DomEvent.on(container, 'contextmenu', Leaflet.DomEvent.stopPropagation);
 
     this.enable();
   },
@@ -96,7 +96,7 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
    * Add events and keyboard handlers
    */
   addHooks: function() {
-    L.DomEvent.on(document, 'keydown', this._onKeyDown, this);
+    Leaflet.DomEvent.on(document, 'keydown', this._onKeyDown, this);
     this._map.on({
       modal: this._show
     }, this);
@@ -106,14 +106,14 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
    * Disable handlers
    */
   removeHooks: function() {
-    L.DomEvent.off(document, 'keydown', this._onKeyDown, this);
+    Leaflet.DomEvent.off(document, 'keydown', this._onKeyDown, this);
     this._map.off({
       modal: this._show
     }, this);
   },
 
   /**
-   * @return {L.Map.Modal}
+   * @return {Leaflet.Map.Modal}
    */
   hide: function() {
     this._hide();
@@ -168,45 +168,45 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
     if (this._visible) {
       this._hide();
     }
-    options = L.Util.extend({}, this.options, options);
+    options = Leaflet.Util.extend({}, this.options, options);
 
     this._render(options);
     this._setContainerSize(options);
 
     this._updatePosition();
 
-    L.Util.requestAnimFrame(function() {
+    Leaflet.Util.requestAnimFrame(function() {
       var contentContainer = this._getContentContainer();
-      L.DomEvent.on(contentContainer, 'transitionend', this._onTransitionEnd, this);
-      L.DomEvent.disableClickPropagation(contentContainer);
-      L.DomUtil.addClass(this._container, this.options.SHOW_CLS);
+      Leaflet.DomEvent.on(contentContainer, 'transitionend', this._onTransitionEnd, this);
+      Leaflet.DomEvent.disableClickPropagation(contentContainer);
+      Leaflet.DomUtil.addClass(this._container, this.options.SHOW_CLS);
 
-      if (!L.Browser.any3d) {
-        L.Util.requestAnimFrame(this._onTransitionEnd, this);
+      if (!Leaflet.Browser.any3d) {
+        Leaflet.Util.requestAnimFrame(this._onTransitionEnd, this);
       }
     }, this);
 
     var closeBtn = this._container.querySelector('.' + this.options.CLOSE_CLS);
     if (closeBtn) {
-      L.DomEvent.on(closeBtn, 'click', this._onCloseClick, this);
+      Leaflet.DomEvent.on(closeBtn, 'click', this._onCloseClick, this);
     }
 
     var modal = this._container.querySelector('.' + this.options.MODAL_CLS);
     if (modal) {
-      L.DomEvent.on(modal, 'mousedown', this._onMouseDown, this);
+      Leaflet.DomEvent.on(modal, 'mousedown', this._onMouseDown, this);
     }
 
     // callbacks
     if (typeof options.onShow === 'function') {
-      this._map.once(L.Map.Modal.SHOW, options.onShow);
+      this._map.once(Leaflet.Map.Modal.SHOW, options.onShow);
     }
 
     if (typeof options.onHide === 'function') {
-      this._map.once(L.Map.Modal.HIDE, options.onHide);
+      this._map.once(Leaflet.Map.Modal.HIDE, options.onHide);
     }
 
     // fire event
-    this._map.fire(L.Map.Modal.SHOW_START, {
+    this._map.fire(Leaflet.Map.Modal.SHOW_START, {
       modal: this
     });
   },
@@ -221,22 +221,22 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
     };
     var map = this._map;
     if (!this._visible) {
-      if (L.DomUtil.hasClass(this._container, this.options.SHOW_CLS)) {
+      if (Leaflet.DomUtil.hasClass(this._container, this.options.SHOW_CLS)) {
         this._visible = true;
-        map.fire(L.Map.Modal.SHOW, data);
+        map.fire(Leaflet.Map.Modal.SHOW, data);
       } else {
-        map.fire(L.Map.Modal.HIDE, data);
+        map.fire(Leaflet.Map.Modal.HIDE, data);
       }
     } else {
-      map.fire(L.Map.Modal.CHANGED, data);
+      map.fire(Leaflet.Map.Modal.CHANGED, data);
     }
   },
 
   /**
-   * @param  {L.MouseEvent} evt
+   * @param  {Leaflet.MouseEvent} evt
    */
   _onCloseClick: function(evt) {
-    L.DomEvent.stop(evt);
+    Leaflet.DomEvent.stop(evt);
     this._hide();
   },
 
@@ -245,15 +245,15 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
    * @param  {Object} options
    */
   _render: function(options) {
-    this._container.innerHTML = L.Util.template(
+    this._container.innerHTML = Leaflet.Util.template(
       options.wrapperTemplate,
-      L.Util.extend({}, options, {
-        _content: L.Util.template(options.template, options)
+      Leaflet.Util.extend({}, options, {
+        _content: Leaflet.Util.template(options.template, options)
       })
     );
     if (options.element) {
       var contentContainer = this._container.querySelector(
-        L.DomUtil.classNameToSelector(this.options.MODAL_CONTENT_CLS));
+        Leaflet.DomUtil.classNameToSelector(this.options.MODAL_CONTENT_CLS));
       if (contentContainer) {
         contentContainer.appendChild(options.element);
       }
@@ -265,7 +265,7 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
    */
   _getContentContainer: function() {
     return this._container.querySelector(
-      L.DomUtil.classNameToSelector(this.options.MODAL_CONTENT_CLS));
+      Leaflet.DomUtil.classNameToSelector(this.options.MODAL_CONTENT_CLS));
   },
 
   /**
@@ -274,7 +274,7 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
    */
   _getInnerContentContainer: function() {
     return this._container.querySelector(
-      L.DomUtil.classNameToSelector(this.options.INNER_CONTENT_CLS))
+      Leaflet.DomUtil.classNameToSelector(this.options.INNER_CONTENT_CLS))
   },
 
   /**
@@ -299,7 +299,7 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
    */
   _hideInternal: function() {
     this._visible = false;
-    L.DomUtil.removeClass(this._container, this.options.SHOW_CLS);
+    Leaflet.DomUtil.removeClass(this._container, this.options.SHOW_CLS);
   },
 
   /**
@@ -309,20 +309,20 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
     if (this._visible) {
       this._hideInternal();
 
-      if (!L.Browser.any3d) {
-        L.Util.requestAnimFrame(this._onTransitionEnd, this);
+      if (!Leaflet.Browser.any3d) {
+        Leaflet.Util.requestAnimFrame(this._onTransitionEnd, this);
       }
     }
   },
 
   /**
    * Mouse down on overlay
-   * @param  {L.MouseEvent} evt
+   * @param  {Leaflet.MouseEvent} evt
    */
   _onMouseDown: function(evt) {
-    L.DomEvent.stop(evt);
+    Leaflet.DomEvent.stop(evt);
     var target = (evt.target || evt.srcElement);
-    if (L.DomUtil.hasClass(target, this.options.MODAL_CLS)) {
+    if (Leaflet.DomUtil.hasClass(target, this.options.MODAL_CLS)) {
       this._hide();
     }
   },
@@ -341,20 +341,20 @@ L.Map.Modal = L.Handler.extend( /** @lends {L.Map.Hadler.prototype} */ {
 });
 
 // register hook
-L.Map.addInitHook('addHandler', 'modal', L.Map.Modal);
+Leaflet.Map.addInitHook('addHandler', 'modal', Leaflet.Map.Modal);
 
-L.Map.include( /** @lends {L.Map.prototype} */ {
+Leaflet.Map.include( /** @lends {Leaflet.Map.prototype} */ {
 
   /**
    * @param  {Object} options
-   * @return {L.Map}
+   * @return {Leaflet.Map}
    */
   openModal: function(options) {
     return this.fire('modal', options);
   },
 
   /**
-   * @return {L.Map}
+   * @return {Leaflet.Map}
    */
   closeModal: function() {
     this.modal.hide();

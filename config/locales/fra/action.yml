@@ -862,15 +862,25 @@ fra:
     bank_reconciliation:
       remove: "Effacer"
     leaflet:
+      cut:
+        panel:
+          coordinatesProperty: "Coordonnées"
+          surfacesProperty: "Surfaces"
+          title: "Découpe de parcelles"
       draw:
         handlers:
           circle:
             tooltip:
               start: "Cliquez et déplacez pour dessiner un cercle."
+          circlemarker:
+            tooltip:
+              start: "Cliquez et déplacez pour dessiner un marqueur circulaire."
           marker:
             tooltip:
               start: "Cliquez sur la carte pour placer un marqueur."
           polygon:
+            errors:
+              overlapping: "Vous ne pouvez dessiner une parcelle par dessus une parcelle déjà existante."
             tooltip:
               cont: "Cliquez pour continuer à dessiner une forme."
               end: "Cliquez sur le dernier point pour fermer cette forme."
@@ -887,19 +897,22 @@ fra:
           simpleshape:
             tooltip:
               end: "Relachez la souris pour finir de dessiner."
+        panel:
+          coordinatesProperty: "Coordonnées"
+          title: "Création de parcelles"
         toolbar:
           actions:
             text: "Annuler"
-            title: "Annulez le dessin"
+            title: "Annuler le dessin"
           buttons:
             circle: "Dessiner un cercle"
             marker: "Dessiner un marqueur"
-            polygon: "Dessiner un polygone"
+            polygon: "Dessiner une parcelle"
             polyline: "Dessiner une polyligne"
             rectangle: "Dessiner un rectangle"
-          finish: #?
-            text: "Terminer" #?
-            title: "Terminer le dessin" #?
+          finish:
+            text: "Terminer"
+            title: "Terminer le dessin"
           undo:
             text: "Supprimer le dernier point"
             title: "Supprimer le dernier point déssiné"
@@ -912,6 +925,8 @@ fra:
           remove:
             tooltip:
               text: "Cliquez sur l’objet à enlever"
+        panel:
+          title: "Edition de parcelles"
         toolbar:
           actions:
             cancel:
@@ -922,13 +937,49 @@ fra:
               title: "Sauvegardez les changements"
           buttons:
             edit: "Editer les couches"
-            editDisabled: "Pas de couches à éditer"
+            editDisabled: "Pas de parcelles à éditer"
             remove: "Supprimer les couches"
             removeDisabled: "Pas de couches à supprimer"
       fullscreenTitle: "Plein écran"
       importerButtonTitle: "Importer"
-      zoomInTitle: "Zoomer"
-      zoomOutTitle: "Dézoomer"
+      merge:
+        panel:
+          title: "Fusion de parcelles"
+      snap:
+        panel:
+          surfaceProperty: "Surface"
+      home:
+        toolbar:
+          buttons:
+            home: 'Centrer sur mes parcelles'
+      split:
+        handlers:
+          cut:
+            tooltip:
+              subtext: "Annuler les changements"
+              text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              text: "Annuler"
+              title: "Annuler les changements"
+            save:
+              text: "Sauver"
+              title: "Sauver les changements"
+            title: "Annuler les changements" #?
+          buttons:
+            cutPolyline: "Découper une parcelle"
+      zoom:
+        zoomInTitle: "Zoomer"
+        zoomOutTitle: "Dézoomer"
+      locking:
+        label_html: "<p class='title'>Indisponible</p><p>{{content}}</p>"
+        from_to_date_html: "du {{from}} au {{to}}<br>({{production}})"
+        from_date_html: "à partir du {{from}}<br>({{production}})"
+        to_date_html: "jusqu'au {{to}}<br>({{production}})"
   labels:
     abilities: "Compétences" #?
     accepted: "Acceptée"

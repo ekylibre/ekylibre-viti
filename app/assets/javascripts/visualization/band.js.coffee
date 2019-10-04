@@ -38,7 +38,7 @@ class visualization.Band
   buildLayerGroup: (widget, globalStyle = {}) ->
     group = []
     for item in @items
-      edge = new L.polygon(item.polygon, item.style)
+      edge = new Leaflet.polygon(item.polygon, item.style)
       group.push(edge)
     group
 
@@ -89,10 +89,10 @@ class visualization.Band
     # Calculate 4 points that form a rectangle by adding normalized perpendicular and multiplying it by half of the desired width
     ar = (a.w / 2) * 9 / 1000000
     br = (b.w / 2) * 9 / 1000000
-    r1 = new L.LatLng(a.x + n.x * ar, a.y + n.y * ar)
-    r2 = new L.LatLng(a.x - n.x * ar, a.y - n.y * ar)
-    r3 = new L.LatLng(b.x + n.x * br, b.y + n.y * br)
-    r4 = new L.LatLng(b.x - n.x * br, b.y - n.y * br)
+    r1 = new Leaflet.LatLng(a.x + n.x * ar, a.y + n.y * ar)
+    r2 = new Leaflet.LatLng(a.x - n.x * ar, a.y - n.y * ar)
+    r3 = new Leaflet.LatLng(b.x + n.x * br, b.y + n.y * br)
+    r4 = new Leaflet.LatLng(b.x - n.x * br, b.y - n.y * br)
     return [r1, r2, r4, r3]
 
 
