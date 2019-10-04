@@ -7,8 +7,6 @@
  *= require_self
  */
 
-
-
 // Core variables and mixins
 @import "variables";
 @import "mixins";
@@ -17,7 +15,7 @@
 @import "reset";
 @import "fonts";
 @import "print";
-@import 'bootstrap-sprockets';
+@import "bootstrap-sprockets";
 
 // Plugins
 @import "themes/tekyla/plugins";
@@ -71,4 +69,4 @@
 @import "symbolic_icons";
 
 @import "cartography";
-
+@import "./leaflet/cartography_fix";

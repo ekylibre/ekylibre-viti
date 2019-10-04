@@ -87,7 +87,7 @@
 
           { name: "#{p.land_parcel_id}", shape: p.land_parcel.shape, popup: {header: true, content: popup_content} }
         end
-      = cartography(map_config(mode: 'productions-index', controls: {selection: true}), class: 'map-fullwidth') do |c|
+      = cartography(map_config(mode: 'productions-index', controls: {selection: true}), class: 'map-fullwidth map-halfheight') do |c|
         - c.serie :main, cvi_cadastral_plants
         - c.simple :crops, :main, index: true
 

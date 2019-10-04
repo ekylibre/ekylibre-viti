@@ -34,7 +34,6 @@
   class E.Map
     constructor: (@el, options = {})  ->
       $(@el).trigger E.Events.Map.initializing
-      debugger
       @_cartography = new Cartography.Map @el, options
       @initHooks()
       @initControls()

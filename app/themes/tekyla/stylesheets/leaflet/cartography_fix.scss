@@ -1,0 +1,11 @@
+.leaflet-touch {
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out {
+    font-size: 0px;
+  }
+}
+
+.leaflet-control-zoom-in:before,
+.leaflet-control-zoom-out:before {
+  font-size: 24px;
+}

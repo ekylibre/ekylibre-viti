@@ -63,11 +63,11 @@
 
     return
 
-  $.loadOldMaps = ->
+  $.loadLeafletMaps = ->
     $("*[data-map]").mapsFromData()
     return
 
-  $(document).ready $.loadOldMaps
+  $(document).ready $.loadLeafletMaps
   $(document).on "page:load cocoon:after-insert cell:load", $.loadMaps
 
   true
