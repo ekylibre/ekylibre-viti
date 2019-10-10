@@ -84,4 +84,6 @@ class CviCadastralPlant < Ekylibre::Record::Base
 
   delegate :customs_code, to: :rootstock
   alias rootstock_number customs_code
+
+  delegate :shape, to: :land_parcel
 end

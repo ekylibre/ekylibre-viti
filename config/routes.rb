@@ -412,8 +412,11 @@ Rails.application.routes.draw do
     resources :cvi_statements, concerns: %i[list] do
       member do
         get :list_cvi_cadastral_plants
+        resources :cvi_cadastral_plants, only: %i[index]
       end
     end
+
+    resources :cadastral_land_parcel_zones, only: %i[index]
 
     resources :deliveries, concerns: %i[list unroll] do
       member do

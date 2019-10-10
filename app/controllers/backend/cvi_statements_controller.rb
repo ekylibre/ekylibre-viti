@@ -82,9 +82,10 @@ module Backend
     end
 
     list(:cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, joins: %i[designation_of_origin vine_variety rootstock land_parcel]) do |t|
+      t.column :id, hidden: true
       t.column :commune
       t.column :locality
-      t.column :cadastral_reference
+      t.column :cadastral_reference, url: { controller: 'cvi_statements', action: 'show', id: 'params[:id]'.c}
       t.column :designation_of_origin_name
       t.column :vine_variety_name
       t.column :area, datatype: :measure, label_method: :area_formated
