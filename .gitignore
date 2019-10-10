@@ -100,3 +100,5 @@ Procfile.*
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+.solargraph.yml
+package-lock.json
