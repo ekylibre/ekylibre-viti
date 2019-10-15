@@ -1,14 +1,14 @@
 ###
-# Extend L.Label to provide a label on centroid, calculated from a L.Latlng[]
+# Extend Leaflet.Label to provide a label on centroid, calculated from a Leaflet.Latlng[]
 # options:
 #   toBack {boolean} if true, label is set to objectsPane, allowing to be covered by higher level pane
 #   opacity: {string} ([0..1] | 'inherit') inherit allows to use opacity in your class. Default: 'inherit'
  ###
-L.GhostLabel = L.Label.extend
-  __initialize: L.Label::initialize
-  _onAdd: L.Label.prototype.onAdd
-  __updateContent: L.Label.prototype._updateContent
-  __setOpacity: L.Label::setOpacity
+Leaflet.GhostLabel = Leaflet.Label.extend
+  __initialize: Leaflet.Label::initialize
+  _onAdd: Leaflet.Label.prototype.onAdd
+  __updateContent: Leaflet.Label.prototype._updateContent
+  __setOpacity: Leaflet.Label::setOpacity
 
   initialize: (options, source) ->
     options.opacity ||= 'inherit'
@@ -20,7 +20,7 @@ L.GhostLabel = L.Label.extend
    ###
   toCentroidOfBounds: (latLngs) ->
     # To center of bounds if centroid can't be calculated during onAdd
-    @_latlng = L.latLngBounds(latLngs).getCenter()
+    @_latlng = Leaflet.latLngBounds(latLngs).getCenter()
     @_latLngs = latLngs
     return this
 
@@ -54,7 +54,7 @@ L.GhostLabel = L.Label.extend
 
   getCenter: (map)->
     if @_latLngs
-      poly = L.polygon(@_latLngs)
+      poly = Leaflet.polygon(@_latLngs)
       poly._map = @_map || map
       @_latlng = poly.__getCenter()
 
@@ -70,8 +70,8 @@ L.GhostLabel = L.Label.extend
     labelWidth = @_labelWidth
     labelHeight = @_labelHeight || 0
 
-    pos = pos.add(L.point(-labelWidth/2, -labelHeight/2))
-    L.DomUtil.setPosition container, pos
+    pos = pos.add(Leaflet.point(-labelWidth/2, -labelHeight/2))
+    Leaflet.DomUtil.setPosition container, pos
     return
 
   ###
@@ -82,7 +82,7 @@ L.GhostLabel = L.Label.extend
     @_labelHeight = @_container.offsetHeight if @_container
 
 
-L.extendedMethods =
+Leaflet.extendedMethods =
   # Allow to be updated
   bindGhostLabel: (object, options) ->
 
@@ -95,6 +95,6 @@ L.extendedMethods =
     @_showLabelAdded = true
     return
 
-L.Polygon.include L.extendedMethods
-L.FeatureGroup.include L.extendedMethods
+Leaflet.Polygon.include Leaflet.extendedMethods
+Leaflet.FeatureGroup.include Leaflet.extendedMethods
 

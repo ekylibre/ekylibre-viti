@@ -8,6 +8,12 @@ GIT
       sassc-rails (~> 2)
 
 GIT
+  remote: https://github.com/ekylibre/cartography.git
+  revision: 0dc98ff4780486412bd455140b3a3babb54f62d0
+  specs:
+    cartography (0.0.1)
+
+GIT
   remote: https://github.com/influitive/apartment.git
   revision: a4332c3222210b11f5e8c27fa4c1a18b492e9629
   branch: development
@@ -638,6 +644,7 @@ DEPENDENCIES
   capistrano-git-with-submodules (~> 2.0)
   capistrano-nvm
   capistrano-rails
+  cartography!
   charlock_holmes
   charta (~> 0.1.14)
   cocoon

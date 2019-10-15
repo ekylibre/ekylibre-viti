@@ -6432,7 +6432,7 @@
             }
         });
 
-        L.Control.Measure = L.Control.extend({
+        Leaflet.Control.Measure = Leaflet.Control.extend({
             _className: 'leaflet-control-measure',
             options: {
                 units: {},
@@ -6450,8 +6450,8 @@
                 thousandsSep: ','
             },
             initialize: function (options) {
-                L.setOptions(this, options);
-                this.options.units = L.extend({}, units, this.options.units);
+                Leaflet.setOptions(this, options);
+                this.options.units = Leaflet.extend({}, units, this.options.units);
                 this._symbols = new Symbology(_.pick(this.options, 'activeColor', 'completedColor'));
                 i18n.setLocale(this.options.localization);
             },
@@ -6460,7 +6460,7 @@
                 this._latlngs = [];
                 this._initLayout();
                 map.on('click', this._collapse, this);
-                this._layer = L.layerGroup().addTo(map);
+                this._layer = Leaflet.layerGroup().addTo(map);
                 return this._container;
             },
             onRemove: function (map) {
@@ -6468,7 +6468,7 @@
                 map.removeLayer(this._layer);
             },
             _initLayout: function () {
-                var className = this._className, container = this._container = L.DomUtil.create('div', className);
+                var className = this._className, container = this._container = Leaflet.DomUtil.create('div', className);
                 var $toggle, $start, $cancel, $finish;
 
                 container.innerHTML = controlTemplate({
@@ -6481,11 +6481,11 @@
                 // copied from leaflet
                 // https://bitbucket.org/ljagis/js-mapbootstrap/src/4ab1e9e896c08bdbc8164d4053b2f945143f4f3a/app/components/measure/leaflet-measure-control.js?at=master#cl-30
                 container.setAttribute('aria-haspopup', true);
-                if (!L.Browser.touch) {
-                    L.DomEvent.disableClickPropagation(container);
-                    L.DomEvent.disableScrollPropagation(container);
+                if (!Leaflet.Browser.touch) {
+                    Leaflet.DomEvent.disableClickPropagation(container);
+                    Leaflet.DomEvent.disableScrollPropagation(container);
                 } else {
-                    L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
+                    Leaflet.DomEvent.on(container, 'click', Leaflet.DomEvent.stopPropagation);
                 }
 
                 $toggle = this.$toggle = $('.js-toggle', container);         // collapsed content
@@ -6502,22 +6502,22 @@
                 this._collapse();
                 this._updateMeasureNotStarted();
 
-                if (!L.Browser.android) {
-                    L.DomEvent.on(container, 'mouseenter', this._expand, this);
-                    L.DomEvent.on(container, 'mouseleave', this._collapse, this);
+                if (!Leaflet.Browser.android) {
+                    Leaflet.DomEvent.on(container, 'mouseenter', this._expand, this);
+                    Leaflet.DomEvent.on(container, 'mouseleave', this._collapse, this);
                 }
-                L.DomEvent.on($toggle, 'click', L.DomEvent.stop);
-                if (L.Browser.touch) {
-                    L.DomEvent.on($toggle, 'click', this._expand, this);
+                Leaflet.DomEvent.on($toggle, 'click', Leaflet.DomEvent.stop);
+                if (Leaflet.Browser.touch) {
+                    Leaflet.DomEvent.on($toggle, 'click', this._expand, this);
                 } else {
-                    L.DomEvent.on($toggle, 'focus', this._expand, this);
+                    Leaflet.DomEvent.on($toggle, 'focus', this._expand, this);
                 }
-                L.DomEvent.on($start, 'click', L.DomEvent.stop);
-                L.DomEvent.on($start, 'click', this._startMeasure, this);
-                L.DomEvent.on($cancel, 'click', L.DomEvent.stop);
-                L.DomEvent.on($cancel, 'click', this._finishMeasure, this);
-                L.DomEvent.on($finish, 'click', L.DomEvent.stop);
-                L.DomEvent.on($finish, 'click', this._handleMeasureDoubleClick, this);
+                Leaflet.DomEvent.on($start, 'click', Leaflet.DomEvent.stop);
+                Leaflet.DomEvent.on($start, 'click', this._startMeasure, this);
+                Leaflet.DomEvent.on($cancel, 'click', Leaflet.DomEvent.stop);
+                Leaflet.DomEvent.on($cancel, 'click', this._finishMeasure, this);
+                Leaflet.DomEvent.on($finish, 'click', Leaflet.DomEvent.stop);
+                Leaflet.DomEvent.on($finish, 'click', this._handleMeasureDoubleClick, this);
             },
             _expand: function () {
                 dom.hide(this.$toggle);
@@ -6559,13 +6559,13 @@
                 this._map.doubleClickZoom.disable(); // double click now finishes measure
                 this._map.on('mouseout', this._handleMapMouseOut, this);
 
-                L.DomEvent.on(this._container, 'mouseenter', this._handleMapMouseOut, this);
+                Leaflet.DomEvent.on(this._container, 'mouseenter', this._handleMapMouseOut, this);
 
                 this._map.on('mousemove', this._handleMeasureMove, this);
                 this._map.on('dblclick', this._handleMeasureDoubleClick, this);
                 this._map.on('click', this._handleMeasureClick, this);
 
-                this._measureVertexes = L.featureGroup().addTo(this._layer);
+                this._measureVertexes = Leaflet.featureGroup().addTo(this._layer);
 
                 this._updateMeasureStartedNoPoints();
             },
@@ -6576,7 +6576,7 @@
                 this._map.doubleClickZoom.enable();
                 this._map.off('mouseout', this._handleMapMouseOut, this);
 
-                L.DomEvent.off(this._container, 'mouseover', this._handleMapMouseOut, this);
+                Leaflet.DomEvent.off(this._container, 'mouseover', this._handleMapMouseOut, this);
 
                 this._clearMeasure();
 
@@ -6650,7 +6650,7 @@
             // adds floating measure marker under cursor
             _handleMeasureMove: function (evt) {
                 if (!this._measureDrag) {
-                    this._measureDrag = L.circleMarker(evt.latlng, this._symbols.getSymbol('measureDrag')).addTo(this._layer);
+                    this._measureDrag = Leaflet.circleMarker(evt.latlng, this._symbols.getSymbol('measureDrag')).addTo(this._layer);
                 } else {
                     this._measureDrag.setLatLng(evt.latlng);
                 }
@@ -6674,21 +6674,21 @@
                 calced = calc.measure(latlngs);
 
                 if (latlngs.length === 1) {
-                    resultFeature = L.circleMarker(latlngs[0], this._symbols.getSymbol('resultPoint'));
+                    resultFeature = Leaflet.circleMarker(latlngs[0], this._symbols.getSymbol('resultPoint'));
                     popupContent = pointPopupTemplate({
                         model: calced,
                         humanize: humanize,
                         i18n: i18n
                     });
                 } else if (latlngs.length === 2) {
-                    resultFeature = L.polyline(latlngs, this._symbols.getSymbol('resultLine')).addTo(this._map);
+                    resultFeature = Leaflet.polyline(latlngs, this._symbols.getSymbol('resultLine')).addTo(this._map);
                     popupContent = linePopupTemplate({
                         model: _.extend({}, calced, this._getMeasurementDisplayStrings(calced)),
                         humanize: humanize,
                         i18n: i18n
                     });
                 } else {
-                    resultFeature = L.polygon(latlngs, this._symbols.getSymbol('resultArea'));
+                    resultFeature = Leaflet.polygon(latlngs, this._symbols.getSymbol('resultArea'));
                     popupContent = areaPopupTemplate({
                         model: _.extend({}, calced, this._getMeasurementDisplayStrings(calced)),
                         humanize: humanize,
@@ -6697,13 +6697,13 @@
                     });
                 }
 
-                popupContainer = L.DomUtil.create('div', '');
+                popupContainer = Leaflet.DomUtil.create('div', '');
                 popupContainer.innerHTML = popupContent;
 
                 zoomLink = $('.js-zoomto', popupContainer);
                 if (zoomLink) {
-                    L.DomEvent.on(zoomLink, 'click', L.DomEvent.stop);
-                    L.DomEvent.on(zoomLink, 'click', function () {
+                    Leaflet.DomEvent.on(zoomLink, 'click', Leaflet.DomEvent.stop);
+                    Leaflet.DomEvent.on(zoomLink, 'click', function () {
                         this._map.fitBounds(resultFeature.getBounds(), {
                             padding: [20, 20],
                             maxZoom: 17
@@ -6713,8 +6713,8 @@
 
                 deleteLink = $('.js-deletemarkup', popupContainer);
                 if (deleteLink) {
-                    L.DomEvent.on(deleteLink, 'click', L.DomEvent.stop);
-                    L.DomEvent.on(deleteLink, 'click', function () {
+                    Leaflet.DomEvent.on(deleteLink, 'click', Leaflet.DomEvent.stop);
+                    Leaflet.DomEvent.on(deleteLink, 'click', function () {
                         // TODO. maybe remove any event handlers on zoom and delete buttons?
                         this._map.removeLayer(resultFeature);
                     }, this);
@@ -6763,7 +6763,7 @@
             },
             // add various measure graphics to map - vertex, area, boundary
             _addNewVertex: function (latlng) {
-                L.circleMarker(latlng, this._symbols.getSymbol('measureVertexActive')).addTo(this._measureVertexes);
+                Leaflet.circleMarker(latlng, this._symbols.getSymbol('measureVertexActive')).addTo(this._measureVertexes);
             },
             _addMeasureArea: function (latlngs) {
                 if (latlngs.length < 3) {
@@ -6774,7 +6774,7 @@
                     return;
                 }
                 if (!this._measureArea) {
-                    this._measureArea = L.polygon(latlngs, this._symbols.getSymbol('measureArea')).addTo(this._layer);
+                    this._measureArea = Leaflet.polygon(latlngs, this._symbols.getSymbol('measureArea')).addTo(this._layer);
                 } else {
                     this._measureArea.setLatLngs(latlngs);
                 }
@@ -6788,25 +6788,25 @@
                     return;
                 }
                 if (!this._measureBoundary) {
-                    this._measureBoundary = L.polyline(latlngs, this._symbols.getSymbol('measureBoundary')).addTo(this._layer);
+                    this._measureBoundary = Leaflet.polyline(latlngs, this._symbols.getSymbol('measureBoundary')).addTo(this._layer);
                 } else {
                     this._measureBoundary.setLatLngs(latlngs);
                 }
             }
         });
 
-        L.Map.mergeOptions({
+        Leaflet.Map.mergeOptions({
             measureControl: false
         });
 
-        L.Map.addInitHook(function () {
+        Leaflet.Map.addInitHook(function () {
             if (this.options.measureControl) {
-                this.measureControl = (new L.Control.Measure()).addTo(this);
+                this.measureControl = (new Leaflet.Control.Measure()).addTo(this);
             }
         });
 
-        L.control.measure = function (options) {
-            return new L.Control.Measure(options);
+        Leaflet.control.measure = function (options) {
+            return new Leaflet.Control.Measure(options);
         };
 
     }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})

@@ -28,7 +28,7 @@ class visualization.Choropleth extends visualization.Gradient
     for zone in @data
       zoneStyle =
         fillColor: this.gradeFor(zone[@layer.reference]).fillColor
-      zoneLayer = new L.GeoJSON(zone.shape, $.extend(true, {}, globalStyle, zoneStyle))
+      zoneLayer = new Leaflet.GeoJSON(zone.shape, $.extend(true, {}, globalStyle, zoneStyle))
       widget._bindPopup(zoneLayer, zone)
       group.push(zoneLayer)
     group

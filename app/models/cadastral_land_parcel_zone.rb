@@ -29,7 +29,8 @@
 #  shape            :geometry({:srid=>4326, :type=>"multi_polygon"}) not null
 #  work_number      :string
 #
-class CadastralLandParcelZone < ActiveRecord::Base
-    include Lexiconable
-    has_one :cvi_cadastral_plant, foreign_key: :land_parcel_id
-  end
+class CadastralLandParcelZone < Ekylibre::Record::Base
+  include Lexiconable
+  include Shaped
+  has_one :cvi_cadastral_plant, foreign_key: :land_parcel_id
+end

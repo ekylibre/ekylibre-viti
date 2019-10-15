@@ -1,0 +1,33 @@
+.leaflet-touch {
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out {
+    font-size: 0px;
+  }
+}
+
+.leaflet-control-zoom-in:before,
+.leaflet-control-zoom-out:before {
+  font-size: 24px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* line 141, ../.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/bootstrap-sass-3.4.1/assets/stylesheets/bootstrap/_scaffolding.scss */
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+}

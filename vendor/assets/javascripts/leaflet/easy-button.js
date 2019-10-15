@@ -1,9 +1,9 @@
 (function(){
 
 // This is for grouping buttons into a bar
-// takes an array of `L.easyButton`s and
+// takes an array of `Leaflet.easyButton`s and
 // then the usual `.addTo(map)`
-L.Control.EasyBar = L.Control.extend({
+Leaflet.Control.EasyBar = Leaflet.Control.extend({
 
   options: {
     position:       'topleft',  // part of leaflet's defaults
@@ -15,7 +15,7 @@ L.Control.EasyBar = L.Control.extend({
   initialize: function(buttons, options){
 
     if(options){
-      L.Util.setOptions( this, options );
+      Leaflet.Util.setOptions( this, options );
     }
 
     this._buildContainer();
@@ -32,23 +32,23 @@ L.Control.EasyBar = L.Control.extend({
 
 
   _buildContainer: function(){
-    this._container = this.container = L.DomUtil.create('div', '');
-    this.options.leafletClasses && L.DomUtil.addClass(this.container, 'leaflet-bar easy-button-container leaflet-control');
+    this._container = this.container = Leaflet.DomUtil.create('div', '');
+    this.options.leafletClasses && Leaflet.DomUtil.addClass(this.container, 'leaflet-bar easy-button-container leaflet-control');
     this.options.id && (this.container.id = this.options.id);
   },
 
 
   enable: function(){
-    L.DomUtil.addClass(this.container, 'enabled');
-    L.DomUtil.removeClass(this.container, 'disabled');
+    Leaflet.DomUtil.addClass(this.container, 'enabled');
+    Leaflet.DomUtil.removeClass(this.container, 'disabled');
     this.container.setAttribute('aria-hidden', 'false');
     return this;
   },
 
 
   disable: function(){
-    L.DomUtil.addClass(this.container, 'disabled');
-    L.DomUtil.removeClass(this.container, 'enabled');
+    Leaflet.DomUtil.addClass(this.container, 'disabled');
+    Leaflet.DomUtil.removeClass(this.container, 'enabled');
     this.container.setAttribute('aria-hidden', 'true');
     return this;
   },
@@ -69,7 +69,7 @@ L.Control.EasyBar = L.Control.extend({
         pos = this.getPosition(),
         corner = map._controlCorners[pos];
 
-    L.DomUtil.addClass(container, 'leaflet-control');
+    Leaflet.DomUtil.addClass(container, 'leaflet-control');
 
     if (pos.indexOf('bottom') !== -1) {
       corner.insertBefore(container, corner.firstChild);
@@ -82,17 +82,17 @@ L.Control.EasyBar = L.Control.extend({
 
 });
 
-L.easyBar = function(){
-  var args = [L.Control.EasyBar];
+Leaflet.easyBar = function(){
+  var args = [Leaflet.Control.EasyBar];
   for(var i = 0; i < arguments.length; i++){
     args.push( arguments[i] );
   }
-  return new (Function.prototype.bind.apply(L.Control.EasyBar, args));
+  return new (Function.prototype.bind.apply(Leaflet.Control.EasyBar, args));
 };
 
-// L.EasyButton is the actual buttons
+// Leaflet.EasyButton is the actual buttons
 // can be called without being grouped into a bar
-L.Control.EasyButton = L.Control.extend({
+Leaflet.Control.EasyButton = Leaflet.Control.extend({
 
   options: {
     position:  'topleft',       // part of leaflet's defaults
@@ -128,7 +128,7 @@ L.Control.EasyButton = L.Control.extend({
     if( typeof arguments[arguments.length-1] === 'object' ){
 
       // if so, it should be the options
-      L.Util.setOptions( this, arguments[arguments.length-1] );
+      Leaflet.Util.setOptions( this, arguments[arguments.length-1] );
     }
 
     // if there aren't any states in options
@@ -161,22 +161,22 @@ L.Control.EasyButton = L.Control.extend({
 
   _buildButton: function(){
 
-    this.button = L.DomUtil.create('button', '');
+    this.button = Leaflet.DomUtil.create('button', '');
 
     if (this.options.id ){
       this.button.id = this.options.id;
     }
 
     if (this.options.leafletClasses){
-      L.DomUtil.addClass(this.button, 'easy-button-button leaflet-bar-part');
+      Leaflet.DomUtil.addClass(this.button, 'easy-button-button leaflet-bar-part');
     }
 
     // don't let double clicks get to the map
-    L.DomEvent.addListener(this.button, 'dblclick', L.DomEvent.stop);
+    Leaflet.DomEvent.addListener(this.button, 'dblclick', Leaflet.DomEvent.stop);
 
     // take care of normal clicks
-    L.DomEvent.addListener(this.button,'click', function(e){
-      L.DomEvent.stop(e);
+    Leaflet.DomEvent.addListener(this.button,'click', function(e){
+      Leaflet.DomEvent.stop(e);
       this._currentState.onClick(this, this._map ? this._map : null );
       this._map.getContainer().focus();
     }, this);
@@ -252,13 +252,13 @@ L.Control.EasyButton = L.Control.extend({
 
       // update classes for animations
       for(var i=0;i<this._states.length;i++){
-        L.DomUtil.removeClass(this._states[i].icon, this._currentState.stateName + '-active');
-        L.DomUtil.addClass(this._states[i].icon, newState.stateName + '-active');
+        Leaflet.DomUtil.removeClass(this._states[i].icon, this._currentState.stateName + '-active');
+        Leaflet.DomUtil.addClass(this._states[i].icon, newState.stateName + '-active');
       }
 
       // update classes for animations
-      L.DomUtil.removeClass(this.button, this._currentState.stateName + '-active');
-      L.DomUtil.addClass(this.button, newState.stateName + '-active');
+      Leaflet.DomUtil.removeClass(this.button, this._currentState.stateName + '-active');
+      Leaflet.DomUtil.addClass(this.button, newState.stateName + '-active');
 
       // update the record
       this._currentState = newState;
@@ -269,8 +269,8 @@ L.Control.EasyButton = L.Control.extend({
 
 
   enable: function(){
-    L.DomUtil.addClass(this.button, 'enabled');
-    L.DomUtil.removeClass(this.button, 'disabled');
+    Leaflet.DomUtil.addClass(this.button, 'enabled');
+    Leaflet.DomUtil.removeClass(this.button, 'disabled');
     this.button.setAttribute('aria-hidden', 'false');
     return this;
   },
@@ -278,8 +278,8 @@ L.Control.EasyButton = L.Control.extend({
 
 
   disable: function(){
-    L.DomUtil.addClass(this.button, 'disabled');
-    L.DomUtil.removeClass(this.button, 'enabled');
+    Leaflet.DomUtil.addClass(this.button, 'disabled');
+    Leaflet.DomUtil.removeClass(this.button, 'enabled');
     this.button.setAttribute('aria-hidden', 'true');
     return this;
   },
@@ -294,7 +294,7 @@ L.Control.EasyButton = L.Control.extend({
   },
 
   onAdd: function(){
-    var containerObj = L.easyBar([this], {
+    var containerObj = Leaflet.easyBar([this], {
       position: this.options.position,
       leafletClasses: this.options.leafletClasses
     });
@@ -305,9 +305,9 @@ L.Control.EasyButton = L.Control.extend({
 
 });
 
-L.easyButton = function(/* args will pass automatically */){
-  var args = Array.prototype.concat.apply([L.Control.EasyButton],arguments)
-  return new (Function.prototype.bind.apply(L.Control.EasyButton, args));
+Leaflet.easyButton = function(/* args will pass automatically */){
+  var args = Array.prototype.concat.apply([Leaflet.Control.EasyButton],arguments)
+  return new (Function.prototype.bind.apply(Leaflet.Control.EasyButton, args));
 };
 
 /*************************
@@ -324,11 +324,11 @@ function State(template, easyButton){
   this.stateName = template.stateName ? template.stateName : 'unnamed-state';
 
   // build the wrapper
-  this.icon = L.DomUtil.create('span', '');
+  this.icon = Leaflet.DomUtil.create('span', '');
 
-  L.DomUtil.addClass(this.icon, 'button-state state-' + this.stateName.trim());
+  Leaflet.DomUtil.addClass(this.icon, 'button-state state-' + this.stateName.trim());
   this.icon.innerHTML = buildIcon(template.icon);
-  this.onClick = L.Util.bind(template.onClick?template.onClick:function(){}, easyButton);
+  this.onClick = Leaflet.Util.bind(template.onClick?template.onClick:function(){}, easyButton);
 }
 
 function buildIcon(ambiguousIconString) {
@@ -346,14 +346,14 @@ function buildIcon(ambiguousIconString) {
   // it's a class list, figure out what kind
   } else {
       ambiguousIconString = ambiguousIconString.trim();
-      tmpIcon = L.DomUtil.create('span', '');
+      tmpIcon = Leaflet.DomUtil.create('span', '');
 
       if( ambiguousIconString.indexOf('fa-') === 0 ){
-        L.DomUtil.addClass(tmpIcon, 'fa '  + ambiguousIconString)
+        Leaflet.DomUtil.addClass(tmpIcon, 'fa '  + ambiguousIconString)
       } else if ( ambiguousIconString.indexOf('glyphicon-') === 0 ) {
-        L.DomUtil.addClass(tmpIcon, 'glyphicon ' + ambiguousIconString)
+        Leaflet.DomUtil.addClass(tmpIcon, 'glyphicon ' + ambiguousIconString)
       } else {
-        L.DomUtil.addClass(tmpIcon, /*rollwithit*/ ambiguousIconString)
+        Leaflet.DomUtil.addClass(tmpIcon, /*rollwithit*/ ambiguousIconString)
       }
 
       // make this a string so that it's easy to set innerHTML below

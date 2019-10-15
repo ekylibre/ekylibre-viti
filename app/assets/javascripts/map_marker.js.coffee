@@ -27,7 +27,7 @@
 
       @mapElement = $("<div>", class: "map")
         .insertAfter(@element)
-      @map = L.map(@mapElement[0],
+      @map = Leaflet.map(@mapElement[0],
         maxZoom: 25
         zoomControl: false
         attributionControl: true
@@ -86,7 +86,7 @@
         @map.removeLayer(@backgroundLayer)
       if @options.background?
         if @options.background.constructor.name is "Object"
-          @backgroundLayer = L.tileLayer(@options.background.url)
+          @backgroundLayer = Leaflet.tileLayer(@options.background.url)
           @backgroundLayer.addTo @map
         if this.options.background.constructor.name is "Array"
           if this.options.background.length > 0
@@ -99,7 +99,7 @@
               opts['subdomains'] = layer.subdomains if layer.subdomains?
               opts['tms'] = true if layer.tms
 
-              backgroundLayer = L.tileLayer(layer.url, opts)
+              backgroundLayer = Leaflet.tileLayer(layer.url, opts)
               baseLayers[layer.name] = backgroundLayer
               @map.addLayer(backgroundLayer) if layer.byDefault
           else
@@ -108,11 +108,11 @@
 
             baseLayers = {}
             for layer, index in back
-              backgroundLayer = L.tileLayer.provider(layer)
+              backgroundLayer = Leaflet.tileLayer.provider(layer)
               baseLayers[layer] = backgroundLayer
               @map.addLayer(backgroundLayer) if index == 0
 
-          @layerSelector = new L.Control.Layers(baseLayers)
+          @layerSelector = new Leaflet.Control.Layers(baseLayers)
           @map.addControl  @layerSelector
         else
           console.log "How to set background with #{@options.background}?"
@@ -123,7 +123,7 @@
       if @marker?
         @map.removeLayer @marker
       console.log @options.marker
-      @marker = L.marker @options.marker,
+      @marker = Leaflet.marker @options.marker,
         draggable: true
         riseOnHover: true
       widget = this
@@ -148,7 +148,7 @@
       else if view is 'default'
         this._setDefaultView()
       else if view.center?
-        center = L.latLng(view.center[0], view.center[1])
+        center = Leaflet.latLng(view.center[0], view.center[1])
         if view.zoom?
           @map.setView(center, view.zoom)
         else
@@ -174,13 +174,13 @@
           @map.removeControl(control)
       @controls = {}
       unless @options.controls.zoom is false
-        @controls.zoom = new L.Control.Zoom(@options.controls.zoom)
+        @controls.zoom = new Leaflet.Control.Zoom(@options.controls.zoom)
         @map.addControl @controls.zoom
       unless @options.controls.fullscreen is false
-        @controls.fullscreen = new L.Control.FullScreen(@options.controls.fullscreen)
+        @controls.fullscreen = new Leaflet.Control.FullScreen(@options.controls.fullscreen)
         @map.addControl @controls.fullscreen
       unless @options.controls.scale is false
-        @controls.scale = new L.Control.Scale(@options.controls.scale)
+        @controls.scale = new Leaflet.Control.Scale(@options.controls.scale)
         @map.addControl @controls.scale
 
     _saveUpdates: ->

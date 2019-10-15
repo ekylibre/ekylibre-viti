@@ -39,7 +39,7 @@ class visualization.Bubbles extends visualization.Gradient
           radius: grade.radius + grade.weight
           stroke: false
           fillOpacity: 0.8
-        group.push new L.CircleMarker(this._centroid(zone.shape), zoneStyle)
+        group.push new Leaflet.CircleMarker(this._centroid(zone.shape), zoneStyle)
     # Core
     for zone in @data
       grade = this.gradeFor(zone[@layer.reference])
@@ -48,7 +48,7 @@ class visualization.Bubbles extends visualization.Gradient
         radius: grade.radius
         stroke: false
         fillOpacity: 1
-      zoneLayer = new L.CircleMarker(this._centroid(zone.shape), zoneStyle)
+      zoneLayer = new Leaflet.CircleMarker(this._centroid(zone.shape), zoneStyle)
       widget._bindPopup(zoneLayer, zone)
       group.push(zoneLayer)
     group
@@ -71,7 +71,7 @@ class visualization.Bubbles extends visualization.Gradient
   # Compute a centroid based on bounds
   # The point can be out of the surface...
   _centroid: (shape) ->
-    geojson = new L.GeoJSON(shape)
+    geojson = new Leaflet.GeoJSON(shape)
     return geojson.getBounds().getCenter()
 
 visualization.registerLayerType "bubbles", visualization.Bubbles
