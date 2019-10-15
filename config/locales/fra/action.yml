@@ -1499,6 +1499,7 @@ fra:
     down: "Descendre"
     down_to_level: "Détailler jusqu’au niveau" #?
     download: "Télécharger"
+    download_cvi_template_file: "Télécharger un modèle de CVI"
     download_archive: "Télécharger l'archive (ZIP)"
     download_firefox: "Télécharger Mozilla Firefox…" #?
     downpayment: "Acompte"

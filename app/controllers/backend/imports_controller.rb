@@ -51,5 +51,9 @@ module Backend
       @import.abort
       redirect_to params[:redirect] || { action: :index }
     end
+
+    def template_file
+      send_file Rails.root.join('config', 'locales', 'fra', 'reporting', 'cvi_template_file.csv')
+    end
   end
 end
