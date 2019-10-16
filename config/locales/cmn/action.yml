@@ -734,15 +734,25 @@ cmn:
     bank_reconciliation:
       # remove: "Remove"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "单击并拖动绘制圆。"
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "点击地图放置标记。"
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "点击继续画形状。"
               end: "点击第一点，收这个形状。"
@@ -759,6 +769,9 @@ cmn:
           simpleshape:
             tooltip:
               end: "释放鼠标完成绘制。"
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "取消"
@@ -769,6 +782,9 @@ cmn:
             polygon: "绘制多边形"
             polyline: "绘制折线"
             rectangle: "画一个矩形"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "删除最后一个点"
             title: "删除最后绘制点"
@@ -781,6 +797,8 @@ cmn:
           remove:
             tooltip:
               text: "点击一个功能删除"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -795,9 +813,50 @@ cmn:
             remove: "删除图层。"
             removeDisabled: "没有图层删除。"
       fullscreenTitle: "全屏"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center to my plots"
       importerButtonTitle: "进口"
-      zoomInTitle: "放大"
-      zoomOutTitle: "缩小"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "放大" #?
+      zoomOutTitle: "缩小" #?
+    levels:
+      # error: "Error!"
+    messages:
+      # unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -2397,6 +2456,7 @@ cmn:
       # need_to_edit_or_correct_entries_before_validating: "You have to correct or delete these entries before you can enclose the financial year or validate them."
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "网络服务和标识符始终可用，但被取消，并将在下一主要版本中删除"
       no_archived_prints: "没有打印存档"
+      # no_bank_statement_found_for_this_period: "No bank statement found for this period."
       no_budget_defined_for_current_campaign: "没有当前活动定义预算"
       no_closable_journal: "没有关闭的日记"
       no_depositable_payments: "有没有支付存款"
@@ -2616,8 +2676,11 @@ cmn:
     # backend/prescriptions: "%{reference_number}"
     # backend/product_memberships: "%{started_at}"
     # backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
+    # backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
     # backend/product_natures: "%{name}"
-    # backend/products: "%{work_number} %{name} (%{number})"
+    backend/products:
+      # default: "%{work_number} %{name} (%{number})"
+      # land_parcels: "%{name}"
     # backend/purchase_payments: "%{number}. %{mode_name} to %{payee_full_name} of %{amount} %{currency}"
     # backend/trackings: "%{serial} ‒ %{name} ‒ %{producer_full_name}"
     # backend/users: "%{first_name} %{last_name}"

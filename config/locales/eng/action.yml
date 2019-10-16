@@ -123,6 +123,8 @@ eng:
       show: "Building: %{name}"
       # take: "Take building: %{name}"
       # update_many: "Update many building: %{name}"
+    backend/cadastral_land_parcel_zones:
+      # index: "Cadastral land parcel zones"
     backend/calculators/grains_commercialization_threshold_simulators:
       # show: "Grains commercialization threshold simulator: %{name}"
     backend/campaigns:
@@ -198,6 +200,9 @@ eng:
       new: "New custom field"
       show: "Custom field: %{name}"
       sort: "Sort custom field choices"
+    backend/cvi_cadastral_plants:
+      # edit: "Edit cvi cadastral plant: %{name}"
+      # index: "Cvi cadastral plants"
     backend/cvi_statements:
       edit: "Edit CVI statement: %{id}"
       index: "CVI statements"
@@ -1115,17 +1120,22 @@ eng:
             remove: "Delete layers"
             removeDisabled: "No layers to delete"
       fullscreenTitle: "Full Screen"
+      home:
+        toolbar:
+          buttons:
+            home: "Center to my plots"
       importerButtonTitle: "Import"
+      locking:
+        from_date_html: "from {{from}}<br>({{production}})"
+        from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        to_date_html: "until {{to}}<br>({{production}})"
       merge:
         panel:
           title: "Plot merging"
       snap:
         panel:
           surfaceProperty: "Surface"
-      home:
-        toolbar:
-          buttons:
-            home: 'Center to my plots'
       split:
         handlers:
           cut:
@@ -1148,11 +1158,11 @@ eng:
       zoom:
         zoomInTitle: "Zoom in"
         zoomOutTitle: "Zoom out"
-      locking:
-        label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
-        from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
-        from_date_html: "from {{from}}<br>({{production}})"
-        to_date_html: "until {{to}}<br>({{production}})"
+    levels:
+      error: "Error!"
+    messages:
+      unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
+
   labels:
     accepted: "Accepted"
     accepted_for_paiment: "Accepted for paiment"
@@ -1484,6 +1494,7 @@ eng:
     currently_subscribed_to: "Currently subscribed to"
     custom_fields: "Custom fields"
     # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_cadastral_plants_map: "Cvi cadastral plants map"
     # data: "Data"
     # data_transmissions: "Data transmissions"
     # date: "Date"
@@ -2276,6 +2287,7 @@ eng:
     service_delivering: "Service delivering"
     sessions: "Sessions" #?
     set_reconcilable_new_but_existing_third_accounts: "Set reconcilable the new but existing third accounts (clients, suppliers and attorneys)" #?
+    # set_timeline_to_correct_date: "Set timeline to correct date"
     settings: "Settings"
     settings_statistics: "Settings statistics"
     sex: "Sex" #?
@@ -2781,7 +2793,7 @@ eng:
       need_to_edit_or_correct_entries_before_validating: "You have to correct or delete these entries before you can enclose the financial year or validate them." #?
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "Net services and identifiers are always available but are deprecated and will be removed in next major release"
       no_archived_prints: "No archived prints"
-      no_bank_statement_found_for_this_period: "No bank statement found for this period."
+      no_bank_statement_found_for_this_period: "No bank statement found for this period." #?
       no_budget_defined_for_current_campaign: "No budget defined for current campaign"
       no_closable_journal: "No closable journal"
       no_depositable_payments: "There are no payment to deposit"
@@ -3064,7 +3076,7 @@ eng:
     backend/prescriptions: "%{reference_number}"
     backend/product_memberships: "%{started_at}"
     backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
-    backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
+    backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}" #?
     backend/product_natures: "%{name}"
     backend/products:
       default: "%{work_number} %{name} (%{number})"
