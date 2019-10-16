@@ -72,11 +72,6 @@ module Ekylibre
       section = h_cvi_statement[:section]
 
       cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
-      unless cadastral_land_parcel_zone
-        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_cadastral_land_parcel', value: insee_number + section + work_number)
-        w.error message
-        raise message
-      end
 
       CviCadastralPlant.create!(
         h_cvi_statement.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }
