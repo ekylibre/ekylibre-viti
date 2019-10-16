@@ -154,6 +154,7 @@
 #     - "backend/product_nature_variants#storage_detail"
 #     - "backend/product_nature_variants#unroll_saleables"
 #     - "backend/purchases#show"
+#     - "backend/registered_postal_zones#unroll"
 #     - "backend/sensors#last_locations"
 #     - "backend/services#index"
 #     - "backend/services#list"

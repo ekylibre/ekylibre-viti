@@ -2248,6 +2248,9 @@
       <item name="purchases">
         <page to="backend/purchases#show"/>
       </item>
+      <item name="registered_postal_zones">
+        <page to="backend/registered_postal_zones#unroll"/>
+      </item>
       <item name="shipments">
         <page to="backend/shipments#invoice"/>
       </item>

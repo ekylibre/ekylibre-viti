@@ -96,6 +96,7 @@ fra:
         designation_of_origin_name: "Produit"
         inter_row_distance: "Inter rang"
         inter_vine_plant_distance: "Inter pied"
+        land_parcel_id: "Ref. cadastrale id"
         locality: "Lieu-dit"
         rootstock_number: "Porte-greffe"
         state: "Etat"

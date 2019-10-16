@@ -22,6 +22,7 @@ ita:
         # designation_of_origin_name: "Protected designation of origin"
         # inter_row_distance: "Inter row distance"
         # inter_vine_plant_distance: "Inter vine plant distance"
+        # land_parcel_id: "Cadastral reference id"
         # locality: "locality"
         # rootstock_number: "Rootstock"
         # state: "State"

@@ -1162,7 +1162,6 @@ eng:
       error: "Error!"
     messages:
       unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
-
   labels:
     accepted: "Accepted"
     accepted_for_paiment: "Accepted for paiment"
