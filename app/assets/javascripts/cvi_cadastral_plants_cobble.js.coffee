@@ -26,7 +26,7 @@
     hideLandParcelIdSetting()
 
   formatRow = ->
-    $('#cvi_cadastral_plants-list tr').each ->
+    $('[id^=cvi_cadastral_plants] tr').each ->
       if $(this).attr('id')
         land_parcel_id = $(this).children( ".c0" ).text()
 
@@ -37,7 +37,7 @@
         $(this).children( ".c1" ).children().remove()
 
   manageErrorMessage = ->
-    $('#cvi_cadastral_plants-list tr').each ->
+    $('[id^=cvi_cadastral_plants] tr').each ->
       if $(this).attr('id')
         land_parcel_id = $(this).children( ".c0" ).text()
 
@@ -49,7 +49,8 @@
     $('[id^=cvi_cadastral_plants] tr > th:first-child').hide()
 
   hideLandParcelIdSetting = ->
-    $("#cvi-cadastral-plants span.list-settings li:nth-child(2) ul li:first-child").hide()
+
+    $("[id^=cvi-cadastral-plants] span.list-settings li:nth-child(2) ul li:first-child").hide()
 
 
   errorMessage =
