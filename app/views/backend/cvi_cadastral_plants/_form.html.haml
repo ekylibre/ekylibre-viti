@@ -1,7 +1,7 @@
 = field_set do
   %span.help-inline
     = f.object.errors.full_messages_for(:land_parcel).join if f.object.errors.count == 1 && f.object.errors.has_key?(:land_parcel)
-  = f.input :commune
+  = f.referenced_association :registered_postal_zone, new: false, label: CviCadastralPlant.human_attribute_name(:commune)
   = f.input :locality
   = f.input :section
   = f.input :work_number

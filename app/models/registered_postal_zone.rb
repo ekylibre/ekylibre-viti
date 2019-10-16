@@ -32,5 +32,6 @@
 #
 class RegisteredPostalZone < ActiveRecord::Base
   include Lexiconable
-  self.id_column = :code
+  self.primary_key = :code
+  alias_attribute :id, :code
 end

@@ -53,12 +53,13 @@ class CviCadastralPlant < Ekylibre::Record::Base
   enumerize :state, in: %i[planted removed_with_authorization], predicates: true
 
   belongs_to :cvi_statement
+  belongs_to :registered_postal_zone, foreign_key: :insee_number
   belongs_to :land_parcel, class_name: 'CadastralLandParcelZone', foreign_key: :land_parcel_id
   belongs_to :designation_of_origin, class_name: 'RegistredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
   belongs_to :vine_variety, class_name: 'MasterVineVariety', foreign_key: :vine_variety_id
   belongs_to :rootstock, class_name: 'MasterVineVariety', foreign_key: :rootstock_id
 
-  validates :commune, :insee_number, :work_number, :section, :campaign, :state, presence: true
+  validates :insee_number, :work_number, :section, :campaign, :state, presence: true
   validates :area_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
   validates :inter_row_distance_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
   validates :inter_vine_plant_distance_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
@@ -88,14 +89,13 @@ class CviCadastralPlant < Ekylibre::Record::Base
 
   delegate :shape, to: :land_parcel
 
-  before_validation :set_insee_code, on: :update, if: -> { commune_changed? }
+  before_validation :set_commune, on: :update, if: -> { insee_number_changed? && registered_postal_zone }
   before_validation :set_land_parcel_id, on: :update, if: -> { !land_parcel_id && (insee_number_changed? || section_changed? || work_number_changed?) }
 
   private
 
-  def set_insee_code
-    postal_zone = RegisteredPostalZone.find_by(city_name: commune.upcase)
-    self.insee_number = postal_zone.code if postal_zone
+  def set_commune
+    self.commune = registered_postal_zone.city_name
   end
 
   def set_land_parcel_id

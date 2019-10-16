@@ -82,7 +82,7 @@ module Backend
     end
 
     list(:cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, joins: %i[designation_of_origin vine_variety rootstock]) do |t|
-      t.column :land_parcel_id
+      t.column :land_parcel_id, hidden: true
       t.action :edit, url: { format: :js, remote: true }
       t.action :destroy
       t.column :commune
@@ -99,7 +99,7 @@ module Backend
     end
 
     list(:cvi_cadastral_plants_map, model: :cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, joins: %i[designation_of_origin vine_variety rootstock]) do |t|
-      t.column :land_parcel_id
+      t.column :land_parcel_id, hidden: true
       t.column :commune
       t.column :locality
       t.column :cadastral_reference, url: { controller: 'cvi_statements', action: 'show', id: 'params[:id]'.c}

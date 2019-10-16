@@ -760,6 +760,8 @@ Rails.application.routes.draw do
 
     resources :master_production_natures, only: [], concerns: %i[unroll]
 
+    resources :registered_postal_zones, only: [], concerns: %i[unroll]
+
     resources :matters do
       concerns :products, :list
     end
