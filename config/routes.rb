@@ -580,6 +580,9 @@ Rails.application.routes.draw do
     resources :identifiers, concerns: [:list]
 
     resources :imports, concerns: [:list] do
+      collection do
+        get :template_file
+      end
       member do
         post :abort
         post :run
