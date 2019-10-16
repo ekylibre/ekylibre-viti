@@ -16,14 +16,10 @@
   $(document).ready ->
     formatRow()
     manageErrorMessage()
-    hideLandParcelIdColumn()
-    hideLandParcelIdSetting()
 
   $(document).on 'list:page:change', ->
     formatRow()
     manageErrorMessage()
-    hideLandParcelIdColumn()
-    hideLandParcelIdSetting()
 
   formatRow = ->
     $('[id^=cvi_cadastral_plants] tr').each ->
@@ -43,15 +39,6 @@
 
       if land_parcel_id == "" and $('#error').children().length == 0
         $('#error').append(errorMessage)
-
-  hideLandParcelIdColumn = ->
-    $('[id^=cvi_cadastral_plants] .c0').hide()
-    $('[id^=cvi_cadastral_plants] tr > th:first-child').hide()
-
-  hideLandParcelIdSetting = ->
-
-    $("[id^=cvi-cadastral-plants] span.list-settings li:nth-child(2) ul li:first-child").hide()
-
 
   errorMessage =
     "<div class='flash error' data-alert=''>
