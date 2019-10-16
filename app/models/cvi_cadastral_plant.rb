@@ -62,6 +62,7 @@ class CviCadastralPlant < Ekylibre::Record::Base
   validates :area_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
   validates :inter_row_distance_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
   validates :inter_vine_plant_distance_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
+  validates_presence_of :land_parcel, on: :update, message: :cannot_find_land_parcel
 
   def cadastral_reference
     base = section + work_number
@@ -86,4 +87,19 @@ class CviCadastralPlant < Ekylibre::Record::Base
   alias rootstock_number customs_code
 
   delegate :shape, to: :land_parcel
+
+  before_validation :set_insee_code, on: :update, if: -> { commune_changed? }
+  before_validation :set_land_parcel_id, on: :update, if: -> { !land_parcel_id && (insee_number_changed? || section_changed? || work_number_changed?) }
+
+  private
+
+  def set_insee_code
+    postal_zone = RegisteredPostalZone.find_by(city_name: commune.upcase)
+    self.insee_number = postal_zone.code if postal_zone
+  end
+
+  def set_land_parcel_id
+    land_parcel = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', "#{insee_number}%", section, work_number).first
+    self.land_parcel_id = land_parcel.id if land_parcel
+  end
 end
