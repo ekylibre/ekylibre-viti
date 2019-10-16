@@ -412,9 +412,12 @@ Rails.application.routes.draw do
     resources :cvi_statements, concerns: %i[list] do
       member do
         get :list_cvi_cadastral_plants
+        get :list_cvi_cadastral_plants_map
         resources :cvi_cadastral_plants, only: %i[index]
       end
     end
+
+    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' }
 
     resources :cadastral_land_parcel_zones, only: %i[index]
 

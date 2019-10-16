@@ -81,8 +81,25 @@ module Backend
       t.column :state
     end
 
-    list(:cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, joins: %i[designation_of_origin vine_variety rootstock land_parcel]) do |t|
-      t.column :id, hidden: true
+    list(:cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, joins: %i[designation_of_origin vine_variety rootstock]) do |t|
+      t.column :land_parcel_id
+      t.action :edit, url: { format: :js, remote: true }
+      t.action :destroy
+      t.column :commune
+      t.column :locality
+      t.column :cadastral_reference
+      t.column :designation_of_origin_name
+      t.column :vine_variety_name
+      t.column :area, datatype: :measure, label_method: :area_formated
+      t.column :campaign
+      t.column :rootstock_number
+      t.column :inter_vine_plant_distance, datatype: :measure
+      t.column :inter_row_distance, datatype: :measure
+      t.column :state
+    end
+
+    list(:cvi_cadastral_plants_map, model: :cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, joins: %i[designation_of_origin vine_variety rootstock]) do |t|
+      t.column :land_parcel_id
       t.column :commune
       t.column :locality
       t.column :cadastral_reference, url: { controller: 'cvi_statements', action: 'show', id: 'params[:id]'.c}
