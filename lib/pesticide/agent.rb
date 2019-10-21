@@ -35,6 +35,6 @@ module Pesticide
       @attributes = attributes
     end
 
-    Unknown = Struct.new('UnknownAgent', :risks).new([nil])
+    Unknown = Struct.new('UnknownAgent', :usages, :risks).new([nil], [nil])
   end
 end
