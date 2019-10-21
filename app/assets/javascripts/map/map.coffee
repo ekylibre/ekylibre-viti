@@ -15,6 +15,10 @@
 
     initControls: ->
       @removeControl('edit')
+      editLayer = @_cartography.getOverlay('edition')
+      layersControl =  this._cartography.controls.get('layers').getControl()
+      layersControl.removeLayer(editLayer)
+      @_cartography.controls.get('layers').getControl().addTo(this._cartography.getMap())
 
     onSync: =>
       if arguments[arguments.length-1].constructor.name is 'Function'
@@ -155,7 +159,6 @@
     opts = $el.data("cartography")
 
     opts.bounds = bounds if bounds = localStorage.getItem("bounds")
-   
     E.map = new E.Map($el[0], opts)
 
   $(document).ready $.loadMap

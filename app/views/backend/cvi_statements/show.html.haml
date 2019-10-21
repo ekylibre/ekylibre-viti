@@ -77,7 +77,7 @@
   
   - if resource.cvi_cadastral_plants.any?
     - j.face :map do
-      = cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true}), 
+      = cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'), 
                               class: 'map-fullwidth map-halfheight',
                               data: {cvi_cadastral_plants_path:  backend_cvi_cadastral_plants_path(id: params[:id]) }) do |c|
         - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
