@@ -27,7 +27,7 @@
         land_parcel_id = $(this).children( ".c0" ).text()
 
       if land_parcel_id == ""
-        $(this).children().css( 'cssText', 'color: red !important' )
+        $(this).children().addClass('invalid-row')
       else
         $(this).children( ".c2" ).children().remove()
         $(this).children( ".c1" ).children().remove()
