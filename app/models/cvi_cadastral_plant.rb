@@ -89,10 +89,20 @@ class CviCadastralPlant < Ekylibre::Record::Base
 
   delegate :shape, to: :land_parcel
 
-  before_validation :set_commune, on: :update, if: -> { insee_number_changed? && registered_postal_zone }
-  before_validation :set_land_parcel_id, on: :update, if: -> { !land_parcel_id && (insee_number_changed? || section_changed? || work_number_changed?) }
+  before_validation :set_commune, on: :update, if: :insee_number_changed_and_exist?
+  before_validation :set_land_parcel_id, on: :update, if: :cadastral_reference_changed?
 
   private
+
+  # Check if insee number has changed and if it match a registered postal zone record in lexicon
+  def insee_number_changed_and_exist?
+    insee_number_changed? && registered_postal_zone
+  end
+
+  # Check if any attributes parts of cadastral reference has changed 
+  def cadastral_reference_changed?
+    insee_number_changed? || section_changed? || work_number_changed?
+  end
 
   def set_commune
     self.commune = registered_postal_zone.city_name
