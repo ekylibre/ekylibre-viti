@@ -2,11 +2,11 @@ module Ekylibre
   class CviCsvExchanger < CviExchanger
     def check
       file_extension = File.extname(file)
-      raise I18n.translate('exchangers.ekylibre_cvi.errors.wrong_file_extension', file_extension: file_extension, required_file_extension: '.csv') if file_extension != '.csv'
+      raise::I18n.translate('exchangers.ekylibre_cvi.errors.wrong_file_extension', file_extension: file_extension, required_file_extension: '.csv') if file_extension != '.csv'
 
-      CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise I18n.translate('exchangers.ekylibre_cvi.errors.unknown_column_name', column_name: h)) }) do |row|
-        raise I18n.translate('exchangers.ekylibre_cvi.errors.unknown_state', state: row[:state]) unless STATES[row[:state]]
-        raise I18n.translate('exchangers.ekylibre_cvi.errors.invalid_siret', value: row[:siret_number]) unless Luhn.valid?(row[:siret_number])
+      CSV.foreach(file, headers: true, header_converters: ->(h) { HEADER_CONVERSION[h] || (raise::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_column_name', column_name: h)) }) do |row|
+        raise::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_state', state: row[:state]) unless STATES[row[:state]]
+        raise::I18n.translate('exchangers.ekylibre_cvi.errors.invalid_siret', value: row[:siret_number]) unless Luhn.valid?(row[:siret_number])
       end
       true
     end
@@ -38,21 +38,21 @@ module Ekylibre
 
       designation_of_origin = RegistredProtectedDesignationOfOrigin.find_by(geographic_area: row[:product])
       unless designation_of_origin
-        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_designation_of_origin', value: row[:product])
+        message =::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_designation_of_origin', value: row[:product])
         w.error message
         raise message
       end
 
       vine_variety = MasterVineVariety.find_by(specie_name: row[:grape_variety], category_name: 'Cépage')
       unless vine_variety
-        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_vine_variety', value: row[:grape_variety])
+        message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_vine_variety', value: row[:grape_variety])
         w.error message
         raise message
       end
 
       rootstock = MasterVineVariety.find_by(customs_code: row[:rootstock], category_name: 'Porte-greffe')
       unless rootstock
-        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_rootstock', value: row[:rootstock])
+        message =::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_rootstock', value: row[:rootstock])
         w.error message
         raise message
       end
@@ -63,7 +63,7 @@ module Ekylibre
 
       cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
       unless cadastral_land_parcel_zone
-        message = I18n.translate('exchangers.ekylibre_cvi.errors.unknown_cadastral_land_parcel', value: insee_number + section + work_number)
+        message =::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_cadastral_land_parcel', value: insee_number + section + work_number)
         w.error message
         raise message
       end
