@@ -249,7 +249,15 @@ module Ekylibre
       private
 
       def load_defaults
-        NamingFormatLandParcel.load_defaults
+        default_datasets.each do |dataset|
+          puts "Load default #{dataset}..."
+          model = dataset.to_s.classify.constantize
+          model.load_defaults
+        end
+      end
+
+      def default_datasets
+        %i[naming_format_land_parcels]
       end
     end
   end
