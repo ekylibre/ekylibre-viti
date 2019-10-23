@@ -96,6 +96,7 @@ fra:
         designation_of_origin_name: "Produit"
         inter_row_distance: "Inter rang"
         inter_vine_plant_distance: "Inter pied"
+        land_parcel_id: "Ref. cadastrale id"
         locality: "Lieu-dit"
         rootstock_number: "Porte-greffe"
         state: "Etat"
@@ -416,6 +417,10 @@ fra:
               financial_year_matching_this_date_is_in_closure_preparation: "L'exercice comptable correspondant à cette date est en préparation de clôture par un autre utilisateur" #?
               financial_year_not_found: "Il n'y a pas d'exercice comptable pour cette date" #?
               not_opened_financial_year: "Un exercice comptable ouvert est nécessaire" #?
+        cvi_cadastral_plant:
+          attributes:
+            land_parcel:
+              cannot_find_land_parcel: "Aucune parcelle cadastral correspondant n'a été trouvée"
         deposit:
           must_be_a_bank_account: "%{attribute} doit être un compte bancaire et non une caisse"
         entity:
@@ -1396,6 +1401,7 @@ fra:
     intracommunity: "Intracommunautaire"
     intracommunity_payable_account: "Compte de taxe intracommunautaire due"
     introduction: "Introduction"
+    # inventories: "Inventories"
     inventory: "Inventaire"
     # inventory_items: "Inventory items"
     invitation_accepted_at: "Invitation acceptée à"

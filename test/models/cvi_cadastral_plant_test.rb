@@ -64,12 +64,19 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   end
 
   context 'validations' do
-    should validate_presence_of(:commune)
     should validate_presence_of(:section)
     should validate_presence_of(:work_number)
     should validate_presence_of(:campaign)
     should validate_presence_of(:state)
     should validate_presence_of(:insee_number)
+
+    should 'validates presence of land_parcel only on update' do
+      city = build(:cvi_cadastral_plant, land_parcel_id: nil)
+      assert_equal true, city.valid?
+      city.save
+      city.update(land_parcel_id: nil)
+      assert_equal false, city.valid?
+    end
   end
 
   context 'associations' do
@@ -77,6 +84,21 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
     should belong_to(:land_parcel)
     should belong_to(:designation_of_origin).with_foreign_key('designation_of_origin_id')
     should belong_to(:vine_variety).with_foreign_key('vine_variety_id')
+    should belong_to(:registered_postal_zone)
+  end
+
+  context 'callbacks' do
+    should "update commune if insee_number change" do
+      cvi_cadastral_plant = create(:cvi_cadastral_plant)
+      cvi_cadastral_plant.update(insee_number: "91121")
+      assert_equal "BUNO BONNEVAUX", cvi_cadastral_plant.commune
+    end
+
+    should "update land_parcel if record change" do
+      cvi_cadastral_plant = create(:cvi_cadastral_plant, land_parcel_id: nil)
+      cvi_cadastral_plant.update(insee_number: "33501", section: "A", work_number: "1428" )
+      assert_equal "335010000A1428", cvi_cadastral_plant.land_parcel_id
+    end
   end
 
   should enumerize(:state).in(:planted, :removed_with_authorization).with_predicates(true)
