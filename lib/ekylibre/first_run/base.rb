@@ -44,6 +44,7 @@ module Ekylibre
           LOADERS.each do |loader, imports|
             run_loader(loader, imports)
           end
+          load_defaults
           executed_preference.update!(value: true)
         end
       end
@@ -243,6 +244,12 @@ module Ekylibre
           return text[0..(first - 1)] + ellipsis + text[-(size - first - ellipsis.size)..-1]
         end
         text
+      end
+
+      private
+
+      def load_defaults
+        NamingFormatLandParcel.load_defaults
       end
     end
   end
