@@ -10,7 +10,7 @@
   font-size: 24px;
 }
 
-.sr-only {
+.leaflet-control-container .sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -21,9 +21,8 @@
   border: 0;
 }
 
-/* line 141, ../.rbenv/versions/2.3.8/lib/ruby/gems/2.3.0/gems/bootstrap-sass-3.4.1/assets/stylesheets/bootstrap/_scaffolding.scss */
-.sr-only-focusable:active,
-.sr-only-focusable:focus {
+.leaflet-control-container .sr-only-focusable:active,
+.leaflet-control-container .sr-only-focusable:focus {
   position: static;
   width: auto;
   height: auto;
