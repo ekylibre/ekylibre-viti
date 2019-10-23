@@ -72,6 +72,9 @@
 
     getMode: ->
       @_cartography.getMode.apply @_cartography, arguments
+    
+    centerLayer: ->
+      @_cartography.centerLayer.apply @_cartography, arguments
 
     removeControl: ->
       @_cartography.removeControl.apply @_cartography, arguments
