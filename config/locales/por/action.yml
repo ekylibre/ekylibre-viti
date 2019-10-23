@@ -739,15 +739,25 @@ por:
     bank_reconciliation:
       # remove: "Remove"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "Clique e arraste para desenhar círculo."
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "Clique no mapa para colocar marcador."
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "Clique para continuar a desenhar a forma."
               end: "Clique primeiro ponto para fechar esta forma."
@@ -764,6 +774,9 @@ por:
           simpleshape:
             tooltip:
               end: "Rato de liberação para finalizar o desenho."
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "Cancelar"
@@ -774,6 +787,9 @@ por:
             polygon: "Desenhar um polígono"
             polyline: "Desenhar um polígono"
             rectangle: "Desenhe um retângulo"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "Excluir último ponto"
             title: "Excluir último ponto desenhado"
@@ -786,6 +802,8 @@ por:
           remove:
             tooltip:
               text: "Clique em um recurso para remover"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -800,9 +818,50 @@ por:
             remove: "Excluir camadas."
             removeDisabled: "Nenhuma camada excluir."
       fullscreenTitle: "Tela cheia"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center to my plots"
       importerButtonTitle: "Importar"
-      zoomInTitle: "Mais Zoom"
-      zoomOutTitle: "Zoom out"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "Mais Zoom" #?
+      zoomOutTitle: "Zoom out" #?
+    levels:
+      # error: "Error!"
+    messages:
+      # unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -2401,6 +2460,7 @@ por:
       # need_to_edit_or_correct_entries_before_validating: "You have to correct or delete these entries before you can enclose the financial year or validate them."
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "Líquida de serviços e identificadores estão sempre disponíveis, mas são obsoleto e será removido em próximo grande lançamento"
       no_archived_prints: "Nenhuma digital arquivados"
+      # no_bank_statement_found_for_this_period: "No bank statement found for this period."
       no_budget_defined_for_current_campaign: "Sem orçamento definido para a campanha atual"
       no_closable_journal: "No jornal closable"
       no_depositable_payments: "Há nenhum pagamento para depositar"
@@ -2620,8 +2680,9 @@ por:
     backend/prescriptions: "%{reference_number}"
     backend/product_memberships: "%{started_at}"
     backend/product_nature_variants: "%{name} (%{unit_name})"
+    # backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
     backend/product_natures: "%{name}"
-    backend/products: "%{work_number} %{name} (%{number})"
+    backend/products: "%{work_number} %{name} (%{number})" #? Hash expected ({:default=>"%{work_number} %{name} (%{number})", :land_parcels=>"%{name}"})
     backend/purchase_payments: "%{number}. %{mode_name} %{payee_full_name} %{amount} %{currency}"
     backend/trackings: "%{serial} ‒ %{name} ‒ %{producer_full_name}"
     backend/users: "%{first_name} %{last_name}"

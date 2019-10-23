@@ -800,15 +800,25 @@ jpn:
     bank_reconciliation:
       # remove: "Remove"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "クリックして、円を描くようにドラッグします。"
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "マーカーを配置するには、地図をクリックしてください。"
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "形状の描画をクリックして続行します。"
               end: "この形状を閉じるには、最初のポイントをクリックしてください。"
@@ -825,6 +835,9 @@ jpn:
           simpleshape:
             tooltip:
               end: "描画を終了するには、マウスを離します。"
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "キャンセル"
@@ -835,6 +848,9 @@ jpn:
             polygon: "ポリゴンを描画"
             polyline: "ポリラインを描きます"
             rectangle: "四角形を描画"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "最後のポイントを削除します。"
             title: "描かれた最後のポイントを削除します。"
@@ -847,6 +863,8 @@ jpn:
           remove:
             tooltip:
               text: "削除する機能をクリックしてください"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -861,9 +879,50 @@ jpn:
             remove: "レイヤーを削除します。"
             removeDisabled: "削除するレイヤーいいえ。"
       fullscreenTitle: "全画面表示"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center to my plots"
       importerButtonTitle: "インポート"
-      zoomInTitle: "ズームイン"
-      zoomOutTitle: "ズームアウトする"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "ズームイン" #?
+      zoomOutTitle: "ズームアウトする" #?
+    levels:
+      # error: "Error!"
+    messages:
+      # unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -2472,6 +2531,7 @@ jpn:
       # need_to_edit_or_correct_entries_before_validating: "You have to correct or delete these entries before you can enclose the financial year or validate them."
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "ネットサービスや識別子は常に利用可能ですが、推奨されていませんし、次のメジャーリリースでは削除されます"
       no_archived_prints: "いいえアーカイブプリントはありません"
+      # no_bank_statement_found_for_this_period: "No bank statement found for this period."
       no_budget_defined_for_current_campaign: "現在のキャンペーンのために定義された予算がありません"
       no_closable_journal: "いいえ開閉可能なジャーナルません"
       no_depositable_payments: "預金への支払いはありません"
@@ -2691,8 +2751,11 @@ jpn:
     # backend/prescriptions: "%{reference_number}"
     # backend/product_memberships: "%{started_at}"
     # backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
+    # backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
     # backend/product_natures: "%{name}"
-    # backend/products: "%{work_number} %{name} (%{number})"
+    backend/products:
+      # default: "%{work_number} %{name} (%{number})"
+      # land_parcels: "%{name}"
     # backend/purchase_payments: "%{number}. %{mode_name} to %{payee_full_name} of %{amount} %{currency}"
     # backend/trackings: "%{serial} ‒ %{name} ‒ %{producer_full_name}"
     # backend/users: "%{first_name} %{last_name}"

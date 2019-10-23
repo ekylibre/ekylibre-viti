@@ -1,3 +1,5 @@
+#error
+
 - main_toolbar do |t|
   = t.edit resource
 
@@ -74,17 +76,17 @@
         = cobble_list(:cvi_cadastral_plants)
 
 
-  
+
   - if resource.cvi_cadastral_plants.any?
     - j.face :map do
-      = cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true}), 
+      = cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true}),
                               class: 'map-fullwidth map-halfheight',
                               data: {cvi_cadastral_plants_path:  backend_cvi_cadastral_plants_path(id: params[:id]) }) do |c|
         - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
         - c.simple :cvi_cadastral_plants, :main, index: true
 
-      = cobbles do |c| 
-        - c.cobble(:cvi_cadastral_plants) do
+      = cobbles do |c|
+        - c.cobble(:cvi_cadastral_plants_map) do
           = kujaku do |k|
             - k.text
             - k.multi_choice :state, %i[planted removed_with_authorization].map{ |s| [s.tl, s] }
@@ -115,4 +117,4 @@
                 %span.range-minimum= 0
                 %input{ name: :inter_vine_plant_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_vine_plant_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
                 %span.range-maximum= max
-          = cobble_list(:cvi_cadastral_plants)
+          = cobble_list(:cvi_cadastral_plants_map)

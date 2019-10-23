@@ -3914,6 +3914,9 @@ inventories:
   journal_entry_id:
     type: integer
     references: journal_entry
+  journal_id:
+    type: integer
+    references: journal
   lock_version:
     type: integer
     required: true
