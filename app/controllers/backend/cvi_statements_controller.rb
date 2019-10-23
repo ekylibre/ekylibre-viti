@@ -81,7 +81,7 @@ module Backend
       t.column :state
     end
 
-    list(:cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, joins: %i[designation_of_origin vine_variety rootstock]) do |t|
+    list(:cvi_cadastral_plants, order: 'land_parcel_id DESC', model: :cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, joins: %i[designation_of_origin vine_variety rootstock]) do |t|
       t.column :land_parcel_id, hidden: true
       t.action :edit, url: { format: :js, remote: true }
       t.action :destroy
@@ -98,7 +98,7 @@ module Backend
       t.column :state
     end
 
-    list(:cvi_cadastral_plants_map, model: :cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, joins: %i[designation_of_origin vine_variety rootstock]) do |t|
+    list(:cvi_cadastral_plants_map, order: 'land_parcel_id DESC', model: :cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, joins: %i[designation_of_origin vine_variety rootstock]) do |t|
       t.column :land_parcel_id, hidden: true
       t.column :commune
       t.column :locality
