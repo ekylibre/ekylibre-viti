@@ -22,6 +22,7 @@ cmn:
         # designation_of_origin_name: "Protected designation of origin"
         # inter_row_distance: "Inter row distance"
         # inter_vine_plant_distance: "Inter vine plant distance"
+        # land_parcel_id: "Cadastral reference id"
         # locality: "locality"
         # rootstock_number: "Rootstock"
         # state: "State"
@@ -206,6 +207,10 @@ cmn:
           # currency_does_not_match: "The currency of the %{journal} is different from that specified for the cash"
           # different_of_main_account: "%{attribute} must be different of main account (%{account})"
           unvalid_bban: "Unvalid BBAN。一个或多个元素是不正确的。"
+        cvi_cadastral_plant:
+          attributes:
+            land_parcel:
+              # cannot_find_land_parcel: "Could not find matching cadastral land parcel zone"
         deposit:
           # must_be_a_bank_account: "%{attribute} must be a bank account and not a cash"
         entity:
@@ -1060,6 +1065,7 @@ cmn:
     intracommunity: "社区内"
     intracommunity_payable_account: "社区内应付账款"
     introduction: "介绍"
+    # inventories: "Inventories"
     inventory: "库存"
     # inventory_items: "Inventory items"
     invitation_accepted_at: "已接受邀请在"

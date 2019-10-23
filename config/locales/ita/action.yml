@@ -800,15 +800,25 @@ ita:
     bank_reconciliation:
       # remove: "Remove"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "Fare clic e trascinare per disegnare cerchio."
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "Clicca sulla mappa per posizionare marker."
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "Clicca per continuare a disegnare la forma."
               end: "Clicca primo punto per chiudere questa forma."
@@ -825,6 +835,9 @@ ita:
           simpleshape:
             tooltip:
               end: "Il mouse di rilascio per terminare il disegno."
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "Annulla"
@@ -835,6 +848,9 @@ ita:
             polygon: "Disegnare un poligono"
             polyline: "Disegnare una polilinea"
             rectangle: "Disegnare un rettangolo"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "Cancellare l'ultimo punto"
             title: "Cancellare l'ultimo punto disegnato"
@@ -847,6 +863,8 @@ ita:
           remove:
             tooltip:
               text: "Fare clic su una funzione per rimuovere"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -861,9 +879,50 @@ ita:
             remove: "Eliminare i livelli."
             removeDisabled: "Non ci sono livelli da eliminare."
       fullscreenTitle: "A schermo intero"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center to my plots"
       importerButtonTitle: "Importare"
-      zoomInTitle: "Ingrandire"
-      zoomOutTitle: "Zoom indietro"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "Ingrandire" #?
+      zoomOutTitle: "Zoom indietro" #?
+    levels:
+      # error: "Error!"
+    messages:
+      # unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -2462,6 +2521,7 @@ ita:
       # need_to_edit_or_correct_entries_before_validating: "You have to correct or delete these entries before you can enclose the financial year or validate them."
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "Servizi di rete e gli identificatori sono sempre disponibili, ma sono obsolete e saranno rimossi in prossima major release"
       no_archived_prints: "Non ci sono impronte archiviati"
+      # no_bank_statement_found_for_this_period: "No bank statement found for this period."
       no_budget_defined_for_current_campaign: "Nessun bilancio definito per la campagna in corso"
       no_closable_journal: "Nessun ufficiale chiudibile"
       no_depositable_payments: "Non ci sono alcun pagamento per depositare"
@@ -2681,8 +2741,11 @@ ita:
     # backend/prescriptions: "%{reference_number}"
     # backend/product_memberships: "%{started_at}"
     # backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
+    # backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
     # backend/product_natures: "%{name}"
-    # backend/products: "%{work_number} %{name} (%{number})"
+    backend/products:
+      # default: "%{work_number} %{name} (%{number})"
+      # land_parcels: "%{name}"
     # backend/purchase_payments: "%{number}. %{mode_name} to %{payee_full_name} of %{amount} %{currency}"
     # backend/trackings: "%{serial} ‒ %{name} ‒ %{producer_full_name}"
     # backend/users: "%{first_name} %{last_name}"
