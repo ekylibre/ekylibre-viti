@@ -1,0 +1,17 @@
+= modal(id: "campaign-selection", size: :large) do
+  = form_tag(update_campaign_backend_cvi_statement_path, method: :patch) do
+    .modal-body
+      .modal-introduction
+        = :select_cvi_campaign_intro.tl.html_safe
+        %br
+        = label_tag :vintage_or_production_campaign.tl
+        - current_year = Time.current.year
+        = number_field_tag 'campaign',cvi_statement.campaign.name || current_year,in: current_year..(current_year+1)
+        %span
+          (
+          = :wine_production.tl
+          %span#wine-production-period
+          )
+    .modal-footer
+      = link_to :cancel.tl, "path", class: 'btn btn-default',data: { dismiss: 'modal' }
+      = submit_tag :confirm.tl, class: 'btn btn-primary'
