@@ -941,17 +941,22 @@ fra:
             remove: "Supprimer les couches"
             removeDisabled: "Pas de couches à supprimer"
       fullscreenTitle: "Plein écran"
+      home:
+        toolbar:
+          buttons:
+            home: "Centrer sur mes parcelles"
       importerButtonTitle: "Importer"
+      locking:
+        from_date_html: "à partir du {{from}}<br>({{production}})"
+        from_to_date_html: "du {{from}} au {{to}}<br>({{production}})"
+        label_html: "<p class='title'>Indisponible</p><p>{{content}}</p>"
+        to_date_html: "jusqu'au {{to}}<br>({{production}})"
       merge:
         panel:
           title: "Fusion de parcelles"
       snap:
         panel:
           surfaceProperty: "Surface"
-      home:
-        toolbar:
-          buttons:
-            home: 'Centrer sur mes parcelles'
       split:
         handlers:
           cut:
@@ -975,11 +980,6 @@ fra:
       zoom:
         zoomInTitle: "Zoomer"
         zoomOutTitle: "Dézoomer"
-      locking:
-        label_html: "<p class='title'>Indisponible</p><p>{{content}}</p>"
-        from_to_date_html: "du {{from}} au {{to}}<br>({{production}})"
-        from_date_html: "à partir du {{from}}<br>({{production}})"
-        to_date_html: "jusqu'au {{to}}<br>({{production}})"
   labels:
     abilities: "Compétences" #?
     accepted: "Acceptée"
@@ -1320,6 +1320,7 @@ fra:
       special-subscriber: "Filtre Abonné"
     conducted: "Réalisée"
     configure: "Configurer"
+    confirm: "Confirmer"
     confirmation: "Confirmation"
     confirmation_update_historical_plans: "Voulez-vous appliquer ces modifications sur l'historique des noms de parcelles ?"
     confirmed: "Confirmées" #?
@@ -1343,6 +1344,7 @@ fra:
     contextual_help: "Aide contextuelle" #?
     convert_balance_into_loss: "Passer le solde en perte"
     convert_balance_into_profit: "Passer le solde en profit"
+    convert_cvi: "Convertir en parcellaire"
     convert_into_contact: "Convertir en contact"
     convert_into_organization: "Convertir en organisation"
     convert_to_cultivable_zone: "Convertir en zone cultivable"
@@ -1499,8 +1501,8 @@ fra:
     down: "Descendre"
     down_to_level: "Détailler jusqu’au niveau" #?
     download: "Télécharger"
-    download_cvi_template_file: "Télécharger un modèle de CVI"
     download_archive: "Télécharger l'archive (ZIP)"
+    download_cvi_template_file: "Télécharger un modèle de CVI"
     download_firefox: "Télécharger Mozilla Firefox…" #?
     downpayment: "Acompte"
     draft: "Brouillard"
@@ -2467,6 +2469,7 @@ fra:
     select_building: "Sélectionnez un lieu de stockage" #?
     select_closure_date: "Choisissez la date de clôture"
     select_columns: "Cochez les colonnes que vous voulez voir apparaitre dans le tableau."
+    select_cvi_campaign_intro: "<p>Les parcelles cadastrales de votre CVI vont être converties en parcellaire pour une campagne de production viticole.</p><br><p>Veuillez choisir le 1er millésime à partir duquel vous souhaitez créer votre parcellaire et les productions associées.</p>"
     select_date: "Entrez une date"
     select_date_generation: "Date limite d’intégration"
     select_document: "Sélectionnez un document" #?
@@ -2778,6 +2781,7 @@ fra:
     view_modes: #?
       printable: "Mode «\_Imprimable\_»" #?
       resized: "Mode «\_Tout à l’écran\_»" #?
+    vintage_or_production_campaign: "millésime ou campagne de production"
     virtual_quantity: "Quantité virtuelle" #?
     wages: "Rémunérations"
     warning_date_not_in_period: "Attention : La date saisie n'est pas sur l'exercice en cours."
@@ -2791,6 +2795,7 @@ fra:
     week: "Semaine" #?
     wice_grid_columns: "Colonnes"
     wind_speed: "Vitesse du vent"
+    wine_production: "Production viticole"
     wine_tanks: "Cuverie" #?
     with_fixed_assets_depreciations: "Inclure les amortissements des immobilisations"
     with_prints: "Inclure les impressions (factures, commandes…)" #?
@@ -3379,7 +3384,7 @@ fra:
     backend/prescriptions: "%{reference_number}"
     backend/product_memberships: "%{started_at}"
     backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
-    backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}" #?
+    backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
     backend/product_natures: "%{name}"
     backend/products:
       default: "%{work_number} %{name} (%{number}) - %{container_name}"

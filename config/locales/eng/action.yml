@@ -123,6 +123,8 @@ eng:
       show: "Building: %{name}"
       # take: "Take building: %{name}"
       # update_many: "Update many building: %{name}"
+    backend/cadastral_land_parcel_zones:
+      # index: "Cadastral land parcel zones"
     backend/calculators/grains_commercialization_threshold_simulators:
       # show: "Grains commercialization threshold simulator: %{name}"
     backend/campaigns:
@@ -198,11 +200,14 @@ eng:
       new: "New custom field"
       show: "Custom field: %{name}"
       sort: "Sort custom field choices"
+    backend/cvi_cadastral_plants:
+      # index: "Cvi cadastral plants"
     backend/cvi_statements:
       edit: "Edit CVI statement: %{id}"
       index: "CVI statements"
       new: "New CVI statement"
       show: "CVI statement: %{id}"
+      # update_campaign: "Update campaign cvi statement: %{name}"
     backend/dashboards:
       accountancy: "Accountancy dashboard"
       edit: "Edit dashboard: %{name}"
@@ -376,6 +381,7 @@ eng:
       # progress: "Progress import: %{name}"
       run: "Run import"
       show: "Import: %{nature}"
+      # template_file: "Template file import: %{name}"
     backend/incoming_payment_modes:
       edit: "Edit incoming payment mode: %{name}"
       index: "Incoming payment modes"
@@ -1115,17 +1121,22 @@ eng:
             remove: "Delete layers"
             removeDisabled: "No layers to delete"
       fullscreenTitle: "Full Screen"
+      home:
+        toolbar:
+          buttons:
+            home: "Center to my plots"
       importerButtonTitle: "Import"
+      locking:
+        from_date_html: "from {{from}}<br>({{production}})"
+        from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        to_date_html: "until {{to}}<br>({{production}})"
       merge:
         panel:
           title: "Plot merging"
       snap:
         panel:
           surfaceProperty: "Surface"
-      home:
-        toolbar:
-          buttons:
-            home: 'Center to my plots'
       split:
         handlers:
           cut:
@@ -1148,11 +1159,6 @@ eng:
       zoom:
         zoomInTitle: "Zoom in"
         zoomOutTitle: "Zoom out"
-      locking:
-        label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
-        from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
-        from_date_html: "from {{from}}<br>({{production}})"
-        to_date_html: "until {{to}}<br>({{production}})"
   labels:
     accepted: "Accepted"
     accepted_for_paiment: "Accepted for paiment"
@@ -1416,6 +1422,7 @@ eng:
       special-subscriber: "Special-subscriber"
     conducted: "Conducted"
     configure: "Configure"
+    confirm: "Confirm"
     confirmation: "Confirmation" #?
     confirmation_update_historical_plans: "Confirmation update historical plans"
     connect: "Connect"
@@ -1432,6 +1439,7 @@ eng:
     container: "Container"
     convert_balance_into_loss: "Convert balance into loss"
     convert_balance_into_profit: "Convert balance into profit"
+    convert_cvi: "Convert into land parcels"
     convert_into_contact: "Convert into contact"
     convert_into_organization: "Convert into organization"
     convert_to_cultivable_zone: "Convert to cultivable zone"
@@ -1543,7 +1551,7 @@ eng:
     disease_percentage_evolution: "Disease percentage evolution"
     display: "Display" #?
     display_accounts: "Display accounts" #?!
-    display_n_1: "Display N-1" #?!
+    display_n_1: "Display N-1" #??
     distribute_unaffected_products: "Distribute unaffected products"
     distributions: "Distributions" #?
     divide: "Divide"
@@ -1563,7 +1571,7 @@ eng:
     down: "Down" #?
     download: "Download"
     download_archive: "Download archive (ZIP)" #?!
-    download_cvi_template_file: "Download CVR template file"
+    download_cvi_template_file: "Download CVR template file" #?
     downpayment: "Downpayment"
     draft: "Draft" #?
     draft_entries_to_validate: "There are draft entries to validate" #?!
@@ -2261,6 +2269,7 @@ eng:
     select_a_journal: "Select a journal"
     select_closure_date: "Choose closing date"
     select_columns: "Select columns" #??
+    select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
     select_date: "Select date"
     select_date_generation: "Limit date for generation"
     select_file_to_upload: "Select file to upload"
@@ -2490,6 +2499,7 @@ eng:
     view: "View"
     view_map_when_creating_an_intervention: "View map when creating an intervention"
     # vine_yield: "Vine yield"
+    vintage_or_production_campaign: "Vintage or production campaign"
     wages: "Wages" #?
     warning_date_not_in_period: "Warning: The date entered is not on the current exercise."
     water_lakes: "Water lakes" #?
@@ -2500,6 +2510,7 @@ eng:
     website: "Website"
     wice_grid_columns: "Columns"
     wind_speed: "Wind speed"
+    wine_production: "wine production"
     with_fixed_assets_depreciations: "With fixed assets depreciations"
     worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"
     workers: "Workers"
@@ -2782,7 +2793,7 @@ eng:
       need_to_edit_or_correct_entries_before_validating: "You have to correct or delete these entries before you can enclose the financial year or validate them." #?
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "Net services and identifiers are always available but are deprecated and will be removed in next major release"
       no_archived_prints: "No archived prints"
-      no_bank_statement_found_for_this_period: "No bank statement found for this period."
+      no_bank_statement_found_for_this_period: "No bank statement found for this period." #?
       no_budget_defined_for_current_campaign: "No budget defined for current campaign"
       no_closable_journal: "No closable journal"
       no_depositable_payments: "There are no payment to deposit"
@@ -3022,6 +3033,7 @@ eng:
       suspend: "Suspend"
       take: "Take"
       takeover: "Take over"
+      # template_file: "Template file"
       toggle: "Toggle"
       # toggle_autocompletion: "Toggle autocompletion"
       unlock: "Unlock"
@@ -3031,6 +3043,7 @@ eng:
       unvalidateds: "Unvalidateds"
       up: "Up"
       update: "Update"
+      # update_campaign: "Update campaign"
       # update_many: "Update many"
       # upload: "Upload"
       # variable_indicators: "Variable indicators"
@@ -3065,7 +3078,7 @@ eng:
     backend/prescriptions: "%{reference_number}"
     backend/product_memberships: "%{started_at}"
     backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
-    backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
+    backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}" #?
     backend/product_natures: "%{name}"
     backend/products:
       default: "%{work_number} %{name} (%{number})"

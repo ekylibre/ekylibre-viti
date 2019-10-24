@@ -734,15 +734,25 @@ deu:
     bank_reconciliation:
       # remove: "Remove"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "Klicken und Ziehen Kreis zu zeichnen."
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "Klicken Sie Markierung auf der Karte zu platzieren."
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "Klicken Sie auf Weiter Form zeichnen."
               end: "Klicken Sie auf erste Punkt dieser Form zu schließen."
@@ -759,6 +769,9 @@ deu:
           simpleshape:
             tooltip:
               end: "Lassen Sie die Maus zu beenden Zeichnung."
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "Stornieren"
@@ -769,6 +782,9 @@ deu:
             polygon: "Zeichnen Sie ein Polygon"
             polyline: "Zeichnen Sie eine Polylinie"
             rectangle: "Zeichnen Sie ein Rechteck"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "Löschen letzte Punkt"
             title: "Löschen letzte Punkt gezogen"
@@ -781,6 +797,8 @@ deu:
           remove:
             tooltip:
               text: "Klicken Sie auf eine Funktion zu entfernen"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -795,9 +813,46 @@ deu:
             remove: "Löschen Schichten."
             removeDisabled: "Keine Schichten zu löschen."
       fullscreenTitle: "Vollbild"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center to my plots"
       importerButtonTitle: "Einführen"
-      zoomInTitle: "Hineinzoomen"
-      zoomOutTitle: "Rauszoomen"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "Hineinzoomen" #?
+      zoomOutTitle: "Rauszoomen" #?
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -1056,6 +1111,7 @@ deu:
       special-subscriber: "Spezial-Teilnehmer"
     # conducted: "Conducted"
     configure: "Konfigurieren"
+    # confirm: "Confirm"
     # confirmation: "Confirmation"
     # confirmation_update_historical_plans: "Confirmation update historical plans"
     connect: "Verbinden"
@@ -1072,6 +1128,7 @@ deu:
     # container: "Container"
     convert_balance_into_loss: "Konvertieren Gleichgewicht in Verlust"
     convert_balance_into_profit: "Konvertieren Gleichgewicht in die Gewinnzone"
+    # convert_cvi: "Convert into land parcels"
     convert_into_contact: "Wandeln Sie in Kontakt"
     convert_into_organization: "Konvertieren in Organisation"
     convert_to_cultivable_zone: "Konvertieren in kultivierbaren Zone"
@@ -1196,6 +1253,7 @@ deu:
     down: "nach unten"
     # download: "Download"
     # download_archive: "Download archive (ZIP)"
+    # download_cvi_template_file: "Download CVR template file"
     downpayment: "Anzahlung"
     draft: "Entwurf"
     # draft_entries_to_validate: "There are draft entries to validate"
@@ -1883,6 +1941,7 @@ deu:
     select_a_journal: "Wählen Sie eine Zeitschrift"
     select_closure_date: "Wählen Sie Schluss"
     select_columns: "Spalten auswählen"
+    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
     # select_date: "Select date"
     select_date_generation: "Gültigkeitsdatum für die Erzeugung"
     select_file_to_upload: "Wählen Sie Datei hochzuladen"
@@ -2110,6 +2169,7 @@ deu:
     # vat_rate: "VAT rate"
     view: "Aussicht"
     view_map_when_creating_an_intervention: "View map bei der Erstellung einer Intervention"
+    # vintage_or_production_campaign: "Vintage or production campaign"
     wages: "Lohn"
     # warning_date_not_in_period: "Warning: The date entered is not on the current exercise."
     # water_lakes: "Water lakes"
@@ -2119,6 +2179,7 @@ deu:
     website: "Webseite"
     # wice_grid_columns: "Columns"
     wind_speed: "Windgeschwindigkeit"
+    # wine_production: "wine production"
     with_fixed_assets_depreciations: "Mit Anlagevermögen Abschreibungen"
     # worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"
     workers: "Arbeitskräfte"
@@ -2396,6 +2457,7 @@ deu:
       # need_to_edit_or_correct_entries_before_validating: "You have to correct or delete these entries before you can enclose the financial year or validate them."
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "Net Services und Kennungen sind immer verfügbar, aber sind veraltet und wird in der nächsten Major-Release entfernt werden"
       no_archived_prints: "Keine archivierten Drucke"
+      # no_bank_statement_found_for_this_period: "No bank statement found for this period."
       no_budget_defined_for_current_campaign: "Kein Budget für aktuelle Kampagne definiert"
       no_closable_journal: "Kein verschließbaren Zeitschrift"
       no_depositable_payments: "Es gibt keine Zahlung zu hinterlegen"
@@ -2614,8 +2676,11 @@ deu:
     # backend/prescriptions: "%{reference_number}"
     # backend/product_memberships: "%{started_at}"
     # backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
+    # backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
     # backend/product_natures: "%{name}"
-    # backend/products: "%{work_number} %{name} (%{number})"
+    backend/products:
+      # default: "%{work_number} %{name} (%{number})"
+      # land_parcels: "%{name}"
     # backend/purchase_payments: "%{number}. %{mode_name} to %{payee_full_name} of %{amount} %{currency}"
     # backend/trackings: "%{serial} ‒ %{name} ‒ %{producer_full_name}"
     # backend/users: "%{first_name} %{last_name}"

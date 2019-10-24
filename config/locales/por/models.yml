@@ -1060,6 +1060,7 @@ por:
     intracommunity: "Intracomunitário"
     intracommunity_payable_account: "Conta a pagar intracomunitário"
     introduction: "Introdução"
+    # inventories: "Inventories"
     inventory: "Inventário"
     # inventory_items: "Inventory items"
     invitation_accepted_at: "Convite aceito em"

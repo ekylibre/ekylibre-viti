@@ -1091,6 +1091,7 @@ ita:
     intracommunity: "Intracomunitario"
     intracommunity_payable_account: "Intracomunitario conto da pagare"
     introduction: "Introduzione"
+    # inventories: "Inventories"
     inventory: "Inventario"
     # inventory_items: "Inventory items"
     invitation_accepted_at: "Invito accettato a"

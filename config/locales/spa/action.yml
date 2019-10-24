@@ -772,15 +772,25 @@ spa:
     bank_reconciliation:
       # remove: "Remove"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "Haga clic y arrastre para dibujar el círculo."
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "Haga clic en el mapa para colocar el marcador."
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "Haga clic para continuar el dibujo de la forma."
               end: "Haga clic en el primer punto para cerrar esta forma."
@@ -797,6 +807,9 @@ spa:
           simpleshape:
             tooltip:
               end: "Ratón de liberación para terminar de dibujar."
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "Cancelar"
@@ -807,6 +820,9 @@ spa:
             polygon: "Dibujar un polígono"
             polyline: "Dibuje una polilínea"
             rectangle: "Dibujar un rectángulo"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "Eliminar último punto"
             title: "Eliminar último punto dibujado"
@@ -819,6 +835,8 @@ spa:
           remove:
             tooltip:
               text: "Haga clic en una función para eliminar"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -833,9 +851,46 @@ spa:
             remove: "Eliminar capas."
             removeDisabled: "No hay capas que desea eliminar."
       fullscreenTitle: "Pantalla completa"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center to my plots"
       importerButtonTitle: "Importar"
-      zoomInTitle: "Acercarse"
-      zoomOutTitle: "Disminuir el zoom"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "Acercarse" #?
+      zoomOutTitle: "Disminuir el zoom" #?
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -1148,6 +1203,7 @@ spa:
       special-subscriber: "Especial abonado"
     # conducted: "Conducted"
     configure: "Configurar"
+    # confirm: "Confirm"
     # confirmation: "Confirmation"
     # confirmation_update_historical_plans: "Confirmation update historical plans"
     confirmed: "Confirmadas" #?
@@ -1165,6 +1221,7 @@ spa:
     container: "Envase"
     convert_balance_into_loss: "Convertir el equilibrio en la pérdida de"
     convert_balance_into_profit: "Convertir el equilibrio en beneficios"
+    # convert_cvi: "Convert into land parcels"
     convert_into_contact: "Convertir en contacto"
     convert_into_organization: "Convertir en la organización"
     convert_to_cultivable_zone: "Convertir a la zona cultivable"
@@ -1308,6 +1365,7 @@ spa:
     down_to_level: "Detallar hasta el nivel" #?
     # download: "Download"
     # download_archive: "Download archive (ZIP)"
+    # download_cvi_template_file: "Download CVR template file"
     download_firefox: "Carga Mozilla Firefox..." #?
     downpayment: "Pago inicial"
     draft: "Niebla"
@@ -2098,6 +2156,7 @@ spa:
     select_building: "Escoger un lugar de deposito" #?
     select_closure_date: "Escoger la fecha de cierre"
     select_columns: "Seleccionar columnas"
+    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
     select_date: "Seleccione fecha"
     select_date_generation: "Fecha limita de integración"
     select_file_to_upload: "Seleccionar archivo para cargar"
@@ -2347,6 +2406,7 @@ spa:
     # vat_rate: "VAT rate"
     view: "Ver"
     view_map_when_creating_an_intervention: "Ver mapa al crear una intervención"
+    # vintage_or_production_campaign: "Vintage or production campaign"
     wages: "Salario"
     # warning_date_not_in_period: "Warning: The date entered is not on the current exercise."
     # water_lakes: "Water lakes"
@@ -2356,6 +2416,7 @@ spa:
     website: "Sitio web"
     # wice_grid_columns: "Columns"
     wind_speed: "Velocidad del viento"
+    # wine_production: "wine production"
     with_fixed_assets_depreciations: "Con activos fijos amortizaciones"
     with_prints: "Incluir las impresiones (facturas, encargos...)" #?
     # worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"
@@ -2658,6 +2719,7 @@ spa:
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "Servicios de la red y los identificadores están siempre disponibles, pero están en desuso y se eliminará en la siguiente versión importante"
       no_archived_prints: "No hay huellas archivadas"
       no_balance_template: "No hay modelo de documento para este equilibrio" #?
+      # no_bank_statement_found_for_this_period: "No bank statement found for this period."
       no_budget_defined_for_current_campaign: "No hay presupuesto definido para la actual campaña"
       no_building: "Ningun lugar de almacenamineto es definido. por favor cree uno para administrar los depositos" #?
       no_closable_financial_year: "Hay ningun ejercicio para cerrar." #?
@@ -2907,8 +2969,11 @@ spa:
     # backend/prescriptions: "%{reference_number}"
     # backend/product_memberships: "%{started_at}"
     # backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
+    # backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
     # backend/product_natures: "%{name}"
-    # backend/products: "%{work_number} %{name} (%{number})"
+    backend/products:
+      # default: "%{work_number} %{name} (%{number})"
+      # land_parcels: "%{name}"
     # backend/purchase_payments: "%{number}. %{mode_name} to %{payee_full_name} of %{amount} %{currency}"
     # backend/trackings: "%{serial} ‒ %{name} ‒ %{producer_full_name}"
     # backend/users: "%{first_name} %{last_name}"

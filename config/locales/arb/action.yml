@@ -969,15 +969,25 @@ arb:
     bank_reconciliation:
       # remove: "Remove"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "انقر واسحب لرسم دائرة."
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "انقر الخريطة لوضع علامة."
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "انقر لمتابعة رسم الشكل."
               end: "انقر النقطة الأولى لإغلاق هذا الشكل."
@@ -994,6 +1004,9 @@ arb:
           simpleshape:
             tooltip:
               end: "الماوس الإصدار لإنهاء الرسم."
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "إلغاء"
@@ -1004,6 +1017,9 @@ arb:
             polygon: "رسم مضلع"
             polyline: "رسم شكل متعدد الخطوط"
             rectangle: "رسم مستطيل"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "حذف النقطة الأخيرة"
             title: "حذف النقطة الأخيرة رسمها"
@@ -1016,6 +1032,8 @@ arb:
           remove:
             tooltip:
               text: "انقر على ميزة لإزالة"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -1030,9 +1048,46 @@ arb:
             remove: "حذف طبقات."
             removeDisabled: "لا طبقات حذف."
       fullscreenTitle: "تكبير الشاشة"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center to my plots"
       importerButtonTitle: "استيراد"
-      zoomInTitle: "تكبير"
-      zoomOutTitle: "تصغير"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "تكبير" #?
+      zoomOutTitle: "تصغير" #?
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -1360,6 +1415,7 @@ arb:
       special-subscriber: "تصفية وفق الاشتراك"
     # conducted: "Conducted"
     configure: "تكوين"
+    # confirm: "Confirm"
     # confirmation: "Confirmation"
     # confirmation_update_historical_plans: "Confirmation update historical plans"
     confirmed: "تأكيد" #?
@@ -1381,6 +1437,7 @@ arb:
     container: "وعاء"
     convert_balance_into_loss: "تحويل الرصيد إلى فقدان"
     convert_balance_into_profit: "تحويل الرصيد إلى أرباح"
+    # convert_cvi: "Convert into land parcels"
     convert_into_contact: "تحويل إلى الاتصال"
     convert_into_organization: "تحويل إلى منظمة"
     convert_to_cultivable_zone: "تحويل إلى منطقة صالحة للزراعة"
@@ -1536,6 +1593,7 @@ arb:
     down_to_level: "نزولا الى مستوى" #?
     # download: "Download"
     # download_archive: "Download archive (ZIP)"
+    # download_cvi_template_file: "Download CVR template file"
     download_firefox: "تحميل موزيلا فاير فوكس" #?
     downpayment: "شروط العربون"
     draft: "المسودات"
@@ -2477,6 +2535,7 @@ arb:
     select_building: "اختر مكان التخزين" #?
     select_closure_date: "اختيار تاريخ الاغلاق"
     select_columns: "ضع علامة على العمود الذي ترغب باظهاره في الجدول"
+    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
     select_date: "ادخل تاريخ"
     select_date_generation: "تاريخ نهاية الدمج"
     select_existing_payment: "ختيار الدفعة الموجودة" #?
@@ -2760,6 +2819,7 @@ arb:
     # vat_rate: "VAT rate"
     view: "معاينة"
     view_map_when_creating_an_intervention: "عرض الخريطة عند إنشاء التدخل"
+    # vintage_or_production_campaign: "Vintage or production campaign"
     virtual_quantity: "الكمية العملية" #?
     wages: "أجور"
     waiting: "أ€ التسدسد لاحقا" #?
@@ -2771,6 +2831,7 @@ arb:
     website: "موقع الكتروني"
     # wice_grid_columns: "Columns"
     wind_speed: "سرعة الرياح"
+    # wine_production: "wine production"
     with_fixed_assets_depreciations: "مع انخفاض قيمة الأصول الثابتة"
     with_prints: "(وتشمل الطباعة (الفواتير والاوامر" #?
     # worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"
@@ -3097,6 +3158,7 @@ arb:
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "صافي الخدمات والمعرفات هي دائما موجودة، ولكن تم إيقاف وسيتم إزالتها في الافراج الرئيسي القادم"
       no_archived_prints: "لا يطبع المحفوظة"
       no_balance_template: "ليس هناك من نموذج لوثيقة الرصيد" #?
+      # no_bank_statement_found_for_this_period: "No bank statement found for this period."
       no_budget_defined_for_current_campaign: "لم يتم تحديد لحملة الحالية الميزانية"
       no_building: "لم يتم التعرف على اي موقع للتخزين، الرجاء انشاء واحد لتتمكن من ادارة اسهمك" #?
       no_closable_financial_year: "ليس لديك اي سنة مالية قابلة للاغلاق " #?
@@ -3393,8 +3455,11 @@ arb:
     # backend/prescriptions: "%{reference_number}"
     # backend/product_memberships: "%{started_at}"
     # backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
+    # backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
     # backend/product_natures: "%{name}"
-    # backend/products: "%{work_number} %{name} (%{number})"
+    backend/products:
+      # default: "%{work_number} %{name} (%{number})"
+      # land_parcels: "%{name}"
     # backend/purchase_payments: "%{number}. %{mode_name} to %{payee_full_name} of %{amount} %{currency}"
     # backend/trackings: "%{serial} ‒ %{name} ‒ %{producer_full_name}"
     # backend/users: "%{first_name} %{last_name}"

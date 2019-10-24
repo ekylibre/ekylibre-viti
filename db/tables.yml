@@ -1880,6 +1880,9 @@ cvi_statements:
     type: integer
   cadastral_sub_plant_count:
     type: integer
+  campaign_id:
+    type: integer
+    references: campaign
   created_at:
     type: datetime
     required: true
@@ -3914,6 +3917,9 @@ inventories:
   journal_entry_id:
     type: integer
     references: journal_entry
+  journal_id:
+    type: integer
+    references: journal
   lock_version:
     type: integer
     required: true

@@ -371,8 +371,8 @@ Rails.application.routes.draw do
 
     resources :contracts, concerns: [:list] do
       member do
-        get :list_items
-        get :list_receptions
+        get :list_itemsupdat
+        get :list_receptionsupdat
         post :lose
         post :negociate
         post :prospect
@@ -411,6 +411,7 @@ Rails.application.routes.draw do
 
     resources :cvi_statements, concerns: %i[list] do
       member do
+        patch :update_campaign
         get :list_cvi_cadastral_plants
         resources :cvi_cadastral_plants, only: %i[index]
       end

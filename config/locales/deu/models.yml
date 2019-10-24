@@ -1060,6 +1060,7 @@ deu:
     intracommunity: "Innergemeinschaftlichen"
     intracommunity_payable_account: "Inner zahlbar Konto"
     introduction: "Einführung"
+    # inventories: "Inventories"
     inventory: "Inventar"
     # inventory_items: "Inventory items"
     invitation_accepted_at: "Einladung akzeptiert bei"

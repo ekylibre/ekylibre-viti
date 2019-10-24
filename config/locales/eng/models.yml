@@ -790,6 +790,7 @@ eng:
     cvi_cadastral_plants: "Cvi cadastral plants"
     # cvi_number: "Cvi number"
     # cvi_statement: "Cvi statement"
+    # cvi_statements: "Cvi statements"
     daily_charges: "Daily charges" #?
     daily_nitrogen_production: "Daily nitrogen production"
     dashboards: "Dashboards"
@@ -1130,7 +1131,7 @@ eng:
     # intracommunity_payable_pretax_amount: "Intracommunity payable pretax amount"
     # intracommunity_payable_tax_amount: "Intracommunity payable tax amount"
     introduction: "Introduction"
-    # inventories: "Inventories"
+    inventories: "Inventories"
     inventory: "Inventory"
     inventory_items: "Inventory items"
     invitation_accepted_at: "Invitation accepted at"

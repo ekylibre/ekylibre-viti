@@ -734,15 +734,25 @@ cmn:
     bank_reconciliation:
       # remove: "Remove"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "单击并拖动绘制圆。"
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "点击地图放置标记。"
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "点击继续画形状。"
               end: "点击第一点，收这个形状。"
@@ -759,6 +769,9 @@ cmn:
           simpleshape:
             tooltip:
               end: "释放鼠标完成绘制。"
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "取消"
@@ -769,6 +782,9 @@ cmn:
             polygon: "绘制多边形"
             polyline: "绘制折线"
             rectangle: "画一个矩形"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "删除最后一个点"
             title: "删除最后绘制点"
@@ -781,6 +797,8 @@ cmn:
           remove:
             tooltip:
               text: "点击一个功能删除"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -795,9 +813,46 @@ cmn:
             remove: "删除图层。"
             removeDisabled: "没有图层删除。"
       fullscreenTitle: "全屏"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center to my plots"
       importerButtonTitle: "进口"
-      zoomInTitle: "放大"
-      zoomOutTitle: "缩小"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "放大" #?
+      zoomOutTitle: "缩小" #?
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -1056,6 +1111,7 @@ cmn:
       special-subscriber: "特殊用户"
     # conducted: "Conducted"
     configure: "配置"
+    # confirm: "Confirm"
     # confirmation: "Confirmation"
     # confirmation_update_historical_plans: "Confirmation update historical plans"
     connect: "接"
@@ -1072,6 +1128,7 @@ cmn:
     container: "容器"
     convert_balance_into_loss: "转换成平衡损失"
     convert_balance_into_profit: "转换成平衡利润"
+    # convert_cvi: "Convert into land parcels"
     convert_into_contact: "转换成触点"
     convert_into_organization: "转换成组织"
     convert_to_cultivable_zone: "转换成可耕种区"
@@ -1196,6 +1253,7 @@ cmn:
     down: "下"
     # download: "Download"
     # download_archive: "Download archive (ZIP)"
+    # download_cvi_template_file: "Download CVR template file"
     downpayment: "首付"
     draft: "草案"
     # draft_entries_to_validate: "There are draft entries to validate"
@@ -1884,6 +1942,7 @@ cmn:
     select_a_journal: "选择日记"
     select_closure_date: "选择截止日期"
     select_columns: "选择列"
+    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
     select_date: "选择日期"
     select_date_generation: "限制日期为代"
     select_file_to_upload: "选择要上传的文件"
@@ -2111,6 +2170,7 @@ cmn:
     # vat_rate: "VAT rate"
     view: "视图"
     view_map_when_creating_an_intervention: "创建干预时查看地图"
+    # vintage_or_production_campaign: "Vintage or production campaign"
     wages: "工资"
     # warning_date_not_in_period: "Warning: The date entered is not on the current exercise."
     # water_lakes: "Water lakes"
@@ -2120,6 +2180,7 @@ cmn:
     website: "网站"
     # wice_grid_columns: "Columns"
     wind_speed: "风速"
+    # wine_production: "wine production"
     with_fixed_assets_depreciations: "拥有固定资产折旧"
     # worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"
     workers: "工人"
@@ -2397,6 +2458,7 @@ cmn:
       # need_to_edit_or_correct_entries_before_validating: "You have to correct or delete these entries before you can enclose the financial year or validate them."
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "网络服务和标识符始终可用，但被取消，并将在下一主要版本中删除"
       no_archived_prints: "没有打印存档"
+      # no_bank_statement_found_for_this_period: "No bank statement found for this period."
       no_budget_defined_for_current_campaign: "没有当前活动定义预算"
       no_closable_journal: "没有关闭的日记"
       no_depositable_payments: "有没有支付存款"
@@ -2616,8 +2678,11 @@ cmn:
     # backend/prescriptions: "%{reference_number}"
     # backend/product_memberships: "%{started_at}"
     # backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
+    # backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
     # backend/product_natures: "%{name}"
-    # backend/products: "%{work_number} %{name} (%{number})"
+    backend/products:
+      # default: "%{work_number} %{name} (%{number})"
+      # land_parcels: "%{name}"
     # backend/purchase_payments: "%{number}. %{mode_name} to %{payee_full_name} of %{amount} %{currency}"
     # backend/trackings: "%{serial} ‒ %{name} ‒ %{producer_full_name}"
     # backend/users: "%{first_name} %{last_name}"

@@ -2082,7 +2082,8 @@ CREATE TABLE public.cvi_statements (
     cadastral_sub_plant_count integer DEFAULT 0,
     state character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    campaign_id integer
 );
 
 
@@ -11462,6 +11463,13 @@ CREATE INDEX index_cvi_cadastral_plants_on_cvi_statement_id ON public.cvi_cadast
 
 
 --
+-- Name: index_cvi_statements_on_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_statements_on_campaign_id ON public.cvi_statements USING btree (campaign_id);
+
+
+--
 -- Name: index_dashboards_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -18175,6 +18183,14 @@ ALTER TABLE ONLY public.outgoing_payments
 
 
 --
+-- Name: cvi_statements fk_rails_2b0908cb44; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_statements
+    ADD CONSTRAINT fk_rails_2b0908cb44 FOREIGN KEY (campaign_id) REFERENCES public.campaigns(id);
+
+
+--
 -- Name: journal_entry_items fk_rails_3143e6e260; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -19169,4 +19185,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190808152235');
 INSERT INTO schema_migrations (version) VALUES ('20190912144103');
 
 INSERT INTO schema_migrations (version) VALUES ('20190917120742');
+
+INSERT INTO schema_migrations (version) VALUES ('20191023172248');
 

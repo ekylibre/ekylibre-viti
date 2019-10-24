@@ -800,15 +800,25 @@ jpn:
     bank_reconciliation:
       # remove: "Remove"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "クリックして、円を描くようにドラッグします。"
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "マーカーを配置するには、地図をクリックしてください。"
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "形状の描画をクリックして続行します。"
               end: "この形状を閉じるには、最初のポイントをクリックしてください。"
@@ -825,6 +835,9 @@ jpn:
           simpleshape:
             tooltip:
               end: "描画を終了するには、マウスを離します。"
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "キャンセル"
@@ -835,6 +848,9 @@ jpn:
             polygon: "ポリゴンを描画"
             polyline: "ポリラインを描きます"
             rectangle: "四角形を描画"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "最後のポイントを削除します。"
             title: "描かれた最後のポイントを削除します。"
@@ -847,6 +863,8 @@ jpn:
           remove:
             tooltip:
               text: "削除する機能をクリックしてください"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -861,9 +879,46 @@ jpn:
             remove: "レイヤーを削除します。"
             removeDisabled: "削除するレイヤーいいえ。"
       fullscreenTitle: "全画面表示"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center to my plots"
       importerButtonTitle: "インポート"
-      zoomInTitle: "ズームイン"
-      zoomOutTitle: "ズームアウトする"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "ズームイン" #?
+      zoomOutTitle: "ズームアウトする" #?
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -1123,6 +1178,7 @@ jpn:
       special-subscriber: "特別加入者"
     # conducted: "Conducted"
     configure: "設定します"
+    # confirm: "Confirm"
     # confirmation: "Confirmation"
     # confirmation_update_historical_plans: "Confirmation update historical plans"
     connect: "ログイン"
@@ -1139,6 +1195,7 @@ jpn:
     container: "コンテナ"
     convert_balance_into_loss: "損失にバランスを変換します"
     convert_balance_into_profit: "利益にバランスを変換します"
+    # convert_cvi: "Convert into land parcels"
     convert_into_contact: "接触に変換"
     convert_into_organization: "組織に変換します"
     convert_to_cultivable_zone: "耕作ゾーンに変換"
@@ -1264,6 +1321,7 @@ jpn:
     down: "ダウン"
     # download: "Download"
     # download_archive: "Download archive (ZIP)"
+    # download_cvi_template_file: "Download CVR template file"
     downpayment: "頭金"
     draft: "ドラフト"
     # draft_entries_to_validate: "There are draft entries to validate"
@@ -1955,6 +2013,7 @@ jpn:
     select_a_journal: "ジャーナルの選択"
     select_closure_date: "閉じる日付を選択します。"
     select_columns: "列を選択します"
+    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
     select_date: "日付を選択"
     select_date_generation: "生成のための期限日"
     select_file_to_upload: "アップロードするファイルを選択します"
@@ -2183,6 +2242,7 @@ jpn:
     # vat_rate: "VAT rate"
     view: "ビュー"
     view_map_when_creating_an_intervention: "介入を作成するときに地図を表示する"
+    # vintage_or_production_campaign: "Vintage or production campaign"
     wages: "賃金"
     # warning_date_not_in_period: "Warning: The date entered is not on the current exercise."
     # water_lakes: "Water lakes"
@@ -2192,6 +2252,7 @@ jpn:
     website: "ウェブサイト"
     # wice_grid_columns: "Columns"
     wind_speed: "風速"
+    # wine_production: "wine production"
     with_fixed_assets_depreciations: "固定資産の減価償却と"
     # worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"
     workers: "労働者"
@@ -2472,6 +2533,7 @@ jpn:
       # need_to_edit_or_correct_entries_before_validating: "You have to correct or delete these entries before you can enclose the financial year or validate them."
       net_services_and_identifiers_are_always_available_but_are_deprecated_and_will_be_removed_in_next_major_release: "ネットサービスや識別子は常に利用可能ですが、推奨されていませんし、次のメジャーリリースでは削除されます"
       no_archived_prints: "いいえアーカイブプリントはありません"
+      # no_bank_statement_found_for_this_period: "No bank statement found for this period."
       no_budget_defined_for_current_campaign: "現在のキャンペーンのために定義された予算がありません"
       no_closable_journal: "いいえ開閉可能なジャーナルません"
       no_depositable_payments: "預金への支払いはありません"
@@ -2691,8 +2753,11 @@ jpn:
     # backend/prescriptions: "%{reference_number}"
     # backend/product_memberships: "%{started_at}"
     # backend/product_nature_variants: "%{name} (%{unit_name}) - %{charge_account_number}"
+    # backend/product_nature_variants/saleables: "%{name} (%{unit_name}) - %{product_account_number}"
     # backend/product_natures: "%{name}"
-    # backend/products: "%{work_number} %{name} (%{number})"
+    backend/products:
+      # default: "%{work_number} %{name} (%{number})"
+      # land_parcels: "%{name}"
     # backend/purchase_payments: "%{number}. %{mode_name} to %{payee_full_name} of %{amount} %{currency}"
     # backend/trackings: "%{serial} ‒ %{name} ‒ %{producer_full_name}"
     # backend/users: "%{first_name} %{last_name}"

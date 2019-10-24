@@ -2197,6 +2197,12 @@
       <item name="accounts">
         <page to="backend/accounts#reconciliable_list"/>
       </item>
+      <item name="cadastral_land_parcel_zones">
+        <page to="backend/cadastral_land_parcel_zones#index"/>
+      </item>
+      <item name="cvi_cadastral_plants">
+        <page to="backend/cvi_cadastral_plants#index"/>
+      </item>
       <item name="cvi_statements">
         <page to="backend/cvi_statements#create"/>
         <page to="backend/cvi_statements#destroy"/>
@@ -2205,6 +2211,10 @@
         <page to="backend/cvi_statements#list_cvi_cadastral_plants"/>
         <page to="backend/cvi_statements#new"/>
         <page to="backend/cvi_statements#update"/>
+        <page to="backend/cvi_statements#update_campaign"/>
+      </item>
+      <item name="imports">
+        <page to="backend/imports#template_file"/>
       </item>
       <item name="interventions">
         <page to="backend/interventions#compare_realised_with_planned"/>

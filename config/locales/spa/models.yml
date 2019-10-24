@@ -1064,6 +1064,7 @@ spa:
     intracommunity: "Intracomunitario"
     intracommunity_payable_account: "Cuenta por pagar intracomunitario"
     introduction: "Introducción"
+    # inventories: "Inventories"
     inventory: "Inventario"
     # inventory_items: "Inventory items"
     invitation_accepted_at: "Invitación aceptada en"

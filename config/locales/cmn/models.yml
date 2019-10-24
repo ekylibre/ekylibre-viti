@@ -1060,6 +1060,7 @@ cmn:
     intracommunity: "社区内"
     intracommunity_payable_account: "社区内应付账款"
     introduction: "介绍"
+    # inventories: "Inventories"
     inventory: "库存"
     # inventory_items: "Inventory items"
     invitation_accepted_at: "已接受邀请在"
