@@ -158,6 +158,8 @@ spa:
       new: "Nuevo campo personalizado"
       # show: "Custom field: %{name}"
       sort: "Elecciones en el terreno Ordenar personalizados"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
     backend/cvi_statements:
       # edit: "Edit CVI statement: %{id}"
       # index: "CVI statements"

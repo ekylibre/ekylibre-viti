@@ -142,6 +142,8 @@ ita:
       new: "Nuovo campo personalizzato"
       # show: "Custom field: %{name}"
       sort: "scelte di campo ordinamento personalizzato"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
     backend/cvi_statements:
       # edit: "Edit CVI statement: %{id}"
       # index: "CVI statements"

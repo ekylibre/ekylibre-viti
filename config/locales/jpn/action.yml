@@ -142,6 +142,8 @@ jpn:
       new: "新しいカスタムフィールド"
       # show: "Custom field: %{name}"
       sort: "ソートカスタムフィールドの選択"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
     backend/cvi_statements:
       # edit: "Edit CVI statement: %{id}"
       # index: "CVI statements"

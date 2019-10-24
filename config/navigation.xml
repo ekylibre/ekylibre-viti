@@ -2212,6 +2212,9 @@
         <page to="backend/cvi_cadastral_plants#edit"/>
         <page to="backend/cvi_cadastral_plants#update"/>
       </item>
+      <item name="cvi_statement_conversions">
+        <page to="backend/cvi_statement_conversions#show"/>
+      </item>
       <item name="cvi_statements">
         <page to="backend/cvi_statements#create"/>
         <page to="backend/cvi_statements#destroy"/>
@@ -2257,6 +2260,9 @@
         <page to="backend/general_ledgers#list_subledger_journal_entry_items"/>
         <page to="backend/general_ledgers#mask_draft_items"/>
         <page to="backend/general_ledgers#mask_lettered_items"/>
+      </item>
+      <item name="imports">
+        <page to="backend/imports#template_file"/>
       </item>
       <item name="interventions">
         <page to="backend/interventions#compare_realised_with_planned"/>

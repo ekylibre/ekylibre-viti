@@ -206,6 +206,8 @@ eng:
     backend/cvi_cadastral_plants:
       # edit: "Edit cvi cadastral plant: %{name}"
       # index: "Cvi cadastral plants"
+    backend/cvi_statement_conversions:
+      show: "Convert CVI into land parcels"
     backend/cvi_statements:
       edit: "Edit CVI statement: %{id}"
       index: "CVI statements"

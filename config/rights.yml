@@ -97,6 +97,7 @@
 #     - "backend/cvi_cadastral_plants#edit"
 #     - "backend/cvi_cadastral_plants#index"
 #     - "backend/cvi_cadastral_plants#update"
+#     - "backend/cvi_statement_conversions#show"
 #     - "backend/cvi_statements#create"
 #     - "backend/cvi_statements#destroy"
 #     - "backend/cvi_statements#edit"

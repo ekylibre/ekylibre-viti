@@ -147,6 +147,8 @@ por:
       new: "Novo campo customizado"
       show: "Campo customizado: %{name}"
       sort: "Ordenar campos customizados"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
     backend/cvi_statements:
       # edit: "Edit CVI statement: %{id}"
       # index: "CVI statements"

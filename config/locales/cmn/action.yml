@@ -142,6 +142,8 @@ cmn:
       new: "新的自定义字段"
       # show: "Custom field: %{name}"
       sort: "排序自定义字段选择"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
     backend/cvi_statements:
       # edit: "Edit CVI statement: %{id}"
       # index: "CVI statements"
