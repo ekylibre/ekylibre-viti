@@ -102,3 +102,4 @@ yarn-debug.log*
 .yarn-integrity
 .solargraph.yml
 package-lock.json
+/lib/tasks/around_clean.rake
