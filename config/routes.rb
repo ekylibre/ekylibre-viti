@@ -413,9 +413,12 @@ Rails.application.routes.draw do
       member do
         patch :update_campaign
         get :list_cvi_cadastral_plants
+        get :list_cvi_cadastral_plants_map
         resources :cvi_cadastral_plants, only: %i[index]
       end
     end
+
+    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' }
 
     resources :cadastral_land_parcel_zones, only: %i[index]
 
@@ -760,6 +763,8 @@ Rails.application.routes.draw do
     resources :map_editor_shapes, only: :index
 
     resources :master_production_natures, only: [], concerns: %i[unroll]
+
+    resources :registered_postal_zones, only: [], concerns: %i[unroll]
 
     resources :matters do
       concerns :products, :list

@@ -2202,6 +2202,9 @@
       </item>
       <item name="cvi_cadastral_plants">
         <page to="backend/cvi_cadastral_plants#index"/>
+        <page to="backend/cvi_cadastral_plants#destroy"/>
+        <page to="backend/cvi_cadastral_plants#edit"/>
+        <page to="backend/cvi_cadastral_plants#update"/>
       </item>
       <item name="cvi_statements">
         <page to="backend/cvi_statements#create"/>
@@ -2209,6 +2212,7 @@
         <page to="backend/cvi_statements#edit"/>
         <page to="backend/cvi_statements#list"/>
         <page to="backend/cvi_statements#list_cvi_cadastral_plants"/>
+        <page to="backend/cvi_statements#list_cvi_cadastral_plants_map"/>
         <page to="backend/cvi_statements#new"/>
         <page to="backend/cvi_statements#update"/>
         <page to="backend/cvi_statements#update_campaign"/>
@@ -2247,6 +2251,9 @@
       </item>
       <item name="purchases">
         <page to="backend/purchases#show"/>
+      </item>
+      <item name="registered_postal_zones">
+        <page to="backend/registered_postal_zones#unroll"/>
       </item>
       <item name="shipments">
         <page to="backend/shipments#invoice"/>

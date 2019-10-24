@@ -22,6 +22,7 @@ spa:
         # designation_of_origin_name: "Protected designation of origin"
         # inter_row_distance: "Inter row distance"
         # inter_vine_plant_distance: "Inter vine plant distance"
+        # land_parcel_id: "Cadastral reference id"
         # locality: "locality"
         # rootstock_number: "Rootstock"
         # state: "State"
@@ -206,6 +207,10 @@ spa:
           # currency_does_not_match: "The currency of the %{journal} is different from that specified for the cash"
           # different_of_main_account: "%{attribute} must be different of main account (%{account})"
           unvalid_bban: "Unvalid BBAN. Uno o más elementos son incorrectos."
+        cvi_cadastral_plant:
+          attributes:
+            land_parcel:
+              # cannot_find_land_parcel: "Could not find matching cadastral land parcel zone"
         deposit:
           # must_be_a_bank_account: "%{attribute} must be a bank account and not a cash"
         entity:

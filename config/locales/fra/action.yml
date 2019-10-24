@@ -980,6 +980,15 @@ fra:
       zoom:
         zoomInTitle: "Zoomer"
         zoomOutTitle: "Dézoomer"
+    levels:
+      # error: "Error!"
+    messages:
+      # unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
+    notifications: #?
+      levels: #?
+        error: "Erreur\_!" #?
+      messages: #?
+        unvalid_cvi_cadastral_plant: "Au moins une référence de parcelle cadastral n'a pas été reconnue. Veuillez corriger ou supprimer la/les référence(s) identifiés en rouge dans la liste." #?
   labels:
     abilities: "Compétences" #?
     accepted: "Acceptée"

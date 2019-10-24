@@ -26,11 +26,12 @@
 #  city_delivery_detail :string
 #  city_delivery_name   :string
 #  city_name            :string           not null
-#  code                 :string           not null
+#  code                 :string           not null, primary key
 #  country              :string           not null
 #  postal_code          :string           not null
 #
 class RegisteredPostalZone < ActiveRecord::Base
   include Lexiconable
-  self.id_column = :code
+  self.primary_key = :code
+  alias_attribute :id, :code
 end

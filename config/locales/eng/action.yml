@@ -201,6 +201,7 @@ eng:
       show: "Custom field: %{name}"
       sort: "Sort custom field choices"
     backend/cvi_cadastral_plants:
+      # edit: "Edit cvi cadastral plant: %{name}"
       # index: "Cvi cadastral plants"
     backend/cvi_statements:
       edit: "Edit CVI statement: %{id}"
@@ -1159,6 +1160,10 @@ eng:
       zoom:
         zoomInTitle: "Zoom in"
         zoomOutTitle: "Zoom out"
+    levels:
+      error: "Error!"
+    messages:
+      unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
   labels:
     accepted: "Accepted"
     accepted_for_paiment: "Accepted for paiment"
@@ -1492,6 +1497,7 @@ eng:
     currently_subscribed_to: "Currently subscribed to"
     custom_fields: "Custom fields"
     # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_cadastral_plants_map: "Cvi cadastral plants map"
     # data: "Data"
     # data_transmissions: "Data transmissions"
     # date: "Date"
@@ -2286,6 +2292,7 @@ eng:
     service_delivering: "Service delivering"
     sessions: "Sessions" #?
     set_reconcilable_new_but_existing_third_accounts: "Set reconcilable the new but existing third accounts (clients, suppliers and attorneys)" #?
+    # set_timeline_to_correct_date: "Set timeline to correct date"
     settings: "Settings"
     settings_statistics: "Settings statistics"
     sex: "Sex" #?

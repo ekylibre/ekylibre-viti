@@ -48,14 +48,14 @@
               if layer._ghostMarker and layer._map.getZoom() < 16
                 layer._map.removeLayer layer._ghostMarker
                 delete layer._ghostMarker
-              
+
             layer.on 'remove', (e) ->
               if layer._ghostMarker
                 layer._map.removeLayer layer._ghostMarker
                 delete layer._ghostMarker
 
       [].push.call args, onEachFeature: onEachFeature
-      
+
       @_cartography.sync.apply @, args
 
       callback.call @, args if callback
@@ -76,6 +76,9 @@
 
     getMode: ->
       @_cartography.getMode.apply @_cartography, arguments
+    
+    centerLayer: ->
+      @_cartography.centerLayer.apply @_cartography, arguments
 
     removeControl: ->
       @_cartography.removeControl.apply @_cartography, arguments
@@ -99,7 +102,7 @@
 
         onSuccess = (data) =>
           onEachFeature = (feature, layer) =>
-          
+
             insertionMarker = () ->
               cadastral_ref = layer.feature.properties.cadastral_ref
               layer._ghostIcon = new L.GhostIcon html: cadastral_ref, className: "simple-label white", iconSize: [40, 40]
@@ -133,7 +136,7 @@
 
       onSuccess = (data) =>
         @onSync( data, "cvi_cadastral_plants")
-        
+
       @asyncLoading(url, onSuccess, 'cviCadastralPlant')
 
     asyncLoading: (url, onSuccess, resource_name) =>
