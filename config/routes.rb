@@ -420,7 +420,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cvi_statement_conversions, concerns: %i[list]
+    resources :cvi_statement_conversions, concerns: %i[list] do 
+      member do
+        get :list_cvi_cultivable_zones
+      end
+    end
 
     resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' }
 

@@ -36,5 +36,5 @@
             .med-info
               %span.title= CviStatement.human_attribute_name(:total_area)
               %span.value= @cvi_statement.total_area_formated
-
-
+        - c.cobble(:cvi_cultivable_zones) do
+          = cobble_list(:cvi_cultivable_zones)

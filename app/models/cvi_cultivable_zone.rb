@@ -11,11 +11,11 @@ class CviCultivableZone < Ekylibre::Record::Base
   default_scope { includes(:cvi_cadastral_plants) }
 
   def communes
-    cvi_cadastral_plants.pluck(:commune )  
+    cvi_cadastral_plants.pluck(:commune).uniq.join(", ")
   end
 
   def cadastral_references
-    cvi_cadastral_plants.pluck(:work_number)
+    cvi_cadastral_plants.pluck(:work_number).join(", ")
   end
 
   def declared_area
