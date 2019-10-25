@@ -48,9 +48,30 @@ class CviStatement < Ekylibre::Record::Base
 
   belongs_to :campaign
   has_many :cvi_cadastral_plants, dependent: :destroy
-  has_many :cvi_cultivable_zone, dependent: :destroy
+  has_many :cvi_cultivable_zones, dependent: :destroy
 
   def total_area_formated
     total_area.to_s(:ha_ar_ca)
+  end
+
+  def generate_cvi_cultivable_zones
+    cvi_cadastral_plants.first
+    grouped = 
+      cvi_cadastral_plants.map do |cvi_cadastral_plant|
+        if cvi_cadastral_plant.land_parcel 
+          cvi_cadastral_plants.joins(<<~SQL).where("ST_INTERSECTS( shape, '#{cvi_cadastral_plant.shape}')")
+          LEFT JOIN "cadastral_land_parcel_zones"
+            ON cadastral_land_parcel_zones.id = cvi_cadastral_plants.land_parcel_id
+            SQL
+          .sort
+        end
+      end.uniq!.compact
+    
+    grouped.each_with_index do |cvi_cadastral_plant_group,i|
+      cvi_cultivable_zone = cvi_cultivable_zones.create(name:"Zone ##{i+1}", cvi_statement_id: id)
+      cvi_cadastral_plant_group.each do |cvi_cadastral_plant|
+        cvi_cadastral_plant.update(cvi_cultivable_zone_id: cvi_cultivable_zone.id)
+      end
+    end
   end
 end
