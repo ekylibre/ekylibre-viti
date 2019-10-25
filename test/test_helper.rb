@@ -41,7 +41,9 @@ Ekylibre::Tenant.switch 'test_without_fixtures' do
   DatabaseCleaner.clean_with :truncation, { except: ['spatial_ref_sys', "registered_legal_positions"] }
 end
 
-Lexicon.reload! if File.exist?(Rails.root.join('test', 'fixture-files', 'lexicon', 'data.sql'))
+if ENV['LEXICON']
+  Lexicon.reload! if File.exist?(Rails.root.join('test', 'fixture-files', 'lexicon', 'data.sql'))
+end
 
 DatabaseCleaner.strategy = :transaction
 
