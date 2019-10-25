@@ -1,7 +1,8 @@
 require 'minitest/mock'
 require 'rake'
-
+require 'factory_bot_rails'
 include FactoryBot::Syntax::Methods
+
 class ActiveSupport::TestCase
   require 'enumerize/integrations/rspec'
   extend Enumerize::Integrations::RSpec
@@ -43,8 +44,6 @@ end
 Lexicon.reload! if File.exist?(Rails.root.join('test', 'fixture-files', 'lexicon', 'data.sql'))
 
 DatabaseCleaner.strategy = :transaction
-
-FactoryBot.find_definitions
 
 if RUBY_VERSION >= '2.6.0'
   if Rails.version < '5'

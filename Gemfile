@@ -264,7 +264,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'teaspoon-jasmine'
 
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', :require => false
 
   # Parallelize tests
   gem 'parallel_tests'
