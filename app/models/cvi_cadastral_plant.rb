@@ -54,6 +54,7 @@ class CviCadastralPlant < Ekylibre::Record::Base
   enumerize :state, in: %i[planted removed_with_authorization], predicates: true
   enumerize :type_of_occupancy, in: %i[tenant_farming owner], predicates: true
 
+  belongs_to :cvi_cultivable_zone
   belongs_to :cvi_statement
   belongs_to :registered_postal_zone, foreign_key: :insee_number
   belongs_to :land_parcel, class_name: 'CadastralLandParcelZone', foreign_key: :land_parcel_id

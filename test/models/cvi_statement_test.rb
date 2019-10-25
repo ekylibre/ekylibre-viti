@@ -70,6 +70,7 @@ class CviStatementTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
 
   context 'associations' do
     should have_many(:cvi_cadastral_plants)
+    should have_many(:cvi_cultivable_zones)
   end
 
   should enumerize(:state).in(:to_convert, :converted).with_default(:to_convert).with_predicates(true)

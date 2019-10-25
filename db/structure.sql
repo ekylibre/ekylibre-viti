@@ -2066,6 +2066,7 @@ CREATE TABLE public.cvi_cadastral_plants (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     type_of_occupancy character varying
+    cvi_cultivable_zone_id integer
 );
 
 
@@ -2086,6 +2087,42 @@ CREATE SEQUENCE public.cvi_cadastral_plants_id_seq
 --
 
 ALTER SEQUENCE public.cvi_cadastral_plants_id_seq OWNED BY public.cvi_cadastral_plants.id;
+
+
+--
+-- Name: cvi_cultivable_zones; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_cultivable_zones (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    calculated_area_unit character varying,
+    calculated_area_value numeric,
+    land_parcels_status character varying,
+    shape postgis.geometry(Geometry,4326),
+    cvi_statement_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cvi_cultivable_zones_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_cultivable_zones_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_cultivable_zones_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_cultivable_zones_id_seq OWNED BY public.cvi_cultivable_zones.id;
 
 
 --
@@ -7704,6 +7741,13 @@ ALTER TABLE ONLY public.cvi_cadastral_plants ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: cvi_cultivable_zones id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cultivable_zones ALTER COLUMN id SET DEFAULT nextval('public.cvi_cultivable_zones_id_seq'::regclass);
+
+
+--
 -- Name: cvi_statements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -8853,6 +8897,14 @@ ALTER TABLE ONLY public.custom_fields
 
 ALTER TABLE ONLY public.cvi_cadastral_plants
     ADD CONSTRAINT cvi_cadastral_plants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_cultivable_zones cvi_cultivable_zones_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cultivable_zones
+    ADD CONSTRAINT cvi_cultivable_zones_pkey PRIMARY KEY (id);
 
 
 --
@@ -11482,6 +11534,13 @@ CREATE INDEX index_custom_fields_on_updater_id ON public.custom_fields USING btr
 
 
 --
+-- Name: index_cvi_cadastral_plants_on_cvi_cultivable_zone_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_cadastral_plants_on_cvi_cultivable_zone_id ON public.cvi_cadastral_plants USING btree (cvi_cultivable_zone_id);
+
+
+--
 -- Name: index_cvi_cadastral_plants_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -11493,6 +11552,10 @@ CREATE INDEX index_cvi_cadastral_plants_on_cvi_statement_id ON public.cvi_cadast
 --
 
 CREATE INDEX index_cvi_statements_on_campaign_id ON public.cvi_statements USING btree (campaign_id);
+-- Name: index_cvi_cultivable_zones_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_cultivable_zones_on_cvi_statement_id ON public.cvi_cultivable_zones USING btree (cvi_statement_id);
 
 
 --
@@ -18268,6 +18331,14 @@ ALTER TABLE ONLY public.purchase_items
 
 
 --
+-- Name: cvi_cadastral_plants fk_rails_65b7099078; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants
+    ADD CONSTRAINT fk_rails_65b7099078 FOREIGN KEY (cvi_cultivable_zone_id) REFERENCES public.cvi_cultivable_zones(id);
+
+
+--
 -- Name: payslip_natures fk_rails_6835dfa420; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -18297,6 +18368,14 @@ ALTER TABLE ONLY public.interventions
 
 ALTER TABLE ONLY public.alert_phases
     ADD CONSTRAINT fk_rails_7a9749733c FOREIGN KEY (alert_id) REFERENCES public.alerts(id);
+
+
+--
+-- Name: cvi_cultivable_zones fk_rails_7b06059434; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cultivable_zones
+    ADD CONSTRAINT fk_rails_7b06059434 FOREIGN KEY (cvi_statement_id) REFERENCES public.cvi_statements(id);
 
 
 --
@@ -19282,4 +19361,8 @@ INSERT INTO schema_migrations (version) VALUES ('20191007122201');
 INSERT INTO schema_migrations (version) VALUES ('20191010151901');
 
 INSERT INTO schema_migrations (version) VALUES ('20191023172248');
+
+INSERT INTO schema_migrations (version) VALUES ('20191025074617');
+
+INSERT INTO schema_migrations (version) VALUES ('20191025074824');
 
