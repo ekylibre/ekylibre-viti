@@ -21,4 +21,8 @@ class CviCultivableZone < Ekylibre::Record::Base
   def declared_area
     cvi_cadastral_plants.collect(&:area).sum
   end
+
+  def declared_shape
+    cvi_cadastral_plants.collect(&:shape).sum
+  end
 end
