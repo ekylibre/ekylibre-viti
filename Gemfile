@@ -264,6 +264,8 @@ group :development, :test do
   gem 'pry-rails'
   gem 'teaspoon-jasmine'
 
+  gem 'factory_bot_rails'
+
   # Parallelize tests
   gem 'parallel_tests'
 
@@ -280,7 +282,6 @@ group :test do
   gem 'minitest-reporters'
   gem 'ruby-terminfo'
 
-  gem 'factory_bot', '< 5'
   gem 'ruby-terminfo'
   gem 'shoulda', '~> 3.5'
   gem 'shoulda-matchers', '~> 2.0'
