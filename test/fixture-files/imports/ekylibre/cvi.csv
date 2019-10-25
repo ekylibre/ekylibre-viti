@@ -1,4 +1,4 @@
-CVI_ID,Date extraction,N° SIRET,Nom Exploitation,Nom Gestionnaire,Commune,Lieu-dit,Code INSEE,feuille,numéro,Sous Parcelle,Produit Vin,Cepage,superficie (ha),superficie  (ar),superficie  (ca),Campagne de plantation,Porte-greffe_Code_Douane,Ecart pied (cm),Ecart rang (cm),Etat,Mode faire valoir,Date Modification foncière
+CVI_ID,Date extraction,N° SIRETT,Nom Exploitation,Nom Gestionnaire,Commune,Lieu-dit,Code INSEE,feuille,numéro,Sous Parcelle,Produit Vin,Cepage,superficie (ha),superficie  (ar),superficie  (ca),Campagne de plantation,Porte-greffe_Code_Douane,Ecart pied (cm),Ecart rang (cm),Etat,Mode faire valoir,Date Modification foncière
 1615000325,05/09/2019,76063219000715,LE ROUGE SARL,SARL LE ROUGE,ANGOULEME,,400004,AL,4,,-------,ALTESSE B,0,21,84,1981,9928,115,300,PLANTÉES,FERMIER,
 1615000325,05/09/2019,76063219000715,LE ROUGE SARL,SARL LE ROUGE,ANGOULEME,,400004,AE,80,1,-------,ALTESSE B,0,36,4,1974,9928,115,300,PLANTÉES,FERMIER,
 1615000325,05/09/2019,76063219000715,LE ROUGE SARL,SARL LE ROUGE,ANGOULEME,,400004,AE,80,2,-------,ALTESSE B,0,36,4,2011,9919,130,300,PLANTÉES,FERMIER,
