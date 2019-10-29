@@ -423,12 +423,15 @@ Rails.application.routes.draw do
     resources :cvi_statement_conversions, concerns: %i[list] do 
       member do
         get :list_cvi_cultivable_zones
+        resources :cvi_cultivable_zones, only: %i[index]
       end
     end
 
     resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' }
 
     resources :cadastral_land_parcel_zones, only: %i[index]
+
+    resources :cvi_cultivable_zones, only: %i[index]
 
     resources :deliveries, concerns: %i[list unroll] do
       member do

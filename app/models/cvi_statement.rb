@@ -55,23 +55,45 @@ class CviStatement < Ekylibre::Record::Base
   end
 
   def generate_cvi_cultivable_zones
-    cvi_cadastral_plants.first
-    grouped = 
+    list_of_neighbours_for_each_element =
       cvi_cadastral_plants.map do |cvi_cadastral_plant|
-        if cvi_cadastral_plant.land_parcel 
-          cvi_cadastral_plants.joins(<<~SQL).where("ST_INTERSECTS( shape, '#{cvi_cadastral_plant.shape}')")
-          LEFT JOIN "cadastral_land_parcel_zones"
-            ON cadastral_land_parcel_zones.id = cvi_cadastral_plants.land_parcel_id
-            SQL
-          .sort
-        end
+        next unless cvi_cadastral_plant.land_parcel
+
+        cvi_cadastral_plants.joins(<<~SQL).where("ST_INTERSECTS( shape, '#{cvi_cadastral_plant.shape}')")
+                                    LEFT JOIN "cadastral_land_parcel_zones"
+          ON cadastral_land_parcel_zones.id = cvi_cadastral_plants.land_parcel_id
+        SQL
+                            .sort.collect(&:id)
       end.uniq!.compact
-    
-    grouped.each_with_index do |cvi_cadastral_plant_group,i|
-      cvi_cultivable_zone = cvi_cultivable_zones.create(name:"Zone ##{i+1}", cvi_statement_id: id)
-      cvi_cadastral_plant_group.each do |cvi_cadastral_plant|
-        cvi_cadastral_plant.update(cvi_cultivable_zone_id: cvi_cultivable_zone.id)
+
+    grouped_by_proximity =
+    list_of_neighbours_for_each_element.map do |cvi_cadastral_plant_ids|
+      iterate(list_of_neighbours_for_each_element, cvi_cadastral_plant_ids).sort.uniq
+    end.uniq!
+
+    grouped_by_proximity.each_with_index do |cvi_cadastral_plant_ids, i|
+      cvi_cultivable_zone = cvi_cultivable_zones.create(name: "Zone ##{i + 1}", cvi_statement_id: id)
+      cvi_cadastral_plant_ids.each do |cvi_cadastral_plant_id|
+        cvi_cadastral_plants.update(cvi_cadastral_plant_id, cvi_cultivable_zone_id: cvi_cultivable_zone.id)
       end
+    end
+  end
+
+  def iterate(list_of_neighbours_for_each_element, list_of_neighbours)
+    i = 0
+    list_of_neighbours_for_each_element.each do |other_cvi_cadastral_plant_ids|
+      i += 1
+      next if (list_of_neighbours & other_cvi_cadastral_plant_ids).empty? ||
+              (other_cvi_cadastral_plant_ids - list_of_neighbours).empty?
+
+      list_of_neighbours += other_cvi_cadastral_plant_ids
+      break
+    end
+
+    if i == list_of_neighbours_for_each_element.count
+      list_of_neighbours
+    else
+      iterate(list_of_neighbours_for_each_element, list_of_neighbours)
     end
   end
 end

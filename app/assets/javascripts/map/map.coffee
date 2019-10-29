@@ -9,7 +9,9 @@
       $(@el).trigger E.Events.Map.initializing
       @_cartography = new Cartography.Map @el, options
       @initControls()
-      this.displayCviCadastralPlants()
+
+      #this.displayCviCadastralPlants()
+      this.displayCviCultivableZones()
       this.displayCadastralLandParcelZone()
       @firstLoad = true
 
@@ -70,6 +72,9 @@
       $(document).trigger E.Events.Map.ready
       $(@el).trigger E.Events.Map.ready
 
+    _cviCultivableZonesPath: ->
+      $(@el).data('cvi-cultivable-zones-path')
+    
     _cviCadastralPlantsPath: ->
       $(@el).data('cvi-cadastral-plants-path')
 
@@ -135,6 +140,7 @@
 
         @asyncLoading(url, onSuccess, 'cadastralLandParcelZone' )
 
+
     displayCviCadastralPlants: (visible = true) =>
 
       return if @_cviCadastralPlantLoading
@@ -146,8 +152,21 @@
 
       onSuccess = (data) =>
         @onSync( data, "cvi_cadastral_plants")
-
+      
       @asyncLoading(url, onSuccess, 'cviCadastralPlant')
+
+
+    displayCviCultivableZones: (visible = true) =>
+
+      return if @_cviCultivableZonesLoading
+
+      @_cartography.map.on 'moveend', @displayCviCultivableZones
+      url = @_cviCultivableZonesPath()
+
+      onSuccess = (data) =>
+        @onSync( data, "cvi_cultivable_zones")
+      
+      @asyncLoading(url, onSuccess, 'cviCultivableZone')
 
     asyncLoading: (url, onSuccess, resource_name) =>
       return unless url
