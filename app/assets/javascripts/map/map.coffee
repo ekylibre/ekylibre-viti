@@ -9,9 +9,9 @@
       $(@el).trigger E.Events.Map.initializing
       @_cartography = new Cartography.Map @el, options
       @initControls()
-      
       this.displayCviCadastralPlants()
       this.displayCadastralLandParcelZone()
+      @firstLoad = true
 
     initControls: ->
       @removeControl('edit')
@@ -127,7 +127,9 @@
 
       return if @_cviCadastralPlantLoading
 
-      @_cartography.map.on 'moveend', @displayCviCadastralPlants
+      @_cartography.map.on 'moveend', ->
+        E.map.firstLoad = false
+        @displayCviCadastralPlants
       url = @_cviCadastralPlantsPath()
 
       onSuccess = (data) =>
@@ -165,5 +167,9 @@
 
   $(document).on E.Events.Map.ready, "*[data-cartography]", (e) ->
     $(e.target).css('visibility', 'visible')
+
+  $(document).on E.Events.Map.ready, ->
+    if E.map.firstLoad
+      E.map._cartography.setView()
 
 ) ekylibre, jQuery
