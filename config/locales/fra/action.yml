@@ -944,7 +944,7 @@ fra:
       home:
         toolbar:
           buttons:
-            home: "Centrer sur mes parcelles"
+            home: "Centrer"
       importerButtonTitle: "Importer"
       locking:
         from_date_html: "à partir du {{from}}<br>({{production}})"

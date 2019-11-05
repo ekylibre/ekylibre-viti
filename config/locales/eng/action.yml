@@ -1124,7 +1124,7 @@ eng:
       home:
         toolbar:
           buttons:
-            home: "Center to my plots"
+            home: "Center"
       importerButtonTitle: "Import"
       locking:
         from_date_html: "from {{from}}<br>({{production}})"
