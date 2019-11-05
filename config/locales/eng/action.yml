@@ -381,6 +381,7 @@ eng:
       # progress: "Progress import: %{name}"
       run: "Run import"
       show: "Import: %{nature}"
+      # template_file: "Template file import: %{name}"
     backend/incoming_payment_modes:
       edit: "Edit incoming payment mode: %{name}"
       index: "Incoming payment modes"
@@ -1492,8 +1493,8 @@ eng:
     current_stocks_by_variety: "Current stocks by variety" #?
     currently_subscribed_to: "Currently subscribed to"
     custom_fields: "Custom fields"
-    # cvi_cadastral_plants: "Cvi cadastral plants"
-    # cvi_cadastral_plants_map: "Cvi cadastral plants map"
+    cvi_cadastral_plants: "Cvi cadastral plants"
+    cvi_cadastral_plants_map: "Cvi cadastral plants"
     # data: "Data"
     # data_transmissions: "Data transmissions"
     # date: "Date"
@@ -1553,7 +1554,7 @@ eng:
     disease_percentage_evolution: "Disease percentage evolution"
     display: "Display" #?
     display_accounts: "Display accounts" #?!
-    display_n_1: "Display N-1" #?!
+    display_n_1: "Display N-1" #??
     distribute_unaffected_products: "Distribute unaffected products"
     distributions: "Distributions" #?
     divide: "Divide"
@@ -1573,7 +1574,7 @@ eng:
     down: "Down" #?
     download: "Download"
     download_archive: "Download archive (ZIP)" #?!
-    download_cvi_template_file: "Download CVR template file"
+    download_cvi_template_file: "Download CVR template file" #?
     downpayment: "Downpayment"
     draft: "Draft" #?
     draft_entries_to_validate: "There are draft entries to validate" #?!
@@ -2287,7 +2288,6 @@ eng:
     service_delivering: "Service delivering"
     sessions: "Sessions" #?
     set_reconcilable_new_but_existing_third_accounts: "Set reconcilable the new but existing third accounts (clients, suppliers and attorneys)" #?
-    # set_timeline_to_correct_date: "Set timeline to correct date"
     settings: "Settings"
     settings_statistics: "Settings statistics"
     sex: "Sex" #?
@@ -3033,6 +3033,7 @@ eng:
       suspend: "Suspend"
       take: "Take"
       takeover: "Take over"
+      # template_file: "Template file"
       toggle: "Toggle"
       # toggle_autocompletion: "Toggle autocompletion"
       unlock: "Unlock"
