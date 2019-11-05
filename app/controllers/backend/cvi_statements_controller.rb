@@ -102,7 +102,7 @@ module Backend
       t.column :land_parcel_id, hidden: true
       t.column :commune
       t.column :locality
-      t.column :cadastral_reference, url: { controller: 'cvi_statements', action: 'show', id: 'params[:id]'.c}
+      t.column :cadastral_reference
       t.column :designation_of_origin_name
       t.column :vine_variety_name
       t.column :area, datatype: :measure, label_method: :area_formated
