@@ -30,20 +30,28 @@
           onEachFeature = (layer) ->
             insertionMarker = () ->
               if layer._map.getZoom() >= 16
+                positionLatLng = layer.getCenter()
+                centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
+                cadastralRef = layer.feature.properties.cadastral_ref
+                matchCadastralRefIndex = cadastralRef.match(/-(\d$)/)
+                if matchCadastralRefIndex
+                  cadastralRefIndex = matchCadastralRefIndex[1]
+                  offset = L.point(0, (cadastralRefIndex - 1) * layer._map.getZoom())
+                  positionLatLng = layer._map.layerPointToLatLng(centerPixels.add(offset))
+
                 cadastral_ref = layer.feature.properties.cadastral_ref
                 layer._ghostIcon = new L.GhostIcon html: cadastral_ref, className: "simple-label blue", iconSize: [60, 40]
-                layer._ghostMarker = L.marker(layer.getCenter(), icon: layer._ghostIcon)
+                layer._ghostMarker = L.marker(positionLatLng, icon: layer._ghostIcon)
                 layer._ghostMarker.addTo layer._map
 
             layer.setStyle(color: "#C5D4F0", fillOpacity: 0, opacity: 1, fill: false)
             insertionMarker()
 
             layer._map.on 'zoomend', ->
-              if !layer._ghostMarker and layer._map.getZoom() >= 16
-                insertionMarker()
-              if layer._ghostMarker and layer._map.getZoom() < 16
+              if layer._ghostMarker
                 layer._map.removeLayer layer._ghostMarker
                 delete layer._ghostMarker
+              insertionMarker()
 
             layer.on 'remove', (e) ->
               if layer._ghostMarker
