@@ -23,14 +23,17 @@
 
   formatRow = ->
     $('[id^=cvi_cadastral_plants] tr').each ->
-      if $(this).attr('id')
-        land_parcel_id = $(this).children( ".c0" ).text()
+      $tr = $(this)
+      if $tr.attr('id')
+        land_parcel_id = $tr.children( ".c0" ).text()
 
       if land_parcel_id == ""
-        $(this).children().addClass('invalid-row')
+        $tr.children().addClass('invalid-row')
       else
-        $(this).children( ".c2" ).children().remove()
-        $(this).children( ".c1" ).children().remove()
+        if $tr.closest("[id^=cvi_cadastral_plants]").attr('id') == "cvi_cadastral_plants_map-list"
+          $tr.children( ".c3" ).html("<a href='#' >#{$tr.children( ".c3" ).html()} </a>")
+        $tr.children( ".c2" ).children().remove()
+        $tr.children( ".c1" ).children().remove()
 
   manageErrorMessage = ->
     $('[id^=cvi_cadastral_plants] tr').each ->

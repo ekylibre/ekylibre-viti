@@ -1250,6 +1250,8 @@ jpn:
     current_stocks_by_variety: "種々の方法により、現在の株式"
     currently_subscribed_to: "現在に加入"
     custom_fields: "カスタムフィールド"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_cadastral_plants_map: "Cvi cadastral plants"
     # date_range: "%{from} to %{to}"
     # dated_cash: "%{cash}: %{on}"
     dates: "期間開始日と期間終了日を選択"

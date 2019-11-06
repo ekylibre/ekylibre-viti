@@ -1281,6 +1281,8 @@ spa:
     current_stocks_by_variety: "Existencias actuales de variedad"
     currently_subscribed_to: "Actualmente suscrito"
     custom_fields: "Campos Personalizados"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_cadastral_plants_map: "Cvi cadastral plants"
     data_to_export: "Datos a exportar" #?
     data_to_extract: "Datos para extraer" #?
     # date_range: "%{from} to %{to}"

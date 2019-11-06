@@ -1502,6 +1502,8 @@ arb:
     custom_field_sort: "تفريزة الخيارات حسب الاسم" #?
     custom_field_update: "تعديل الحقل المخصص" #?
     custom_fields: "الحقول المخصصة"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_cadastral_plants_map: "Cvi cadastral plants"
     data_to_export: "تصدير البيانات" #?
     data_to_extract: "استخراج البيانات" #?
     # date_range: "%{from} to %{to}"
