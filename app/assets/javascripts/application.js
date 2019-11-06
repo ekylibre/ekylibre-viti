@@ -75,6 +75,7 @@
 //= require timeline-chart.js
 //= require autosize
 //= require plugins
+//= require main.js
 //= require_tree .
 //= require tour
 //= require bootstrap-slider
@@ -86,8 +87,6 @@
 //= require vue-chartjs/dist/vue-chartjs.min.js
 
 //= require ext-plugins/vuejs/vue-chartjs
-
-//= require main.js
 
 // FIX Browser interoperability
 // href function seems to be ineffective

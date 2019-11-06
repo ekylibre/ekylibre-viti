@@ -944,7 +944,7 @@ fra:
       home:
         toolbar:
           buttons:
-            home: "Centrer sur mes parcelles"
+            home: "Centrer"
       importerButtonTitle: "Importer"
       locking:
         from_date_html: "à partir du {{from}}<br>({{production}})"
@@ -1419,6 +1419,8 @@ fra:
     current_stocks_by_variety: "État des stocks"
     currently_subscribed_to: "Actuellement abonné à"
     custom_fields: "Champs personnalisés"
+    cvi_cadastral_plants: "Cultures cadastrales CVI"
+    cvi_cadastral_plants_map: "Cultures cadastrales CVI"
     daily_nitrogen_production: "Excretion d’azote journalière" #?
     data_to_export: "Données à exporter" #?
     data_to_extract: "Données à extraire" #?
@@ -1508,8 +1510,8 @@ fra:
     down: "Descendre"
     down_to_level: "Détailler jusqu’au niveau" #?
     download: "Télécharger"
-    download_cvi_template_file: "Télécharger un modèle de CVI"
     download_archive: "Télécharger l'archive (ZIP)"
+    download_cvi_template_file: "Télécharger un modèle de CVI"
     download_firefox: "Télécharger Mozilla Firefox…" #?
     downpayment: "Acompte"
     draft: "Brouillard"

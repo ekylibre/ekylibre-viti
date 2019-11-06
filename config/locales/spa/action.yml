@@ -1279,6 +1279,8 @@ spa:
     current_stocks_by_variety: "Existencias actuales de variedad"
     currently_subscribed_to: "Actualmente suscrito"
     custom_fields: "Campos Personalizados"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_cadastral_plants_map: "Cvi cadastral plants"
     data_to_export: "Datos a exportar" #?
     data_to_extract: "Datos para extraer" #?
     # date_range: "%{from} to %{to}"
@@ -1367,6 +1369,7 @@ spa:
     down_to_level: "Detallar hasta el nivel" #?
     # download: "Download"
     # download_archive: "Download archive (ZIP)"
+    # download_cvi_template_file: "Download CVR template file"
     download_firefox: "Carga Mozilla Firefox..." #?
     downpayment: "Pago inicial"
     draft: "Niebla"
