@@ -20,8 +20,8 @@ GIT
 
 GIT
   remote: https://gitlab.com/ekylibre/cartography.git
-  revision: a5a896afb2bbc5d79cb11b7239c0e195a5797160
-  branch: feature/use-custom-tileslayer
+  revision: 566ad84eaf26e7eafd744ccd40c8872b7fbd6cca
+  branch: ekyviti
   specs:
     cartography (0.0.1)
 
