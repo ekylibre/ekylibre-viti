@@ -222,7 +222,8 @@ gem 'luhn'
 gem 'bootstrap-slider-rails'
 
 # Using git until we have a proper release system for cartography
-gem 'cartography', github: 'ekylibre/cartography'
+#gem 'cartography', github: 'ekylibre/cartography'
+gem 'cartography', git: 'https://gitlab.com/ekylibre/cartography.git', branch: 'ekyviti'
 #gem 'cartography', path: '../cartography'
 
 group :development do

@@ -10,7 +10,7 @@
   font-size: 24px;
 }
 
-.leaflet-home-home .sr-only {
+.leaflet-control-container .sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -21,12 +21,17 @@
   border: 0;
 }
 
-.leaflet-home-home .sr-only-focusable:active,
-.leaflet-home-home .sr-only-focusable:focus {
+.leaflet-control-container .sr-only-focusable:active,
+.leaflet-control-container .sr-only-focusable:focus {
   position: static;
   width: auto;
   height: auto;
   margin: 0;
   overflow: visible;
   clip: auto;
+}
+
+.leaflet-touch .leaflet-control-layers-toggle {
+  width: 30px;
+  height: 30px;
 }
