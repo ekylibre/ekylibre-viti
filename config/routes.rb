@@ -371,8 +371,8 @@ Rails.application.routes.draw do
 
     resources :contracts, concerns: [:list] do
       member do
-        get :list_itemsupdat
-        get :list_receptionsupdat
+        get :list_items
+        get :list_receptions
         post :lose
         post :negociate
         post :prospect
