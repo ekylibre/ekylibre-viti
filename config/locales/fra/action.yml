@@ -944,7 +944,7 @@ fra:
       home:
         toolbar:
           buttons:
-            home: "Centrer sur mes parcelles"
+            home: "Centrer"
       importerButtonTitle: "Importer"
       locking:
         from_date_html: "à partir du {{from}}<br>({{production}})"
@@ -1421,6 +1421,8 @@ fra:
     current_stocks_by_variety: "État des stocks"
     currently_subscribed_to: "Actuellement abonné à"
     custom_fields: "Champs personnalisés"
+    cvi_cadastral_plants: "Cultures cadastrales CVI"
+    cvi_cadastral_plants_map: "Cultures cadastrales CVI"
     daily_nitrogen_production: "Excretion d’azote journalière" #?
     data_to_export: "Données à exporter" #?
     data_to_extract: "Données à extraire" #?
@@ -2478,7 +2480,7 @@ fra:
     select_building: "Sélectionnez un lieu de stockage" #?
     select_closure_date: "Choisissez la date de clôture"
     select_columns: "Cochez les colonnes que vous voulez voir apparaitre dans le tableau."
-    select_cvi_campaign_intro: "<p>Les parcelles cadastrales de votre CVI vont être converties en parcellaire pour une campagne de production viticole.</p><br><p>Veuillez choisir le 1er millésime à partir duquel vous souhaitez créer votre parcellaire et les productions associées.</p>"
+    select_cvi_campaign_intro: "<p class='h4'>Les parcelles cadastrales de votre CVI vont être converties en parcellaire pour une campagne de production viticole.</p><p class='h4'>Veuillez choisir le 1er millésime à partir duquel vous souhaitez créer votre parcellaire et les productions associées:</p>"
     select_date: "Entrez une date"
     select_date_generation: "Date limite d’intégration"
     select_document: "Sélectionnez un document" #?
@@ -2804,7 +2806,7 @@ fra:
     week: "Semaine" #?
     wice_grid_columns: "Colonnes"
     wind_speed: "Vitesse du vent"
-    wine_production: "Production viticole"
+    wine_production: "production viticole"
     wine_tanks: "Cuverie" #?
     with_fixed_assets_depreciations: "Inclure les amortissements des immobilisations"
     with_prints: "Inclure les impressions (factures, commandes…)" #?

@@ -24,6 +24,36 @@ CREATE SCHEMA postgis;
 
 
 --
+-- Name: area_formatted(numeric); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.area_formatted(area numeric) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+    DECLARE
+    ha_area_num  NUMERIC;
+    ar_area_num  NUMERIC;
+    ca_area_num  NUMERIC;
+    ha_area  VARCHAR(50);
+    ar_area  VARCHAR(50);
+    ca_area  VARCHAR(50);
+    result VARCHAR(50);
+    BEGIN
+    ha_area_num = TRUNC(area, 0);
+    ar_area_num = TRUNC(area - ha_area_num, 2);
+    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
+
+    ha_area = to_char(ha_area_num , 'FM00');
+    ar_area = to_char(ar_area_num * 100, 'FM00');
+    ca_area = to_char(ca_area_num * 10000, 'FM00');
+
+    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
+    RETURN result;
+    END;
+    $$;
+
+
+--
 -- Name: compute_journal_entry_continuous_number(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2042,7 +2072,8 @@ CREATE TABLE public.cvi_cadastral_plants (
     cvi_statement_id integer,
     land_parcel_id character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    type_of_occupancy character varying
 );
 
 
@@ -3233,6 +3264,38 @@ ALTER SEQUENCE public.fixed_assets_id_seq OWNED BY public.fixed_assets.id;
 
 
 --
+-- Name: formatted_cvi_cadastral_plants; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.formatted_cvi_cadastral_plants AS
+ SELECT cvi_cadastral_plants.id,
+    cvi_cadastral_plants.land_parcel_id,
+    cvi_cadastral_plants.commune,
+    cvi_cadastral_plants.locality,
+        CASE
+            WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN concat(cvi_cadastral_plants.section, cvi_cadastral_plants.work_number)
+            ELSE concat(cvi_cadastral_plants.section, cvi_cadastral_plants.work_number, '-', cvi_cadastral_plants.land_parcel_number)
+        END AS cadastral_reference,
+    designation_of_origins.product_human_name_fra AS designation_of_origin_name,
+    vine_varieties.specie_name AS vine_variety_name,
+    cvi_cadastral_plants.area_value,
+    public.area_formatted(cvi_cadastral_plants.area_value) AS area_formatted,
+    cvi_cadastral_plants.campaign,
+        CASE
+            WHEN (cvi_cadastral_plants.rootstock_id IS NULL) THEN NULL::character varying
+            ELSE rootstocks.specie_name
+        END AS rootstock,
+    (cvi_cadastral_plants.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
+    (cvi_cadastral_plants.inter_row_distance_value)::integer AS inter_row_distance_value,
+    cvi_cadastral_plants.state,
+    cvi_cadastral_plants.cvi_statement_id
+   FROM (((public.cvi_cadastral_plants
+     LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_cadastral_plants.vine_variety_id)::text = (vine_varieties.id)::text)))
+     LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((cvi_cadastral_plants.rootstock_id)::text = (rootstocks.id)::text)))
+     LEFT JOIN ___lexicon.registred_protected_designation_of_origins designation_of_origins ON ((cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida)));
+
+
+--
 -- Name: gap_items; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4033,8 +4096,8 @@ CREATE TABLE public.inventories (
     financial_year_id integer,
     currency character varying,
     product_nature_category_id integer,
-    disable_accountancy boolean DEFAULT false,
-    journal_id integer
+    journal_id integer,
+    disable_accountancy boolean DEFAULT false
 );
 
 
@@ -4144,78 +4207,6 @@ CREATE SEQUENCE public.issues_id_seq
 --
 
 ALTER SEQUENCE public.issues_id_seq OWNED BY public.issues.id;
-
-
---
--- Name: jailer_config; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE UNLOGGED TABLE public.jailer_config (
-    jversion character varying(20),
-    jkey character varying(200),
-    jvalue character varying(200)
-);
-
-
---
--- Name: jailer_dependency; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE UNLOGGED TABLE public.jailer_dependency (
-    r_entitygraph integer NOT NULL,
-    assoc integer NOT NULL,
-    depend_id integer NOT NULL,
-    traversed integer,
-    from_type integer NOT NULL,
-    to_type integer NOT NULL,
-    from_pk0 character varying,
-    to_pk0 character varying
-);
-
-
---
--- Name: jailer_entity; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE UNLOGGED TABLE public.jailer_entity (
-    r_entitygraph integer NOT NULL,
-    pk0 character varying,
-    birthday integer NOT NULL,
-    type integer NOT NULL,
-    orig_birthday integer,
-    association integer
-);
-
-
---
--- Name: jailer_graph; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE UNLOGGED TABLE public.jailer_graph (
-    id integer NOT NULL,
-    age integer NOT NULL
-);
-
-
---
--- Name: jailer_set; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE UNLOGGED TABLE public.jailer_set (
-    set_id integer NOT NULL,
-    type integer NOT NULL,
-    pk0 character varying
-);
-
-
---
--- Name: jailer_tmp; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE UNLOGGED TABLE public.jailer_tmp (
-    c1 integer,
-    c2 integer
-);
 
 
 --
@@ -17973,41 +17964,6 @@ CREATE INDEX index_wice_grid_serialized_queries_on_grid_name_and_id ON public.wi
 
 
 --
--- Name: jlr_dep_from1; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX jlr_dep_from1 ON public.jailer_dependency USING btree (r_entitygraph, assoc, from_pk0);
-
-
---
--- Name: jlr_dep_to1; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX jlr_dep_to1 ON public.jailer_dependency USING btree (r_entitygraph, to_pk0);
-
-
---
--- Name: jlr_enty_brthdy; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX jlr_enty_brthdy ON public.jailer_entity USING btree (r_entitygraph, type, birthday);
-
-
---
--- Name: jlr_enty_upk1; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX jlr_enty_upk1 ON public.jailer_entity USING btree (r_entitygraph, pk0, type, birthday);
-
-
---
--- Name: jlr_pk_set1; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX jlr_pk_set1 ON public.jailer_set USING btree (set_id, pk0, type);
-
-
---
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -19185,6 +19141,8 @@ INSERT INTO schema_migrations (version) VALUES ('20190808152235');
 INSERT INTO schema_migrations (version) VALUES ('20190912144103');
 
 INSERT INTO schema_migrations (version) VALUES ('20190917120742');
+
+INSERT INTO schema_migrations (version) VALUES ('20190917120743');
 
 INSERT INTO schema_migrations (version) VALUES ('20191023172248');
 

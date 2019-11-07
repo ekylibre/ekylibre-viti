@@ -1823,6 +1823,7 @@ eng:
     trouble_description: "Trouble description"
     trouble_encountered: "Trouble encountered"
     type: "Type"
+    # type_of_occupancy: "Type of occupancy"
     uid: "UID"
     unconfirmed_email: "Unconfirmed email"
     undelivered_invoice_journal_entry: "Undelivered invoice entry"

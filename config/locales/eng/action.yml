@@ -1125,7 +1125,7 @@ eng:
       home:
         toolbar:
           buttons:
-            home: "Center to my plots"
+            home: "Center"
       importerButtonTitle: "Import"
       locking:
         from_date_html: "from {{from}}<br>({{production}})"
@@ -1496,8 +1496,8 @@ eng:
     current_stocks_by_variety: "Current stocks by variety" #?
     currently_subscribed_to: "Currently subscribed to"
     custom_fields: "Custom fields"
-    # cvi_cadastral_plants: "Cvi cadastral plants"
-    # cvi_cadastral_plants_map: "Cvi cadastral plants map"
+    cvi_cadastral_plants: "Cvi cadastral plants"
+    cvi_cadastral_plants_map: "Cvi cadastral plants"
     # data: "Data"
     # data_transmissions: "Data transmissions"
     # date: "Date"
@@ -2275,7 +2275,7 @@ eng:
     select_a_journal: "Select a journal"
     select_closure_date: "Choose closing date"
     select_columns: "Select columns" #??
-    select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
+    select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     select_date: "Select date"
     select_date_generation: "Limit date for generation"
     select_file_to_upload: "Select file to upload"
@@ -2292,7 +2292,6 @@ eng:
     service_delivering: "Service delivering"
     sessions: "Sessions" #?
     set_reconcilable_new_but_existing_third_accounts: "Set reconcilable the new but existing third accounts (clients, suppliers and attorneys)" #?
-    # set_timeline_to_correct_date: "Set timeline to correct date"
     settings: "Settings"
     settings_statistics: "Settings statistics"
     sex: "Sex" #?
