@@ -72,7 +72,26 @@ class CviStatement < Ekylibre::Record::Base
     end.uniq!
 
     grouped_by_proximity.each_with_index do |cvi_cadastral_plant_ids, i|
-      cvi_cultivable_zone = cvi_cultivable_zones.create(name: "Zone ##{i + 1}", cvi_statement_id: id)
+      
+      cvi_cadastral_plants = CviCadastralPlant.where(id: cvi_cadastral_plant_ids)
+      communes = cvi_cadastral_plants.pluck(:commune).uniq.join(', ')
+      cadastral_references = cvi_cadastral_plants.pluck(:work_number, :land_parcel_number) 
+                                                 .map { |e| !e[1].blank? ? e.join('-') : e[0] }
+                                                 .join(', ')
+      declared_area = cvi_cadastral_plants.collect(&:area).sum
+      declared_shape = self.class.connection.select_value("
+          SELECT ST_AsText(
+            ST_UNION(
+              ARRAY(
+                SELECT shape :: geometry
+                FROM cvi_cadastral_plants
+                LEFT JOIN lexicon.cadastral_land_parcel_zones  ON cvi_cadastral_plants.land_parcel_id = cadastral_land_parcel_zones.id
+                WHERE cvi_cadastral_plants.id IN (#{cvi_cadastral_plant_ids.join(',')})
+              )
+            )
+          );"
+        )
+      cvi_cultivable_zone = cvi_cultivable_zones.create(name: "Zone ##{i + 1}", cvi_statement_id: id, communes: communes, cadastral_references: cadastral_references, declared_area: declared_area, shape: declared_shape)
       cvi_cadastral_plant_ids.each do |cvi_cadastral_plant_id|
         cvi_cadastral_plants.update(cvi_cadastral_plant_id, cvi_cultivable_zone_id: cvi_cultivable_zone.id)
       end

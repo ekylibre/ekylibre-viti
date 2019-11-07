@@ -47,7 +47,6 @@
 #  work_number                     :string           not null
 #
 class CviCadastralPlant < Ekylibre::Record::Base
-  include Shaped
   composed_of :area, class_name: 'Measure', mapping: [%w[area_value to_d], %w[area_unit unit]]
   composed_of :inter_row_distance, class_name: 'Measure', mapping: [%w[inter_row_distance_value to_d], %w[inter_row_distance_unit unit]]
   composed_of :inter_vine_plant_distance, class_name: 'Measure', mapping: [%w[inter_vine_plant_distance_value to_d], %w[inter_vine_plant_distance_unit unit]]
