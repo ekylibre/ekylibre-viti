@@ -172,7 +172,6 @@
     opts = $el.data("cartography")
 
     opts.bounds = bounds if bounds = localStorage.getItem("bounds")
-
     E.map = new E.Map($el[0], opts)
 
   $(document).ready $.loadMap

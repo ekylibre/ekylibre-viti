@@ -1882,6 +1882,9 @@ cvi_statements:
     type: integer
   cadastral_sub_plant_count:
     type: integer
+  campaign_id:
+    type: integer
+    references: campaign
   created_at:
     type: datetime
     required: true

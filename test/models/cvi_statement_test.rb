@@ -24,6 +24,7 @@
 #
 #  cadastral_plant_count     :integer          default(0)
 #  cadastral_sub_plant_count :integer          default(0)
+#  campaign_id               :integer
 #  created_at                :datetime         not null
 #  cvi_number                :string           not null
 #  declarant                 :string           not null

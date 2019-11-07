@@ -105,6 +105,7 @@
 #     - "backend/cvi_statements#new"
 #     - "backend/cvi_statements#show"
 #     - "backend/cvi_statements#update"
+#     - "backend/cvi_statements#update_campaign"
 #     - "backend/dashboards#accountancy"
 #     - "backend/dashboards#home"
 #     - "backend/dashboards#humans"

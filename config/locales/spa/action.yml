@@ -1207,6 +1207,7 @@ spa:
       special-subscriber: "Especial abonado"
     # conducted: "Conducted"
     configure: "Configurar"
+    # confirm: "Confirm"
     # confirmation: "Confirmation"
     # confirmation_update_historical_plans: "Confirmation update historical plans"
     confirmed: "Confirmadas" #?
@@ -1224,6 +1225,7 @@ spa:
     container: "Envase"
     convert_balance_into_loss: "Convertir el equilibrio en la pérdida de"
     convert_balance_into_profit: "Convertir el equilibrio en beneficios"
+    # convert_cvi: "Convert into land parcels"
     convert_into_contact: "Convertir en contacto"
     convert_into_organization: "Convertir en la organización"
     convert_to_cultivable_zone: "Convertir a la zona cultivable"
@@ -2160,6 +2162,7 @@ spa:
     select_building: "Escoger un lugar de deposito" #?
     select_closure_date: "Escoger la fecha de cierre"
     select_columns: "Seleccionar columnas"
+    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
     select_date: "Seleccione fecha"
     select_date_generation: "Fecha limita de integración"
     select_file_to_upload: "Seleccionar archivo para cargar"
@@ -2409,6 +2412,7 @@ spa:
     # vat_rate: "VAT rate"
     view: "Ver"
     view_map_when_creating_an_intervention: "Ver mapa al crear una intervención"
+    # vintage_or_production_campaign: "Vintage or production campaign"
     wages: "Salario"
     # warning_date_not_in_period: "Warning: The date entered is not on the current exercise."
     # water_lakes: "Water lakes"
@@ -2418,6 +2422,7 @@ spa:
     website: "Sitio web"
     # wice_grid_columns: "Columns"
     wind_speed: "Velocidad del viento"
+    # wine_production: "wine production"
     with_fixed_assets_depreciations: "Con activos fijos amortizaciones"
     with_prints: "Incluir las impresiones (facturas, encargos...)" #?
     # worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"

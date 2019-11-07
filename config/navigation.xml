@@ -2215,6 +2215,10 @@
         <page to="backend/cvi_statements#list_cvi_cadastral_plants_map"/>
         <page to="backend/cvi_statements#new"/>
         <page to="backend/cvi_statements#update"/>
+        <page to="backend/cvi_statements#update_campaign"/>
+      </item>
+      <item name="imports">
+        <page to="backend/imports#template_file"/>
       </item>
       <item name="imports">
         <page to="backend/imports#template_file"/>

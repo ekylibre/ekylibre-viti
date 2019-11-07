@@ -1419,6 +1419,7 @@ arb:
       special-subscriber: "تصفية وفق الاشتراك"
     # conducted: "Conducted"
     configure: "تكوين"
+    # confirm: "Confirm"
     # confirmation: "Confirmation"
     # confirmation_update_historical_plans: "Confirmation update historical plans"
     confirmed: "تأكيد" #?
@@ -1440,6 +1441,7 @@ arb:
     container: "وعاء"
     convert_balance_into_loss: "تحويل الرصيد إلى فقدان"
     convert_balance_into_profit: "تحويل الرصيد إلى أرباح"
+    # convert_cvi: "Convert into land parcels"
     convert_into_contact: "تحويل إلى الاتصال"
     convert_into_organization: "تحويل إلى منظمة"
     convert_to_cultivable_zone: "تحويل إلى منطقة صالحة للزراعة"
@@ -2539,6 +2541,7 @@ arb:
     select_building: "اختر مكان التخزين" #?
     select_closure_date: "اختيار تاريخ الاغلاق"
     select_columns: "ضع علامة على العمود الذي ترغب باظهاره في الجدول"
+    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
     select_date: "ادخل تاريخ"
     select_date_generation: "تاريخ نهاية الدمج"
     select_existing_payment: "ختيار الدفعة الموجودة" #?
@@ -2822,6 +2825,7 @@ arb:
     # vat_rate: "VAT rate"
     view: "معاينة"
     view_map_when_creating_an_intervention: "عرض الخريطة عند إنشاء التدخل"
+    # vintage_or_production_campaign: "Vintage or production campaign"
     virtual_quantity: "الكمية العملية" #?
     wages: "أجور"
     waiting: "أ€ التسدسد لاحقا" #?
@@ -2833,6 +2837,7 @@ arb:
     website: "موقع الكتروني"
     # wice_grid_columns: "Columns"
     wind_speed: "سرعة الرياح"
+    # wine_production: "wine production"
     with_fixed_assets_depreciations: "مع انخفاض قيمة الأصول الثابتة"
     with_prints: "(وتشمل الطباعة (الفواتير والاوامر" #?
     # worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"

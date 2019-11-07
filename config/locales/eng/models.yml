@@ -798,6 +798,7 @@ eng:
     cvi_cadastral_plants: "Cvi cadastral plants"
     # cvi_number: "Cvi number"
     # cvi_statement: "Cvi statement"
+    # cvi_statements: "Cvi statements"
     daily_charges: "Daily charges" #?
     daily_nitrogen_production: "Daily nitrogen production"
     dashboards: "Dashboards"

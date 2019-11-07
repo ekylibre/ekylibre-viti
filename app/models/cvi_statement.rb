@@ -24,6 +24,7 @@
 #
 #  cadastral_plant_count     :integer          default(0)
 #  cadastral_sub_plant_count :integer          default(0)
+#  campaign_id               :integer
 #  created_at                :datetime         not null
 #  cvi_number                :string           not null
 #  declarant                 :string           not null
@@ -45,6 +46,7 @@ class CviStatement < Ekylibre::Record::Base
   validates :siret_number, siret_format: true
   validates :total_area_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
 
+  belongs_to :campaign
   has_many :cvi_cadastral_plants, dependent: :destroy
 
   def total_area_formated

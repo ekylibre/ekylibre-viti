@@ -411,6 +411,7 @@ Rails.application.routes.draw do
 
     resources :cvi_statements, concerns: %i[list] do
       member do
+        patch :update_campaign
         get :list_cvi_cadastral_plants
         get :list_cvi_cadastral_plants_map
         resources :cvi_cadastral_plants, only: %i[index]
