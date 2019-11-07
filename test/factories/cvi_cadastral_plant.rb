@@ -18,6 +18,7 @@ FactoryBot.define do
     vine_variety_id { rand(36**10).to_s(36) }
     rootstock_id { rand(36**10).to_s(36) }
     state { %i[planted removed_with_authorization].sample }
+    type_of_occupancy { %i[tenant_farming owner].sample }
     cvi_statement
   end
 end

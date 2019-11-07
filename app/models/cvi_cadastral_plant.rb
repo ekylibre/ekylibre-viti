@@ -41,6 +41,7 @@
 #  rootstock_id                    :string
 #  section                         :string           not null
 #  state                           :string           not null
+#  type_of_occupancy               :string
 #  updated_at                      :datetime         not null
 #  vine_variety_id                 :string
 #  work_number                     :string           not null
@@ -51,6 +52,7 @@ class CviCadastralPlant < Ekylibre::Record::Base
   composed_of :inter_vine_plant_distance, class_name: 'Measure', mapping: [%w[inter_vine_plant_distance_value to_d], %w[inter_vine_plant_distance_unit unit]]
 
   enumerize :state, in: %i[planted removed_with_authorization], predicates: true
+  enumerize :type_of_occupancy, in: %i[tenant_farming owner], predicates: true
 
   belongs_to :cvi_statement
   belongs_to :registered_postal_zone, foreign_key: :insee_number
@@ -74,18 +76,11 @@ class CviCadastralPlant < Ekylibre::Record::Base
     end
   end
 
-  def area_formated
-    area.to_s(:ha_ar_ca)
-  end
-
   delegate :geographic_area, to: :designation_of_origin
   alias designation_of_origin_name geographic_area
 
   delegate :specie_name, to: :vine_variety
   alias vine_variety_name specie_name
-
-  delegate :customs_code, to: :rootstock
-  alias rootstock_number customs_code
 
   delegate :shape, to: :land_parcel
 
@@ -99,7 +94,7 @@ class CviCadastralPlant < Ekylibre::Record::Base
     insee_number_changed? && registered_postal_zone
   end
 
-  # Check if any attributes parts of cadastral reference has changed 
+  # Check if any attributes parts of cadastral reference has changed
   def cadastral_reference_changed?
     insee_number_changed? || section_changed? || work_number_changed?
   end

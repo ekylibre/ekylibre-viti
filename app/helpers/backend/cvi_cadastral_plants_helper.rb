@@ -5,6 +5,7 @@ module Backend
         params.split(',').map do |number|
           number = number.to_f
           number.to_i if number == number.to_i
+          number
         end
       else
         [minimum, maximum]

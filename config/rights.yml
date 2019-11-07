@@ -123,6 +123,7 @@
 #     - "backend/helps#index"
 #     - "backend/helps#show"
 #     - "backend/helps#toggle"
+#     - "backend/imports#template_file"
 #     - "backend/interventions#compare_realised_with_planned"
 #     - "backend/interventions#create_duplicate_intervention"
 #     - "backend/interventions#duplicate_interventions"

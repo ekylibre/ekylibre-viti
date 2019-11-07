@@ -119,8 +119,8 @@ fra:
         text: "Texte"
     cvi_cadastral_plant:
       state:
-        planted: "En production"
-        removed_with_authorization: "Arraché"
+        planted: "Plantées"
+        removed_with_authorization: "Arrachées avec autorisation"
     cvi_statement:
       state:
         converted: "Parcellaire converti"
@@ -192,6 +192,10 @@ fra:
         monthly: "Mensuelle"
         quarterly: "Trimestrielle"
         yearly: "Annuelle"
+    formatted_cvi_cadastral_plant: #?
+      state: #?
+        planted: "Plantées" #?
+        removed_with_authorization: "Arrachées avec autorisation" #?
     gap:
       direction:
         loss: "Perte"
