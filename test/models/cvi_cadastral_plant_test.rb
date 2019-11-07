@@ -41,6 +41,7 @@
 #  rootstock_id                    :string
 #  section                         :string           not null
 #  state                           :string           not null
+#  type_of_occupancy               :string
 #  updated_at                      :datetime         not null
 #  vine_variety_id                 :string
 #  work_number                     :string           not null
@@ -102,4 +103,5 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   end
 
   should enumerize(:state).in(:planted, :removed_with_authorization).with_predicates(true)
+  should enumerize(:type_of_occupancy).in(:tenant_farming, :owner).with_predicates(true)
 end

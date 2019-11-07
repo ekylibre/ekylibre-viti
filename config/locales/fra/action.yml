@@ -159,7 +159,7 @@ fra:
       sort: "Trier les choix du champ personnalisé"
     backend/cvi_statements:
       edit: "Modifier le Casier Viticole Informatisé (CVI)\_: %{id}"
-      index: "Casier Viticole Informatisés (CVI)"
+      index: "Casier Viticole Informatisé"
       new: "Nouveau Casier Viticole Informatisé (CVI)"
       show: "Casier Viticole informatisé (CVI) \_: %{id}"
     backend/dashboards:
@@ -2201,7 +2201,7 @@ fra:
     plant_countings: "Comptages"
     plant_productions: "Productions végétales" #?
     plantation_density: "Densité de plantation"
-    planted: "En production"
+    planted: "Plantées"
     plants: "Plantes"
     please_wait: "Merci de patienter…"
     point: "Point"
@@ -2366,7 +2366,7 @@ fra:
     remove_subscription: "Supprimer l’abonnement"
     remove_treatment: "Supprimer un traitement" #?
     remove_watching: "Supprimer un produit de référence" #?
-    removed_with_authorization: "Arraché"
+    removed_with_authorization: "Arrachées avec autorisation"
     renewed: "Renouvellés"
     reopen: "Déclôturer" #?
     reopen_journal: "Déclôturer le journal" #?

@@ -108,7 +108,7 @@ fra:
         cvi_number: "N° de CVI"
         extraction_date: "Date d'extraction"
         farm_name: "Nom du domaine"
-        state: "Status"
+        state: "Statut"
         total_area: "Superficie encépagée déclarée"
       document:
         filename: "Fichier"
@@ -148,6 +148,18 @@ fra:
       fixed_asset_depreciation:
         asset_amount: "Valeur comptable"
         depreciable_amount: "Valeur nette comptable (VNC)" #?
+      formatted_cvi_cadastral_plant: #?
+        area_formatted: "Superficie déclarée" #?
+        cadastral_reference: "Ref. cadastrale" #?
+        commune: "Commune" #?
+        designation_of_origin_name: "Produit" #?
+        inter_row_distance_value: "Inter rang (cm)" #?
+        inter_vine_plant_distance_value: "Inter pied (cm)" #?
+        land_parcel_id: "Ref. cadastrale id" #?
+        locality: "Lieu-dit" #?
+        rootstock: "Porte-greffe" #?
+        state: "Etat" #?
+        vine_variety_name: "Cépage" #?
       incoming_payment: #?
         to_bank_at: "À encaisser le" #?
       inspection: #?
@@ -840,6 +852,7 @@ fra:
     archives_count: "Nombre d’archives" #?
     archiving: "Méthode d’archivage"
     # area: "Area"
+    # area_value: "Area value"
     # arguments: "Arguments"
     assembly: "Assemblée"
     asset_account: "Compte d’actifs"
@@ -974,6 +987,7 @@ fra:
     commission_base_amount: "Montant fixe de la commission"
     commission_percentage: "Pourcentage de commission"
     commissioned_incoming_payment_modes: "Modes d’encaissement avec commission"
+    # commune: "Commune"
     company_creation_date: "Date de création de l'entreprise"
     company_name: "Nom de l'entreprise"
     component: "Composant"
@@ -1380,6 +1394,8 @@ fra:
     insurance_repayment_method: "Méthode de remboursement de l'assurance"
     integer_value: "Valeur entière"
     integration_name: "Nom d’intégration"
+    # inter_row_distance_value: "Inter row distance value"
+    # inter_vine_plant_distance_value: "Inter vine plant distance value"
     interest_account: "Code comptable intérêt" #?
     interest_amount: "Montant de l’intérêt"
     interest_percentage: "Taux d’intérêt (%)"
@@ -1488,6 +1504,7 @@ fra:
     local_count: "Population"
     local_credit: "Crédit"
     local_debit: "Débit"
+    # locality: "Locality"
     localizations: "Localisations"
     lock_version: "Version"
     locked: "Verrouillé"
@@ -1914,6 +1931,7 @@ fra:
     root_model_name: "Racine"
     root_node: "Nœud racine"
     root_parameters: "Paramètres Root"
+    # rootstock: "Rootstock"
     rows_count_value: "Nombre de rangs"
     sale: "Vente"
     sale_credit: "Avoir"
@@ -2110,6 +2128,7 @@ fra:
     trouble_description: "Description du problème"
     trouble_encountered: "Problème durant l'intervention"
     type: "Type"
+    # type_of_occupancy: "Type of occupancy"
     # uid: "UID"
     unconfirmed_email: "E-mail non confirmé"
     undelivered_invoice_journal_entry: "Ecriture Facture non parvenue (FNP)"

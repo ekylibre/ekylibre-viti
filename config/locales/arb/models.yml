@@ -1229,6 +1229,7 @@ arb:
     area_measure: "المساحة" #?
     area_unit: "وحدة المساحة" #?
     area_unit_id: "وحدة مساحة" #?
+    # area_value: "Area value"
     arguments: "الحجج"
     arrived_at: "وصل يوم" #?
     assembly: "جمعية"
@@ -1381,6 +1382,7 @@ arb:
     commission_percent: "نسبة العمولة" #?
     commission_percentage: "نسبة العمولة"
     commissioned_incoming_payment_modes: "بتكليف وسائل الدفع واردة"
+    # commune: "Commune"
     company: "الشركة" #?
     # company_creation_date: "Company creation date"
     company_id: "شركة" #?
@@ -1831,6 +1833,8 @@ arb:
     insurance_repayment_method: "التأمين طريقة السداد"
     integer_value: "قيمة العدد الصحيح"
     integration_name: "اسم التكامل"
+    # inter_row_distance_value: "Inter row distance value"
+    # inter_vine_plant_distance_value: "Inter vine plant distance value"
     interest_amount: "مبلغ الفائدة"
     interest_percentage: "نسبة الفائدة"
     intermediate_cultivation_residue_mineralization: "زراعة المتوسطة بقايا تمعدن"
@@ -1956,6 +1960,7 @@ arb:
     local_count: "عدد السكان المحليين"
     local_credit: "الائتمان"
     local_debit: "الدين المحلي"
+    # locality: "Locality"
     localizations: "تعريب"
     lock_version: "الاصدار"
     locked: "مقفل"
@@ -2428,6 +2433,7 @@ arb:
     root_model_name: "جذر"
     root_node: "عقدة الجذر"
     root_parameters: "المعلمات الجذر"
+    # rootstock: "Rootstock"
     rows_count_value: "عد الصفوف"
     sale: "طلب البيع"
     sale_credit: "الائتمان بيع"
@@ -2668,6 +2674,7 @@ arb:
     trouble_description: "وصف المتاعب"
     trouble_encountered: "مشكلة واجهتها"
     type: "النوع"
+    # type_of_occupancy: "Type of occupancy"
     # uid: "UID"
     unconfirmed_email: "البريد الإلكتروني غير مؤكد"
     undelivered_invoice_journal_entry: "دخول فاتورة غير المسلمة"

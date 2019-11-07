@@ -78,7 +78,7 @@ fra:
       items:
         fr_pcg82: "Plan comptable général de 1982 ‒ Arrêté du 14/12/2007"
         fr_pcga: "Plan comptable agricole ‒ Arrêté du 11/12/1986"
-        ifrs: "Normes internationales d’information financière (IFRS)" #?
+        ifrs: "Normes internationales d’information financière (IFRS)"
         pt_snc: "Plan comptable Portugais - (SNC)"
       name: "Plans de comptes"
     accounts:
@@ -185,9 +185,9 @@ fra:
         establishment_charge_assets: "Immobilisations des frais d’établissement"
         exceptional_expenses: "Charges exceptionnelles"
         exceptional_revenues: "Revenus exceptionnelles"
-        exceptionnal_charge_transfer_revenues: "Transferts de charges exceptionnelles" #?
-        exceptionnal_depreciations_inputations_expenses: "Dotations aux amortissements et aux provisions - Charges exceptionnelles" #?
-        exceptionnal_incorporeal_asset_depreciation_revenues: "Reprises sur provisions (produits exceptionnels) " #?
+        exceptionnal_charge_transfer_revenues: "Transferts de charges exceptionnelles"
+        exceptionnal_depreciations_inputations_expenses: "Dotations aux amortissements et aux provisions - Charges exceptionnelles"
+        exceptionnal_incorporeal_asset_depreciation_revenues: "Reprises sur provisions (produits exceptionnels) "
         expenses: "Comptes de charges"
         exploitation_depreciations_inputations_expenses: "Dotations aux amortissements et aux provisions - Charges d'exploitation"
         exploitation_expenses_transfers: "Transferts de expenses d’exploitation"
@@ -253,7 +253,7 @@ fra:
         initial_society_capital: "Capital sociétaire initial"
         installation_sustainable_plant_assets: "Aménagements des plantations pérennes"
         insurance_expenses: "Primes d’assurance"
-        interests_expenses: "Charges d’intérêts" #?
+        interests_expenses: "Charges d’intérêts"
         internal_transfers: "Virements internes"
         inventory_variations: "Variations d’inventaires"
         invoice_to_create_clients: "Clients - Produits non encore facturés"
@@ -291,7 +291,7 @@ fra:
         long_term_loans: "Emprunts à moyen et long terme"
         long_term_loans_interests: "Intérêts des autres emprunts à moyen et long terme"
         long_time_animal_stock: "Animaux (cycle long)"
-        mails_expenses: "Frais postaux et de télécommunications" #?
+        mails_expenses: "Frais postaux et de télécommunications"
         maintenance_expenses: "Maintenance"
         maintenances_consumables_expenses: "Produits d’entretien"
         maintenances_consumables_stock: "Stock de produits d’entretien"
@@ -349,7 +349,7 @@ fra:
         other_supplies: "Autres approvisionnements"
         other_supply_expenses: "Achats stockés - Autres approvisionnements"
         other_supply_stocks_variation: "Variation des stocks autres approvisionnements"
-        other_taxes: "Autres impôts, taxes et versements assimilés" #?
+        other_taxes: "Autres impôts, taxes et versements assimilés"
         other_usual_running_expenses: "Charges diverses de gestion courante"
         other_usual_running_profits: "Produits divers de gestion courante"
         other_various_interests_expenses: "Autres charges diverses d’intérêts"
@@ -426,7 +426,7 @@ fra:
         service_animal_asset_depreciations: "Amortissements des animaux de services"
         service_animal_assets: "Animaux de service"
         service_discount_and_reductions_expenses: "Rabais, remises et ristournes obtenus sur services extérieurs"
-        services: "Prestations de services" #?
+        services: "Prestations de services"
         services_expenses: "Achat de prestations de services"
         services_revenues: "Vente de prestations de services"
         share_asset_subsidies: "Quote-part des subventions d’investissement virée au resultat de l’exercice"
@@ -481,7 +481,7 @@ fra:
         sustainables_plants_assets: "Plantations pérennes"
         sustainables_plants_on_other_land_parcel_assets: "Plantations pérennes sur sol d’autrui"
         sustainables_plants_on_own_land_parcel_assets: "Plantations pérennes sur sol propre"
-        tax_depreciation_revenues: "Recettes Taxe d’amortissement" #?
+        tax_depreciation_revenues: "Recettes Taxe d’amortissement"
         taxes_expenses: "Taxes"
         technical_installation_equipment_and_tools_assets: "Installation technique, équipement et outils"
         technical_installation_on_other_land_parcel_assets: "Installation technique sur sol d’autrui"
@@ -526,135 +526,135 @@ fra:
           main: "Principale"
           standalone: "Indépendante"
       items:
-        accountancy: "Comptabilité" #?
+        accountancy: "Comptabilité"
         administering: "Administratif"
-        agricultural_works: "Travaux agricoles" #?
-        alfalfa_crops: "Luzerne" #?
-        almond_orchards: "Amandiers" #?
+        agricultural_works: "Travaux agricoles"
+        alfalfa_crops: "Luzerne"
+        almond_orchards: "Amandiers"
         animal_farming: "Production animale"
-        animal_housing: "Pension animale" #?
-        apple_orchards: "Pommiers" #?
-        arboriculture: "Arboriculture" #?
-        aromatic_and_medicinal_plants: "Plantes médicinales et aromatiques" #?
-        artichoke_crops: "Artichaud" #?
-        asparagus_crops: "Asperges" #?
-        avocado_crops: "Avocats" #?
-        barley_crops: "Orge" #?
-        bean_crops: "Haricots" #?
-        beekeeping: "Apiculture" #?
-        beet_crops: "Betteraves" #?
-        bere_crops: "Escourgeon" #?
-        bison_farming: "Bisons" #?
-        black_mustard_crops: "Moutarde noire" #?
-        blackcurrant_crops: "Cassissiers" #?
-        building_works: "Travaux de bâtiment" #?
-        cabbage_crops: "Choux" #?
-        canary_grass_crops: "Alpiste" #?
-        carob_orchards: "Caroubiers" #?
-        carrot_crops: "Carottes" #?
-        catering: "Restauration" #?
-        cattle_farming: "Bovins" #?
-        celery_crops: "Céleri" #?
-        cereal_crops: "Céréales" #?
-        chestnut_orchards: "Châtaigniers" #?
-        chickpea_crops: "Pois chiche" #?
-        chicory_crops: "Chicorée" #?
-        cichorium_crops: "Chicorée" #?
-        citrus_orchards: "Agrumes" #?
-        cocoa_crops: "Cacaoyers" #?
-        common_wheat_crops: "Blé tendre" #?
-        cotton_crops: "Coton" #?
-        durum_wheat_crops: "Blé dur" #?
-        eggplant_crops: "Aubergine" #?
-        equipment_management: "Équipements" #?
-        exploitation: "Exploitation" #?
-        fallow_land: "Jachère" #?
-        field_crops: "Cultures de plein champ" #?
-        fish_farming: "Aquaculture" #?
-        flax_crops: "Lin" #?
-        flower_crops: "Floriculture" #?
-        fodder_crops: "Fourrages" #?
-        fruits_crops: "Cultures fruitières" #?
-        garden_pea_crops: "Petits pois" #?
-        garlic_crops: "Ail" #?
-        goat_farming: "Caprins" #?
-        handicraft: "Artisanat" #?
-        hazel_orchards: "Noisetiers" #?
-        hemp_crops: "Chanvre" #?
-        hop_crops: "Houblon" #?
-        horsebean_crops: "Fèves" #?
-        lavender_crops: "Lavande" #?
-        leek_crops: "Poireaux" #?
-        leguminous_crops: "Légumineux" #?
-        lentil_crops: "Lentilles" #?
-        lettuce_crops: "Laitues" #?
-        lodging: "Hébergement" #?
-        lupin_crops: "Lupin" #?
-        maize_crops: "Maïs" #?
-        market_garden_crops: "Maraîchage" #?
-        meadow: "Prairie" #?
-        muskmelon_crops: "Melons" #?
-        mussel_farming: "Mytiliculture" #?
-        oat_crops: "Avoine" #?
-        oilseed_crops: "Culture oléagineuse" #?
-        olive_groves: "Oliviers" #?
-        olive_orchards: "Oliviers" #?
-        onion_crops: "Oignons" #?
-        orchard_crops: "Vergers" #?
-        ostrich_farming: "Autruches" #?
-        oyster_farming: "Ostréïculture" #?
-        palmiped_farming: "Palmipèdes" #?
-        parsley_crops: "Persil" #?
-        pea_crops: "Pois" #?
-        peach_orchards: "Pêchers" #?
-        peanut_crops: "Arachides" #?
-        pear_orchards: "Poiriers" #?
-        pig_farming: "Porcins" #?
-        pineapple_crops: "Ananas" #?
-        pistachio_orchards: "Pistachiers" #?
+        animal_housing: "Pension animale"
+        apple_orchards: "Pommiers"
+        arboriculture: "Arboriculture"
+        aromatic_and_medicinal_plants: "Plantes médicinales et aromatiques"
+        artichoke_crops: "Artichaud"
+        asparagus_crops: "Asperges"
+        avocado_crops: "Avocats"
+        barley_crops: "Orge"
+        bean_crops: "Haricots"
+        beekeeping: "Apiculture"
+        beet_crops: "Betteraves"
+        bere_crops: "Escourgeon"
+        bison_farming: "Bisons"
+        black_mustard_crops: "Moutarde noire"
+        blackcurrant_crops: "Cassissiers"
+        building_works: "Travaux de bâtiment"
+        cabbage_crops: "Choux"
+        canary_grass_crops: "Alpiste"
+        carob_orchards: "Caroubiers"
+        carrot_crops: "Carottes"
+        catering: "Restauration"
+        cattle_farming: "Bovins"
+        celery_crops: "Céleri"
+        cereal_crops: "Céréales"
+        chestnut_orchards: "Châtaigniers"
+        chickpea_crops: "Pois chiche"
+        chicory_crops: "Chicorée"
+        cichorium_crops: "Chicorée"
+        citrus_orchards: "Agrumes"
+        cocoa_crops: "Cacaoyers"
+        common_wheat_crops: "Blé tendre"
+        cotton_crops: "Coton"
+        durum_wheat_crops: "Blé dur"
+        eggplant_crops: "Aubergine"
+        equipment_management: "Équipements"
+        exploitation: "Exploitation"
+        fallow_land: "Jachère"
+        field_crops: "Cultures de plein champ"
+        fish_farming: "Aquaculture"
+        flax_crops: "Lin"
+        flower_crops: "Floriculture"
+        fodder_crops: "Fourrages"
+        fruits_crops: "Cultures fruitières"
+        garden_pea_crops: "Petits pois"
+        garlic_crops: "Ail"
+        goat_farming: "Caprins"
+        handicraft: "Artisanat"
+        hazel_orchards: "Noisetiers"
+        hemp_crops: "Chanvre"
+        hop_crops: "Houblon"
+        horsebean_crops: "Fèves"
+        lavender_crops: "Lavande"
+        leek_crops: "Poireaux"
+        leguminous_crops: "Légumineux"
+        lentil_crops: "Lentilles"
+        lettuce_crops: "Laitues"
+        lodging: "Hébergement"
+        lupin_crops: "Lupin"
+        maize_crops: "Maïs"
+        market_garden_crops: "Maraîchage"
+        meadow: "Prairie"
+        muskmelon_crops: "Melons"
+        mussel_farming: "Mytiliculture"
+        oat_crops: "Avoine"
+        oilseed_crops: "Culture oléagineuse"
+        olive_groves: "Oliviers"
+        olive_orchards: "Oliviers"
+        onion_crops: "Oignons"
+        orchard_crops: "Vergers"
+        ostrich_farming: "Autruches"
+        oyster_farming: "Ostréïculture"
+        palmiped_farming: "Palmipèdes"
+        parsley_crops: "Persil"
+        pea_crops: "Pois"
+        peach_orchards: "Pêchers"
+        peanut_crops: "Arachides"
+        pear_orchards: "Poiriers"
+        pig_farming: "Porcins"
+        pineapple_crops: "Ananas"
+        pistachio_orchards: "Pistachiers"
         plant_farming: "Production végétale"
-        plum_orchards: "Pruniers" #?
-        poaceae_crops: "Graminées" #?
-        potato_crops: "Pommes de terre" #?
-        poultry_farming: "Volaille" #?
+        plum_orchards: "Pruniers"
+        poaceae_crops: "Graminées"
+        potato_crops: "Pommes de terre"
+        poultry_farming: "Volaille"
         processing: "Transformation"
-        protein_crops: "Culture protéagineuse" #?
-        purchases: "Achats" #?
-        rabbit_farming: "Cuniculture" #?
-        radish_crops: "Radis" #?
-        rapeseed_crops: "Colza" #?
-        raspberry_crops: "Framboisiers" #?
-        redcurrant_crops: "Groseillers" #?
-        renting: "Location" #?
-        rice_crops: "Riz" #?
-        rye_crops: "Sègle" #?
-        saffron_crops: "Safran" #?
-        sales: "Ventes" #?
-        salmon_farming: "Saumons" #?
-        scallop_farming: "Pectiniculture" #?
+        protein_crops: "Culture protéagineuse"
+        purchases: "Achats"
+        rabbit_farming: "Cuniculture"
+        radish_crops: "Radis"
+        rapeseed_crops: "Colza"
+        raspberry_crops: "Framboisiers"
+        redcurrant_crops: "Groseillers"
+        renting: "Location"
+        rice_crops: "Riz"
+        rye_crops: "Sègle"
+        saffron_crops: "Safran"
+        sales: "Ventes"
+        salmon_farming: "Saumons"
+        scallop_farming: "Pectiniculture"
         service_delivering: "Prestation de service"
-        sheep_farming: "Ovins" #?
-        snail_farming: "Héliciculture" #?
-        sorghum_crops: "Sorgho" #?
-        soybean_crops: "Soja" #?
-        stocks: "Stocks" #?
-        straw_cereal_crops: "Céréales à paille" #?
-        strawberry_crops: "Fraises" #?
-        sturgeon_farming: "Esturgeons" #?
-        sunflower_crops: "Tournesol" #?
-        theobroma_crops: "Theobroma" #?
-        tobacco_crops: "Tabac" #?
-        tomato_crops: "Tomates" #?
+        sheep_farming: "Ovins"
+        snail_farming: "Héliciculture"
+        sorghum_crops: "Sorgho"
+        soybean_crops: "Soja"
+        stocks: "Stocks"
+        straw_cereal_crops: "Céréales à paille"
+        strawberry_crops: "Fraises"
+        sturgeon_farming: "Esturgeons"
+        sunflower_crops: "Tournesol"
+        theobroma_crops: "Theobroma"
+        tobacco_crops: "Tabac"
+        tomato_crops: "Tomates"
         tool_maintaining: "Maintenance"
-        triticale_crops: "Triticale" #?
-        turnip_crops: "Navets" #?
-        vetch_crops: "Vesce" #?
-        vine_wine: "Vignes & vin" #?
-        vines: "Vignes" #?
-        walnut_orchards: "Noyers" #?
-        watermelon_crops: "Pastèques" #?
+        triticale_crops: "Triticale"
+        turnip_crops: "Navets"
+        vetch_crops: "Vesce"
+        vine_wine: "Vignes & vin"
+        vines: "Vignes"
+        walnut_orchards: "Noyers"
+        watermelon_crops: "Pastèques"
         wine_making: "Vinification"
-        works: "Travaux" #?
+        works: "Travaux"
       name: "Familles d’activité"
       property_natures:
         cultivation_variety: "Variété de la culture"
@@ -1341,8 +1341,7 @@ fra:
         ghs_toxic: "Toxique "
         ghs-h360fd2: "Peut nuire à la fertilité. Peut nuire au fœtus."
       name: "Classifications chimiques"
-      property_natures:
-        # code: "Code"
+    
     chemical_elements:
       items:
         actinium: "Actinium"
@@ -2032,7 +2031,7 @@ fra:
         animal_list: "Liste des animaux"
         animal_sheet: "Fiche animal"
         balance_sheet: "Bilan comptable"
-        deposit: "Remise en banque" #?
+        deposit: "Remise en banque"
         deposit_list: "Remise en banque"
         entity_sheet: "Fiche tiers"
         equipment_certification: "Certification des équipements"
@@ -2052,7 +2051,7 @@ fra:
         inventory_sheet: "Inventaire"
         journal: "Journal"
         journal_entry_sheet: "Journal feuille d’entrée"
-        journal_ledger: "Etat du journal" #?
+        journal_ledger: "Etat du journal"
         land_parcel_register: "Cahier de tracabilité ‒ Parcelles"
         loan_registry: "Registre de prêt"
         manure_management_plan: "Cahier d’épandage"
@@ -2118,27 +2117,27 @@ fra:
         entity: "Personne 1"
         linked: "Personne 2"
         symmetric: "Lien symétrique"
-    entity_natures: #?
-      items: #?
-        association: "Association" #?
-        civil_society: "Société civile" #?
-        collectivity: "Collectivité" #?
-        company: "Société" #?
-        contact: "Contact" #?
-        cooperative: "Coopérative" #?
-        doctor: "Docteur" #?
-        economic_interest_group: "Groupement d’intérêt économique" #?
-        entity: "Entité" #?
-        foundation: "Fondation" #?
-        madam: "Madame" #?
-        organization: "Organisation" #?
-        professor: "Professeur" #?
-        public_establishment: "Établissement public" #?
-        public_interest_group: "Groupement d’intérêt public" #?
-        sir: "Monsieur" #?
-        sir_and_madam: "Monsieur et Madame" #?
-        syndicate: "Syndicat" #?
-      name: "Types de tiers" #?
+    entity_natures:
+      items:
+        association: "Association"
+        civil_society: "Société civile"
+        collectivity: "Collectivité"
+        company: "Société"
+        contact: "Contact"
+        cooperative: "Coopérative"
+        doctor: "Docteur"
+        economic_interest_group: "Groupement d’intérêt économique"
+        entity: "Entité"
+        foundation: "Fondation"
+        madam: "Madame"
+        organization: "Organisation"
+        professor: "Professeur"
+        public_establishment: "Établissement public"
+        public_interest_group: "Groupement d’intérêt public"
+        sir: "Monsieur"
+        sir_and_madam: "Monsieur et Madame"
+        syndicate: "Syndicat"
+      name: "Types de tiers"
     event_natures:
       items:
         absence: "Absence"
@@ -2186,18 +2185,18 @@ fra:
         spheroid: "Sphéroïde"
         vehicle: "Véhicule"
       name: "Formes"
-    fiscal_positions: #?
-      items: #?
-        fr_ba_ir: "Bénéfices agricoles - Impôt sur le revenu" #?
-        fr_ba_is: "Bénéfices agricoles - Impôt sur les sociétés" #?
-        fr_bic_ir: "Bénéfices industriels et commerciaux - Impôt sur le revenu" #?
-        fr_bic_is: "Bénéfices industriels et commerciaux - Impôt sur les sociétés" #?
-        fr_bnc_ir: "Bénéfices non commerciaux - Impôt sur le revenu" #?
-        fr_bnc_is: "Bénéfices non commerciaux - Impôt sur les sociétés" #?
-      name: "Régimes fiscaux" #?
-      property_natures: #?
-        code: "Code" #?
-        country: "Pays" #?
+    fiscal_positions:
+      items:
+        fr_ba_ir: "Bénéfices agricoles - Impôt sur le revenu"
+        fr_ba_is: "Bénéfices agricoles - Impôt sur les sociétés"
+        fr_bic_ir: "Bénéfices industriels et commerciaux - Impôt sur le revenu"
+        fr_bic_is: "Bénéfices industriels et commerciaux - Impôt sur les sociétés"
+        fr_bnc_ir: "Bénéfices non commerciaux - Impôt sur le revenu"
+        fr_bnc_is: "Bénéfices non commerciaux - Impôt sur les sociétés"
+      name: "Régimes fiscaux"
+      property_natures:
+        code: "Code"
+        country: "Pays"
     guide_natures:
       items:
         best_practices: "Bonnes pratiques"
@@ -2397,7 +2396,7 @@ fra:
         plants_count: "Nombre de plantes"
         plants_interval: "Intervalle inter-pieds"
         plowshare_count: "Nombre de socs"
-        population: "Population" #?
+        population: "Population"
         potash_concentration: "Teneur en potasse (K₂O)"
         potassium_concentration: "Teneur en potassium"
         potential_hydrogen: "Potentiel hydrogène (pH)"
@@ -2538,11 +2537,10 @@ fra:
         limping: "Boîterie"
         longhorn_beetle: "Longicorne"
         mammite: "Mammite"
-        matoda: "Nématodes" #?
+        matoda: "Nématodes"
         mechanical_issue: "Problème mécanique"
         mediterranean_corn_borer: "Sésamie"
         moth: "Teigne (insecte)"
-        # nematoda: "Nematoda"
         nematoda_disease: "Maladie à nématodes"
         nightshade: "Morelle"
         noble_rot: "Pourriture grise ou noble"
@@ -2769,8 +2767,8 @@ fra:
         identifiers: "Identifiants"
         nature: "Type"
         url: "URL"
-    nmp_poitou_charentes_abacus_one: #?
-      name: "Abaque 1 de la méthode de calcul de bilan azoté Poitou-Charentes" #?
+    nmp_poitou_charentes_abacus_one:
+      name: "Abaque 1 de la méthode de calcul de bilan azoté Poitou-Charentes"
     opportunity_origins:
       items:
         advertisement: "Publicité"
@@ -3061,7 +3059,7 @@ fra:
         nuts_harvest: "Récolte de fruits à coques"
         nuts_transport: "Transport de fruits à coques"
         oviparous_birth: "Reproduction (ovipare)"
-        packaging: "Packaging" #?
+        packaging: "Packaging"
         pasturing: "Pâturage"
         physical_weed_killing: "Désherbage physique"
         piece_replacement: "Remplacement de pièces"
@@ -3175,16 +3173,16 @@ fra:
         bonus_staff_expense: "Primes et gratifications au personnel"
         building: "Bâtiment"
         building_division: "Pièce ou zone d’un bâtiment"
-        building_rental: "Location de bâtiment" #?
+        building_rental: "Location de bâtiment"
         calf: "Veau"
-        car_rental: "Location de véhicule" #?
+        car_rental: "Location de véhicule"
         carriage: "Transport"
         catalog_and_print: "Catalogues et imprimés"
         cattle_herd: "Troupeau de bovins"
         congress: "Congrès"
         construction_materials_in_own_outstanding_installation: "Matériaux de construction (utilisation en cours et sol propre)"
         consumer_goods_office_item: "Fourniture de bureau (consommable)"
-        cooperative_participation: "Titre de participation (coopérative)" #?
+        cooperative_participation: "Titre de participation (coopérative)"
         crop: "Culture"
         cultivable_zone: "Zone cultivable"
         discount_and_reduction: "Réduction"
@@ -3196,7 +3194,7 @@ fra:
         equipment_fleet: "Parc matériel"
         equipment_rent: "Location d’équipement"
         equipment_repair_services: "Prestations de réparation d’équipements"
-        equity: "Action" #?
+        equity: "Action"
         exploitation_subsidies: "Subventions d’exploitation"
         farm_teaching_services: "Enseignement à la ferme"
         fee: "Honoraire"
@@ -3334,7 +3332,7 @@ fra:
           kilowatt_hour: "Kilowatt-heure"
           liter: "Litre"
           meal: "Repas"
-          meter: "Mètre" #?
+          meter: "Mètre"
           month: "Mois"
           night: "Nuit"
           package: "Pack"
@@ -3364,7 +3362,7 @@ fra:
         actilact: "Actilact"
         additive: "Adjuvant"
         air_compressor: "Compresseur"
-        alfalfa_seed: "Semence de luzerne" #?
+        alfalfa_seed: "Semence de luzerne"
         all_inclusive_corn_sower: "Semoir maïs tout intégré"
         animal_building: "Bâtiment d’accueil pour les animaux"
         animal_division: "Zone accueillant des animaux"
@@ -3378,12 +3376,21 @@ fra:
         animals_making_service: "Prestation de service (production animale)"
         annual_fallow_crop: "Jachère annuelle"
         anti_slug: "Anti-limace"
+        antidrift_panel_lv: "Panneaux récupérateur VL"
+        antidrift_panel_tv: "Panneaux récupérateur VE"
         apple_crop: "Verger de pommiers"
+        arboreal_tractor: "Tracteur arboricole"
+        arboricultural_cultivator: "Cultivateur arboricole"
+        arboricultural_mounted_jet_sprayer: "Pulvérisateur à jet porté arboricole"
+        arboricultural_platform: "Passerelle de récolte arboricole"
+        arboricultural_pneumatic_sprayer: "Pulvérisateur pneumatique arboricole"
+        arboricultural_weeding_boom: "Rampe de désherbage arboricole"
         arezzo_wheat_crop: "Culture de blé tendre Arezzo"
         ascott_wheat_crop: "Culture de blé tendre Ascott"
         ascott_wheat_seed_25: "Semence de blé tendre Ascott"
         asparagus_crop: "Aspergeraie"
         associate_social_contribution: "Charges de sécurité sociale et de prévoyance des exploitants"
+        back_arboricultural_hay_rake: "Andaineur arboricole arrière"
         bale_collector: "Groupeur de balles"
         baler: "Botteleuse"
         bank_service: "Service bancaire"
@@ -3402,6 +3409,7 @@ fra:
         big_sticker: "Grand sticker"
         blackcurrant_crop: "Culture de cassissier"
         blackcurrant_seedling: "Plant de cassissier"
+        blade_intercep_vtv: "Intercep lames VTE"
         bolt: "Boulon"
         bordelaise_100cl_bottle: "Bouteille Bordelaise 100cl"
         bordelaise_75cl_bottle: "Bouteille Bordelaise 75cl"
@@ -3418,6 +3426,8 @@ fra:
         bottle_75cl_wine: "Bouteille de vin (75cl)"
         bottle_900cl_wine: "Bouteille de vin (900cl)"
         brassicaceae_fungicide: "Fongicide colza"
+        brush_intercep_tv: "Intercep brosses VE"
+        brush_intercep_vtv: "Intercep brosses VTE"
         buckwheat_crop: "Culture de sarrasin"
         buckwheat_grain: "Graine de sarrasin"
         buckwheat_seed: "Semence de sarrasin"
@@ -3453,6 +3463,12 @@ fra:
         car_moving_travel: "Frais kilométrique (déplacement)"
         card: "Carte"
         carriage: "Transport"
+        carrier_confined_sprayer_lv: "Pulvérisateur confiné sur porteur VL"
+        carrier_manure_spreader: "Épandeur de fumier pour porteur"
+        carrier_pre_pruner_lv: "Prétailleuse pour porteur VL"
+        carrier_sprayer_lv: "Pulvérisateur sur porteur VL"
+        carrier_topper_trimmer_lv: "Écimeuse rogneuse pour porteur VL"
+        carrier_topper_trimmer_tv: "Écimeuse rogneuse pour porteur VE"
         carrot: "Carotte"
         carrot_crop: "Culture de carotte"
         carrot_seed: "Semence de carotte"
@@ -3468,11 +3484,13 @@ fra:
         chandler_walnut: "Noix Chandler"
         chard: "Blette"
         chemical_fertilizer_division: "Emplacement de stockage des engrais"
+        chemical_trunck_cleaner_lv: "Épampreuse chimique VL"
         cherry_laurel_crop: "Culture de Laurier"
         chick_hen_band: "Bande de poussins"
         chicken_egg: "Œuf de poule"
         chicken_meat: "Viande de poulet"
         chicory_crop: "Culture de chicorée"
+        claw_interrow_vtv: "Inter-rang griffe VTE"
         common_beta_crop: "Culture de betterave"
         common_carrot_crop: "Culture de carotte"
         common_consumable: "Consommable courant"
@@ -3481,10 +3499,12 @@ fra:
         common_onion_crop: "Culture d'oignon"
         common_package: "Embalage courant"
         complete_herbicide: "Herbicide total"
+        compost_spreader_lv: "Épandeur de compost VL"
         computer_display: "Ecran informatique"
         computer_item: "Pièce informatique"
         computer_mouse: "Souris informatique"
         concrete_tank: "Cuve béton"
+        confined_sprayer_lv: "Pulvérisateur confiné trainé VL"
         congress: "Congrès"
         consumer_goods_office_item: "Fourniture de bureau (consommable)"
         coop:adexar_5l: "Adexar 5 l"
@@ -3513,7 +3533,7 @@ fra:
         coop:bofix_5_l: "Bofix 5 l"
         coop:bromotril_225_5_l: "Bromotril 225 5 l"
         coop:bth_s_arezzo_r1_gau_red_lat_s25kg: "Semence de Blé tendre Arezzo (r1 gau+red) sac de 25kg"
-        coop:bth_s_ascott_r1_gau__red_s25kg: "Semence de Blé tendre Ascott (r1 gau+red) sac de 25kg" #?
+        coop:bth_s_ascott_r1_gau__red_s25kg: "Semence de Blé tendre Ascott (r1 gau+red) sac de 25kg"
         coop:bth_s_ascott_r1_gau_red_s25kg: "Semence de Blé tendre Ascott (r1 gau+red) sac de 25kg"
         coop:bth_s_caphorn_r1_cel_gold_net_25kg: "Semence de Blé tendre Caphorn (r1 cel gold) sac de 25kg"
         coop:bth_s_caphorn_r1_gau_red_25kg: "Semence de Blé tendre Caphorn (r1 gau+red) sac de 25kg"
@@ -3590,8 +3610,8 @@ fra:
         coop:uree_gr_vrac: "Uree gr vrac"
         coop:vesce_velue_savane_hiver_10k: "Semence de vesce velue ‒ Savane ‒ sac de 10kg"
         coop:yellow_pea_grain: "Pois jaune"
-        cooperative_participation: "Titre de participation (coopérative)" #?
-        cooperative_share: "Action (coopérative)" #?
+        cooperative_participation: "Titre de participation (coopérative)"
+        cooperative_share: "Action (coopérative)"
         corabel_hazelnut: "Noisette Corabel"
         corker: "Boucheuse"
         corn_crop: "Culture de maïs"
@@ -3606,15 +3626,20 @@ fra:
         cover_crop: "Couverture végétale"
         cover_implanter: "Dérouleuse ‒ Plastifieuse"
         cow_milk: "Lait de vache"
+        crawler_tractor: "Chenillard"
         creation_society_study: "Etude de creation sociétaire"
+        crop_duster: "Poudreuse"
         crop_residue: "Résidu de culture"
         cultivable_zone: "Zone cultivable"
         daily_project_management: "Gestion de projet (journée)"
         daily_software_engineering: "Ingénierie informatique (journée)"
         daily_training_course: "Formation (journée)"
         dairy_equipment_cleaner: "Produits d’hygiène de traite"
+        destructive_crush_roller: "Rouleau destructeur/écraseur"
         diesel: "Diesel"
         disc_harrow: "Déchaumeur à disques"
+        disc_harrow_lv: "Pulvériseur viticole VL"
+        disc_intercep_vtv: "Intercep disques VTE"
         discount_and_reduction: "Remise et réduction"
         disinfectant_product: "Produit désinfectant"
         domain_name_subscription: "Souscription de nom de domaine"
@@ -3626,7 +3651,9 @@ fra:
         duck_slurry: "Lisier de canard"
         dumper: "Tombereau"
         eco_participation: "Eco-participation"
+        electric_pruning: "Sécateur électrique"
         electricity: "Électricité"
+        electronic_mechanical_pruner_lv: "Tailleuse mécanique électronique VL"
         employee: "Employé"
         ennis_hazelnut: "Noisette Ennis"
         equipment: "Équipement"
@@ -3685,6 +3712,7 @@ fra:
         franquette_walnut: "Noix Franquette"
         freelance_sofware_development: "Developpement informatique freelance"
         freezer_tank: "Congélateur"
+        front_arboricultural_hay_rake: "Andaineur arboricole avant"
         frozen_fruit: "Fruits congelés"
         fruit_derivative_good: "Produits à base de fruits"
         fuel_tank: "Cuve à fioul"
@@ -3704,6 +3732,8 @@ fra:
         grain_crusher: "Broyeur à grain"
         grain_tank: "Silo à grains"
         granulated_insecticide_12: "Insecticide granulés"
+        grape_harvester_lv: "Machine à vendanger trainée VL"
+        grape_harvester_tv: "Machine à vendanger trainée VE"
         grape_reaper: "Machine à vendanger"
         grape_trailer: "Benne à vendange"
         grass: "Herbe"
@@ -3711,9 +3741,11 @@ fra:
         grass_silage: "Ensilage d’herbe"
         green_compost: "Compost de déchets verts"
         grinder: "Broyeur"
+        grinder_vine_shoot_extractor: "Tireuse de bois avec broyeur intégré"
         growth_regulator: "Régulateur de croissance"
         guineafowl_manure: "Fumier de pintade"
         hand_drawn: "Tireuse"
+        hand_tying_lv: "Pince à lier VL"
         hanging_scroll: "Kakémono"
         hard_wheat_crop: "Culture de blé dur"
         hard_wheat_grain: "Graine de blé dur"
@@ -3750,7 +3782,12 @@ fra:
         hourly_training_course: "Formation (heure)"
         hourly_user_support: "Support utilisateur (heure)"
         howard_walnut: "Noix Howard"
+        hydraulic_blade_intercep_tv: "Intercep lames hydraulique VE"
+        hydraulic_intercep_lv: "Intercep hydraulique VL"
         hydraulic_oil: "Fluide hydraulique"
+        hydraulic_plow_lv: "Charrue décavailloneuse hydraulique VL"
+        hydraulic_plow_tv: "Charrue décavailloneuse hydraulique VE"
+        hydraulic_trunck_cleaner_lv: "Épampreuse hydraulique VL"
         ichn_subsidies: "Subventions ICHN"
         implanter: "Planteuse"
         infirmity_and_death_insurance: "Assurance décès-invalidité (ADI)"
@@ -3759,6 +3796,7 @@ fra:
         inseminator: "Inséminateur"
         insurance: "Assurance"
         internet_line_subscription: "Abonnement Internet"
+        interrow_sower_lv: "Semoir inter-rang VL"
         intership: "Stagiaire"
         ip_address_subscription: "Achat d’adresse IP"
         irrigation_pivot: "Pivot d'irrigation"
@@ -3784,12 +3822,9 @@ fra:
         lettuce_crop: "Culture de laitue"
         lewis_hazelnut: "Noisette Lewis"
         lifter: "Souleveur"
-        liquid_10_25_d1-4: "Azote binaire 10-25-0 densité 1.4" #?
-        # liquid_10_25_d1.4: "Liquid 10 25 d1.4"
-        liquid_10_34_d1-4: "Azote binaire 10-34-0 densité 1.4" #?
-        # liquid_10_34_d1.4: "Liquid 10 34 d1.4"
-        liquid_nitrogen_30_d1-3: "Azote liquide 30% densité 1.3" #?
-        # liquid_nitrogen_30_d1.3: "Liquid nitrogen 30 d1.3"
+        liquid_10_25_d1-4: "Azote binaire 10-25-0 densité 1.4"
+        liquid_10_34_d1-4: "Azote binaire 10-34-0 densité 1.4"
+        liquid_nitrogen_30_d1-3: "Azote liquide 30% densité 1.3"
         little_office_equipment: "Petit équipement de bureau"
         little_office_good: "Consommable de bureau"
         livestock_cleanliness_product: "Produit d’hygiène d’élevage"
@@ -3822,15 +3857,21 @@ fra:
         malic_acid_25kg: "Acide malique ‒ 25kg"
         manager: "Responsable"
         manual_implanter: "Plantoir"
+        manual_mechanical_pruner_lv: "Tailleuse mécanique manuelle VL"
         manure_division: "Fumière"
+        manure_spreader_lv: "Épandeur de fumier VL"
+        manure_spreader_tv: "Épandeur de fumier VE"
         market_gardening_crop: "Maraîchage"
         meadow_grass: "Herbe de prairie"
         meal_travel: "Frais repas (déplacement)"
-        melon_crop: "Culture de melon" #?
+        mechanical_blade_intercep_tv: "Intercep lames mécanique VE"
+        mechanical_plow_lv: "Charrue décavailloneuse mécanique VL"
+        mechanical_plow_tv: "Charrue décavailloneuse mécanique VE"
+        melon_crop: "Culture de melon"
         merlot_noir_so4_vine_seedling: "Plant de Merlot Noir sur so4"
         merveille_hazelnut: "Noisette Merveille"
         milk_tank: "Tank à lait"
-        milk_taxe: "Taxe sur les produits laitiers" #?
+        milk_taxe: "Taxe sur les produits laitiers"
         milked_lamb_meat: "Viande d’agneau de lait"
         milked_pork_meat: "Viande de cochon de lait"
         milking_division: "Laiterie"
@@ -3850,6 +3891,10 @@ fra:
         monthly_enterprise_support: "Support entreprise"
         motor_hoe: "Motobineuse"
         motor_oil: "Huile moteur"
+        mounted_jet_sprayer_lv: "Pulvérisateur jet portés VL"
+        mounted_jet_sprayer_tv: "Pulvérisateur jet portés VE"
+        mounted_jet_sprayer_vtv: "Pulvérisateur jet portés VTE"
+        mounted_pneumatic_sprayer_tv: "Pulvérisateur pneumatique porté VE"
         moving_travel: "Frais de transport (déplacement)"
         mower: "Faucheuse"
         mud: "Boue"
@@ -3898,14 +3943,18 @@ fra:
         pig_slurry: "Lisier de porc"
         piglet_band: "Bande de porcelet"
         piglet_meat: "Viande de porcellet"
+        plant_cover_sower: "Semoir direct pour implantation des couverts végétaux"
         plant_medicine_tank: "Réserve de produits phytosanitaires"
-        plastic_cover: "Couvert plastique" #?
+        plastic_cover: "Couvert plastique"
         plastic_cover_500m: "Couvert plastique 500m"
         plow: "Charrue"
+        plow_interrow_vtv: "Inter-rang charrue VTE"
         plum: "Prune"
         plum_crop: "Verger de pruniers"
         plum_reaper: "Récolteuse de prunes"
         plum_seedling: "Plant de prunier"
+        pneumatic_pruning: "Sécateur pneumatique"
+        pneumatic_sprayer_vtv: "Pulvérisateur pneumatique VTE"
         poaceae_fungicide: "Fongicide céréales/graminées"
         poaceae_herbicide: "Herbicide céréales/graminées"
         pollination_tool: "Outil de pollinisation"
@@ -3924,10 +3973,15 @@ fra:
         potato: "Pomme de terre"
         potato_crop: "Culture de pomme de terre"
         poultry_sausage: "Saucisse de volaille"
+        pre_pruner_lv: "Prétailleuse VL"
+        pre_pruner_pruner_lv: "Prétailleuse - Tailleuse VL"
+        pre_pruner_tv: "Prétailleuse VE"
         preparation_division: "Zone de produits préparés"
         printer: "Imprimante"
         product_warranty: "Garantie (produit)"
         project_study: "Etude de projet"
+        projected_jet_sprayer_tv: "Pulvérisateur jet projetés VE"
+        projected_jet_sprayer_vtv: "Pulvérisateur jet projetés VTE"
         protective_canvas: "Bâche de protection"
         protective_net: "Filet de protection"
         pruning_platform: "plate-forme de taille"
@@ -3949,10 +4003,19 @@ fra:
         riflexine: "Riflexine"
         roast_veal_meat: "Roti de veau"
         roll: "Rouleau"
+        roller_stripper_lv: "Effeuilleuse à rouleau VL"
         rollup: "Rollup"
         ronde_de_piemont_hazelnut: "Noisette Ronde de piemont"
         rose_crop: "Culture de rosier"
         rose_seedling: "Plant de rosier"
+        rotary_cultivator_lv: "Cultivateur rotatif VL"
+        rotary_cultivator_tv: "Cultivateur rotatif VE"
+        rotary_flail_intercep_vtv: "Intercep rotofil VTE"
+        rotary_grinder_tv: "Gyrobroyeur VE"
+        rotary_spade_interrow_vtv: "Inter-rang rotobêche VTE"
+        rotary_trimmer_lv: "Gyrotondeuse VL"
+        rotary_trimmer_tv: "Gyrotondeuse VE"
+        rotative_intercep_lv: "Intercep rotatif VL"
         rotavator: "Rotavator"
         rubisko_wheat_crop: "Culture de blé Rubisko"
         running_water: "Eau du réseau"
@@ -3965,14 +4028,19 @@ fra:
         saffron_seedling: "Bulbe de safran"
         salary_social_contribution: "Charges de sécurité sociale et de prévoyance des salariés"
         salmon_band: "Bande de saumon"
+        scarifier_tv: "Scarificateur VE"
         screed_building: "Construction béton (silo, chape, terrasse)"
         seed: "Semence"
         seedling: "Plant"
         segorbe_hazelnut: "Noisette Segorbe"
+        self_propelled_grape_harvester_lv: "Machine à vendanger automotrice VL"
+        self_propelled_grape_harvester_tv: "Machine à vendanger automotrice VE"
         server_certificate_subscription: "Souscription certificat SSL"
         server_rental: "Location de serveur"
         settlement: "Aménagement"
         sheep_herd: "Troupeau de moutons"
+        shoot_grinder_lv: "Broyeur de sarments VL"
+        shoot_hay_rake_lv: "Andaineur de sarments VL"
         shoulder_veal_meat: "Epaule de veau"
         sieve_shaker: "Tamiseuse"
         silage_distributor: "Désileuse"
@@ -3998,18 +4066,29 @@ fra:
         sprayer: "Pulvérisateur"
         spread_renting: "Location d’épandeur"
         spreader: "Épandeur à engrais"
+        spreader_lv: "Épandeur d'engrais VL"
         spreader_trailer: "Épandeur à fumier"
+        spreader_tv: "Épandeur d'engrais VE"
         spring_barley_crop: "Culture d’orge de printemps"
         spring_barley_seed_25: "Semence d’orge de printemps ‒ sac de 25kg"
         spring_oat_crop: "Culture d’avoine de printemps"
         squash: "Courge"
         stainless_steel_tank: "Cuve en acier inox"
+        star_intercep_vtv: "Intercep étoiles VTE"
         steam_engine: "Machine à vapeur"
+        stone_grinder: "Broyeur de pierres viticole"
+        straddle_tractor: "Enjambeur"
+        straddle_tractor_shoot_grinder_tv: "Broyeur de sarments pour enjambeur VE"
+        straddle_tractor_trimmer_tv: "Rogneuse pour enjambeur VE"
+        strap_trunck_cleaner_tv: "Épampreuse à lanières VE"
         strawberry_crop: "Culture de fraisier"
         strawberry_seedling: "Plant de fraisier"
+        stripper_lv: "Effeuilleuse VL"
+        stripper_tv: "Effeuilleuse VE"
         stubble_cultivator: "Déchaumeur"
         subscription_professional_society: "Abonnement association"
         subsoil_plow: "Sous soleuse"
+        subsoiler_lv: "Décompacteur VL"
         sugar_vinasse: "Vinasse de sucrerie"
         sunflower_crop: "Culture de tournesol"
         sunflower_grain: "Graine de tournesol"
@@ -4018,6 +4097,8 @@ fra:
         tablur_hard_wheat_crop: "Culture de blé dur Tablur"
         tablur_hard_wheat_seed_25: "Semence de blé dur Tablur sac de 25kg"
         tangerine_crop: "Culture de mandarinier"
+        tank_pump_lv: "Cuve et pompe VL"
+        tank_pump_tv: "Cuve et pompe VE"
         taxe: "Taxe"
         technician: "Technicien"
         telescopic_handler: "Télescopique"
@@ -4026,9 +4107,15 @@ fra:
         tobacco_crop: "Culture de tabac"
         tonda_giffoni_hazelnut: "Noisette Tonda giffoni"
         topper: "Effaneuse"
+        topper_trimmer_lv: "Écimeuse rogneuse VL"
         tractor: "Tracteur"
+        tractor_shoot_grinder_tv: "Broyeur de sarments pour tracteur VE"
+        trailed_pneumatic_sprayer_lv: "Pulvérisateur pneumatique trainé VL"
+        trailed_pneumatic_sprayer_tv: "Pulvérisateur pneumatique trainé VE"
         trailer: "Remorque"
         trimmer: "Équipement de taille"
+        trimmer_lv: "Tondeuse VL"
+        trimmer_tv: "Rogneuse VE"
         triticale_crop: "Culture de triticale"
         triticale_grain: "Grain de triticale"
         triticale_seed: "Semences de triticale"
@@ -4044,13 +4131,18 @@ fra:
         vine_grape_crop: "Culture de vigne"
         vine_grape_juice: "Jus de raisin"
         vine_grape_must: "Moût de raisin"
+        vine_lifter_lv: "Arracheuse de vigne VL"
         vine_residu: "Co-produit du raisin"
+        vine_shoot_extractor: "Tireuse de bois"
+        vine_tractor: "Tracteur vigne"
         vines_harvest_insurance: "Assurance récolte - Vignes"
         walnut: "Noix"
         walnut_crop: "Culture de noyer"
         water_bowser: "Tonne à eau"
         water_spreader: "Enrouleur (irrigation)"
         weeder: "Désherbeur"
+        weeding_boom_lv: "Rampe de désherbage VL"
+        weeding_boom_tv: "Rampe de désherbage VE"
         weeding_kit: "Kit de désherbage"
         wheat_crop: "Culture de blé"
         wheat_grain: "Graine de blé"
@@ -4061,8 +4153,12 @@ fra:
         wheel_loader: "Chargeur sur pneus"
         white_sugar_25kg: "Sucre blanc ‒ 25kg"
         wine: "Vin"
+        wine_cultivator_lv: "Cultivateur viticole VL"
+        wine_cultivator_tv: "Cultivateur viticole VE"
+        wine_disc_stubble_cultivator: "Déchaumeur à disques viticole"
         wine_press: "Pressoir"
         wine_storage_division: "Zone de stockage ‒ vins conditionnés"
+        wine_tipper_trailer: "Benne viticole"
         wine_vinasse: "Vinasse de distillerie"
         winter_barley_crop: "Culture d’orge d’hiver"
         winter_barley_seed_25: "Semence d’orge d’hiver sac de 25kg"
@@ -4071,7 +4167,7 @@ fra:
         wire_50m_roll: "Bobine de 50 mètres de fil de clôture"
         wood_stake_200: "Piquet bois de 2 mètres"
         wood_stake_250: "Piquet bois de 2,5 mètres"
-        young_goat: "Chevreau" #?
+        young_goat: "Chevreau"
         young_pig_band: "Bande de porcelets"
         young_rabbit: "Lapereau"
         zea_herbicide: "Herbicide maïs"
@@ -4141,7 +4237,7 @@ fra:
         congress: "Congrès"
         construction_material_in_own_outstanding_installation: "Matériel de construction sur sol propre"
         consumer_goods_office_item: "Fourniture de bureau (consommable)"
-        cooperative_participation: "Titre de participations (cooperative)" #?
+        cooperative_participation: "Titre de participations (cooperative)"
         cork: "Bouchon"
         corker: "Boucheuse"
         corn_topper: "Écimeuse"
@@ -4151,6 +4247,7 @@ fra:
         crop_residue: "Residu de culture"
         crop_taxe: "Cotisations professionelles (Produits végétaux)"
         cultivable_zone: "Zone cultivable"
+        cutting_equipment: "Équipement de coupe"
         discount_and_reduction: "Remise et réduction"
         disinfectant_product: "Produit désinfectant"
         draining_item: "Pièce de drainage"
@@ -4159,6 +4256,7 @@ fra:
         dumper: "Tombereau"
         egg: "Œuf"
         electricity: "Électricité"
+        element_count: "Nombre d'éléments"
         equipment: "Équipement"
         equipment_building_division: "Zone de stockage des équipements"
         equipment_repair_services: "Prestations de réparation d’équipements"
@@ -4185,7 +4283,7 @@ fra:
         fermented_grape_juice: "Jus fermenté de raisin"
         fermented_milk: "Lait fermenté"
         ferry: "Transbordeur"
-        fertilizer_division: "Zone de stockage des engrais" #?
+        fertilizer_division: "Zone de stockage des engrais"
         fiscal_fine: "Amende fiscale"
         flower_crop: "Culture florale"
         fodder_bale: "Botte de fourrage"
@@ -4254,6 +4352,7 @@ fra:
         leek: "Poireau"
         legal_registration: "Enregistrement légal"
         lettuce: "Laitue"
+        lift: "Soulever"
         little_office_item: "Fourniture de bureau"
         loan_interest: "Intérêt d’emprunt"
         mail_subscription: "Frais postaux"
@@ -4308,8 +4407,10 @@ fra:
         pig_band: "Bande de porcs"
         pig_herd: "Groupe de porcs"
         piglet_band: "Bande de porcelet"
+        plant_grinder: "Broyeur de plantes"
         plant_medicine_tank: "Réserve de produits phytosanitaires"
         plastic_cover: "Couvert plastique"
+        platform: "Plateforme"
         plow: "Charrue"
         plum: "Prune"
         plum_reaper: "Récolteuse de prunes"
@@ -4342,14 +4443,17 @@ fra:
         rent: "Location"
         representation_item: "Fourniture de représentation"
         roll: "Rouleau"
+        roller: "Rouleau"
         running_water: "Eau du réseau"
         salary_social_contribution: "Charges de sécurité sociale et de prévoyance des salariés"
         salmon_band: "Bande de saumon"
         seed: "Semence"
         seedbed_preparator: "Outil de préparation du lit de semences"
         seedling: "Plant"
+        self_propelled_carrier: "Porteur automoteur"
+        self_propelled_harvester: "Récolteuse automotrice"
         settlement: "Aménagement"
-        share: "Action" #?
+        share: "Action"
         sheep_herd: "Troupeau de mouton"
         shell_fruit_reaper: "Récolteuse de fruits à coques"
         sieve_shaker: "Tamiseuse"
@@ -4358,6 +4462,7 @@ fra:
         small_equipment: "Petit matériel"
         so2_solution: "Solution de dioxyde de soufre (SO₂)"
         software_engineering: "Ingénierie logiciel"
+        soil_grinder: "Broyeur de sol"
         soil_loosener: "Décompacteur"
         sower: "Semoir"
         species: "Épices"
@@ -4376,6 +4481,7 @@ fra:
         taxe: "Taxe"
         technician: "Technicien"
         telescopic_handler: "Télescopique"
+        tool: "Outil"
         topper: "Effaneuse"
         tractor: "Tracteur"
         trade_show: "Foire et exposition"
@@ -4392,6 +4498,9 @@ fra:
         vegetable_crop: "Culture de légume"
         vegetals_making_services: "Prestation de service (production végétale)"
         vial: "Paillette de reproduction"
+        vine_and_ochard_tractor: "Tracteur vigne et verger"
+        vine_lifter: "Arracheuse de vigne"
+        vine_shoot_extractor: "Tireuse de bois"
         walnut: "Noix"
         walnut_crop: "Culture de noyer"
         water_spreader: "Matériel d’irrigation"
@@ -4407,7 +4516,7 @@ fra:
         wine_storage_division: "Zone de stockage ‒ vins conditionnés"
         wine_tank: "Cuve à vin"
         wire: "Fil"
-        young_goat: "Chevreau" #?
+        young_goat: "Chevreau"
         young_rabbit: "Lapereau"
       name: "Types de produits"
       property_natures:
@@ -4422,110 +4531,110 @@ fra:
         variable_indicators: "Indicateurs variables"
         variety: "Variété"
     production_natures:
-      items: #?
-        administrative: "Administratif" #?
-        annual_frost_fallow_land: "Gel annuel" #?
-        apple: "Pomme" #?
-        asparagus: "Asperge" #?
-        bean: "Haricot" #?
-        beet: "Betterave" #?
-        building: "Bâtiment" #?
-        calf: "Veau" #?
-        carrot: "Carotte" #?
-        chicken: "Poulet" #?
-        duck: "Canard" #?
-        escourgeon_barley: "Orge escourgeon" #?
-        exploitation: "Exploitation" #?
-        five_years_temporary_meadow: "Prairie temporaire de plus de 5 ans" #?
-        fixed_frost_fallow_land: "Gel fixe" #?
-        flax: "Lin" #?
-        forager_lupin: "Lupin fourrager" #?
-        forager_soy: "Soja fourrager" #?
-        fruit_processing: "Transformation de fruits" #?
-        garden_center: "Pépinière" #?
-        garlic: "Ail" #?
-        goat: "Chèvre" #?
-        gooseberry: "Groseille" #?
-        grain_corn: "Maïs grain" #?
-        green_fallow_land: "Gel vert" #?
-        hazel: "Noisetier" #?
-        horsebean: "Féverole" #?
-        lavender: "Lavande" #?
-        laying_hen: "Poule pondeuse" #?
-        lentil: "Lentille" #?
-        maintenance: "Maintenance" #?
-        market_gardening: "Maraîchage" #?
-        market_gardening_under_greenhouse: "Maraîchage sous serre" #?
-        marketable_bean: "Haricot commercialisé" #?
-        marketable_flax: "Lin commercialisé" #?
-        marketable_forager_lupin: "Lupin fourrager commercialisé" #?
-        marketable_forager_soy: "Soja fourrager commercialisé" #?
-        marketable_garden_center: "Pépinière commercialisée" #?
-        marketable_hazel: "Noisette commercialisée" #?
-        marketable_lentil: "Lentille commercialisée" #?
-        marketable_soy: "Soja commercialisé" #?
-        marketable_sunflower: "Tournesol commercialisé" #?
-        marketable_walnut: "Noix commercialisée" #?
-        meat_cattle: "Bovins Viande" #?
-        melon: "Melon" #?
-        milk_bull_calf: "Taurillons Lait" #?
-        milk_cattle: "Bovins Lait" #?
-        other_crop: "Autre culture" #?
-        other_gardening: "Autres fruits et légumes" #?
-        others_usages: "Autres utilisations (non admissibles)" #?
-        oyster: "Huître" #?
-        peach: "Péche" #?
-        pear: "Poire" #?
-        permanent_meadow: "Prairie permanente" #?
-        pig: "Porc" #?
-        plum: "Prune" #?
-        potato: "Pomme de terre" #?
-        raspberry: "Framboise" #?
-        rose: "Rose" #?
-        rye: "Seigle" #?
-        saffron: "Safran" #?
-        salmon: "Saumon" #?
-        seed_bean: "Haricot semence" #?
-        seed_corn: "Maïs semence" #?
-        seed_pea: "Pois semence" #?
-        services: "Services" #?
-        silage_corn: "Maïs ensilage" #?
-        sorghum: "Sorgho" #?
-        soy: "Soja" #?
-        specific_fallow_land: "Gel spécifique" #?
-        spring_barley: "Orge de printemps" #?
-        spring_hard_wheat: "Blé dur de printemps" #?
-        spring_oat: "Avoine de printemps" #?
-        spring_pea: "Pois de printemps" #?
-        spring_rapeseed: "Colza de printemps" #?
-        spring_soft_wheat: "Blé de printemps" #?
-        strawberry: "Fraise" #?
-        sunflower: "Tournesol" #?
-        table_grape_vine: "Vigne à raisin de table" #?
-        temporary_meadow: "Prairie temporaire" #?
-        thicket: "Taillis" #?
-        tobacco: "Tabac" #?
-        trade: "Commerce" #?
-        triticale: "Triticale" #?
-        unexploited_cultivable_zone: "Zone cultivable inexploitée" #?
-        vine: "Vigne" #?
-        vine_restructuration: "Restructuration vigne" #?
-        walnut: "Noyer" #?
-        wine_storehouse: "Cave" #?
-        winery: "Chai" #?
-        winter_barley: "Orge d’hiver" #?
-        winter_hard_wheat: "Blé dur d’hiver" #?
-        winter_oat: "Avoine d’hiver" #?
-        winter_pea: "Pois d’hiver" #?
-        winter_rapeseed: "Colza d’hiver" #?
-        winter_soft_wheat: "Blé tendre d’hiver" #?
-        without_crop: "Hors culture" #?
+      items:
+        administrative: "Administratif"
+        annual_frost_fallow_land: "Gel annuel"
+        apple: "Pomme"
+        asparagus: "Asperge"
+        bean: "Haricot"
+        beet: "Betterave"
+        building: "Bâtiment"
+        calf: "Veau"
+        carrot: "Carotte"
+        chicken: "Poulet"
+        duck: "Canard"
+        escourgeon_barley: "Orge escourgeon"
+        exploitation: "Exploitation"
+        five_years_temporary_meadow: "Prairie temporaire de plus de 5 ans"
+        fixed_frost_fallow_land: "Gel fixe"
+        flax: "Lin"
+        forager_lupin: "Lupin fourrager"
+        forager_soy: "Soja fourrager"
+        fruit_processing: "Transformation de fruits"
+        garden_center: "Pépinière"
+        garlic: "Ail"
+        goat: "Chèvre"
+        gooseberry: "Groseille"
+        grain_corn: "Maïs grain"
+        green_fallow_land: "Gel vert"
+        hazel: "Noisetier"
+        horsebean: "Féverole"
+        lavender: "Lavande"
+        laying_hen: "Poule pondeuse"
+        lentil: "Lentille"
+        maintenance: "Maintenance"
+        market_gardening: "Maraîchage"
+        market_gardening_under_greenhouse: "Maraîchage sous serre"
+        marketable_bean: "Haricot commercialisé"
+        marketable_flax: "Lin commercialisé"
+        marketable_forager_lupin: "Lupin fourrager commercialisé"
+        marketable_forager_soy: "Soja fourrager commercialisé"
+        marketable_garden_center: "Pépinière commercialisée"
+        marketable_hazel: "Noisette commercialisée"
+        marketable_lentil: "Lentille commercialisée"
+        marketable_soy: "Soja commercialisé"
+        marketable_sunflower: "Tournesol commercialisé"
+        marketable_walnut: "Noix commercialisée"
+        meat_cattle: "Bovins Viande"
+        melon: "Melon"
+        milk_bull_calf: "Taurillons Lait"
+        milk_cattle: "Bovins Lait"
+        other_crop: "Autre culture"
+        other_gardening: "Autres fruits et légumes"
+        others_usages: "Autres utilisations (non admissibles)"
+        oyster: "Huître"
+        peach: "Péche"
+        pear: "Poire"
+        permanent_meadow: "Prairie permanente"
+        pig: "Porc"
+        plum: "Prune"
+        potato: "Pomme de terre"
+        raspberry: "Framboise"
+        rose: "Rose"
+        rye: "Seigle"
+        saffron: "Safran"
+        salmon: "Saumon"
+        seed_bean: "Haricot semence"
+        seed_corn: "Maïs semence"
+        seed_pea: "Pois semence"
+        services: "Services"
+        silage_corn: "Maïs ensilage"
+        sorghum: "Sorgho"
+        soy: "Soja"
+        specific_fallow_land: "Gel spécifique"
+        spring_barley: "Orge de printemps"
+        spring_hard_wheat: "Blé dur de printemps"
+        spring_oat: "Avoine de printemps"
+        spring_pea: "Pois de printemps"
+        spring_rapeseed: "Colza de printemps"
+        spring_soft_wheat: "Blé de printemps"
+        strawberry: "Fraise"
+        sunflower: "Tournesol"
+        table_grape_vine: "Vigne à raisin de table"
+        temporary_meadow: "Prairie temporaire"
+        thicket: "Taillis"
+        tobacco: "Tabac"
+        trade: "Commerce"
+        triticale: "Triticale"
+        unexploited_cultivable_zone: "Zone cultivable inexploitée"
+        vine: "Vigne"
+        vine_restructuration: "Restructuration vigne"
+        walnut: "Noyer"
+        wine_storehouse: "Cave"
+        winery: "Chai"
+        winter_barley: "Orge d’hiver"
+        winter_hard_wheat: "Blé dur d’hiver"
+        winter_oat: "Avoine d’hiver"
+        winter_pea: "Pois d’hiver"
+        winter_rapeseed: "Colza d’hiver"
+        winter_soft_wheat: "Blé tendre d’hiver"
+        without_crop: "Hors culture"
       name: "Types de productions"
-      property_natures: #?
-        activity: "Activité" #?
-        production_code: "Code" #?
-        telepac_crop_code: "Code de type de culture TéléPAC" #?
-        variant_support: "Variant" #?
+      property_natures:
+        activity: "Activité"
+        production_code: "Code"
+        telepac_crop_code: "Code de type de culture TéléPAC"
+        variant_support: "Variant"
     production_systems:
       items:
         extensive_farming: "Agriculture extensive"
@@ -4632,7 +4741,7 @@ fra:
           amount: "Montant fixe"
           percentage: "Pourcentage"
       items:
-        asset_vat: "TVA sur immobilisations" #?
+        asset_vat: "TVA sur immobilisations"
         eu_vat: "TVA intra-communautaire"
         import_export_vat: "TVA import/export"
         inflated_vat: "TVA augmentée"
@@ -4650,21 +4759,21 @@ fra:
         fixed_asset_deduction_account: "Compte de déduction pour les immobilisations"
         suffix: "Suffixe"
     taxes:
-      choices: #?
-        computation_method: #?
-          amount: "Montant fixe" #?
-          percentage: "Pourcentage" #?
+      choices:
+        computation_method:
+          amount: "Montant fixe"
+          percentage: "Pourcentage"
       items:
         algerian_vat_normal: "TVA algérienne normale"
         algerian_vat_normal_2017: "TVA algérienne normale 2017"
         algerian_vat_null: "TVA null Algérie"
         algerian_vat_reduced: "TVA algérienne réduite"
         algerian_vat_reduced_2017: "TVA algérienne réduite 2017"
-        fr_vat_intermediate: "TVA française intermédiaire" #?
-        fr_vat_normal: "TVA française normale" #?
-        fr_vat_null: "TVA française nulle" #?
-        fr_vat_particular: "TVA française particuliere" #?
-        fr_vat_reduced: "TVA française normale réduite" #?
+        fr_vat_intermediate: "TVA française intermédiaire"
+        fr_vat_normal: "TVA française normale"
+        fr_vat_null: "TVA française nulle"
+        fr_vat_particular: "TVA française particuliere"
+        fr_vat_reduced: "TVA française normale réduite"
         french_vat_eu: "TVA intra-communautaire"
         french_vat_import_export: "TVA import/export"
         french_vat_intermediate_2012: "TVA 7.0 % (2012)"
@@ -4696,16 +4805,16 @@ fra:
         swiss_vat_reduced_2011: "TVA suisse réduite 2011"
       name: "Taxes"
       property_natures:
-        active: "actif" #?
+        active: "actif"
         amount: "valeur"
-        collect_account: "compte de TVA collectée (radical)" #?
-        computation_method: "Methode de calcul" #?
+        collect_account: "compte de TVA collectée (radical)"
+        computation_method: "Methode de calcul"
         country: "pays"
-        deduction_account: "compte de TVA déductible (radical)" #?
+        deduction_account: "compte de TVA déductible (radical)"
         nature: "Type"
         started_on: "Débutée le"
         stopped_on: "Arrêté le"
-        suffix: "suffixe du compte comptable" #?
+        suffix: "suffixe du compte comptable"
     units:
       items:
         acre: "Acre"
@@ -5869,7 +5978,7 @@ fra:
         ligustrum: "Troène"
         ligustrum_ovalifolium: "Troène de Californie"
         ligustrum_vulgare: "Troène commun"
-        liliaceae: "Liliacée" #?
+        liliaceae: "Liliacée"
         limacidae: "Limacidé"
         limonium: "Limonium"
         limonium_vulgare: "Lavande de mer"
@@ -6272,7 +6381,7 @@ fra:
         oryctolagus_cuniculus_nain_belier: "Lapin commun nain belier"
         oryza: "Riz"
         oryza_sativa: "Riz cultivé"
-        osteichthyes: "Poissons osseux" #?
+        osteichthyes: "Poissons osseux"
         ostreidae: "Ostréïdé"
         ovis: "Ovin"
         ovis_aries: "Mouton"
@@ -6384,7 +6493,7 @@ fra:
         pistacia: "Pistachier"
         pistacia_vera: "Pistachier commun"
         pisum: "Pois"
-        pisum_hibernum: "Pois d’hiver" #?
+        pisum_hibernum: "Pois d’hiver"
         pisum_sativum: "Pois commun"
         pisum_sativum_astronaute: "Pois de printemps Astronaute"
         pisum_sativum_audit: "Pois de printemps Audit"
@@ -6399,7 +6508,7 @@ fra:
         pisum_sativum_rocket: "Pois de printemps Rocket"
         pisum_sativum_style: "Pois Style"
         pisum_sativum_touracq: "Pois Touracq"
-        pisum_vernum: "Pois de printemps" #?
+        pisum_vernum: "Pois de printemps"
         plant: "Culture"
         plantaginaceae: "Plantaginacée"
         plantago: "Plantago"
@@ -6716,7 +6825,7 @@ fra:
         solanum_lycopersicum_calabash_red: "Tomate Calabash red"
         solanum_lycopersicum_caro_rich: "Tomate Caro rich"
         solanum_lycopersicum_cerise: "Tomate Cerise"
-        solanum_lycopersicum_cersasiforme: "Tomate Cerise" #?
+        solanum_lycopersicum_cersasiforme: "Tomate Cerise"
         solanum_lycopersicum_chair_de_boeuf: "Tomate Chair de bœuf"
         solanum_lycopersicum_champion: "Tomate Champion"
         solanum_lycopersicum_charbonniere: "Tomate Charbonnière"

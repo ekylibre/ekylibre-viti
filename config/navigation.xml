@@ -2220,6 +2220,9 @@
       <item name="imports">
         <page to="backend/imports#template_file"/>
       </item>
+      <item name="imports">
+        <page to="backend/imports#template_file"/>
+      </item>
       <item name="interventions">
         <page to="backend/interventions#compare_realised_with_planned"/>
         <page to="backend/interventions#create_duplicate_intervention"/>
