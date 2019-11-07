@@ -841,6 +841,7 @@ deu:
     due_on: "Fällig am"
     duration: "Dauer"
     economic_situation: "Ökonomische Situation"
+    # edit_cadastral_ref: "Edit cdastral reference"
     # email: "Email"
     emails: "E-Mails"
     embedded: "Eingebettet"

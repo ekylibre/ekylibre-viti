@@ -1586,6 +1586,7 @@ arb:
     duration: "المدة"
     ean13: "Ean13" #?
     economic_situation: "الوضع الاقتصادي"
+    # edit_cadastral_ref: "Edit cdastral reference"
     email: "عنوان البريد الالكتروني"
     emails: "رسائل البريد الإلكتروني"
     embedded: "المضمنة"

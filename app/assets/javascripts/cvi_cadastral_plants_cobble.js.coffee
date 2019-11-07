@@ -32,8 +32,6 @@
       else
         if $tr.closest("[id^=cvi_cadastral_plants]").attr('id') == "cvi_cadastral_plants_map-list"
           $tr.children( ".c3" ).html("<a href='#' >#{$tr.children( ".c3" ).html()} </a>")
-        $tr.children( ".c2" ).children().remove()
-        $tr.children( ".c1" ).children().remove()
 
   manageErrorMessage = ->
     $('[id^=cvi_cadastral_plants] tr').each ->

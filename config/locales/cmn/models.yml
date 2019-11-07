@@ -841,6 +841,7 @@ cmn:
     due_on: "由于上"
     duration: "为期"
     economic_situation: "经济情况"
+    # edit_cadastral_ref: "Edit cdastral reference"
     email: "电子邮件"
     emails: "电子邮件"
     embedded: "嵌入式"

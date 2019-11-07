@@ -872,6 +872,7 @@ ita:
     due_on: "Dovuto per"
     duration: "Durata"
     economic_situation: "Situazione economica"
+    # edit_cadastral_ref: "Edit cdastral reference"
     email: "E-mail"
     emails: "Messaggi di posta elettronica"
     embedded: "inserito"

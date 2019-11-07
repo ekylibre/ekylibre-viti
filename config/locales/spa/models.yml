@@ -845,6 +845,7 @@ spa:
     due_on: "Debido a"
     duration: "Duración"
     economic_situation: "Situación económica"
+    # edit_cadastral_ref: "Edit cdastral reference"
     # email: "Email"
     emails: "Los correos electrónicos"
     embedded: "Incrustado"

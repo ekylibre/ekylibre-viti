@@ -841,6 +841,7 @@ por:
     due_on: "Devido a"
     duration: "Duração"
     economic_situation: "Situação econômica"
+    # edit_cadastral_ref: "Edit cdastral reference"
     email: "O email"
     emails: "E-mails"
     embedded: "Incorporado"
