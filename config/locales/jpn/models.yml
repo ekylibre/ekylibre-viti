@@ -841,6 +841,7 @@ jpn:
     due_on: "上の原因"
     duration: "デュレーション"
     economic_situation: "経済状況"
+    # edit_cadastral_ref: "Edit cdastral reference"
     email: "Eメール"
     emails: "電子メール"
     embedded: "埋め込み"

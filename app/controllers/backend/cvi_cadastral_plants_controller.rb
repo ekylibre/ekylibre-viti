@@ -14,7 +14,7 @@ module Backend
 
       t3e(@cvi_cadastral_plant.attributes)
       @cvi_cadastral_plant.attributes = permitted_params
-      return if save_and_redirect(@cvi_cadastral_plant, notify: :record_x_updated, identifier: :id)
+      return if save_and_redirect(@cvi_cadastral_plant, notify: :record_x_updated_f, identifier: :cadastral_reference)
 
       render action: :edit
     end
@@ -31,7 +31,7 @@ module Backend
           if options[:notify]
             model = record.class
             notify_success(options[:notify],
-                           record: model.model_name.human,
+                           record: model.human_attribute_name(options[:identifier]),
                            column: model.human_attribute_name(options[:identifier]),
                            name: record.send(options[:identifier]))
           end

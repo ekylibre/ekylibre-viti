@@ -1596,6 +1596,7 @@ eng:
     during: "During"
     edit: "Edit"
     edit_budget: "Edit budget"
+    # edit_cadastral_ref: "Edit cadastral ref"
     edition_date: "Edition date"
     ekylibre: "www.ekylibre.org" #?
     elapsed_interventions_times_by_activities: "Elapsed interventions times by activities"
@@ -2828,6 +2829,7 @@ eng:
       record_not_found: "Record not found" #?
       record_x_created: "%{record} %{name} created" #?
       record_x_updated: "%{record} %{name} updated" #?
+      record_x_updated_f: "%{record} %{name} updated" #?
       sale_is_not_duplicatable: "Sale is not duplicatable"
       # saved_but_couldnt_letter_x_and_y: "Saved but couldnt letter x and y"
       select_entry_items_to_mark_together: "Select entry items to mark together"

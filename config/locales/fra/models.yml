@@ -91,7 +91,7 @@ fra:
         main_account: "Compte principal"
       cvi_cadastral_plant:
         area: "Superficie déclarée"
-        cadastral_reference: "Ref. cadastrale"
+        cadastral_reference: "référence cadastrale"
         commune: "Commune"
         designation_of_origin_name: "Produit"
         inter_row_distance: "Inter rang"
@@ -432,7 +432,7 @@ fra:
         cvi_cadastral_plant:
           attributes:
             land_parcel:
-              cannot_find_land_parcel: "Aucune parcelle cadastral correspondant n'a été trouvée"
+              cannot_find_land_parcel: "Erreur : Aucune parcelle cadastrale n'a été trouvée"
         deposit:
           must_be_a_bank_account: "%{attribute} doit être un compte bancaire et non une caisse"
         entity:
@@ -1161,6 +1161,7 @@ fra:
     due_on: "Due le"
     duration: "Durée"
     economic_situation: "Situation économique"
+    edit_cadastral_ref: "Éditer la référence cadastrale"
     email: "Courriel (e-mail)"
     emails: "Courriels (e-mails)"
     embedded: "Embarqué"
@@ -2200,7 +2201,7 @@ fra:
     with_supports: "Avec des supports"
     with_transport: "Avec transport"
     work_name: "Nom de travail"
-    work_number: "Numéro de travail"
+    work_number: "Numéro de la parcelle cadastrale"
     worker: "Équipier"
     workflow: "Débit de chantier" #?
     working_area: "Superficie travaillée" #?

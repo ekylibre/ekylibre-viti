@@ -886,6 +886,7 @@ eng:
     due_on: "Due on"
     duration: "Duration"
     economic_situation: "Economic situation"
+    edit_cadastral_ref: "Edit cadastral reference" #?
     # ekylibre_scope: "Ekylibre scope"
     # ekylibre_value: "Ekylibre value"
     email: "Email"
