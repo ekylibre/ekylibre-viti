@@ -1867,6 +1867,8 @@ cvi_cadastral_plants:
   state:
     type: string
     required: true
+  type_of_occupancy:
+    type: string
   updated_at:
     type: datetime
     required: true
@@ -4050,77 +4052,6 @@ issues:
   updater_id:
     type: integer
     references: user
-jailer_config:
-  jkey:
-    type: string
-    limit: 200
-  jvalue:
-    type: string
-    limit: 200
-  jversion:
-    type: string
-    limit: 20
-jailer_dependency:
-  assoc:
-    type: integer
-    required: true
-  depend_id:
-    type: integer
-    references: ''
-    required: true
-  from_pk0:
-    type: string
-  from_type:
-    type: integer
-    required: true
-  r_entitygraph:
-    type: integer
-    required: true
-  to_pk0:
-    type: string
-  to_type:
-    type: integer
-    required: true
-  traversed:
-    type: integer
-jailer_entity:
-  association:
-    type: integer
-  birthday:
-    type: integer
-    required: true
-  orig_birthday:
-    type: integer
-  pk0:
-    type: string
-  r_entitygraph:
-    type: integer
-    required: true
-  type:
-    type: integer
-    required: true
-jailer_graph:
-  age:
-    type: integer
-    required: true
-  id:
-    type: integer
-    required: true
-jailer_set:
-  pk0:
-    type: string
-  set_id:
-    type: integer
-    references: ''
-    required: true
-  type:
-    type: integer
-    required: true
-jailer_tmp:
-  c1:
-    type: integer
-  c2:
-    type: integer
 journal_entries:
   absolute_credit:
     type: decimal

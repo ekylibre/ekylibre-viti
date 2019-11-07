@@ -53,7 +53,7 @@ module Backend
     end
 
     def template_file
-      send_file Rails.root.join('config', 'locales', 'fra', 'reporting', 'cvi_template_file.csv')
+      send_file Rails.root.join('config', 'locales', 'fra', 'reporting', 'fichier_modele_cvi.csv')
     end
   end
 end
