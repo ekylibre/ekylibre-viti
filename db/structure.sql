@@ -2096,9 +2096,13 @@ ALTER SEQUENCE public.cvi_cadastral_plants_id_seq OWNED BY public.cvi_cadastral_
 CREATE TABLE public.cvi_cultivable_zones (
     id integer NOT NULL,
     name character varying NOT NULL,
+    communes character varying,
+    cadastral_references character varying,
+    declared_area_unit character varying,
+    declared_area_value numeric(19,4),
     calculated_area_unit character varying,
-    calculated_area_value numeric,
-    land_parcels_status character varying,
+    calculated_area_value numeric(19,4),
+    land_parcels_status character varying DEFAULT 'not_created'::character varying,
     shape postgis.geometry(Geometry,4326),
     cvi_statement_id integer,
     created_at timestamp without time zone NOT NULL,
@@ -11559,6 +11563,13 @@ CREATE INDEX index_cvi_cultivable_zones_on_cvi_statement_id ON public.cvi_cultiv
 
 
 --
+-- Name: index_cvi_statements_on_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_statements_on_campaign_id ON public.cvi_statements USING btree (campaign_id);
+
+
+--
 -- Name: index_dashboards_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -19361,7 +19372,14 @@ INSERT INTO schema_migrations (version) VALUES ('20191007122201');
 INSERT INTO schema_migrations (version) VALUES ('20191010151901');
 
 INSERT INTO schema_migrations (version) VALUES ('20191023172248');
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> aea19ca0ba... edit and run cvi_cultivable_zone migration
+>>>>>>> 7a72f98678... edit and run cvi_cultivable_zone migration
 INSERT INTO schema_migrations (version) VALUES ('20191025074617');
 
 INSERT INTO schema_migrations (version) VALUES ('20191025074824');
