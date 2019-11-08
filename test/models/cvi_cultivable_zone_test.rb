@@ -12,6 +12,10 @@ class CviCultivableZoneTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
       resource = create(:cvi_cultivable_zone)
       assert_equal 'Measure', resource.calculated_area.class.name
     end
+    should 'respond to declared_area  with measure object' do
+      resource = create(:cvi_cultivable_zone)
+      assert_equal 'Measure', resource.declared_area.class.name
+    end
   end
 
   context 'validations' do
@@ -25,19 +29,25 @@ class CviCultivableZoneTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
 
   should enumerize(:land_parcels_status).in(:not_created,:created).with_predicates(true)
 
-  should 'respond to communes with all communes of associated model cvi cadastral_plants' do
-    resource = create(:cvi_cultivable_zone, :with_cvi_cadastral_plants)
-    assert_equal resource.cvi_cadastral_plants.count, resource.communes.count
+  should "set formatted_declared_area when created" do
+    resource = create(:cvi_cultivable_zone,declared_area_value: 1.10, declared_area_unit: :hectare)
+    assert_equal "01ha 10a 00ca", resource.reload.formatted_declared_area 
   end
 
-  should 'respond to cadastral_references with all communes of associated model cvi cadastral_plants' do
-    resource = create(:cvi_cultivable_zone, :with_cvi_cadastral_plants)
-    assert_equal resource.cvi_cadastral_plants.count, resource.cadastral_references.count
+  should "udpate formatted_declared_area when declared_area is updated " do
+    resource = create(:cvi_cultivable_zone)
+    resource.update(declared_area_value: 1.10, declared_area_unit: :hectare)
+    assert_equal "01ha 10a 00ca" , resource.reload.formatted_declared_area
   end
 
-  should 'respond to declared_area with all communes of associated model cvi cadastral_plants' do
-    resource = create(:cvi_cultivable_zone, :with_cvi_cadastral_plants)
-    area_sum  = resource.cvi_cadastral_plants.collect(&:area).sum
-    assert_equal area_sum, resource.declared_area
+  should "set formatted_calculated_area when created" do
+    resource = create(:cvi_cultivable_zone,calculated_area_value: 1.10, calculated_area_unit: :hectare)
+    assert_equal "01ha 10a 00ca", resource.reload.formatted_calculated_area 
+  end
+
+  should "udpate formatted_calculated_area when calculated_area is updated " do
+    resource = create(:cvi_cultivable_zone)
+    resource.update(calculated_area_value: 1.10, calculated_area_unit: :hectare)
+    assert_equal "01ha 10a 00ca" , resource.reload.formatted_calculated_area
   end
 end

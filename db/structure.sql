@@ -24,6 +24,7 @@ CREATE SCHEMA postgis;
 
 
 --
+<<<<<<< HEAD
 -- Name: public; Type: SCHEMA; Schema: -; Owner: -
 --
 
@@ -38,6 +39,8 @@ COMMENT ON SCHEMA public IS 'standard public schema';
 
 
 --
+=======
+>>>>>>> 8586d2581d... model callbacks + tests
 -- Name: compute_journal_entry_continuous_number(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2100,8 +2103,9 @@ CREATE TABLE public.cvi_cultivable_zones (
     cadastral_references character varying,
     declared_area_unit character varying,
     declared_area_value numeric(19,4),
-    formatted_calculated_area character varying,
+    formatted_declared_area character varying,
     calculated_area_unit character varying,
+    formatted_calculated_area character varying,
     calculated_area_value numeric(19,4),
     land_parcels_status character varying DEFAULT 'not_created'::character varying,
     shape postgis.geometry(Geometry,4326),

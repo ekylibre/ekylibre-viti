@@ -1918,6 +1918,8 @@ cvi_cultivable_zones:
     scale: 4
   formatted_calculated_area:
     type: string
+  formatted_declared_area:
+    type: string
   id:
     type: integer
     required: true

@@ -6,7 +6,7 @@ class CreateCviCultivableZones < ActiveRecord::Migration
       t.string :cadastral_references
       t.string :declared_area_unit
       t.decimal :declared_area_value, precision: 19, scale: 4
-      t.string :formatted_calculated_area
+      t.string :formatted_declared_area
       t.string :calculated_area_unit
       t.string :formatted_calculated_area
       t.decimal :calculated_area_value, precision: 19, scale: 4
