@@ -10,7 +10,7 @@
       @_cartography = new Cartography.Map @el, options
       @initControls()
 
-      #this.displayCviCadastralPlants()
+      this.displayCviCadastralPlants()
       this.displayCviCultivableZones()
       this.displayCadastralLandParcelZone()
       @firstLoad = true
@@ -68,11 +68,11 @@
             insertionMarker = () ->
               if layer._map.getZoom() >= 16
                 name = layer.feature.properties.name
-                layer._ghostIcon = new L.GhostIcon html: name, className: "simple-label blue", iconSize: [60, 40]
+                layer._ghostIcon = new L.GhostIcon html: name, className: "simple-label white", iconSize: [60, 40]
                 layer._ghostMarker = L.marker(layer.getCenter(), icon: layer._ghostIcon)
                 layer._ghostMarker.addTo layer._map
 
-            layer.setStyle(color: "#C5D4F0", fillOpacity: 0, opacity: 1, fill: false)
+            layer.setStyle(color: "#C5D4F0", fillOpacity: 0.3, opacity: 1, fill: true)
             insertionMarker()
 
             layer._map.on 'zoomend', ->

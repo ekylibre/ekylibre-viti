@@ -431,7 +431,12 @@ Rails.application.routes.draw do
 
     resources :cadastral_land_parcel_zones, only: %i[index]
 
-    resources :cvi_cultivable_zones, only: %i[index]
+    resources :cvi_cultivable_zones, only: %i[index edit destroy] do
+      member do 
+        get :create_land_parcels
+      end
+    end
+
 
     resources :deliveries, concerns: %i[list unroll] do
       member do
