@@ -2100,6 +2100,7 @@ CREATE TABLE public.cvi_cultivable_zones (
     cadastral_references character varying,
     declared_area_unit character varying,
     declared_area_value numeric(19,4),
+    formatted_calculated_area character varying,
     calculated_area_unit character varying,
     calculated_area_value numeric(19,4),
     land_parcels_status character varying DEFAULT 'not_created'::character varying,

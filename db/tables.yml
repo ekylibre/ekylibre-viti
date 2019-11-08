@@ -1916,6 +1916,8 @@ cvi_cultivable_zones:
     type: decimal
     precision: 19
     scale: 4
+  formatted_calculated_area:
+    type: string
   id:
     type: integer
     required: true
