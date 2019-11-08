@@ -1842,6 +1842,9 @@ cvi_cadastral_plants:
   created_at:
     type: datetime
     required: true
+  cvi_cultivable_zone_id:
+    type: integer
+    references: cvi_cultivable_zone
   cvi_statement_id:
     type: integer
     references: cvi_statement
@@ -1889,6 +1892,46 @@ cvi_cadastral_plants:
     type: string
   work_number:
     type: string
+    required: true
+cvi_cultivable_zones:
+  cadastral_references:
+    type: string
+  calculated_area_unit:
+    type: string
+  calculated_area_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  communes:
+    type: string
+  created_at:
+    type: datetime
+    required: true
+  cvi_statement_id:
+    type: integer
+    references: cvi_statement
+  declared_area_unit:
+    type: string
+  declared_area_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  id:
+    type: integer
+    required: true
+  land_parcels_status:
+    type: string
+    default: not_created
+  name:
+    type: string
+    required: true
+  shape:
+    type: geometry
+    limit:
+      srid: 4326
+      type: geometry
+  updated_at:
+    type: datetime
     required: true
 cvi_statements:
   cadastral_plant_count:

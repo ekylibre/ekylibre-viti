@@ -11552,6 +11552,13 @@ CREATE INDEX index_cvi_cadastral_plants_on_cvi_statement_id ON public.cvi_cadast
 
 
 --
+-- Name: index_cvi_cultivable_zones_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_cultivable_zones_on_cvi_statement_id ON public.cvi_cultivable_zones USING btree (cvi_statement_id);
+
+
+--
 -- Name: index_cvi_statements_on_campaign_id; Type: INDEX; Schema: public; Owner: -
 --
 
