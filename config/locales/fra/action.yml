@@ -1267,7 +1267,9 @@ fra:
     buildings_map: "Carte des bâtiments" #?
     by_account_fixed_assets: "Etat de immobilisations par compte au %{to}"
     by_year: "Par an"
+    cadastral_references: "Ref. cadastrale associée(s)"
     calculate: "Calculer"
+    calculated_area: "Superficie déclarée"
     calculated_hours: "Horaires calculées"
     calculators: "Calculateurs"
     calendar: "Calendrier"
@@ -1368,6 +1370,7 @@ fra:
     comment: "Commentaire"
     commercial_margin: "Marge commerciale"
     commission: "Commission"
+    communes: "commune(s)"
     company: "Société"
     compare_planned_and_realised: "Comparer avec les interventions planifiées" #?
     complement_sort: "Trier les choix par nom" #?
@@ -1517,6 +1520,7 @@ fra:
     decimal_case: "Options pour un décimal" #?
     decision_making: "Décision"
     deduction_from_distribution: "4423 - Retenues et prélevements sur les distributions"
+    declared_area: "Superficie déclarée"
     default_letter_conclusion: "Veuillez agréer, Chère Madame, Cher Monsieur, l’expression de mes salutations distinguées."
     default_letter_function_title: "Chère Madame, Cher Monsieur"
     default_letter_introduction: "Suite à notre conversation, je vous communique les éléments du devis."
@@ -3498,6 +3502,7 @@ fra:
       convert: "Convertir"
       correct: "Corriger"
       create: "Créer"
+      create_land_parcels: "Créer parcelles"
       decrement: "Décrementer" #?
       destroy: "Supprimer"
       detach: "Détacher"

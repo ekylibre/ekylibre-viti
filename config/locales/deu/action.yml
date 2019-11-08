@@ -829,7 +829,7 @@ deu:
       home:
         toolbar:
           buttons:
-            # home: "Center to my plots"
+            # home: "Center"
       importerButtonTitle: "Einführen"
       locking:
         # from_date_html: "from {{from}}<br>({{production}})"
@@ -1072,7 +1072,9 @@ deu:
     # building_zones: "Building zones"
     # by_account_fixed_assets: "Fixed assets by account on %{to}"
     by_year: "Mit dem Jahr"
+    # cadastral_references: "associated cadastral ref."
     calculate: "Berechnen"
+    # calculated_area: "calculated area"
     calculated_hours: "Berechnete Stunden"
     calculators: "Taschenrechner"
     calendar: "Kalender"
@@ -1152,6 +1154,7 @@ deu:
     # comment: "Comment"
     # commercial_margin: "Commercial margin"
     commission: "Kommission"
+    # communes: "commune(s)"
     company: "Gesellschaft"
     completed: "Fertiggestellt"
     # compute_balances: "Computing balances"
@@ -1255,6 +1258,7 @@ deu:
     # debts_other_financial_debts: "debts_other_financial_debts"
     # debts_others_loans: "debts_others_loans"
     decision_making: "Entscheidung fällen"
+    # declared_area: "declared area"
     default_letter_conclusion: "Genehmigen Sie, sehr geehrte Damen und Herren, Sehr geehrter Herr, den Ausdruck meiner ausgezeichneten Hochachtung."
     default_letter_function_title: "Sehr geehrte Damen, Sehr geehrter Herr"
     default_letter_introduction: "Im Anschluss an das Gespräch, ich gebe Ihnen die Elemente der Schätzung."
@@ -2084,7 +2088,7 @@ deu:
     select_a_journal: "Wählen Sie eine Zeitschrift"
     select_closure_date: "Wählen Sie Schluss"
     select_columns: "Spalten auswählen"
-    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
+    # select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     # select_date: "Select date"
     select_date_generation: "Gültigkeitsdatum für die Erzeugung"
     select_file_to_upload: "Wählen Sie Datei hochzuladen"
@@ -2728,6 +2732,7 @@ deu:
       convert: "Konvertieren"
       correct: "Korrekt"
       create: "Erstellen"
+      # create_land_parcels: "Create land parcels"
       destroy: "Zerstören"
       detach: "ablösen"
       # detail: "Detail"

@@ -206,6 +206,10 @@ eng:
     backend/cvi_cadastral_plants:
       # edit: "Edit cvi cadastral plant: %{name}"
       # index: "Cvi cadastral plants"
+    backend/cvi_cultivable_zones:
+      # create_land_parcels: "Create land parcels cvi cultivable zone: %{name}"
+      # edit: "Edit cvi cultivable zone: %{name}"
+      # index: "Cvi cultivable zones"
     backend/cvi_statement_conversions:
       show: "Convert CVI into land parcels"
     backend/cvi_statements:
@@ -1405,7 +1409,9 @@ eng:
     building_zones: "Building zones" #?
     by_account_fixed_assets: "Fixed assets by account on %{to}" #??
     by_year: "By year"
+    cadastral_references: "associated cadastral ref." #?
     calculate: "Calculate" #?
+    calculated_area: "calculated area" #?
     calculated_hours: "Calculated hours"
     calculators: "Calculators" #?
     calendar: "Calendar"
@@ -1488,6 +1494,7 @@ eng:
     comment: "Comment"
     commercial_margin: "Commercial margin"
     commission: "Commission"
+    communes: "commune(s)" #?
     company: "Society"
     # compare_planned_and_realised: "Compare planned and realised"
     completed: "Completed"
@@ -1582,6 +1589,7 @@ eng:
     custom_fields: "Custom fields"
     cvi_cadastral_plants: "Cvi cadastral plants"
     cvi_cadastral_plants_map: "Cvi cadastral plants"
+    # cvi_cultivable_zones: "Cvi cultivable zones"
     # data: "Data"
     # data_transmissions: "Data transmissions"
     # date: "Date"
@@ -1602,6 +1610,7 @@ eng:
     debts_others_loans: "debts_others_loans" #?
     decision_making: "Decision-making"
     deduction_from_distribution: "4423 - Deductions and levies on distributions"
+    declared_area: "declared area" #?
     default_letter_conclusion: "Please accept, Dear Madam, Dear Sir, the assurances of my highest consideration."
     default_letter_function_title: "Dear madam, dear sir"
     default_letter_introduction: "Following our conversation, I give you the elements of the estimate."
@@ -3142,6 +3151,7 @@ eng:
       # count: "Count"
       create: "Create"
       # create_duplicate_intervention: "Create duplicate intervention"
+      create_land_parcels: "Create land parcels"
       # csv: "Csv"
       # currency_state: "Currency state"
       # current: "Current"

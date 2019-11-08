@@ -1120,6 +1120,7 @@ fra:
     customized: "Enregistrement personnalisé" #?
     customized_type: "Type d’enregistrement personnalisé"
     cvi_cadastral_plants: "Cultures cadastrales CVI"
+    # cvi_statement: "Cvi statement"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "Excrétion d’azote journalière"
     dashboards: "Tableaux de bord"
@@ -1182,6 +1183,7 @@ fra:
     derivative_of: "Dérivé de"
     derivatives_list: "Liste des dérivés"
     description: "Description"
+    # designation_of_origin_name: "Designation of origin name"
     detail_payments: "Détailler les paiements"
     device_uid: "ID unique de l’appareil"
     diff_less: "Droits enlevés" #?
@@ -1521,6 +1523,7 @@ fra:
     labels: "Étiquettes"
     land_parcel_number: "Numéro de la parcelle PAC"
     land_parcels: "Parcelles"
+    land_parcels_status: "Statut parcelles"
     language: "Langue"
     last_analysis: "Dernières analyses"
     last_archive: "Dernière archive" #?
