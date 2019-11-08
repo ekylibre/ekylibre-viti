@@ -23,7 +23,7 @@ CREATE OR REPLACE FUNCTION area_formatted(area numeric) RETURNS VARCHAR(50) AS
     $$ LANGUAGE plpgsql;
 
 
-CREATE VIEW formatted_cvi_cadastral_plants AS
+CREATE OR REPLACE VIEW formatted_cvi_cadastral_plants AS
 SELECT 
 	cvi_cadastral_plants.id AS id,
 	land_parcel_id,
