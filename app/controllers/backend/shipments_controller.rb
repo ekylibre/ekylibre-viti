@@ -111,6 +111,26 @@ module Backend
       end
     end
 
+    def show
+      return unless (shipment = find_and_check)
+      respond_to do |format|
+        format.pdf do
+          next unless (template = find_and_check :document_template, params[:template])
+
+          printer = Printers::ShippingNotePrinter.new(template: template, shipment: shipment)
+
+          pdf_data = printer.run_pdf
+          printer.archive_report_template(pdf_data, nature: template.nature, key: printer.key, template: template, document_name: printer.document_name)
+
+          send_data pdf_data, filename: "#{printer.document_name}.pdf", type: 'application/pdf', disposition: 'inline'
+        end
+
+        format.html do
+          super
+        end
+      end
+    end
+
     def new
       @shipment = Shipment.new(shipment_params)
     end

@@ -35,8 +35,11 @@ module Ekylibre
         Preference.set!(:demo_user, demo_user)
         Preference.set!(:demo_password, @manifest[:users][demo_user][:password])
       end
-      Preference.set!(:create_activities_from_telepac, !!@manifest[:create_activities_from_telepac], :boolean)
-      Preference.set!(:create_cultivable_zones_with_islet_from_telepac, !!@manifest[:create_cultivable_zones_with_islet_from_telepac], :boolean)
+
+      %i[create_activities_from_telepac permanent_stock_inventory].each do |pref_nature|
+        Preference.set!(pref_nature, !!@manifest[pref_nature], :boolean)
+      end
+
       ::I18n.locale = Preference[:language]
 
       w.check_point
@@ -142,9 +145,11 @@ module Ekylibre
       # Load accounts
       #TODO check when method is executed
       if can_load_default?(:accounts)
+        # Account number can't start with a '0' and are 8 caracters length
         @manifest[:accounts] = Cash.nature.values.each_with_object({}) do |nature, hash|
+          nature_account = { bank_account: '512', cash_box: '53', associate_account: '455' }
           hash[nature] = { name: "enumerize.cash.nature.#{nature}".t,
-                           number: format('%08d', rand(10**7)) }
+                           number: nature_account[nature.to_sym] }
           hash
         end
       end
@@ -240,7 +245,7 @@ module Ekylibre
       if can_load_default?(:purchase_natures)
         nature = :purchases
         journal = Journal.find_by(nature: nature, currency: currency) || Journal.create!(name: "enumerize.journal.nature.#{nature}".t, nature: nature.to_s, currency: currency, closed_on: Date.new(1899, 12, 31).end_of_month)
-        @manifest[:purchase_natures] = { default: { name: PurchaseNature.tc('default.name'), active: true, currency: currency, with_accounting: true, journal: journal } }
+        @manifest[:purchase_natures] = { default: { name: PurchaseNature.tc('default.name'), active: true, journal: journal } }
       end
       create_records(:purchase_natures)
       w.check_point

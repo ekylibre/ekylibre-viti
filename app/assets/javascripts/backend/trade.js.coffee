@@ -41,6 +41,8 @@
 
           if data.depreciable
             item.find('.fixed-asset').show()
+            preexistingAsset = item.find(".sale_items_preexisting_asset input[type='checkbox']").prop('checked')
+            item.find('#new_asset').hide() if preexistingAsset
           else
             item.find('.fixed-asset').hide()
 
@@ -79,8 +81,8 @@
             else if input.val() is ""
               input.val(0)
 
-          if data.tax_id?
-            item.find(options.tax or "*[data-trade-component='tax']").val(data.tax_id)
+            if data.tax_id?
+              item.find(options.tax or "*[data-trade-component='tax']").val(data.tax_id)
 
           # Compute totals
           if ['change', 'readystatechange'].includes event.type

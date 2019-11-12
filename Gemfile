@@ -5,7 +5,12 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-ruby '>= 2.3.8'
+git_source(:gitlab) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://gitlab.com/#{repo_name}.git"
+end
+
+ruby '>= 2.3.8', '< 3.0.0'
 
 gem 'elastic-apm'
 
@@ -15,20 +20,18 @@ gem 'rails', '4.2.11.1'
 gem 'webpacker', '~> 4.x'
 
 # Security fix for mail
-gem 'mail', '~> 2.6.6.rc1'
+gem 'mail', '~> 2.6'
 
 # Database adapters
 gem 'activerecord-postgis-adapter', '>= 3.0.0'
 gem 'pg', '~> 0.20.0' # Needed for some tasks
 
 # Multi-tenancy
-gem 'apartment', github:'influitive/apartment', branch: 'development'
+gem 'apartment', '~> 2.2.1'
 gem 'apartment-sidekiq'
 
 # Ruby syntax extensions
-gem 'possibly'
-
-gem 'better_errors'
+gem 'possibly', gitlab: 'ekylibre/eky-possibly', branch: :prod
 
 # Code manipulation
 gem 'charlock_holmes'
@@ -107,10 +110,6 @@ gem 'draper'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use unicorn as the app server
-gem 'loofah', group: :production
-gem 'unicorn', group: :production
-
 # Use Capistrano for deployment
 gem 'capistrano-rails', group: :development
 gem 'capistrano-git-with-submodules', '~> 2.0', group: :development
@@ -121,7 +120,6 @@ gem 'exception_notification'
 
 # Views helpers
 gem 'active_list', '~> 7'
-# gem 'active_list', path: "../active_list"
 gem 'haml'
 gem 'simple_calendar'
 
@@ -130,7 +128,7 @@ gem 'acts_as_list'
 gem 'awesome_nested_set', '~> 3.1.1'
 gem 'deep_cloneable', '~> 2.2.1'
 gem 'enumerize'
-gem 'jc-validates_timeliness', '~> 3.1.1'
+gem 'validates_timeliness', '~> 4'
 gem 'state_machine'
 gem 'uuidtools'
 
@@ -188,9 +186,8 @@ gem 'rgeo-shapefile'
 gem 'roo'
 gem 'rubyzip', '~> 1.2.2'
 gem 'sepa_king'
-# gem 'sepa_king', path: '/home/jonathan/Workspace/sepa_king'
 gem 'quandl'
-gem 'odf-report'
+gem 'odf-report', gitlab: 'ekylibre/odf-report', branch: :prod
 gem 'combine_pdf'
 gem 'rodf'
 
@@ -208,7 +205,7 @@ gem 'bootstrap-sass', '~> 3.4.1'
 gem 'twitter-typeahead-rails'
 
 # Iconic font
-gem 'agric', github: 'ekylibre/agric', tag: 'v3.0.2'
+gem 'agric', '~> 4.1'
 
 # Web services
 gem 'mechanize'
@@ -225,6 +222,14 @@ gem 'bootstrap-slider-rails'
 #gem 'cartography', github: 'ekylibre/cartography'
 gem 'cartography', git: 'https://gitlab.com/ekylibre/cartography.git', branch: 'ekyviti'
 #gem 'cartography', path: '../cartography'
+gem 'gpgme'
+
+group :production do
+  # Use unicorn as the app server
+  gem 'unicorn'
+
+  gem 'loofah'
+end
 
 group :development do
   gem 'bullet', '< 5.6.0'
@@ -234,6 +239,8 @@ group :development do
 
   # Get the time of a process
   gem 'ruby-prof'
+
+  gem 'better_errors'
 
   # Code metrics
   gem 'rails_best_practices', require: false
@@ -271,13 +278,13 @@ group :test do
   gem 'database_cleaner'
 
   gem 'minitest-reporters'
-
-  gem 'pdf-reader'
+  gem 'ruby-terminfo'
 
   gem 'factory_bot', '< 5'
   gem 'ruby-terminfo'
   gem 'shoulda', '~> 3.5'
   gem 'shoulda-matchers', '~> 2.0'
+  gem 'pdf-reader'
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles

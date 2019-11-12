@@ -54,18 +54,18 @@ module Backend
         @bank_statement = find_and_check :bank_statement, params[:bank_statement_id]
       end
 
-      def find_bank_statements
-        @bank_statements = BankStatement.where(cash: params[:cash_id])
+      def find_bank_statements(cash)
+        @bank_statements = BankStatement.where(cash: cash.id)
+
         if @bank_statements
-          start = params[:period_start].to_date.beginning_of_day
-          stop = params[:period_end].to_date.end_of_day
-          start_range = @bank_statements.where(started_on: start..stop)
-          stop_range = @bank_statements.where(stopped_on: start..stop)
-          final_range = (start_range + stop_range).uniq
-          bs_ids = final_range.map(&:id)
-          @bank_statements = BankStatement.where(id: bs_ids)
+          @bank_statements = @bank_statements.between(params[:period_start].to_date.beginning_of_day, params[:period_end].to_date.end_of_day)
         end
-        @bank_statements || (head(:bad_request) && nil)
+
+        return @bank_statements if @bank_statements.present?
+
+        notify_error :no_bank_statement_found_for_this_period
+        redirect_to_back
+        false
       end
 
       def reconciliate_one(bank_statement)

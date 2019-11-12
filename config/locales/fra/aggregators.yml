@@ -50,11 +50,11 @@ fra:
     financial_result: "Résultat financier"
     financial_year_name: "Exercice comptable"
     financial_years: "Exercices comptables"
-    grains_yield: "Rendement en grains"
+    grains_yield: "Rendement en grains" #?
     harvest_year: "Année de récolte"
-    harvested_at: "Récolté à"
+    harvested_at: "Récolté à" #?
     human_roles: "Roles" #?
-    implanted_at: "Implanté à"
+    implanted_at: "Implanté à" #?
     intervention_durations: "Durées d'intervention" #?
     loss_balance: "Solde de perte"
     losses: "Pertes" #?
@@ -82,13 +82,13 @@ fra:
     owner_name: "Nom du propriétaire" #?
     pasturing_period: "Période pâturage" #?
     pasturing_working_area: "Zone de pâturage" #?
-    payment_ratio: "Ratio de paiement"
+    payment_ratio: "Ratio de paiement" #?
     person_name: "Nom"
     pictogram: "Pictogramme" #?
     picture_path: "Chemin d'image"
     # plan: "Plan"
     prescription: "Ordonnance"
-    pretax_amount: "Montant avant impôt"
+    pretax_amount: "Montant avant impôt" #?
     previous_production_name: "Précédente production" #?
     printed_on: "Imprimé le"
     product_account_label: "Compte de produits" #?
@@ -102,7 +102,7 @@ fra:
     profits: "Profits" #?
     profits_taxes: "Taxes sur profits"
     provisional_grains_yield: "Rendement prévisionnel en grains" #?
-    provisional_yield: "Rendement prévisionnel"
+    provisional_yield: "Rendement prévisionnel" #?
     provisions_revenues: "Revenus de provisions" #?
     quantity: "Quantité"
     raw_matters_purchases: "Achats de matières brutes" #?
@@ -126,7 +126,7 @@ fra:
     variable_name: "Variable" #?
     variant_name: "Variante"
     variant_variety: "Variété de la variante" #?
-    vine_yield: "Rendement en vin"
+    vine_yield: "Rendement en vin" #?
     wages: "Salaires" #?
     working_area: "Superficie travaillée"
     working_duration_in_hours: "Durée travaillée en heures"
