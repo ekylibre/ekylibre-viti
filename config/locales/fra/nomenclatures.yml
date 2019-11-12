@@ -193,18 +193,11 @@ fra:
         exceptional_depreciations_inputations_expenses: "Dotations aux amortissements, dépréciations et provisions - Charges financières"
         exceptional_depreciations_inputations_revenues: "Reprises sur dépréciations et provisions (à inscrire dans les produits financiers)"
         exceptional_expenses: "Charges exceptionnelles"
-<<<<<<< HEAD
         exceptional_incorporeal_asset_depreciation_revenues: "Reprises sur provisions (produits exceptionnels) "
         exceptional_revenues: "Revenus exceptionnels"
         exceptionnal_charge_transfer_revenues: "Transferts de charges exceptionnelles"
         exceptionnal_depreciations_inputations_expenses: "Dotations aux amortissements et aux provisions - Charges exceptionnelles"
         exceptionnal_incorporeal_asset_depreciation_revenues: "Reprises sur provisions (produits exceptionnels) "
-=======
-        exceptional_revenues: "Revenus exceptionnelles"
-        exceptionnal_charge_transfer_revenues: "Transferts de charges exceptionnelles" #?
-        exceptionnal_depreciations_inputations_expenses: "Dotations aux amortissements et aux provisions - Charges exceptionnelles" #?
-        exceptionnal_incorporeal_asset_depreciation_revenues: "Reprises sur provisions (produits exceptionnels) " #?
->>>>>>> 57ba6aa924... run rake clean and update locales
         expenses: "Comptes de charges"
         exploitation_depreciations_inputations_expenses: "Dotations aux amortissements et aux provisions - Charges d'exploitation"
         exploitation_expenses_transfers: "Transferts de charges d’exploitation"
@@ -327,13 +320,9 @@ fra:
         initial_society_capital: "Capital sociétaire initial"
         installation_sustainable_plant_assets: "Aménagements des plantations pérennes"
         insurance_expenses: "Primes d’assurance"
-<<<<<<< HEAD
         intangible_fixed_asset_in_progress: "Immobilisations incorporelles en cours"
         intangible_fixed_assets_revenues: "Immobilisations incorporelles"
         interests_expenses: "Charges d’intérêts"
-=======
-        interests_expenses: "Charges d’intérêts" #?
->>>>>>> 57ba6aa924... run rake clean and update locales
         internal_transfers: "Virements internes"
         inventory_variations: "Variations d’inventaires"
         invoice_to_create_clients: "Clients - Produits non encore facturés"
@@ -1442,11 +1431,8 @@ fra:
         ghs_toxic: "Toxique "
         ghs-h360fd2: "Peut nuire à la fertilité. Peut nuire au fœtus."
       name: "Classifications chimiques"
-<<<<<<< HEAD
-=======
       property_natures:
         # code: "Code"
->>>>>>> 57ba6aa924... run rake clean and update locales
     chemical_elements:
       items:
         actinium: "Actinium"
@@ -2156,13 +2142,8 @@ fra:
         inventory_sheet: "Inventaire"
         journal: "Journal"
         journal_entry_sheet: "Journal feuille d’entrée"
-<<<<<<< HEAD
         journal_ledger: "Etat du journal"
         land_parcel_register: "Cahier de culture"
-=======
-        journal_ledger: "Etat du journal" #?
-        land_parcel_register: "Cahier de tracabilité ‒ Parcelles"
->>>>>>> 57ba6aa924... run rake clean and update locales
         loan_registry: "Registre de prêt"
         manure_management_plan: "Cahier d’épandage"
         manure_management_plan_sheet: "Plan prévisionnel de fumure détaillé"
@@ -3284,13 +3265,8 @@ fra:
         biological_auxiliary: "Auxiliaire biologique"
         bonus_staff_expense: "Primes et gratifications au personnel"
         building: "Bâtiment"
-<<<<<<< HEAD
         building_division: "Pièce ou découpe d’un bâtiment"
         building_rental: "Location de bâtiment"
-=======
-        building_division: "Pièce ou zone d’un bâtiment"
-        building_rental: "Location de bâtiment" #?
->>>>>>> 57ba6aa924... run rake clean and update locales
         calf: "Veau"
         car_rental: "Location de véhicule" #?
         carriage: "Transport"

@@ -24,7 +24,6 @@ CREATE SCHEMA postgis;
 
 
 --
-<<<<<<< HEAD
 -- Name: public; Type: SCHEMA; Schema: -; Owner: -
 --
 
@@ -39,8 +38,6 @@ COMMENT ON SCHEMA public IS 'standard public schema';
 
 
 --
-=======
->>>>>>> 8586d2581d... model callbacks + tests
 -- Name: compute_journal_entry_continuous_number(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -19384,14 +19381,7 @@ INSERT INTO schema_migrations (version) VALUES ('20191007122201');
 INSERT INTO schema_migrations (version) VALUES ('20191010151901');
 
 INSERT INTO schema_migrations (version) VALUES ('20191023172248');
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> aea19ca0ba... edit and run cvi_cultivable_zone migration
->>>>>>> 7a72f98678... edit and run cvi_cultivable_zone migration
 INSERT INTO schema_migrations (version) VALUES ('20191025074617');
 
 INSERT INTO schema_migrations (version) VALUES ('20191025074824');

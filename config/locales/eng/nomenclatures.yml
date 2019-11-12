@@ -506,11 +506,7 @@ eng:
         sustainables_plants_assets: "Sustainables plants assets"
         sustainables_plants_on_other_land_parcel_assets: "Sustainables plants on other land parcel assets"
         sustainables_plants_on_own_land_parcel_assets: "Sustainables plants on own land parcel assets"
-<<<<<<< HEAD
         tangible_fixed_assets_revenues_without_livestock: "Land parcel sell revenues"
-=======
-        # tax_depreciation_revenues: "Tax depreciation revenues"
->>>>>>> 57ba6aa924... run rake clean and update locales
         taxes_expenses: "Taxes expenses"
         technical_installation_equipment_and_tools_assets: "Technical installation equipment and tools assets"
         technical_installation_on_other_land_parcel_assets: "Technical installation on other land parcel assets"

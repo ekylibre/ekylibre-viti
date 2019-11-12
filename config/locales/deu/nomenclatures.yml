@@ -188,12 +188,9 @@ deu:
         exceptional_depreciations_inputations_revenues: "Exceptionnal unkörperlich Abschreibung des Anlagevermögens Erträge"
         exceptional_expenses: "Außergewöhnliche Kosten"
         exceptional_revenues: "Außergewöhnliche Einnahmen"
-<<<<<<< HEAD
-=======
         exceptionnal_charge_transfer_revenues: "Exceptionnal Ladungstransfererlöse" #?
         exceptionnal_depreciations_inputations_expenses: "Exceptionnal Abschreibungen inputations Aufwendungen" #?
         exceptionnal_incorporeal_asset_depreciation_revenues: "Exceptionnal unkörperlich Abschreibung des Anlagevermögens Erträge" #?
->>>>>>> 57ba6aa924... run rake clean and update locales
         expenses: "Kosten"
         exploitation_depreciations_inputations_expenses: "Exploitation Abschreibungen inputations Aufwendungen"
         exploitation_expenses_transfers: "Ausbeutung Kosten Transfers"
@@ -483,12 +480,8 @@ deu:
         sustainables_plants_assets: "Sustainables Pflanzen Vermögen"
         sustainables_plants_on_other_land_parcel_assets: "Sustainables Pflanzen auf andere Parzelle Vermögen"
         sustainables_plants_on_own_land_parcel_assets: "Sustainables Pflanzen auf eigenen Parzelle Vermögen"
-<<<<<<< HEAD
         tangible_fixed_assets_revenues_without_livestock: "Parzelle Verkauf Einnahmen"
         tax_depreciation_revenues: "Taxe Abschreibungserlöse"
-=======
-        tax_depreciation_revenues: "Taxe Abschreibungserlöse" #?
->>>>>>> 57ba6aa924... run rake clean and update locales
         taxes_expenses: "Steuern Aufwendungen"
         technical_installation_equipment_and_tools_assets: "Technische Installation Geräte und Werkzeuge Vermögen"
         technical_installation_on_other_land_parcel_assets: "Technische Installation auf andere Parzelle Vermögen"
