@@ -10074,6 +10074,7 @@
       <item name="billionth" dimension="none" symbol="n." a="1.0e-09" base_unit="billionth" base_dimension="none"/>
       <item name="candela" dimension="luminous_intensity" symbol="cd" base_unit="candela" base_dimension="luminous_intensity"/>
       <item name="celsius" dimension="temperature" symbol="&#xB0;C" b="273.15" base_unit="celsius" base_dimension="temperature"/>
+      <item name="centiare" dimension="surface_area" symbol="ca" a="1.0"/>
       <item name="centiliter" dimension="volume" symbol="cl" a="1.0e-05" base_unit="centiliter" base_dimension="volume"/>
       <item name="centiliter_per_hectoliter" dimension="volume_concentration" symbol="cl/hl" a="1.0e-05" d="0.1" base_unit="centiliter" base_dimension="volume" repartition_unit="hectoliter" repartition_dimension="volume"/>
       <item name="centiliter_per_liter" dimension="volume_concentration" symbol="cl/l" a="1.0e-05" d="0.001" base_unit="centiliter" base_dimension="volume" repartition_unit="liter" repartition_dimension="volume"/>

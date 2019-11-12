@@ -51,7 +51,7 @@ class CviStatement < Ekylibre::Record::Base
   has_many :cvi_cultivable_zones, dependent: :destroy
 
   def total_area_formated
-    total_area.to_s(:ha_ar_ca)
+    total_area.to_s(:ha_a_ca)
   end
 
   def generate_cvi_cultivable_zones
