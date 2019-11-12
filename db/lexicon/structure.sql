@@ -10,6 +10,17 @@ CREATE INDEX cadastral_land_parcel_zones_id ON cadastral_land_parcel_zones(id);
 CREATE INDEX cadastral_land_parcel_zones_shape ON cadastral_land_parcel_zones USING GIST (shape);
 CREATE INDEX cadastral_land_parcel_zones_centroid ON cadastral_land_parcel_zones USING GIST (centroid);
 
+CREATE TABLE registered_chart_of_accounts (
+  id character varying PRIMARY KEY NOT NULL,
+  account_number character varying NOT NULL,
+  chart_id character varying NOT NULL,
+  reference_name character varying,
+  previous_reference_name character varying,
+  name jsonb
+);
+CREATE INDEX registered_chart_of_accounts_id ON registered_chart_of_accounts(id);
+CREATE INDEX registered_chart_of_accounts_account_number ON registered_chart_of_accounts(account_number);
+
 CREATE TABLE intervention_models (
   id character varying PRIMARY KEY NOT NULL,
   name jsonb,
@@ -258,19 +269,16 @@ CREATE TABLE registered_seeds (
 CREATE INDEX registered_seeds_specie ON registered_seeds(specie);
 CREATE INDEX registered_seeds_number ON registered_seeds(number);
 
-CREATE TABLE registered_water_rivers (
-  name character varying,
-  shape postgis.geometry(LineString,4326) NOT NULL
+CREATE TABLE registered_hydro_items (
+  id character varying PRIMARY KEY NOT NULL,
+  name jsonb,
+  nature character varying,
+  point postgis.geometry(Point,4326),
+  shape postgis.geometry(MultiPolygonZM,4326),
+  lines postgis.geometry(MultiLineStringZM,4326)
 );
-CREATE INDEX registered_water_rivers_name ON registered_water_rivers(name);
-CREATE INDEX registered_water_rivers_shape ON registered_water_rivers USING GIST (shape);
-
-CREATE TABLE registered_water_lakes (
-  name character varying,
-  shape postgis.geometry(Polygon,4326) NOT NULL
-);
-CREATE INDEX registered_water_lakes_name ON registered_water_lakes(name);
-CREATE INDEX registered_water_lakes_shape ON registered_water_lakes USING GIST (shape);
+CREATE INDEX registered_hydro_items_id ON registered_hydro_items(id);
+CREATE INDEX registered_hydro_items_nature ON registered_hydro_items(nature);
 
 CREATE TABLE technical_worflows (
   id character varying PRIMARY KEY NOT NULL,

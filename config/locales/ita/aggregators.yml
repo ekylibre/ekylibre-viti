@@ -43,10 +43,10 @@ ita:
     financial_result: "risultato finanziario"
     financial_year_name: "Nome Esercizio"
     financial_years: "esercizi"
-    grains_yield: "resa Grani"
+    grains_yield: "resa Grani" #?
     harvest_year: "anno Harvest"
-    harvested_at: "raccolte al"
-    implanted_at: "impiantato a"
+    harvested_at: "raccolte al" #?
+    implanted_at: "impiantato a" #?
     intervention_durations: "durate di intervento" #?
     loss_balance: "equilibrio perdita"
     losses: "Perdite" #?
@@ -64,14 +64,14 @@ ita:
     other_products: "Altri prodotti" #?
     other_purchases: "altri acquisti" #?
     owner_name: "Nome del proprietario" #?
-    payment_ratio: "rapporto di pagamento"
+    payment_ratio: "rapporto di pagamento" #?
     person_name: "Nome della persona"
     pictogram: "pittogramma" #?
     picture_path: "percorso Picture"
     plan: "Piano"
     population: "Popolazione" #?
     prescription: "Prescrizione"
-    pretax_amount: "importo prima delle imposte"
+    pretax_amount: "importo prima delle imposte" #?
     printed_on: "stampato su"
     product_account_label: "Etichetta conto del prodotto" #?
     production_support: "supporto alla produzione"
@@ -82,7 +82,7 @@ ita:
     profit_or_loss: "Utile o perdita"
     profits: "I profitti" #?
     profits_taxes: "tasse Utili"
-    provisional_yield: "resa provvisorio"
+    provisional_yield: "resa provvisorio" #?
     provisions_revenues: "ricavi Accantonamenti" #?
     quantity: "Quantità"
     raw_matters_purchases: "Raw conta acquisti" #?
@@ -96,7 +96,7 @@ ita:
     # targets_name: "Targets name"
     # tools_name: "Tools name"
     variant_name: "nome variante"
-    vine_yield: "Produzione in vigna"
+    vine_yield: "Produzione in vigna" #?
     wages: "Salari" #?
     working_area: "Area di lavoro"
     working_duration_in_hours: "Durata di lavoro in ore"

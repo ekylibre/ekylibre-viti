@@ -5,7 +5,8 @@
 # Ekylibre - Simple agricultural ERP
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
-# Copyright (C) 2012-2019 Brice Texier, David Joulin
+# Copyright (C) 2012-2014 Brice Texier, David Joulin
+# Copyright (C) 2015-2019 Ekylibre SAS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -40,17 +41,22 @@ require 'test_helper'
 class EconomicSituationTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   setup do
     @entity = Entity.create!(first_name: 'John', last_name: 'Doe')
-    @client_account = Account.create!(name: 'John the client', number: '411123')
-    @supplier_account = Account.create!(name: 'John the supplier', number: '401123')
+    @client_account = create(:account, :client)
+    @supplier_account = create(:account, :supplier)
     trash_account = Account.create!(name: 'Just needed', number: '666')
     @entity.update(client: true, client_account: @client_account)
     @entity.update(supplier: true, supplier_account: @supplier_account)
 
+    @journal = create :journal, nature: :purchases, currency: :EUR
+    @nature = create :purchase_nature, journal_currency: :EUR
+
+
     Purchase.create!(
+      invoiced_at: DateTime.new(2018, 1, 1),
       currency: 'EUR',
       type: 'PurchaseInvoice',
       supplier: @entity,
-      nature: PurchaseNature.create!(currency: 'EUR'),
+      nature: @nature,
       items_attributes: [
         {
           unit_pretax_amount: 12,
@@ -126,7 +132,7 @@ class EconomicSituationTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
       journal: Journal.create!(name: 'JournalTest', code: 'TKT'),
       real_currency: 'EUR',
       number: '0420',
-      printed_on: Time.now,
+      printed_on: DateTime.new(2018, 1, 1),
       items_attributes: [
         {
           real_credit: 10,
@@ -148,7 +154,7 @@ class EconomicSituationTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
       journal: Journal.create!(name: 'Yolo', code: 'Swag'),
       real_currency: 'EUR',
       number: '0420',
-      printed_on: Time.now,
+      printed_on: DateTime.new(2018, 1, 1),
       items_attributes: [
         {
           real_debit: 7,
@@ -178,7 +184,7 @@ class EconomicSituationTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   end
 
   test 'entities\' accounting balance is computed' do
-    assert_equal 3, @entity.economic_situation[:accounting_balance]
+    assert_equal 15, @entity.economic_situation[:accounting_balance]
   end
 
   test 'entities\' trade balance is computed correctly' do
@@ -190,7 +196,7 @@ class EconomicSituationTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   end
 
   test 'entities\' supplier accounting balance is computed correctly' do
-    assert_equal -7, @entity.economic_situation[:supplier_accounting_balance]
+    assert_equal 5, @entity.economic_situation[:supplier_accounting_balance]
   end
 
   test 'entities\' client trade balance is computed correctly' do

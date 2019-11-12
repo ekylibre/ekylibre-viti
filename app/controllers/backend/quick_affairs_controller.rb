@@ -85,6 +85,9 @@ module Backend
       params.require(:trade)
             .permit :invoiced_at,
                     :nature_id,
+                    :reference_number,
+                    :tax_payability,
+                    :description,
                     items_attributes: %i[
                       variant_id
                       quantity

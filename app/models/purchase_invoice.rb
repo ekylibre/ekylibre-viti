@@ -5,7 +5,8 @@
 # Ekylibre - Simple agricultural ERP
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
-# Copyright (C) 2012-2019 Brice Texier, David Joulin
+# Copyright (C) 2012-2014 Brice Texier, David Joulin
+# Copyright (C) 2015-2019 Ekylibre SAS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -72,17 +73,18 @@ class PurchaseInvoice < Purchase
   }
 
   scope :accepted_reconcile, -> { where(reconciliation_state: %w[accepted reconcile]) }
-  scope :unpaid, -> { where(state: %w[order invoice]).where.not(affair: Affair.closeds.where("debit != 0 OR credit != 0")) }
+  scope :unpaid, -> { where.not(affair: Affair.closeds) }
+  scope :unpaid_and_not_empty, -> { where.not(affair: Affair.closeds.where("debit != 0 OR credit != 0")) }
   scope :current, -> { unpaid }
   scope :current_or_self, ->(purchase) { where(unpaid).or(where(id: (purchase.is_a?(Purchase) ? purchase.id : purchase))) }
   scope :with_nature, ->(id) { where(nature_id: id) }
 
-  protect on: :update, allow_update_on: %i[reference_number responsible_id invoiced_at payment_delay tax_payability description] do
-    items.any? && !self.unpaid?
+  protect on: :update, allow_update_on: %w[reference_number responsible_id invoiced_at payment_delay tax_payability description payment_at updated_at] do
+    items.any? && !PurchaseInvoice.unpaid_and_not_empty.include?(self)
   end
 
   protect on: :destroy do
-    items.any? && !self.unpaid?
+    items.any? && !PurchaseInvoice.unpaid_and_not_empty.include?(self)
   end
 
   before_validation(on: :create) do
@@ -126,8 +128,8 @@ class PurchaseInvoice < Purchase
   # This callback permits to add journal entries corresponding to the purchase order/invoice
   # It depends on the preference which permit to activate the "automatic bookkeeping"
   bookkeep do |b|
-    b.journal_entry(nature.journal, printed_on: invoiced_on, if: (with_accounting && items.any?)) do |entry|
-      label = tc(:bookkeep, resource: self.class.model_name.human, number: number, supplier: supplier.full_name, products: (description.blank? ? items.collect(&:name).to_sentence : description))
+    b.journal_entry(nature.journal, printed_on: invoiced_on, if: items.any?) do |entry|
+      label = tc(:bookkeep, resource: self.class.model_name.human, number: number, supplier: supplier.full_name, products: (description.blank? ? items.collect(&:name).to_sentence : description.gsub(/\r?\n/, ' / ')))
       items.each do |item|
         entry.add_debit(label, item.account, item.pretax_amount, activity_budget: item.activity_budget, team: item.team, equipment: item.equipment, project_budget: item.project_budget, as: :item_product, resource: item, variant: item.variant)
         tax = item.tax
@@ -141,13 +143,13 @@ class PurchaseInvoice < Purchase
           entry.add_debit(label, account_id, item.taxes_amount, tax: tax, pretax_amount: item.pretax_amount, as: :item_tax, resource: item, variant: item.variant)
         end
       end
-      entry.add_credit(label, supplier.account(nature.payslip? ? :employee : :supplier).id, amount, as: :supplier)
+      entry.add_credit(label, supplier.account(:supplier).id, amount, as: :supplier)
     end
 
     # For undelivered invoice
     # exchange undelivered invoice from parcel
-    journal = unsuppress { Journal.used_for_unbilled_payables!(currency: currency) }
-    b.journal_entry(journal, printed_on: invoiced_on, as: :undelivered_invoice, if: with_accounting) do |entry|
+    journal = Journal.used_for_unbilled_payables!(currency: currency)
+    b.journal_entry(journal, printed_on: invoiced_on, as: :undelivered_invoice) do |entry|
       parcels.each do |parcel|
         next unless parcel.undelivered_invoice_journal_entry
         label = tc(:exchange_undelivered_invoice, resource: parcel.class.model_name.human, number: parcel.number, entity: supplier.full_name, mode: parcel.nature.l)
@@ -161,8 +163,8 @@ class PurchaseInvoice < Purchase
 
     # For gap between parcel item quantity and purchase item quantity
     # if more quantity on purchase than parcel then i have value in D of stock account
-    journal = unsuppress { Journal.used_for_permanent_stock_inventory!(currency: currency) }
-    b.journal_entry(journal, printed_on: invoiced_on, as: :quantity_gap_on_invoice, if: (with_accounting && items.any?)) do |entry|
+    journal = Journal.used_for_permanent_stock_inventory!(currency: currency)
+    b.journal_entry(journal, printed_on: invoiced_on, as: :quantity_gap_on_invoice, if: items.any?) do |entry|
       label = tc(:quantity_gap_on_invoice, resource: self.class.model_name.human, number: number, entity: supplier.full_name)
       items.each do |item|
         next unless item.variant.storable?
@@ -215,6 +217,10 @@ class PurchaseInvoice < Purchase
     reload
     self.invoiced_at ||= invoiced_at || Time.zone.now
     save!
+  end
+
+  def linked_to_tax_declaration?
+    journal_entry.items.flat_map(&:tax_declaration_item_parts).any?
   end
 
   def reconciled?

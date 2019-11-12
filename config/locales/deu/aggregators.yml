@@ -43,10 +43,10 @@ deu:
     financial_result: "Finanzergebnis"
     financial_year_name: "Geschäftsjahr Name"
     financial_years: "Geschäftsjahre"
-    grains_yield: "Körner Ausbeute"
+    grains_yield: "Körner Ausbeute" #?
     harvest_year: "Erntejahr"
-    harvested_at: "geerntete an"
-    implanted_at: "implantierte an"
+    harvested_at: "geerntete an" #?
+    implanted_at: "implantierte an" #?
     intervention_durations: "Intervention Dauern" #?
     loss_balance: "Verlustbilanz"
     losses: "Verluste" #?
@@ -71,7 +71,7 @@ deu:
     plan: "Planen"
     population: "Bevölkerung" #?
     prescription: "Rezept"
-    pretax_amount: "Der Vorsteuerbetrag"
+    pretax_amount: "Der Vorsteuerbetrag" #?
     printed_on: "gedruckt auf"
     product_account_label: "Produkt Konto Etikett" #?
     production_support: "Produktionsunterstützung"
@@ -82,7 +82,7 @@ deu:
     profit_or_loss: "Der Gewinn oder Verlust"
     profits: "Gewinne" #?
     profits_taxes: "Gewinnsteuern"
-    provisional_yield: "Vorläufige Ausbeute"
+    provisional_yield: "Vorläufige Ausbeute" #?
     provisions_revenues: "Rückstellungen Einnahmen" #?
     quantity: "Menge"
     raw_matters_purchases: "Rohmassen Käufe" #?
@@ -96,7 +96,7 @@ deu:
     # targets_name: "Targets name"
     # tools_name: "Tools name"
     variant_name: "Name der Variante"
-    vine_yield: "Vine Ausbeute"
+    vine_yield: "Vine Ausbeute" #?
     wages: "Lohn" #?
     working_area: "Arbeitsbereich"
     working_duration_in_hours: "Arbeitszeit in Stunden"

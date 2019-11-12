@@ -43,11 +43,11 @@ arb:
     financial_result: "نتيجة المالية"
     financial_year_name: "اسم السنة المالية"
     financial_years: "السنوات المالية"
-    grains_yield: "العائد الحبوب"
+    grains_yield: "العائد الحبوب" #?
     harvest_year: "حصاد العام"
-    harvested_at: "تحصد في"
+    harvested_at: "تحصد في" #?
     human_roles: "أدوار الإنسان" #?
-    implanted_at: "مزروع في"
+    implanted_at: "مزروع في" #?
     intervention_durations: "مدد تدخل" #?
     loss_balance: "ميزان الخسارة"
     losses: "خسائر" #?
@@ -71,7 +71,7 @@ arb:
     picture_path: "مسار الصورة"
     plan: "خطة"
     prescription: "وصفة طبية"
-    pretax_amount: "كمية ما قبل الضريبة"
+    pretax_amount: "كمية ما قبل الضريبة" #?
     printed_on: "المطبوعة على"
     product_account_label: "تسمية حساب المنتج" #?
     production_support: "دعم الإنتاج"
@@ -82,7 +82,7 @@ arb:
     profit_or_loss: "الربح أو الخسارة"
     profits: "الأرباح" #?
     profits_taxes: "ضرائب الأرباح"
-    provisional_yield: "العائد المؤقت"
+    provisional_yield: "العائد المؤقت" #?
     provisions_revenues: "عائدات أحكام" #?
     quantity: "كمية"
     raw_matters_purchases: "يهم الخام مشتريات" #?
@@ -100,7 +100,7 @@ arb:
     variable_name: "اسم المتغير" #?
     variant_name: "اسم البديل"
     variant_variety: "متنوعة متفاوتة" #?
-    vine_yield: "العائد كرمة"
+    vine_yield: "العائد كرمة" #?
     wages: "أجور" #?
     working_area: "منطقة العمل"
     working_duration_in_hours: "مدة العمل بالساعات"

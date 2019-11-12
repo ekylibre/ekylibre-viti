@@ -49,11 +49,11 @@ por:
     financial_result: "Resultado financeiro"
     financial_year_name: "Nome ano fiscal"
     financial_years: "Anos fiscais"
-    grains_yield: "Rendimento de grãos"
+    grains_yield: "Rendimento de grãos" #?
     harvest_year: "Ano de colheita"
-    harvested_at: "Colhidas em"
+    harvested_at: "Colhidas em" #?
     human_roles: "Regras de pessoa" #?
-    implanted_at: "Implantado em"
+    implanted_at: "Implantado em" #?
     incoming_quantity: "Quantidade a receber" #?
     input_quantity: "Quantidade de entrada" #?
     input_unit_name: "Nome unidade de entrada" #?
@@ -84,13 +84,13 @@ por:
     owner_name: "Nome do proprietário" #?
     pasturing_period: "Período de pastoreio" #?
     pasturing_working_area: "Área de pastorio trabalhável" #?
-    payment_ratio: "Rácio de pagamento"
+    payment_ratio: "Rácio de pagamento" #?
     person_name: "Nome da pessoa"
     pictogram: "Pictograma" #?
     picture_path: "Caminho imagem"
     plan: "Plano"
     prescription: "Prescrição"
-    pretax_amount: "Montante antes de impostos"
+    pretax_amount: "Montante antes de impostos" #?
     previous_production_name: "Nome produção anterior" #?
     printed_on: "Impresso em"
     product_account_label: "Rótulo de conta do produto" #?
@@ -104,7 +104,7 @@ por:
     profits: "Lucros" #?
     profits_taxes: "Impostos sobre lucros"
     provisional_grains_yield: "Provisões produção de grãos" #?
-    provisional_yield: "Provisões de rendimento"
+    provisional_yield: "Provisões de rendimento" #?
     provisions_revenues: "Provisões de receita" #?
     quantity: "Quantidade"
     raw_matters_purchases: "Compra de matérias primas" #?
@@ -127,7 +127,7 @@ por:
     variable_name: "Nome variável" #?
     variant_name: "Nome da variante"
     variant_variety: "Variedade de variantes" #?
-    vine_yield: "Produção por planta"
+    vine_yield: "Produção por planta" #?
     wages: "Salários" #?
     working_area: "Área de trabalho"
     working_duration_in_hours: "Duração do trabalho em horas"
