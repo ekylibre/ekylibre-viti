@@ -50,6 +50,6 @@ class CviStatement < Ekylibre::Record::Base
   has_many :cvi_cadastral_plants, dependent: :destroy
 
   def total_area_formated
-    total_area.to_s(:ha_ar_ca)
+    total_area.to_s(:ha_a_ca)
   end
 end
