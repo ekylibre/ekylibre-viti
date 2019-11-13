@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.12
--- Dumped by pg_dump version 11.4 (Ubuntu 11.4-1.pgdg18.10+1)
+-- Dumped from database version 9.6.15
+-- Dumped by pg_dump version 9.6.15
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -21,20 +21,6 @@ SET row_security = off;
 --
 
 CREATE SCHEMA postgis;
-
-
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA public;
-
-
---
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON SCHEMA public IS 'standard public schema';
 
 
 --
@@ -2065,7 +2051,7 @@ CREATE TABLE public.cvi_cadastral_plants (
     land_parcel_id character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    type_of_occupancy character varying
+    type_of_occupancy character varying,
     cvi_cultivable_zone_id integer
 );
 
@@ -4301,9 +4287,9 @@ CREATE TABLE public.journal_entries (
     real_balance numeric(19,4) DEFAULT 0.0 NOT NULL,
     resource_prism character varying,
     financial_year_exchange_id integer,
+    reference_number character varying,
     continuous_number integer,
-    validated_at timestamp without time zone,
-    reference_number character varying
+    validated_at timestamp without time zone
 );
 
 
@@ -6305,20 +6291,22 @@ ALTER SEQUENCE public.product_phases_id_seq OWNED BY public.product_phases.id;
 
 
 --
--- Name: product_populations; Type: VIEW; Schema: public; Owner: -
+-- Name: product_populations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE VIEW public.product_populations AS
-SELECT
-    NULL::integer AS product_id,
-    NULL::timestamp without time zone AS started_at,
-    NULL::numeric AS value,
-    NULL::integer AS creator_id,
-    NULL::timestamp without time zone AS created_at,
-    NULL::timestamp without time zone AS updated_at,
-    NULL::integer AS updater_id,
-    NULL::integer AS id,
-    NULL::integer AS lock_version;
+CREATE TABLE public.product_populations (
+    product_id integer,
+    started_at timestamp without time zone,
+    value numeric,
+    creator_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    updater_id integer,
+    id integer,
+    lock_version integer
+);
+
+ALTER TABLE ONLY public.product_populations REPLICA IDENTITY NOTHING;
 
 
 --
@@ -11554,17 +11542,6 @@ CREATE INDEX index_cvi_cadastral_plants_on_cvi_statement_id ON public.cvi_cadast
 
 
 --
--- Name: index_cvi_cultivable_zones_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_cvi_cultivable_zones_on_cvi_statement_id ON public.cvi_cultivable_zones USING btree (cvi_statement_id);
-
-
---
--- Name: index_cvi_statements_on_campaign_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_cvi_statements_on_campaign_id ON public.cvi_statements USING btree (campaign_id);
 -- Name: index_cvi_cultivable_zones_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -18106,8 +18083,8 @@ CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING b
 -- Name: product_populations _RETURN; Type: RULE; Schema: public; Owner: -
 --
 
-CREATE OR REPLACE VIEW public.product_populations AS
- SELECT DISTINCT ON (movements.started_at, movements.product_id) movements.product_id,
+CREATE RULE "_RETURN" AS
+    ON SELECT TO public.product_populations DO INSTEAD  SELECT DISTINCT ON (movements.started_at, movements.product_id) movements.product_id,
     movements.started_at,
     sum(precedings.delta) AS value,
     max(movements.creator_id) AS creator_id,
@@ -19316,8 +19293,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190325145542');
 
 INSERT INTO schema_migrations (version) VALUES ('20190329164621');
 
-INSERT INTO schema_migrations (version) VALUES ('201904291110001');
-
 INSERT INTO schema_migrations (version) VALUES ('20190429111001');
 
 INSERT INTO schema_migrations (version) VALUES ('20190502082326');
@@ -19341,8 +19316,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190614123521');
 INSERT INTO schema_migrations (version) VALUES ('20190617200314');
 
 INSERT INTO schema_migrations (version) VALUES ('20190619021714');
-
-INSERT INTO schema_migrations (version) VALUES ('201906190217143');
 
 INSERT INTO schema_migrations (version) VALUES ('20190703060513');
 

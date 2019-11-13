@@ -197,6 +197,9 @@ gem 'ffaker', '>= 2.0.0'
 # Reading RSS feeds
 gem 'feedjira', require: false
 
+# Encapsulate application's business logic.
+gem "interactor", "~> 3.0"
+
 # Adds colors in terminal
 gem 'colored' # , require: false
 

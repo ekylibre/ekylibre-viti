@@ -10,4 +10,10 @@ FactoryBot.define do
     cadastral_sub_plant_count { rand(100) }
     state { %i[to_convert converted].sample.to_sym }
   end
+
+  trait :with_cvi_cadastral_plants do
+    after(:create) do |cvi_statement|
+      create_list(:cvi_cadastral_plant, Random.rand(1..4), cvi_statement: cvi_statement)
+    end
+  end
 end

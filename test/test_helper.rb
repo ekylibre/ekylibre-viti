@@ -11,7 +11,7 @@ ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-
+require "minitest/spec"
 require 'minitest/reporters'
 require 'database_cleaner'
 
@@ -102,6 +102,8 @@ class ActiveSupport::TestCase
   setup do
     I18n.locale = :eng
   end
+
+  extend MiniTest::Spec::DSL
 end
 
 module ActionController

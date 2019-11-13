@@ -14,5 +14,13 @@ module Backend
       t.column :land_parcels_status
       t.action :create_land_parcels
     end
+
+    def create
+      cvi_statement = CviStatement.find(params[:id])
+      campaign = Campaign.find_by(name: params[:campaign])
+      cvi_statement.update(campaign_id: campaign.id)
+      GenerateCviCultivableZones.call(cvi_statement: cvi_statement)
+      redirect_to action: 'show', id: cvi_statement.id
+    end
   end
 end

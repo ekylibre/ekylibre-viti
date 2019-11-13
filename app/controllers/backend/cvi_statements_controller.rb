@@ -105,19 +105,5 @@ module Backend
       t.column :inter_row_distance_value
       t.column :state
     end
-
-    def update_campaign
-      campaign = Campaign.find_by(name: params[:campaign].to_s) if params[:campaign]
-      if campaign
-        current_cvi_statement.update(campaign_id: campaign.id)
-        redirect_to backend_cvi_statement_path(@current_cvi_statement)
-      end
-    end
-
-    private
-
-    def current_cvi_statement
-      @current_cvi_statement ||= CviStatement.find(params[:id])
-    end
   end
 end

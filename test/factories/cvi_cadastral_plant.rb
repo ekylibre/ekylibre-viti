@@ -4,7 +4,7 @@ FactoryBot.define do
     locality { FFaker::AddressFR.city }
     insee_number { rand(1_000_000) }
     work_number { rand(5) }
-    section { %w[A,F,G].sample }
+    section { %w[A F G].sample }
     land_parcel_number { rand(10) }
     area_value { rand.round(2) }
     area_unit { :hectare }
