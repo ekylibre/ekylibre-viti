@@ -1589,7 +1589,7 @@ eng:
     custom_fields: "Custom fields"
     cvi_cadastral_plants: "Cvi cadastral plants"
     cvi_cadastral_plants_map: "Cvi cadastral plants"
-    # cvi_cultivable_zones: "Cvi cultivable zones"
+    cvi_cultivable_zones: "Cvi cultivable zones"
     # data: "Data"
     # data_transmissions: "Data transmissions"
     # date: "Date"
