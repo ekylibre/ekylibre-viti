@@ -10,8 +10,12 @@
       @_cartography = new Cartography.Map @el, options
       @initControls()
 
-      this.displayCviCadastralPlants()
-      this.displayCviCultivableZones()
+      path = window.location.pathname.match(/\D*/g)[0]
+      switch path
+        when "/backend/cvi_statements/"
+          this.displayCviCadastralPlants()
+        when "/backend/cvi_statement_conversions/"
+          this.displayCviCultivableZones()
       this.displayCadastralLandParcelZone()
       @firstLoad = true
 
