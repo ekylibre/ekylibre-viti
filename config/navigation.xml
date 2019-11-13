@@ -1187,6 +1187,7 @@
       <item name="cvi_statements">
         <page to="backend/cvi_statements#index"/>
         <page to="backend/cvi_statements#show"/>
+        <page to="backend/cvi_statement_conversions#show"/>
       </item>
     </group>
     <group name="exchange">
