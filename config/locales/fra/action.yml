@@ -1407,6 +1407,7 @@ fra:
     convert_balance_into_loss: "Passer le solde en perte"
     convert_balance_into_profit: "Passer le solde en profit"
     convert_cvi: "Convertir en parcellaire"
+    convert_cvi_into_land_parcels: "Convertir le CVI en parcellaire"
     convert_into_contact: "Convertir en contact"
     convert_into_organization: "Convertir en organisation"
     convert_to_cultivable_zone: "Convertir en zone cultivable"

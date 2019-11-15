@@ -1515,6 +1515,7 @@ eng:
     convert_balance_into_loss: "Convert balance into loss"
     convert_balance_into_profit: "Convert balance into profit"
     convert_cvi: "Convert into land parcels"
+    convert_cvi_into_land_parcels: "Convert CVI into land parcels"
     convert_into_contact: "Convert into contact"
     convert_into_organization: "Convert into organization"
     convert_to_cultivable_zone: "Convert to cultivable zone"
