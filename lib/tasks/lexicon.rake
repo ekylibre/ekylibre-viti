@@ -18,6 +18,10 @@ namespace :lexicon do
   task upgrade: :environment do
     Lexicon.reload!
   end
+
+  task post_processing: :environment do
+    Lexicon.execute_post_processing
+  end
 end
 
 # Clear lexicon before migration

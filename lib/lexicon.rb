@@ -52,7 +52,7 @@ module Lexicon
       execute_script(structure_script, 'Add tables in lexicon schema')
       execute_script(data_script, 'Load data of lexicon') if data_script.exist?
       lock!
-      execute_post_processing(post_processing_script) if post_processing_script.exist?
+      execute_post_processing
     end
 
     def load_structure!
@@ -76,18 +76,20 @@ module Lexicon
       end
     end
 
-    private
-
-    def execute_post_processing(script)
-      db = Rails.application.config.database_configuration[Rails.env].with_indifferent_access
-      db_url = Shellwords.escape("postgresql://#{db[:username]}:#{db[:password]}@#{db[:host]}:#{db[:port] || 5432}/#{db[:database]}")
-      Ekylibre::Tenant.list.push('public').each do |tenant|
-        puts "== Post-processing for #{tenant} tenant : migrating ==".ljust(79, '=').cyan
-        start = Time.now
-        `echo 'SET SEARCH_PATH TO "#{tenant}";' | cat - #{script.to_s} | psql --dbname=#{db_url}`
-        puts "== Post-processing for #{tenant} tenant : migrated (#{(Time.now - start).round(4)}s) ==".ljust(79, '=').cyan
+    def execute_post_processing
+      if post_processing_script.exist?
+        db = Rails.application.config.database_configuration[Rails.env].with_indifferent_access
+        db_url = Shellwords.escape("postgresql://#{db[:username]}:#{db[:password]}@#{db[:host]}:#{db[:port] || 5432}/#{db[:database]}")
+        Ekylibre::Tenant.list.push('public').each do |tenant|
+          puts "== Post-processing for #{tenant} tenant : migrating ==".ljust(79, '=').cyan
+          start = Time.now
+          `echo 'SET SEARCH_PATH TO "#{tenant}";' | cat - #{post_processing_script.to_s} | psql --dbname=#{db_url}`
+          puts "== Post-processing for #{tenant} tenant : migrated (#{(Time.now - start).round(4)}s) ==".ljust(79, '=').cyan
+        end
       end
     end
+
+    private
 
     def post_processing_script
       Rails.root.join('db', 'lexicon', 'post_processing.sql')
