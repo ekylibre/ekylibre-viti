@@ -991,6 +991,8 @@ fra:
       zoom:
         zoomInTitle: "Zoomer"
         zoomOutTitle: "Dézoomer"
+    labels:
+      cadastral_land_parcel_zones: 'Parcelles cadastrales'
     levels:
       # error: "Error!"
     messages:
