@@ -213,8 +213,8 @@
   $.loadMap = ->
     return unless $("*[data-cartography]").length
     $el = $("*[data-cartography]").first()
-    mapAlreadyInitialized = $("*[data-cartography]").data('map-id') is null or $("*[data-cartography]").data('map-id')?
-    return if mapAlreadyInitialized
+    # mapAlreadyInitialized = $("*[data-cartography]").data('map-id') is null or $("*[data-cartography]").data('map-id')?
+    # return if mapAlreadyInitialized
     opts = $el.data("cartography")
 
     opts.bounds = bounds if bounds = localStorage.getItem("bounds")

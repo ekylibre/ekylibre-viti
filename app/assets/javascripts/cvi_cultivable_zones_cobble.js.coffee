@@ -18,6 +18,7 @@
 
   $(document).on 'list:page:change', ->
     formatRow()
+    addClickEventToIds()
 
   formatRow = ->
     $('[id^=cvi_cultivable_zones] tr th:nth-child(10) > i').remove()

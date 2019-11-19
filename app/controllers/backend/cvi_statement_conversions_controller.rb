@@ -4,7 +4,7 @@ module Backend
 
     list(:cvi_cultivable_zones, conditions: { cvi_statement_id: 'params[:id]'.c }) do |t|
       t.column :id, hidden: true
-      t.action :edit
+      t.action :edit, url: { controller: 'cvi_cultivable_zones', action: 'edit', remote: true }
       t.action :destroy
       t.column :name
       t.column :communes, label: :communes

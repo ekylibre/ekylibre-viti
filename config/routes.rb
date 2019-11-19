@@ -429,6 +429,8 @@ Rails.application.routes.draw do
 
     resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' }
 
+    resources :cvi_cultivable_zones, only: %i[destroy edit patch update]
+
     resources :cadastral_land_parcel_zones, only: %i[index]
 
     resources :cvi_cultivable_zones, only: %i[index edit destroy] do
