@@ -991,6 +991,8 @@ fra:
       zoom:
         zoomInTitle: "Zoomer"
         zoomOutTitle: "Dézoomer"
+    labels:
+      cadastral_land_parcel_zones: 'Parcelles cadastrales'
     levels:
       # error: "Error!"
     messages:
@@ -1407,6 +1409,7 @@ fra:
     convert_balance_into_loss: "Passer le solde en perte"
     convert_balance_into_profit: "Passer le solde en profit"
     convert_cvi: "Convertir en parcellaire"
+    convert_cvi_into_land_parcels: "Convertir le CVI en parcellaire"
     convert_into_contact: "Convertir en contact"
     convert_into_organization: "Convertir en organisation"
     convert_to_cultivable_zone: "Convertir en zone cultivable"
@@ -3398,7 +3401,7 @@ fra:
       record_x_created: "%{record} %{name} créé"
       record_x_planned: "%{record} %{name} planifiée" #?
       record_x_updated: "%{record} %{name} mise à jour"
-      record_x_updated_f: "La %{record} %{name} à été mise à jour"
+      record_x_updated_f: "La %{record} %{name} a été mise à jour"
       restoration_finished: "La restauration de la sauvegarde s’est terminée (en %{value} secondes)." #?
       sale_already_invoiced: "La vente a déjà été facturée: vous ne pouvez pas définir de livraison" #?
       sale_cannot_be_updated: "Le devis n’est plus modifiable." #?

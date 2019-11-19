@@ -70,7 +70,7 @@ module Backend
       t.column :created_at
       t.column :declarant
       t.column :farm_name
-      t.column :total_area, datatype: :measure, label_method: :total_area_formated
+      t.column :total_area, datatype: :measure, label_method: :total_area_formatted
       t.column :state
     end
 
@@ -107,11 +107,9 @@ module Backend
     end
 
     def update_campaign
-      campaign = Campaign.find_by(name: params[:campaign].to_s) if params[:campaign]
-      if campaign
-        current_cvi_statement.update(campaign_id: campaign.id)
-        redirect_to backend_cvi_statement_path(@current_cvi_statement)
-      end
+      campaign = Campaign.find_or_create_by(harvest_year: params[:campaign]) if params[:campaign]
+      current_cvi_statement.update(campaign_id: campaign.id)
+      redirect_to backend_cvi_statement_path(@current_cvi_statement)
     end
 
     private

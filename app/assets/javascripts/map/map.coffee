@@ -129,7 +129,7 @@
           style = (feature) ->
             color: '#ffffff', fillOpacity: 0, opacity: 1, dashArray: '6, 6',weight:1
 
-          cadastralZonesSerie = [{cadastral_land_parcel_zones: data}, [name: 'cadastral_land_parcel_zones', label: "cadastral_land_parcel_zones", type: 'simple', index: true, serie: 'cadastral_land_parcel_zones', onEachFeature: onEachFeature, style: style]]
+          cadastralZonesSerie = [{cadastral_land_parcel_zones: data}, [name: 'cadastral_land_parcel_zones', label: I18n.t( 'front-end.labels.cadastral_land_parcel_zones'), type: 'simple', index: true, serie: 'cadastral_land_parcel_zones', onEachFeature: onEachFeature, style: style]]
 
           @_cartography.addOverlay(cadastralZonesSerie)
 

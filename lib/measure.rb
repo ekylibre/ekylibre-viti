@@ -2,14 +2,15 @@
 # It depends on nomenclatures Unit and Dimension.
 class Measure
   MEASURE_FORMATS = {
-    ha_ar_ca: lambda { |area|
+    ha_a_ca: lambda { |area|
       # format area: 1,0056 ha => 01ha 56ca,  1,3456 ha => 01ha 34ar 56ca
       area.in(:hectare)
       total_area_to_s = (area.value * 10_000).to_f.floor.to_s.rjust(6, '0')
       [[total_area_to_s[0..-5], Nomen::Unit[:hectare].symbol],
        [total_area_to_s[-4, 2], Nomen::Unit[:are].symbol],
        [total_area_to_s[-2, 2], Nomen::Unit[:centiare].symbol]].reject { |n| n[0] == '00' }.flatten.join(' ')
-    }
+    },
+    short_form_unit: lambda { |measure| "#{measure.value.to_f} #{measure.symbol}" }
   }.freeze
 
   class AmbiguousUnit < ArgumentError

@@ -92,6 +92,7 @@ eng:
         inter_row_distance: "Inter row distance"
         inter_vine_plant_distance: "Inter vine plant distance"
         land_parcel_id: "Cadastral reference id"
+        work_number: "Cadastral land parcel number" 
         locality: "locality"
         rootstock_number: "Rootstock"
         state: "State"

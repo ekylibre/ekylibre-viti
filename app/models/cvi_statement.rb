@@ -49,7 +49,7 @@ class CviStatement < Ekylibre::Record::Base
   belongs_to :campaign
   has_many :cvi_cadastral_plants, dependent: :destroy
 
-  def total_area_formated
+  def total_area_formatted
     total_area.to_s(:ha_a_ca)
   end
 end
