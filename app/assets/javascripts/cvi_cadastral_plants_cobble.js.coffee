@@ -20,6 +20,7 @@
   $(document).on 'list:page:change', ->
     formatRow()
     manageErrorMessage()
+    addClickEventToIds()
 
   formatRow = ->
     $('[id^=cvi_cadastral_plants] tr').each ->
