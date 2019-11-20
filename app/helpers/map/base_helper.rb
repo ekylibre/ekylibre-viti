@@ -17,9 +17,7 @@ module Map
     end
 
     def backgrounds
-      MapLayer.available_backgrounds.map { |e| [e.reference_name&.split('.')&.map(&:camelize)&.join('.'), e.to_json_object] }.unshift(
-        ['MapBox', { id: 'mapbox.satellite', accessToken: ENV['MAPBOX_API_KEY'], maxZoom: 23 }]
-      )
+      MapLayer.available_backgrounds.map { |e| e.attributes.transform_keys { |k| k.camelize(:lower) } }
     end
   end
 end

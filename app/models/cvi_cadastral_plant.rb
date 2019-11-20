@@ -106,6 +106,6 @@ class CviCadastralPlant < Ekylibre::Record::Base
 
   def set_land_parcel_id
     land_parcel = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', "#{insee_number}%", section, work_number).first
-    self.land_parcel_id = land_parcel.id if land_parcel
+    self.land_parcel = land_parcel
   end
 end

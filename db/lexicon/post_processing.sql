@@ -22,6 +22,7 @@ CREATE OR REPLACE FUNCTION area_formatted(area numeric) RETURNS VARCHAR(50) AS
     END;
     $$ LANGUAGE plpgsql;
 
+DROP VIEW IF EXISTS formatted_cvi_cadastral_plants;
 
 CREATE OR REPLACE VIEW formatted_cvi_cadastral_plants AS
 SELECT 
@@ -38,7 +39,7 @@ SELECT
 	END AS cadastral_reference,
 	
 	designation_of_origins.product_human_name_fra AS designation_of_origin_name,
-	vine_varieties.specie_name AS vine_variety_name,
+	INITCAP(vine_varieties.specie_name) AS vine_variety_name,
 	area_value,
 	area_formatted(area_value) AS area_formatted,
 	campaign,
@@ -47,7 +48,7 @@ SELECT
 	  WHEN rootstock_id IS NULL THEN 
 	    NULL	
 	  ELSE
-	   rootstocks.specie_name 
+	   INITCAP(rootstocks.specie_name)
 	END AS rootstock,
 	
 	inter_vine_plant_distance_value :: int AS inter_vine_plant_distance_value,
