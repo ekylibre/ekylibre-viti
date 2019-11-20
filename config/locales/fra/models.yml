@@ -114,6 +114,7 @@ fra:
         area: "Superficie déclarée"
         cadastral_reference: "référence cadastrale"
         commune: "Commune"
+        work_number: "Numéro de la parcelle cadastrale"
         designation_of_origin_name: "Produit"
         inter_row_distance: "Inter rang"
         inter_vine_plant_distance: "Inter pied"
@@ -2264,7 +2265,7 @@ fra:
     with_supports: "Avec des supports"
     with_transport: "Avec transport"
     work_name: "Nom de travail"
-    work_number: "Numéro de la parcelle cadastrale"
+    work_number: "Numéro de travail"
     worker: "Équipier"
     workflow: "Débit de chantier" #?
     working_area: "Superficie travaillée" #?

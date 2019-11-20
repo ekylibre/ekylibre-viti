@@ -72,11 +72,11 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
     should validate_presence_of(:insee_number)
 
     should 'validates presence of land_parcel only on update' do
-      city = build(:cvi_cadastral_plant, land_parcel_id: nil)
-      assert_equal true, city.valid?
-      city.save
-      city.update(land_parcel_id: nil)
-      assert_equal false, city.valid?
+      cvi_cadastral_plant = build(:cvi_cadastral_plant, land_parcel_id: nil)
+      assert_equal true, cvi_cadastral_plant.valid?
+      cvi_cadastral_plant.save
+      cvi_cadastral_plant.update(land_parcel_id: nil)
+      assert_equal false, cvi_cadastral_plant.valid?
     end
   end
 
@@ -89,6 +89,14 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   end
 
   context 'callbacks' do
+    context 'cvi_cadastral_plant is valid and it is updated with invalid value' do
+      should 'not update cvi_cadastral_plant' do
+        cvi_cadastral_plant = create(:cvi_cadastral_plant, insee_number: '51414', land_parcel_id: '335010000A1428', section: 'A', work_number: '1428')
+        cvi_cadastral_plant.update(work_number: '#')
+        assert_equal false, cvi_cadastral_plant.valid?
+      end
+    end
+
     should "update commune if insee_number change" do
       cvi_cadastral_plant = create(:cvi_cadastral_plant)
       cvi_cadastral_plant.update(insee_number: "91121")

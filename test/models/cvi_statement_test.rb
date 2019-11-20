@@ -75,10 +75,10 @@ class CviStatementTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
 
   should enumerize(:state).in(:to_convert, :converted).with_default(:to_convert).with_predicates(true)
 
-  context '#total_area_formated' do
+  context '#total_area_formatted' do
     should 'format area' do
       cvi_statement = create(:cvi_statement, total_area: Measure.new(1.1455, :hectare))
-      assert_equal '01 Ha 14 Ar 55 Ca', cvi_statement.total_area_formated
+      assert_equal '01 Ha 14 Ar 55 Ca', cvi_statement.total_area_formatted
     end
   end
 end
