@@ -17,7 +17,7 @@ module Map
     end
 
     def backgrounds
-      MapLayer.available_backgrounds.map { |e| [e.reference_name&.split('.')&.map(&:camelize)&.join('.'), e.to_json_object] }
+      MapLayer.available_backgrounds.map { |e| e.attributes.transform_keys { |k| k.camelize(:lower) } }
     end
   end
 end
