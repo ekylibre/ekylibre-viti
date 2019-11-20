@@ -1,6 +1,6 @@
 GIT
   remote: https://gitlab.com/ekylibre/cartography.git
-  revision: 8ff286618f500d8f646e2d8ed1a7b10488fbb7a8
+  revision: 60ccb3d489ab52851c6d2df6898e2a6c5cb85ce3
   branch: ekyviti
   specs:
     cartography (0.0.1)
