@@ -20,6 +20,7 @@
   $(document).on 'list:page:change', ->
     formatRow()
     manageErrorMessage()
+    # Used to rebind activelist items on page changing
     addClickEventToIds()
 
   formatRow = ->
