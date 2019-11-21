@@ -1,6 +1,6 @@
 module Backend
   class CviCultivableZonesController < Backend::BaseController
-    manage_restfully only: %i[edit destroy patch update]
+    manage_restfully only: %i[edit patch update destroy]
 
     def index
       records = CviStatement.find(params[:id]).cvi_cultivable_zones.collect do |r|
@@ -9,8 +9,6 @@ module Backend
       render json: records.compact.to_json
     end
 
-    def create_land_parcels
-    end
 
     def update
       return unless @cvi_cultivable_zone = find_and_check(:cvi_cultivable_zone)
@@ -21,6 +19,8 @@ module Backend
 
       render action: :edit
     end
+
+    def delete_modal; end 
 
     private
 
