@@ -2,7 +2,24 @@ require 'test_helper'
 
 module Backend
   class CviStatementConversionsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
-    test_restfully_all_actions class_name: 'CviStatement', only: %i[show list_cvi_cultivable_zones]
+    test_restfully_all_actions class_name: 'CviStatement', only: %i[list_cvi_cultivable_zones]
+
+    describe '#show' do
+      let(:invalid_cvi_statement) { create(:cvi_statement) }
+      let(:valid_cvi_statement) { create(:cvi_statement, :with_cvi_cultivable_zone) }
+
+      it 'raise error if conversion doesn\'t exsite' do
+        assert_raises(ActiveRecord::RecordNotFound) do 
+          get :show, id: invalid_cvi_statement.id
+        end
+      end
+
+      it 'get show' do
+        get :show, id: valid_cvi_statement, locale: @locale 
+        assert_response :success
+        assert_not_nil assigns(:cvi_statement)
+      end
+    end
 
     describe '#create' do
       let(:cvi_statement) { create(:cvi_statement, :with_cvi_cadastral_plants) }

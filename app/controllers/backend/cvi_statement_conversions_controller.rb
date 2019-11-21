@@ -2,6 +2,8 @@ module Backend
   class CviStatementConversionsController < Backend::BaseController
     manage_restfully only: %i[show], model_name: 'CviStatement'
 
+    before_action :cvi_cultivable_zones_exist?, only: :show
+
     list(:cvi_cultivable_zones, conditions: { cvi_statement_id: 'params[:id]'.c }) do |t|
       t.column :id, hidden: true
       t.action :edit, url: { controller: 'cvi_cultivable_zones', action: 'edit', remote: true }
@@ -29,6 +31,13 @@ module Backend
       notify_success(:cvi_conversion_has_been_correctly_reseted.tl)
       GenerateCviCultivableZones.call(cvi_statement: cvi_statement)
       redirect_to action: 'show', id: cvi_statement.id
+    end
+
+    private
+
+    def cvi_cultivable_zones_exist?
+      cvi_statement = CviStatement.find(params[:id])
+      raise ActiveRecord::RecordNotFound if cvi_statement.cvi_cultivable_zones.empty?
     end
   end
 end
