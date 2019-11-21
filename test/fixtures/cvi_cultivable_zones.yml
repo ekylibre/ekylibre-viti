@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+cvi_cultivable_zones_001:
+  name: MyString
+  calculated_area_unit: hectare
+  calculated_area_value: 9.99
+  land_parcels_status: MyString
+  shape: 
+  cvi_statement_id: 
+
+cvi_cultivable_zones_002:
+  name: MyString
+  calculated_area_unit: hectare
+  calculated_area_value: 9.99
+  land_parcels_status: MyString
+  shape: 
+  cvi_statement_id: 
