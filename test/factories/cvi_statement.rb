@@ -16,4 +16,10 @@ FactoryBot.define do
       create_list(:cvi_cadastral_plant, Random.rand(1..4), cvi_statement: cvi_statement)
     end
   end
+
+  trait :with_cvi_cultivable_zone do
+    after(:create) do |cvi_statement|
+      create(:cvi_cultivable_zone, cvi_statement: cvi_statement)
+    end
+  end
 end
