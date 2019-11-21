@@ -1,3 +1,8 @@
+= modal(id: "delete-modal", class:'vertical-center', size: :medium) do
+  .modal-header
+  .modal-body
+  .modal-footer
+
 = janus do |j|
   - j.face :list do
     = cobbles do |c|
@@ -35,9 +40,11 @@
               %span.value= @cvi_statement.cadastral_sub_plant_count
             .med-info
               %span.title= CviStatement.human_attribute_name(:total_area)
-              %span.value= @cvi_statement.total_area_formated
+              %span.value= @cvi_statement.total_area_formatted
         - c.cobble(:cvi_cultivable_zones) do
           = cobble_list(:cvi_cultivable_zones)
+
+    = render partial: 'buttons'
 
   - if @cvi_statement.cvi_cultivable_zones.any?
     - j.face :map do
@@ -50,9 +57,6 @@
       = cobbles do |c|
         - c.cobble(:cvi_cultivable_zones) do
           = cobble_list(:cvi_cultivable_zones)
-      .btn-container  
-        %div 
-          =link_to "Sauvegarder", '#', class: 'btn btn-default'
-          =link_to "Convertir", '#',class: 'btn btn-default'
-          
-  
+
+      = render partial: 'buttons'
+

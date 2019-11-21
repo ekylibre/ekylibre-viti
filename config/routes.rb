@@ -420,25 +420,23 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cvi_statement_conversions, concerns: %i[list] do 
+    resources :cvi_statement_conversions, concerns: %i[list], only: %i[show create] do
       member do
         get :list_cvi_cultivable_zones
-        resources :cvi_cultivable_zones, only: %i[index]
+        get :reset
+      end
+    end
+
+    resources :cvi_cultivable_zones, except: %i[show] do 
+      member do 
+        get :delete_modal
+        get :create_land_parcels
       end
     end
 
     resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' }
 
-    resources :cvi_cultivable_zones, only: %i[destroy edit patch update]
-
     resources :cadastral_land_parcel_zones, only: %i[index]
-
-    resources :cvi_cultivable_zones, only: %i[index edit destroy] do
-      member do 
-        get :create_land_parcels
-      end
-    end
-
 
     resources :deliveries, concerns: %i[list unroll] do
       member do

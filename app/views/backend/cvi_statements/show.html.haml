@@ -2,7 +2,11 @@
 
 - main_toolbar do |t|
   = t.edit resource
-  = tool_to(:convert_cvi.tl, 'javascript:void(0)', class:'select-campaign', icon: :gear, data:{cvi_statement: params[:id]})
+  - if resource.cvi_cultivable_zones.any?
+    = tool_to(:resume_cvi_conversion.tl, backend_cvi_statement_conversion_path(resource), icon: :gear)
+    = tool_to(:reset_cvi_conversion.tl, reset_backend_cvi_statement_conversion_path(@cvi_statement),icon: :gear, data:{ confirm: :are_you_sure_you_want_to_reset_cvi_conversion.tl})
+  - else 
+    = tool_to(:convert_cvi.tl, 'javascript:void(0)', class:'select-campaign', icon: :gear, data:{cvi_statement: params[:id]})
 
 = render partial: 'campaign_selection_modal', locals: { cvi_statement: resource }
 

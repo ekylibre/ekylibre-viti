@@ -1211,6 +1211,7 @@ fra:
     are_you_sure_you_want_to_delete: "Êtes-vous sûr(e) de vouloir supprimer cet enregistrement\_?"
     are_you_sure_you_want_to_invoice: "Êtes-vous sûr(e) de vouloir facturer\_?"
     are_you_sure_you_want_to_send_mails: "Êtes-vous sûr(e) de vouloir envoyer les mails\_?"
+    are_you_sure_you_want_to_reset_cvi_conversion: "Êtes-vous sûr(e) de vouloir réinitialiser la conversion du parcellaire\_?"
     area: "Zone"
     area_measure: "Superficie" #?
     assessable_operations: "Opérations imposables (H.T)" #?
@@ -1411,10 +1412,13 @@ fra:
     contains: "Contient" #?
     content_products: "Produits contenus" #?
     contextual_help: "Aide contextuelle" #?
+    convert: "Convertir"
     convert_balance_into_loss: "Passer le solde en perte"
     convert_balance_into_profit: "Passer le solde en profit"
     convert_cvi: "Convertir en parcellaire"
     convert_cvi_into_land_parcels: "Convertir le CVI en parcellaire"
+    resume_cvi_conversion: "Reprendre la conversion en cours"
+    reset_cvi_conversion: "Réinitialiser la conversion du parcellaire"
     convert_into_contact: "Convertir en contact"
     convert_into_organization: "Convertir en organisation"
     convert_to_cultivable_zone: "Convertir en zone cultivable"
@@ -1535,6 +1539,8 @@ fra:
     deformity_percentage_evolution: "Evolution des malformations"
     delay: "Délai"
     delete: "Supprimer"
+    delete_cvi_cutlivable_zone_header: "Supprimer la Zone Cultivable"
+    delete_cvi_cutlivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
     delete_only_record: #? String expected ("Or only delete the selected intervention(s) and display the request associate ?")
       one: "Ou supprimer uniquement l’intervention" #?
       other: "Ou supprimer uniquement les interventions" #?
@@ -1834,6 +1840,7 @@ fra:
     global_costs: "Coût global"
     global_preferences: "Préférences générales"
     go: "Valider"
+    go_back: "Retour"
     go_back_to_financial_year_details: "Retourner aux détails de l'exercice comptable"
     gradings: "Agréages"
     grain_yield: "Rendement grain"
@@ -2531,6 +2538,7 @@ fra:
     record: "Enregistrement"
     record_cannot_be_saved: "L'enregistrement n'a pas pu être sauvegardé."
     record_has_been_correctly_removed: "L’enregistrement a été supprimé correctement." #?
+    cvi_conversion_has_been_correctly_reseted: "La conversion du CVI a été réinitialisée correctement."
     record_has_not_been_removed: "L’enregistrement n’a pu être supprimé." #?
     record_maintenance: "Enregistrer une maintenance"
     reevaluation_gaps: "Ecarts de réévaluation"
@@ -3508,6 +3516,7 @@ fra:
       create: "Créer"
       create_land_parcels: "Créer parcelles"
       decrement: "Décrementer" #?
+      delete_modal: "Supprimer"
       destroy: "Supprimer"
       detach: "Détacher"
       detail: "Détail"
