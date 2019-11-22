@@ -69,6 +69,6 @@
 #
 require 'test_helper'
 
-class SaleTest < ActiveSupport::TestCase
+class SaleTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   # Add tests here...
 end
