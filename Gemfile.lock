@@ -212,11 +212,8 @@ GEM
       actionmailer (>= 4.0, < 6)
       activesupport (>= 4.0, < 6)
     execjs (2.7.0)
-    factory_bot (5.1.1)
-      activesupport (>= 4.2.0)
-    factory_bot_rails (5.1.1)
-      factory_bot (~> 5.1.0)
-      railties (>= 4.2.0)
+    factory_bot (4.11.1)
+      activesupport (>= 3.0.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.12.2)
@@ -674,7 +671,7 @@ DEPENDENCIES
   elastic-apm
   enumerize
   exception_notification
-  factory_bot_rails
+  factory_bot (< 5)
   feedjira
   ffaker (>= 2.0.0)
   figaro

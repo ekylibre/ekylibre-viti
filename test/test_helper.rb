@@ -1,6 +1,5 @@
 require 'minitest/mock'
 require 'rake'
-require 'factory_bot_rails'
 include FactoryBot::Syntax::Methods
 
 class ActiveSupport::TestCase
@@ -44,6 +43,8 @@ end
 if ENV['LEXICON']
   Lexicon.reload! if File.exist?(Rails.root.join('test', 'fixture-files', 'lexicon', 'data.sql'))
 end
+
+FactoryBot.find_definitions
 
 DatabaseCleaner.strategy = :transaction
 
