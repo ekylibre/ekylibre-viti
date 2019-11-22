@@ -1,6 +1,6 @@
 module Backend
   class CviCadastralPlantsController < Backend::BaseController
-    manage_restfully only: %i[edit destroy patch update]
+    manage_restfully only: %i[edit destroy]
 
     def index
       records = CviStatement.find(params[:id]).cvi_cadastral_plants.collect do |r|
