@@ -42,8 +42,7 @@ require 'test_helper'
 class CviStatementTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   should 'be creatable' do
     cvi_statement = create(:cvi_statement)
-    first_cvi_statement = CviStatement.first
-    assert_equal cvi_statement, first_cvi_statement
+    assert_equal cvi_statement, CviStatement.find(cvi_statement.id)
   end
 
   context 'Aggregations' do
@@ -78,7 +77,7 @@ class CviStatementTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   context '#total_area_formatted' do
     should 'format area' do
       cvi_statement = create(:cvi_statement, total_area: Measure.new(1.1455, :hectare))
-      assert_equal '01 Ha 14 Ar 55 Ca', cvi_statement.total_area_formatted
+      assert_equal '01ha 14a 55ca', cvi_statement.total_area_formatted
     end
   end
 end
