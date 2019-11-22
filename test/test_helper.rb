@@ -37,11 +37,12 @@ Ekylibre::Tenant.setup!('test', keep_files: true)
 
 Ekylibre::Tenant.switch 'test_without_fixtures' do
   puts "Cleaning tenant: #{'test_without_fixtures'.green}".yellow
-  DatabaseCleaner.clean_with :truncation, { except: ['spatial_ref_sys', "registered_legal_positions"] }
-end
-
-if ENV['LEXICON']
-  Lexicon.reload! if File.exist?(Rails.root.join('test', 'fixture-files', 'lexicon', 'data.sql'))
+  DatabaseCleaner.clean_with :truncation, except: ['spatial_ref_sys', 
+                                                   'registered_legal_positions',
+                                                   'master_vine_varieties',
+                                                   'registred_protected_designation_of_origins',
+                                                   'cadastral_land_parcel_zones',
+                                                   'registered_postal_zones']
 end
 
 FactoryBot.find_definitions
