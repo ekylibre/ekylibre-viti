@@ -1,6 +1,5 @@
 require 'minitest/mock'
 require 'rake'
-include FactoryBot::Syntax::Methods
 
 class ActiveSupport::TestCase
   require 'enumerize/integrations/rspec'
