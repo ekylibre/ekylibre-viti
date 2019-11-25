@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.12
--- Dumped by pg_dump version 11.4 (Ubuntu 11.4-1.pgdg18.10+1)
+-- Dumped from database version 9.6.15
+-- Dumped by pg_dump version 9.6.15
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -24,17 +24,63 @@ CREATE SCHEMA postgis;
 
 
 --
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
+-- Name: area_formatted(numeric); Type: FUNCTION; Schema: postgis; Owner: -
 --
 
-CREATE SCHEMA public;
+CREATE FUNCTION postgis.area_formatted(area numeric) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+    DECLARE
+    ha_area_num  NUMERIC;
+    ar_area_num  NUMERIC;
+    ca_area_num  NUMERIC;
+    ha_area  VARCHAR(50);
+    ar_area  VARCHAR(50);
+    ca_area  VARCHAR(50);
+    result VARCHAR(50);
+    BEGIN
+    ha_area_num = TRUNC(area, 0);
+    ar_area_num = TRUNC(area - ha_area_num, 2);
+    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
+
+    ha_area = to_char(ha_area_num , 'FM00');
+    ar_area = to_char(ar_area_num * 100, 'FM00');
+    ca_area = to_char(ca_area_num * 10000, 'FM00');
+
+    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
+    RETURN result;
+    END;
+    $$;
 
 
 --
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
+-- Name: area_formatted(numeric); Type: FUNCTION; Schema: public; Owner: -
 --
 
-COMMENT ON SCHEMA public IS 'standard public schema';
+CREATE FUNCTION public.area_formatted(area numeric) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+    DECLARE
+    ha_area_num  NUMERIC;
+    ar_area_num  NUMERIC;
+    ca_area_num  NUMERIC;
+    ha_area  VARCHAR(50);
+    ar_area  VARCHAR(50);
+    ca_area  VARCHAR(50);
+    result VARCHAR(50);
+    BEGIN
+    ha_area_num = TRUNC(area, 0);
+    ar_area_num = TRUNC(area - ha_area_num, 2);
+    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
+
+    ha_area = to_char(ha_area_num , 'FM00');
+    ar_area = to_char(ar_area_num * 100, 'FM00');
+    ca_area = to_char(ca_area_num * 10000, 'FM00');
+
+    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
+    RETURN result;
+    END;
+    $$;
 
 
 --
@@ -2065,7 +2111,8 @@ CREATE TABLE public.cvi_cadastral_plants (
     land_parcel_id character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    type_of_occupancy character varying
+    type_of_occupancy character varying,
+    cvi_cultivable_zone_id integer
 );
 
 
@@ -2086,6 +2133,48 @@ CREATE SEQUENCE public.cvi_cadastral_plants_id_seq
 --
 
 ALTER SEQUENCE public.cvi_cadastral_plants_id_seq OWNED BY public.cvi_cadastral_plants.id;
+
+
+--
+-- Name: cvi_cultivable_zones; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_cultivable_zones (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    communes character varying,
+    cadastral_references character varying,
+    declared_area_unit character varying,
+    declared_area_value numeric(19,4),
+    formatted_declared_area character varying,
+    calculated_area_unit character varying,
+    formatted_calculated_area character varying,
+    calculated_area_value numeric(19,4),
+    land_parcels_status character varying DEFAULT 'not_created'::character varying,
+    shape postgis.geometry(Geometry,4326),
+    cvi_statement_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cvi_cultivable_zones_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_cultivable_zones_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_cultivable_zones_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_cultivable_zones_id_seq OWNED BY public.cvi_cultivable_zones.id;
 
 
 --
@@ -3310,6 +3399,38 @@ CREATE SEQUENCE public.fixed_assets_id_seq
 --
 
 ALTER SEQUENCE public.fixed_assets_id_seq OWNED BY public.fixed_assets.id;
+
+
+--
+-- Name: formatted_cvi_cadastral_plants; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.formatted_cvi_cadastral_plants AS
+ SELECT cvi_cadastral_plants.id,
+    cvi_cadastral_plants.land_parcel_id,
+    cvi_cadastral_plants.commune,
+    cvi_cadastral_plants.locality,
+        CASE
+            WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN concat(cvi_cadastral_plants.section, ' ', cvi_cadastral_plants.work_number)
+            ELSE concat(cvi_cadastral_plants.section, ' ', cvi_cadastral_plants.work_number, '-', cvi_cadastral_plants.land_parcel_number)
+        END AS cadastral_reference,
+    designation_of_origins.product_human_name_fra AS designation_of_origin_name,
+    initcap((vine_varieties.specie_name)::text) AS vine_variety_name,
+    cvi_cadastral_plants.area_value,
+    public.area_formatted(cvi_cadastral_plants.area_value) AS area_formatted,
+    cvi_cadastral_plants.campaign,
+        CASE
+            WHEN (cvi_cadastral_plants.rootstock_id IS NULL) THEN NULL::text
+            ELSE initcap((rootstocks.specie_name)::text)
+        END AS rootstock,
+    (cvi_cadastral_plants.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
+    (cvi_cadastral_plants.inter_row_distance_value)::integer AS inter_row_distance_value,
+    cvi_cadastral_plants.state,
+    cvi_cadastral_plants.cvi_statement_id
+   FROM (((public.cvi_cadastral_plants
+     LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_cadastral_plants.vine_variety_id)::text = (vine_varieties.id)::text)))
+     LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((cvi_cadastral_plants.rootstock_id)::text = (rootstocks.id)::text)))
+     LEFT JOIN ___lexicon.registred_protected_designation_of_origins designation_of_origins ON ((cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida)));
 
 
 --
@@ -6262,20 +6383,22 @@ ALTER SEQUENCE public.product_phases_id_seq OWNED BY public.product_phases.id;
 
 
 --
--- Name: product_populations; Type: VIEW; Schema: public; Owner: -
+-- Name: product_populations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE VIEW public.product_populations AS
-SELECT
-    NULL::integer AS product_id,
-    NULL::timestamp without time zone AS started_at,
-    NULL::numeric AS value,
-    NULL::integer AS creator_id,
-    NULL::timestamp without time zone AS created_at,
-    NULL::timestamp without time zone AS updated_at,
-    NULL::integer AS updater_id,
-    NULL::integer AS id,
-    NULL::integer AS lock_version;
+CREATE TABLE public.product_populations (
+    product_id integer,
+    started_at timestamp without time zone,
+    value numeric,
+    creator_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    updater_id integer,
+    id integer,
+    lock_version integer
+);
+
+ALTER TABLE ONLY public.product_populations REPLICA IDENTITY NOTHING;
 
 
 --
@@ -7704,6 +7827,13 @@ ALTER TABLE ONLY public.cvi_cadastral_plants ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: cvi_cultivable_zones id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cultivable_zones ALTER COLUMN id SET DEFAULT nextval('public.cvi_cultivable_zones_id_seq'::regclass);
+
+
+--
 -- Name: cvi_statements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -8853,6 +8983,14 @@ ALTER TABLE ONLY public.custom_fields
 
 ALTER TABLE ONLY public.cvi_cadastral_plants
     ADD CONSTRAINT cvi_cadastral_plants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_cultivable_zones cvi_cultivable_zones_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cultivable_zones
+    ADD CONSTRAINT cvi_cultivable_zones_pkey PRIMARY KEY (id);
 
 
 --
@@ -11482,10 +11620,24 @@ CREATE INDEX index_custom_fields_on_updater_id ON public.custom_fields USING btr
 
 
 --
+-- Name: index_cvi_cadastral_plants_on_cvi_cultivable_zone_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_cadastral_plants_on_cvi_cultivable_zone_id ON public.cvi_cadastral_plants USING btree (cvi_cultivable_zone_id);
+
+
+--
 -- Name: index_cvi_cadastral_plants_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_cvi_cadastral_plants_on_cvi_statement_id ON public.cvi_cadastral_plants USING btree (cvi_statement_id);
+
+
+--
+-- Name: index_cvi_cultivable_zones_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_cultivable_zones_on_cvi_statement_id ON public.cvi_cultivable_zones USING btree (cvi_statement_id);
 
 
 --
@@ -18023,8 +18175,8 @@ CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING b
 -- Name: product_populations _RETURN; Type: RULE; Schema: public; Owner: -
 --
 
-CREATE OR REPLACE VIEW public.product_populations AS
- SELECT DISTINCT ON (movements.started_at, movements.product_id) movements.product_id,
+CREATE RULE "_RETURN" AS
+    ON SELECT TO public.product_populations DO INSTEAD  SELECT DISTINCT ON (movements.started_at, movements.product_id) movements.product_id,
     movements.started_at,
     sum(precedings.delta) AS value,
     max(movements.creator_id) AS creator_id,
@@ -18268,6 +18420,14 @@ ALTER TABLE ONLY public.purchase_items
 
 
 --
+-- Name: cvi_cadastral_plants fk_rails_65b7099078; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants
+    ADD CONSTRAINT fk_rails_65b7099078 FOREIGN KEY (cvi_cultivable_zone_id) REFERENCES public.cvi_cultivable_zones(id);
+
+
+--
 -- Name: payslip_natures fk_rails_6835dfa420; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -18297,6 +18457,14 @@ ALTER TABLE ONLY public.interventions
 
 ALTER TABLE ONLY public.alert_phases
     ADD CONSTRAINT fk_rails_7a9749733c FOREIGN KEY (alert_id) REFERENCES public.alerts(id);
+
+
+--
+-- Name: cvi_cultivable_zones fk_rails_7b06059434; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cultivable_zones
+    ADD CONSTRAINT fk_rails_7b06059434 FOREIGN KEY (cvi_statement_id) REFERENCES public.cvi_statements(id);
 
 
 --
@@ -19217,8 +19385,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190325145542');
 
 INSERT INTO schema_migrations (version) VALUES ('20190329164621');
 
-INSERT INTO schema_migrations (version) VALUES ('201904291110001');
-
 INSERT INTO schema_migrations (version) VALUES ('20190429111001');
 
 INSERT INTO schema_migrations (version) VALUES ('20190502082326');
@@ -19242,8 +19408,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190614123521');
 INSERT INTO schema_migrations (version) VALUES ('20190617200314');
 
 INSERT INTO schema_migrations (version) VALUES ('20190619021714');
-
-INSERT INTO schema_migrations (version) VALUES ('201906190217143');
 
 INSERT INTO schema_migrations (version) VALUES ('20190703060513');
 
@@ -19282,4 +19446,8 @@ INSERT INTO schema_migrations (version) VALUES ('20191007122201');
 INSERT INTO schema_migrations (version) VALUES ('20191010151901');
 
 INSERT INTO schema_migrations (version) VALUES ('20191023172248');
+
+INSERT INTO schema_migrations (version) VALUES ('20191025074617');
+
+INSERT INTO schema_migrations (version) VALUES ('20191025074824');
 

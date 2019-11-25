@@ -65,7 +65,7 @@ cmn:
     other_products: "其他产品" #?
     other_purchases: "其他购买" #?
     owner_name: "所有者名称" #?
-    payment_ratio: "付款比例"
+    payment_ratio: "付款比例" #?
     person_name: "人名"
     pictogram: "形符" #?
     picture_path: "图片路径"
