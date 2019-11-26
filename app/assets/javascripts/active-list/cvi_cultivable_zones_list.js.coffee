@@ -1,7 +1,4 @@
 ((E, $) ->
-  $(document).on 'ekylibre:map:events:ready list:page:change', ->
-    addClickEventToIds()
-
   addClickEventToIds =  ->
     $('#cvi_cultivable_zones-list.active-list td.c3 a').each ->
       element = $(this)
@@ -13,10 +10,7 @@
   goToPolygonCenter = (id) ->
     E.map.centerLayer(id, true, "cvi_cultivable_zones")
 
-  $(document).ready ->
-    formatRow()
-
-  $(document).on 'list:page:change', ->
+  $(document).on 'ekylibre:map:events:ready list:page:change', ->
     formatRow()
     addClickEventToIds()
 

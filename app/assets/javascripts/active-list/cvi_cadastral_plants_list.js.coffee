@@ -1,8 +1,10 @@
 ((E, $) ->
-  $(document).on 'ekylibre:map:events:ready list:page:change', ->
-    addClickEventToIds()
 
-  addClickEventToIds =  ->
+  E.cvi_cadastral_plants_map_list = new E.Lister
+  $(document).on 'ekylibre:map:events:ready list:page:change', ->
+    goToPolygonCenterLinks('cvi_cadastral_plants_map','cvi_cadastral_plants',3)
+
+  addClickEventToIds = () ->
     $('#cvi_cadastral_plants_map-list.active-list td.c3 a').each ->
       element = $(this)
       element.click (e) ->
