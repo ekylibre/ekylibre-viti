@@ -1,29 +1,10 @@
 ((E, $) ->
-
-  E.cvi_cadastral_plants_map_list = new E.Lister
-  $(document).on 'ekylibre:map:events:ready list:page:change', ->
-    goToPolygonCenterLinks('cvi_cadastral_plants_map','cvi_cadastral_plants',3)
-
-  addClickEventToIds = () ->
-    $('#cvi_cadastral_plants_map-list.active-list td.c3 a').each ->
-      element = $(this)
-      element.click (e) ->
-        e.preventDefault()
-        cvi_cadastral_plant_id = parseInt(element.closest('tr').attr('id').replace('r', ''))
-        goToPolygonCenter(cvi_cadastral_plant_id)
-
-  goToPolygonCenter = (id) ->
-    E.map.centerLayer(id, true, "cvi_cadastral_plants")
-
-  $(document).ready ->
+  $(document).on 'ready ekylibre:map:events:ready list:page:change', ->
+    return unless $('[id^=cvi_cadastral_plants].active-list').length > 0
     formatRow()
     manageErrorMessage()
+    ActiveListTools.goToPolygonCenterLinks('cvi_cadastral_plants',3,'cvi_cadastral_plants_map')
 
-  $(document).on 'list:page:change', ->
-    formatRow()
-    manageErrorMessage()
-    # Used to rebind activelist items on page changing
-    addClickEventToIds()
 
   formatRow = ->
     $('[id^=cvi_cadastral_plants] tr').each ->

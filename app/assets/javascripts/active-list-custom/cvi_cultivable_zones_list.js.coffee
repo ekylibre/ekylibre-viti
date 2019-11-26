@@ -1,18 +1,9 @@
 ((E, $) ->
-  addClickEventToIds =  ->
-    $('#cvi_cultivable_zones-list.active-list td.c3 a').each ->
-      element = $(this)
-      element.click (e) ->
-        e.preventDefault()
-        cvi_cadastral_plant_id = parseInt(element.closest('tr').attr('id').replace('r', ''))
-        goToPolygonCenter(cvi_cadastral_plant_id)
-
-  goToPolygonCenter = (id) ->
-    E.map.centerLayer(id, true, "cvi_cultivable_zones")
 
   $(document).on 'ekylibre:map:events:ready list:page:change', ->
-    formatRow()
-    addClickEventToIds()
+    if $('[id^=cvi_cultivable_zones].active-list').length > 0
+      formatRow()
+      ActiveListTools.goToPolygonCenterLinks('cvi_cultivable_zones', 3)
 
   formatRow = ->
     $('[id^=cvi_cultivable_zones] tr th:nth-child(10) > i').remove()

@@ -95,7 +95,7 @@ module Backend
       t.column :land_parcel_id, hidden: true
       t.column :commune
       t.column :locality
-      t.column :cadastral_reference
+      t.column :cadastral_reference, onclick: "test"
       t.column :designation_of_origin_name
       t.column :vine_variety_name
       t.column :area_formatted
