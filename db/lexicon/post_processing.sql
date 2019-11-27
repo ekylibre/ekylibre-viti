@@ -60,4 +60,36 @@ SELECT
 FROM cvi_cadastral_plants
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_cadastral_plants.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_cadastral_plants.rootstock_id = rootstocks.id
-LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida
+LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida;
+
+DROP VIEW IF EXISTS formatted_cvi_land_parcels;
+
+CREATE OR REPLACE VIEW formatted_cvi_land_parcels AS
+SELECT 
+	cvi_land_parcels.id AS id,
+	name,
+	commune,
+	locality,
+	
+	designation_of_origins.product_human_name_fra AS designation_of_origin_name,
+	INITCAP(vine_varieties.specie_name) AS vine_variety_name,
+
+	declared_area_value,
+	calculated_area_value,
+	area_formatted(declared_area_value) AS declared_area_formatted,
+	area_formatted(calculated_area_value) AS calculated_area_formatted,
+	inter_vine_plant_distance_value :: int AS inter_vine_plant_distance_value,
+	inter_row_distance_value :: int AS inter_row_distance_value,
+	state,
+
+	CASE 
+	  WHEN rootstock_id IS NULL THEN 
+	    NULL	
+	  ELSE
+	   INITCAP(rootstocks.specie_name)
+	END AS rootstock
+	
+FROM cvi_land_parcels
+LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_land_parcels.vine_variety_id = vine_varieties.id
+LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_land_parcels.rootstock_id = rootstocks.id
+LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_land_parcels.designation_of_origin_id = designation_of_origins.ida
