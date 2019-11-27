@@ -27,6 +27,7 @@ class GenerateCviCultivableZones < ApplicationInteractor
       cadastral_references = cvi_cadastral_plants.collect(&:cadastral_reference).sort.join(', ')
       declared_area = cvi_cadastral_plants.collect(&:area).sum
       shape = cvi_cultivable_zone['shape']
+      calculated_area = Measure.new(Charta.new_geometry(shape).area, :square_meter).convert(:hectare)
 
       cvi_cultivable_zone = CviCultivableZone.create(
         name: "Zone ##{index}",
@@ -34,6 +35,7 @@ class GenerateCviCultivableZones < ApplicationInteractor
         communes: communes,
         cadastral_references: cadastral_references,
         declared_area: declared_area,
+        calculated_area: calculated_area,
         shape: shape
       )
       cvi_cultivable_zone.cvi_cadastral_plants << cvi_cadastral_plants
