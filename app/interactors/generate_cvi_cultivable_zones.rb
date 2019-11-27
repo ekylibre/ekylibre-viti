@@ -23,8 +23,8 @@ class GenerateCviCultivableZones < ApplicationInteractor
     context.cvi_cultivable_zones.each_with_index do |cvi_cultivable_zone, i|
       index = (i + 1).to_s.rjust(2, '0')
       cvi_cadastral_plants = CviCadastralPlant.find(cvi_cultivable_zone['cvi_cadastral_plant_ids'])
-      communes = cvi_cadastral_plants.collect(&:commune).uniq.join(', ')
-      cadastral_references = cvi_cadastral_plants.collect(&:cadastral_reference).join(', ')
+      communes = cvi_cadastral_plants.collect(&:commune).uniq.sort.join(', ')
+      cadastral_references = cvi_cadastral_plants.collect(&:cadastral_reference).sort.join(', ')
       declared_area = cvi_cadastral_plants.collect(&:area).sum
       shape = cvi_cultivable_zone['shape']
 
