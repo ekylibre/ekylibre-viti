@@ -16,6 +16,14 @@ class CviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
       resource = create(:cvi_land_parcel)
       assert_equal 'Measure', resource.declared_area.class.name
     end
+    should 'respond to inter_row_distance  with measure object' do
+      resource = create(:cvi_land_parcel)
+      assert_equal 'Measure', resource.inter_row_distance.class.name
+    end
+    should 'respond to inter_vine_plant_distance with measure object' do
+      resource = create(:cvi_land_parcel)
+      assert_equal 'Measure', resource.inter_vine_plant_distance.class.name
+    end
   end
 
   context 'validations' do
@@ -24,7 +32,7 @@ class CviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
 
   context 'associations' do
     should belong_to(:cvi_cultivable_zone)
-    should belongs_to(:campaign)
+    should belong_to(:campaign)
     should belong_to(:designation_of_origin).with_foreign_key('designation_of_origin_id')
     should belong_to(:vine_variety).with_foreign_key('vine_variety_id')
     should belong_to(:rootstock).with_foreign_key('rootstock_id')
