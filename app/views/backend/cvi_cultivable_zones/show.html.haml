@@ -2,9 +2,9 @@
   - j.face :map do
     = cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
                             class: 'map-fullwidth map-halfheight',
-                            data: {cvi_cultivable_zones_path:  backend_cvi_cultivable_zones_path(id: params[:id]) }) do |c|
+                            data: {cvi_land_parcels_path:  backend_cvi_land_parcels_path(id: params[:id]) }) do |c|
       - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
-      - c.simple :cvi_cultivable_zones, :main, index: true
+      - c.simple :cvi_land_parcels, :main, index: true
 
     = cobbles do |c|
       - c.cobble(:cvi_land_parcels) do

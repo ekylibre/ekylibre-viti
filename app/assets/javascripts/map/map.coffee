@@ -16,6 +16,8 @@
           this.displayCviCadastralPlants()
         when "/backend/cvi_statement_conversions/"
           this.displayCviCultivableZones()
+        when "/backend/cvi_cultivable_zones/"
+          this.displayCviLandParcels()
       this.displayCadastralLandParcelZone()
       @firstLoad = true
 
@@ -89,6 +91,44 @@
               if layer._ghostMarker
                 layer._map.removeLayer layer._ghostMarker
                 delete layer._ghostMarker
+        
+        if layerName is 'cvi_land_parcels'
+          onEachFeature = (layer) ->
+            insertionMarker = () ->
+              if layer._map.getZoom() >= 16
+                positionLatLng = layer.getCenter()
+                centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
+                name = layer.feature.properties.name
+                matchnameIndex =name.match(/-(\d$)/)
+                if matchnameIndex
+                  nameIndex = matchnameIndex[1]
+                  offset = L.point(0, (nameIndex - 1) * layer._map.getZoom())
+                  positionLatLng = layer._map.layerPointToLatLng(centerPixels.add(offset))
+
+                name = layer.feature.properties.name
+                layer._ghostIcon = new L.GhostIcon html: name, className: "simple-label blue", iconSize: [60, 40]
+                layer._ghostMarker = L.marker(positionLatLng, icon: layer._ghostIcon)
+                layer._ghostMarker.addTo layer._map
+            
+            if layer.feature.properties.updated
+              style = { color: "#E7E8C0", fillOpacity: 0.3, opacity: 1, fill: true}
+            else 
+              style = { color: "#C5D4F0", fillOpacity: 0.3, opacity: 1, fill: true}
+
+            layer.setStyle(style)
+            insertionMarker()
+
+            layer._map.on 'zoomend', ->
+              if layer._ghostMarker
+                layer._map.removeLayer layer._ghostMarker
+                delete layer._ghostMarker
+              insertionMarker()
+
+            layer.on 'remove', (e) ->
+              if layer._ghostMarker
+                layer._map.removeLayer layer._ghostMarker
+                delete layer._ghostMarker
+      
       [].push.call args, onEachFeature: onEachFeature
 
       @_cartography.sync.apply @, args
@@ -102,6 +142,9 @@
     
     _cviCadastralPlantsPath: ->
       $(@el).data('cvi-cadastral-plants-path')
+
+    _cviLandParcelsPath: ->
+      $(@el).data('cvi-land-parcels-path')
 
     getZoom: ->
       @_cartography.map.getZoom()
@@ -194,6 +237,20 @@
         @onSync( data, "cvi_cultivable_zones")
       
       @asyncLoading(url, onSuccess, 'cviCultivableZone')
+
+    displayCviLandParcels: (visible = true) =>
+
+      return if @_cviLandParcelsLoading
+
+      @_cartography.map.on 'moveend', ->
+        E.map.firstLoad = false
+        @displayCviLandParcels
+      url = @_cviLandParcelsPath()
+
+      onSuccess = (data) =>
+        @onSync( data, "cvi_land_parcels")
+      
+      @asyncLoading(url, onSuccess, 'cviLandParcels')
 
     asyncLoading: (url, onSuccess, resource_name) =>
       return unless url
