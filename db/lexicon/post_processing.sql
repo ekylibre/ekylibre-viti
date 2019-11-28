@@ -87,7 +87,8 @@ SELECT
 	    NULL	
 	  ELSE
 	   INITCAP(rootstocks.specie_name)
-	END AS rootstock
+	END AS rootstock,
+	cvi_cultivable_zone_id
 	
 FROM cvi_land_parcels
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_land_parcels.vine_variety_id = vine_varieties.id

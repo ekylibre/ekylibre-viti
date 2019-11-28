@@ -24,6 +24,36 @@ CREATE SCHEMA postgis;
 
 
 --
+-- Name: area_formatted(numeric); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.area_formatted(area numeric) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+    DECLARE
+    ha_area_num  NUMERIC;
+    ar_area_num  NUMERIC;
+    ca_area_num  NUMERIC;
+    ha_area  VARCHAR(50);
+    ar_area  VARCHAR(50);
+    ca_area  VARCHAR(50);
+    result VARCHAR(50);
+    BEGIN
+    ha_area_num = TRUNC(area, 0);
+    ar_area_num = TRUNC(area - ha_area_num, 2);
+    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
+
+    ha_area = to_char(ha_area_num , 'FM00');
+    ar_area = to_char(ar_area_num * 100, 'FM00');
+    ca_area = to_char(ca_area_num * 10000, 'FM00');
+
+    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
+    RETURN result;
+    END;
+    $$;
+
+
+--
 -- Name: compute_journal_entry_continuous_number(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3388,6 +3418,66 @@ CREATE SEQUENCE public.fixed_assets_id_seq
 --
 
 ALTER SEQUENCE public.fixed_assets_id_seq OWNED BY public.fixed_assets.id;
+
+
+--
+-- Name: formatted_cvi_cadastral_plants; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.formatted_cvi_cadastral_plants AS
+ SELECT cvi_cadastral_plants.id,
+    cvi_cadastral_plants.land_parcel_id,
+    cvi_cadastral_plants.commune,
+    cvi_cadastral_plants.locality,
+        CASE
+            WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN concat(cvi_cadastral_plants.section, ' ', cvi_cadastral_plants.work_number)
+            ELSE concat(cvi_cadastral_plants.section, ' ', cvi_cadastral_plants.work_number, '-', cvi_cadastral_plants.land_parcel_number)
+        END AS cadastral_reference,
+    designation_of_origins.product_human_name_fra AS designation_of_origin_name,
+    initcap((vine_varieties.specie_name)::text) AS vine_variety_name,
+    cvi_cadastral_plants.area_value,
+    public.area_formatted(cvi_cadastral_plants.area_value) AS area_formatted,
+    cvi_cadastral_plants.campaign,
+        CASE
+            WHEN (cvi_cadastral_plants.rootstock_id IS NULL) THEN NULL::text
+            ELSE initcap((rootstocks.specie_name)::text)
+        END AS rootstock,
+    (cvi_cadastral_plants.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
+    (cvi_cadastral_plants.inter_row_distance_value)::integer AS inter_row_distance_value,
+    cvi_cadastral_plants.state,
+    cvi_cadastral_plants.cvi_statement_id
+   FROM (((public.cvi_cadastral_plants
+     LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_cadastral_plants.vine_variety_id)::text = (vine_varieties.id)::text)))
+     LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((cvi_cadastral_plants.rootstock_id)::text = (rootstocks.id)::text)))
+     LEFT JOIN ___lexicon.registred_protected_designation_of_origins designation_of_origins ON ((cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida)));
+
+
+--
+-- Name: formatted_cvi_land_parcels; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.formatted_cvi_land_parcels AS
+ SELECT cvi_land_parcels.id,
+    cvi_land_parcels.name,
+    cvi_land_parcels.commune,
+    cvi_land_parcels.locality,
+    designation_of_origins.product_human_name_fra AS designation_of_origin_name,
+    initcap((vine_varieties.specie_name)::text) AS vine_variety_name,
+    cvi_land_parcels.declared_area_value,
+    cvi_land_parcels.calculated_area_value,
+    public.area_formatted(cvi_land_parcels.declared_area_value) AS declared_area_formatted,
+    public.area_formatted(cvi_land_parcels.calculated_area_value) AS calculated_area_formatted,
+    (cvi_land_parcels.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
+    (cvi_land_parcels.inter_row_distance_value)::integer AS inter_row_distance_value,
+    cvi_land_parcels.state,
+        CASE
+            WHEN (cvi_land_parcels.rootstock_id IS NULL) THEN NULL::text
+            ELSE initcap((rootstocks.specie_name)::text)
+        END AS rootstock
+   FROM (((public.cvi_land_parcels
+     LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_land_parcels.vine_variety_id)::text = (vine_varieties.id)::text)))
+     LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((cvi_land_parcels.rootstock_id)::text = (rootstocks.id)::text)))
+     LEFT JOIN ___lexicon.registred_protected_designation_of_origins designation_of_origins ON ((cvi_land_parcels.designation_of_origin_id = designation_of_origins.ida)));
 
 
 --
