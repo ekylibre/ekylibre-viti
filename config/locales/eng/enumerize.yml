@@ -204,8 +204,12 @@ eng:
         yearly: "Yearly"
     formatted_cvi_cadastral_plant:
       state:
-        # planted: "Planted"
-        # removed_with_authorization: "Removed with authorization"
+        planted: "Planted"
+        removed_with_authorization: "Removed with authorization"
+    formatted_cvi_land_parcel:
+      state:
+        planted: "Planted"
+        removed_with_authorization: "Removed with authorization"
     gap:
       direction:
         loss: "Loss"

@@ -159,6 +159,8 @@ fra:
       sort: "Trier les choix du champ personnalisé"
     backend/cvi_statement_conversions:
       show: "Convertir CVI en parcellaire"
+    backend/cvi_cultivable_zones:
+       show: "Zone cultivable: %{name}"
     backend/cvi_statements:
       edit: "Modifier le Casier Viticole Informatisé (CVI)\_: %{id}"
       index: "Casier Viticole Informatisé"
@@ -1501,6 +1503,7 @@ fra:
     custom_fields: "Champs personnalisés"
     cvi_cadastral_plants: "Cultures cadastrales CVI"
     cvi_cadastral_plants_map: "Cultures cadastrales CVI"
+    cvi_land_parcels: "Parcelles"
     cvi_cultivable_zones: "Zones Cultivables"
     daily_nitrogen_production: "Excretion d’azote journalière" #?
     data_to_export: "Données à exporter" #?

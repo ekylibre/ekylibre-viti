@@ -57,8 +57,8 @@ module Backend
       t.column :locality
       t.column :designation_of_origin_name
       t.column :vine_variety_name
-      t.column :declared_area_formatted
-      t.column :calculated_area_formatted
+      t.column :declared_area_formatted, label: :declared_area
+      t.column :calculated_area_formatted, label: :calculated_area
       t.column :rootstock
       t.column :inter_vine_plant_distance_value
       t.column :inter_row_distance_value
@@ -66,8 +66,7 @@ module Backend
     end
 
     def edit_cvi_land_parcels
-      show
-      render action: :show
+      redirect_to backend_cvi_cultivable_zone_path(params[:id])
     end
 
     private
