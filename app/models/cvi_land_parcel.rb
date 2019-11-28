@@ -14,6 +14,10 @@ class CviLandParcel < Ekylibre::Record::Base
 
   validates_presence_of :name
 
+  def shape
+    Charta.new_geometry(self[:shape])
+  end
+
   def updated?
     updated_at != created_at
   end
