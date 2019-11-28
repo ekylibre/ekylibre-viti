@@ -1,1 +1,7 @@
 
+- if resource.state == :planted
+  = field_set( tl(:edit) + ' ' + resource.name ) do
+    = f.input :name
+- else
+  = field_set( tl(:edit) + ' ' + resource.name ) do
+    = f.input :name

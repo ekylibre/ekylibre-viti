@@ -51,7 +51,7 @@ module Backend
     end
 
     list(:cvi_land_parcels, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: { cvi_cultivable_zone_id: 'params[:id]'.c }) do |t|
-      t.action :edit, url: { controller: 'cvi_cadastral_plants',action: 'edit', remote: true }
+      t.action :edit, url: { controller: 'cvi_land_parcels',action: 'edit', remote: true }
       t.column :name
       t.column :commune
       t.column :locality
