@@ -4,6 +4,7 @@ class CviCultivableZone < Ekylibre::Record::Base
 
   belongs_to :cvi_statement
   has_many :cvi_cadastral_plants, dependent: :nullify
+  has_many :cvi_land_parcels, dependent: :destroy
 
   before_save :set_formatted_declared_area, if: :declared_area_changed?
   before_save :set_formatted_calculated_area, if: :calculated_area_changed?

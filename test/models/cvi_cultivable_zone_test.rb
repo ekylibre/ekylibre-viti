@@ -25,6 +25,7 @@ class CviCultivableZoneTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   context 'associations' do
     should belong_to(:cvi_statement)
     should have_many(:cvi_cadastral_plants)
+    should have_many(:cvi_land_parcels)
   end
 
   should enumerize(:land_parcels_status).in(:not_created,:created).with_predicates(true)
