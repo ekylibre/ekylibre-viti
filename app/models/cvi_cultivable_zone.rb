@@ -17,6 +17,10 @@ class CviCultivableZone < Ekylibre::Record::Base
     Charta.new_geometry(self[:shape])
   end
 
+  def has_cvi_land_parcels?
+    cvi_land_parcels.any?
+  end
+
   private 
 
   def declared_area_changed?

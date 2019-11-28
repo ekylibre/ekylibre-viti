@@ -424,14 +424,15 @@ Rails.application.routes.draw do
       member do
         get :list_cvi_cultivable_zones
         get :reset
-        resources :cvi_cultivable_zones, only: %i[show]
       end
     end
 
-    resources :cvi_cultivable_zones, except: %i[show] do 
+    resources :cvi_cultivable_zones do 
       member do 
         get :delete_modal
-        get :create_land_parcels
+        get :generate_cvi_land_parcels
+        get :edit_cvi_land_parcels
+        get :list_cvi_land_parcels
         resources :cvi_land_parcels, only: %i[index]
       end
     end

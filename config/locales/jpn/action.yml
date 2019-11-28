@@ -2808,7 +2808,7 @@ jpn:
       convert: "変換"
       correct: "正しい"
       create: "作ります"
-      # create_land_parcels: "Create land parcels"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "デクリメント" #?
       destroy: "破壊する"
       detach: "デタッチ"

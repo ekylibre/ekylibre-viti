@@ -2798,7 +2798,7 @@ ita:
       convert: "Convertire"
       correct: "Corretta"
       create: "Creare"
-      # create_land_parcels: "Create land parcels"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "diminuzione" #?
       destroy: "Distruggere"
       detach: "distaccare"

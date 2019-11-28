@@ -22,6 +22,7 @@
 
   formatRow = ->
     $('[id^=cvi_cultivable_zones] tr th:nth-child(10) > i').remove()
+    $('[id^=cvi_cultivable_zones] tr th:nth-child(11) > i').remove()
     $('[id^=cvi_cultivable_zones] tr').each ->
       $tr = $(this)
       if $tr.attr('id')
@@ -38,5 +39,8 @@
       
       $tr.children( ".c9" ).find('i').remove()
       $tr.children( ".c9" ).children().addClass('btn btn-primary')
+
+      $tr.children( ".c10" ).find('i').remove()
+      $tr.children( ".c10" ).children().addClass('btn btn-primary')
 
 ) ekylibre, jQuery

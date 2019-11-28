@@ -14,7 +14,8 @@ module Backend
       t.column :formatted_declared_area, label: :declared_area
       t.column :formatted_calculated_area, label: :calculated_area
       t.column :land_parcels_status
-      t.action :create_land_parcels
+      t.action :generate_cvi_land_parcels, unless: :has_cvi_land_parcels?
+      t.action :edit_cvi_land_parcels, if: :has_cvi_land_parcels?
     end
 
     def create

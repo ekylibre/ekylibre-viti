@@ -3514,7 +3514,8 @@ fra:
       convert: "Convertir"
       correct: "Corriger"
       create: "Créer"
-      create_land_parcels: "Créer parcelles"
+      generate_cvi_land_parcels: "Créer parcellaire"
+      edit_cvi_land_parcels: "Modifier parcellaire"
       decrement: "Décrementer" #?
       delete_modal: "Supprimer"
       destroy: "Supprimer"

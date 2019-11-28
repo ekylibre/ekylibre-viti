@@ -1,7 +1,7 @@
 require 'test_helper'
 module Backend
   class CviCultivableZonesControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
-    test_restfully_all_actions only: %i[edit destroy]
+    test_restfully_all_actions except: %i[update delete_modal index edit edit_cvi_land_parcels generate_cvi_land_parcels show]
 
     describe('#delete_modal') do
       let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone) }
@@ -28,27 +28,27 @@ module Backend
 
     describe('#generate_cvi_land_parcels') do
       let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_cadastral_plants) }
-      ATTRIBUTES = %w[commune locality designation_of_origin_name vine_variety_name declared_area_value calculated_area_value declared_area_formatted calculated_area_formatted inter_vine_plant_distance_value inter_row_distance_value state rootstock shape].freeze
+      ATTRIBUTES = %w[commune locality designation_of_origin_id vine_variety_id inter_vine_plant_distance_value inter_row_distance_value inter_vine_plant_distance_unit inter_row_distance_unit state rootstock_id].freeze
 
 
       it 'responds with success' do
         get :generate_cvi_land_parcels, id: cvi_cultivable_zone.id
-        assert_response :success
+        assert_response :redirect
       end
 
       it 'generate the same number of cvi_land_parcel as existing cvi_cadastral_plants' do
-        assert_change 'CviLandParcel.count', cvi_cultivable_zone.cvi_cadastral_plants.count do
+        assert_difference 'CviLandParcel.count', cvi_cultivable_zone.cvi_cadastral_plants.count do
           get :generate_cvi_land_parcels, id: cvi_cultivable_zone.id
         end
       end
 
       it 'attributes value are correctly setted ' do
         get :generate_cvi_land_parcels, id: cvi_cultivable_zone.id
-        cvi_land_parcel = CviLandParcel.last
-        cvi_cadastral_plant = CviCadastralPlant.last
-        assert_equal cvi_cadastral_plant.cadastral_reference, cvi_land_parcel.name
-        assert_equal cvi_cadastral_plant.cvi_statement.campaign_id, cvi_land_parcel.campaign_id
-        assert_equal (cvi_cadastral_plant.attributes.select { |key| ATTRIBUTES.include?(key) }), (cvi_land_parcel.attributes.select { |key| ATTRIBUTES.include?(key) })
+        assert_equal cvi_cultivable_zone.cvi_cadastral_plants.collect{|e| e.cadastral_reference}, cvi_cultivable_zone.cvi_land_parcels.collect{|e| e.name}
+        cvi_cadastral_plant = CviCadastralPlant.last        
+        cvi_land_parcel = CviLandParcel.find_by(name: cvi_cadastral_plant.cadastral_reference)
+        assert_equal cvi_cadastral_plant.cvi_statement.campaign_id, cvi_cultivable_zone.cvi_land_parcels.first.campaign_id
+        assert_equal cvi_cadastral_plant.shape, cvi_land_parcel.shape
       end
     end
   end

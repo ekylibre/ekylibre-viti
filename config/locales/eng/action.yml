@@ -207,7 +207,7 @@ eng:
       # edit: "Edit cvi cadastral plant: %{name}"
       # index: "Cvi cadastral plants"
     backend/cvi_cultivable_zones:
-      # create_land_parcels: "Create land parcels cvi cultivable zone: %{name}"
+      # generate_cvi_land_parcels: "Create land parcels cvi cultivable zone: %{name}"
       # edit: "Edit cvi cultivable zone: %{name}"
       # index: "Cvi cultivable zones"
     backend/cvi_statement_conversions:
@@ -3162,7 +3162,8 @@ eng:
       # count: "Count"
       create: "Create"
       # create_duplicate_intervention: "Create duplicate intervention"
-      create_land_parcels: "Create land parcels"
+      generate_cvi_land_parcels: "Create land parcels"
+      edit_cvi_land_parcels: "Edit land parcels"
       # csv: "Csv"
       # currency_state: "Currency state"
       # current: "Current"

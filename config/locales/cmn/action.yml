@@ -2733,7 +2733,7 @@ cmn:
       convert: "兑换"
       correct: "正确"
       create: "创建"
-      # create_land_parcels: "Create land parcels"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "递减" #?
       destroy: "破坏"
       detach: "分离"
