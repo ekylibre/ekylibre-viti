@@ -1188,6 +1188,7 @@
         <page to="backend/cvi_statements#index"/>
         <page to="backend/cvi_statements#show"/>
         <page to="backend/cvi_statement_conversions#show"/>
+        <page to="backend/cvi_cultivable_zones#show"/>
       </item>
     </group>
     <group name="exchange">
