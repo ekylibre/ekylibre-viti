@@ -443,6 +443,11 @@ Rails.application.routes.draw do
 
     resources :cadastral_land_parcel_zones, only: %i[index]
 
+    resources :registred_protected_designation_of_origins, concerns: %i[unroll]
+    resources :rootstocks, concerns: %i[unroll]
+    resources :vine_varieties, concerns: %i[unroll]
+
+
     resources :deliveries, concerns: %i[list unroll] do
       member do
         get :list_parcels
