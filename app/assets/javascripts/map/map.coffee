@@ -152,6 +152,12 @@
     boundingBox: ->
       @_cartography.map.getBounds().toBBoxString()
 
+    edit: ->
+      @_cartography.edit.apply @_cartography, arguments
+
+    select: ->
+      @_cartography.select.apply @_cartography, arguments
+
     setView: ->
       @_cartography.setView.apply @_cartography, arguments
 

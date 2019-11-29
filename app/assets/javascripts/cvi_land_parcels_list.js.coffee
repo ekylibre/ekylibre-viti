@@ -1,3 +1,5 @@
+ekylibre.cviLandParcelsList ||= {}
+
 ((E, $) ->
   $(document).on 'ready ekylibre:map:events:ready list:page:change', ->
     formatRow()
@@ -22,5 +24,11 @@
         land_parcel_id = $tr.children( ".c0" ).text()
       
       $tr.children( ".c2" ).html("<a href='#' >#{$tr.children( ".c2" ).html()} </a>")
+
+  E.cviLandParcelsList.cancelForm = ->
+    $('tr').not('.edit-form').not($('.edit-form').prev('tr')).toggleClass('disabled-row')
+    $(this).closest('tr.edit-form').remove()
+    E.map.edit(uuid, 'edition', cancel: true)
+    return false
 
 ) ekylibre, jQuery

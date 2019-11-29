@@ -1,10 +1,12 @@
 
-const $cvi_cultivable_zone = $("#r<%=params[:id]%>");
+const $cvi_land_parcel = $("#r<%=params[:id]%>");
 const form =
-  "<tr class='edit-form'><td colspan='13'><%= j render(template:'/backend/cvi_cultivable_zones/form_wrapper') %></td></tr>";
+  "<tr class='edit-form'><td colspan='13'><%= j render(template:'/backend/cvi_land_parcels/form_wrapper') %></td></tr>";
 
-if ($cvi_cultivable_zone.next("tr.edit-form").length === 0) {
-  $cvi_cultivable_zone.after(form);
+ekylibre.map.edit(<%=params[:id]%>,'cvi_land_parcels')
+
+if ($cvi_land_parcel.next("tr.edit-form").length === 0) {
+  $cvi_land_parcel.after(form);
 } else {
   $("tr.edit-form").replaceWith(form);
 }
