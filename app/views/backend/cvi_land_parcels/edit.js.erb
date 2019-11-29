@@ -5,6 +5,9 @@ const form =
 
 ekylibre.map.edit(<%=params[:id]%>,'cvi_land_parcels')
 
+layer = ekylibre.map.select( <%=params[:id]%>, false, 'cvi_land_parcels')
+$('#cvi_land_parcel_calculated_area').val(`${(layer.getMeasure().extrapolatedArea / 10000).toFixed(2)} ha`)
+
 if ($cvi_land_parcel.next("tr.edit-form").length === 0) {
   $cvi_land_parcel.after(form);
 } else {
