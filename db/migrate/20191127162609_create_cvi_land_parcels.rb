@@ -7,9 +7,9 @@ class CreateCviLandParcels < ActiveRecord::Migration
       t.integer :designation_of_origin_id
       t.string :vine_variety_id
       t.string :calculated_area_unit
-      t.decimal :calculated_area_value, precision: 19, scale: 4
+      t.decimal :calculated_area_value, precision: 19, scale: 5
       t.string :declared_area_unit
-      t.decimal :declared_area_value, precision: 19, scale: 4
+      t.decimal :declared_area_value, precision: 19, scale: 5
       t.geometry :shape, srid: 4326
       t.references :campaign, index: true, foreign_key: true
       t.string :rootstock_id

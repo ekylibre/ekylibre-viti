@@ -1,7 +1,7 @@
 module Backend
   class CviLandParcelsController < Backend::BaseController
     manage_restfully only: %i[edit]
-    
+
     def index
       records = CviCultivableZone.find(params[:id]).cvi_land_parcels.collect do |r|
         { uuid: r.id, shape: Charta.new_geometry(r.shape.simplify(0)).to_json_object, name: r.name, updated: r.updated? }
@@ -21,6 +21,11 @@ module Backend
 
     private
 
+    def permitted_params
+      params.require(:cvi_land_parcel).permit(:name, :vine_variety_id, :rootstock_id, :campaign_id, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :designation_of_origin)
+            .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
+    end
+
     def save_and_redirect(record, options = {})
       record.attributes = options[:attributes] if options[:attributes]
       ActiveRecord::Base.transaction do
@@ -37,6 +42,5 @@ module Backend
       response.headers['X-Return-Code'] = 'invalid'
       false
     end
-
   end
 end

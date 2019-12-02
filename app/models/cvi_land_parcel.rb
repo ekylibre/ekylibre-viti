@@ -13,7 +13,14 @@ class CviLandParcel < Ekylibre::Record::Base
   enumerize :state, in: %i[planted removed_with_authorization], predicates: true
 
   validates_presence_of :name
+
+  before_save :set_calculated_area, on: %i[update], if: :shape_changed?
+
   def updated?
     updated_at != created_at
+  end
+
+  def set_calculated_area
+    self.calculated_area_value = Measure.new(shape.area, :square_meter).convert(:hectare)
   end
 end

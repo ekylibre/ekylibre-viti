@@ -47,4 +47,13 @@ class CviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
       assert(resource.reload.updated?)
     end
   end
+
+  describe 'callbacks' do
+    it 'calculated_area is updated when shape change' do
+      resource = create(:cvi_land_parcel)
+      shape = FFaker::Shape.multipolygon
+      resource.update(shape: shape)
+      assert_equal Measure.new(shape.area, :square_meter).convert(:hectare).value.round(5), resource.reload.calculated_area_value
+    end
+  end
 end
