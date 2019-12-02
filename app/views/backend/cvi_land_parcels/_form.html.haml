@@ -11,7 +11,7 @@
     = f.input :area, label: :calculated_area.tl, input_html: {value: resource.calculated_area.to_s(:ha_a_ca)}, disabled: true
     = f.hidden_field :shape
 - else
-  = field_set( tl(:edit) + ' ' + resource.name ) do
+  = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns" ) do
     = f.input :name
     = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.referenced_association :rootstock, new: false
