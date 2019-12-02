@@ -1,6 +1,6 @@
 
 - if resource.state == :planted
-  = field_set( tl(:edit) + ' ' + resource.name ) do
+  = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns") do
     = f.input :name
     = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.referenced_association :rootstock, new: false
@@ -11,7 +11,7 @@
     = f.input :calculated_area, disabled: true, hint: 'You cannot change your username.'
     = hidden_field_tag(:shape, f.shape)
 - else
-  = field_set( tl(:edit) + ' ' + resource.name ) do
+  = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns" ) do
     = f.input :name
     = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.referenced_association :rootstock, new: false
