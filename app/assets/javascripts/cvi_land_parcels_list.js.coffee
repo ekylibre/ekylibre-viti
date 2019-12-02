@@ -27,8 +27,20 @@ ekylibre.cviLandParcelsList ||= {}
 
   E.cviLandParcelsList.cancelForm = ->
     $('tr').not('.edit-form').not($('.edit-form').prev('tr')).toggleClass('disabled-row')
-    $(this).closest('tr.edit-form').remove()
-    E.map.edit(uuid, 'edition', cancel: true)
+    id = parseInt($('tr.edit-form').prev('tr').attr('id').replace('r', ''))
+    $('tr.edit-form').remove()
+    E.map.edit(id, 'cvi_land_parcels', cancel: true)
     return false
+
+  $(document).ready ->
+    $(document).on E.Events.Map.edit.change, (e, obj) ->
+      $("input[name='cvi_land_parcel[shape]']").val(JSON.stringify(obj.shape.geometry))
+      $("input[name='cvi_land_parcel[area]']").val(formatArea(obj.area / 10000))
+
+  formatArea = (area) ->
+    ha_area = Math.trunc(area)
+    a_area = Math.trunc((area - ha_area) * 100)
+    ca_area = Math.trunc((area - ha_area - a_area / 100) * 10000)
+    result = "#{ha_area} ha #{a_area} a #{ca_area} ca"
 
 ) ekylibre, jQuery

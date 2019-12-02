@@ -6,20 +6,19 @@
     = f.referenced_association :rootstock, new: false
     = f.referenced_association :campaign, new: false 
     = f.input :state
-    = f.input :inter_row_distance_value
-    = f.input :inter_vine_plant_distance_value
-    = f.input :calculated_area, disabled: true, hint: 'You cannot change your username.'
-    = hidden_field_tag(:shape, f.shape)
+    = f.input :inter_row_distance_value,field: :number,input_html: {value: resource.inter_row_distance_value&.to_i }
+    = f.input :inter_vine_plant_distance_value, field: :number,input_html: {value: resource.inter_vine_plant_distance_value&.to_i }
+    = f.input :area, label: :calculated_area.tl, input_html: {value: resource.calculated_area.to_s(:ha_a_ca)}, disabled: true
+    = f.hidden_field :shape
 - else
-  = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns" ) do
+  = field_set( tl(:edit) + ' ' + resource.name ) do
     = f.input :name
     = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.referenced_association :rootstock, new: false
     = f.referenced_association :campaign, new: false 
     = f.input :state
-    = f.input :removed_a
-    = f.input :inter_row_distance_value,field: :number
-    = f.input :inter_vine_plant_distance_value, field: :number
-    = f.input :calculated_area, disabled: true, hint: 'You cannot change your username.'
-    = hidden_field_tag(:shape, f.shape)
-
+    = f.input :removed_at
+    = f.input :inter_row_distance_value,field: :number,input_html: {value: resource.inter_row_distance_value&.to_i }
+    = f.input :inter_vine_plant_distance_value, field: :number,input_html: {value: resource.inter_vine_plant_distance_value&.to_i }
+    = f.input :area, label: :calculated_area.tl, input_html: {value: resource.calculated_area.to_s(:ha_a_ca)}, disabled: true
+    = f.hidden_field :shape

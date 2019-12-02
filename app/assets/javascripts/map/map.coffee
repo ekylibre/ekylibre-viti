@@ -3,11 +3,14 @@
   E.Events.Map = {}
   E.Events.Map.initializing = "ekylibre:map:events:initializing"
   E.Events.Map.ready = "ekylibre:map:events:ready"
+  E.Events.Map.edit = {}
+  E.Events.Map.edit.change = "ekylibre:map:events:edit:change"
 
   class E.Map
     constructor: (@el, options = {})  ->
       $(@el).trigger E.Events.Map.initializing
       @_cartography = new Cartography.Map @el, options
+      @initHooks()
       @initControls()
 
       path = window.location.pathname.match(/\D*/g)[0]
@@ -20,6 +23,10 @@
           this.displayCviLandParcels()
       this.displayCadastralLandParcelZone()
       @firstLoad = true
+
+    initHooks: ->
+      $(@_cartography.map).on Cartography.Events.edit.change, (e) ->
+        $(document).trigger E.Events.Map.edit.change, e.originalEvent.data
 
     initControls: ->
       @removeControl('edit')
@@ -94,7 +101,16 @@
         
         if layerName is 'cvi_land_parcels'
           onEachFeature = (layer) ->
+
+            if  layer.feature.properties.updated
+                color = "#E7E8C0"
+                klass = 'yellow'
+              else
+                color = "#C5D4F0"
+                klass = 'blue'
+
             insertionMarker = () ->
+
               if layer._map.getZoom() >= 16
                 positionLatLng = layer.getCenter()
                 centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
@@ -106,14 +122,11 @@
                   positionLatLng = layer._map.layerPointToLatLng(centerPixels.add(offset))
 
                 name = layer.feature.properties.name
-                layer._ghostIcon = new L.GhostIcon html: name, className: "simple-label blue", iconSize: [60, 40]
+                layer._ghostIcon = new L.GhostIcon html: name, className: "simple-label #{klass}", iconSize: [60, 40]
                 layer._ghostMarker = L.marker(positionLatLng, icon: layer._ghostIcon)
                 layer._ghostMarker.addTo layer._map
             
-            if layer.feature.properties.updated
-              style = { color: "#E7E8C0", fillOpacity: 0.3, opacity: 1, fill: true}
-            else 
-              style = { color: "#C5D4F0", fillOpacity: 0.3, opacity: 1, fill: true}
+            style = { color: color, fillOpacity: 0.3, opacity: 1, fill: true }
 
             layer.setStyle(style)
             insertionMarker()
