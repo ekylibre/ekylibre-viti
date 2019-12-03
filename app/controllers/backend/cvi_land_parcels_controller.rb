@@ -14,7 +14,7 @@ module Backend
 
       t3e(@cvi_land_parcel.attributes)
       @cvi_land_parcel.attributes = permitted_params
-      return if save_and_redirect(@cvi_land_parcel)
+      return if save_and_redirect(@cvi_land_parcel, notify: :record_x_updated, identifier: :name)
 
       render action: :edit
     end
@@ -33,6 +33,11 @@ module Backend
 
         if record.updateable? && (options[:saved] || record.save)
           response.headers['X-Return-Code'] = 'success'
+          model = record.class
+          notify_success(options[:notify],
+                           record: model.model_name.human,
+                           column: model.human_attribute_name(options[:identifier]),
+                           name: record.send(options[:identifier]))
           return true
         else
           raise ActiveRecord::Rollback

@@ -630,6 +630,7 @@ fra:
       cvi_cadastral_plant: "CVI cadastral plant"
       cvi_statement: "Casier Viticole Informatisé"
       cvi_cultivable_zone: "Zone cultivable"
+      cvi_land_parcel: "Parcelle"
       dashboard: "Tableau de bord"
       debt_transfer: "Transfert de dettes"
       delivery: "Livraison"
