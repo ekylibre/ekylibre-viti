@@ -210,6 +210,10 @@ eng:
       state:
         planted: "Planted"
         removed_with_authorization: "Removed with authorization"
+    cvi_land_parcel:
+      state:
+        planted: "Planted"
+        removed_with_authorization: "Removed with authorization"
     gap:
       direction:
         loss: "Loss"

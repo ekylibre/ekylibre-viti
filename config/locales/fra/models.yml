@@ -129,6 +129,8 @@ fra:
         farm_name: "Nom du domaine"
         state: "Statut"
         total_area: "Superficie encépagée déclarée"
+      cvi_land_parcel:
+        removed_at: "Date d’arrachage"
       document:
         filename: "Fichier"
       document_archive: #?

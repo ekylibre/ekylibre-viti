@@ -61,7 +61,7 @@ module Backend
 
       it 'update cvi_cultivable_zone calculated_surface with the sum of associated cvi_land_parcels areas ' do
         get :confirm_cvi_land_parcels, id: cvi_cultivable_zone.id
-        assert_in_epsilon cvi_cultivable_zone.cvi_land_parcels.collect { |e| e.shape.area }.sum / 10_000, cvi_cultivable_zone.reload.calculated_area_value.to_f, epsilon = 0.0001
+        assert_in_epsilon cvi_cultivable_zone.cvi_land_parcels.collect { |e| e.shape.area }.sum / 10_000, cvi_cultivable_zone.reload.calculated_area_value.to_f, epsilon = 0.0002
       end
     end
   end

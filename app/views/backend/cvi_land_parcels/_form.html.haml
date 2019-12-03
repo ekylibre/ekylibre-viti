@@ -5,7 +5,7 @@
     = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.referenced_association :rootstock, new: false
     = f.referenced_association :campaign, new: false 
-    = f.input :state
+    = f.input :state, include_blank: false
     = f.input :inter_row_distance_value,field: :number,input_html: {value: resource.inter_row_distance_value&.to_i }
     = f.input :inter_vine_plant_distance_value, field: :number,input_html: {value: resource.inter_vine_plant_distance_value&.to_i }
     = f.input :area, label: :calculated_area.tl, input_html: {value: resource.calculated_area.to_s(:ha_a_ca)}, disabled: true
@@ -16,7 +16,7 @@
     = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.referenced_association :rootstock, new: false
     = f.referenced_association :campaign, new: false 
-    = f.input :state
+    = f.input :state,include_blank: false
     = f.input :removed_at
     = f.input :inter_row_distance_value,field: :number,input_html: {value: resource.inter_row_distance_value&.to_i }
     = f.input :inter_vine_plant_distance_value, field: :number,input_html: {value: resource.inter_vine_plant_distance_value&.to_i }

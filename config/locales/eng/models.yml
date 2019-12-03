@@ -101,6 +101,8 @@ eng:
         farm_name: "Wine estate"
         state: "State"
         total_area: "Total area"
+      cvi_land_parcel:
+        removed_at: "Removed at"
       document:
         filename: "File"
       document_template:
