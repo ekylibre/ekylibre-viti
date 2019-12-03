@@ -29,7 +29,7 @@ module Backend
         declared_area = r.area
         shape = r.shape.to_rgeo
         calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
-        
+
         CviLandParcel.create(
           name: r.cadastral_reference,
           commune: r.commune,
@@ -50,6 +50,13 @@ module Backend
       redirect_to action: 'show', id: cvi_cultivable_zone.id
     end
 
+    def confirm_cvi_land_parcels
+      cvi_cultivable_zone = CviCultivableZone.find(params[:id])
+      calculated_area = Measure.new(cvi_cultivable_zone.cvi_land_parcels.collect { |r| r.shape.area }.sum, :square_meter).convert(:hectare)
+      cvi_cultivable_zone.update(calculated_area: calculated_area, land_parcels_status: :created)
+      redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
+    end
+
     list(:cvi_land_parcels, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: { cvi_cultivable_zone_id: 'params[:id]'.c }) do |t|
       t.column :id, hidden: true
       t.action :edit, url: { controller: 'cvi_land_parcels', action: 'edit', remote: true }
@@ -67,7 +74,9 @@ module Backend
     end
 
     def edit_cvi_land_parcels
-      redirect_to backend_cvi_cultivable_zone_path(params[:id])
+      cvi_cultivable_zone = CviCultivableZone.find(params[:id])
+      cvi_cultivable_zone.update(land_parcels_status: :not_created) if cvi_cultivable_zone.land_parcels_status == :created
+      redirect_to backend_cvi_cultivable_zone_path(cvi_cultivable_zone)
     end
 
     private

@@ -15,7 +15,7 @@ FactoryBot.define do
     vine_variety_id { MasterVineVariety.where(category_name: 'Cépage').order('RANDOM()').first.id }
     rootstock_id { MasterVineVariety.where(category_name: 'Porte-greffe').order('RANDOM()').first.id }
     state { %i[planted removed_with_authorization].sample }
-    shape {}
+    shape { FFaker::Shape.multipolygon }
     cvi_cultivable_zone
     campaign
   end

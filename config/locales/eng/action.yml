@@ -1201,6 +1201,10 @@ eng:
       cadastral_land_parcel_zones: 'Cadastral land parcels'
     levels:
       error: "Error!"
+    enumerize:
+      cvi_cultivable_zone:
+        land_parcels_status:
+          not_created: "Not created"
     messages:
       unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
   labels:

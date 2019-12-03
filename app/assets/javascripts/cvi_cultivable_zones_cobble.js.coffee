@@ -32,10 +32,10 @@
 
       status  = $tr.children( ".c8" ).html()
 
-      if status == "A créer"
-        $tr.children( ".c8" ).addClass('land-parcels-created')
-      else
+      if status == I18n.t("front-end.enumerize.cvi_cultivable_zone.land_parcels_status.not_created")
         $tr.children( ".c8" ).addClass('land-parcels-not-created')
+      else
+        $tr.children( ".c8" ).addClass('land-parcels-created')
       
       $tr.children( ".c9" ).find('i').remove()
       $tr.children( ".c9" ).children().addClass('btn btn-primary')

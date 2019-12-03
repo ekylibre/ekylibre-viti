@@ -16,6 +16,10 @@ class CviLandParcel < Ekylibre::Record::Base
 
   before_save :set_calculated_area, on: %i[update], if: :shape_changed?
 
+  def shape
+    Charta.new_geometry(self[:shape])
+  end
+
   def updated?
     updated_at != created_at
   end

@@ -1000,6 +1000,10 @@ fra:
     levels:
       # error: "Error!"
     messages:
+    enumerize:
+      cvi_cultivable_zone:
+        land_parcels_status:
+          not_created: "À créer"
       # unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
     notifications: #?
       levels: #?
