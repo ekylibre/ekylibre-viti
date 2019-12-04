@@ -4,7 +4,7 @@ module Backend
 
     def index
       records = CviStatement.find(params[:id]).cvi_cultivable_zones.collect do |r|
-        { uuid: r.id, shape: r.shape.to_json_object, name: r.name }
+        { uuid: r.id, shape: r.shape.to_json_object, name: r.name, status: r.land_parcels_status }
       end
       render json: records.compact.to_json
     end

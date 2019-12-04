@@ -65,7 +65,7 @@
 
             layer.setStyle(color: "#C5D4F0", fillOpacity: 0, opacity: 1, fill: false)
             insertionMarker()
-
+            
             layer._map.on 'zoomend', ->
               if layer._ghostMarker
                 layer._map.removeLayer layer._ghostMarker
@@ -78,6 +78,10 @@
                 delete layer._ghostMarker
         if layerName is 'cvi_cultivable_zones'
           onEachFeature = (layer) ->
+            if layer.feature.properties.status == 'created'
+              color = '#000000'
+            else
+              color = "#C5D4F0"
             insertionMarker = () ->
               if layer._map.getZoom() >= 16
                 name = layer.feature.properties.name
@@ -85,7 +89,7 @@
                 layer._ghostMarker = L.marker(layer.getCenter(), icon: layer._ghostIcon)
                 layer._ghostMarker.addTo layer._map
 
-            layer.setStyle(color: "#C5D4F0", fillOpacity: 0.3, opacity: 1, fill: true)
+            layer.setStyle(color: color, fillOpacity: 0.3, opacity: 1, fill: true)
             insertionMarker()
 
             layer._map.on 'zoomend', ->
@@ -210,6 +214,7 @@
 
               layer._ghostMarker.addTo layer._map
               layer.addTo layer._map
+              layer.bringToBack()
 
             layer.on 'add', (e) ->
               insertionMarker()
