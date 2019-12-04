@@ -61,6 +61,7 @@ class CviCadastralPlant < Ekylibre::Record::Base
   belongs_to :designation_of_origin, class_name: 'RegistredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
   belongs_to :vine_variety, class_name: 'MasterVineVariety', foreign_key: :vine_variety_id
   belongs_to :rootstock, class_name: 'MasterVineVariety', foreign_key: :rootstock_id
+  has_one :location, as: :localizable, dependent: :destroy
 
   validates :insee_number, :work_number, :section, :campaign, :state, presence: true
   validates :area_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true

@@ -10,6 +10,13 @@ FactoryBot.define do
     land_parcels_status { %i[not_created created].sample }
     shape { FFaker::Shape.multipolygon }
     cvi_statement
+    with_location
+
+    trait :with_location do
+      after(:create) do |resource|
+        create(:location, localizable: resource)
+      end
+    end
 
     trait :with_cvi_cadastral_plants do
       after(:create) do |cvi_cultivable_zone|

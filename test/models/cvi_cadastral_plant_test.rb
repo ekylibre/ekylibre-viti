@@ -85,7 +85,8 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
     should belong_to(:land_parcel)
     should belong_to(:designation_of_origin).with_foreign_key('designation_of_origin_id')
     should belong_to(:vine_variety).with_foreign_key('vine_variety_id')
-    should belong_to(:registered_postal_zone)
+    should have_one(:location)
+    should have_one(:registered_postal_zone).through(:location)
   end
 
   context 'callbacks' do

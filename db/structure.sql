@@ -4696,6 +4696,40 @@ ALTER SEQUENCE public.loans_id_seq OWNED BY public.loans.id;
 
 
 --
+-- Name: locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.locations (
+    id integer NOT NULL,
+    insee_number character varying,
+    locality character varying,
+    localizable_id integer,
+    localizable_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.locations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.locations_id_seq OWNED BY public.locations.id;
+
+
+--
 -- Name: manure_management_plan_zones; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -8160,6 +8194,13 @@ ALTER TABLE ONLY public.loans ALTER COLUMN id SET DEFAULT nextval('public.loans_
 
 
 --
+-- Name: locations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.locations ALTER COLUMN id SET DEFAULT nextval('public.locations_id_seq'::regclass);
+
+
+--
 -- Name: manure_management_plan_zones id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -9377,6 +9418,14 @@ ALTER TABLE ONLY public.loan_repayments
 
 ALTER TABLE ONLY public.loans
     ADD CONSTRAINT loans_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
 
 
 --
@@ -14289,6 +14338,13 @@ CREATE INDEX index_loans_on_updated_at ON public.loans USING btree (updated_at);
 --
 
 CREATE INDEX index_loans_on_updater_id ON public.loans USING btree (updater_id);
+
+
+--
+-- Name: index_locations_on_insee_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_locations_on_insee_number ON public.locations USING btree (insee_number);
 
 
 --
@@ -19452,4 +19508,6 @@ INSERT INTO schema_migrations (version) VALUES ('20191025074617');
 INSERT INTO schema_migrations (version) VALUES ('20191025074824');
 
 INSERT INTO schema_migrations (version) VALUES ('20191127162609');
+
+INSERT INTO schema_migrations (version) VALUES ('20191204160657');
 

@@ -20,6 +20,13 @@ FactoryBot.define do
     state { %i[planted removed_with_authorization].sample }
     type_of_occupancy { %i[tenant_farming owner].sample }
     cvi_statement
+    with_location
+
+    trait :with_location do
+      after(:create) do |resource|
+        create(:location, localizable: resource)
+      end
+    end
   end
 end
 

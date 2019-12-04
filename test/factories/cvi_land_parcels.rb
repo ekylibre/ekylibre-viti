@@ -18,5 +18,13 @@ FactoryBot.define do
     shape { FFaker::Shape.multipolygon }
     cvi_cultivable_zone
     campaign
+
+    with_location
+
+    trait :with_location do
+      after(:create) do |resource|
+        create(:location, localizable: resource)
+      end
+    end
   end
 end
