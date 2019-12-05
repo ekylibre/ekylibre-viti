@@ -113,7 +113,6 @@ fra:
       cvi_cadastral_plant:
         area: "Superficie déclarée"
         cadastral_reference: "référence cadastrale"
-        commune: "Commune"
         work_number: "Numéro de la parcelle cadastrale"
         inter_row_distance: "Inter rang"
         inter_vine_plant_distance: "Inter pied"
@@ -1763,6 +1762,7 @@ fra:
     planned_depreciations: "Amortissements prévus"
     planned_on: "Prévu sur"
     plant: "Plante"
+    planting_campaign: "Campagne de plantation"
     plant_counting: "Comptage"
     plant_countings: "Comptages"
     plant_density_abaci: "Abaques de densité de plant"

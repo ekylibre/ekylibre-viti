@@ -87,7 +87,6 @@ eng:
       cvi_cadastral_plant:
         area: "Area"
         cadastral_reference: "Cadastral reference"
-        commune: "Commune"
         land_parcel_id: "Cadastral reference id"
         work_number: "Cadastral land parcel number" 
         rootstock_number: "Rootstock"
@@ -354,6 +353,7 @@ eng:
       payslip_nature: "Payslip type"
       payslip_payment: "Payslip payment"
       plant: "Plant"
+      planting_campaign: "Tree-planting campaign"
       plant_counting: "Plant counting"
       plant_counting_item: "Plant counting item"
       plant_density_abacus: "Plant density abacus"

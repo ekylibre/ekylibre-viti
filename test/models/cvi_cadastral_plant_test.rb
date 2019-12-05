@@ -67,14 +67,13 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   context 'validations' do
     should validate_presence_of(:section)
     should validate_presence_of(:work_number)
-    should validate_presence_of(:campaign)
     should validate_presence_of(:state)
-    should validate_presence_of(:insee_number)
 
     should 'validates presence of land_parcel only on update' do
       cvi_cadastral_plant = build(:cvi_cadastral_plant, land_parcel_id: nil)
       assert_equal true, cvi_cadastral_plant.valid?
       cvi_cadastral_plant.save
+      cvi_cadastral_plant.location = create(:location)
       cvi_cadastral_plant.update(land_parcel_id: nil)
       assert_equal false, cvi_cadastral_plant.valid?
     end
@@ -86,28 +85,23 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
     should belong_to(:designation_of_origin).with_foreign_key('designation_of_origin_id')
     should belong_to(:vine_variety).with_foreign_key('vine_variety_id')
     should have_one(:location)
-    should have_one(:registered_postal_zone).through(:location)
   end
 
   context 'callbacks' do
     context 'cvi_cadastral_plant is valid and it is updated with invalid value' do
       should 'not update cvi_cadastral_plant' do
-        cvi_cadastral_plant = create(:cvi_cadastral_plant, insee_number: '51414', land_parcel_id: '335010000A1428', section: 'A', work_number: '1428')
+        cvi_cadastral_plant = create(:cvi_cadastral_plant, land_parcel_id: '335010000A1428', section: 'A', work_number: '1428')
         cvi_cadastral_plant.update(work_number: '#')
         assert_equal false, cvi_cadastral_plant.valid?
       end
     end
 
-    should "update commune if insee_number change" do
-      cvi_cadastral_plant = create(:cvi_cadastral_plant)
-      cvi_cadastral_plant.update(insee_number: "91121")
-      assert_equal "BUNO BONNEVAUX", cvi_cadastral_plant.commune
-    end
-
-    should "update land_parcel if record change" do
+    should 'update land_parcel if record change' do
       cvi_cadastral_plant = create(:cvi_cadastral_plant, land_parcel_id: nil)
-      cvi_cadastral_plant.update(insee_number: "33501", section: "A", work_number: "1428" )
-      assert_equal "335010000A1428", cvi_cadastral_plant.land_parcel_id
+      location_id = cvi_cadastral_plant.location.id
+      params = { section: 'A', work_number: '1428', location_attributes: { id: location_id, insee_number: '33501' } }
+      cvi_cadastral_plant.update(params)
+      assert_equal '335010000A1428', cvi_cadastral_plant.land_parcel_id
     end
   end
 

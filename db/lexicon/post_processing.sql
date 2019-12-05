@@ -28,8 +28,9 @@ CREATE OR REPLACE VIEW formatted_cvi_cadastral_plants AS
 SELECT 
 	cvi_cadastral_plants.id AS id,
 	land_parcel_id,
-	commune,
 	locality,
+	(SELECT city_name FROM lexicon.registered_postal_zones AS registered_postal_zones
+	WHERE registered_postal_zones.code = insee_number ) AS commune,
 	
 	CASE 
 	  WHEN land_parcel_number IS NULL THEN 
@@ -42,7 +43,7 @@ SELECT
 	INITCAP(vine_varieties.specie_name) AS vine_variety_name,
 	area_value,
 	area_formatted(area_value) AS area_formatted,
-	campaign,
+	planting_campaign,
 
 	CASE 
 	  WHEN rootstock_id IS NULL THEN 
@@ -58,6 +59,7 @@ SELECT
 	cvi_statement_id
 	
 FROM cvi_cadastral_plants
+LEFT JOIN locations ON cvi_cadastral_plants.id = locations.localizable_id
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_cadastral_plants.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_cadastral_plants.rootstock_id = rootstocks.id
 LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida;

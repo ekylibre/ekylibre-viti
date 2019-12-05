@@ -2030,9 +2030,6 @@ ALTER SEQUENCE public.custom_fields_id_seq OWNED BY public.custom_fields.id;
 
 CREATE TABLE public.cvi_cadastral_plants (
     id integer NOT NULL,
-    commune character varying NOT NULL,
-    locality character varying,
-    insee_number character varying NOT NULL,
     section character varying NOT NULL,
     work_number character varying NOT NULL,
     land_parcel_number character varying,
@@ -2040,7 +2037,7 @@ CREATE TABLE public.cvi_cadastral_plants (
     vine_variety_id character varying,
     area_value numeric(19,4),
     area_unit character varying,
-    campaign character varying NOT NULL,
+    planting_campaign character varying NOT NULL,
     rootstock_id character varying,
     inter_vine_plant_distance_value numeric(19,4),
     inter_vine_plant_distance_unit character varying,
@@ -19510,4 +19507,6 @@ INSERT INTO schema_migrations (version) VALUES ('20191025074824');
 INSERT INTO schema_migrations (version) VALUES ('20191127162609');
 
 INSERT INTO schema_migrations (version) VALUES ('20191204160657');
+
+INSERT INTO schema_migrations (version) VALUES ('20191205085059');
 
