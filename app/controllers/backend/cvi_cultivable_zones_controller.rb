@@ -32,8 +32,8 @@ module Backend
 
         CviLandParcel.create(
           name: r.cadastral_reference,
-          commune: r.commune,
-          locality: r.locality,
+          commune: nil,
+          locality: nil,
           designation_of_origin_id: r.designation_of_origin_id,
           vine_variety_id: r.vine_variety_id,
           calculated_area: calculated_area,

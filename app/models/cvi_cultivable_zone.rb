@@ -7,9 +7,6 @@ class CviCultivableZone < Ekylibre::Record::Base
   has_many :cvi_land_parcels, dependent: :destroy
   has_many :locations, as: :localizable, dependent: :destroy
 
-  before_save :set_formatted_declared_area, if: :declared_area_changed?
-  before_save :set_formatted_calculated_area, if: :calculated_area_changed?
-
   validates_presence_of :name
 
   enumerize :land_parcels_status, in: %i[not_created created], predicates: true
@@ -20,23 +17,5 @@ class CviCultivableZone < Ekylibre::Record::Base
 
   def has_cvi_land_parcels?
     cvi_land_parcels.any?
-  end
-
-  private 
-
-  def declared_area_changed?
-    (declared_area_value && !formatted_declared_area) || declared_area_value_changed? || declared_area_value_changed?
-  end
-
-  def calculated_area_changed?
-    (calculated_area_value && !formatted_calculated_area)  || calculated_area_value_changed? || calculated_area_value_changed?
-  end
-
-  def set_formatted_calculated_area
-    self.formatted_calculated_area = Measure.new(calculated_area_value,calculated_area_unit).to_s(:ha_a_ca)
-  end
-
-  def set_formatted_declared_area
-    self.formatted_declared_area = Measure.new(declared_area_value,declared_area_unit).to_s(:ha_a_ca)
   end
 end

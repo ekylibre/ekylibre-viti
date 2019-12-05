@@ -4,18 +4,18 @@ module Backend
 
     before_action :cvi_cultivable_zones_exist?, only: :show
 
-    list(:cvi_cultivable_zones, conditions: { cvi_statement_id: 'params[:id]'.c }) do |t|
+    list(:cvi_cultivable_zones, model: :formatted_cvi_cultivable_zones,  conditions: { cvi_statement_id: 'params[:id]'.c }) do |t|
       t.column :id, hidden: true
       t.action :edit, url: { controller: 'cvi_cultivable_zones', action: 'edit', remote: true }
-      t.action :delete_modal,url: { controller: 'cvi_cultivable_zones', action: 'delete_modal', remote: true },  icon_name: 'delete'
+      t.action :delete_modal, url: { controller: 'cvi_cultivable_zones', action: 'delete_modal', remote: true },  icon_name: 'delete'
       t.column :name
       t.column :communes, label: :communes
       t.column :cadastral_references, label: :cadastral_references
       t.column :formatted_declared_area, label: :declared_area
       t.column :formatted_calculated_area, label: :calculated_area
       t.column :land_parcels_status
-      t.action :generate_cvi_land_parcels, unless: :has_cvi_land_parcels?
-      t.action :edit_cvi_land_parcels, if: :has_cvi_land_parcels?
+      t.action :generate_cvi_land_parcels, unless: :has_cvi_land_parcels?, url: { controller: 'cvi_cultivable_zones' }
+      t.action :edit_cvi_land_parcels, if: :has_cvi_land_parcels?, url: { controller: 'cvi_cultivable_zones' }
     end
 
     def create

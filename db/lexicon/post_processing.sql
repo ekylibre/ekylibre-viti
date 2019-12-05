@@ -64,6 +64,36 @@ LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_cadastral_plan
 LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_cadastral_plants.rootstock_id = rootstocks.id
 LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida;
 
+DROP VIEW IF EXISTS formatted_cvi_cultivable_zones;
+
+CREATE OR REPLACE VIEW formatted_cvi_cultivable_zones AS
+
+SELECT 
+	name,
+	cvi_cultivable_zones.id AS id,
+	array_to_string(array_agg(DISTINCT city_name),', ') AS communes,
+
+	array_to_string(array_agg(
+	CASE 
+	WHEN land_parcel_number IS NULL THEN 
+		CONCAT(section, work_number)
+	ELSE
+	CONCAT(section, work_number,'-',land_parcel_number ) 
+	END
+	),', ') AS cadastral_references,
+
+	area_formatted(declared_area_value) AS formatted_declared_area,
+	area_formatted(calculated_area_value) AS formatted_calculated_area,
+	land_parcels_status,
+
+	cvi_cultivable_zones.cvi_statement_id AS cvi_statement_id
+	
+FROM cvi_cultivable_zones
+LEFT JOIN locations as locations ON cvi_cultivable_zones.id = locations.localizable_id
+LEFT JOIN cvi_cadastral_plants ON cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id
+LEFT JOIN lexicon.registered_postal_zones ON locations.insee_number = registered_postal_zones.code
+GROUP BY cvi_cultivable_zones.id;
+
 DROP VIEW IF EXISTS formatted_cvi_land_parcels;
 
 CREATE OR REPLACE VIEW formatted_cvi_land_parcels AS
