@@ -17,7 +17,7 @@ module Ekylibre
       'Superficie_ha' => :ha_area,
       'Superficie_ar' => :ar_area,
       'Superficie_ca' => :ca_area,
-      'Campagne_Plantation' => :campaign,
+      'Campagne_Plantation' => :planting_campaign,
       'Porte-greffe_Code_Douane' => :rootstock,
       'Ecart_Pied' => :inter_vine_plant_distance,
       'Ecart_Rang' => :inter_row_distance,
@@ -37,7 +37,7 @@ module Ekylibre
     }.freeze
 
     CVI_STATEMENT_KEYS = %i[cvi_number extraction_date siret_number farm_name declarant].freeze
-    CVI_CADASTRAL_PLANT_KEYS = %i[commune locality insee_number section land_parcel_number work_number campaign inter_row_distance inter_vine_plant_distance state type_of_occupancy].freeze
+    CVI_CADASTRAL_PLANT_KEYS = %i[section land_parcel_number work_number planting_campaign inter_row_distance inter_vine_plant_distance state type_of_occupancy].freeze
 
     def import
       w.count = cvi_row_list.length
@@ -80,6 +80,13 @@ module Ekylibre
         raise message
       end
 
+      registered_postal_zone = RegisteredPostalZone.find_by(id: h_cvi_statement[:insee_number])
+      unless registered_postal_zone
+        message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_insee_number', value: h_cvi_statement[:insee_number])
+        w.error message
+        raise message
+      end
+
       unless h_cvi_statement[:rootstock].blank? || h_cvi_statement[:rootstock] == 'NC99'
         rootstock = MasterVineVariety.find_by(customs_code: h_cvi_statement[:rootstock], category_name: 'Porte-greffe')
         unless rootstock
@@ -97,7 +104,14 @@ module Ekylibre
 
       CviCadastralPlant.create!(
         h_cvi_statement.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }
-          .merge(cvi_statement_id: cvi_statement.id, land_parcel_id: cadastral_land_parcel_zone.try('id'), designation_of_origin_id: designation_of_origin.id, vine_variety_id: vine_variety.id, rootstock_id: rootstock.try('id'), area: h_cvi_statement[:area])
+          .merge(cvi_statement_id: cvi_statement.id, 
+                 land_parcel_id: cadastral_land_parcel_zone.try('id'), 
+                 designation_of_origin_id: designation_of_origin.id, 
+                 vine_variety_id: vine_variety.id, 
+                 rootstock_id: rootstock.try('id'), 
+                 area: h_cvi_statement[:area],
+                 location: Location.create(insee_number: registered_postal_zone.code, locality: h_cvi_statement[:locality])
+          )
       )
     end
 
