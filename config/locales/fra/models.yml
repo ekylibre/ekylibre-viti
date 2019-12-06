@@ -818,6 +818,7 @@ fra:
     inter_row_distance_value: "Inter rang (cm)" #?
     inter_vine_plant_distance_value: "Inter pied (cm)" #?
     rootstock: "Porte-greffe" #?
+    rootstocks: "Porte-greffe(s)"
     vine_variety_name: "Cépage" #?
     abilities: "Compétences" #?
     abilities_list: "Liste des compétences"

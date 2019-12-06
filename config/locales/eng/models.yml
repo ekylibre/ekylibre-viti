@@ -1599,6 +1599,7 @@ eng:
     root_node: "Root node"
     root_parameters: "Root parameters"
     rootstock: "Rootstock"
+    rootstock: "Rootstock(s)"
     rows_count_value: "Rows count"
     sale: "Sale"
     sale_credit: "Sale credit"

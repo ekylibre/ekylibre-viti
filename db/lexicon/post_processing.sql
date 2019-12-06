@@ -115,18 +115,14 @@ SELECT
 	inter_row_distance_value :: int AS inter_row_distance_value,
 	state,
 
-	CASE 
-	  WHEN rootstock_id IS NULL THEN 
-	    NULL	
-	  ELSE
-	   INITCAP(rootstocks.specie_name)
-	END AS rootstock,
+	string_agg(rootstocks.specie_name,', ' ORDER BY rootstocks.specie_name) AS rootstocks,
 	cvi_cultivable_zone_id
 	
 FROM cvi_land_parcels
 LEFT JOIN locations as locations ON cvi_land_parcels.id = locations.localizable_id AND locations.localizable_type = 'CviLandParcel'
+LEFT JOIN land_parcel_rootstocks ON cvi_land_parcels.id = land_parcel_rootstocks.land_parcel_id AND land_parcel_rootstocks.land_parcel_type = 'CviLandParcel'
+LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON land_parcel_rootstocks.rootstock_id = rootstocks.id
 LEFT JOIN lexicon.registered_postal_zones ON locations.insee_number = registered_postal_zones.code
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_land_parcels.vine_variety_id = vine_varieties.id
-LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_land_parcels.rootstock_id = rootstocks.id
 LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_land_parcels.designation_of_origin_id = designation_of_origins.ida
 GROUP BY cvi_land_parcels.id, product_human_name_fra, vine_varieties.specie_name, rootstocks.specie_name;
