@@ -60,7 +60,25 @@ module Sage
 
         editor_data_providers = {sender_name: 'sage_i7', created_on: data_exported_on, sender_infos: version_information }
 
+        find_or_creat_account(doc, period_started_on)
 
+        # find or create entries
+        w.reset!(doc.css('PIECE').count)
+        entries = {}
+
+        find_or_create_entries(doc, fy, editor_data_providers, entries)
+
+        w.reset!(entries.keys.size)
+        entries.values.each do |entry|
+          w.info "JE : #{entry}".inspect.yellow
+          j = JournalEntry.create!(entry)
+          w.info "JE created: #{j.number} | #{j.printed_on}".inspect.yellow
+          w.check_point
+        end
+
+      end
+
+      def find_or_creat_account(doc, period_started_on)
         # create or update account chart with data in file
         # check account lenght
         # find or create account
@@ -102,7 +120,8 @@ module Sage
             # Adds a real entity with known information if account number like 401 or 411
             last_name = acc_name.mb_chars.capitalize
             modified = false
-            entity ||= Entity.where('last_name ILIKE ?', last_name).first || Entity.create!(last_name: last_name, nature: 'organization', first_met_at: period_started_on.to_date)
+            entity = Entity.where('last_name ILIKE ?', last_name).first
+            entity ||= Entity.create!(last_name: last_name, nature: 'organization', first_met_at: period_started_on.to_date)
             if entity.first_met_at && period_started_on.to_date && period_started_on.to_date < entity.first_met_at
               entity.first_met_at = period_started_on.to_date
               modified = true
@@ -122,11 +141,9 @@ module Sage
           end
           w.check_point
         end
+      end
 
-        # find or create entries
-        w.reset!(doc.css('PIECE').count)
-        entries = {}
-
+      def find_or_create_entries(doc, fy, editor_data_providers, entries)
         # transcoding journal
         default_journal_natures = {
           'A' => :purchases,
@@ -156,7 +173,9 @@ module Sage
                                 main_account: Account.find_or_create_by_number(jou_account),
                                 journal: journal }
 
-            unless jou_iban.blank? && jou_iban.start_with?('IBAN')
+            binding.pry
+
+            if !jou_iban.blank? && jou_iban.start_with?('IBAN')
               cash_attributes.merge!(iban: jou_iban[4..30])
             end
             cash = Cash.find_or_create_by(cash_attributes)
@@ -205,7 +224,6 @@ module Sage
                 unless sjei_account
                   sjei_account = Account.create!(number: sjei_acc_number,
                                               nature: nature,
-                                              number: sjei_acc_number,
                                               centralizing_account_name: centralizing_account_name,
                                               auxiliary_number: aux_number)
                 end
@@ -232,15 +250,6 @@ module Sage
             w.check_point
           end
         end
-
-        w.reset!(entries.keys.size)
-        entries.values.each do |entry|
-          w.info "JE : #{entry}".inspect.yellow
-          j = JournalEntry.create!(entry)
-          w.info "JE created: #{j.number} | #{j.printed_on}".inspect.yellow
-          w.check_point
-        end
-
       end
 
     end
