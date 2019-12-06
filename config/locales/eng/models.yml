@@ -660,7 +660,7 @@ eng:
     commission_percentage: "Commission percentage"
     commissioned_incoming_payment_modes: "Commissioned incoming payment modes"
     commune: "Commune"
-    # communes: "Communes"
+    communes: "Communes"
     company_creation_date: "Company creation date" #?
     company_name: "Company name" #?
     # complete_name: "Complete name"
@@ -1183,6 +1183,7 @@ eng:
     local_credit: "Local credit"
     local_debit: "Local debit"
     locality: "Locality"
+    localities: "Localities"
     localizations: "Localizations"
     lock_version: "Version"
     locked: "Locked"
