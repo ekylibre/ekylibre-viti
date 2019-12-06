@@ -3,6 +3,7 @@
 - if resource.state == :planted
   = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns") do
     = f.input :name
+    = f.referenced_association :designation_of_origin, new: false, label: CviLandParcel.human_attribute_name(:product_name)
     = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.simple_fields_for :land_parcel_rootstocks do |ff|
       - index = ff.options[:child_index] + 1 
@@ -16,6 +17,7 @@
 - else
   = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns" ) do
     = f.input :name
+    = f.referenced_association :designation_of_origin, new: false, label: CviLandParcel.human_attribute_name(:designation_of_origin)
     = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.simple_fields_for :land_parcel_rootstocks do |ff|
       - index = ff.options[:child_index] + 1 
