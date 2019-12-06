@@ -105,7 +105,6 @@
         
         if layerName is 'cvi_land_parcels'
           onEachFeature = (layer) ->
-
             if  layer.feature.properties.updated
                 color = "#E7E8C0"
                 klass = 'yellow'
@@ -114,7 +113,6 @@
                 klass = 'blue'
 
             insertionMarker = () ->
-
               if layer._map.getZoom() >= 16
                 positionLatLng = layer.getCenter()
                 centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
@@ -129,11 +127,18 @@
                 layer._ghostIcon = new L.GhostIcon html: name, className: "simple-label #{klass}", iconSize: [60, 40]
                 layer._ghostMarker = L.marker(positionLatLng, icon: layer._ghostIcon)
                 layer._ghostMarker.addTo layer._map
-            
-            style = { color: color, fillOpacity: 0.3, opacity: 1, fill: true }
+                
+            fillOpacity = 0.3
+            name = layer.feature.properties.name
+            matchnameIndex =name.match(/-(\d$)/)
+            if matchnameIndex
+              nameIndex = parseInt(matchnameIndex[1])
+              fillOpacity = 0 if nameIndex > 1
+            style = { color: color, fillOpacity: fillOpacity, opacity: 1, fill: true }
 
-            layer.setStyle(style)
             insertionMarker()
+            layer.setStyle(style)
+            
 
             layer._map.on 'zoomend', ->
               if layer._ghostMarker
