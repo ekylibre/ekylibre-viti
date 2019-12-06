@@ -173,8 +173,6 @@ module Sage
                                 main_account: Account.find_or_create_by_number(jou_account),
                                 journal: journal }
 
-            binding.pry
-
             if !jou_iban.blank? && jou_iban.start_with?('IBAN')
               cash_attributes.merge!(iban: jou_iban[4..30])
             end
