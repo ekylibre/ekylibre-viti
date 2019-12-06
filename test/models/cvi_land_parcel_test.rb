@@ -34,7 +34,7 @@ class CviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
     should belong_to(:cvi_cultivable_zone)
     should belong_to(:designation_of_origin).with_foreign_key('designation_of_origin_id')
     should belong_to(:vine_variety).with_foreign_key('vine_variety_id')
-    should belong_to(:rootstock).with_foreign_key('rootstock_id')
+    should have_many(:land_parcel_rootstocks)
     should have_many(:locations)
   end
 

@@ -4452,6 +4452,40 @@ ALTER SEQUENCE public.labels_id_seq OWNED BY public.labels.id;
 
 
 --
+-- Name: land_parcel_rootstocks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.land_parcel_rootstocks (
+    id integer NOT NULL,
+    percentage numeric DEFAULT 1.0,
+    rootstock_id character varying,
+    land_parcel_id integer,
+    land_parcel_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: land_parcel_rootstocks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.land_parcel_rootstocks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: land_parcel_rootstocks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.land_parcel_rootstocks_id_seq OWNED BY public.land_parcel_rootstocks.id;
+
+
+--
 -- Name: listing_node_items; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -8150,6 +8184,13 @@ ALTER TABLE ONLY public.labels ALTER COLUMN id SET DEFAULT nextval('public.label
 
 
 --
+-- Name: land_parcel_rootstocks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.land_parcel_rootstocks ALTER COLUMN id SET DEFAULT nextval('public.land_parcel_rootstocks_id_seq'::regclass);
+
+
+--
 -- Name: listing_node_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -9369,6 +9410,14 @@ ALTER TABLE ONLY public.journals
 
 ALTER TABLE ONLY public.labels
     ADD CONSTRAINT labels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: land_parcel_rootstocks land_parcel_rootstocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.land_parcel_rootstocks
+    ADD CONSTRAINT land_parcel_rootstocks_pkey PRIMARY KEY (id);
 
 
 --
@@ -19492,4 +19541,6 @@ INSERT INTO schema_migrations (version) VALUES ('20191205085059');
 INSERT INTO schema_migrations (version) VALUES ('20191205123841');
 
 INSERT INTO schema_migrations (version) VALUES ('20191206080450');
+
+INSERT INTO schema_migrations (version) VALUES ('20191206102525');
 

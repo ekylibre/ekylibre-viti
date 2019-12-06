@@ -35,15 +35,15 @@ module Backend
           vine_variety_id: r.vine_variety_id,
           calculated_area: calculated_area,
           declared_area: declared_area,
-          rootstock_id: r.rootstock_id,
-          inter_vine_plant_distance:r.inter_vine_plant_distance,
-          inter_row_distance:r.inter_row_distance,
+          inter_vine_plant_distance: r.inter_vine_plant_distance,
+          inter_row_distance: r.inter_row_distance,
           state: r.state,
           shape: shape,
           cvi_cultivable_zone_id: cvi_cultivable_zone.id,
           planting_campaign: r.planting_campaign
         )
-        Location.create(localizable:cvi_land_parcel, locality: r.location.locality, insee_number: r.location.insee_number) 
+        LandParcelRootstock.create(land_parcel: cvi_land_parcel, rootstock_id: r.rootstock_id)
+        Location.create(localizable: cvi_land_parcel, locality: r.location.locality, insee_number: r.location.insee_number) 
       end
       redirect_to action: 'show', id: cvi_cultivable_zone.id
     end

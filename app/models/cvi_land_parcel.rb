@@ -7,8 +7,10 @@ class CviLandParcel < Ekylibre::Record::Base
   belongs_to :cvi_cultivable_zone
   belongs_to :designation_of_origin, class_name: 'RegistredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
   belongs_to :vine_variety, class_name: 'VineVariety', foreign_key: :vine_variety_id
-  belongs_to :rootstock, class_name: 'Rootstock', foreign_key: :rootstock_id
   has_many :locations, as: :localizable, dependent: :destroy
+  has_many :land_parcel_rootstocks, as: :land_parcel, dependent: :destroy
+
+  accepts_nested_attributes_for :land_parcel_rootstocks
 
   enumerize :state, in: %i[planted removed_with_authorization], predicates: true
 
