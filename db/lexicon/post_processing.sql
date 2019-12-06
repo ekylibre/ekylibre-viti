@@ -29,8 +29,7 @@ SELECT
 	cvi_cadastral_plants.id AS id,
 	land_parcel_id,
 	locality,
-	(SELECT city_name FROM lexicon.registered_postal_zones AS registered_postal_zones
-	WHERE registered_postal_zones.code = insee_number ) AS commune,
+	INITCAP(city_name) AS commune,
 	
 	CASE 
 	  WHEN land_parcel_number IS NULL THEN 
@@ -60,6 +59,7 @@ SELECT
 	
 FROM cvi_cadastral_plants
 LEFT JOIN locations ON cvi_cadastral_plants.id = locations.localizable_id AND locations.localizable_type = 'CviCadastralPlant'
+LEFT JOIN lexicon.registered_postal_zones ON locations.insee_number = registered_postal_zones.code
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_cadastral_plants.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_cadastral_plants.rootstock_id = rootstocks.id
 LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida;
@@ -71,16 +71,16 @@ CREATE OR REPLACE VIEW formatted_cvi_cultivable_zones AS
 SELECT 
 	name,
 	cvi_cultivable_zones.id AS id,
-	array_to_string(array_agg(DISTINCT city_name),', ') AS communes,
+	INITCAP(string_agg(DISTINCT city_name,', ' ORDER BY city_name)) AS communes,
 
-	array_to_string(array_agg(
-	CASE 
-	WHEN land_parcel_number IS NULL THEN 
-		CONCAT(section, work_number)
-	ELSE
-	CONCAT(section, work_number,'-',land_parcel_number ) 
-	END
-	),', ') AS cadastral_references,
+	string_agg(
+		CASE 
+			WHEN land_parcel_number IS NULL THEN 
+				CONCAT(section, work_number)
+			ELSE
+			CONCAT(section, work_number,'-',land_parcel_number ) 
+		END
+	,', 'ORDER BY section,work_number,land_parcel_number) AS cadastral_references,
 
 	area_formatted(declared_area_value) AS formatted_declared_area,
 	area_formatted(calculated_area_value) AS formatted_calculated_area,
@@ -100,8 +100,8 @@ CREATE OR REPLACE VIEW formatted_cvi_land_parcels AS
 SELECT 
 	cvi_land_parcels.id AS id,
 	cvi_land_parcels.name,
-	array_to_string(array_agg(DISTINCT city_name),', ') AS communes,
-	array_to_string(array_agg(DISTINCT locations.locality),', ') AS localities,
+	INITCAP(string_agg(DISTINCT city_name,', ' ORDER BY city_name)) AS communes,
+	INITCAP(string_agg(DISTINCT locality,', ' ORDER BY locality)) AS localities,
 	planting_campaign,
 	
 	product_human_name_fra AS designation_of_origin_name,
