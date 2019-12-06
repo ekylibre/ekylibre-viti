@@ -24,16 +24,13 @@ module Backend
     def generate_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
       cvi_cadastral_plants = cvi_cultivable_zone.cvi_cadastral_plants
-      campaign_id = cvi_cultivable_zone.cvi_statement.campaign_id
       cvi_cadastral_plants.each do |r|
         declared_area = r.area
         shape = r.shape.to_rgeo
         calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
 
-        CviLandParcel.create(
+        cvi_land_parcel = CviLandParcel.create(
           name: r.cadastral_reference,
-          commune: nil,
-          locality: nil,
           designation_of_origin_id: r.designation_of_origin_id,
           vine_variety_id: r.vine_variety_id,
           calculated_area: calculated_area,
@@ -44,8 +41,9 @@ module Backend
           state: r.state,
           shape: shape,
           cvi_cultivable_zone_id: cvi_cultivable_zone.id,
-          campaign_id: campaign_id
+          planting_campaign: r.planting_campaign
         )
+        Location.create(localizable:cvi_land_parcel, locality: r.location.locality, insee_number: r.location.insee_number) 
       end
       redirect_to action: 'show', id: cvi_cultivable_zone.id
     end
@@ -62,13 +60,14 @@ module Backend
       t.column :id, hidden: true
       t.action :edit, url: { controller: 'cvi_land_parcels', action: 'edit', remote: true }
       t.column :name
-      t.column :commune
-      t.column :locality
+      t.column :communes
+      t.column :localities
       t.column :designation_of_origin_name
       t.column :vine_variety_name
       t.column :declared_area_formatted, label: :declared_area
       t.column :calculated_area_formatted, label: :calculated_area
       t.column :rootstock
+      t.column :planting_campaign
       t.column :inter_vine_plant_distance_value
       t.column :inter_row_distance_value
       t.column :state

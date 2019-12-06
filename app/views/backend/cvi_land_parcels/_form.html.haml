@@ -1,10 +1,11 @@
 
+- current_year = Time.current.year
 - if resource.state == :planted
   = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns") do
     = f.input :name
     = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.referenced_association :rootstock, new: false
-    = f.referenced_association :campaign, new: false 
+    = f.input :planting_campaign, as: :select, collection: (1900..(current_year+1)).to_a.map(&:to_s)
     = f.input :state, include_blank: false
     = f.input :inter_row_distance_value,field: :number,input_html: {value: resource.inter_row_distance_value&.to_i }
     = f.input :inter_vine_plant_distance_value, field: :number,input_html: {value: resource.inter_vine_plant_distance_value&.to_i }
@@ -15,7 +16,7 @@
     = f.input :name
     = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.referenced_association :rootstock, new: false
-    = f.referenced_association :campaign, new: false 
+    = f.input :planting_campaign, as: :select, collection: (1900..(current_year+1)).to_a.map(&:to_s)
     = f.input :state,include_blank: false
     = f.input :removed_at
     = f.input :inter_row_distance_value,field: :number,input_html: {value: resource.inter_row_distance_value&.to_i }

@@ -2,8 +2,6 @@
 
 one:
   name: MyString
-  commune: MyString
-  locality: MyString
   designation_of_origin_id: 1
   vine_variety_id: MyString
   calculated_area_unit: MyString
@@ -11,7 +9,7 @@ one:
   declared_area_unit: MyString
   declared_area_value: 9.99
   shape: 
-  campaign_id: 
+  planting_campaign: MyString
   rootstock_id: MyString
   inter_vine_plant_distance_value: 9.99
   inter_vine_plant_distance_unit: MyString
@@ -23,8 +21,6 @@ one:
 
 two:
   name: MyString
-  commune: MyString
-  locality: MyString
   designation_of_origin_id: 1
   vine_variety_id: MyString
   calculated_area_unit: MyString
@@ -32,7 +28,7 @@ two:
   declared_area_unit: MyString
   declared_area_value: 9.99
   shape: 
-  campaign_id: 
+  planting_campaign: MyString
   rootstock_id: MyString
   inter_vine_plant_distance_value: 9.99
   inter_vine_plant_distance_unit: MyString

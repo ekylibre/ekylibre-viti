@@ -4,7 +4,6 @@ class CviLandParcel < Ekylibre::Record::Base
   composed_of :inter_row_distance, class_name: 'Measure', mapping: [%w[inter_row_distance_value to_d], %w[inter_row_distance_unit unit]]
   composed_of :inter_vine_plant_distance, class_name: 'Measure', mapping: [%w[inter_vine_plant_distance_value to_d], %w[inter_vine_plant_distance_unit unit]]
 
-  belongs_to :campaign
   belongs_to :cvi_cultivable_zone
   belongs_to :designation_of_origin, class_name: 'RegistredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
   belongs_to :vine_variety, class_name: 'VineVariety', foreign_key: :vine_variety_id

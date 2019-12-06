@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :cvi_land_parcel do
     name { FFaker::NameFR.name }
-    commune { FFaker::AddressFR.city }
-    locality { FFaker::AddressFR.city }
     calculated_area_unit { :hectare }
     calculated_area_value { rand.round(2) }
     declared_area_unit { :hectare }
@@ -16,9 +14,8 @@ FactoryBot.define do
     rootstock_id { MasterVineVariety.where(category_name: 'Porte-greffe').order('RANDOM()').first.id }
     state { %i[planted removed_with_authorization].sample }
     shape { FFaker::Shape.multipolygon }
+    planting_campaign { FFaker::Time.between(10.years.ago, Date.today).year }
     cvi_cultivable_zone
-    campaign
-
     with_location
 
     trait :with_location do

@@ -59,7 +59,7 @@ SELECT
 	cvi_statement_id
 	
 FROM cvi_cadastral_plants
-LEFT JOIN locations ON cvi_cadastral_plants.id = locations.localizable_id
+LEFT JOIN locations ON cvi_cadastral_plants.id = locations.localizable_id AND locations.localizable_type = 'CviCadastralPlant'
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_cadastral_plants.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_cadastral_plants.rootstock_id = rootstocks.id
 LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida;
@@ -89,7 +89,7 @@ SELECT
 	cvi_cultivable_zones.cvi_statement_id AS cvi_statement_id
 	
 FROM cvi_cultivable_zones
-LEFT JOIN locations as locations ON cvi_cultivable_zones.id = locations.localizable_id
+LEFT JOIN locations as locations ON cvi_cultivable_zones.id = locations.localizable_id AND locations.localizable_type = 'CviCultivableZone'
 LEFT JOIN cvi_cadastral_plants ON cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id
 LEFT JOIN lexicon.registered_postal_zones ON locations.insee_number = registered_postal_zones.code
 GROUP BY cvi_cultivable_zones.id;
@@ -99,11 +99,12 @@ DROP VIEW IF EXISTS formatted_cvi_land_parcels;
 CREATE OR REPLACE VIEW formatted_cvi_land_parcels AS
 SELECT 
 	cvi_land_parcels.id AS id,
-	name,
-	commune,
-	locality,
+	cvi_land_parcels.name,
+	array_to_string(array_agg(DISTINCT city_name),', ') AS communes,
+	array_to_string(array_agg(DISTINCT locations.locality),', ') AS localities,
+	planting_campaign,
 	
-	designation_of_origins.product_human_name_fra AS designation_of_origin_name,
+	product_human_name_fra AS designation_of_origin_name,
 	INITCAP(vine_varieties.specie_name) AS vine_variety_name,
 
 	declared_area_value,
@@ -123,6 +124,9 @@ SELECT
 	cvi_cultivable_zone_id
 	
 FROM cvi_land_parcels
+LEFT JOIN locations as locations ON cvi_land_parcels.id = locations.localizable_id AND locations.localizable_type = 'CviLandParcel'
+LEFT JOIN lexicon.registered_postal_zones ON locations.insee_number = registered_postal_zones.code
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_land_parcels.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_land_parcels.rootstock_id = rootstocks.id
 LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_land_parcels.designation_of_origin_id = designation_of_origins.ida
+GROUP BY cvi_land_parcels.id, product_human_name_fra, vine_varieties.specie_name, rootstocks.specie_name;
