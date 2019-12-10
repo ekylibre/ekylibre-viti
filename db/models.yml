@@ -72,6 +72,7 @@
 - fixed_asset
 - fixed_asset_depreciation
 - formatted_cvi_cadastral_plant
+- formatted_cvi_cultivable_zone
 - formatted_cvi_land_parcel
 - fungus
 - gap
@@ -111,11 +112,13 @@
 - journal_entry_item
 - label
 - land_parcel
+- land_parcel_rootstock
 - listing
 - listing_node
 - listing_node_item
 - loan
 - loan_repayment
+- location
 - manure_management_plan
 - manure_management_plan_zone
 - map_layer

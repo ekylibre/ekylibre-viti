@@ -22,7 +22,7 @@ module Backend
     private
 
     def permitted_params
-      params.require(:cvi_land_parcel).permit(:name, :vine_variety_id, :rootstock_id, :campaign_id, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :designation_of_origin)
+      params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :rootstock_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :designation_of_origin, land_parcel_rootstocks_attributes: %i[id rootstock_id])
             .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
     end
 

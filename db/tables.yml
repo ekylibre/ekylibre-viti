@@ -1841,12 +1841,6 @@ cvi_cadastral_plants:
     type: decimal
     precision: 19
     scale: 4
-  campaign:
-    type: string
-    required: true
-  commune:
-    type: string
-    required: true
   created_at:
     type: datetime
     required: true
@@ -1861,9 +1855,6 @@ cvi_cadastral_plants:
     references: registred_protected_designation_of_origin
   id:
     type: integer
-    required: true
-  insee_number:
-    type: string
     required: true
   inter_row_distance_unit:
     type: string
@@ -1881,8 +1872,9 @@ cvi_cadastral_plants:
     type: string
   land_parcel_number:
     type: string
-  locality:
+  planting_campaign:
     type: string
+    required: true
   rootstock_id:
     type: string
   section:
@@ -1902,16 +1894,12 @@ cvi_cadastral_plants:
     type: string
     required: true
 cvi_cultivable_zones:
-  cadastral_references:
-    type: string
   calculated_area_unit:
     type: string
   calculated_area_value:
     type: decimal
     precision: 19
     scale: 4
-  communes:
-    type: string
   created_at:
     type: datetime
     required: true
@@ -1924,10 +1912,6 @@ cvi_cultivable_zones:
     type: decimal
     precision: 19
     scale: 4
-  formatted_calculated_area:
-    type: string
-  formatted_declared_area:
-    type: string
   id:
     type: integer
     required: true
@@ -1951,12 +1935,7 @@ cvi_land_parcels:
   calculated_area_value:
     type: decimal
     precision: 19
-    scale: 4
-  campaign_id:
-    type: integer
-    references: campaign
-  commune:
-    type: string
+    scale: 5
   created_at:
     type: datetime
     required: true
@@ -1968,7 +1947,7 @@ cvi_land_parcels:
   declared_area_value:
     type: decimal
     precision: 19
-    scale: 4
+    scale: 5
   designation_of_origin_id:
     type: integer
     references: registred_protected_designation_of_origin
@@ -1987,11 +1966,11 @@ cvi_land_parcels:
     type: decimal
     precision: 19
     scale: 4
-  locality:
-    type: string
   name:
     type: string
     required: true
+  planting_campaign:
+    type: string
   removed_at:
     type: date
   rootstock_id:
@@ -4606,6 +4585,25 @@ labels:
   updater_id:
     type: integer
     references: user
+land_parcel_rootstocks:
+  created_at:
+    type: datetime
+    required: true
+  id:
+    type: integer
+    required: true
+  land_parcel_id:
+    type: integer
+    references: "~land_parcel_type"
+  land_parcel_type:
+    type: string
+  percentage:
+    type: decimal
+  rootstock_id:
+    type: string
+  updated_at:
+    type: datetime
+    required: true
 listing_node_items:
   created_at:
     type: datetime
@@ -4908,6 +4906,25 @@ loans:
     references: user
   use_bank_guarantee:
     type: boolean
+locations:
+  created_at:
+    type: datetime
+    required: true
+  id:
+    type: integer
+    required: true
+  insee_number:
+    type: string
+  locality:
+    type: string
+  localizable_id:
+    type: integer
+    references: "~localizable_type"
+  localizable_type:
+    type: string
+  updated_at:
+    type: datetime
+    required: true
 manure_management_plan_zones:
   absorbed_nitrogen_at_opening:
     type: decimal
