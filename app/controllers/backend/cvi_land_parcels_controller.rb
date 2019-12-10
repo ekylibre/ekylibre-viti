@@ -1,6 +1,7 @@
 module Backend
   class CviLandParcelsController < Backend::BaseController
     manage_restfully only: %i[edit]
+    after_filter -> { flash.discard }, if: -> { request.xhr? }
 
     def index
       records = CviCultivableZone.find(params[:id]).cvi_land_parcels.collect do |r|
@@ -17,6 +18,19 @@ module Backend
       return if save_and_redirect(@cvi_land_parcel, notify: :record_x_updated, identifier: :name)
 
       render action: :edit
+    end
+
+    def group
+      cvi_land_parcels = CviLandParcel.joins(:locations, :land_parcel_rootstocks).find(params[:cvi_land_parcel_ids])
+      result = GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
+      if result.success?
+        cvi_cultivable_zone = result.new_cvi_land_parcel.cvi_cultivable_zone
+        notify_now(:cvi_land_parcels_grouped)
+        render 'update.js.erb'
+      else
+        notify_error(result.error)
+        render partial: 'notify.js.erb'
+      end
     end
 
     private

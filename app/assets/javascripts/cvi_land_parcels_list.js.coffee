@@ -1,11 +1,20 @@
 ekylibre.cviLandParcelsList ||= {}
 
 ((E, $) ->
-  $(document).on 'ready ekylibre:map:events:ready list:page:change', ->
+
+  $(document).on 'ekylibre:map:events:initializing', ->
+    addClickEventToIds()
+    addColumn(0)
+
+  $(document).on 'ready', ->
     formatRow()
     addClickEventToIds()
+  
+  $(document).on 'list:page:change', ->
+    formatRow()
     addClickEventToIds()
-
+    addColumn(0)
+    
   addClickEventToIds =  ->
     $('#cvi_land_parcels-list.active-list td.c2 a').each ->
       element = $(this)
@@ -31,6 +40,48 @@ ekylibre.cviLandParcelsList ||= {}
     $('tr.edit-form').remove()
     E.map.edit(id, 'cvi_land_parcels', cancel: true)
     return false
+  
+  selectedCviLandParcels = []
+
+  addColumn = (position) ->
+    $groupButton =  $('#group-cvi-land-parcels')
+    $cutButton = $('#cut-cvi-land-parcel')
+
+    $('#cvi_land_parcels-list').find('tr:not(.edit-form)').each (index, element) ->
+      return $(element).find('th').eq(position).before('<th></td>') if index == 0
+      id = parseInt($(element).attr('id').replace('r', ''))
+      $(element).find('td').eq(position).before("<td><input type=\'checkbox\' value=\'#{id}\'></td>")
+      $groupButton.hide()
+      $cutButton.hide()
+    
+
+
+    $('#cvi_land_parcels-list').find('input[type=checkbox]').each ->
+      $(this).change ->
+        id = parseInt(this.value)
+        layer = E.map.select id, false, 'cvi_land_parcels'
+        if this.checked
+          layer.setStyle( fillOpacity: 0.3)
+          selectedCviLandParcels.push id
+          goToPolygonCenter(id) if selectedCviLandParcels.length == 1
+          params = selectedCviLandParcels.map (id) ->
+            "cvi_land_parcel_ids[]=#{id}"
+          .join('&')
+          $groupButton.attr(href: "/backend/cvi_land_parcels/group?#{params}")
+        else
+          layer.setStyle( fillOpacity: 0)
+          index = selectedCviLandParcels.indexOf(id) 
+          selectedCviLandParcels.splice(index, 1)
+
+        if selectedCviLandParcels.length == 1
+          $groupButton.hide()
+          $cutButton.show()
+        else if selectedCviLandParcels.length == 0
+          $groupButton.hide()
+          $cutButton.hide()
+        else
+          $groupButton.show()
+          $cutButton.hide()
 
   $(document).ready ->
     $(document).on E.Events.Map.edit.change, (e, obj) ->

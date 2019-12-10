@@ -1,7 +1,7 @@
 require 'test_helper'
 module Backend
   class CviLandParcelsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
-    test_restfully_all_actions except: %i[show update index]
+    test_restfully_all_actions except: %i[show update index group]
 
     describe('#index') do
       let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_land_parcels) }
@@ -14,7 +14,7 @@ module Backend
       it 'return object with id, shape, updated? keys' do
         get :index, id: cvi_cultivable_zone.id
         assert_equal %w[uuid shape name updated], JSON.parse(response.body).first.keys
-      end 
+      end
     end
 
     describe('#update') do
@@ -41,11 +41,57 @@ module Backend
         assert_response :success
       end
     end
+
+    describe('group') do
+      describe('cvi_land_parcels are not groupable ') do
+        let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2) }
+
+        it 'sets a flash message' do
+          assert_difference 'flash.count', 1 do
+            xhr :post, :group, cvi_land_parcel_ids: cvi_land_parcels.map(&:id)
+          end
+        end
+
+        it "doesn't create or delete cvi_land_parcel" do
+          xhr :post, :group, cvi_land_parcel_ids: cvi_land_parcels.map(&:id)
+          assert_equal cvi_land_parcels, CviLandParcel.find(cvi_land_parcels.collect(&:id))
+        end
       end
 
-      it 'responds with success' do
-        xhr :put, :update, id: cvi_land_parcel.id, cvi_land_parcel: { name: 'new_name' }
-        assert_response :success
+      describe('cvi_land_parcels are groupable ') do
+        let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2, :groupable) }
+
+        it 'create à new record from records with correct attributes' do
+          name = cvi_land_parcels.map(&:name).sort.join(', ')
+          xhr :post, :group, cvi_land_parcel_ids: cvi_land_parcels.map(&:id)
+          cvi_land_parcel = CviLandParcel.last
+          assert_equal cvi_land_parcels.map(&:declared_area).sum, cvi_land_parcel.declared_area
+          assert_equal name, cvi_land_parcel.name
+        end
+
+        it 'set the percentage of each rootstocks' do
+          total_area = cvi_land_parcels.sum(&:calculated_area)
+          area_rootstock1 = cvi_land_parcels.first.calculated_area
+          area_rootstock2 = cvi_land_parcels.second.calculated_area
+          percentage1 = area_rootstock1 / total_area
+          percentage2 = area_rootstock2 / total_area
+          xhr :post, :group, cvi_land_parcel_ids: cvi_land_parcels.map(&:id)
+          cvi_land_parcel = CviLandParcel.last
+          assert_in_epsilon(percentage1, cvi_land_parcel.land_parcel_rootstocks.first.percentage, epsilon = 0.01)
+          assert_in_epsilon(percentage2, cvi_land_parcel.land_parcel_rootstocks.second.percentage, epsilon = 0.01)
+        end
+
+        it 'destroy grouped cvi_land_parcels' do
+          xhr :post, :group, cvi_land_parcel_ids: cvi_land_parcels.map(&:id)
+          assert_raise 'ActiveRecord::RecordNotFound' do
+            CviLandParcel.find(cvi_land_parcels.map(&:id))
+          end
+        end
+
+        it 'responds with success' do
+          xhr :post, :group, cvi_land_parcel_ids: cvi_land_parcels.map(&:id)
+          assert_response :success
+        end
       end
     end
   end

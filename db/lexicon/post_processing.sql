@@ -105,7 +105,8 @@ SELECT
 	planting_campaign,
 	
 	product_human_name_fra AS designation_of_origin_name,
-	INITCAP(vine_varieties.specie_name) AS vine_variety_name,
+	vine_varieties.specie_name AS vine_variety_name,
+	INITCAP(string_agg(DISTINCT rootstocks.specie_name,', ' ORDER BY rootstocks.specie_name)) AS rootstocks,
 
 	declared_area_value,
 	calculated_area_value,
@@ -115,7 +116,6 @@ SELECT
 	inter_row_distance_value :: int AS inter_row_distance_value,
 	state,
 
-	string_agg(rootstocks.specie_name,', ' ORDER BY rootstocks.specie_name) AS rootstocks,
 	cvi_cultivable_zone_id
 	
 FROM cvi_land_parcels
@@ -125,4 +125,4 @@ LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON land_parcel_rootstocks.
 LEFT JOIN lexicon.registered_postal_zones ON locations.insee_number = registered_postal_zones.code
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_land_parcels.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_land_parcels.designation_of_origin_id = designation_of_origins.ida
-GROUP BY cvi_land_parcels.id, product_human_name_fra, vine_varieties.specie_name, rootstocks.specie_name;
+GROUP BY cvi_land_parcels.id, designation_of_origin_name, vine_variety_name;

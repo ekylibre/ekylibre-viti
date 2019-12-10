@@ -128,13 +128,7 @@
                 layer._ghostMarker = L.marker(positionLatLng, icon: layer._ghostIcon)
                 layer._ghostMarker.addTo layer._map
                 
-            fillOpacity = 0.3
-            name = layer.feature.properties.name
-            matchnameIndex =name.match(/-(\d$)/)
-            if matchnameIndex
-              nameIndex = parseInt(matchnameIndex[1])
-              fillOpacity = 0 if nameIndex > 1
-            style = { color: color, fillOpacity: fillOpacity, opacity: 1, fill: true }
+            style = { color: color, fillOpacity: 0, opacity: 1, fill: true }
 
             insertionMarker()
             layer.setStyle(style)

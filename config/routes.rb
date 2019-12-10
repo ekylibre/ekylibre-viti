@@ -438,7 +438,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cvi_land_parcels, only: %i[edit update]
+    resources :cvi_land_parcels, only: %i[edit update] do
+      collection do
+        post :group
+      end
+    end
 
     resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' }
 
