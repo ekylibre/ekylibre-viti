@@ -1,6 +1,7 @@
 ekylibre.cviLandParcelsList ||= {}
 
 ((E, $) ->
+  selectedCviLandParcels = []
 
   $(document).on 'ekylibre:map:events:initializing', ->
     addClickEventToIds()
@@ -11,6 +12,7 @@ ekylibre.cviLandParcelsList ||= {}
     addClickEventToIds()
   
   $(document).on 'list:page:change', ->
+    selectedCviLandParcels = []
     formatRow()
     addClickEventToIds()
     addColumn(0)
@@ -40,8 +42,6 @@ ekylibre.cviLandParcelsList ||= {}
     $('tr.edit-form').remove()
     E.map.edit(id, 'cvi_land_parcels', cancel: true)
     return false
-  
-  selectedCviLandParcels = []
 
   addColumn = (position) ->
     $groupButton =  $('#group-cvi-land-parcels')
@@ -64,14 +64,14 @@ ekylibre.cviLandParcelsList ||= {}
           layer.setStyle( fillOpacity: 0.3)
           selectedCviLandParcels.push id
           goToPolygonCenter(id) if selectedCviLandParcels.length == 1
-          params = selectedCviLandParcels.map (id) ->
-            "cvi_land_parcel_ids[]=#{id}"
-          .join('&')
-          $groupButton.attr(href: "/backend/cvi_land_parcels/group?#{params}")
         else
           layer.setStyle( fillOpacity: 0)
           index = selectedCviLandParcels.indexOf(id) 
           selectedCviLandParcels.splice(index, 1)
+        params = selectedCviLandParcels.map (id) ->
+            "cvi_land_parcel_ids[]=#{id}"
+          .join('&')
+        $groupButton.attr(href: "/backend/cvi_land_parcels/group?#{params}")
 
         if selectedCviLandParcels.length == 1
           $groupButton.hide()
