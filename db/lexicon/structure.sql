@@ -249,7 +249,7 @@ CREATE TABLE registered_phytosanitary_risks (
 );
 CREATE INDEX registered_phytosanitary_risks_product_id ON registered_phytosanitary_risks(product_id);
 
-CREATE TABLE registred_protected_designation_of_origins (
+CREATE TABLE registered_protected_designation_of_origins (
   ida integer NOT NULL,
   geographic_area character varying,
   fr_sign character varying,
@@ -258,7 +258,7 @@ CREATE TABLE registred_protected_designation_of_origins (
   product_human_name_fra character varying,
   reference_number character varying
 );
-CREATE INDEX registred_protected_designation_of_origins_ida ON registred_protected_designation_of_origins(ida);
+CREATE INDEX registered_protected_designation_of_origins_ida ON registered_protected_designation_of_origins(ida);
 
 CREATE TABLE registered_seeds (
   number integer PRIMARY KEY NOT NULL,

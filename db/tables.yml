@@ -1847,7 +1847,7 @@ cvi_cadastral_plants:
     references: cvi_statement
   designation_of_origin_id:
     type: integer
-    references: registred_protected_designation_of_origin
+    references: registered_protected_designation_of_origin
   id:
     type: integer
     required: true
@@ -7546,7 +7546,7 @@ registered_seeds:
   specie:
     type: string
     required: true
-registred_protected_designation_of_origins:
+registered_protected_designation_of_origins:
   eu_sign:
     type: string
   fr_sign:

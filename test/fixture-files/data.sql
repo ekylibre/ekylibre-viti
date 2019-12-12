@@ -147,7 +147,7 @@ ac6dc7ca57774d1b6d4cd6448b5e0414f9e941b1	ARVINE B	\N	Cépage	Oui	Raisins de cuve
 \.
 
 
-COPY "lexicon"."registred_protected_designation_of_origins" FROM stdin;
+COPY "lexicon"."registered_protected_designation_of_origins" FROM stdin;
 1645	-------	\N	IGP -	{"fra": "Pâté de Campagne Breton"}	Pâté de Campagne Breton	\N
 1645	-------	\N	STG -	{"fra": "Moules de bouchot"}	Moules de bouchot	STG7784
 1645	-------	LR - 	\N	{"fra": " Chapon fermier élevé en plein air, entier et découpes, frais ou surgelé"}	 Chapon fermier élevé en plein air, entier et découpes, frais ou surgelé	LA/14/88

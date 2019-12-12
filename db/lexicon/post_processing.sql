@@ -60,4 +60,4 @@ SELECT
 FROM cvi_cadastral_plants
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_cadastral_plants.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_cadastral_plants.rootstock_id = rootstocks.id
-LEFT JOIN lexicon.registred_protected_designation_of_origins AS designation_of_origins ON cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida
+LEFT JOIN lexicon.registered_protected_designation_of_origins AS designation_of_origins ON cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida
