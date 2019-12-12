@@ -66,7 +66,17 @@ module Ekylibre
 
     def import_cvi_cadastral_plants(h_cvi_statement)
       cvi_statement = CviStatement.find_by(cvi_number: h_cvi_statement[:cvi_number])
-      designation_of_origin = RegistredProtectedDesignationOfOrigin.find_by(product_human_name_fra: h_cvi_statement[:product])
+      product_name = h_cvi_statement[:product].to_s.lower
+      designation_of_origins = RegistredProtectedDesignationOfOrigin.where("unaccent(product_human_name_fra) ILIKE unaccent(?)", "%#{product_name}%")
+
+      if designation_of_origins.length > 1
+        designation_of_origin = designation_of_origins.min_by do |designation_of_origin| 
+          (designation_of_origin.product_human_name_fra.length - product_name.length).abs
+        end
+      else
+        designation_of_origin = designation_of_origins.first
+      end 
+
       unless designation_of_origin
         message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_designation_of_origin', value: h_cvi_statement[:product])
         w.error message
