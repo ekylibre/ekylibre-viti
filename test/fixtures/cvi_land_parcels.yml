@@ -4,9 +4,9 @@ one:
   name: MyString
   designation_of_origin_id: 1
   vine_variety_id: MyString
-  calculated_area_unit: MyString
+  calculated_area_unit: "hectare"
   calculated_area_value: 9.99
-  declared_area_unit: MyString
+  declared_area_unit: "hectare"
   declared_area_value: 9.99
   shape: 
   planting_campaign: MyString
@@ -23,9 +23,9 @@ two:
   name: MyString
   designation_of_origin_id: 1
   vine_variety_id: MyString
-  calculated_area_unit: MyString
+  calculated_area_unit: "hectare"
   calculated_area_value: 9.99
-  declared_area_unit: MyString
+  declared_area_unit: "hectare"
   declared_area_value: 9.99
   shape: 
   planting_campaign: MyString

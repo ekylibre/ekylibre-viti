@@ -439,6 +439,10 @@ Rails.application.routes.draw do
     end
 
     resources :cvi_land_parcels, only: %i[edit update] do
+      member do 
+        get :pre_split
+        post :split
+      end
       collection do
         post :group
       end

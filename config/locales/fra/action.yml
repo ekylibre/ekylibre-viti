@@ -2560,7 +2560,8 @@ fra:
     regressive_options: "Options de l'amortissement dégressif"
     regulated_reserves: "1064 - Réserves réglementées"
     regroup: "Regrouper"
-    separate: "Dissocier"
+    split: "Dissocier"
+    draw_the_cutting_line: "Dessinez le trait de découpe"
     rejected: "Refusé"
     related_people: "En lien avec" #?
     relationship: "Tiers"
@@ -3429,6 +3430,7 @@ fra:
       record_x_updated_f: "La %{record} %{name} a été mise à jour"
       can_not_group_cvi_land_parcels: "Les parcelles ne peuvent pas être regroupées car le cépage, le produit revendiqué, la densité, la campagne de plantation ou l’état diffère. Veuillez vérifier les valeurs avant de regrouper les parcelles."
       cvi_land_parcels_grouped: "Les parcelles ont été regroupées."
+      cvi_land_parcels_splitted:  "La parcelle a été dissociée."
       restoration_finished: "La restauration de la sauvegarde s’est terminée (en %{value} secondes)." #?
       sale_already_invoiced: "La vente a déjà été facturée: vous ne pouvez pas définir de livraison" #?
       sale_cannot_be_updated: "Le devis n’est plus modifiable." #?

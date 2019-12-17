@@ -33,6 +33,21 @@ module Backend
       end
     end
 
+    def pre_split
+      @cvi_land_parcel = CviLandParcel.find(params[:id])
+    end
+
+    def split
+      cvi_land_parcel = CviLandParcel.find(params[:id])
+      new_cvi_land_parcels_params = params[:new_cvi_land_parcels].values.map do |h|
+        h['shape'] = Charta.new_geometry(h['shape']).to_rgeo
+        h
+      end
+      SplitCviLandParcel.call(cvi_land_parcel: cvi_land_parcel, new_cvi_land_parcels_params: new_cvi_land_parcels_params)
+      notify_now(:cvi_land_parcels_splitted)
+      render 'update.js.erb'
+    end
+
     private
 
     def permitted_params

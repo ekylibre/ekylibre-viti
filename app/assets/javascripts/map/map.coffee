@@ -5,6 +5,8 @@
   E.Events.Map.ready = "ekylibre:map:events:ready"
   E.Events.Map.edit = {}
   E.Events.Map.edit.change = "ekylibre:map:events:edit:change"
+  E.Events.Map.split = {}
+  E.Events.Map.split.change = "ekylibre:map:events:split:change"
 
   class E.Map
     constructor: (@el, options = {})  ->
@@ -27,6 +29,9 @@
     initHooks: ->
       $(@_cartography.map).on Cartography.Events.edit.change, (e) ->
         $(document).trigger E.Events.Map.edit.change, e.originalEvent.data
+
+      $(@_cartography.map).on Cartography.Events.split.change, (e) ->
+          $(document).trigger E.Events.Map.split.change, e.originalEvent.data
 
     initControls: ->
       @removeControl('edit')
@@ -113,7 +118,7 @@
                 klass = 'blue'
 
             insertionMarker = () ->
-              if layer._map.getZoom() >= 16
+              if layer._map and layer._map.getZoom() >= 16 
                 positionLatLng = layer.getCenter()
                 centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
                 name = layer.feature.properties.name
@@ -129,7 +134,7 @@
                 layer._ghostMarker.addTo layer._map
                 
             style = { color: color, fillOpacity: 0, opacity: 1, fill: true }
-
+            
             insertionMarker()
             layer.setStyle(style)
             
@@ -161,6 +166,9 @@
 
     _cviLandParcelsPath: ->
       $(@el).data('cvi-land-parcels-path')
+
+    addControl: ->
+      @_cartography.addControl.apply @_cartography, arguments
 
     getZoom: ->
       @_cartography.map.getZoom()
