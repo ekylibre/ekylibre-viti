@@ -427,16 +427,35 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cvi_cultivable_zones, except: %i[show] do 
-      member do 
+    resources :cvi_cultivable_zones do
+      member do
         get :delete_modal
-        get :create_land_parcels
+        get :generate_cvi_land_parcels
+        get :confirm_cvi_land_parcels
+        get :edit_cvi_land_parcels
+        get :list_cvi_land_parcels
+        resources :cvi_land_parcels, only: %i[index]
+      end
+    end
+
+    resources :cvi_land_parcels, only: %i[edit update] do
+      member do 
+        get :pre_split
+        post :split
+      end
+      collection do
+        post :group
       end
     end
 
     resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' }
 
     resources :cadastral_land_parcel_zones, only: %i[index]
+
+    resources :registred_protected_designation_of_origins, concerns: %i[unroll]
+    resources :rootstocks, concerns: %i[unroll]
+    resources :vine_varieties, concerns: %i[unroll]
+
 
     resources :deliveries, concerns: %i[list unroll] do
       member do

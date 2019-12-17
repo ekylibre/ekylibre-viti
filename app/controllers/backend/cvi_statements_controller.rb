@@ -84,7 +84,7 @@ module Backend
       t.column :designation_of_origin_name
       t.column :vine_variety_name
       t.column :area_formatted
-      t.column :campaign
+      t.column :planting_campaign
       t.column :rootstock
       t.column :inter_vine_plant_distance_value
       t.column :inter_row_distance_value
@@ -99,7 +99,7 @@ module Backend
       t.column :designation_of_origin_name
       t.column :vine_variety_name
       t.column :area_formatted
-      t.column :campaign
+      t.column :planting_campaign
       t.column :rootstock
       t.column :inter_vine_plant_distance_value
       t.column :inter_row_distance_value

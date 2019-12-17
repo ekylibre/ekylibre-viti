@@ -3510,7 +3510,7 @@ arb:
       convert: "تحول"
       correct: "صحيح"
       create: "خلق"
-      # create_land_parcels: "Create land parcels"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "إنقاص" #?
       destroy: "هدم"
       detach: "فصل"

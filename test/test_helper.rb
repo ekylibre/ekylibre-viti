@@ -44,8 +44,6 @@ Ekylibre::Tenant.switch 'test_without_fixtures' do
                                                    'registered_postal_zones']
 end
 
-FactoryBot.find_definitions
-
 DatabaseCleaner.strategy = :transaction
 
 if RUBY_VERSION >= '2.6.0'
@@ -521,6 +519,18 @@ end
 def main
   TOPLEVEL_BINDING.eval('self')
 end
+
+module FFaker
+  module Shape
+    extend self
+
+    SHAPES = File.readlines(Rails.root.join('test','fixture-files',"shapes")).freeze
+
+    def multipolygon
+      Charta.new_geometry(SHAPES.sample).to_rgeo
+    end
+  end
+end 
 
 require 'pdf_printer'
 

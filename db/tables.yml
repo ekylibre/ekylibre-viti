@@ -876,6 +876,8 @@ attachments:
     type: integer
     references: user
 bank_statement_items:
+  accounted_at:
+    type: datetime
   bank_statement_id:
     type: integer
     references: bank_statement
@@ -904,6 +906,9 @@ bank_statement_items:
     required: true
   initiated_on:
     type: date
+  journal_entry_id:
+    type: integer
+    references: journal_entry
   letter:
     type: string
   lock_version:
@@ -1416,6 +1421,9 @@ cashes:
     required: true
   custom_fields:
     type: jsonb
+  enable_bookkeep_bank_item_details:
+    type: boolean
+    default: false
   iban:
     type: string
   id:
@@ -1833,12 +1841,6 @@ cvi_cadastral_plants:
     type: decimal
     precision: 19
     scale: 4
-  campaign:
-    type: string
-    required: true
-  commune:
-    type: string
-    required: true
   created_at:
     type: datetime
     required: true
@@ -1853,9 +1855,6 @@ cvi_cadastral_plants:
     references: registred_protected_designation_of_origin
   id:
     type: integer
-    required: true
-  insee_number:
-    type: string
     required: true
   inter_row_distance_unit:
     type: string
@@ -1873,8 +1872,9 @@ cvi_cadastral_plants:
     type: string
   land_parcel_number:
     type: string
-  locality:
+  planting_campaign:
     type: string
+    required: true
   rootstock_id:
     type: string
   section:
@@ -1894,16 +1894,12 @@ cvi_cadastral_plants:
     type: string
     required: true
 cvi_cultivable_zones:
-  cadastral_references:
-    type: string
   calculated_area_unit:
     type: string
   calculated_area_value:
     type: decimal
     precision: 19
     scale: 4
-  communes:
-    type: string
   created_at:
     type: datetime
     required: true
@@ -1916,10 +1912,6 @@ cvi_cultivable_zones:
     type: decimal
     precision: 19
     scale: 4
-  formatted_calculated_area:
-    type: string
-  formatted_declared_area:
-    type: string
   id:
     type: integer
     required: true
@@ -1937,6 +1929,64 @@ cvi_cultivable_zones:
   updated_at:
     type: datetime
     required: true
+cvi_land_parcels:
+  calculated_area_unit:
+    type: string
+  calculated_area_value:
+    type: decimal
+    precision: 19
+    scale: 5
+  created_at:
+    type: datetime
+    required: true
+  cvi_cultivable_zone_id:
+    type: integer
+    references: cvi_cultivable_zone
+  declared_area_unit:
+    type: string
+  declared_area_value:
+    type: decimal
+    precision: 19
+    scale: 5
+  designation_of_origin_id:
+    type: integer
+    references: registred_protected_designation_of_origin
+  id:
+    type: integer
+    required: true
+  inter_row_distance_unit:
+    type: string
+  inter_row_distance_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  inter_vine_plant_distance_unit:
+    type: string
+  inter_vine_plant_distance_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  name:
+    type: string
+    required: true
+  planting_campaign:
+    type: string
+  removed_at:
+    type: date
+  rootstock_id:
+    type: string
+  shape:
+    type: geometry
+    limit:
+      srid: 4326
+      type: geometry
+  state:
+    type: string
+  updated_at:
+    type: datetime
+    required: true
+  vine_variety_id:
+    type: string
 cvi_statements:
   cadastral_plant_count:
     type: integer
@@ -4535,6 +4585,25 @@ labels:
   updater_id:
     type: integer
     references: user
+land_parcel_rootstocks:
+  created_at:
+    type: datetime
+    required: true
+  id:
+    type: integer
+    required: true
+  land_parcel_id:
+    type: integer
+    references: "~land_parcel_type"
+  land_parcel_type:
+    type: string
+  percentage:
+    type: decimal
+  rootstock_id:
+    type: string
+  updated_at:
+    type: datetime
+    required: true
 listing_node_items:
   created_at:
     type: datetime
@@ -4837,6 +4906,25 @@ loans:
     references: user
   use_bank_guarantee:
     type: boolean
+locations:
+  created_at:
+    type: datetime
+    required: true
+  id:
+    type: integer
+    required: true
+  insee_number:
+    type: string
+  locality:
+    type: string
+  localizable_id:
+    type: integer
+    references: "~localizable_type"
+  localizable_type:
+    type: string
+  updated_at:
+    type: datetime
+    required: true
 manure_management_plan_zones:
   absorbed_nitrogen_at_opening:
     type: decimal
@@ -7322,22 +7410,6 @@ registered_building_zones:
       srid: 4326
       type: multi_polygon
     required: true
-registered_chart_of_accounts:
-  account_number:
-    type: string
-    required: true
-  chart_id:
-    type: string
-    required: true
-  id:
-    type: string
-    required: true
-  name:
-    type: jsonb
-  previous_reference_name:
-    type: string
-  reference_name:
-    type: string
 registered_crop_zones:
   centroid:
     type: geometry
@@ -7372,33 +7444,6 @@ registered_enterprises:
     type: string
   postal_code:
     type: string
-registered_hydro_items:
-  id:
-    type: string
-    required: true
-  lines:
-    type: geometry
-    limit:
-      srid: 4326
-      type: multi_line_string
-      has_z: true
-      has_m: true
-  name:
-    type: jsonb
-  nature:
-    type: string
-  point:
-    type: geometry
-    limit:
-      srid: 4326
-      type: st_point
-  shape:
-    type: geometry
-    limit:
-      srid: 4326
-      type: multi_polygon
-      has_z: true
-      has_m: true
 registered_legal_positions:
   code:
     type: string
@@ -7592,6 +7637,24 @@ registered_seeds:
     required: true
   specie:
     type: string
+    required: true
+registered_water_lakes:
+  name:
+    type: string
+  shape:
+    type: geometry
+    limit:
+      srid: 4326
+      type: st_polygon
+    required: true
+registered_water_rivers:
+  name:
+    type: string
+  shape:
+    type: geometry
+    limit:
+      srid: 4326
+      type: line_string
     required: true
 registred_protected_designation_of_origins:
   eu_sign:

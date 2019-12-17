@@ -2737,7 +2737,7 @@ por:
       convert: "Converter"
       correct: "Corrigir"
       create: "Crio"
-      # create_land_parcels: "Create land parcels"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "Diminuição" #?
       destroy: "Destruir"
       detach: "Separar"

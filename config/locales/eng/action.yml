@@ -207,9 +207,10 @@ eng:
       # edit: "Edit cvi cadastral plant: %{name}"
       # index: "Cvi cadastral plants"
     backend/cvi_cultivable_zones:
-      # create_land_parcels: "Create land parcels cvi cultivable zone: %{name}"
+      # generate_cvi_land_parcels: "Create land parcels cvi cultivable zone: %{name}"
       # edit: "Edit cvi cultivable zone: %{name}"
       # index: "Cvi cultivable zones"
+      show: "Cvi cultivable zone: %{name}"
     backend/cvi_statement_conversions:
       show: "Convert CVI into land parcels"
     backend/cvi_statements:
@@ -1200,9 +1201,14 @@ eng:
       cadastral_land_parcel_zones: 'Cadastral land parcels'
     levels:
       error: "Error!"
+    enumerize:
+      cvi_cultivable_zone:
+        land_parcels_status:
+          not_created: "Not created"
     messages:
       unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
   labels:
+    rootstock: "Rootstock"
     accepted: "Accepted"
     accepted_for_paiment: "Accepted for paiment"
     access: "Access"
@@ -1597,6 +1603,7 @@ eng:
     cvi_cadastral_plants: "Cvi cadastral plants"
     cvi_cadastral_plants_map: "Cvi cadastral plants"
     cvi_cultivable_zones: "Cvi cultivable zones"
+    cvi_land_parcels: "CVI land parcels"
     # data: "Data"
     # data_transmissions: "Data transmissions"
     # date: "Date"
@@ -2407,6 +2414,9 @@ eng:
     register_intervention_request: "Register intervention request" #?!
     regressive_options: "Regressive options"
     regulated_reserves: "1064 - Tax-regulated reserves"
+    regroup: "Group"
+    split: "Split"
+    draw_the_cutting_line: "Draw the cutting line"
     rejected: "Rejected" #?
     relationship: "Relationship"
     relationship_of_entity: "%{relationship} of %{entity}"
@@ -3061,6 +3071,9 @@ eng:
       record_x_created: "%{record} %{name} created" #?
       record_x_updated: "%{record} %{name} updated" #?
       record_x_updated_f: "%{record} %{name} updated" #?
+      can_not_group_cvi_land_parcels: "CVI land parcels can't be grouped, because vine variety, designation of origin, inter vine plant distance, inter row distance, tree-planting campaign date or state is different. Please check these values before retrying."
+      cvi_land_parcels_grouped: "Land parcels have been grouped."
+      cvi_land_parcels_splitted: "Land parcels have been splitted."
       sale_is_not_duplicatable: "Sale is not duplicatable"
       # saved_but_couldnt_letter_x_and_y: "Saved but couldnt letter x and y"
       select_entry_items_to_mark_together: "Select entry items to mark together"
@@ -3163,7 +3176,8 @@ eng:
       # count: "Count"
       create: "Create"
       # create_duplicate_intervention: "Create duplicate intervention"
-      create_land_parcels: "Create land parcels"
+      generate_cvi_land_parcels: "Create land parcels"
+      edit_cvi_land_parcels: "Edit land parcels"
       # csv: "Csv"
       # currency_state: "Currency state"
       # current: "Current"

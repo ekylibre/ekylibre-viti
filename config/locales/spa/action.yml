@@ -3024,7 +3024,7 @@ spa:
       convert: "Convertir"
       correct: "Correcto"
       create: "Crear"
-      # create_land_parcels: "Create land parcels"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "Decremento" #?
       destroy: "Destruir"
       detach: "Despegar"

@@ -494,3 +494,14 @@ td.with-details {
     }
   }
 }
+
+.fieldset.multi-columns{
+  div.fieldset-fields{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  div.control-group{
+    min-width:500px;
+  }
+}

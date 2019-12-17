@@ -1,0 +1,31 @@
+
+- current_year = Time.current.year
+- if resource.state == :planted
+  = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns") do
+    = f.input :name
+    = f.referenced_association :designation_of_origin, new: false, label: CviLandParcel.human_attribute_name(:product_name)
+    = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
+    = f.simple_fields_for :land_parcel_rootstocks do |ff|
+      - index = ff.options[:child_index] + 1 
+      = ff.referenced_association :rootstock, new: false, label: "#{:rootstock.tl} #{index}" 
+    = f.input :planting_campaign, as: :select, collection: (1900..(current_year+1)).to_a.map(&:to_s)
+    = f.input :state, include_blank: false
+    = f.input :inter_row_distance_value,field: :number,input_html: {value: resource.inter_row_distance_value&.to_i }
+    = f.input :inter_vine_plant_distance_value, field: :number,input_html: {value: resource.inter_vine_plant_distance_value&.to_i }
+    = f.input :area, label: :calculated_area.tl, input_html: {value: resource.calculated_area.to_s(:ha_a_ca)}, disabled: true
+    = f.hidden_field :shape
+- else
+  = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns" ) do
+    = f.input :name
+    = f.referenced_association :designation_of_origin, new: false, label: CviLandParcel.human_attribute_name(:designation_of_origin)
+    = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
+    = f.simple_fields_for :land_parcel_rootstocks do |ff|
+      - index = ff.options[:child_index] + 1 
+      = ff.referenced_association :rootstock, new: false, label: "#{:rootstock.tl} #{index}" 
+    = f.input :planting_campaign, as: :select, collection: (1900..(current_year+1)).to_a.map(&:to_s)
+    = f.input :state,include_blank: false
+    = f.input :removed_at
+    = f.input :inter_row_distance_value,field: :number,input_html: {value: resource.inter_row_distance_value&.to_i }
+    = f.input :inter_vine_plant_distance_value, field: :number,input_html: {value: resource.inter_vine_plant_distance_value&.to_i }
+    = f.input :area, label: :calculated_area.tl, input_html: {value: resource.calculated_area.to_s(:ha_a_ca)}, disabled: true
+    = f.hidden_field :shape

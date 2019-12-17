@@ -87,16 +87,10 @@ eng:
       cvi_cadastral_plant:
         area: "Area"
         cadastral_reference: "Cadastral reference"
-        commune: "Commune"
-        designation_of_origin_name: "Protected designation of origin"
-        inter_row_distance: "Inter row distance"
-        inter_vine_plant_distance: "Inter vine plant distance"
         land_parcel_id: "Cadastral reference id"
         work_number: "Cadastral land parcel number" 
-        locality: "locality"
         rootstock_number: "Rootstock"
         state: "State"
-        vine_variety_name: "Variety of vine"
       cvi_statement:
         cadastral_plant_count: "Cadastral plant count"
         cadastral_sub_plant_count: "Cadastral sub plant count"
@@ -106,6 +100,8 @@ eng:
         farm_name: "Wine estate"
         state: "State"
         total_area: "Total area"
+      cvi_land_parcel:
+        removed_at: "Removed at"
       document:
         filename: "File"
       document_template:
@@ -262,7 +258,8 @@ eng:
       custom_field: "Custom field"
       custom_field_choice: "Custom field choice"
       cvi_cadastral_plant: "CVI cadastral plant"
-      # cvi_cultivable_zone: "Cvi cultivable zone"
+      cvi_cultivable_zone: "Cvi cultivable zone"
+      cvi_land_parcel: "Cvi land parcel"
       cvi_statement: "CVI statement"
       dashboard: "Dashboard"
       debt_transfer: "Debt transfer"
@@ -356,6 +353,7 @@ eng:
       payslip_nature: "Payslip type"
       payslip_payment: "Payslip payment"
       plant: "Plant"
+      planting_campaign: "Tree-planting campaign"
       plant_counting: "Plant counting"
       plant_counting_item: "Plant counting item"
       plant_density_abacus: "Plant density abacus"
@@ -439,6 +437,10 @@ eng:
       worker: "Worker"
       zone: "Zone"
   attributes:
+    designation_of_origin_name: "Protected designation of origin"
+    inter_row_distance: "Inter row distance"
+    inter_vine_plant_distance: "Inter vine plant distance"
+    vine_variety_name: "Variety of vine"
     abilities_list: "Abilities list"
     absolute_credit: "Absolute credit"
     absolute_currency: "Absolute currency"
@@ -658,7 +660,7 @@ eng:
     commission_percentage: "Commission percentage"
     commissioned_incoming_payment_modes: "Commissioned incoming payment modes"
     commune: "Commune"
-    # communes: "Communes"
+    communes: "Communes"
     company_creation_date: "Company creation date" #?
     company_name: "Company name" #?
     # complete_name: "Complete name"
@@ -1181,6 +1183,7 @@ eng:
     local_credit: "Local credit"
     local_debit: "Local debit"
     locality: "Locality"
+    localities: "Localities"
     localizations: "Localizations"
     lock_version: "Version"
     locked: "Locked"
@@ -1596,6 +1599,7 @@ eng:
     root_node: "Root node"
     root_parameters: "Root parameters"
     rootstock: "Rootstock"
+    rootstock: "Rootstock(s)"
     rows_count_value: "Rows count"
     sale: "Sale"
     sale_credit: "Sale credit"

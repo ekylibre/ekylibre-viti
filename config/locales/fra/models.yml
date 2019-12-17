@@ -113,16 +113,12 @@ fra:
       cvi_cadastral_plant:
         area: "Superficie déclarée"
         cadastral_reference: "référence cadastrale"
-        commune: "Commune"
         work_number: "Numéro de la parcelle cadastrale"
-        designation_of_origin_name: "Produit"
         inter_row_distance: "Inter rang"
         inter_vine_plant_distance: "Inter pied"
         land_parcel_id: "Ref. cadastrale id"
-        locality: "Lieu-dit"
         rootstock_number: "Porte-greffe"
         state: "Etat"
-        vine_variety_name: "Cépage"
       cvi_statement:
         cadastral_plant_count: "Nombre de cultures cadastrales"
         cadastral_sub_plant_count: "Nombre de sous-cultures cadastrales"
@@ -132,6 +128,8 @@ fra:
         farm_name: "Nom du domaine"
         state: "Statut"
         total_area: "Superficie encépagée déclarée"
+      cvi_land_parcel:
+        removed_at: "Date d’arrachage"
       document:
         filename: "Fichier"
       document_archive: #?
@@ -176,14 +174,8 @@ fra:
         area_formatted: "Superficie déclarée" #?
         cadastral_reference: "Ref. cadastrale" #?
         commune: "Commune" #?
-        designation_of_origin_name: "Produit" #?
-        inter_row_distance_value: "Inter rang (cm)" #?
-        inter_vine_plant_distance_value: "Inter pied (cm)" #?
         land_parcel_id: "Ref. cadastrale id" #?
-        locality: "Lieu-dit" #?
-        rootstock: "Porte-greffe" #?
         state: "Etat" #?
-        vine_variety_name: "Cépage" #?
       incoming_payment: #?
         to_bank_at: "À encaisser le" #?
       inspection: #?
@@ -644,8 +636,10 @@ fra:
       cultivable_zone: "Zone cultivable"
       custom_field: "Champ complémentaire"
       custom_field_choice: "Choix de champ complémentaire"
-      # cvi_cadastral_plant: "CVI cadastral plant"
+      cvi_cadastral_plant: "CVI cadastral plant"
       cvi_statement: "Casier Viticole Informatisé"
+      cvi_cultivable_zone: "Zone cultivable"
+      cvi_land_parcel: "Parcelle"
       dashboard: "Tableau de bord"
       debt_transfer: "Transfert de dettes"
       delivery: "Livraison"
@@ -828,6 +822,12 @@ fra:
       worker: "Équipier"
       zone: "Zone"
   attributes:
+    designation_of_origin_name: "Produit" #?
+    inter_row_distance_value: "Inter rang (cm)" #?
+    inter_vine_plant_distance_value: "Inter pied (cm)" #?
+    rootstock: "Porte-greffe" #?
+    rootstocks: "Porte-greffe(s)"
+    vine_variety_name: "Cépage" #?
     abilities: "Compétences" #?
     abilities_list: "Liste des compétences"
     absolute_credit: "Crédit (absolu)"
@@ -1048,7 +1048,8 @@ fra:
     commission_base_amount: "Montant fixe de la commission"
     commission_percentage: "Pourcentage de commission"
     commissioned_incoming_payment_modes: "Modes d’encaissement avec commission"
-    # commune: "Commune"
+    commune: "Commune"
+    communes: "Commune(s)"
     company_creation_date: "Date de création de l'entreprise"
     company_name: "Nom de l'entreprise"
     component: "Composant"
@@ -1192,7 +1193,6 @@ fra:
     derivative_of: "Dérivé de"
     derivatives_list: "Liste des dérivés"
     description: "Description"
-    # designation_of_origin_name: "Designation of origin name"
     detail_payments: "Détailler les paiements"
     device_uid: "ID unique de l’appareil"
     diff_less: "Droits enlevés" #?
@@ -1571,7 +1571,8 @@ fra:
     local_count: "Population"
     local_credit: "Crédit"
     local_debit: "Débit"
-    # locality: "Locality"
+    locality: "Lieu-dit"
+    localities: "Lieu-dit(s)"
     localizations: "Localisations"
     lock_version: "Version"
     locked: "Verrouillé"
@@ -1772,6 +1773,7 @@ fra:
     planned_depreciations: "Amortissements prévus"
     planned_on: "Prévu sur"
     plant: "Plante"
+    planting_campaign: "Campagne de plantation"
     plant_counting: "Comptage"
     plant_countings: "Comptages"
     plant_density_abaci: "Abaques de densité de plant"
@@ -2000,7 +2002,6 @@ fra:
     root_model_name: "Racine"
     root_node: "Nœud racine"
     root_parameters: "Paramètres Root"
-    # rootstock: "Rootstock"
     rows_count_value: "Nombre de rangs"
     sale: "Vente"
     sale_credit: "Avoir"

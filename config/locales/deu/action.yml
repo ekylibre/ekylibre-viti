@@ -2732,7 +2732,7 @@ deu:
       convert: "Konvertieren"
       correct: "Korrekt"
       create: "Erstellen"
-      # create_land_parcels: "Create land parcels"
+      # generate_cvi_land_parcels: "Create land parcels"
       destroy: "Zerstören"
       detach: "ablösen"
       # detail: "Detail"
