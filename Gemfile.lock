@@ -1,4 +1,11 @@
 GIT
+  remote: https://gitlab.com/ekylibre/cartography.git
+  revision: 60ccb3d489ab52851c6d2df6898e2a6c5cb85ce3
+  branch: ekyviti
+  specs:
+    cartography (0.0.1)
+
+GIT
   remote: https://gitlab.com/ekylibre/eky-possibly.git
   revision: 63d45ace446741560cc5cebf56ec6c2ad5bbae08
   branch: prod
@@ -13,11 +20,6 @@ GIT
     odf-report (0.6.0)
       nokogiri (>= 1.5.0)
       rubyzip (~> 1.2.0)
-
-PATH
-  remote: ../cartography
-  specs:
-    cartography (0.0.1)
 
 GEM
   remote: https://rubygems.org/
