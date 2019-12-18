@@ -1,12 +1,15 @@
-.land-parcels-not-created {
-  font-weight: bolder;
-  color: #c91c07;
+tr.not_created {
+  td.c7{
+    font-weight: bolder;
+    color: #c91c07;
+  }
 }
 
-
-.land-parcels-created {
-  font-weight: bolder;
-  color: #7BA651;
+tr.created {
+  td.c7{
+    font-weight: bolder;
+    color: #7BA651;
+  }
 }
 
 
@@ -24,4 +27,11 @@
   td{
     background-color: #ededed;
   }
+}
+
+.disabled-link {
+  pointer-events: none;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+  opacity: 0.80;
+  background-color: #ededed;
 }

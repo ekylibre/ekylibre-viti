@@ -1,4 +1,4 @@
-$("*[data-list-change-page-size].check").click()
+ekylibre.list.render()
 
 map = ekylibre.map._cartography.map
 currentBounds = map.getBounds()

@@ -1,4 +1,0 @@
-= field_set( tl(:edit) + ' ' + resource.name ) do
-  %span.help-inline
-    = f.object.errors.full_messages_for(:land_parcel).join if f.object.errors.count == 1 && f.object.errors.has_key?(:land_parcel)
-  = f.input :name

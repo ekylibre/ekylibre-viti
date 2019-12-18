@@ -1,11 +1,5 @@
-const $cvi_cultivable_zone = $("#r<%=params[:id]%>");
+
 const form =
-  "<tr class='edit-form'><td colspan='13'><%= j render(template:'/backend/cvi_cultivable_zones/form_wrapper') %></td></tr>";
-
-if ($cvi_cultivable_zone.next("tr.edit-form").length === 0) {
-  $cvi_cultivable_zone.after(form);
-} else {
-  $("tr.edit-form").replaceWith(form);
-}
-
-$('tr').not('.edit-form').not($('.edit-form').prev('tr')).toggleClass("disabled-row")
+  "<tr class='edit-form'><td colspan='13'><%= j render(template:'/backend/cvi_cultivable_zones/form') %></td></tr>";
+ekylibre.list.addForm(form,<%=params[:id]%>)
+ekylibre.list.disable()
