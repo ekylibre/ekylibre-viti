@@ -87,6 +87,10 @@ class CviCadastralPlant < Ekylibre::Record::Base
   before_validation :set_commune, on: :update, if: :insee_number_changed_and_exist?
   before_validation :set_land_parcel_id, on: :update, if: :cadastral_reference_changed?
 
+  def updated?
+    created_at != updated_at
+  end
+  
   private
 
   # Check if insee number has changed and if it match a registered postal zone record in lexicon
