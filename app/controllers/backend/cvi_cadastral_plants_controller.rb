@@ -19,5 +19,7 @@ module Backend
         render action: :edit
       end
     end
+
+    def delete_modal; end
   end
 end

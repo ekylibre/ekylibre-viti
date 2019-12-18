@@ -9,7 +9,11 @@
     = tool_to(:convert_cvi.tl, 'javascript:void(0)', class:'select-campaign', icon: :gear, data:{cvi_statement: params[:id]})
 
 = render partial: 'campaign_selection_modal', locals: { cvi_statement: resource }
-
+= modal(id: "delete-modal", class:'vertical-center', size: :medium) do
+  .modal-header
+  .modal-body
+  .modal-footer
+  
 = janus do |j|
   - j.face :list do
     = cobbles do |c|

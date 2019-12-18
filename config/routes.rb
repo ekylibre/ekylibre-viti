@@ -448,7 +448,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' }
+    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' } do
+      member do
+        get :delete_modal
+      end
+    end
 
     resources :cadastral_land_parcel_zones, only: %i[index]
 
