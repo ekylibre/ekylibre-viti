@@ -14,34 +14,16 @@
     E.map.centerLayer(id, true, "cvi_cadastral_plants")
 
   $(document).ready ->
-    formatRow()
     manageErrorMessage()
 
   $(document).on 'list:page:change', ->
-    formatRow()
     manageErrorMessage()
     # Used to rebind activelist items on page changing
     addClickEventToIds()
 
-  formatRow = ->
-    $('[id^=cvi_cadastral_plants] tr').each ->
-      $tr = $(this)
-      if $tr.attr('id')
-        land_parcel_id = $tr.children( ".c0" ).text()
-
-      if land_parcel_id == ""
-        $tr.children().addClass('invalid-row')
-      else
-        if $tr.closest("[id^=cvi_cadastral_plants]").attr('id') == "cvi_cadastral_plants_map-list"
-          $tr.children( ".c3" ).html("<a href='#' >#{$tr.children( ".c3" ).html()} </a>")
-
   manageErrorMessage = ->
-    $('[id^=cvi_cadastral_plants] tr').each ->
-      if $(this).attr('id')
-        land_parcel_id = $(this).children( ".c0" ).text()
-
-      if land_parcel_id == "" and $('#error').children().length == 0
-        $('#error').append(errorMessage)
+    if $("tr.invalid").length > 0 and $('#error').children().length == 0
+      $('#error').append(errorMessage)
 
   errorMessage =
     "<div class='flash error' data-alert=''>
