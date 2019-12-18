@@ -1077,6 +1077,13 @@ eng:
         one: "%{count} error prohibited this %{model} from being saved"
         other: "%{count} errors prohibited this %{model} from being saved"
   front-end:
+    templates:
+      form:
+        land_parcel: "Land parcel"
+        name: "Name"
+        vine_variety_name: "Variety of vine"
+        calculated_area: "Calculated area"
+        required: "required"
     bank_reconciliation:
       remove: "Remove"
     leaflet:

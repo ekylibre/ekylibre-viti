@@ -874,6 +874,13 @@ fra:
         one: "%{count} erreur a empêché l’enregistrement (%{model})"
         other: "%{count} erreurs ont empêché l’enregistrement (%{model})"
   front-end:
+    templates:
+      form:
+        land_parcel: "Parcelle"
+        name: "Nom"
+        vine_variety_name: "Cépage"
+        calculated_area: "Superficie calculée"
+        required: "Obligatoire"
     bank_reconciliation:
       remove: "Effacer"
     leaflet:
