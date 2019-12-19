@@ -1064,6 +1064,7 @@ eng:
       too_short: "%{attribute} is too short (minimum is %{count} characters)"
       unitary_in_parcel: "Unitary items can only be sent one by one"
       wrong_length: "%{attribute} is the wrong length (should be %{count} characters)"
+      invalid_population_for_unitary_product: "The equipment %{name} cannot have a population of %{population} as it is supposed to be unique."
     template:
       body: "There were problems with the following fields:"
       header:
@@ -1699,7 +1700,7 @@ eng:
     emissions_and_reevaluation_gaps: "Emissions and reevaluation gaps" #?
     employee_and_wages: "Employee and wages" #?!
     employee_informations: "Employee informations"
-    employee_involvement: "Employee involvement" #?
+    employee_involvement: "Employee involvement in results (VII)" #?
     end: "to" #?
     entities: "Entities"
     entities_advance_charges: "entities_advance_charges" #?
@@ -1792,6 +1793,7 @@ eng:
     # extract_non_letter_odt: "Extract non letter odt"
     # extract_non_letter_pdf: "Extract non letter pdf"
     extract_unlettered_account_x: "Extract unlettered account %{account_number}"
+    extraordinary_income: "Extraordinary income"
     fees: "Fees" #?
     field: "Field %{counter}" #?
     field_distribution: "Field distribution"
@@ -1819,6 +1821,7 @@ eng:
     financial_positive_change: "Financial positive change" #?
     financial_products: "Financial products" #?
     financial_result: "Financial result" #?
+    financial_result_iii_iv: "Financial result (III - IV)"
     financial_year: "Financial year"
     financial_year_close_message: "<p> The close will definitively validate all entries of the financial year, which may not be modified or deleted. It will not be possible to add new ones too. </p>"
     financial_year_closing: "Financial year closure in progress"
@@ -2187,9 +2190,12 @@ eng:
     open_a_production: "Open a production"
     open_an_activity: "Open an activity"
     open_financial_year: "Open %{code}"
+    operating_costs: "Operating costs"
     operating_margin: "Operating margin %{financial_year}"
     operating_margin_on_turnover: "Operating margin on turnover %{financial_year}" #?
     operating_profit: "Operating profit %{financial_year}" #?!
+    operating_result_i_ii: "Operating result (I - II)"
+    operating_revenues: "Operating revenues"
     operations: "Operations" #?
     options: "Options"
     or: "Or"
@@ -2328,7 +2334,7 @@ eng:
     profit_and_loss: "Profit and loss"
     profit_is_x_for_account: "<span class='profit'> Profit of %{x} </span> to account for the account %{account_number}"
     profit_or_loss: "Fiscal year result"
-    profit_taxe: "Profit taxe" #?
+    profit_taxe: "Profit taxe (VIII)" #?
     profits: "Profits" #?
     profits_and_losses: "Profits and losses"
     progress_bar_current_step: "Step %{current}/%{total} : %{label}..." #?
@@ -3222,6 +3228,8 @@ eng:
       pick: "Pick"
       picture: "Picture"
       prepare: "Prepare"
+      print: "Print"
+      print_worker_register: "Print worker register"
       # progress: "Progress"
       propose: "Propose"
       propose_and_invoice: "Propose and invoice"
