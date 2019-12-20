@@ -7,5 +7,9 @@ class CreateLandParcelRootstocks < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    reversible do |dir|
+      dir.down { execute('DROP VIEW IF EXISTS formatted_cvi_land_parcels') }
+    end
   end
 end

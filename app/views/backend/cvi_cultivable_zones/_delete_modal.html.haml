@@ -1,4 +1,3 @@
-
 .modal-header.colored-background
   %span.modal-title.h4= :delete_cvi_cutlivable_zone_header.tl
 .modal-body
@@ -6,4 +5,4 @@
     = :delete_cvi_cutlivable_zone_body.tl.html_safe
 .modal-footer
   = link_to :cancel.tl, '#', class: 'btn btn-default',data: { dismiss: 'modal' }
-  = link_to :confirm.tl, backend_cvi_cultivable_zone_path(cvi_cultivable_zone_id, redirect: params[:redirect]), class: 'btn btn-primary', method: :delete 
+  = link_to :confirm.tl, backend_cvi_cultivable_zone_path(cvi_cultivable_zone_id, redirect: params[:redirect]), class: 'btn btn-primary', method: :delete, remote:true

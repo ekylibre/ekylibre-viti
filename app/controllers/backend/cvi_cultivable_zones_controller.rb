@@ -1,5 +1,5 @@
 module Backend
-  class CviCultivableZonesController < Backend::BaseController
+  class CviCultivableZonesController < Backend::CviBaseController
     manage_restfully only: %i[edit destroy show]
 
     def index
@@ -12,11 +12,12 @@ module Backend
     def update
       return unless @cvi_cultivable_zone = find_and_check(:cvi_cultivable_zone)
 
-      t3e(@cvi_cultivable_zone.attributes)
       @cvi_cultivable_zone.attributes = permitted_params
-      return if save_and_redirect(@cvi_cultivable_zone)
-
-      render action: :edit
+      if @cvi_cultivable_zone.save
+        notify_success(:record_x_updated, record: @cvi_cultivable_zone.model_name.human, column: @cvi_cultivable_zone.human_attribute_name(:name), name: @cvi_cultivable_zone.send(:name))
+      else
+        render action: :edit
+      end
     end
 
     def delete_modal; end
@@ -77,25 +78,6 @@ module Backend
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
       cvi_cultivable_zone.update(land_parcels_status: :not_created) if cvi_cultivable_zone.land_parcels_status == :created
       redirect_to backend_cvi_cultivable_zone_path(cvi_cultivable_zone)
-    end
-
-    private
-
-    def save_and_redirect(record, options = {})
-      record.attributes = options[:attributes] if options[:attributes]
-      ActiveRecord::Base.transaction do
-        can_be_saved = record.new_record? ? record.createable? : record.updateable?
-
-        if record.updateable? && (options[:saved] || record.save)
-          response.headers['X-Return-Code'] = 'success'
-          return true
-        else
-          raise ActiveRecord::Rollback
-        end
-      end
-      notify_error_now :record_cannot_be_saved.tl
-      response.headers['X-Return-Code'] = 'invalid'
-      false
     end
   end
 end
