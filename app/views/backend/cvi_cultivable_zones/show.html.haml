@@ -1,6 +1,6 @@
 = janus do |j|
   - j.face :map do
-    = cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
+    = cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
                             class: 'map-fullwidth map-halfheight',
                             data: {cvi_land_parcels_path:  backend_cvi_land_parcels_path(id: params[:id]) }) do |c|
       - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()

@@ -36,9 +36,9 @@
     initControls: ->
       @removeControl('edit')
       editLayer = @_cartography.getOverlay('edition')
-      layersControl =  this._cartography.controls.get('layers').getControl()
+      layersControl =   @_cartography.controls.get('layers').getControl()
       layersControl.removeLayer(editLayer)
-      @_cartography.controls.get('layers').getControl().addTo(this._cartography.getMap())
+      @_cartography.controls.get('layers').getControl().addTo(@_cartography.getMap())
 
     onSync: =>
       if arguments[arguments.length-1].constructor.name is 'Function'
@@ -176,6 +176,12 @@
     boundingBox: ->
       @_cartography.map.getBounds().toBBoxString()
 
+    getBounds: ->
+      @_cartography.map.getBounds()
+    
+    fitBounds: (bounds) ->
+      @_cartography.map.fitBounds(bounds)
+
     edit: ->
       @_cartography.edit.apply @_cartography, arguments
 
@@ -299,18 +305,21 @@
         complete: () =>
 
   $.loadMap = ->
-    return unless $("*[data-cartography]").length
-    $el = $("*[data-cartography]").first()
-    # mapAlreadyInitialized = $("*[data-cartography]").data('map-id') is null or $("*[data-cartography]").data('map-id')?
-    # return if mapAlreadyInitialized
-    opts = $el.data("cartography")
-
-    opts.bounds = bounds if bounds = localStorage.getItem("bounds")
+    return unless $("*[data-cvi-cartography]").length
+    $el = $("*[data-cvi-cartography]").first()
+    opts = $el.data("cvi-cartography")
     E.map = new E.Map($el[0], opts)
+
+  $.reloadMap = (keepBounds = true ) ->
+    map = E.map
+    currentBounds = map.getBounds() if keepBounds
+    $(map.el.children).remove()
+    $.loadMap()
+    E.map.fitBounds(currentBounds) if keepBounds
 
   $(document).ready $.loadMap
 
-  $(document).on E.Events.Map.ready, "*[data-cartography]", (e) ->
+  $(document).on E.Events.Map.ready, "*[data-cvi-cartography]", (e) ->
     $(e.target).css('visibility', 'visible')
 
   $(document).on E.Events.Map.ready, ->
