@@ -74,7 +74,8 @@ module Backend
       t.column :state
     end
 
-    list(:cvi_cadastral_plants, order: 'land_parcel_id DESC', model: :formatted_cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions) do |t|
+    list(:cvi_cadastral_plants, order: 'land_parcel_id DESC', model: :formatted_cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions, 
+    line_class: "('invalid' unless RECORD.land_parcel_id) || ('edited' if RECORD.created_at != RECORD.updated_at)".c) do |t|
       t.column :land_parcel_id, hidden: true
       t.action :edit, url: { controller: 'cvi_cadastral_plants',action: 'edit', remote: true }
       t.action :destroy, url: { controller: 'cvi_cadastral_plants', action: 'destroy' }
@@ -91,7 +92,8 @@ module Backend
       t.column :state
     end
 
-    list(:cvi_cadastral_plants_map, order: 'land_parcel_id DESC', model: :formatted_cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions) do |t|
+    list(:cvi_cadastral_plants_map, order: 'land_parcel_id DESC', model: :formatted_cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions,
+    line_class: "('invalid' unless RECORD.land_parcel_id) || ('edited' if RECORD.created_at != RECORD.updated_at)".c) do |t|
       t.column :land_parcel_id, hidden: true
       t.column :commune
       t.column :locality

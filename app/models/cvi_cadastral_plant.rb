@@ -91,6 +91,10 @@ class CviCadastralPlant < Ekylibre::Record::Base
 
   before_validation :set_land_parcel_id, on: :update, if: :cadastral_reference_changed?
 
+  def updated?
+    created_at != updated_at
+  end
+  
   private
   # Check if any attributes parts of cadastral reference has changed
   def cadastral_reference_changed?
