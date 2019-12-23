@@ -6,4 +6,4 @@
     = :delete_cvi_cadastral_plant_body.tl.html_safe
 .modal-footer
   = link_to :cancel.tl, '#', class: 'btn btn-default',data: { dismiss: 'modal' }
-  = link_to :confirm.tl, backend_cvi_cadastral_plant_path(cvi_statement_id, redirect: params[:redirect]), class: 'btn btn-primary', method: :delete 
+  = link_to :confirm.tl, backend_cvi_cadastral_plant_path(cvi_cadastral_plant_id), class: 'btn btn-primary', method: :delete, remote: true 
