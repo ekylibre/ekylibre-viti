@@ -3,14 +3,16 @@ ekylibre.templates ||= {}
 ((E, $) ->
   E.templates = {
     locales: I18n.locale,
+
     invalidCviCadastralPlantMessage: ->
-    "<div class='flash error' data-alert=''>
-      <div class='icon'></div>
-      <div class='message'>
-        <h3>#{I18n.t( 'front-end.notifications.levels.error')}</h3>
-        <p>#{I18n.t( 'front-end.notifications.messages.unvalid_cvi_cadastral_plant')}</p>
-      </div>
-    </div>"
+      "<div class='flash error' data-alert=''>
+        <div class='icon'></div>
+        <div class='message'>
+          <h3>#{I18n.t( 'front-end.notifications.levels.error')}</h3>
+          <p>#{I18n.t( 'front-end.notifications.messages.unvalid_cvi_cadastral_plant')}</p>
+        </div>
+      </div>"
+
     splitLandParcelForm: (oldObj, newObj) ->
       name = "#{oldObj.name}-#{newObj.num}"
       area = E.tools.formatArea(newObj.area / 10000)
