@@ -2,7 +2,6 @@ ekylibre.templates ||= {}
 
 ((E, $) ->
   E.templates = {
-    locales: I18n.locale,
 
     invalidCviCadastralPlantMessage: ->
       "<div class='flash error' data-alert=''>
@@ -14,6 +13,7 @@ ekylibre.templates ||= {}
       </div>"
 
     splitLandParcelForm: (oldObj, newObj) ->
+      i18nRoot = "front-end.templates.form"
       name = "#{oldObj.name}-#{newObj.num}"
       area = E.tools.formatArea(newObj.area / 10000)
       index = newObj.num
