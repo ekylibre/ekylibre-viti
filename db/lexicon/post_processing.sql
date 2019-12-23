@@ -43,8 +43,7 @@ SELECT
 	area_value,
 	area_formatted(area_value) AS area_formatted,
 	planting_campaign,
-	cvi_cadastral_plants.updated_at,
-	cvi_cadastral_plants.created_at,
+	cadastral_ref_updated,
 
 	CASE 
 	  WHEN rootstock_id IS NULL THEN 
