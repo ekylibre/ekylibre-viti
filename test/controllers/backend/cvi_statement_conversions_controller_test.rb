@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Backend
   class CviStatementConversionsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
-    test_restfully_all_actions class_name: 'CviStatement', only: %i[list_cvi_cultivable_zones]
+    test_restfully_all_actions class_name: 'CviStatement', except: %i[show create reset]
 
     describe '#show' do
       let(:invalid_cvi_statement) { create(:cvi_statement) }

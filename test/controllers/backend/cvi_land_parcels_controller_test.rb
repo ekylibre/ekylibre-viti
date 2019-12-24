@@ -1,7 +1,7 @@
 require 'test_helper'
 module Backend
   class CviLandParcelsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
-    test_restfully_all_actions except: %i[show update index group pre_split split]
+    test_restfully_all_actions except: %i[index update group split pre_split index]
 
     describe('#index') do
       let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_land_parcels) }
@@ -43,7 +43,7 @@ module Backend
     end
 
     describe('group') do
-      describe('cvi_land_parcels are not groupable ') do
+      describe('cvi_land_parcels are not groupable') do
         let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2) }
 
         it 'sets a flash message' do
@@ -58,7 +58,7 @@ module Backend
         end
       end
 
-      describe('cvi_land_parcels are groupable ') do
+      describe('cvi_land_parcels are groupable') do
         let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2, :groupable) }
 
         it 'create à new record from records with correct attributes' do
@@ -102,7 +102,7 @@ module Backend
         Hash[(0...params_list.length).zip params_list]
       end
 
-      it 'create new objects with old record attributes' do
+      it 'creates new objects with old record attributes' do
         DIFFERENT_ATTRIBUTES = %w[id name vine_variety_id shape declared_area_value declared_area_unit calculated_area_value calculated_area_unit created_at updated_at].freeze
         old_cvi_land_parcel = cvi_land_parcel
         xhr :post, :split, id: cvi_land_parcel.id, new_cvi_land_parcels: new_cvi_land_parcels_params
@@ -110,7 +110,7 @@ module Backend
         assert old_cvi_land_parcel.attributes.except(*DIFFERENT_ATTRIBUTES) == new_cvi_land_parcel.attributes.except(*DIFFERENT_ATTRIBUTES)
       end
 
-      it 'set declared area values' do
+      it 'sets declared area values' do
         old_declared_area = cvi_land_parcel.declared_area
         xhr :post, :split, id: cvi_land_parcel.id, new_cvi_land_parcels: new_cvi_land_parcels_params
         new_declared_area1 = CviLandParcel.last(2).first.declared_area
@@ -118,13 +118,13 @@ module Backend
         assert_in_epsilon old_declared_area.value, (new_declared_area1 + new_declared_area2).value , epsilon = 0.001
       end
 
-      it 'create 2 records and  destroy 1' do
+      it 'creates 2 records and  destroy 1' do
         assert_difference 'CviLandParcel.count', 2 do
           xhr :post, :split, id: cvi_land_parcel.id, new_cvi_land_parcels: new_cvi_land_parcels_params
         end
       end
 
-      it 'set relations' do
+      it 'sets relations' do
         old_cvi_land_parcel_locations = cvi_land_parcel.locations.map { |r| [r.insee_number, r.locality] }
         old_cvi_land_parcel_rootstocks = cvi_land_parcel.land_parcel_rootstocks.map { |r| [r.rootstock_id, r.percentage] }
         xhr :post, :split, id: cvi_land_parcel.id, new_cvi_land_parcels: new_cvi_land_parcels_params
@@ -133,7 +133,7 @@ module Backend
         assert_equal old_cvi_land_parcel_rootstocks, new_cvi_land_parcel.land_parcel_rootstocks.pluck(:rootstock_id, :percentage)
       end
 
-      it 'destroy old record' do
+      it 'destroys old record' do
         id = cvi_land_parcel.id
         xhr :post, :split, id: cvi_land_parcel.id, new_cvi_land_parcels: new_cvi_land_parcels_params
         assert_raise(ActiveRecord::RecordNotFound) { CviLandParcel.find(id) }
