@@ -58,7 +58,7 @@ class CviCadastralPlant < Ekylibre::Record::Base
   belongs_to :cvi_statement
   belongs_to :registered_postal_zone, foreign_key: :insee_number
   belongs_to :land_parcel, class_name: 'CadastralLandParcelZone', foreign_key: :land_parcel_id
-  belongs_to :designation_of_origin, class_name: 'RegistredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
+  belongs_to :designation_of_origin, class_name: 'RegisteredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
   belongs_to :vine_variety, class_name: 'MasterVineVariety', foreign_key: :vine_variety_id
   belongs_to :rootstock, class_name: 'MasterVineVariety', foreign_key: :rootstock_id
   has_one :location, as: :localizable, dependent: :destroy

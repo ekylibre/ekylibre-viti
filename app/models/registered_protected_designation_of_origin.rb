@@ -20,7 +20,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
-# == Table: registred_protected_designation_of_origins
+# == Table: registered_protected_designation_of_origins
 #
 #  eu_sign                :string
 #  fr_sign                :string
@@ -30,7 +30,7 @@
 #  product_human_name_fra :string
 #  reference_number       :string
 #
-class RegistredProtectedDesignationOfOrigin < ActiveRecord::Base
+class RegisteredProtectedDesignationOfOrigin < ActiveRecord::Base
     self.primary_key = :ida
     include Lexiconable
     alias_attribute :id, :ida
