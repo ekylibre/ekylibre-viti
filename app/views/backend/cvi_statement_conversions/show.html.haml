@@ -43,7 +43,8 @@
               %span.value= @cvi_statement.total_area_formatted
         - c.cobble(:cvi_cultivable_zones) do
           = cobble_list(:cvi_cultivable_zones)
-
+    
+    = render partial: 'buttons'
   - j.face :map do
     = cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
                             class: 'map-fullwidth map-halfheight',
@@ -54,5 +55,5 @@
     = cobbles do |c|
       - c.cobble(:cvi_cultivable_zones) do
         = cobble_list(:cvi_cultivable_zones)
-= render partial: 'buttons'
+    = render partial: 'buttons'
 
