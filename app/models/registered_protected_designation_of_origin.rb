@@ -31,8 +31,7 @@
 #  reference_number       :string
 #
 class RegisteredProtectedDesignationOfOrigin < ActiveRecord::Base
-    self.primary_key = :ida
+    self.primary_key = :id
     include Lexiconable
-    alias_attribute :id, :ida
     has_many :cvi_cadastral_plants, foreign_key: :designation_of_origin_id
   end
