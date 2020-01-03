@@ -31,8 +31,9 @@ module Backend
       end
 
       it 'create cvi_cultivable_zone' do
-        post :create, id: cvi_statement.id, campaign: campaign.name
-        assert_equal 3, CviCultivableZone.count
+        assert_difference 'CviCultivableZone.count',3 do
+          post :create, id: cvi_statement.id, campaign: campaign.name
+        end
       end
 
       it 'redirect to #show' do 

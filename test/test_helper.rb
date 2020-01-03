@@ -39,7 +39,7 @@ Ekylibre::Tenant.switch 'test_without_fixtures' do
   DatabaseCleaner.clean_with :truncation, except: ['spatial_ref_sys', 
                                                    'registered_legal_positions',
                                                    'master_vine_varieties',
-                                                   'registred_protected_designation_of_origins',
+                                                   'registered_protected_designation_of_origins',
                                                    'cadastral_land_parcel_zones',
                                                    'registered_postal_zones']
 end

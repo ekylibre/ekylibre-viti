@@ -63,7 +63,7 @@ LEFT JOIN locations ON cvi_cadastral_plants.id = locations.localizable_id AND lo
 LEFT JOIN lexicon.registered_postal_zones ON locations.insee_number = registered_postal_zones.code
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_cadastral_plants.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_cadastral_plants.rootstock_id = rootstocks.id
-LEFT JOIN lexicon.registered_protected_designation_of_origins AS designation_of_origins ON cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida;
+LEFT JOIN lexicon.registered_protected_designation_of_origins AS designation_of_origins ON cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.id;
 
 DROP VIEW IF EXISTS formatted_cvi_cultivable_zones;
 
@@ -125,5 +125,5 @@ LEFT JOIN land_parcel_rootstocks ON cvi_land_parcels.id = land_parcel_rootstocks
 LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON land_parcel_rootstocks.rootstock_id = rootstocks.id
 LEFT JOIN lexicon.registered_postal_zones ON locations.insee_number = registered_postal_zones.code
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_land_parcels.vine_variety_id = vine_varieties.id
-LEFT JOIN lexicon.registered_protected_designation_of_origins AS designation_of_origins ON cvi_land_parcels.designation_of_origin_id = designation_of_origins.ida
+LEFT JOIN lexicon.registered_protected_designation_of_origins AS designation_of_origins ON cvi_land_parcels.designation_of_origin_id = designation_of_origins.id
 GROUP BY cvi_land_parcels.id, designation_of_origin_name, vine_variety_name;

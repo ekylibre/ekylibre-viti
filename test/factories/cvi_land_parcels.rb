@@ -9,7 +9,7 @@ FactoryBot.define do
     inter_vine_plant_distance_unit { :centimeter }
     inter_row_distance_value { BigDecimal(rand.round(2), 4) }
     inter_row_distance_unit { :centimeter }
-    designation_of_origin_id { RegistredProtectedDesignationOfOrigin.order('RANDOM()').first.id }
+    designation_of_origin_id { RegisteredProtectedDesignationOfOrigin.order('RANDOM()').first.id }
     vine_variety_id { MasterVineVariety.where(category_name: 'Cépage').order('RANDOM()').first.id }
     rootstock_id { MasterVineVariety.where(category_name: 'Porte-greffe').order('RANDOM()').first.id }
     state { %i[planted removed_with_authorization].sample }
@@ -52,7 +52,7 @@ FactoryBot.define do
     trait :groupable do
       inter_vine_plant_distance_value { 1 }
       inter_row_distance_value { 2 }
-      designation_of_origin_id { RegistredProtectedDesignationOfOrigin.first.id }
+      designation_of_origin_id { RegisteredProtectedDesignationOfOrigin.first.id }
       vine_variety_id { MasterVineVariety.where(category_name: 'Cépage').first.id }
       state { :planted }
       planting_campaign { '1900' }

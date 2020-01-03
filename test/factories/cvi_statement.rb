@@ -13,7 +13,7 @@ FactoryBot.define do
 
   trait :with_cvi_cadastral_plants do
     after(:create) do |cvi_statement|
-      create_list(:cvi_cadastral_plant, Random.rand(1..4), cvi_statement: cvi_statement)
+      create_list(:cvi_cadastral_plant, 3, cvi_statement: cvi_statement)
     end
   end
 
