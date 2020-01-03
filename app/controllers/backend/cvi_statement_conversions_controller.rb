@@ -19,7 +19,7 @@ module Backend
 
     def create
       cvi_statement = CviStatement.find(params[:id])
-      campaign = Campaign.find_by(name: params[:campaign])
+      campaign = Campaign.find_or_create_by(harvest_year: params[:campaign].to_i)
       cvi_statement.update(campaign_id: campaign.id)
       GenerateCviCultivableZones.call(cvi_statement: cvi_statement)
       redirect_to action: 'show', id: cvi_statement.id
