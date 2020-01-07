@@ -1841,6 +1841,9 @@ cvi_cadastral_plants:
     type: decimal
     precision: 19
     scale: 4
+  cadastral_ref_updated:
+    type: boolean
+    default: false
   created_at:
     type: datetime
     required: true
@@ -1950,7 +1953,7 @@ cvi_land_parcels:
     scale: 5
   designation_of_origin_id:
     type: integer
-    references: registred_protected_designation_of_origin
+    references: registered_protected_designation_of_origin
   id:
     type: integer
     required: true
@@ -2613,6 +2616,19 @@ entity_links:
   updater_id:
     type: integer
     references: user
+ephy_cropsets:
+  crop_labels:
+    type: jsonb
+  crop_names:
+    type: text
+  id:
+    type: string
+    required: true
+  label:
+    type: jsonb
+  name:
+    type: string
+    required: true
 event_participations:
   created_at:
     type: datetime
@@ -5133,6 +5149,7 @@ master_production_natures:
     type: jsonb
   human_name_fra:
     type: string
+    required: true
   id:
     type: integer
     required: true
@@ -7391,11 +7408,15 @@ registered_agroedi_codes:
   reference_code:
     type: string
   reference_id:
-    type: string
+    type: integer
+    references: ''
+    required: true
   reference_label:
     type: string
   repository_id:
-    type: string
+    type: integer
+    references: ''
+    required: true
 registered_building_zones:
   centroid:
     type: geometry
@@ -7410,6 +7431,22 @@ registered_building_zones:
       srid: 4326
       type: multi_polygon
     required: true
+registered_chart_of_accounts:
+  account_number:
+    type: string
+    required: true
+  chart_id:
+    type: string
+    required: true
+  id:
+    type: string
+    required: true
+  name:
+    type: jsonb
+  previous_reference_name:
+    type: string
+  reference_name:
+    type: string
 registered_crop_zones:
   centroid:
     type: geometry
@@ -7444,6 +7481,33 @@ registered_enterprises:
     type: string
   postal_code:
     type: string
+registered_hydro_items:
+  id:
+    type: string
+    required: true
+  lines:
+    type: geometry
+    limit:
+      srid: 4326
+      type: multi_line_string
+      has_z: true
+      has_m: true
+  name:
+    type: jsonb
+  nature:
+    type: string
+  point:
+    type: geometry
+    limit:
+      srid: 4326
+      type: st_point
+  shape:
+    type: geometry
+    limit:
+      srid: 4326
+      type: multi_polygon
+      has_z: true
+      has_m: true
 registered_legal_positions:
   code:
     type: string
@@ -7556,7 +7620,7 @@ registered_phytosanitary_usages:
   applications_count:
     type: integer
   applications_frequency:
-    type: jsonb
+    type: integer
   decision_date:
     type: date
   description:
@@ -7589,8 +7653,11 @@ registered_phytosanitary_usages:
     type: integer
     references: product
     required: true
-  specie:
+  species:
+    type: text
+  state:
     type: string
+    required: true
   target_name:
     type: jsonb
   treatment:
@@ -7598,8 +7665,6 @@ registered_phytosanitary_usages:
   untreated_buffer_aquatic:
     type: integer
   untreated_buffer_arthropod:
-    type: integer
-  untreated_buffer_distance:
     type: integer
   untreated_buffer_plants:
     type: integer
@@ -7627,6 +7692,25 @@ registered_postal_zones:
   postal_code:
     type: string
     required: true
+registered_protected_designation_of_origins:
+  eu_sign:
+    type: string
+  fr_sign:
+    type: string
+  geographic_area:
+    type: string
+  id:
+    type: integer
+    required: true
+  ida:
+    type: integer
+    required: true
+  product_human_name:
+    type: jsonb
+  product_human_name_fra:
+    type: string
+  reference_number:
+    type: string
 registered_seeds:
   complete_name:
     type: jsonb
@@ -7638,22 +7722,6 @@ registered_seeds:
   specie:
     type: string
     required: true
-registered_protected_designation_of_origins:
-  eu_sign:
-    type: string
-  fr_sign:
-    type: string
-  geographic_area:
-    type: string
-  ida:
-    type: integer
-    required: true
-  product_human_name:
-    type: jsonb
-  product_human_name_fra:
-    type: string
-  reference_number:
-    type: string
 regularizations:
   affair_id:
     type: integer
@@ -8650,7 +8718,7 @@ teams:
   updater_id:
     type: integer
     references: user
-technical_worflow_procedure_items:
+technical_workflow_procedure_items:
   actor_reference:
     type: string
   article_reference:
@@ -8667,12 +8735,12 @@ technical_worflow_procedure_items:
     type: decimal
     precision: 19
     scale: 4
-  technical_worflow_procedure_id:
+  technical_workflow_procedure_id:
     type: string
     required: true
   unit:
     type: string
-technical_worflow_procedures:
+technical_workflow_procedures:
   frequency:
     type: string
   id:
@@ -8691,10 +8759,10 @@ technical_worflow_procedures:
     required: true
   repetition:
     type: integer
-  technical_worflow_id:
+  technical_workflow_id:
     type: string
     required: true
-technical_worflow_sequences:
+technical_workflow_sequences:
   family:
     type: string
   id:
@@ -8707,17 +8775,17 @@ technical_worflow_sequences:
     type: string
   specie:
     type: string
-  technical_worflow_id:
+  technical_workflow_id:
     type: string
     required: true
-  technical_worflow_sequence_id:
+  technical_workflow_sequence_id:
     type: string
     required: true
   year_start:
     type: integer
   year_stop:
     type: integer
-technical_worflows:
+technical_workflows:
   family:
     type: string
   id:

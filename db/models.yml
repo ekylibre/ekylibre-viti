@@ -96,6 +96,7 @@
 - intervention_group_parameter
 - intervention_input
 - intervention_labelling
+- intervention_model
 - intervention_output
 - intervention_parameter
 - intervention_parameter_reading
@@ -122,6 +123,9 @@
 - manure_management_plan
 - manure_management_plan_zone
 - map_layer
+- master_equipment_cost
+- master_equipment_flow
+- master_equipment_nature
 - master_production_nature
 - master_production_output
 - master_vine_variety
@@ -188,9 +192,13 @@
 - registered_pfi_crop
 - registered_pfi_dose
 - registered_pfi_target
+- registered_phytosanitary_phrase
+- registered_phytosanitary_product
+- registered_phytosanitary_risk
+- registered_phytosanitary_usage
 - registered_postal_zone
+- registered_protected_designation_of_origin
 - registered_seed
-- registred_protected_designation_of_origin
 - regularization
 - role
 - rootstock
