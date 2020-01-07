@@ -30,12 +30,6 @@ module Backend
         assert_equal campaign, cvi_statement.reload.campaign
       end
 
-      it 'create cvi_cultivable_zone' do
-        assert_difference 'CviCultivableZone.count',3 do
-          post :create, id: cvi_statement.id, campaign: campaign.name
-        end
-      end
-
       it 'redirect to #show' do 
         post :create, id: cvi_statement.id, campaign: campaign.name
         assert_redirected_to backend_cvi_statement_conversion_path(cvi_statement)

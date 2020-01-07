@@ -6,12 +6,13 @@ namespace :test do
     :controllers,
     :exchangers,
     :helpers,
+    :interactors,
     :jobs,
     :lib,
     :models,
     :services,
     # misc
-     :validators#, :decorators, :javascripts
+    :validators#, :decorators, :javascripts
   ]
 
   task prepare: 'lexicon:load'
