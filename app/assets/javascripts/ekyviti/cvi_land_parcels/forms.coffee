@@ -10,6 +10,16 @@ ekylibre.cviLandParcels.editForm ||= {}
     update: (record) ->
       $("input[name='cvi_land_parcel[shape]']").val(JSON.stringify(record.shape.geometry))
       $("input[name='cvi_land_parcel[area]']").val(E.tools.formatArea(record.area / 10000))
+    init: ->
+      $state_select = $("select#cvi_land_parcel_state")
+      $land_modification_date_input = $("div.control-group.cvi_land_parcel_land_modification_date")
+      if $state_select.val() == 'planted'
+        $land_modification_date_input.hide()
+      $state_select.on "change", (e) ->
+        if e.target.value == "removed_with_authorization"
+          $land_modification_date_input.show()
+        else
+          $land_modification_date_input.hide()
   }
   
   E.cviLandParcels.splitForm = {
