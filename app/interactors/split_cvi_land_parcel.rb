@@ -11,7 +11,9 @@ class SplitCviLandParcel < ApplicationInteractor
   private
 
   def create_new_cvi_land_parcels(new_cvi_land_parcel_params)
-    new_cvi_land_parcel = context.cvi_land_parcel.dup.tap do |r|
+    cvi_land_parcel = context.cvi_land_parcel.dup
+    cvi_land_parcel.save!
+    new_cvi_land_parcel = cvi_land_parcel.tap do |r|
       r.assign_attributes(new_cvi_land_parcel_params)
       r.calculated_area = Measure.new(r.shape.area, :square_meter).convert(:hectare)
       r.declared_area = context.cvi_land_parcel.declared_area * (r.calculated_area / context.cvi_land_parcel.calculated_area)
