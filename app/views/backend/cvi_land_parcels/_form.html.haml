@@ -4,10 +4,10 @@
   = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns" ) do
     = f.input :name
     = f.referenced_association :designation_of_origin, new: false, label: CviLandParcel.human_attribute_name(:designation_of_origin_name), input_html: {data: {'search-treshold'=> 3, button: false}}
-    = f.referenced_association :vine_variety, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
+    = f.referenced_association :vine_variety,source: {action: :unroll_vine_varieties}, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
     = f.simple_fields_for :land_parcel_rootstocks do |ff|
       - index = ff.options[:child_index] + 1 
-      = ff.referenced_association :rootstock, new: false, label: "#{:rootstock.tl} #{index}" 
+      = ff.referenced_association :rootstock, source: {action: :unroll_rootstocks}, new: false, label: "#{:rootstock.tl} #{index}" 
     = f.input :planting_campaign, as: :select, collection: (1900..(current_year+1)).to_a.map(&:to_s)
     = f.input :state,include_blank: false
     = f.input :land_modification_date
