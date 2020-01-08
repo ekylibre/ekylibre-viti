@@ -18,7 +18,8 @@ class GenerateCviLandParcels < ApplicationInteractor
         state: r.state,
         shape: shape,
         cvi_cultivable_zone_id: cvi_cultivable_zone.id,
-        planting_campaign: r.planting_campaign
+        planting_campaign: r.planting_campaign,
+        land_modification_date: r.land_modification_date
       )
       LandParcelRootstock.create(land_parcel: cvi_land_parcel, rootstock_id: r.rootstock_id)
       Location.create(localizable: cvi_land_parcel, locality: r.location.locality, insee_number: r.location.insee_number)

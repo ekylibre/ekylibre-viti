@@ -15,6 +15,7 @@ FactoryBot.define do
     state { %i[planted removed_with_authorization].sample }
     shape { FFaker::Shape.multipolygon }
     planting_campaign { FFaker::Time.between(10.years.ago, Date.today).year.to_s }
+    land_modification_date {Date.today-rand(10000) }
     cvi_cultivable_zone
     with_location
     with_rootstock

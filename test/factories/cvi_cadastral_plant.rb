@@ -16,6 +16,7 @@ FactoryBot.define do
     planting_campaign { FFaker::Time.between(10.years.ago, Date.today).year }
     state { %i[planted removed_with_authorization].sample }
     type_of_occupancy { %i[tenant_farming owner].sample }
+    land_modification_date {Date.today-rand(10000) }
     cvi_statement
     with_location
 

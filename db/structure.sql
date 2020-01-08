@@ -2110,7 +2110,8 @@ CREATE TABLE public.cvi_cadastral_plants (
     updated_at timestamp without time zone NOT NULL,
     type_of_occupancy character varying,
     cvi_cultivable_zone_id integer,
-    cadastral_ref_updated boolean DEFAULT false
+    cadastral_ref_updated boolean DEFAULT false,
+    land_modification_date date
 );
 
 
@@ -2192,10 +2193,10 @@ CREATE TABLE public.cvi_land_parcels (
     inter_row_distance_unit character varying,
     state character varying,
     cvi_cultivable_zone_id integer,
-    removed_at date,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    planting_campaign character varying
+    planting_campaign character varying,
+    land_modification_date date
 );
 
 
@@ -3475,8 +3476,7 @@ CREATE VIEW public.formatted_cvi_cadastral_plants AS
     cvi_cadastral_plants.area_value,
     public.area_formatted(cvi_cadastral_plants.area_value) AS area_formatted,
     cvi_cadastral_plants.planting_campaign,
-    cvi_cadastral_plants.updated_at,
-    cvi_cadastral_plants.created_at,
+    cvi_cadastral_plants.cadastral_ref_updated,
         CASE
             WHEN (cvi_cadastral_plants.rootstock_id IS NULL) THEN NULL::text
             ELSE initcap((rootstocks.specie_name)::text)
@@ -3490,7 +3490,7 @@ CREATE VIEW public.formatted_cvi_cadastral_plants AS
      LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.insee_number)::text = (registered_postal_zones.code)::text)))
      LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_cadastral_plants.vine_variety_id)::text = (vine_varieties.id)::text)))
      LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((cvi_cadastral_plants.rootstock_id)::text = (rootstocks.id)::text)))
-     LEFT JOIN ___lexicon.registred_protected_designation_of_origins designation_of_origins ON ((cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.ida)));
+     LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.id)));
 
 
 --
@@ -18455,7 +18455,7 @@ CREATE OR REPLACE VIEW public.formatted_cvi_land_parcels AS
      LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((land_parcel_rootstocks.rootstock_id)::text = (rootstocks.id)::text)))
      LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.insee_number)::text = (registered_postal_zones.code)::text)))
      LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_land_parcels.vine_variety_id)::text = (vine_varieties.id)::text)))
-     LEFT JOIN ___lexicon.registred_protected_designation_of_origins designation_of_origins ON ((cvi_land_parcels.designation_of_origin_id = designation_of_origins.ida)))
+     LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_land_parcels.designation_of_origin_id = designation_of_origins.id)))
   GROUP BY cvi_land_parcels.id, designation_of_origins.product_human_name_fra, vine_varieties.specie_name;
 
 
@@ -19737,4 +19737,6 @@ INSERT INTO schema_migrations (version) VALUES ('20191206080450');
 INSERT INTO schema_migrations (version) VALUES ('20191206102525');
 
 INSERT INTO schema_migrations (version) VALUES ('20191223092535');
+
+INSERT INTO schema_migrations (version) VALUES ('20200108090053');
 

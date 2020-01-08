@@ -34,6 +34,7 @@ module Backend
         assert_equal attributes[:state].to_s, cvi_land_parcel.state
         assert_equal attributes[:shape], cvi_land_parcel.shape.to_rgeo
         assert_equal attributes[:planting_campaign], cvi_land_parcel.planting_campaign
+        assert_equal attributes[:land_modification_date], cvi_land_parcel.land_modification_date
       end
 
       it 'responds with success' do

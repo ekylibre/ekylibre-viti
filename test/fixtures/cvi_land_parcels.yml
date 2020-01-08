@@ -17,7 +17,7 @@ one:
   inter_row_distance_unit: MyString
   state: MyString
   cvi_cultivable_zone_id: 
-  removed_at: 2019-11-27
+  land_modification_date: 2019-11-27
 
 two:
   name: MyString
@@ -36,4 +36,4 @@ two:
   inter_row_distance_unit: MyString
   state: MyString
   cvi_cultivable_zone_id: 
-  removed_at: 2019-11-27
+  land_modification_date: 2019-11-27

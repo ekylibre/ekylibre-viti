@@ -23,7 +23,7 @@ module Ekylibre
       'Ecart_Rang' => :inter_row_distance,
       'Etat' => :state,
       'Mode_Faire_Valoir' => :type_of_occupancy,
-      'Date_Modification_Fonciere' => :property_assessment_change
+      'Date_Modification_Fonciere' => :land_modification_date 
     }.freeze
 
     STATES = {
@@ -37,7 +37,7 @@ module Ekylibre
     }.freeze
 
     CVI_STATEMENT_KEYS = %i[cvi_number extraction_date siret_number farm_name declarant].freeze
-    CVI_CADASTRAL_PLANT_KEYS = %i[section land_parcel_number work_number planting_campaign inter_row_distance inter_vine_plant_distance state type_of_occupancy].freeze
+    CVI_CADASTRAL_PLANT_KEYS = %i[section land_parcel_number work_number planting_campaign inter_row_distance inter_vine_plant_distance state type_of_occupancy land_modification_date].freeze
 
     def import
       w.count = cvi_row_list.length
@@ -144,7 +144,7 @@ module Ekylibre
     end
 
     def convert_types(h_cvi_statement)
-      %i[extraction_date property_assessment_change].each do |key|
+      %i[extraction_date land_modification_date].each do |key|
         h_cvi_statement[key] = Date.soft_parse(h_cvi_statement[key]) unless h_cvi_statement[key].blank?
       end
 

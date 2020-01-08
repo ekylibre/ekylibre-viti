@@ -1871,6 +1871,8 @@ cvi_cadastral_plants:
     type: decimal
     precision: 19
     scale: 4
+  land_modification_date:
+    type: date
   land_parcel_id:
     type: string
   land_parcel_number:
@@ -1969,13 +1971,13 @@ cvi_land_parcels:
     type: decimal
     precision: 19
     scale: 4
+  land_modification_date:
+    type: date
   name:
     type: string
     required: true
   planting_campaign:
     type: string
-  removed_at:
-    type: date
   rootstock_id:
     type: string
   shape:

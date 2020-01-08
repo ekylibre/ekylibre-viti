@@ -21,6 +21,7 @@ cvi_cadastral_plants_001:
   updated_at: 2014-11-05 09:36:48.608936000
   vine_variety_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
   work_number: 1
+  land_modification_date: 2019-11-27
 
 cvi_cadastral_plants_002:
   area_unit: hectare
@@ -43,6 +44,7 @@ cvi_cadastral_plants_002:
   updated_at: 2014-11-05 09:36:48.608936000
   vine_variety_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
   work_number: 1
+  land_modification_date: 2019-11-27
 
 cvi_cadastral_plants_003:
   area_unit: hectare
@@ -65,6 +67,7 @@ cvi_cadastral_plants_003:
   updated_at: 2014-11-05 09:36:48.608936000
   vine_variety_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
   work_number: 1
+  land_modification_date: 2019-11-27
 
 cvi_cadastral_plants_004:
   area_unit: hectare
@@ -87,3 +90,4 @@ cvi_cadastral_plants_004:
   updated_at: 2014-11-05 09:36:48.608936000
   vine_variety_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
   work_number: 1
+  land_modification_date: 2019-11-27
