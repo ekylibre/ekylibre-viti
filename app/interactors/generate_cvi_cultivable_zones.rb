@@ -2,7 +2,9 @@ class GenerateCviCultivableZones < ApplicationInteractor
 
   def call
     get_cvi_cultivable_zones_properties
-    create_cvi_cultivables_zones
+    ActiveRecord::Base.transaction do
+      create_cvi_cultivables_zones
+    end
   end
 
   private
