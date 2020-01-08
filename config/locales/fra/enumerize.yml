@@ -134,11 +134,11 @@ fra:
         removed_with_authorization: "Arrachées avec autorisation"
     cvi_cultivable_zone:
       land_parcels_status:
-        created: "Créées"
+        created: "Créé"
         not_created: "À créer"
     formatted_cvi_cultivable_zone:
       land_parcels_status:
-        created: "Créées"
+        created: "Créé"
         not_created: "À créer"
     cvi_statement:
       state:
