@@ -505,3 +505,9 @@ td.with-details {
     min-width:500px;
   }
 }
+
+[id^=edit_cvi_land_parcel] {
+  span { 
+    display:block
+  }
+}
