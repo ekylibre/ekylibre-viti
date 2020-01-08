@@ -24,7 +24,9 @@ module Backend
 
     def generate_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
-      GenerateCviLandParcels.call(cvi_cultivable_zone: cvi_cultivable_zone)
+      unless cvi_cultivable_zone.cvi_land_parcels.any?
+        GenerateCviLandParcels.call(cvi_cultivable_zone: cvi_cultivable_zone)
+      end
       redirect_to action: 'show', id: cvi_cultivable_zone.id
     end
 
