@@ -21,7 +21,7 @@ class GroupCviLandParcels < ApplicationInteractor
   private
 
   def create_new_record
-    shape = CviLandParcel.select('St_AStext(ST_Union(ARRAY_AGG(shape))) AS shape').where(id: context.cvi_land_parcels.collect(&:id))[0].shape
+    shape = CviLandParcel.select('St_AStext(ST_Buffer(ST_Union(ARRAY_AGG(ST_Buffer(shape,0.000001))),-0.000001)) AS shape').where(id: context.cvi_land_parcels.collect(&:id))[0].shape
     declared_area = context.cvi_land_parcels.collect(&:declared_area).sum
     calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
     context.total_area = calculated_area
