@@ -38,7 +38,7 @@ module Backend
       redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
     end
 
-    list(:cvi_land_parcels, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: { cvi_cultivable_zone_id: 'params[:id]'.c }) do |t|
+    list(:cvi_land_parcels, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: { cvi_cultivable_zone_id: 'params[:id]'.c }, line_class: "'activity-undefined' if RECORD.activity_name == 'A définir'".c) do |t|
       t.column :id, hidden: true
       t.action :edit, url: { controller: 'cvi_land_parcels', action: 'edit', remote: true }
       t.column :name
@@ -53,6 +53,7 @@ module Backend
       t.column :inter_vine_plant_distance_value
       t.column :inter_row_distance_value
       t.column :state
+      t.column :activity_name, label: :activity
     end
 
     def edit_cvi_land_parcels

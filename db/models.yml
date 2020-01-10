@@ -201,7 +201,6 @@
 - registered_seed
 - regularization
 - role
-- rootstock
 - sale
 - sale_affair
 - sale_gap
@@ -231,7 +230,6 @@
 - tracking
 - user
 - version
-- vine_variety
 - wice_grid_serialized_query
 - worker
 - zone

@@ -24,36 +24,6 @@ CREATE SCHEMA postgis;
 
 
 --
--- Name: area_formatted(numeric); Type: FUNCTION; Schema: postgis; Owner: -
---
-
-CREATE FUNCTION postgis.area_formatted(area numeric) RETURNS character varying
-    LANGUAGE plpgsql
-    AS $$
-    DECLARE
-    ha_area_num  NUMERIC;
-    ar_area_num  NUMERIC;
-    ca_area_num  NUMERIC;
-    ha_area  VARCHAR(50);
-    ar_area  VARCHAR(50);
-    ca_area  VARCHAR(50);
-    result VARCHAR(50);
-    BEGIN
-    ha_area_num = TRUNC(area, 0);
-    ar_area_num = TRUNC(area - ha_area_num, 2);
-    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
-
-    ha_area = to_char(ha_area_num , 'FM00');
-    ar_area = to_char(ar_area_num * 100, 'FM00');
-    ca_area = to_char(ca_area_num * 10000, 'FM00');
-
-    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
-    RETURN result;
-    END;
-    $$;
-
-
---
 -- Name: area_formatted(numeric); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2196,7 +2166,8 @@ CREATE TABLE public.cvi_land_parcels (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     planting_campaign character varying,
-    land_modification_date date
+    land_modification_date date,
+    activity_id integer
 );
 
 
@@ -4479,9 +4450,9 @@ CREATE TABLE public.journal_entries (
     real_balance numeric(19,4) DEFAULT 0.0 NOT NULL,
     resource_prism character varying,
     financial_year_exchange_id integer,
+    reference_number character varying,
     continuous_number integer,
-    validated_at timestamp without time zone,
-    reference_number character varying
+    validated_at timestamp without time zone
 );
 
 
@@ -11837,6 +11808,13 @@ CREATE INDEX index_cvi_cultivable_zones_on_cvi_statement_id ON public.cvi_cultiv
 
 
 --
+-- Name: index_cvi_land_parcels_on_activity_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_land_parcels_on_activity_id ON public.cvi_land_parcels USING btree (activity_id);
+
+
+--
 -- Name: index_cvi_land_parcels_on_cvi_cultivable_zone_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -18709,6 +18687,14 @@ ALTER TABLE ONLY public.parcel_items
 
 
 --
+-- Name: cvi_land_parcels fk_rails_71a1e59459; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_land_parcels
+    ADD CONSTRAINT fk_rails_71a1e59459 FOREIGN KEY (activity_id) REFERENCES public.activities(id);
+
+
+--
 -- Name: interventions fk_rails_76eca6ee87; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -19739,4 +19725,6 @@ INSERT INTO schema_migrations (version) VALUES ('20191206102525');
 INSERT INTO schema_migrations (version) VALUES ('20191223092535');
 
 INSERT INTO schema_migrations (version) VALUES ('20200108090053');
+
+INSERT INTO schema_migrations (version) VALUES ('20200110142108');
 
