@@ -66,7 +66,7 @@
               %span.range-maximum= max.to_s(:short_form_unit)
           - k.helper do
             %label= CviCadastralPlant.human_attribute_name(:designation_of_origin_name)
-            = select_tag(:designation_of_origin_name, options_for_select(([""] + @cvi_statement.cvi_cadastral_plants.collect(&:designation_of_origin_name)).uniq.sort, selected: params[:designation_of_origin_name]))
+            = select_tag(:designation_of_origin_name, options_for_select(([""] + FormattedCviCadastralPlant.where(cvi_statement_id:@cvi_statement.id).collect(&:designation_of_origin_name)).uniq.sort, selected: params[:designation_of_origin_name]))
           - k.helper do
             %label= CviCadastralPlant.human_attribute_name(:vine_variety_name)
             = select_tag(:vine_variety_name, options_for_select(([""] + FormattedCviCadastralPlant.where(cvi_statement_id:@cvi_statement.id).collect(&:vine_variety_name)).uniq.sort , selected: params[:vine_variety_name]))

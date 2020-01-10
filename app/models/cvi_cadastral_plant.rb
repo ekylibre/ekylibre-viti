@@ -78,12 +78,6 @@ class CviCadastralPlant < Ekylibre::Record::Base
     end
   end
 
-  delegate :geographic_area, to: :designation_of_origin
-  alias designation_of_origin_name geographic_area
-
-  delegate :specie_name, to: :vine_variety
-  alias vine_variety_name specie_name
-
   delegate :insee_number, to: :location
   delegate :shape, to: :land_parcel
 
