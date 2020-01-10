@@ -111,9 +111,11 @@
         if layerName is 'cvi_land_parcels'
           onEachFeature = (layer) ->
             if  layer.feature.properties.updated
+                layer.bringToFront()
                 color = "#E7E8C0"
                 klass = 'yellow'
               else
+                layer.bringToBack()
                 color = "#C5D4F0"
                 klass = 'blue'
 
