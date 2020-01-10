@@ -28,7 +28,7 @@ module Backend
         render :update
       else
         notify_error(result.error)
-        render partial: 'notify'
+        render partial: 'notify', locals: { attributes: result.attributes, ids: params[:cvi_land_parcel_ids] }
       end
     end
 

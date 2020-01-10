@@ -13,6 +13,27 @@
     render: ->
       E.list.render()
       $('.btn-container a').attr("disabled", false)
+    
+    getRow: (id) ->
+      return (
+        {
+          id: id
+          designation_of_origin_id: $("#r#{id} > td.c5")
+          vine_variety_id: $("#r#{id} > td.c6")
+          planting_campaign: $("#r#{id} > td.c10")
+          inter_vine_plant_distance_value: $("#r#{id} > td.c11")
+          inter_row_distance_value: $("#r#{id} > td.c12")
+          state: $("#r#{id} > td.c13")
+        }
+      )
+    
+    formatUngroupableRow: (ids, attributes) ->
+      list = this
+      rows = ids.map (id) ->
+        list.getRow(id)
+      for row in rows
+        for attribute in attributes
+          row[attribute].addClass('invalid')
 
     disable: ->
       $('.btn-container a').attr("disabled", true)
