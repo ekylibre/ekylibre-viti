@@ -14,7 +14,7 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
     end
 
     describe('cvi_land_parcels are groupable') do
-      let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2, :groupable) }
+      let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2, :groupable,:new_splitted) }
 
       it 'create à new record from records with correct attributes' do
         name = cvi_land_parcels.map(&:name).sort.join(', ')
