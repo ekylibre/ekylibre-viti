@@ -25,6 +25,9 @@ class CviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   end
 
   should validate_presence_of(:name)
+  should validate_presence_of(:inter_row_distance_value)
+  should validate_presence_of(:inter_vine_plant_distance_value)
+  should validate_presence_of(:vine_variety_id)
 
   should belong_to(:cvi_cultivable_zone)
   should belong_to(:designation_of_origin).with_foreign_key('designation_of_origin_id')
