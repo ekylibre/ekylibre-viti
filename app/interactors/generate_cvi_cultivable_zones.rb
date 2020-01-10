@@ -18,11 +18,11 @@ class GenerateCviCultivableZones < ApplicationInteractor
               LEFT JOIN lexicon.cadastral_land_parcel_zones  ON cvi_cadastral_plants.land_parcel_id = cadastral_land_parcel_zones.id
               WHERE cvi_statement_id = #{context.cvi_statement.id} AND land_parcel_id IS NOT NULL) q
       GROUP BY clst;").to_a.each { |e| e['cvi_cadastral_plant_ids'] = e['cvi_cadastral_plant_ids'].delete('{}').split(',') }
-    context.cvi_cultivable_zones = result
+    @cvi_cultivable_zones = result
   end
 
   def create_cvi_cultivables_zones
-    context.cvi_cultivable_zones.each_with_index do |cvi_cultivable_zone, i|
+    @cvi_cultivable_zones.each_with_index do |cvi_cultivable_zone, i|
       index = (i + 1).to_s.rjust(2, '0')
       cvi_cadastral_plants = CviCadastralPlant.find(cvi_cultivable_zone['cvi_cadastral_plant_ids'])
       locations = cvi_cadastral_plants.map(&:location).uniq{ |e| e.insee_number && e.locality}

@@ -28,7 +28,7 @@ class GroupCviLandParcels < ApplicationInteractor
   def create_new_record
     declared_area = context.cvi_land_parcels.collect(&:declared_area).sum
     calculated_area = Measure.new(@new_shape.area, :square_meter).convert(:hectare)
-    context.total_area = calculated_area
+    @total_area = calculated_area
     name = context.cvi_land_parcels.collect(&:name).sort.join(', ')
     new_cvi_land_parcel = context.cvi_land_parcels.first.dup
     new_cvi_land_parcel.save!
@@ -45,7 +45,7 @@ class GroupCviLandParcels < ApplicationInteractor
       new_land_parcel_rootstock = uniq_rootstock_ids.map do |rootstock_id|
         new_land_parcel_rootstock = { area: nil, percentage: nil, rootstock_id: rootstock_id }
         rootstock_area = land_parcel_rootstocks.select { |r| r.rootstock_id == rootstock_id }.sum { |r| r.land_parcel.calculated_area * r.percentage }
-        percentage = rootstock_area / context.total_area
+        percentage = rootstock_area / @total_area
         { percentage: percentage, rootstock_id: rootstock_id, land_parcel: context.new_cvi_land_parcel }
       end
       LandParcelRootstock.create!(new_land_parcel_rootstock)
