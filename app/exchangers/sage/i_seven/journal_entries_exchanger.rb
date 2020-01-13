@@ -37,6 +37,7 @@ module Sage
       end
 
       def import
+        byebug
 
         doc = Nokogiri::XML(File.open(file)) do |config|
           config.strict.nonet.noblanks
@@ -96,7 +97,43 @@ module Sage
           acc_name = account.attribute('NOM').value
           # Exclude number with radical class only like 7000000 or 40000000
           next if acc_number.strip.gsub(/0+\z/, '').in?(['1','2','3','4','5','6','7','8'])
-          # find account by number
+
+
+          account = find_or_creat_account_by_number(acc_number, acc_name)
+          # # find account by number
+          # acc = Account.find_or_initialize_by(number: acc_number)
+          # attributes = {name: acc_name}
+          # # add attributes if 401 / 411
+          # if acc_number.start_with?('401', '411')
+          #   w.info "Create auxiliary account and entities"
+          #   attributes[:centralizing_account_name] = acc_number.start_with?('401') ? 'suppliers' : 'clients'
+          #   attributes[:nature] = 'auxiliary'
+          #   aux_number = acc_number[3, acc_number.length]
+          #   if aux_number.match(/\A0*\z/).present?
+          #     w.info "We can't import auxiliary number #{aux_number} with only 0. Mass change number in your file before importing"
+          #     attributes[:auxiliary_number] = '00000A'
+          #   else
+          #     attributes[:auxiliary_number] = aux_number
+          #   end
+          # end
+          # acc.attributes = attributes
+          # w.info "account attributes ! : #{attributes.inspect.red}"
+          # acc.save!
+          # w.info "account saved ! : #{acc.label.inspect.red}"
+
+
+
+          entity_evolved(acc_number, acc_name, period_started_on, account) if acc_number.start_with?('401', '411')
+          # Adds a real entity with known information if account number like 401 or 411
+
+
+          w.check_point
+        end
+      end
+
+
+      def find_or_creat_account_by_number(acc_number, acc_name)
+        # find account by number
           acc = Account.find_or_initialize_by(number: acc_number)
           attributes = {name: acc_name}
           # add attributes if 401 / 411
@@ -116,31 +153,29 @@ module Sage
           w.info "account attributes ! : #{attributes.inspect.red}"
           acc.save!
           w.info "account saved ! : #{acc.label.inspect.red}"
-          if acc_number.start_with?('401', '411')
-            # Adds a real entity with known information if account number like 401 or 411
-            last_name = acc_name.mb_chars.capitalize
-            modified = false
-            entity = Entity.where('last_name ILIKE ?', last_name).first
-            entity ||= Entity.create!(last_name: last_name, nature: 'organization', first_met_at: period_started_on.to_date)
-            if entity.first_met_at && period_started_on.to_date && period_started_on.to_date < entity.first_met_at
-              entity.first_met_at = period_started_on.to_date
-              modified = true
-            end
-            if acc_number.start_with?('401')
-              entity.supplier = true
-              entity.supplier_account_id = acc.id
-              modified = true
-            end
-            if acc_number.start_with?('411')
-              entity.client = true
-              entity.client_account_id = acc.id
-              modified = true
-            end
-            entity.save if modified
-            w.info "entity save ! : #{entity.full_name.inspect.red}" if modified
-          end
-          w.check_point
+      end
+
+      def entity_evolved(acc_number, acc_name, period_started_on, acc)
+        last_name = acc_name.mb_chars.capitalize
+        modified = false
+        entity = Entity.where('last_name ILIKE ?', last_name).first
+        entity ||= Entity.create!(last_name: last_name, nature: 'organization', first_met_at: period_started_on.to_date)
+        if entity.first_met_at && period_started_on.to_date && period_started_on.to_date < entity.first_met_at
+          entity.first_met_at = period_started_on.to_date
+          modified = true
         end
+        if acc_number.start_with?('401')
+          entity.supplier = true
+          entity.supplier_account_id = acc.id
+          modified = true
+        end
+        if acc_number.start_with?('411')
+          entity.client = true
+          entity.client_account_id = acc.id
+          modified = true
+        end
+        entity.save if modified
+        w.info "entity save ! : #{entity.full_name.inspect.red}" if modified
       end
 
       def find_or_create_entries(doc, fy, editor_data_providers, entries)
@@ -152,6 +187,7 @@ module Sage
           'D' => :various
         }
 
+        #useless => can directly find_or_create_by?
         unless default_result_journal = Journal.find_by(nature: 'result')
           default_result_journal = Journal.find_or_create_by(code: 'RESU', nature: 'result', name: 'Résultat')
         end
@@ -161,6 +197,8 @@ module Sage
           jou_code = sage_journal.attribute('CODE').value
           jou_name = sage_journal.attribute('NOM').value
           jou_nature = sage_journal.attribute('TYPEJOURNAL').value
+
+          #useless => can directly find_or_create_by?
           unless journal = Journal.find_by(name: jou_name)
             journal = Journal.find_or_create_by(code: jou_code, nature: default_journal_natures[jou_nature], name: jou_name)
           end
