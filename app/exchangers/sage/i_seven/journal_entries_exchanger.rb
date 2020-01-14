@@ -37,7 +37,6 @@ module Sage
       end
 
       def import
-        byebug
 
         doc = Nokogiri::XML(File.open(file)) do |config|
           config.strict.nonet.noblanks
@@ -153,6 +152,7 @@ module Sage
           w.info "account attributes ! : #{attributes.inspect.red}"
           acc.save!
           w.info "account saved ! : #{acc.label.inspect.red}"
+          acc
       end
 
       def entity_evolved(acc_number, acc_name, period_started_on, acc)
@@ -203,21 +203,22 @@ module Sage
             journal = Journal.find_or_create_by(code: jou_code, nature: default_journal_natures[jou_nature], name: jou_name)
           end
           # if cashe account journal, create cashe
-          if jou_nature == 'T'
-            jou_account = sage_journal.attribute('CMPTASSOCIE').value
-            jou_iban = sage_journal.attribute('IBANPAPIER').value.delete(' ')
-            cash_attributes = { name: "enumerize.cash.nature.bank_account".t,
-                                nature: 'bank_account',
-                                main_account: Account.find_or_create_by_number(jou_account),
-                                journal: journal }
 
-            if !jou_iban.blank? && jou_iban.start_with?('IBAN')
-              cash_attributes.merge!(iban: jou_iban[4..30])
-            end
-            cash = Cash.find_or_create_by(cash_attributes)
-          end
+          create_cash(sage_journal, journal) if jou_nature == 'T'
+            # jou_account = sage_journal.attribute('CMPTASSOCIE').value
+            # jou_iban = sage_journal.attribute('IBANPAPIER').value.delete(' ')
+            # cash_attributes = { name: "enumerize.cash.nature.bank_account".t,
+            #                     nature: 'bank_account',
+            #                     main_account: Account.find_or_create_by_number(jou_account),
+            #                     journal: journal }
+
+            # if !jou_iban.blank? && jou_iban.start_with?('IBAN')
+            #   cash_attributes.merge!(iban: jou_iban[4..30])
+            # end
+            # cash = Cash.find_or_create_by(cash_attributes)
 
           sage_journal.css('PIECE').each_with_index do |sage_journal_entry, index|
+            # fill_entries(fy, jou_code, sage_journal_entry, index, journal)
             printed_on = sage_journal_entry.attribute('DATEECR').value.to_date
             state = sage_journal_entry.attribute('ETAT').value
             line_number = index + 1
@@ -242,29 +243,30 @@ module Sage
             end
 
             sage_journal_entry.css('LIGNE').each do |sage_journal_entry_item|
-              sjei_acc_number = sage_journal_entry_item.attribute('COMPTE').value
-              sjei_account = Account.find_by_number(sjei_acc_number)
-              unless sjei_account
-                if sjei_acc_number.start_with?('401', '411')
-                  centralizing_account_name = sjei_acc_number.start_with?('401') ? 'suppliers' : 'clients'
-                  nature = 'auxiliary'
-                  radical = sjei_acc_number[0, 3]
-                  aux_number = sjei_acc_number[3, sjei_acc_number.length]
-                  if aux_number.match(/\A0*\z/).present?
-                    w.info "We can't import auxiliary number #{sjei_acc_number} with only 0. Mass change number in your file before importing"
-                    aux_number = '00000A'
-                  end
-                  sjei_acc_number = radical + aux_number
-                end
-                sjei_account = Account.find_by_number(sjei_acc_number)
-                unless sjei_account
-                  sjei_account = Account.create!(number: sjei_acc_number,
-                                              nature: nature,
-                                              centralizing_account_name: centralizing_account_name,
-                                              auxiliary_number: aux_number)
-                end
-              end
 
+              sjei_account = sage_journal_entry_item_creation(sage_journal_entry_item)
+              # sjei_acc_number = sage_journal_entry_item.attribute('COMPTE').value
+              # sjei_account = Account.find_by_number(sjei_acc_number)
+              # unless sjei_account
+              #   if sjei_acc_number.start_with?('401', '411')
+              #     centralizing_account_name = sjei_acc_number.start_with?('401') ? 'suppliers' : 'clients'
+              #     nature = 'auxiliary'
+              #     radical = sjei_acc_number[0, 3]
+              #     aux_number = sjei_acc_number[3, sjei_acc_number.length]
+              #     if aux_number.match(/\A0*\z/).present?
+              #       w.info "We can't import auxiliary number #{sjei_acc_number} with only 0. Mass change number in your file before importing"
+              #       aux_number = '00000A'
+              #     end
+              #     sjei_acc_number = radical + aux_number
+              #   end
+              #   sjei_account = Account.find_by_number(sjei_acc_number)
+              #   unless sjei_account
+              #     sjei_account = Account.create!(number: sjei_acc_number,
+              #                                 nature: nature,
+              #                                 centralizing_account_name: centralizing_account_name,
+              #                                 auxiliary_number: aux_number)
+              #   end
+              # end
               if sjei_account
                 w.info "account found in line! : #{sjei_account.number.inspect.yellow}"
               else
@@ -286,6 +288,71 @@ module Sage
             w.check_point
           end
         end
+      end
+
+      def create_cash(sage_journal, journal)
+        jou_account = sage_journal.attribute('CMPTASSOCIE').value
+        jou_iban = sage_journal.attribute('IBANPAPIER').value.delete(' ')
+        cash_attributes = { name: "enumerize.cash.nature.bank_account".t,
+                            nature: 'bank_account',
+                            main_account: Account.find_or_create_by_number(jou_account),
+                            journal: journal }
+
+        if !jou_iban.blank? && jou_iban.start_with?('IBAN')
+          cash_attributes.merge!(iban: jou_iban[4..30])
+        end
+        cash = Cash.find_or_create_by(cash_attributes)
+      end
+
+      # def fill_entries(fy, jou_code, sage_journal_entry, index, journal)
+      #   printed_on = sage_journal_entry.attribute('DATEECR').value.to_date
+      #   state = sage_journal_entry.attribute('ETAT').value
+      #   line_number = index + 1
+      #   number = jou_code + '_' + printed_on.to_s + '_' + line_number.to_s
+      #   w.info "--------------------number : #{number}--------------------------".inspect.yellow
+      #   # change journal in case of result journal entry (31/12/AAAA and ETAT = 8)
+      #   if printed_on.day == fy.stopped_on.day && printed_on.month == fy.stopped_on.month && state == '8'
+      #     c_journal = default_result_journal
+      #   else
+      #     c_journal = journal
+      #   end
+
+      #   unless entries[number]
+      #     entries[number] = {
+      #       printed_on: printed_on,
+      #       journal: c_journal,
+      #       number: line_number,
+      #       currency: journal.currency,
+      #       providers: editor_data_providers,
+      #       items_attributes: {}
+      #     }
+      #   end
+      # end
+
+      def sage_journal_entry_item_creation(sage_journal_entry_item)
+        sjei_acc_number = sage_journal_entry_item.attribute('COMPTE').value
+        sjei_account = Account.find_by_number(sjei_acc_number)
+        unless sjei_account
+          if sjei_acc_number.start_with?('401', '411')
+            centralizing_account_name = sjei_acc_number.start_with?('401') ? 'suppliers' : 'clients'
+            nature = 'auxiliary'
+            radical = sjei_acc_number[0, 3]
+            aux_number = sjei_acc_number[3, sjei_acc_number.length]
+            if aux_number.match(/\A0*\z/).present?
+              w.info "We can't import auxiliary number #{sjei_acc_number} with only 0. Mass change number in your file before importing"
+              aux_number = '00000A'
+            end
+            sjei_acc_number = radical + aux_number
+          end
+          sjei_account = Account.find_by_number(sjei_acc_number)
+          unless sjei_account
+            sjei_account = Account.create!(number: sjei_acc_number,
+                                        nature: nature,
+                                        centralizing_account_name: centralizing_account_name,
+                                        auxiliary_number: aux_number)
+          end
+        end
+        sjei_account
       end
 
     end
