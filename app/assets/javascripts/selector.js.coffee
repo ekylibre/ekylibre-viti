@@ -13,8 +13,8 @@
     id: null
 
     _create: ->
-      @searchTreshold = @element.attr('data-search-treshold') || 0
-      @dropDownButtonShown = @element.attr('data-button') != "false"
+      # @searchTreshold = @element.attr('data-search-treshold') || 0
+      # @dropDownButtonShown = @element.attr('data-button') != "false"
       @lastSearch = @element.val()
       if @element.parent().is('.selector')
         parent = @element.parent()
@@ -35,8 +35,8 @@
             class: 'selector-dropdown btn btn-default dropdown-toggle sr-only'
           .insertAfter @element
 
-        unless  @dropDownButtonShown
-          @dropDownButton.hide()
+        # unless  @dropDownButtonShown
+        #   @dropDownButton.hide()
 
         # Create drop down menu
         @dropDownMenu = $ "<div>",
@@ -307,7 +307,7 @@
           window.clearTimeout(@searchRequestTimeout)
         @searchRequestTimeout = window.setTimeout(
           () =>
-            if search.length > @searchTreshold
+            if search.length > 0 #@searchTreshold
               @_openMenu search
             else
               @dropDownMenu.hide()
