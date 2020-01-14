@@ -69,31 +69,32 @@ DROP VIEW IF EXISTS formatted_cvi_cultivable_zones;
 
 CREATE OR REPLACE VIEW formatted_cvi_cultivable_zones AS
 
-SELECT 
-	name,
-	cvi_cultivable_zones.id AS id,
-	INITCAP(string_agg(DISTINCT city_name,', ' ORDER BY city_name)) AS communes,
-
-	string_agg(
+SELECT name, 
+	id,
+	string_agg(DISTINCT cadastral_ref,', ') AS cadastral_references,
+	communes,
+	cvi_statement_id,
+	formatted_calculated_area,
+	formatted_declared_area,
+	land_parcels_status
+FROM 
+	(SELECT name,
+		INITCAP(string_agg(DISTINCT city_name,', ' ORDER BY city_name)) AS communes,
+		cvi_cultivable_zones.id AS id,
 		CASE 
-			WHEN land_parcel_number IS NULL THEN 
-				CONCAT(section, work_number)
-			ELSE
-			CONCAT(section, work_number,'-',land_parcel_number ) 
-		END
-	,', 'ORDER BY section,work_number,land_parcel_number) AS cadastral_references,
-
-	area_formatted(declared_area_value) AS formatted_declared_area,
-	area_formatted(calculated_area_value) AS formatted_calculated_area,
-	land_parcels_status,
-
-	cvi_cultivable_zones.cvi_statement_id AS cvi_statement_id
-	
-FROM cvi_cultivable_zones
-LEFT JOIN locations as locations ON cvi_cultivable_zones.id = locations.localizable_id AND locations.localizable_type = 'CviCultivableZone'
-LEFT JOIN cvi_cadastral_plants ON cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id
-LEFT JOIN lexicon.registered_postal_zones ON locations.insee_number = registered_postal_zones.code
-GROUP BY cvi_cultivable_zones.id;
+			WHEN land_parcel_number IS NULL THEN section || work_number
+			ELSE section || work_number ||'-' || land_parcel_number  
+		END AS cadastral_ref,
+		area_formatted(calculated_area_value) AS formatted_calculated_area,
+		area_formatted(declared_area_value) AS formatted_declared_area,
+		land_parcels_status,
+		cvi_cultivable_zones.cvi_statement_id AS cvi_statement_id
+	FROM cvi_cultivable_zones
+	LEFT JOIN locations as locations ON cvi_cultivable_zones.id = locations.localizable_id AND locations.localizable_type = 'CviCultivableZone'
+	LEFT JOIN cvi_cadastral_plants ON cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id
+	LEFT JOIN lexicon.registered_postal_zones ON locations.insee_number = registered_postal_zones.code
+	GROUP BY cvi_cultivable_zones.id, name, cadastral_ref) AS subq
+GROUP BY id, name, communes, cvi_statement_id,formatted_calculated_area,formatted_declared_area,land_parcels_status;
 
 DROP VIEW IF EXISTS formatted_cvi_land_parcels;
 
