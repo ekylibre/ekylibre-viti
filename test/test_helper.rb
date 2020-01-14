@@ -529,7 +529,7 @@ module FFaker
     SHAPES = File.readlines(Rails.root.join('test','fixture-files',"shapes")).freeze
 
     def multipolygon
-      Charta.new_geometry(SHAPES.sample).to_rgeo
+      Charta.new_geometry(SHAPES.sample).to_rgeo.simplify(0.05)
     end
   end
 end 

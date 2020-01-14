@@ -18,7 +18,7 @@ class GenerateCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithF
       assert_equal cvi_cultivable_zone.cvi_cadastral_plants.collect(&:cadastral_reference).sort, cvi_cultivable_zone.cvi_land_parcels.collect(&:name).sort
       cvi_cadastral_plant = CviCadastralPlant.last
       cvi_land_parcel = CviLandParcel.find_by(name: cvi_cadastral_plant.cadastral_reference)
-      assert_equal cvi_cadastral_plant.shape, cvi_land_parcel.shape
+      assert_equal Charta.new_geometry(cvi_cadastral_plant.shape.to_rgeo.simplify(0)), cvi_land_parcel.shape
     end
   end
 end

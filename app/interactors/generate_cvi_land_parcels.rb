@@ -5,7 +5,7 @@ class GenerateCviLandParcels < ApplicationInteractor
       cvi_cadastral_plants = cvi_cultivable_zone.cvi_cadastral_plants
       cvi_cadastral_plants.each do |r|
         declared_area = r.area
-        shape = r.shape.to_rgeo
+        shape = r.shape.to_rgeo.simplify(0.05)
         calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
 
         cvi_land_parcel = CviLandParcel.create(

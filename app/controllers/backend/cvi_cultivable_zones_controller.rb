@@ -32,7 +32,7 @@ module Backend
 
     def confirm_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
-      shape = CviLandParcel.select('St_AStext(ST_Buffer(ST_Union(ARRAY_AGG(ST_Buffer(shape,0.000001))),-0.000001)) AS shape').find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id).shape
+      shape = CviLandParcel.select('St_AStext(ST_Buffer(ST_Union(ARRAY_AGG(ST_Buffer(shape,0.000001,\'join=mitre\'))),-0.000001,\'join=mitre\')) AS shape').find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id).shape
       calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
       cvi_cultivable_zone.update(shape: shape.to_rgeo, calculated_area: calculated_area, land_parcels_status: :created)
       redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)

@@ -21,7 +21,7 @@ module Backend
     end
 
     def group
-      cvi_land_parcels = CviLandParcel.joins(:locations, :land_parcel_rootstocks).find(params[:cvi_land_parcel_ids])
+      cvi_land_parcels = CviLandParcel.joins(:locations, :land_parcel_rootstocks).where(id:params[:cvi_land_parcel_ids]).distinct
       result = GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
       if result.success?
         notify_now(:cvi_land_parcels_grouped)
