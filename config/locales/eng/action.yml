@@ -211,6 +211,8 @@ eng:
       # edit: "Edit cvi cultivable zone: %{name}"
       # index: "Cvi cultivable zones"
       show: "Cvi cultivable zone: %{name}"
+    backend/cvi_land_parcels:
+      edit_multiple: "Edit selected land parcels"
     backend/cvi_statement_conversions:
       show: "Convert CVI into land parcels"
     backend/cvi_statements:

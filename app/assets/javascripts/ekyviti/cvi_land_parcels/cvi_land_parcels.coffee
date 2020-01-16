@@ -3,6 +3,7 @@ ekylibre.cviLandParcels ||= {}
 ((E, $) ->
   $(document).ready ->
     E.cviLandParcels.list.init()
+    E.cviLandParcels.list.bindEditMultipleButton()
 
     $(document).on E.Events.Map.split.change, (e, obj) ->
       splitForms = E.cviLandParcels.splitForm
@@ -24,5 +25,9 @@ ekylibre.cviLandParcels ||= {}
   
   $(document).on 'list:page:change', ->
     E.cviLandParcels.list.init()
+
+  $(document).on 'dialog:show', ->
+    if $("select#cvi_land_parcel_state").length > 0
+      E.cviLandParcels.editForm.init()
 
 )(ekylibre, jQuery)

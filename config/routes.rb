@@ -445,6 +445,8 @@ Rails.application.routes.draw do
       end
       collection do
         post :group
+        get :edit_multiple
+        put :update_multiple
       end
     end
 

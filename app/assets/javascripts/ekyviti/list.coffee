@@ -15,9 +15,19 @@ ekylibre.list ||= {}
     render: ->
       $("*[data-list-change-page-size].check").click()
 
-    disable: ->
-      $('tr').not('.edit-form').not($('.edit-form').prev('tr')).toggleClass("disabled-row")
-      $('.edit-form').prev('tr').find('a').toggleClass("disabled-link")
+    disable: (ids) ->
+      $('tr').toggleClass("disabled-row")
+      if ids.length > 1
+        
+        $rows = ids.map (id)->
+          $("tr#r#{id}")
+        for row in $rows
+          row.toggleClass("disabled-row")
+      else
+        $('.edit-form').prev('tr').toggleClass("disabled-row")
+ 
+      $('.edit-form').toggleClass("disabled-row")
+      $('td > a.edit').toggleClass("disabled-link")
 
     addForm: (form, id) ->
       $row = $("#r#{id}")

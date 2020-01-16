@@ -8,6 +8,7 @@
       this.bindCheckboxes()
       $('#group-cvi-land-parcels').hide()
       $('#cut-cvi-land-parcel').hide()
+      $('#edit-multiple-cvi-land-parcels').hide()
       this.selectedCviLandParcels = []
       
     render: ->
@@ -38,14 +39,17 @@
     disable: ->
       $('.btn-container a').attr("disabled", true)
       $('input[type=checkbox]').attr('disabled', true)
-      E.list.disable()
+      E.list.disable(this.selectedCviLandParcels)
 
     bindCheckboxes: ->
-      selectedCviLandParcels = this.selectedCviLandParcels
+      list = this
       $groupButton =  $('#group-cvi-land-parcels')
       $cutButton = $('#cut-cvi-land-parcel')
+      $editMultipleButton = $('#edit-multiple-cvi-land-parcels')
+      $editButtons = $('td > a.edit')
       $('#cvi_land_parcels-list').find('input[type=checkbox]').each ->
         $(this).change ->
+          selectedCviLandParcels = list.selectedCviLandParcels
           id = parseInt(this.value)
           layer = E.map.select id, false, 'cvi_land_parcels'
           if this.checked
@@ -67,14 +71,36 @@
             $groupButton.attr(href: "/backend/cvi_land_parcels/group?#{params}")
 
           if selectedCviLandParcels.length == 1
+            $editButtons.removeClass("disabled-link")
             $groupButton.hide()
             $cutButton.show()
+            $editMultipleButton.hide()
+            
           else if selectedCviLandParcels.length == 0
+            $editButtons.removeClass("disabled-link")
             $groupButton.hide()
             $cutButton.hide()
+            $editMultipleButton.hide()
           else
+            $editButtons.addClass("disabled-link")
             $groupButton.show()
             $cutButton.hide()
+            $editMultipleButton.show()
+    
+    bindEditMultipleButton: ->
+      list = this
+      $editMultipleButton = $('#edit-multiple-cvi-land-parcels')
+      $editMultipleButton.on "click", ->
+        params = list.selectedCviLandParcels.map (id) ->
+              "ids[]=#{id}"
+            .join('&')
+        ekylibre.dialog.open "/backend/cvi_land_parcels/edit_multiple?#{params}",
+          returns:
+            success: (frame, data, status, request) =>
+              frame.dialog "close"
+            invalid: (frame, data, status, request) ->
+              frame.html request.responseText
+              frame.trigger('dialog:show')
   
     addCheckboxes: ->
       $('#cvi_land_parcels-list').find('tr:not(.edit-form)').each (index, element) ->

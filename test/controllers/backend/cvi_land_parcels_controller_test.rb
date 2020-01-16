@@ -1,7 +1,7 @@
 require 'test_helper'
 module Backend
   class CviLandParcelsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
-    test_restfully_all_actions except: %i[index update group split pre_split index]
+    test_restfully_all_actions except: %i[edit_multiple update_multiple index update group split pre_split index]
 
     describe('#index') do
       let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_land_parcels) }
@@ -60,6 +60,44 @@ module Backend
           xhr :post, :group, cvi_land_parcel_ids: cvi_land_parcels.map(&:id)
           assert_response :success
         end
+      end
+    end
+
+    describe('#edit_multiple') do
+      let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone) }
+      let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2, name: 'name', cvi_cultivable_zone_id: cvi_cultivable_zone.id) }
+
+      it 'responds with success' do
+        xhr :get, :edit_multiple, ids: cvi_land_parcels.map(&:id)
+        assert_response :success
+      end
+
+      it 'assigns to cvi_land_parcel correct attributes (attribute equals for all cvi_land_parcels  ? attribute value : nil)' do
+        xhr :get, :edit_multiple, ids: cvi_land_parcels.map(&:id)
+        assert_equal assigns(:cvi_land_parcel).name, cvi_land_parcels.first.name
+        assert_empty assigns(:cvi_land_parcel).attributes
+                                              .except!(*%w[id name cvi_cultivable_zone_id calculated_area_unit declared_area_unit inter_vine_plant_distance_unit inter_row_distance_unit state])
+                                              .values
+                                              .compact
+      end
+    end
+
+    describe('#update_multiple') do
+      let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone) }
+      let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2, cvi_cultivable_zone_id: cvi_cultivable_zone.id) }
+      let(:params) { attributes_for(:cvi_land_parcel, land_parcel_rootstocks_attributes: { '0' => attributes_for(:land_parcel_rootstock) }) }
+
+      it 'responds with success' do
+        xhr :put, :update_multiple, ids: cvi_land_parcels.map(&:id), cvi_land_parcel: params
+        assert_response :success
+      end
+
+      it 'updates each cvi_land_parcels' do
+        xhr :put, :update_multiple, ids: cvi_land_parcels.map(&:id), cvi_land_parcel: params
+        updated_cvi_land_parcels = CviLandParcel.find(cvi_land_parcels.map(&:id))
+        EXCEPTED_ATTRIBUTES = %w[id created_at updated_at declared_area_value shape calculated_area_value].freeze
+        assert updated_cvi_land_parcels.first.attributes.except(*EXCEPTED_ATTRIBUTES) ==
+               updated_cvi_land_parcels.second.attributes.except(*EXCEPTED_ATTRIBUTES)
       end
     end
   end

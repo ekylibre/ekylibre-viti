@@ -160,7 +160,9 @@ fra:
     backend/cvi_statement_conversions:
       show: "Convertir CVI en parcellaire"
     backend/cvi_cultivable_zones:
-       show: "Zone cultivable: %{name}"
+      show: "Zone cultivable: %{name}"
+    backend/cvi_land_parcels:
+      edit_multiple:  "Modifier la séléction"
     backend/cvi_statements:
       edit: "Modifier le Casier Viticole Informatisé (CVI)\_: %{id}"
       index: "Casier Viticole Informatisé"
