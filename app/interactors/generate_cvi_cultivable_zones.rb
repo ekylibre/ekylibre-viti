@@ -14,7 +14,7 @@ class GenerateCviCultivableZones < ApplicationInteractor
       SELECT ARRAY_AGG(id) AS cvi_cadastral_plant_ids,
        St_AStext(ST_Union(ARRAY_AGG(shape))) AS shape
       FROM  (SELECT cvi_cadastral_plants.*, shape, ST_ClusterDBSCAN(shape, 0, 1) OVER() AS clst
-	            FROM   #{Ekylibre::Tenant.current}.cvi_cadastral_plants AS cvi_cadastral_plants
+	            FROM cvi_cadastral_plants
               LEFT JOIN lexicon.cadastral_land_parcel_zones  ON cvi_cadastral_plants.land_parcel_id = cadastral_land_parcel_zones.id
               WHERE cvi_statement_id = #{context.cvi_statement.id} AND land_parcel_id IS NOT NULL) q
       GROUP BY clst;").to_a.each { |e| e['cvi_cadastral_plant_ids'] = e['cvi_cadastral_plant_ids'].delete('{}').split(',') }
