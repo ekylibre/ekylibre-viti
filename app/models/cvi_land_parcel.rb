@@ -12,7 +12,7 @@ class CviLandParcel < Ekylibre::Record::Base
   validates :inter_vine_plant_distance_value, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 200 }, allow_blank: true
   has_many :land_parcel_rootstocks, as: :land_parcel, dependent: :destroy
 
-  accepts_nested_attributes_for :land_parcel_rootstocks
+  accepts_nested_attributes_for :land_parcel_rootstocks, reject_if: proc { |attributes| attributes['rootstock_id'].blank? }
 
   enumerize :state, in: %i[planted removed_with_authorization], predicates: true
 

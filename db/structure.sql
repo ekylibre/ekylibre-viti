@@ -24,6 +24,36 @@ CREATE SCHEMA postgis;
 
 
 --
+-- Name: area_formatted(numeric); Type: FUNCTION; Schema: postgis; Owner: -
+--
+
+CREATE FUNCTION postgis.area_formatted(area numeric) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+    DECLARE
+    ha_area_num  NUMERIC;
+    ar_area_num  NUMERIC;
+    ca_area_num  NUMERIC;
+    ha_area  VARCHAR(50);
+    ar_area  VARCHAR(50);
+    ca_area  VARCHAR(50);
+    result VARCHAR(50);
+    BEGIN
+    ha_area_num = TRUNC(area, 0);
+    ar_area_num = TRUNC(area - ha_area_num, 2);
+    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
+
+    ha_area = to_char(ha_area_num , 'FM00');
+    ar_area = to_char(ar_area_num * 100, 'FM00');
+    ca_area = to_char(ca_area_num * 10000, 'FM00');
+
+    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
+    RETURN result;
+    END;
+    $$;
+
+
+--
 -- Name: area_formatted(numeric); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -215,6 +245,45 @@ BEGIN
   RETURN NEW;
 END;
 $$;
+
+
+--
+-- Name: cvi_land_parcel_simplified; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.cvi_land_parcel_simplified AS
+ SELECT postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.1)::double precision) AS st_simplifypreservetopology
+   FROM demo.cvi_land_parcels;
+
+
+--
+-- Name: cvi_land_parcels_simplified; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.cvi_land_parcels_simplified AS
+ SELECT postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.1)::double precision) AS st_simplifypreservetopology
+   FROM demo.cvi_land_parcels;
+
+
+--
+-- Name: mavue; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.mavue AS
+ SELECT postgis.st_npoints(cvi_land_parcels.shape) AS shape1,
+    postgis.st_npoints(postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.001)::double precision)) AS shape2
+   FROM demo.cvi_land_parcels
+  WHERE ((cvi_land_parcels.name)::text = 'L1022-1-2, L826-1'::text);
+
+
+--
+-- Name: test; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.test AS
+ SELECT postgis.st_astext(cvi_land_parcels.shape) AS st_astext
+   FROM demo.cvi_land_parcels
+  WHERE ((cvi_land_parcels.name)::text = ANY ((ARRAY['L778-1'::character varying, 'L779'::character varying])::text[]));
 
 
 SET default_tablespace = '';
@@ -4449,9 +4518,9 @@ CREATE TABLE public.journal_entries (
     real_balance numeric(19,4) DEFAULT 0.0 NOT NULL,
     resource_prism character varying,
     financial_year_exchange_id integer,
-    reference_number character varying,
     continuous_number integer,
-    validated_at timestamp without time zone
+    validated_at timestamp without time zone,
+    reference_number character varying
 );
 
 
