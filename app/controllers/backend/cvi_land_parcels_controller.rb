@@ -23,16 +23,8 @@ module Backend
     def edit_multiple
       @cvi_land_parcels = CviLandParcel.find(params[:ids])
       rootstock_editable?
-      rootstock_ids = @cvi_land_parcels.collect { |cvi_land_parcel| cvi_land_parcel.land_parcel_rootstocks&.collect(&:rootstock_id) }.compact.uniq
-      rootstock_id = rootstock_ids.first if rootstock_ids.length == 1
-      @cvi_land_parcel = @cvi_land_parcels.first.dup
-      attributes_with_different_values = CviLandParcel.column_names.reject { |c| c == 'id' }.map do |a|
-        a if @cvi_land_parcels.collect { |r| r.try(a) }.compact.uniq.length > 1
-      end.compact
-      attributes_with_different_values.each do |a|
-        @cvi_land_parcel.send("#{a}=", nil)
-      end
-      @cvi_land_parcel.land_parcel_rootstocks.build(rootstock_id: rootstock_id)
+      result = ConcatCviLandParcels.call(cvi_land_parcels: @cvi_land_parcels)
+      @cvi_land_parcel = result.cvi_land_parcel
     end
 
     def update_multiple
@@ -45,6 +37,7 @@ module Backend
         render :edit_multiple
         return
       end
+
       @cvi_land_parcels.each do |cvi_land_parcel|
         update_params = update_multiple_params
         update_params['land_parcel_rootstocks_attributes']['0']['id'] = cvi_land_parcel.land_parcel_rootstock_ids.first if rootstock_editable?

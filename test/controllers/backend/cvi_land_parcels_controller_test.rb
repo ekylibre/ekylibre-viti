@@ -1,4 +1,5 @@
 require 'test_helper'
+
 module Backend
   class CviLandParcelsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
     test_restfully_all_actions except: %i[edit_multiple update_multiple index update group split pre_split index]
@@ -64,21 +65,18 @@ module Backend
     end
 
     describe('#edit_multiple') do
-      let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone) }
-      let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2, name: 'name', cvi_cultivable_zone_id: cvi_cultivable_zone.id) }
+      let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2) }
 
       it 'responds with success' do
         xhr :get, :edit_multiple, ids: cvi_land_parcels.map(&:id)
         assert_response :success
       end
 
-      it 'assigns to cvi_land_parcel correct attributes (attribute equals for all cvi_land_parcels  ? attribute value : nil)' do
+      it 'assigns objects' do
         xhr :get, :edit_multiple, ids: cvi_land_parcels.map(&:id)
-        assert_equal assigns(:cvi_land_parcel).name, cvi_land_parcels.first.name
-        assert_empty assigns(:cvi_land_parcel).attributes
-                                              .except!(*%w[id name cvi_cultivable_zone_id calculated_area_unit declared_area_unit inter_vine_plant_distance_unit inter_row_distance_unit state])
-                                              .values
-                                              .compact
+        assert_not_nil assigns(:cvi_land_parcels)
+        assert_not_nil assigns(:cvi_land_parcel)
+        assert_not_nil assigns(:rootstock_editable)
       end
     end
 
@@ -98,6 +96,28 @@ module Backend
         EXCEPTED_ATTRIBUTES = %w[id created_at updated_at declared_area_value shape calculated_area_value].freeze
         assert updated_cvi_land_parcels.first.attributes.except(*EXCEPTED_ATTRIBUTES) ==
                updated_cvi_land_parcels.second.attributes.except(*EXCEPTED_ATTRIBUTES)
+      end
+    end
+
+    describe('#rootstock_editable?') do
+      describe('one or more cvi_land_parcel has many rootstock') do
+        let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2,:with_2_rootstocks) }
+        
+        it 'assigns @rootstock_editable to false' do
+          @controller.instance_variable_set(:@cvi_land_parcels, cvi_land_parcels)
+          @controller.send(:rootstock_editable?)
+          refute @controller.instance_variable_get(:@rootstock_editable)
+        end
+      end
+
+      describe('cvi_land_parcels has only one rootstock') do
+        let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2) }
+
+        it 'assigns @rootstock_editable to true' do
+          @controller.instance_variable_set(:@cvi_land_parcels, cvi_land_parcels)
+          @controller.send(:rootstock_editable?)
+          assert @controller.instance_variable_get(:@rootstock_editable)
+        end
       end
     end
   end

@@ -48,6 +48,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_2_rootstocks do
+      after(:create) do |resource|
+        create_list(:land_parcel_rootstock,2, land_parcel: resource)
+      end
+    end
+
     trait :groupable do
       inter_vine_plant_distance_value { 1 }
       inter_row_distance_value { 2 }
