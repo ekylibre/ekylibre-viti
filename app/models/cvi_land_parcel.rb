@@ -28,6 +28,14 @@ class CviLandParcel < Ekylibre::Record::Base
     updated_at != created_at
   end
 
+  def valid_for_update_multiple?
+    valid?
+    errors.delete(:name)
+    errors.delete(:inter_vine_plant_distance_value) if errors.added?(:inter_vine_plant_distance_value, :blank)
+    errors.delete(:inter_row_distance_value) if errors.added?(:inter_row_distance_value, :blank)
+    errors.empty?
+  end
+
   def set_calculated_area
     self.calculated_area_value = Measure.new(shape.area, :square_meter).convert(:hectare)
   end

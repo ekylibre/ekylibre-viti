@@ -30,8 +30,7 @@ module Backend
     def update_multiple
       @cvi_land_parcels = CviLandParcel.find(params[:ids])
       @cvi_land_parcel = CviLandParcel.new(update_multiple_params)
-      unless @cvi_land_parcel.valid?
-        notify_error_now :record_cannot_be_saved.tl
+      unless @cvi_land_parcel.valid_for_update_multiple?
         response.headers['X-Return-Code'] = 'invalid'
         rootstock_editable?
         render :edit_multiple
