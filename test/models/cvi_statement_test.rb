@@ -65,9 +65,4 @@ class CviStatementTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   should have_many(:cvi_cultivable_zones)
 
   should enumerize(:state).in(:to_convert, :converted).with_default(:to_convert).with_predicates(true)
-
-  it 'responds to total_area_formatted with the correct value and format' do
-    cvi_statement = create(:cvi_statement, total_area: Measure.new(1.1455, :hectare))
-    assert_equal '01ha 14a 55ca', cvi_statement.total_area_formatted
-  end
 end
