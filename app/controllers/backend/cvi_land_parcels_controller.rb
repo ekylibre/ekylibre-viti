@@ -14,7 +14,9 @@ module Backend
 
       @cvi_land_parcel.attributes = update_params
       if @cvi_land_parcel.save
-        notify_success(:record_x_updated, record: @cvi_land_parcel.model_name.human, column: @cvi_land_parcel.human_attribute_name(:name), name: @cvi_land_parcel.send(:name))
+        notify_success(:record_x_updated, record: @cvi_land_parcel.model_name.human,
+                                          column: @cvi_land_parcel.human_attribute_name(:name),
+                                          name: @cvi_land_parcel.send(:name))
       else
         render action: :edit
       end
@@ -31,6 +33,7 @@ module Backend
       @cvi_land_parcels = CviLandParcel.find(params[:ids])
       @cvi_land_parcel = CviLandParcel.new(update_multiple_params)
       unless @cvi_land_parcel.valid_for_update_multiple?
+        notify_error_now :records_cannot_be_saved.tl
         response.headers['X-Return-Code'] = 'invalid'
         rootstock_editable?
         render :edit_multiple
@@ -43,7 +46,9 @@ module Backend
         cvi_land_parcel.update!(update_params.reject { |_k, v| v.blank? })
       end
       response.headers['X-Return-Code'] = 'success'
-      notify_now(:cvi_land_parcels_grouped)
+      notify_success(:records_x_updated_f, record: @cvi_land_parcel.model_name.human.pluralize,
+                                           column: @cvi_land_parcel.human_attribute_name(:name),
+                                           name: @cvi_land_parcels.collect(&:name).uniq.join(','))
     end
 
     def group
