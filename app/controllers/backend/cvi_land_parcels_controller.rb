@@ -4,7 +4,7 @@ module Backend
 
     def index
       records = CviCultivableZone.find(params[:id]).cvi_land_parcels.collect do |r|
-        { uuid: r.id, shape: Charta.new_geometry(r.shape.to_rgeo.simplify(0)).to_json_object, name: r.name, updated: r.updated? }
+        { uuid: r.id, shape: Charta.new_geometry(r.shape.to_rgeo).to_json_object, name: r.name, updated: r.updated? }
       end
       render json: records.compact.to_json
     end

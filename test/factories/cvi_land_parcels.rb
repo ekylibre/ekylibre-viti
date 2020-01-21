@@ -10,7 +10,7 @@ FactoryBot.define do
     designation_of_origin_id { RegisteredProtectedDesignationOfOrigin.order('RANDOM()').first.id }
     vine_variety_id { MasterVineVariety.where(category_name: 'Cépage').order('RANDOM()').first.id }
     state { %i[planted removed_with_authorization].sample }
-    shape { FFaker::Shape.multipolygon }
+    shape { FFaker::Shape.multipolygon.simplify(0.05) }
     planting_campaign { FFaker::Time.between(10.years.ago, Time.zone.today).year.to_s }
     land_modification_date { Time.zone.today - rand(10_000) }
     cvi_cultivable_zone

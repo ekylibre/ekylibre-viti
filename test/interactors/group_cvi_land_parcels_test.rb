@@ -21,6 +21,7 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
         GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
         cvi_land_parcel = CviLandParcel.last
         assert_equal cvi_land_parcels.map(&:declared_area).sum, cvi_land_parcel.declared_area
+        assert_in_delta cvi_land_parcels.map(&:calculated_area_value).sum, cvi_land_parcel.calculated_area.value, 0.001
         assert_equal name, cvi_land_parcel.name
       end
 
@@ -32,8 +33,8 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
         percentage2 = area_rootstock2 / total_area
         GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
         cvi_land_parcel = CviLandParcel.last
-        assert_in_epsilon(percentage1, cvi_land_parcel.land_parcel_rootstocks.first.percentage, epsilon = 0.01)
-        assert_in_epsilon(percentage2, cvi_land_parcel.land_parcel_rootstocks.second.percentage, epsilon = 0.01)
+        assert_in_delta(percentage1, cvi_land_parcel.land_parcel_rootstocks.first.percentage, delta = 0.01)
+        assert_in_delta(percentage2, cvi_land_parcel.land_parcel_rootstocks.second.percentage, delta = 0.01)
       end
 
       it 'destroy grouped cvi_land_parcels' do
