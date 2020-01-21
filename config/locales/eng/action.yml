@@ -1087,6 +1087,10 @@ eng:
         vine_variety_name: "Variety of vine"
         calculated_area: "Calculated area"
         required: "required"
+      actions:
+        regroup: "Group"
+        split: "Split"
+        edit: "Edit"
     bank_reconciliation:
       remove: "Remove"
     leaflet:

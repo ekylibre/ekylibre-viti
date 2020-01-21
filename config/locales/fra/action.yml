@@ -884,6 +884,10 @@ fra:
         vine_variety_name: "Cépage"
         calculated_area: "Superficie calculée"
         required: "Obligatoire"
+      actions:
+        regroup: "Regrouper"
+        split: "Dissocier"
+        edit: "Modifier"
     bank_reconciliation:
       remove: "Effacer"
     leaflet:

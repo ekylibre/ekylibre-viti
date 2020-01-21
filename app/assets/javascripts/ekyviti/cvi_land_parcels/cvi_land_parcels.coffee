@@ -3,7 +3,6 @@ ekylibre.cviLandParcels ||= {}
 ((E, $) ->
   $(document).ready ->
     E.cviLandParcels.list.init()
-    E.cviLandParcels.list.bindEditMultipleButton()
 
     $(document).on E.Events.Map.split.change, (e, obj) ->
       splitForms = E.cviLandParcels.splitForm
