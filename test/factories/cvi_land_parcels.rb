@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :cvi_land_parcel do
     name { FFaker::NameFR.name }
-    calculated_area_unit { :hectare }
-    calculated_area_value {}
     declared_area_unit { :hectare }
     declared_area_value { BigDecimal(rand.round(2), 4) }
     inter_vine_plant_distance_value { BigDecimal(rand.round(2), 4) }
@@ -30,10 +28,6 @@ FactoryBot.define do
           'POLYGON ((-0.2530234355964364 45.7800197476819, -0.252766 45.78065979560589, -0.25263 45.78060929560586, -0.2528854767532964 45.77997453204999, -0.2530234355964364 45.7800197476819))'
         ][n % 2]
       end
-    end
-
-    before(:create) do |cvi_land_parcel|
-      cvi_land_parcel.calculated_area_value = Measure.new(cvi_land_parcel.shape.area, :square_meter).in(:hectare).to_f
     end
 
     trait :with_location do

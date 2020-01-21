@@ -18,7 +18,7 @@ class CviLandParcel < Ekylibre::Record::Base
 
   validates_presence_of :name, :inter_row_distance_value, :inter_vine_plant_distance_value, :vine_variety_id
 
-  before_save :set_calculated_area, on: %i[update], if: :shape_changed?
+  before_save :set_calculated_area, on: %i[create update], if: :shape_changed?
 
   def shape
     Charta.new_geometry(self[:shape])
@@ -37,6 +37,6 @@ class CviLandParcel < Ekylibre::Record::Base
   end
 
   def set_calculated_area
-    self.calculated_area_value = Measure.new(shape.area, :square_meter).convert(:hectare)
+    self.calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
   end
 end

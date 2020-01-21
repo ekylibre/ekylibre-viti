@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :cvi_cultivable_zone do
     sequence(:name) { |n| "Zone#{n}" }
-    calculated_area_unit { :hectare }
-    calculated_area_value { rand.round(2) }
     declared_area_unit { :hectare }
     declared_area_value { rand.round(2) }
     land_parcels_status { %i[not_created created].sample }

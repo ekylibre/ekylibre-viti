@@ -28,13 +28,11 @@ class GenerateCviCultivableZones < ApplicationInteractor
       locations = cvi_cadastral_plants.map(&:location).uniq{ |e| e.insee_number && e.locality}
       declared_area = cvi_cadastral_plants.collect(&:area).sum
       shape = cvi_cultivable_zone['shape']
-      calculated_area = Measure.new(Charta.new_geometry(shape).area, :square_meter).convert(:hectare)
 
       cvi_cultivable_zone = CviCultivableZone.create(
         name: "Zone ##{index}",
         cvi_statement_id: context.cvi_statement.id,
         declared_area: declared_area,
-        calculated_area: calculated_area,
         shape: shape
       )
       locations.each do |r|

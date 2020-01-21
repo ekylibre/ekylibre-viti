@@ -9,6 +9,8 @@ class CviCultivableZone < Ekylibre::Record::Base
 
   validates_presence_of :name
 
+  before_save :set_calculated_area, on: %i[create update], if: :shape_changed?
+
   enumerize :land_parcels_status, in: %i[not_created created], predicates: true
 
   def shape
@@ -17,5 +19,9 @@ class CviCultivableZone < Ekylibre::Record::Base
 
   def has_cvi_land_parcels?
     cvi_land_parcels.any?
+  end
+
+  def set_calculated_area
+    self.calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
   end
 end
