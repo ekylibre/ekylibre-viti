@@ -11,6 +11,25 @@
         console.log data
         map.mapeditor('edit', data.shape, true)
 
+  $(document).on "selector:change", "#activity_production_nature_id", (event)->
+    element = $(this)
+    id = element.selector('value')
+    options =
+      locale: $('input#activity_production_started_on').attr("lang")
+      dateFormat: 'Y-m-d'
+      altInput: true
+      altFormat: 'd-F'
+    $.ajax
+      url: "/backend/master_production_natures/#{id}.json"
+      success: (data, status, request) ->
+        fp_stared_on = $('input#activity_production_started_on').flatpickr(options)
+        fp_stared_on.setDate(data.started_on)
+        fp_stared_on.calendarContainer.classList.add('day-year-hidden')
+        fp_stopped_on = $('input#activity_production_stopped_on').flatpickr(options)
+        fp_stopped_on.setDate(data.stopped_on)
+        fp_stopped_on.calendarContainer.classList.add('day-year-hidden')
+
+
   $(document).on "change keyup", ".plant-density-abacus .activity_plant_density_abaci_seeding_density_unit select", (event)->
     element = $(this)
     label = element.find('option:selected').html()

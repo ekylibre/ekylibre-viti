@@ -1870,6 +1870,9 @@ eng:
     fixed_assets: "Fixed assets"
     forecast_harvest_week: "Forecast harvest week"
     from: "From"
+    from_current_year: "From (year N)"
+    to_next_year: "To (year N+1)"
+    production_campaign_period: "Production campaign period (year N)"
     from_to_date: "from %{from} to %{to}" #?
     fullscreen: "Fullscreen"
     function: "Function"

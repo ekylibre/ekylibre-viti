@@ -1,0 +1,2 @@
+json.started_on resource.started_on
+json.stopped_on resource.stopped_on
