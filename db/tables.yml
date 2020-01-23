@@ -1935,6 +1935,9 @@ cvi_cultivable_zones:
     type: datetime
     required: true
 cvi_land_parcels:
+  activity_id:
+    type: integer
+    references: activity
   calculated_area_unit:
     type: string
   calculated_area_value:

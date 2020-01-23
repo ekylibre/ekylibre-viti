@@ -21,3 +21,12 @@
 .flatpickr-time .numInput {
   text-align: center !important;
 }
+
+.flatpickr-calendar.day-year-hidden {
+  .numInputWrapper{
+    display: none;
+  }
+  .flatpickr-weekdaycontainer {
+    display: none;
+  }
+}
