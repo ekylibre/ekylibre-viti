@@ -276,8 +276,8 @@ class ActivityProduction < Ekylibre::Record::Base
       end
       self.support ||= LandParcel.new
     end
-    support.name = name
-    support.initial_shape = self.support_shape
+    support.name ||= name
+    support.initial_shape ||= self.support_shape
 
     if self.activity && self.cultivable_zone
       support.work_number = computed_work_number
