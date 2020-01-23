@@ -22,11 +22,14 @@ class ConvertCvi < ApplicationInteractor
       ).find_or_create_by(name: cvi_cultivable_zone.name)
 
       activity = cvi_land_parcel.activity
-      ActivityProduction.create!(
+      ActivityProduction.create(
         campaign_id: campaign.id,
         support_id: land_parcel.id,
         activity_id: activity.id,
         cultivable_zone_id: cultivable_zone.id,
+        size_value: land_parcel.initial_population,
+        size_indicator_name: "net_surface_area",
+        size_unit_name: "hectare",
         support_shape: land_parcel.initial_shape,
         started_on: activity.production_started_on.change(year: campaign.harvest_year - 1),
         stopped_on: activity.production_stopped_on.change(year: campaign.harvest_year)

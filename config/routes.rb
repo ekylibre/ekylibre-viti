@@ -424,6 +424,7 @@ Rails.application.routes.draw do
       member do
         get :list_cvi_cultivable_zones
         get :reset
+        post :convert
       end
     end
 

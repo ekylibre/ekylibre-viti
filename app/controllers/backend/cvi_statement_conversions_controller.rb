@@ -33,6 +33,12 @@ module Backend
       redirect_to action: 'show', id: cvi_statement.id
     end
 
+    def convert
+      cvi_statement = CviStatement.find(params[:id])
+      ConvertCvi.call(cvi_statement: cvi_statement)
+      redirect_to production_backend_dashboards_path
+    end
+
     private
 
     def cvi_cultivable_zones_exist?
