@@ -44,6 +44,10 @@ FactoryBot.define do
       end
     end
 
+    trait :with_activity do
+      activity
+    end
+
     trait :with_rootstock do
       after(:create) do |resource|
         create(:land_parcel_rootstock, land_parcel: resource)

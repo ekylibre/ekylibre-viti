@@ -348,7 +348,10 @@ CREATE TABLE public.activities (
     use_seasons boolean DEFAULT false,
     use_tactics boolean DEFAULT false,
     codes jsonb,
-    production_nature_id integer
+    production_nature_id integer,
+    production_started_on date,
+    production_stopped_on date,
+    first_production_after integer
 );
 
 
@@ -3415,62 +3418,11 @@ ALTER SEQUENCE public.fixed_assets_id_seq OWNED BY public.fixed_assets.id;
 
 
 --
--- Name: locations; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.locations (
-    id integer NOT NULL,
-    insee_number character varying,
-    locality character varying,
-    localizable_id integer,
-    localizable_type character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: formatted_cvi_cadastral_plants; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW public.formatted_cvi_cadastral_plants AS
- SELECT cvi_cadastral_plants.id,
-    cvi_cadastral_plants.land_parcel_id,
-    locations.locality,
-    initcap((registered_postal_zones.city_name)::text) AS commune,
-        CASE
-            WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN concat(cvi_cadastral_plants.section, ' ', cvi_cadastral_plants.work_number)
-            ELSE concat(cvi_cadastral_plants.section, ' ', cvi_cadastral_plants.work_number, '-', cvi_cadastral_plants.land_parcel_number)
-        END AS cadastral_reference,
-    designation_of_origins.product_human_name_fra AS designation_of_origin_name,
-    initcap((vine_varieties.specie_name)::text) AS vine_variety_name,
-    cvi_cadastral_plants.area_value,
-    public.area_formatted(cvi_cadastral_plants.area_value) AS area_formatted,
-    cvi_cadastral_plants.planting_campaign,
-    cvi_cadastral_plants.cadastral_ref_updated,
-        CASE
-            WHEN (cvi_cadastral_plants.rootstock_id IS NULL) THEN NULL::text
-            ELSE initcap((rootstocks.specie_name)::text)
-        END AS rootstock,
-    (cvi_cadastral_plants.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
-    (cvi_cadastral_plants.inter_row_distance_value)::integer AS inter_row_distance_value,
-    cvi_cadastral_plants.state,
-    cvi_cadastral_plants.cvi_statement_id
-   FROM (((((public.cvi_cadastral_plants
-     LEFT JOIN public.locations ON (((cvi_cadastral_plants.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviCadastralPlant'::text))))
-     LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.insee_number)::text = (registered_postal_zones.code)::text)))
-     LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_cadastral_plants.vine_variety_id)::text = (vine_varieties.id)::text)))
-     LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((cvi_cadastral_plants.rootstock_id)::text = (rootstocks.id)::text)))
-     LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.id)));
-
-
---
 -- Name: formatted_cvi_cultivable_zones; Type: VIEW; Schema: public; Owner: -
 --
 
 CREATE VIEW public.formatted_cvi_cultivable_zones AS
-SELECT
-    NULL::character varying AS name,
+ SELECT NULL::character varying AS name,
     NULL::integer AS id,
     NULL::text AS communes,
     NULL::text AS cadastral_references,
@@ -3485,8 +3437,7 @@ SELECT
 --
 
 CREATE VIEW public.formatted_cvi_land_parcels AS
-SELECT
-    NULL::integer AS id,
+ SELECT NULL::integer AS id,
     NULL::character varying AS name,
     NULL::text AS communes,
     NULL::text AS localities,
@@ -4841,6 +4792,21 @@ CREATE SEQUENCE public.loans_id_seq
 --
 
 ALTER SEQUENCE public.loans_id_seq OWNED BY public.loans.id;
+
+
+--
+-- Name: locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.locations (
+    id integer NOT NULL,
+    insee_number character varying,
+    locality character varying,
+    localizable_id integer,
+    localizable_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
 
 
 --
@@ -18383,61 +18349,6 @@ CREATE OR REPLACE VIEW public.product_populations AS
 
 
 --
--- Name: formatted_cvi_cultivable_zones _RETURN; Type: RULE; Schema: public; Owner: -
---
-
-CREATE OR REPLACE VIEW public.formatted_cvi_cultivable_zones AS
- SELECT cvi_cultivable_zones.name,
-    cvi_cultivable_zones.id,
-    initcap(string_agg(DISTINCT (registered_postal_zones.city_name)::text, ', '::text ORDER BY (registered_postal_zones.city_name)::text)) AS communes,
-    string_agg(
-        CASE
-            WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN concat(cvi_cadastral_plants.section, cvi_cadastral_plants.work_number)
-            ELSE concat(cvi_cadastral_plants.section, cvi_cadastral_plants.work_number, '-', cvi_cadastral_plants.land_parcel_number)
-        END, ', '::text ORDER BY cvi_cadastral_plants.section, cvi_cadastral_plants.work_number, cvi_cadastral_plants.land_parcel_number) AS cadastral_references,
-    public.area_formatted(cvi_cultivable_zones.declared_area_value) AS formatted_declared_area,
-    public.area_formatted(cvi_cultivable_zones.calculated_area_value) AS formatted_calculated_area,
-    cvi_cultivable_zones.land_parcels_status,
-    cvi_cultivable_zones.cvi_statement_id
-   FROM (((public.cvi_cultivable_zones
-     LEFT JOIN public.locations locations ON (((cvi_cultivable_zones.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviCultivableZone'::text))))
-     LEFT JOIN public.cvi_cadastral_plants ON ((cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id)))
-     LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.insee_number)::text = (registered_postal_zones.code)::text)))
-  GROUP BY cvi_cultivable_zones.id;
-
-
---
--- Name: formatted_cvi_land_parcels _RETURN; Type: RULE; Schema: public; Owner: -
---
-
-CREATE OR REPLACE VIEW public.formatted_cvi_land_parcels AS
- SELECT cvi_land_parcels.id,
-    cvi_land_parcels.name,
-    initcap(string_agg(DISTINCT (registered_postal_zones.city_name)::text, ', '::text ORDER BY (registered_postal_zones.city_name)::text)) AS communes,
-    initcap(string_agg(DISTINCT (locations.locality)::text, ', '::text ORDER BY (locations.locality)::text)) AS localities,
-    cvi_land_parcels.planting_campaign,
-    designation_of_origins.product_human_name_fra AS designation_of_origin_name,
-    vine_varieties.specie_name AS vine_variety_name,
-    initcap(string_agg(DISTINCT (rootstocks.specie_name)::text, ', '::text ORDER BY (rootstocks.specie_name)::text)) AS rootstocks,
-    cvi_land_parcels.declared_area_value,
-    cvi_land_parcels.calculated_area_value,
-    public.area_formatted(cvi_land_parcels.declared_area_value) AS declared_area_formatted,
-    public.area_formatted(cvi_land_parcels.calculated_area_value) AS calculated_area_formatted,
-    (cvi_land_parcels.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
-    (cvi_land_parcels.inter_row_distance_value)::integer AS inter_row_distance_value,
-    cvi_land_parcels.state,
-    cvi_land_parcels.cvi_cultivable_zone_id
-   FROM ((((((public.cvi_land_parcels
-     LEFT JOIN public.locations locations ON (((cvi_land_parcels.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviLandParcel'::text))))
-     LEFT JOIN public.land_parcel_rootstocks ON (((cvi_land_parcels.id = land_parcel_rootstocks.land_parcel_id) AND ((land_parcel_rootstocks.land_parcel_type)::text = 'CviLandParcel'::text))))
-     LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((land_parcel_rootstocks.rootstock_id)::text = (rootstocks.id)::text)))
-     LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.insee_number)::text = (registered_postal_zones.code)::text)))
-     LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_land_parcels.vine_variety_id)::text = (vine_varieties.id)::text)))
-     LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_land_parcels.designation_of_origin_id = designation_of_origins.id)))
-  GROUP BY cvi_land_parcels.id, designation_of_origins.product_human_name_fra, vine_varieties.specie_name;
-
-
---
 -- Name: activities_campaigns delete_activities_campaigns; Type: RULE; Schema: public; Owner: -
 --
 
@@ -19727,4 +19638,6 @@ INSERT INTO schema_migrations (version) VALUES ('20191223092535');
 INSERT INTO schema_migrations (version) VALUES ('20200108090053');
 
 INSERT INTO schema_migrations (version) VALUES ('20200110142108');
+
+INSERT INTO schema_migrations (version) VALUES ('20200121161421');
 
