@@ -6,7 +6,7 @@ module Sage
           'V' => :sales,
           'T' => :bank,
           'D' => :various
-        }
+        }.freeze
 
       class SageFileInformation
 
@@ -16,79 +16,55 @@ module Sage
           data_exported_on = doc.at_css('INFORMATION').attribute('DATECREATION').value
           version_information = doc.at_css('INFORMATION').attribute('VERSIONECX').value + ' - ' + doc.at_css('INFORMATION').attribute('VERSIONEMETTEUR').value
 
-          new(period_started_on, period_stopped_on, data_exported_on, version_information)
+          new(period_started_on, period_stopped_on, data_exported_on, version_information, doc)
+        end
+        def self.load_from(f)
+          source = File.read(f)
+          detection = CharlockHolmes::EncodingDetector.detect(source)
+
+          doc = Nokogiri.XML(source, nil, detection[:encoding], &:noblanks)
+          SageFileInformation.read_from(doc)
         end
 
-        attr_reader :period_started_on, :period_stopped_on, :data_exported_on, :version_information, :editor_data_providers
+        attr_reader :period_started_on, :period_stopped_on, :data_exported_on, :version_information, :editor_data_providers, :doc
 
-        def initialize(period_started_on, period_stopped_on, data_exported_on, version_information)
+        def initialize(period_started_on, period_stopped_on, data_exported_on, version_information, doc)
           @period_started_on = period_started_on.to_date
           @period_stopped_on = period_stopped_on.to_date
           @data_exported_on = data_exported_on.to_date
           @version_information = version_information
           @editor_data_providers = {sender_name: 'sage_i7', created_on: data_exported_on, sender_infos: version_information }
+          @doc = doc
         end
 
       end
 
       def check
-        # Imports journal entries into journal to make accountancy in XML format from Sage
-        # filename example : export_comptabilité_TREETE SAS_2018.ecx
-        # Squeleton are:
-        #  <ECX>
-        ## <INFORMATION> 1 occurence
-        ## <DOSSIER> 1 occurence
-        ## <PC> 1 occurence
-        ### <COMPTE CATEGORIEAV="" COMPTE="101000000" NOM="Capital" OPTIONS="0" SOLDE="-353000" TAUXTVA=" 0" UNITE=""/>
-        ### <COMPTE ...
-        ## <JOURNAL> n occurences
-        ### <PIECE COURSDEVISE="1" DATEECR="2018-01-12" DEVISE="E" DGIORIGINE="0" ETAT="0" INFOORIGINE="" LIBPIECE="Vente eau-de-vie - Cognac Chollet (001)" TYPEORIGINE="">
-        #### <LIGNE CARLETTRAGE="" COMPTE="411008178" DATEECR="2018-01-18" LIBMANU="Vente eau-de-vie - Croizet (sas)" MONTANT=" 0" MONTANTREF=" 5158.22" QUANTITE=" 0" REFERENCE="002" SENS="1" TAUXTVA=" 0" UNITE=""/>
-        #### <LIGNE ...
-        ### <PIECE...
-        #### <LIGNE ...
-        ## <JOURNAL>..
-        now = Time.zone.now
         valid = true
-        # check encoding
-        source = File.read(file)
-        detection = CharlockHolmes::EncodingDetector.detect(source)
-        puts detection[:encoding].inspect.red
-        if detection[:encoding] != "ISO-8859-1" && detection[:encoding] != "UTF-8"
+        file_info = SageFileInformation.load_from(file)
+
+        fy = FinancialYear.find_by("stopped_on = ?", file_info.period_stopped_on)
+
+        if fy.nil?
           valid = false
+          w.error "The financial year is needed for #{file_info.period_stopped_on}"
         end
-        # check if file is a valid XML
-        f = File.open(file)
-        # f = sanitize(f)
-        doc = Nokogiri::XML(f, &:noblanks)
-
-        file_info = SageFileInformation.read_from(doc)
-
-        fy = FinancialYear.find_by("stopped_on = ?", file_info.period_stopped_on.to_date)
-
-        valid = false if fy.nil?
-
         valid
       end
 
       def import
-        doc = Nokogiri::XML(File.open(file)) do |config|
-          config.strict.nonet.noblanks
-        end
+        file_info = SageFileInformation.load_from(file)
 
-        file_info = SageFileInformation.read_from(doc)
-
-        # - prouver que les dates de fin sont les mêmes entre sage et ekylibre
-        accounts = find_or_create_accounts(doc)
+        accounts = accounts_retrieval(file_info.doc)
         entity_accounts = accounts.select { |number, _account| number.start_with?("401", "411") }
 
         entity_accounts.each do |_key, entity_account|
-          entity_evolved(file_info.period_started_on, entity_account)
+          update_entity(file_info.period_started_on, entity_account)
         end
 
-        fy = FinancialYear.find_by("stopped_on = ?", file_info.period_stopped_on.to_date)
+        fy = FinancialYear.find_by("stopped_on = ?", file_info.period_stopped_on)
 
-        entries = find_or_create_entries(doc, fy, file_info.editor_data_providers)
+        entries = entries_items(file_info.doc, fy, file_info.editor_data_providers)
         entries.each do |key, entry|
           j = JournalEntry.create!(entry)
         end
@@ -96,7 +72,7 @@ module Sage
       end
 
       # create or update account chart with data in file
-      def find_or_create_accounts(doc)
+      def accounts_retrieval(doc)
         accounts = {}
         # check account lenght
         # find or create account
@@ -104,8 +80,7 @@ module Sage
         acc_number_length = pc.css('COMPTE').first.attribute('COMPTE').value.length
 
         if Preference[:account_number_digits] != acc_number_length
-          Preference.set!(:account_number_digits, acc_number_length)
-          #TODO check if current account are ready
+          raise StandardError.new("The account number length cant't be different from your own settings")
         end
 
         pc.css('COMPTE').each do |account|
@@ -115,8 +90,8 @@ module Sage
           next if acc_number.strip.gsub(/0+\z/, '').in?(['1','2','3','4','5','6','7','8'])
 
           accounts[acc_number] = find_or_create_account_by_number(acc_number, acc_name)
-
         end
+
         accounts
       end
 
@@ -128,7 +103,7 @@ module Sage
           attributes[:nature] = 'auxiliary'
           aux_number = acc_number[3, acc_number.length]
           if aux_number.match(/\A0*\z/).present?
-            raise StandardError.new("Can't create account")
+            raise StandardError.new("Can't create account. Number provided can't be a radical class")
           else
             attributes[:auxiliary_number] = aux_number
           end
@@ -138,17 +113,17 @@ module Sage
         acc
       end
 
-      def entity_evolved(period_started_on, acc)
+      def update_entity(period_started_on, acc)
         last_name = acc.name.mb_chars.capitalize
         modified = false
         # FIXME: Pas possible quid des homonymes
         entity = Entity.where('last_name ILIKE ?', last_name).first
         # FIXME: pourquoi orga par default?
         # FIXME: pourquoi period_started_on ?
-        entity ||= Entity.create!(last_name: last_name, nature: 'organization', first_met_at: period_started_on.to_date)
-        if entity.first_met_at && period_started_on.to_date && period_started_on.to_date < entity.first_met_at
+        entity ||= Entity.create!(last_name: last_name, nature: 'organization', first_met_at: period_started_on)
+        if entity.first_met_at && period_started_on && period_started_on < entity.first_met_at
           # FIXME why?
-          entity.first_met_at = period_started_on.to_date
+          entity.first_met_at = period_started_on
           modified = true
         end
         if acc.number.start_with?('401')
@@ -160,23 +135,14 @@ module Sage
           entity.client_account_id = acc.id
           modified = true
         end
-        # STYLE: that's an elsif
-          # if acc.number.start_with?('411')
-          #   entity.client = true
-          #   entity.client_account_id = acc.id
-          #   modified = true
-          # end
-        # STYLE: one if is enough. Blocks are your friends
+
         entity.save if modified
       end
 
-      def find_or_create_entries(doc, fy, editor_data_providers)
+      def entries_items(doc, fy, editor_data_providers)
         entries = {}
 
-        # STYLE: Not dependent on function parameters.
-        unless default_result_journal = Journal.create_with(code: 'RESU', name: 'Résultat')
-          default_result_journal = Journal.find_or_create_by(nature: 'result')
-        end
+        default_result_journal = find_or_create_default_result_journal
 
         doc.css('JOURNAL').each do |sage_journal|
           # get attributes in file ## <JOURNAL> n occurences
@@ -194,10 +160,10 @@ module Sage
             line_number = index + 1
             number = jou_code + '_' + printed_on.to_s + '_' + line_number.to_s
             # change journal in case of result journal entry (31/12/AAAA and ETAT = 8)
-            if printed_on.day == fy.stopped_on.day && printed_on.month == fy.stopped_on.month && state == '8'
-              c_journal = default_result_journal
+            c_journal = if printed_on.day == fy.stopped_on.day && printed_on.month == fy.stopped_on.month && state == '8'
+              default_result_journal
             else
-              c_journal = journal
+              journal
             end
 
             entries[number] = {
@@ -208,7 +174,6 @@ module Sage
               providers: editor_data_providers,
               items_attributes: []
             }
-
 
             sage_journal_entry.css('LIGNE').each do |sage_journal_entry_item|
 
@@ -256,6 +221,14 @@ module Sage
         sjei_account = Account.find_or_create_by_number(sjei_acc_number)
         sjei_account
       end
+
+      private
+
+        def find_or_create_default_result_journal
+          unless default_result_journal = Journal.create_with(code: 'RESU', name: 'Résultat')
+            default_result_journal = Journal.find_or_create_by(nature: 'result')
+          end
+        end
 
     end
   end

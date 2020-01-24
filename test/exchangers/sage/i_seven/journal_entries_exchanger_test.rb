@@ -2,9 +2,11 @@ require 'test_helper'
 
 module Sage
   module ISeven
-    class JournalEntriesExchangerTest < ActiveExchanger::TestCase
+    class JournalEntriesExchangerTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
       test 'import' do
         FinancialYear.delete_all
+        create(:financial_year, year: 2018)
+        Preference.set!(:account_number_digits, 9)
         Sage::ISeven::JournalEntriesExchanger.import(fixture_files_path.join('imports', 'sage', 'i_seven', 'journal_entries.ecx'))
 
         journal1 = Journal.find_by(name: "Ventes eaux-de-vie")
