@@ -37,7 +37,7 @@
 
     disable: ->
       $('.btn-container a').attr("disabled", true)
-      $('input[type=checkbox]').attr('disabled', true)
+      $('cvi_land_parcels-list input[type=checkbox]').attr('disabled', true)
       E.list.disable()
 
     bindCheckboxes: ->

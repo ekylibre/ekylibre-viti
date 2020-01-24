@@ -2,6 +2,57 @@ module Backend
   class CviCultivableZonesController < Backend::CviBaseController
     manage_restfully only: %i[edit destroy show]
 
+    def self.cvi_land_parcels_conditions
+      code = ''
+      code = search_conditions(formatted_cvi_land_parcels: %i[name state localities communes planting_campaign designation_of_origin_name vine_variety_name rootstocks]) + " ||= []\n"
+
+      code << "c[0] << ' AND #{FormattedCviLandParcel.table_name}.cvi_cultivable_zone_id = ?'\n"
+      code << "c << params[:id].to_i\n"
+
+      # state
+      code << "unless params[:state].blank? \n"
+      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.state IN (?)'\n"
+      code << "  c << params[:state]\n"
+      code << "end\n"
+
+      # communes
+      code << "unless params[:communes].blank? \n"
+      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.communes ILIKE (?)'\n"
+      code << "  c <<  '%' + params[:communes] + '%'\n"
+      code << "end\n"
+
+      # designation_of_origin_name
+      code << "unless params[:designation_of_origin_name].blank? \n"
+      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.designation_of_origin_name = ?'\n"
+      code << "  c << params[:designation_of_origin_name]\n"
+      code << "end\n"
+
+      # vine_variety_name
+      code << "unless params[:vine_variety_name].blank? \n"
+      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.vine_variety_name = ?'\n"
+      code << "  c << params[:vine_variety_name]\n"
+      code << "end\n"
+
+      # inter_row_distance
+      code << "if params[:inter_row_distance_value] \n"
+      code << "  lower,higher = params[:inter_row_distance_value].split(',').map(&:to_i)\n"
+      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.inter_row_distance_value BETWEEN ? AND ?'\n"
+      code << "  c << lower\n"
+      code << "  c << higher\n"
+      code << "end\n"
+
+      # inter_vine_plant_distance
+      code << "if params[:inter_vine_plant_distance_value]\n"
+      code << "  lower,higher = params[:inter_vine_plant_distance_value].split(',').map(&:to_i)\n"
+      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.inter_vine_plant_distance_value BETWEEN ? AND ?'\n"
+      code << "  c << lower\n"
+      code << "  c << higher\n"
+      code << "end\n"
+
+      code << "c\n "
+      code.c
+    end
+
     def index
       records = CviStatement.find(params[:id]).cvi_cultivable_zones.collect do |r|
         { uuid: r.id, shape: r.shape.to_json_object, name: r.name, status: r.land_parcels_status }
@@ -38,7 +89,7 @@ module Backend
       redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
     end
 
-    list(:cvi_land_parcels, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: { cvi_cultivable_zone_id: 'params[:id]'.c }) do |t|
+    list(:cvi_land_parcels, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: cvi_land_parcels_conditions) do |t|
       t.column :id, hidden: true
       t.action :edit, url: { controller: 'cvi_land_parcels', action: 'edit', remote: true }
       t.column :name
