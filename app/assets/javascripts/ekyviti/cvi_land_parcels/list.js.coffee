@@ -22,7 +22,7 @@
         $cutButton.removeAttr('disabled')
         $editMultipleButton.attr("disabled", true)
         
-        params = selectedCviLandParcels[0].id
+        params = selectedCviLandParcels[0]
         $cutButton.attr(href: "/backend/cvi_land_parcels/#{params}/pre_split")
         
       else if selectedCviLandParcels.length == 0
