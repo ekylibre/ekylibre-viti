@@ -20,7 +20,7 @@ class SplitCviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtu
       SplitCviLandParcel.call(cvi_land_parcel: cvi_land_parcel, new_cvi_land_parcels_params: new_cvi_land_parcels_params)
       new_declared_area1 = CviLandParcel.last(2).first.declared_area
       new_declared_area2 = CviLandParcel.last(2).last.declared_area
-      assert_in_epsilon old_declared_area.value, (new_declared_area1 + new_declared_area2).value , epsilon = 0.001
+      assert_in_delta old_declared_area.value, (new_declared_area1 + new_declared_area2).value , delta = 0.001
     end
 
     it 'creates 2 records and  destroy 1' do

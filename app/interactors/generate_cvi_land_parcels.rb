@@ -6,13 +6,11 @@ class GenerateCviLandParcels < ApplicationInteractor
       cvi_cadastral_plants.each do |r|
         declared_area = r.area
         shape = r.shape.to_rgeo.simplify(0.05)
-        calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
 
         cvi_land_parcel = CviLandParcel.create(
           name: r.cadastral_reference,
           designation_of_origin_id: r.designation_of_origin_id,
           vine_variety_id: r.vine_variety_id,
-          calculated_area: calculated_area,
           declared_area: declared_area,
           inter_vine_plant_distance: r.inter_vine_plant_distance,
           inter_row_distance: r.inter_row_distance,

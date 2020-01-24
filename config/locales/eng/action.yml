@@ -211,6 +211,9 @@ eng:
       # edit: "Edit cvi cultivable zone: %{name}"
       # index: "Cvi cultivable zones"
       show: "Cvi cultivable zone: %{name}"
+    backend/cvi_land_parcels:
+      edit_multiple: "Edit selected land parcels"
+      update_multiple: "Edit selected land parcels"
     backend/cvi_statement_conversions:
       show: "Convert CVI into land parcels"
     backend/cvi_statements:
@@ -1084,6 +1087,10 @@ eng:
         vine_variety_name: "Variety of vine"
         calculated_area: "Calculated area"
         required: "required"
+      actions:
+        regroup: "Group"
+        split: "Split"
+        edit: "Edit"
     bank_reconciliation:
       remove: "Remove"
     leaflet:
@@ -2408,6 +2415,7 @@ eng:
     reconciliate_with_receptions: "Reconciliate with receptions"
     record: "Record" #?
     record_cannot_be_saved: "The record can not be saved"
+    records_cannot_be_saved: "Records can not be saved"
     record_maintenance: "Record maintenance"
     reevaluation_gaps: "reevaluation_gaps"
     reference: "Reference"
@@ -3075,6 +3083,7 @@ eng:
       record_not_found: "Record not found" #?
       record_x_created: "%{record} %{name} created" #?
       record_x_updated: "%{record} %{name} updated" #?
+      record_x_updated_f: "%{record} %{name} updated" #?
       record_x_updated_f: "%{record} %{name} updated" #?
       can_not_group_cvi_land_parcels: "CVI land parcels can't be grouped, because vine variety, designation of origin, inter vine plant distance, inter row distance, tree-planting campaign date or state is different. Please check these values before retrying."
       can_not_group_cvi_land_parcels_no_intersection: "CVI land parcels can't be grouped because its doesn't have any intersection points."

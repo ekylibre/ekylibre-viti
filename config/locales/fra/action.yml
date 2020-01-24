@@ -160,7 +160,10 @@ fra:
     backend/cvi_statement_conversions:
       show: "Convertir CVI en parcellaire"
     backend/cvi_cultivable_zones:
-       show: "Zone cultivable: %{name}"
+      show: "Zone cultivable: %{name}"
+    backend/cvi_land_parcels:
+      edit_multiple:  "Modifier la séléction"
+      update_multiple:  "Modifier la séléction"
     backend/cvi_statements:
       edit: "Modifier le Casier Viticole Informatisé (CVI)\_: %{id}"
       index: "Casier Viticole Informatisé"
@@ -881,6 +884,10 @@ fra:
         vine_variety_name: "Cépage"
         calculated_area: "Superficie calculée"
         required: "Obligatoire"
+      actions:
+        regroup: "Regrouper"
+        split: "Dissocier"
+        edit: "Modifier"
     bank_reconciliation:
       remove: "Effacer"
     leaflet:
@@ -2549,6 +2556,7 @@ fra:
     reconciliate_with_receptions: "Rapprocher avec une ou des réceptions"
     record: "Enregistrement"
     record_cannot_be_saved: "L'enregistrement n'a pas pu être sauvegardé."
+    records_cannot_be_saved: "Les enregistrements n'ont pas pu être sauvegardés."
     record_has_been_correctly_removed: "L’enregistrement a été supprimé correctement." #?
     cvi_conversion_has_been_correctly_reseted: "La conversion du CVI a été réinitialisée correctement."
     record_has_not_been_removed: "L’enregistrement n’a pu être supprimé." #?
@@ -3433,6 +3441,7 @@ fra:
       record_x_planned: "%{record} %{name} planifiée" #?
       record_x_updated: "%{record} %{name} mise à jour"
       record_x_updated_f: "La %{record} %{name} a été mise à jour"
+      records_x_updated_f: "Les %{record} %{name} ont été mises à jour"
       can_not_group_cvi_land_parcels: "Les parcelles ne peuvent pas être regroupées car le cépage, le produit revendiqué, la densité, la campagne de plantation ou l’état diffère. Veuillez vérifier les valeurs avant de regrouper les parcelles."
       can_not_group_cvi_land_parcels_no_intersection: "Les parcelles n’ont pas pu être regroupées. Si vous souhaitez les regrouper, éditez l’une des deux parcelles de façon à ce que leurs contours aient au moins un point d’intersection."
       cvi_land_parcels_grouped: "Les parcelles ont été regroupées."

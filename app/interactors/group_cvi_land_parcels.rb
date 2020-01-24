@@ -32,7 +32,7 @@ class GroupCviLandParcels < ApplicationInteractor
     name = context.cvi_land_parcels.collect(&:name).sort.join(', ')
     new_cvi_land_parcel = context.cvi_land_parcels.first.dup
     new_cvi_land_parcel.save!
-    new_cvi_land_parcel.assign_attributes(name: name, calculated_area: calculated_area, declared_area: declared_area, shape: @new_shape)
+    new_cvi_land_parcel.assign_attributes(name: name, declared_area: declared_area, shape: @new_shape)
     new_cvi_land_parcel.save!
     context.new_cvi_land_parcel = new_cvi_land_parcel
   end

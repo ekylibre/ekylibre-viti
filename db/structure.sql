@@ -247,6 +247,45 @@ END;
 $$;
 
 
+--
+-- Name: cvi_land_parcel_simplified; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.cvi_land_parcel_simplified AS
+ SELECT postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.1)::double precision) AS st_simplifypreservetopology
+   FROM demo.cvi_land_parcels;
+
+
+--
+-- Name: cvi_land_parcels_simplified; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.cvi_land_parcels_simplified AS
+ SELECT postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.1)::double precision) AS st_simplifypreservetopology
+   FROM demo.cvi_land_parcels;
+
+
+--
+-- Name: mavue; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.mavue AS
+ SELECT postgis.st_npoints(cvi_land_parcels.shape) AS shape1,
+    postgis.st_npoints(postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.001)::double precision)) AS shape2
+   FROM demo.cvi_land_parcels
+  WHERE ((cvi_land_parcels.name)::text = 'L1022-1-2, L826-1'::text);
+
+
+--
+-- Name: test; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.test AS
+ SELECT postgis.st_astext(cvi_land_parcels.shape) AS st_astext
+   FROM demo.cvi_land_parcels
+  WHERE ((cvi_land_parcels.name)::text = ANY ((ARRAY['L778-1'::character varying, 'L779'::character varying])::text[]));
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -2186,7 +2225,6 @@ CREATE TABLE public.cvi_land_parcels (
     declared_area_unit character varying,
     declared_area_value numeric(19,5),
     shape postgis.geometry(Geometry,4326),
-    rootstock_id character varying,
     inter_vine_plant_distance_value numeric(19,4),
     inter_vine_plant_distance_unit character varying,
     inter_row_distance_value numeric(19,4),
@@ -2196,7 +2234,8 @@ CREATE TABLE public.cvi_land_parcels (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     planting_campaign character varying,
-    land_modification_date date
+    land_modification_date date,
+    activity_id integer
 );
 
 
@@ -3501,12 +3540,12 @@ CREATE VIEW public.formatted_cvi_cultivable_zones AS
 SELECT
     NULL::character varying AS name,
     NULL::integer AS id,
-    NULL::text AS communes,
     NULL::text AS cadastral_references,
-    NULL::character varying AS formatted_declared_area,
+    NULL::text AS communes,
+    NULL::integer AS cvi_statement_id,
     NULL::character varying AS formatted_calculated_area,
-    NULL::character varying AS land_parcels_status,
-    NULL::integer AS cvi_statement_id;
+    NULL::character varying AS formatted_declared_area,
+    NULL::character varying AS land_parcels_status;
 
 
 --
@@ -11837,6 +11876,13 @@ CREATE INDEX index_cvi_cultivable_zones_on_cvi_statement_id ON public.cvi_cultiv
 
 
 --
+-- Name: index_cvi_land_parcels_on_activity_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_land_parcels_on_activity_id ON public.cvi_land_parcels USING btree (activity_id);
+
+
+--
 -- Name: index_cvi_land_parcels_on_cvi_cultivable_zone_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -18409,23 +18455,35 @@ CREATE OR REPLACE VIEW public.product_populations AS
 --
 
 CREATE OR REPLACE VIEW public.formatted_cvi_cultivable_zones AS
- SELECT cvi_cultivable_zones.name,
-    cvi_cultivable_zones.id,
-    initcap(string_agg(DISTINCT (registered_postal_zones.city_name)::text, ', '::text ORDER BY (registered_postal_zones.city_name)::text)) AS communes,
-    string_agg(
-        CASE
-            WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN concat(cvi_cadastral_plants.section, cvi_cadastral_plants.work_number)
-            ELSE concat(cvi_cadastral_plants.section, cvi_cadastral_plants.work_number, '-', cvi_cadastral_plants.land_parcel_number)
-        END, ', '::text ORDER BY cvi_cadastral_plants.section, cvi_cadastral_plants.work_number, cvi_cadastral_plants.land_parcel_number) AS cadastral_references,
-    public.area_formatted(cvi_cultivable_zones.declared_area_value) AS formatted_declared_area,
-    public.area_formatted(cvi_cultivable_zones.calculated_area_value) AS formatted_calculated_area,
-    cvi_cultivable_zones.land_parcels_status,
-    cvi_cultivable_zones.cvi_statement_id
-   FROM (((public.cvi_cultivable_zones
-     LEFT JOIN public.locations locations ON (((cvi_cultivable_zones.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviCultivableZone'::text))))
-     LEFT JOIN public.cvi_cadastral_plants ON ((cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id)))
-     LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.insee_number)::text = (registered_postal_zones.code)::text)))
-  GROUP BY cvi_cultivable_zones.id;
+ SELECT subq.name,
+    subq.id,
+    string_agg(DISTINCT subq.cadastral_ref, ', '::text) AS cadastral_references,
+    subq.communes,
+    subq.cvi_statement_id,
+    subq.formatted_calculated_area,
+    subq.formatted_declared_area,
+    subq.land_parcels_status
+   FROM ( SELECT cvi_cultivable_zones.name,
+            initcap(string_agg(DISTINCT (registered_postal_zones.city_name)::text, ', '::text ORDER BY (registered_postal_zones.city_name)::text)) AS communes,
+            cvi_cultivable_zones.id,
+                CASE
+                    WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN ((cvi_cadastral_plants.section)::text || (cvi_cadastral_plants.work_number)::text)
+                    ELSE ((((cvi_cadastral_plants.section)::text || (cvi_cadastral_plants.work_number)::text) || '-'::text) || (cvi_cadastral_plants.land_parcel_number)::text)
+                END AS cadastral_ref,
+            public.area_formatted(cvi_cultivable_zones.calculated_area_value) AS formatted_calculated_area,
+            public.area_formatted(cvi_cultivable_zones.declared_area_value) AS formatted_declared_area,
+            cvi_cultivable_zones.land_parcels_status,
+            cvi_cultivable_zones.cvi_statement_id
+           FROM (((public.cvi_cultivable_zones
+             LEFT JOIN public.locations locations ON (((cvi_cultivable_zones.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviCultivableZone'::text))))
+             LEFT JOIN public.cvi_cadastral_plants ON ((cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id)))
+             LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.insee_number)::text = (registered_postal_zones.code)::text)))
+          GROUP BY cvi_cultivable_zones.id, cvi_cultivable_zones.name,
+                CASE
+                    WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN ((cvi_cadastral_plants.section)::text || (cvi_cadastral_plants.work_number)::text)
+                    ELSE ((((cvi_cadastral_plants.section)::text || (cvi_cadastral_plants.work_number)::text) || '-'::text) || (cvi_cadastral_plants.land_parcel_number)::text)
+                END) subq
+  GROUP BY subq.id, subq.name, subq.communes, subq.cvi_statement_id, subq.formatted_calculated_area, subq.formatted_declared_area, subq.land_parcels_status;
 
 
 --
@@ -18706,6 +18764,14 @@ ALTER TABLE ONLY public.payslip_natures
 
 ALTER TABLE ONLY public.parcel_items
     ADD CONSTRAINT fk_rails_7010820bb4 FOREIGN KEY (purchase_order_item_id) REFERENCES public.purchase_items(id);
+
+
+--
+-- Name: cvi_land_parcels fk_rails_71a1e59459; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_land_parcels
+    ADD CONSTRAINT fk_rails_71a1e59459 FOREIGN KEY (activity_id) REFERENCES public.activities(id);
 
 
 --
@@ -19739,4 +19805,8 @@ INSERT INTO schema_migrations (version) VALUES ('20191206102525');
 INSERT INTO schema_migrations (version) VALUES ('20191223092535');
 
 INSERT INTO schema_migrations (version) VALUES ('20200108090053');
+
+INSERT INTO schema_migrations (version) VALUES ('20200110142108');
+
+INSERT INTO schema_migrations (version) VALUES ('20200115164203');
 

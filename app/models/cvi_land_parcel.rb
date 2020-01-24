@@ -12,13 +12,13 @@ class CviLandParcel < Ekylibre::Record::Base
   validates :inter_vine_plant_distance_value, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 200 }, allow_blank: true
   has_many :land_parcel_rootstocks, as: :land_parcel, dependent: :destroy
 
-  accepts_nested_attributes_for :land_parcel_rootstocks
+  accepts_nested_attributes_for :land_parcel_rootstocks, reject_if: proc { |attributes| attributes['rootstock_id'].blank? }
 
   enumerize :state, in: %i[planted removed_with_authorization], predicates: true
 
   validates_presence_of :name, :inter_row_distance_value, :inter_vine_plant_distance_value, :vine_variety_id
 
-  before_save :set_calculated_area, on: %i[update], if: :shape_changed?
+  before_save :set_calculated_area, on: %i[create update], if: :shape_changed?
 
   def shape
     Charta.new_geometry(self[:shape])
@@ -28,7 +28,15 @@ class CviLandParcel < Ekylibre::Record::Base
     updated_at != created_at
   end
 
+  def valid_for_update_multiple?
+    valid?
+    errors.delete(:name)
+    errors.delete(:inter_vine_plant_distance_value) if errors.added?(:inter_vine_plant_distance_value, :blank)
+    errors.delete(:inter_row_distance_value) if errors.added?(:inter_row_distance_value, :blank)
+    errors.empty?
+  end
+
   def set_calculated_area
-    self.calculated_area_value = Measure.new(shape.area, :square_meter).convert(:hectare)
+    self.calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
   end
 end

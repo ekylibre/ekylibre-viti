@@ -1,7 +1,5 @@
 
 .btn-container  
   %div 
-    = link_to :regroup.tl, '', class:"btn btn-default", id: 'group-cvi-land-parcels',method: :post, remote: true
-    = link_to :split.tl, '', class:"btn btn-default", id: 'cut-cvi-land-parcel', remote: true
     = link_to :go_back.tl, backend_cvi_statement_conversion_path(@cvi_cultivable_zone.cvi_statement), class:"btn btn-default" 
     = link_to :create.tl, confirm_cvi_land_parcels_backend_cvi_cultivable_zone_path(@cvi_cultivable_zone),class: "btn btn-primary" 

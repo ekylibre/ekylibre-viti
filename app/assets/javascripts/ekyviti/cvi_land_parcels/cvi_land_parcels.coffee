@@ -25,4 +25,8 @@ ekylibre.cviLandParcels ||= {}
   $(document).on 'list:page:change', ->
     E.cviLandParcels.list.init()
 
+  $(document).on 'dialog:show', ->
+    if $("select#cvi_land_parcel_state").length > 0
+      E.cviLandParcels.editForm.init()
+
 )(ekylibre, jQuery)

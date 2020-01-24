@@ -248,7 +248,8 @@ group :development do
 
   # Code metrics
   gem 'rails_best_practices', require: false
-  gem 'rubocop', '~> 0.49.1', require: false
+  gem 'rubocop', '~> 0.70', require: false
+  gem 'rubocop-rails'
 
   # Webservers
   gem 'thin'
