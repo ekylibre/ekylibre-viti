@@ -15,7 +15,7 @@ ekylibre.list ||= {}
     render: ->
       $("*[data-list-change-page-size].check").click()
 
-    disable: (ids) ->
+    disable: (ids = []) ->
       $('tr').toggleClass("disabled-row")
       if ids.length > 1
         
