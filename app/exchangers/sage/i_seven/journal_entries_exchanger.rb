@@ -107,8 +107,8 @@ module Sage
       def find_or_create_account_by_number(acc_number, acc_name)
         acc = Account.find_or_initialize_by(number: acc_number)
         attributes = { name: acc_name }
-        if acc_number.start_with?('401', '411')
-          attributes[:centralizing_account_name] = acc_number.start_with?('401') ? 'suppliers' : 'clients'
+        if acc_number.start_with?(client_account_radix, supplier_account_radix)
+          attributes[:centralizing_account_name] = acc_number.start_with?(client_account_radix) ? 'suppliers' : 'clients'
           attributes[:nature] = 'auxiliary'
           aux_number = acc_number[client_account_radix.length, acc_number.length]
 
@@ -132,7 +132,7 @@ module Sage
         if entity.first_met_at && period_started_on && period_started_on < entity.first_met_at
           entity.first_met_at = period_started_on
         end
-        if acc.number.start_with?('401')
+        if acc.number.start_with?(client_account_radix)
           entity.supplier = true
           entity.supplier_account_id = acc.id
         else
@@ -175,7 +175,6 @@ module Sage
             number = jou_code + '_' + printed_on.to_s + '_' + line_number.to_s
             # change journal in case of result journal entry (31/12/AAAA and ETAT = 8)
             # Sate == 8 ==> Ecriture de generation de résultat si générées à la date de cloture
-            # TODO STYLE: mettre la condition dans une methode séparée?
             c_journal = if  is_closing_entry?(printed_on, fy.stopped_on, state)
                           Journal.find_or_create_default_result_journal
                         elsif is_forward_entry?(printed_on, fy.started_on, state)
