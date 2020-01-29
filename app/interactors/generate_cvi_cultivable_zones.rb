@@ -12,7 +12,13 @@ class GenerateCviCultivableZones < ApplicationInteractor
   def get_cvi_cultivable_zones_properties
     result = ActiveRecord::Base.connection.execute("
       SELECT ARRAY_AGG(id) AS cvi_cadastral_plant_ids,
-       St_AStext(ST_Union(ARRAY_AGG(shape))) AS shape
+        St_AStext(
+          ST_Simplify(
+            ST_Union(
+              ARRAY_AGG(shape)
+            ),0.000000001
+          )
+        ) AS shape
       FROM  (SELECT cvi_cadastral_plants.*, shape, ST_ClusterDBSCAN(shape, 0, 1) OVER() AS clst
 	            FROM cvi_cadastral_plants
               LEFT JOIN lexicon.cadastral_land_parcel_zones  ON cvi_cadastral_plants.land_parcel_id = cadastral_land_parcel_zones.id
