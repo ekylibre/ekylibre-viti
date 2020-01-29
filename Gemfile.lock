@@ -247,6 +247,7 @@ GEM
       i18n (>= 0.6.6)
     iban-tools (1.1.0)
     interception (0.5)
+    jaro_winkler (1.5.4)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     jquery-rails (4.3.5)
@@ -331,10 +332,10 @@ GEM
     paperclip-document (0.0.11)
       burisu-docsplit (>= 0.7.9)
       paperclip (>= 3.1, < 6.0)
-    parallel (1.18.0)
+    parallel (1.19.1)
     parallel_tests (2.29.2)
       parallel
-    parser (2.6.5.0)
+    parser (2.7.0.2)
       ast (~> 2.4.0)
     pdf-reader (2.2.1)
       Ascii85 (~> 1.0.0)
@@ -344,7 +345,6 @@ GEM
       ttfunk
     pg (0.20.0)
     polyglot (0.3.5)
-    powerpack (0.1.2)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -404,8 +404,7 @@ GEM
       activesupport (= 4.2.11.1)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rainbow (2.2.2)
-      rake
+    rainbow (3.0.0)
     raindrops (0.19.0)
     rake (12.3.3)
     rdoc (4.3.0)
@@ -444,13 +443,16 @@ GEM
     roo (2.8.2)
       nokogiri (~> 1)
       rubyzip (>= 1.2.1, < 2.0.0)
-    rubocop (0.49.1)
+    rubocop (0.79.0)
+      jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
-      parser (>= 2.3.3.1, < 3.0)
-      powerpack (~> 0.1)
-      rainbow (>= 1.99.1, < 3.0)
+      parser (>= 2.7.0.1)
+      rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (~> 1.0, >= 1.0.1)
+      unicode-display_width (>= 1.4.0, < 1.7)
+    rubocop-rails (2.4.2)
+      rack (>= 1.1)
+      rubocop (>= 0.72.0)
     ruby-prof (0.18.0)
     ruby-progressbar (1.10.1)
     ruby-rc4 (0.1.5)
@@ -555,7 +557,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
-    unicode-display_width (1.6.0)
+    unicode-display_width (1.6.1)
     unicorn (5.5.1)
       kgio (~> 2.6)
       raindrops (~> 0.7)
@@ -677,7 +679,8 @@ DEPENDENCIES
   rgeo-shapefile
   rodf
   roo
-  rubocop (~> 0.49.1)
+  rubocop
+  rubocop-rails
   ruby-prof
   ruby-terminfo
   rubyntlm (>= 0.3.2)

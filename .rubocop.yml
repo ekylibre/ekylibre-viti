@@ -11,18 +11,6 @@ AllCops:
     - 'db/first_runs/**/*'
     - 'db/schema.rb'
 
-Rails:
-  Enabled: true
-
-Rails/HttpPositionalArguments:
-  Enabled: false
-
-Rails/ApplicationRecord:
-  Enabled: false
-
-Rails/ApplicationJob:
-  Enabled: false
-
 Metrics/LineLength:
   Enabled: false
 
@@ -34,9 +22,6 @@ Lint/UnifiedInteger:
 
 Metrics/MethodLength:
   Max: 60
-
-Layout/IndentationConsistency:
-  EnforcedStyle: indented_internal_methods
 
 Metrics/AbcSize:
   Enabled: false

@@ -7,7 +7,7 @@ module Sage
         FinancialYear.delete_all
         create(:financial_year, year: 2018)
         Preference.set!(:account_number_digits, 9)
-        Sage::ISeven::JournalEntriesExchanger.import(fixture_files_path.join('imports', 'sage', 'i_seven', 'journal_entries.ecx'))
+        Sage::ISeven::JournalEntriesExchanger.import(fixture_files_path.join('imports', 'sage', 'i_seven', 'journal_entries.ecx'), import_id: 1 )
 
         journal1 = Journal.find_by(name: "Ventes eaux-de-vie")
         journal_entry_1 = journal1.entries.find_by(number: 1)

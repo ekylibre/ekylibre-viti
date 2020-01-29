@@ -91,6 +91,7 @@ class Import < Ekylibre::Record::Base
     FileUtils.mkdir_p(progress_file.dirname)
     update_columns(state: :in_progress, progression_percentage: 0)
     File.write(progress_file, 0.to_s)
+    options = (options || {}).merge(import_id: id)
     Ekylibre::Record::Base.transaction do
       ActiveExchanger::Base.find_and_import(nature.to_sym, archive.path, options) do |progression, count|
         update_columns(progression_percentage: progression)

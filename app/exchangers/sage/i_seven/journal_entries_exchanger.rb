@@ -9,26 +9,26 @@ module Sage
       }.freeze
 
       class SageFileInformation
-        def self.read_from(doc)
+        def self.read_from(doc, **options)
           period_started_on = doc.at_css('INFORMATION').attribute('PERIODEDEBUTN').value
           period_stopped_on = doc.at_css('INFORMATION').attribute('PERIODEFINN').value
           data_exported_on = doc.at_css('INFORMATION').attribute('DATECREATION').value
           version_information = doc.at_css('INFORMATION').attribute('VERSIONECX').value + ' - ' + doc.at_css('INFORMATION').attribute('VERSIONEMETTEUR').value
 
-          new(period_started_on, period_stopped_on, data_exported_on, version_information, doc)
+          new(period_started_on, period_stopped_on, data_exported_on, version_information, doc, options)
         end
 
-        def self.load_from(f)
-          source = File.read(f)
+        def self.load_from(file, **options)
+          source = File.read(file)
           detection = CharlockHolmes::EncodingDetector.detect(source)
 
           doc = Nokogiri.XML(source, nil, detection[:encoding], &:noblanks)
-          SageFileInformation.read_from(doc)
+          SageFileInformation.read_from(doc, options)
         end
 
         attr_reader :period_started_on, :period_stopped_on, :data_exported_on, :version_information, :editor_data_providers, :doc
 
-        def initialize(period_started_on, period_stopped_on, data_exported_on, version_information, doc)
+        def initialize(period_started_on, period_stopped_on, data_exported_on, version_information, doc, **options)
           @period_started_on = period_started_on.to_date
           @period_stopped_on = period_stopped_on.to_date
           @data_exported_on = data_exported_on.to_date
@@ -41,11 +41,7 @@ module Sage
 
       def check
         valid = true
-        file_info = SageFileInformation.load_from(file)
-
-        fy = FinancialYear.find_by("stopped_on = ?", file_info.period_stopped_on)
-
-        if fy.nil?
+        if financial_year.nil?
           valid = false
           w.error "The financial year is needed for #{file_info.period_stopped_on}"
         end
@@ -53,23 +49,35 @@ module Sage
       end
 
       def import
-        file_info = SageFileInformation.load_from(file)
-
         accounts = accounts_retrieval(file_info.doc)
-        # FIXME preference de prefixe de compte dans la page société
-        entity_accounts = accounts.select { |number, _account| number.start_with?("401", "411") }
+        entity_accounts = accounts.select { |number, _account| number.start_with?(client_account_radix, supplier_account_radix) }
 
         entity_accounts.each do |_key, entity_account|
           update_entity(file_info.period_started_on, entity_account)
         end
 
-        fy = FinancialYear.find_by("stopped_on = ?", file_info.period_stopped_on)
-
-        entries = entries_items(file_info.doc, fy, file_info.editor_data_providers)
+        entries = entries_items(file_info.doc, financial_year, file_info.editor_data_providers)
         entries.each do |_key, entry|
           JournalEntry.create!(entry)
         end
+      end
 
+      private
+
+      def file_info
+        @file_info ||= SageFileInformation.load_from(file, options)
+      end
+
+      def financial_year
+        @financial_year ||= FinancialYear.find_by('stopped_on = ?', file_info.period_stopped_on)
+      end
+
+      def client_account_radix
+        @client_account_radix ||= Preference.value(:accounts_interval) || '411'
+      end
+
+      def supplier_account_radix
+        @supplier_account_radix ||= Preference.value(:supplier_account_radix) || '401'
       end
 
       # create or update account chart with data in file
@@ -88,7 +96,7 @@ module Sage
           acc_number = account.attribute('COMPTE').value
           acc_name = account.attribute('NOM').value
           # Exclude number with radical class only like 7000000 or 40000000
-          next if acc_number.strip.gsub(/0+\z/, '').in?(['1', '2', '3', '4', '5', '6', '7', '8'])
+          next if acc_number.strip.gsub(/0+\z/, '').in?(%w[1 2 3 4 5 6 7 8])
 
           accounts[acc_number] = find_or_create_account_by_number(acc_number, acc_name)
         end
@@ -102,8 +110,8 @@ module Sage
         if acc_number.start_with?('401', '411')
           attributes[:centralizing_account_name] = acc_number.start_with?('401') ? 'suppliers' : 'clients'
           attributes[:nature] = 'auxiliary'
-          # FIXME prendre en compte la preference de la ferme en ce qui concerne le prefixe des comptes clients
-          aux_number = acc_number[3, acc_number.length]
+          aux_number = acc_number[client_account_radix.length, acc_number.length]
+
           if aux_number.match(/\A0*\z/).present?
             raise StandardError.new("Can't create account. Number provided can't be a radical class")
           else
@@ -115,43 +123,40 @@ module Sage
         acc
       end
 
-      # TODO: chercher les tiers par le compte comptable (unique)
-      # !! chercher supplier ou client
-      # Si le compte existe pas, créer le compte et le tiers
-      # Si le compte existe, et qu'il n'y a pas de tiers, créer le tiers (et lier le compre)
-      # si le compte existe avec un tiers, mettre a jour le tiers (eventuellement)
       def update_entity(period_started_on, acc)
         last_name = acc.name.mb_chars.capitalize
-        modified = false
-        # FIXME: Pas possible quid des homonymes ? (résolu par la recherche par compte)
-        entity = Entity.where('full_name ILIKE ?', last_name).first
-        # FIXME: pourquoi period_started_on ?
+
+        entity = Entity.where('supplier_account_id = ? or client_account_id = ?', acc.id, acc.id).first
+
         entity ||= Entity.create!(last_name: last_name, nature: 'organization', first_met_at: period_started_on)
         if entity.first_met_at && period_started_on && period_started_on < entity.first_met_at
           entity.first_met_at = period_started_on
-          modified = true
         end
         if acc.number.start_with?('401')
           entity.supplier = true
           entity.supplier_account_id = acc.id
-          modified = true
         else
           entity.client = true
           entity.client_account_id = acc.id
-          modified = true
         end
 
-        entity.save if modified
+        entity.save
       end
 
       def is_bank?(sage_nature)
         sage_nature === 'T'
       end
 
+      def is_closing_entry?(printed_on, stopped_on, state)
+        printed_on.day == stopped_on.day && printed_on.month == stopped_on.month && state == '8'
+      end
+
+      def is_forward_entry?(printed_on, started_on, state)
+        printed_on.day == started_on.day && printed_on.month == started_on.month && state == '8'
+      end
+
       def entries_items(doc, fy, editor_data_providers)
         entries = {}
-
-        default_result_journal = find_or_create_default_result_journal
 
         doc.css('JOURNAL').each do |sage_journal|
           # get attributes in file ## <JOURNAL> n occurences
@@ -171,10 +176,10 @@ module Sage
             # change journal in case of result journal entry (31/12/AAAA and ETAT = 8)
             # Sate == 8 ==> Ecriture de generation de résultat si générées à la date de cloture
             # TODO STYLE: mettre la condition dans une methode séparée?
-            c_journal = if printed_on.day == fy.stopped_on.day && printed_on.month == fy.stopped_on.month && state == '8'
-                          default_result_journal
-                        elsif printed_on.day == fy.started_on.day && printed_on.month == fy.started_on.month && state == '8'
-                          find_or_create_default_forward_journal
+            c_journal = if  is_closing_entry?(printed_on, fy.stopped_on, state)
+                          Journal.find_or_create_default_result_journal
+                        elsif is_forward_entry?(printed_on, fy.started_on, state)
+                          Journal.find_or_create_default_forward_journal
                         else
                           journal
                         end
@@ -189,12 +194,11 @@ module Sage
             }
 
             sage_journal_entry.css('LIGNE').each do |sage_journal_entry_item|
-
-              sjei_account = sage_journal_entry_item_account_creation(sage_journal_entry_item)
+              sjei_account = create_account_by(sage_journal_entry_item)
 
               sjei_label = sage_journal_entry_item.attribute('LIBMANU').value
               sjei_amount = sage_journal_entry_item.attribute('MONTANTREF').value
-              sjei_direction = sage_journal_entry_item.attribute('SENS').value #1 = D / -1 = C
+              sjei_direction = sage_journal_entry_item.attribute('SENS').value # 1 = D / -1 = C
 
               entries[number][:items_attributes] << {
                 real_debit: (sjei_direction == '1' ? sjei_amount.to_f : 0.0),
@@ -208,51 +212,29 @@ module Sage
         entries
       end
 
-      # TODO chercher cash par account
-      # Si le cash existe pas ou account pas lié, créer cash
-      #
       def create_cash(sage_journal, journal)
         jou_account = sage_journal.attribute('CMPTASSOCIE').value
         jou_iban = sage_journal.attribute('IBANPAPIER').value.delete(' ')
-        cash_attributes = { name: "enumerize.cash.nature.bank_account".t,
+        main_account =  Account.find_or_create_by_number(jou_account)
+        cash_attributes = { name: 'enumerize.cash.nature.bank_account'.t,
                             nature: 'bank_account',
-                            main_account: Account.find_or_create_by_number(jou_account),
                             journal: journal }
 
-        if !jou_iban.blank? && jou_iban.start_with?('IBAN')
+        if jou_iban.present? && jou_iban.start_with?('IBAN')
           cash_attributes.merge!(iban: jou_iban[4..-1])
         end
-        # FIXME: not good. Use create_with or sth like this (solved by fixme of method)
-        Cash.find_or_create_by(cash_attributes)
+        Cash.create_with(cash_attributes).find_or_create_by(main_account: main_account)
       end
 
       def find_or_create_journal(jou_code, jou_name, jou_nature)
         Journal.create_with(code: jou_code, nature: DEFAULT_JOURNAL_NATURES[jou_nature])
-          .find_or_create_by(name: jou_name)
+               .find_or_create_by(name: jou_name)
       end
 
-      # Style rename method (create account)
-      def sage_journal_entry_item_account_creation(sage_journal_entry_item)
+      def create_account_by(sage_journal_entry_item)
         sjei_acc_number = sage_journal_entry_item.attribute('COMPTE').value
-
         Account.find_or_create_by_number(sjei_acc_number)
       end
-
-      private
-
-      # Pourquoi ne pas mettre ces methodes de creation de journaux par defaut directement
-      # dans la classe Journal?
-      def find_or_create_default_result_journal
-        Journal.create_with(code: 'RESU', name: 'Résultat')
-          .find_or_create_by(nature: 'result')
-      end
-
-      # TODO ajouter méthode creation journal report a nouveau (nature: :forward)
-      # Meme methode que creation de journal dans la cloture
-      def find_or_create_default_forward_journal
-
-      end
     end
-
   end
 end

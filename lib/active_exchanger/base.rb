@@ -120,11 +120,12 @@ module ActiveExchanger
       end
     end
 
-    attr_reader :file, :supervisor
+    attr_reader :file, :supervisor, :options
 
-    def initialize(file, supervisor, options = {})
+    def initialize(file, supervisor, **options)
       @file = Pathname.new(file)
       @supervisor = supervisor
+      @options = options
     end
 
     alias w supervisor

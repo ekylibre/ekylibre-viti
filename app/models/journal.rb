@@ -232,6 +232,16 @@ class Journal < Ekylibre::Record::Base
         )
       end
     end
+
+    def find_or_create_default_result_journal
+      Journal.create_with(code: 'RESU', name: 'Résultat')
+             .find_or_create_by(nature: 'result')
+    end
+
+    def find_or_create_default_forward_journal
+      Journal.create_with(code: 'RESU', name: 'Résultat')
+             .find_or_create_by(nature: 'forward')
+    end
   end
 
   def writable_on?(printed_on)
