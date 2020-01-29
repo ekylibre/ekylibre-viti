@@ -73,11 +73,11 @@ module Sage
       end
 
       def client_account_radix
-        @client_account_radix ||= Preference.value(:accounts_interval) || '411'
+        @client_account_radix ||= Preference.value(:client_account_radix).presence || '411'
       end
 
       def supplier_account_radix
-        @supplier_account_radix ||= Preference.value(:supplier_account_radix) || '401'
+        @supplier_account_radix ||= Preference.value(:supplier_account_radix).presence || '401'
       end
 
       # create or update account chart with data in file
