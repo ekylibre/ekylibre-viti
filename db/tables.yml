@@ -2274,6 +2274,9 @@ document_templates:
   creator_id:
     type: integer
     references: user
+  file_extension:
+    type: string
+    default: xml
   formats:
     type: string
   id:
@@ -2295,6 +2298,10 @@ document_templates:
   nature:
     type: string
     required: true
+  signed:
+    type: boolean
+    required: true
+    default: false
   updated_at:
     type: datetime
     required: true
@@ -3473,6 +3480,8 @@ incoming_payments:
   payer_id:
     type: integer
     references: entity
+  providers:
+    type: jsonb
   receipt:
     type: text
   received:
@@ -8054,6 +8063,8 @@ sales:
     precision: 19
     scale: 4
     required: true
+  providers:
+    type: jsonb
   quantity_gap_on_invoice_journal_entry_id:
     type: integer
     references: journal_entry

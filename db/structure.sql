@@ -2553,7 +2553,9 @@ CREATE TABLE public.document_templates (
     updated_at timestamp without time zone NOT NULL,
     creator_id integer,
     updater_id integer,
-    lock_version integer DEFAULT 0 NOT NULL
+    lock_version integer DEFAULT 0 NOT NULL,
+    file_extension character varying DEFAULT 'xml'::character varying,
+    signed boolean DEFAULT false NOT NULL
 );
 
 
@@ -2721,7 +2723,8 @@ CREATE TABLE public.incoming_payments (
     updater_id integer,
     lock_version integer DEFAULT 0 NOT NULL,
     custom_fields jsonb,
-    codes jsonb
+    codes jsonb,
+    providers jsonb
 );
 
 
@@ -2987,7 +2990,8 @@ CREATE TABLE public.sales (
     codes jsonb,
     undelivered_invoice_journal_entry_id integer,
     quantity_gap_on_invoice_journal_entry_id integer,
-    client_reference character varying
+    client_reference character varying,
+    providers jsonb
 );
 
 
@@ -19784,11 +19788,17 @@ INSERT INTO schema_migrations (version) VALUES ('20191007122201');
 
 INSERT INTO schema_migrations (version) VALUES ('20191010151901');
 
+INSERT INTO schema_migrations (version) VALUES ('20191011155512');
+
 INSERT INTO schema_migrations (version) VALUES ('20191023172248');
 
 INSERT INTO schema_migrations (version) VALUES ('20191025074617');
 
 INSERT INTO schema_migrations (version) VALUES ('20191025074824');
+
+INSERT INTO schema_migrations (version) VALUES ('20191101162901');
+
+INSERT INTO schema_migrations (version) VALUES ('20191126103235');
 
 INSERT INTO schema_migrations (version) VALUES ('20191127162609');
 
@@ -19803,6 +19813,8 @@ INSERT INTO schema_migrations (version) VALUES ('20191206080450');
 INSERT INTO schema_migrations (version) VALUES ('20191206102525');
 
 INSERT INTO schema_migrations (version) VALUES ('20191223092535');
+
+INSERT INTO schema_migrations (version) VALUES ('20200107092243');
 
 INSERT INTO schema_migrations (version) VALUES ('20200108090053');
 
