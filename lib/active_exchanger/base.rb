@@ -121,7 +121,7 @@ module ActiveExchanger
 
     attr_reader :file, :supervisor, :options
 
-    def initialize(file, supervisor, options = {})
+    def initialize(file, supervisor, **options)
       @file = Pathname.new(file)
       @supervisor = supervisor
       @options = options

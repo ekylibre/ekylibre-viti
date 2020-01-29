@@ -4525,6 +4525,7 @@ CREATE TABLE public.journal_entries (
     continuous_number integer,
     validated_at timestamp without time zone,
     reference_number character varying
+    providers jsonb
 );
 
 
@@ -19797,6 +19798,8 @@ INSERT INTO schema_migrations (version) VALUES ('20191025074617');
 INSERT INTO schema_migrations (version) VALUES ('20191025074824');
 
 INSERT INTO schema_migrations (version) VALUES ('20191101162901');
+
+INSERT INTO schema_migrations (version) VALUES ('20191104152901');
 
 INSERT INTO schema_migrations (version) VALUES ('20191126103235');
 
