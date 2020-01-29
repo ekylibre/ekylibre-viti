@@ -9,14 +9,16 @@ module Ekylibre
 
     should 'create the right number of CVI statement' do
       cvi_statement_count = @data.uniq { |cvi| cvi['CVI_ID'] }.length
-      Ekylibre::CviJsonExchanger.import(@path)
-      assert_equal cvi_statement_count, CviStatement.all.count
+      assert_difference 'CviStatement.count', cvi_statement_count do
+        Ekylibre::CviJsonExchanger.import(@path)
+      end
     end
 
     should 'create the right number of CVI cadastral plant' do
       cvi_cadastral_plant_count = @data.length
-      Ekylibre::CviJsonExchanger.import(@path)
-      assert_equal cvi_cadastral_plant_count, CviCadastralPlant.all.count
+      assert_difference 'CviCadastralPlant.count', cvi_cadastral_plant_count do
+        Ekylibre::CviJsonExchanger.import(@path)
+      end
     end
 
     should 'calculate the right total area' do

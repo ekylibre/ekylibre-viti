@@ -20,18 +20,21 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
-# == Table: registred_protected_designation_of_origins
+# == Table: master_equipment_natures
 #
-#  eu_sign                :string
-#  fr_sign                :string
-#  geographic_area        :string
-#  ida                    :integer          not null, primary key
-#  product_human_name     :jsonb
-#  product_human_name_fra :string
-#  reference_number       :string
+#  id                          :integer          not null, primary key
+#  main_frozen_indicator_name  :string
+#  main_frozen_indicator_unit  :string
+#  name                        :jsonb
+#  nature                      :string           not null
+#  other_frozen_indicator_name :string
 #
-class RegistredProtectedDesignationOfOrigin < ActiveRecord::Base
-    self.primary_key = 'ida'
-    include Lexiconable
-    has_many :cvi_cadastral_plants, foreign_key: :designation_of_origin_id
-  end
+class MasterEquipmentNature < ActiveRecord::Base
+  include Lexiconable
+  has_many :categories, class_name: 'MasterEquipmentCost',
+                        foreign_key: :equipment_nature_id,
+                        dependent: :restrict_with_exception
+  has_many :flows, class_name: 'MasterEquipmentFlow',
+                   foreign_key: :equipment_nature_id,
+                   dependent: :restrict_with_exception
+end

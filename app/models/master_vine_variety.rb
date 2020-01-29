@@ -34,4 +34,6 @@
 class MasterVineVariety < ActiveRecord::Base
     self.primary_key = 'id'
     include Lexiconable
+    scope :vine_varieties, -> { where(category_name: ['Cépage','Hybride']) }
+    scope :rootstocks, -> { where(category_name: 'Porte-greffe') }
   end

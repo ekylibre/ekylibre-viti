@@ -121,6 +121,7 @@ gem 'exception_notification'
 
 # Views helpers
 gem 'active_list', '~> 7'
+
 gem 'haml'
 gem 'simple_calendar'
 
@@ -199,6 +200,9 @@ gem 'ffaker', '>= 2.0.0'
 # Reading RSS feeds
 gem 'feedjira', require: false
 
+# Encapsulate application's business logic.
+gem "interactor", "~> 3.0"
+
 # Adds colors in terminal
 gem 'colored' # , require: false
 
@@ -246,7 +250,8 @@ group :development do
 
   # Code metrics
   gem 'rails_best_practices', require: false
-  gem 'rubocop', '~> 0.49.1', require: false
+  gem 'rubocop', '~> 0.70', require: false
+  gem 'rubocop-rails'
 
   # Webservers
   gem 'thin'
@@ -281,8 +286,8 @@ group :test do
 
   gem 'minitest-reporters'
   gem 'ruby-terminfo'
-
   gem 'factory_bot', '< 5'
+
   gem 'shoulda', '~> 3.5'
   gem 'shoulda-matchers', '~> 2.0'
   gem 'pdf-reader'

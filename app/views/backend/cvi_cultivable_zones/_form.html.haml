@@ -1,0 +1,6 @@
+= ekylibre_form_for(resource, remote: true) do |f|  
+  = field_set( tl(:edit) + ' ' + resource.name ) do
+    = f.input :name
+  - f.add(:submit, :update.tl, data: {disable_with: :please_wait.tl}, class: 'primary')
+  - f.add(:link, :cancel.tl, "#", {class: 'btn', onclick: "ekylibre.list.render()"} )
+  = f.actions

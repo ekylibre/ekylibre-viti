@@ -1,0 +1,4 @@
+$('#notifications-tag').append("<%=j notifications_tag %>")
+<%if attributes && attributes.any? %>
+ekylibre.cviLandParcels.list.formatUngroupableRow(<%=ids.to_json.html_safe%>, <%=attributes.to_json.html_safe %>)
+<%end%>

@@ -8,7 +8,7 @@ class Measure
       total_area_to_s = (area.value * 10_000).to_f.floor.to_s.rjust(6, '0')
       [[total_area_to_s[0..-5], Nomen::Unit[:hectare].symbol],
        [total_area_to_s[-4, 2], Nomen::Unit[:are].symbol],
-       [total_area_to_s[-2, 2], Nomen::Unit[:centiare].symbol]].reject { |n| n[0] == '00' }.flatten.join(' ')
+       [total_area_to_s[-2, 2], Nomen::Unit[:centiare].symbol]].map(&:join).join(' ')
     },
     short_form_unit: lambda { |measure| "#{measure.value.to_f} #{measure.symbol}" }
   }.freeze

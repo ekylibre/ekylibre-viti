@@ -1,9 +1,4 @@
-const $cvi_cadastral_plant = $("#r<%=params[:id]%>");
 const form =
-  "<tr class='edit-form'><td colspan='13'><%= j render(template:'/backend/cvi_cadastral_plants/form_wrapper') %></td></tr>";
-
-if ($cvi_cadastral_plant.next("tr.edit-form").length === 0) {
-  $cvi_cadastral_plant.after(form);
-} else {
-  $("tr.edit-form").replaceWith(form);
-}
+  "<tr class='edit-form'><td colspan='13'><%= j render(partial:'form') %></td></tr>";
+ekylibre.list.addForm(form,<%=params[:id]%>)
+ekylibre.list.disable()

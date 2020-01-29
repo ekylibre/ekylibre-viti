@@ -117,6 +117,13 @@ cmn:
       state:
         # planted: "Planted"
         # removed_with_authorization: "Removed with authorization"
+      type_of_occupancy:
+        # owner: "Owner"
+        # tenant_farming: "Tenant farming"
+    cvi_cultivable_zone:
+      land_parcels_status:
+        # created: "Created"
+        # not_created: "Not created"
     cvi_statement:
       state:
         # converted: "Converted"

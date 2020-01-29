@@ -1,7 +1,6 @@
 require 'minitest/mock'
 require 'rake'
 
-include FactoryBot::Syntax::Methods
 class ActiveSupport::TestCase
   require 'enumerize/integrations/rspec'
   extend Enumerize::Integrations::RSpec
@@ -10,7 +9,7 @@ ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-
+require "minitest/spec"
 require 'minitest/reporters'
 require 'database_cleaner'
 
@@ -37,10 +36,13 @@ Ekylibre::Tenant.setup!('test', keep_files: true)
 
 Ekylibre::Tenant.switch 'test_without_fixtures' do
   puts "Cleaning tenant: #{'test_without_fixtures'.green}".yellow
-  DatabaseCleaner.clean_with :truncation, { except: ['spatial_ref_sys', "registered_legal_positions"] }
+  DatabaseCleaner.clean_with :truncation, except: ['spatial_ref_sys', 
+                                                   'registered_legal_positions',
+                                                   'master_vine_varieties',
+                                                   'registered_protected_designation_of_origins',
+                                                   'cadastral_land_parcel_zones',
+                                                   'registered_postal_zones']
 end
-
-Lexicon.reload! if File.exist?(Rails.root.join('test', 'fixture-files', 'lexicon', 'data.sql'))
 
 DatabaseCleaner.strategy = :transaction
 
@@ -101,6 +103,8 @@ class ActiveSupport::TestCase
   setup do
     I18n.locale = :eng
   end
+
+  extend MiniTest::Spec::DSL
 end
 
 module ActionController
@@ -517,6 +521,18 @@ end
 def main
   TOPLEVEL_BINDING.eval('self')
 end
+
+module FFaker
+  module Shape
+    extend self
+
+    SHAPES = File.readlines(Rails.root.join('test','fixture-files',"shapes")).freeze
+
+    def multipolygon
+      Charta.new_geometry(SHAPES.sample).to_rgeo
+    end
+  end
+end 
 
 require 'pdf_printer'
 

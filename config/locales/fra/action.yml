@@ -157,6 +157,13 @@ fra:
       new: "Nouveau champ personnalisé"
       show: "Champ personnalisé\_: %{name}"
       sort: "Trier les choix du champ personnalisé"
+    backend/cvi_statement_conversions:
+      show: "Convertir CVI en parcellaire"
+    backend/cvi_cultivable_zones:
+      show: "Zone cultivable: %{name}"
+    backend/cvi_land_parcels:
+      edit_multiple:  "Modifier la séléction"
+      update_multiple:  "Modifier la séléction"
     backend/cvi_statements:
       edit: "Modifier le Casier Viticole Informatisé (CVI)\_: %{id}"
       index: "Casier Viticole Informatisé"
@@ -871,6 +878,17 @@ fra:
         one: "%{count} erreur a empêché l’enregistrement (%{model})"
         other: "%{count} erreurs ont empêché l’enregistrement (%{model})"
   front-end:
+    templates:
+      form:
+        land_parcel: "Parcelle"
+        name: "Nom"
+        vine_variety_name: "Cépage"
+        calculated_area: "Superficie calculée"
+        required: "Obligatoire"
+      actions:
+        regroup: "Regrouper"
+        split: "Dissocier"
+        edit: "Modifier"
     bank_reconciliation:
       remove: "Effacer"
     leaflet:
@@ -997,13 +1015,13 @@ fra:
     levels:
       # error: "Error!"
     messages:
-      # unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
     notifications: #?
       levels: #?
         error: "Erreur\_!" #?
       messages: #?
         unvalid_cvi_cadastral_plant: "Au moins une référence de parcelle cadastrale n'a pas été reconnue. Veuillez corriger ou supprimer la/les référence(s) identifiée(s) en rouge (depuis la vue Liste uniquement)." #?
   labels:
+    rootstock: "Porte-greffe"
     abilities: "Compétences" #?
     accepted: "Acceptée"
     accepted_for_paiment: "Acceptée pour paiement"
@@ -1210,6 +1228,7 @@ fra:
     are_you_sure_you_want_to_delete: "Êtes-vous sûr(e) de vouloir supprimer cet enregistrement\_?"
     are_you_sure_you_want_to_invoice: "Êtes-vous sûr(e) de vouloir facturer\_?"
     are_you_sure_you_want_to_send_mails: "Êtes-vous sûr(e) de vouloir envoyer les mails\_?"
+    are_you_sure_you_want_to_reset_cvi_conversion: "Êtes-vous sûr(e) de vouloir réinitialiser la conversion du parcellaire\_?"
     area: "Zone"
     area_measure: "Superficie" #?
     assessable_operations: "Opérations imposables (H.T)" #?
@@ -1269,7 +1288,9 @@ fra:
     buildings_map: "Carte des bâtiments" #?
     by_account_fixed_assets: "État de immobilisations par compte au %{to}"
     by_year: "Par an"
+    cadastral_references: "Ref. cadastrale(s) associée(s)"
     calculate: "Calculer"
+    calculated_area: "Superficie calculée"
     calculated_hours: "Horaires calculées"
     calculators: "Calculateurs"
     calendar: "Calendrier"
@@ -1371,6 +1392,7 @@ fra:
     comment: "Commentaire"
     commercial_margin: "Marge commerciale"
     commission: "Commission"
+    communes: "Commune(s)"
     company: "Société"
     compare_planned_and_realised: "Comparer avec les interventions planifiées" #?
     complement_sort: "Trier les choix par nom" #?
@@ -1409,10 +1431,13 @@ fra:
     contains: "Contient" #?
     content_products: "Produits contenus" #?
     contextual_help: "Aide contextuelle" #?
+    convert: "Convertir"
     convert_balance_into_loss: "Passer le solde en perte"
     convert_balance_into_profit: "Passer le solde en profit"
     convert_cvi: "Convertir en parcellaire"
     convert_cvi_into_land_parcels: "Convertir le CVI en parcellaire"
+    resume_cvi_conversion: "Reprendre la conversion en cours"
+    reset_cvi_conversion: "Réinitialiser la conversion du parcellaire"
     convert_into_contact: "Convertir en contact"
     convert_into_organization: "Convertir en organisation"
     convert_to_cultivable_zone: "Convertir en zone cultivable"
@@ -1495,6 +1520,8 @@ fra:
     custom_fields: "Champs personnalisés"
     cvi_cadastral_plants: "Cultures cadastrales CVI"
     cvi_cadastral_plants_map: "Cultures cadastrales CVI"
+    cvi_land_parcels: "Parcelles"
+    cvi_cultivable_zones: "Zones Cultivables"
     daily_nitrogen_production: "Excretion d’azote journalière" #?
     data_to_export: "Données à exporter" #?
     data_to_extract: "Données à extraire" #?
@@ -1521,6 +1548,7 @@ fra:
     decimal_case: "Options pour un décimal" #?
     decision_making: "Décision"
     deduction_from_distribution: "4423 - Retenues et prélevements sur les distributions"
+    declared_area: "Superficie déclarée"
     default_letter_conclusion: "Veuillez agréer, Chère Madame, Cher Monsieur, l’expression de mes salutations distinguées."
     default_letter_function_title: "Chère Madame, Cher Monsieur"
     default_letter_introduction: "Suite à notre conversation, je vous communique les éléments du devis."
@@ -1531,6 +1559,10 @@ fra:
     deformity_percentage_evolution: "Evolution des malformations"
     delay: "Délai"
     delete: "Supprimer"
+    delete_cvi_cutlivable_zone_header: "Supprimer la Zone Cultivable"
+    delete_cvi_cutlivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
+    delete_cvi_cadastral_plant_header: "Supprimer une parcelle cadastrale de votre CVI"
+    delete_cvi_cadastral_plant_body: "<b>Attention !</b><br>Vous allez supprimer une parcelle cadastrale de votre CVI.Pour la rajouter ou la modifier, vous devrez ré-importer la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette parcelle de votre CVI ?"
     delete_only_record: #? String expected ("Or only delete the selected intervention(s) and display the request associate ?")
       one: "Ou supprimer uniquement l’intervention" #?
       other: "Ou supprimer uniquement les interventions" #?
@@ -1835,6 +1867,7 @@ fra:
     global_costs: "Coût global"
     global_preferences: "Préférences générales"
     go: "Valider"
+    go_back: "Retour"
     go_back_to_financial_year_details: "Retourner aux détails de l'exercice comptable"
     gradings: "Agréages"
     grain_yield: "Rendement grain"
@@ -2539,7 +2572,9 @@ fra:
     reconciliate_with_receptions: "Rapprocher avec une ou des réceptions"
     record: "Enregistrement"
     record_cannot_be_saved: "L'enregistrement n'a pas pu être sauvegardé."
+    records_cannot_be_saved: "Les enregistrements n'ont pas pu être sauvegardés."
     record_has_been_correctly_removed: "L’enregistrement a été supprimé correctement." #?
+    cvi_conversion_has_been_correctly_reseted: "La conversion du CVI a été réinitialisée correctement."
     record_has_not_been_removed: "L’enregistrement n’a pu être supprimé." #?
     record_maintenance: "Enregistrer une maintenance"
     reevaluation_gaps: "Écart de réévaluation"
@@ -2552,6 +2587,9 @@ fra:
     register_intervention_request: "Enregistrer la demande d’intervention"
     regressive_options: "Options de l'amortissement dégressif"
     regulated_reserves: "1064 - Réserves réglementées"
+    regroup: "Regrouper"
+    split: "Dissocier"
+    draw_the_cutting_line: "Dessinez le trait de découpe"
     rejected: "Refusé"
     related_people: "En lien avec" #?
     relationship: "Tiers"
@@ -3423,6 +3461,11 @@ fra:
       record_x_planned: "%{record} %{name} planifiée" #?
       record_x_updated: "%{record} %{name} mise à jour"
       record_x_updated_f: "La %{record} %{name} a été mise à jour"
+      records_x_updated_f: "Les %{record} %{name} ont été mises à jour"
+      can_not_group_cvi_land_parcels: "Les parcelles ne peuvent pas être regroupées car le cépage, le produit revendiqué, la densité, la campagne de plantation ou l’état diffère. Veuillez vérifier les valeurs avant de regrouper les parcelles."
+      can_not_group_cvi_land_parcels_no_intersection: "Les parcelles n’ont pas pu être regroupées. Si vous souhaitez les regrouper, éditez l’une des deux parcelles de façon à ce que leurs contours aient au moins un point d’intersection."
+      cvi_land_parcels_grouped: "Les parcelles ont été regroupées."
+      cvi_land_parcels_splitted:  "La parcelle a été dissociée."
       restoration_finished: "La restauration de la sauvegarde s’est terminée (en %{value} secondes)." #?
       sale_already_invoiced: "La vente a déjà été facturée: vous ne pouvez pas définir de livraison" #?
       sale_cannot_be_updated: "Le devis n’est plus modifiable." #?
@@ -3520,7 +3563,10 @@ fra:
       convert: "Convertir"
       correct: "Corriger"
       create: "Créer"
+      generate_cvi_land_parcels: "Créer parcellaire"
+      edit_cvi_land_parcels: "Modifier parcellaire"
       decrement: "Décrementer" #?
+      delete_modal: "Supprimer"
       destroy: "Supprimer"
       detach: "Détacher"
       detail: "Détail"

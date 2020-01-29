@@ -121,6 +121,25 @@ fra:
       state:
         planted: "Plantées"
         removed_with_authorization: "Arrachées avec autorisation"
+      type_of_occupancy:
+        # owner: "Owner"
+        # tenant_farming: "Tenant farming"
+    formatted_cvi_land_parcel:
+      state:
+        planted: "Plantées"
+        removed_with_authorization: "Arrachées avec autorisation"
+    cvi_land_parcel:
+      state:
+        planted: "Plantées"
+        removed_with_authorization: "Arrachées avec autorisation"
+    cvi_cultivable_zone:
+      land_parcels_status:
+        created: "Créé"
+        not_created: "À créer"
+    formatted_cvi_cultivable_zone:
+      land_parcels_status:
+        created: "Créé"
+        not_created: "À créer"
     cvi_statement:
       state:
         converted: "Parcellaire converti"

@@ -20,7 +20,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
-# == Table: registred_protected_designation_of_origins
+# == Table: registered_protected_designation_of_origins
 #
 #  eu_sign                :string
 #  fr_sign                :string
@@ -30,10 +30,8 @@
 #  product_human_name_fra :string
 #  reference_number       :string
 #
-require 'test_helper'
-
-class RegistredProtectedDesignationOfOriginTest < ActiveSupport::TestCase
-  context 'associations' do
-    should have_many(:cvi_cadastral_plants).with_foreign_key('designation_of_origin_id')
+class RegisteredProtectedDesignationOfOrigin < ActiveRecord::Base
+    self.primary_key = :id
+    include Lexiconable
+    has_many :cvi_cadastral_plants, foreign_key: :designation_of_origin_id
   end
-end

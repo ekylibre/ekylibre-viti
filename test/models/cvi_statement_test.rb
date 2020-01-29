@@ -40,44 +40,29 @@
 require 'test_helper'
 
 class CviStatementTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
-  should 'be creatable' do
+  it 'is creatable' do
     cvi_statement = create(:cvi_statement)
-    first_cvi_statement = CviStatement.first
-    assert_equal cvi_statement, first_cvi_statement
+    assert_equal cvi_statement, CviStatement.find(cvi_statement.id)
   end
 
-  context 'Aggregations' do
-    should 'respond to area, inter_row_distance, inter_vine_plant_distance  with measure object'do
-      cvi_cadastral_plant = create(:cvi_statement)
-      assert_equal 'Measure', cvi_cadastral_plant.total_area.class.name
-    end
+  it 'responds to area, inter_row_distance, inter_vine_plant_distance with measure object' do
+    cvi_cadastral_plant = create(:cvi_statement)
+    assert_equal 'Measure', cvi_cadastral_plant.total_area.class.name
   end
 
-  context 'with wrong siret number format' do
-    should 'not create record' do
-      cvi_statement = build(:cvi_statement, siret_number: 12_323_131)
-      refute cvi_statement.valid?
-    end
+  it 'is not valid if siret_number is invalid' do
+    cvi_statement = build(:cvi_statement, siret_number: 12_323_131)
+    refute cvi_statement.valid?
   end
 
-  context 'validations' do
-    should validate_presence_of(:extraction_date)
-    should validate_presence_of(:siret_number)
-    should validate_presence_of(:farm_name)
-    should validate_presence_of(:declarant)
-    should validate_presence_of(:state)
-  end
+  should validate_presence_of(:extraction_date)
+  should validate_presence_of(:siret_number)
+  should validate_presence_of(:farm_name)
+  should validate_presence_of(:declarant)
+  should validate_presence_of(:state)
 
-  context 'associations' do
-    should have_many(:cvi_cadastral_plants)
-  end
+  should have_many(:cvi_cadastral_plants)
+  should have_many(:cvi_cultivable_zones)
 
   should enumerize(:state).in(:to_convert, :converted).with_default(:to_convert).with_predicates(true)
-
-  context '#total_area_formatted' do
-    should 'format area' do
-      cvi_statement = create(:cvi_statement, total_area: Measure.new(1.1455, :hectare))
-      assert_equal '01 Ha 14 Ar 55 Ca', cvi_statement.total_area_formatted
-    end
-  end
 end

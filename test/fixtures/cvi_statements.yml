@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+cvi_statements_001:
+  id: 1
+  cadastral_plant_count: 1    
+  cadastral_sub_plant_count: 1 
+  campaign_id: 1    
+  cvi_number: MyString               
+  declarant: MyString                 
+  extraction_date: 2019-11-21
+  farm_name: MyString                
+  siret_number: "14916204086178"              
+  state: MyString                     
+  total_area_unit: hectare      
+  total_area_value: 9.99    
+  updated_at: 2014-11-05 09:36:48.608936000 Z
+
+cvi_statements_002:
+  id: 2
+  cadastral_plant_count: 1    
+  cadastral_sub_plant_count: 1 
+  campaign_id: 1    
+  cvi_number: MyString               
+  declarant: MyString                 
+  extraction_date: 2019-11-21
+  farm_name: MyString                
+  siret_number: "14916204086178"              
+  state: MyString                     
+  total_area_unit: hectare       
+  total_area_value: 9.99    
+  updated_at: 2014-11-05 09:36:48.608936000 Z
