@@ -5,10 +5,6 @@ module Printers
       WITH_SIGNATURE = WITH_PARCELS = WITH_CONDITIONS = [{}].freeze
       WITHOUT_SIGNATURE = WITHOUT_PARCELS = IN_PROGRESS = WITHOUT_CONDITIONS = [].freeze
 
-      def find_open_document_template(*)
-        super(:sales_estimate_and_order)
-      end
-
       def run_pdf
         # In progress or not
         state = sale.aborted? ? [{aborted: :export_sales_aborted}] : IN_PROGRESS
@@ -19,6 +15,8 @@ module Printers
 
         # Cash
         cash = Cash.bank_accounts.find_by(by_default: true) || Cash.bank_accounts.first
+
+        description = Maybe(sale).description.fmap { |d| [{ description: d }] }.or_else([])
 
         generate_report(template_path) do |r|
           # Header
@@ -35,6 +33,10 @@ module Printers
           # Expired_at
           r.add_section('section-conditions', general_conditions) do |s|
             s.add_field(:expired_at) { sale.expired_at.to_date.l }
+          end
+
+          r.add_section('section-description', description) do |sd|
+            sd.add_field(:description) { |item| item[:description] }
           end
 
           # Company_address

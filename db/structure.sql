@@ -2278,7 +2278,9 @@ CREATE TABLE public.document_templates (
     updated_at timestamp without time zone NOT NULL,
     creator_id integer,
     updater_id integer,
-    lock_version integer DEFAULT 0 NOT NULL
+    lock_version integer DEFAULT 0 NOT NULL,
+    file_extension character varying DEFAULT 'xml'::character varying,
+    signed boolean DEFAULT false NOT NULL
 );
 
 
@@ -19109,7 +19111,13 @@ INSERT INTO schema_migrations (version) VALUES ('20191007122201');
 
 INSERT INTO schema_migrations (version) VALUES ('20191010151901');
 
+INSERT INTO schema_migrations (version) VALUES ('20191011155512');
+
 INSERT INTO schema_migrations (version) VALUES ('20191101162901');
 
 INSERT INTO schema_migrations (version) VALUES ('20191104152901');
+
+INSERT INTO schema_migrations (version) VALUES ('20191126103235');
+
+INSERT INTO schema_migrations (version) VALUES ('20200107092243');
 

@@ -157,6 +157,7 @@ Rails.application.routes.draw do
       resource :accountancy_balance_cell, only: :show
       resource :cashes_balance_cell, only: :show
       resource :cashes_balance_evolution_cell, only: :show
+      resource :cash_variations_cell, only: :show
       resource :calendar_cell, only: :show
       resource :payable_taxes_cell, only: :show
       resource :cropping_plan_cell, only: :show
@@ -181,6 +182,7 @@ Rails.application.routes.draw do
       resource :last_sales_cell, only: :show, concerns: :list
       resource :main_settings_cell, only: :show
       resource :map_cell, only: :show
+      resource :last_panier_local_import_cell, only: :show
       resource :parts_cell, only: :show
       resource :profit_and_loss_cell, only: :show
       resource :quandl_cell, only: :show

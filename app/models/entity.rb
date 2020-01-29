@@ -180,7 +180,7 @@ class Entity < Ekylibre::Record::Base
   validates :activity_code, length: { allow_nil: true, maximum: 30 }
   validates :deliveries_conditions, :number, length: { allow_nil: true, maximum: 60 }
   validates :iban, iban: true, allow_blank: true
-  validates :siret_number, siret_format: { if: :in_france? }, allow_blank: true
+  validates :siret_number, siret_format: { if: :in_france? }, allow_blank: true, length: { allow_nil: true, maximum: 14 }
   validates_attachment_content_type :picture, content_type: /image/
   validates_delay_format_of :supplier_payment_delay
   validates_with SEPA::BICValidator, field_name: :bank_identifier_code
@@ -219,7 +219,7 @@ class Entity < Ekylibre::Record::Base
   before_validation do
     self.first_name = first_name.to_s.strip
     self.first_name = nil if organization?
-    self.last_name  = last_name.to_s.strip
+    self.last_name = last_name.to_s.strip
     self.number = unique_predictable_number if number.empty?
     # FIXME: I18nize full name computation
     self.full_name = (title.to_s + ' ' + first_name.to_s + ' ' + last_name.to_s).strip
@@ -231,7 +231,7 @@ class Entity < Ekylibre::Record::Base
     self.siret_number = siret_number.strip if siret_number
     self.language = Preference[:language] if language.blank?
     self.currency = Preference[:currency] if currency.blank?
-    self.country  = Preference[:country]  if country.blank?
+    self.country = Preference[:country] if country.blank?
     self.iban = iban.to_s.upper.gsub(/[^A-Z0-9]/, '')
     self.bank_identifier_code = bank_identifier_code.to_s.upper.gsub(/[^A-Z0-9]/, '').presence
     self.bank_account_holder_name = full_name if bank_account_holder_name.blank?
@@ -251,6 +251,7 @@ class Entity < Ekylibre::Record::Base
     # create account before bookkeep on sale and purchase
     self.account(:client) if client
     self.account(:supplier) if supplier
+    self.account(:employee) if employee
   end
 
   protect(on: :destroy) do
@@ -258,6 +259,8 @@ class Entity < Ekylibre::Record::Base
   end
 
   class << self
+    prepend IdHumanizable
+
     def exportable_columns
       content_columns.delete_if do |c|
         %i[active lock_version deliveries_conditions].include?(c.name.to_sym)
@@ -363,7 +366,7 @@ class Entity < Ekylibre::Record::Base
 
   # This method creates automatically an account for the entity for its usage (client, supplier...)
   def account(nature)
-    natures = %i[client supplier employee]
+    natures = Account::CENTRALIZING_NATURES
     conversions = { payer: :client, payee: :supplier }
     nature = nature.to_sym
     nature = conversions[nature] || nature
@@ -372,17 +375,16 @@ class Entity < Ekylibre::Record::Base
     end
     valid_account = send("#{nature}_account")
     if valid_account.nil?
+      prefix = Account.centalizing_account_prefix_for(nature)
+
       account_nomen = nature.to_s.pluralize
       account_nomen = :staff_due_remunerations if nature == :employee
-      prefix = Preference[:"#{nature}_account_radix"]
-      if prefix.blank?
-        prefix = Nomen::Account.find(account_nomen).send(Account.accounting_system)
-      end
+
       if account_nomen == 'clients' || account_nomen == 'suppliers'
         if Preference[:use_entity_codes_for_account_numbers]
           number = prefix.to_s + self.number.to_s
           auxiliary_number = self.number.to_s
-          unless valid_account = Account.find_by(number: number)
+          unless (valid_account = Account.find_by(number: number))
             valid_account = Account.create(nature: 'auxiliary', auxiliary_number: auxiliary_number, name: full_name, centralizing_account_name: account_nomen, reconcilable: true)
           end
         else
@@ -396,7 +398,9 @@ class Entity < Ekylibre::Record::Base
           valid_account = Account.create(nature: 'auxiliary', auxiliary_number: suffix.to_s, name: full_name, centralizing_account_name: account_nomen, reconcilable: true)
         end
       else
-        tmp_account = Account.find_or_import_from_nomenclature(account_nomen)
+        _employees_account = Account.find_or_import_from_nomenclature(account_nomen)
+
+        valid_account = Account.find_or_create_by_number(Account.generate_employee_account_number_for(id), name: full_name)
       end
       reload.update_column("#{nature}_account_id", valid_account.id)
     end
@@ -507,9 +511,18 @@ class Entity < Ekylibre::Record::Base
 
       # Add summary observation of the merge
       if author
-        content = "Merged entity (ID=#{other.id}):\n"
-        other.attributes.sort.each do |attr, _value|
-          value = other.send(attr).to_s
+        content = :merged_entity.tl(other: other.id)
+        other.attributes.sort.each do |attr, value|
+          next unless value.present?
+
+          if ["supplier_payment_delay", "nature"].include?(attr)
+            value = "enumerize.entity.#{attr}.#{value}".t
+          elsif Entity.columns.detect { |column| column.name == attr }.cast_type.type == :boolean
+            value = value == true ? :y.tl : :n.tl
+          else
+            value = value.to_s
+          end
+
           content << "  - #{Entity.human_attribute_name(attr)} : #{value}\n" if value.present?
         end
         Entity.custom_fields.each do |custom_field|
