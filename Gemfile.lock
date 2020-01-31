@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/ekylibre/piwik-ruby-tracking.git
+  revision: 993ae476b9d8f9b9abf01259f2d8a0fa11cf6251
+  specs:
+    piwik_analytics (1.0.3)
+      actionpack
+      activesupport
+      rails (>= 3.0.0)
+
+GIT
   remote: https://gitlab.com/ekylibre/cartography.git
   revision: 60ccb3d489ab52851c6d2df6898e2a6c5cb85ce3
   branch: ekyviti
@@ -14,8 +23,8 @@ GIT
 
 GIT
   remote: https://gitlab.com/ekylibre/odf-report.git
-  revision: 829e0402fe0b1fcedb4cdb0b0d38960dafddb088
-  tag: v0.6.0-1
+  revision: 63260ddb32e24a3e4dbadeaf5c406ac8912dbec3
+  tag: v0.6.0-2
   specs:
     odf-report (0.6.0)
       fastimage (~> 2.1)
@@ -697,6 +706,7 @@ DEPENDENCIES
   luhn
   mail (~> 2.6)
   mechanize
+  mimemagic
   minitest-reporters
   nokogiri (~> 1.8.1)
   odf-report!
@@ -707,6 +717,7 @@ DEPENDENCIES
   parallel_tests
   pdf-reader
   pg (~> 0.20.0)
+  piwik_analytics!
   possibly!
   pry-byebug
   pry-rails
