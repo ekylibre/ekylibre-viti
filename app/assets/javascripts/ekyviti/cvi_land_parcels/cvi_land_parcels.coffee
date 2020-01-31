@@ -2,6 +2,8 @@ ekylibre.cviLandParcels ||= {}
 
 ((E, $) ->
   $(document).ready ->
+    return if $('[id^=cvi_land_parcels].active-list').length == 0
+
     E.cviLandParcels.list.init()
 
     $(document).on E.Events.Map.split.change, (e, obj) ->
@@ -23,6 +25,7 @@ ekylibre.cviLandParcels ||= {}
       E.cviLandParcels.editForm.update(obj)
   
   $(document).on 'list:page:change', ->
+    return if $('[id^=cvi_land_parcels].active-list').length == 0
     E.cviLandParcels.list.init()
 
   $(document).on 'dialog:show', ->
