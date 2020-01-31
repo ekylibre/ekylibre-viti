@@ -15,7 +15,9 @@ class GroupCviLandParcels < ApplicationInteractor
     @new_shape = CviLandParcel.select('St_AStext(ST_Buffer(ST_Union(ARRAY_AGG(ST_Buffer(shape,0.000001,\'join=mitre\'))),-0.000001,\'join=mitre\')) AS shape').where(id: context.cvi_land_parcels.collect(&:id))[0].shape.to_rgeo.simplify(0.05)
     geometry_type = @new_shape.geometry_type
     unless geometry_type == RGeo::Feature::Polygon
-      context.fail!(error: :can_not_group_cvi_land_parcels_no_intersection)
+      context.fail!(error: ::I18n.t(:can_not_group_no_intersection, 
+                                    name_pluralized: CviLandParcel.model_name.human.pluralize.downcase, 
+                                    scope: [:notifications, :messages]))
     end
     attributes_with_differente_values = ATTRIBUTES.map do |a|
       a if context.cvi_land_parcels.collect { |r| r.try(a) }.compact.uniq.length > 1

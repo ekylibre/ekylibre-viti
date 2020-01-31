@@ -77,7 +77,7 @@ module Backend
       cvi_cultivable_zones = CviCultivableZone.joins(:cvi_cadastral_plants).where(id: params[:cvi_cultivable_zone_ids]).distinct
       result = GroupCviCultivableZones.call(cvi_cultivable_zones: cvi_cultivable_zones)
       if result.success?
-        notify_now(:cvi_cultivable_zones_grouped)
+        notify_now(:grouped, name_pluralized: CviCultivableZone.model_name.human(count: 2).downcase)
         render :update
       else
         notify_error(result.error)

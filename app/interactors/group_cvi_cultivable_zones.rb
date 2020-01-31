@@ -38,7 +38,9 @@ class GroupCviCultivableZones < ApplicationInteractor
                                   .shape.to_rgeo.simplify(0.05)
     geometry_type = @new_shape.geometry_type
     unless geometry_type == RGeo::Feature::Polygon
-      context.fail!(error: :can_not_group_cvi_cultivable_zones_no_intersection)
+      context.fail!(error: ::I18n.t(:can_not_group_no_intersection, 
+                                    name_pluralized: CviCultivableZone.model_name.human(count: 2).downcase, 
+                                    scope: [:notifications, :messages]))
     end
   end
 
