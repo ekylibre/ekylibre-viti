@@ -111,5 +111,12 @@ module Backend
       cvi_cultivable_zone.update(land_parcels_status: :not_created) if cvi_cultivable_zone.land_parcels_status == :created
       redirect_to backend_cvi_cultivable_zone_path(cvi_cultivable_zone)
     end
+
+    private
+
+    def permitted_params
+      params.require(:cvi_cultivable_zone).permit(:name, :shape)
+        .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
+    end
   end
 end
