@@ -438,6 +438,9 @@ Rails.application.routes.draw do
         get :list_cvi_land_parcels
         resources :cvi_land_parcels, only: %i[index]
       end
+      collection do
+        post :group
+      end
     end
 
     resources :cvi_land_parcels, only: %i[edit update] do

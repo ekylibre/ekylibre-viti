@@ -73,6 +73,18 @@ module Backend
 
     def delete_modal; end
 
+    def group
+      cvi_cultivable_zones = CviCultivableZone.joins(:cvi_cadastral_plants).where(id: params[:cvi_cultivable_zone_ids]).distinct
+      result = GroupCviCultivableZones.call(cvi_cultivable_zones: cvi_cultivable_zones)
+      if result.success?
+        notify_now(:cvi_cultivable_zones_grouped)
+        render :update
+      else
+        notify_error(result.error)
+        render partial: 'notify', locals: { ids: params[:cvi_cultivable_zone_ids] }
+      end
+    end
+
     def generate_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
       unless cvi_cultivable_zone.cvi_land_parcels.any?

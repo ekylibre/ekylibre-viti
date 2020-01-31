@@ -2,7 +2,7 @@ require 'test_helper'
 
 class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   ATTRIBUTES = %i[designation_of_origin_id vine_variety_id inter_vine_plant_distance_value inter_row_distance_value planting_campaign state].freeze
-  
+
   describe('GroupCviLandParcelsTest.call') do
     describe('cvi_land_parcels are not groupable') do
       let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2) }
@@ -45,5 +45,4 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
       end
     end
   end
-  
 end

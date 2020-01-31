@@ -37,7 +37,7 @@ class GroupCviLandParcels < ApplicationInteractor
     context.new_cvi_land_parcel = new_cvi_land_parcel
   end
 
-  def create_associated_locations
+  def create_associated_land_parcel_rootstocks
     land_parcel_rootstocks = context.cvi_land_parcels.flat_map(&:land_parcel_rootstocks)
     uniq_rootstock_ids = land_parcel_rootstocks.collect(&:rootstock_id).uniq
 
@@ -56,7 +56,7 @@ class GroupCviLandParcels < ApplicationInteractor
     end
   end
 
-  def create_associated_land_parcel_rootstocks
+  def create_associated_locations
     new_locations = context.cvi_land_parcels.flat_map(&:locations).uniq { |r| [r.insee_number, r.locality] }.map(&:dup)
     context.new_cvi_land_parcel.locations.create!(new_locations.map(&:attributes))
   end
