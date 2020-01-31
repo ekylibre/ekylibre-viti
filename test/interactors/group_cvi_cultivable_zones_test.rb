@@ -36,11 +36,11 @@ class GroupCviCultivableZonesTest < Ekylibre::Testing::ApplicationTestCase::With
         end
       end
 
-      describe('cvi_cultivable_zones are groupable') do
+      describe('one of cvi_cultivable_zones don\'t have any cvi_land_parcels  created yet') do
         let(:cvi_cultivable_zone1) { create(:cvi_cultivable_zone, :old_splitted, :with_cvi_cadastral_plants) }
         let(:cvi_cultivable_zone2) { create(:cvi_cultivable_zone, :old_splitted, :with_cvi_cadastral_plants, :with_cvi_land_parcels) }
 
-        it 'create as much cvi_land_parcels as existing cvi_cadastral plants ' do
+        it 'generate new cvi_land_parcels associated to the new cvi_cultivable_zone' do
           cvi_land_parcels_count = cvi_cultivable_zone1.cvi_cadastral_plants.count + cvi_cultivable_zone2.cvi_land_parcels.count
           result = GroupCviCultivableZones.call(cvi_cultivable_zones: [cvi_cultivable_zone1, cvi_cultivable_zone2])
           assert_equal cvi_land_parcels_count, result.new_cvi_cultivable_zone.cvi_land_parcels.count
