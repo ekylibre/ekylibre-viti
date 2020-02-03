@@ -81,12 +81,7 @@ module Lexicon
 
       db = Rails.application.config.database_configuration[Rails.env].with_indifferent_access
       db_url = Shellwords.escape("postgresql://#{db[:username]}:#{db[:password]}@#{db[:host]}:#{db[:port] || 5432}/#{db[:database]}")
-      tenants = if Ekylibre::Tenant.list.include?('public')
-                  Ekylibre::Tenant.list
-                else
-                  Ekylibre::Tenant.list.push('public')
-                end
-      tenants.each do |tenant|
+      (Ekylibre::Tenant.list + %w[public]).each do |tenant|
         puts "== Post-processing for #{tenant} tenant : migrating ==".ljust(79, '=').cyan
         start = Time.now
         `echo 'SET SEARCH_PATH TO "#{tenant}";' | cat - #{post_processing_script.to_s} | psql --dbname=#{db_url}`

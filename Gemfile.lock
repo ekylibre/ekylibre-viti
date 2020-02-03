@@ -282,7 +282,10 @@ GEM
     i18n-js (3.5.0)
       i18n (>= 0.6.6)
     iban-tools (1.1.0)
-    interactor (3.1.1)
+    interactor (3.1.2)
+    interactor-rails (2.2.1)
+      interactor (~> 3.0)
+      rails (>= 4.2)
     interception (0.5)
     jaro_winkler (1.5.4)
     jbuilder (2.9.1)
@@ -694,7 +697,7 @@ DEPENDENCIES
   humanize
   i18n-complements (>= 0.0.14)
   i18n-js (>= 3.0.0.rc12)
-  interactor (~> 3.0)
+  interactor-rails
   jbuilder (~> 2.0)
   jquery-rails
   jquery-scrollto-rails
