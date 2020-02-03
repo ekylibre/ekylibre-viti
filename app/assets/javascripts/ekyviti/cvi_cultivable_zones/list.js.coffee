@@ -8,7 +8,7 @@ ekylibre.cviCultivableZones ||= {}
       this.formatRow()
       E.list.bindCellsClickToCenterLayer('cvi_cultivable_zones', 2)
       this.selectedCviCultivableZones = []
-      this.addCheckboxes()
+      E.list.addCheckboxes('cvi_cultivable_zones')
       this.addButton()
       this.bindCheckBoxes()
 
@@ -48,13 +48,6 @@ ekylibre.cviCultivableZones ||= {}
 
     addButton: ->
       $(E.templates.cviCultivableZonesButton()).insertBefore('#cvi_cultivable_zones-list tr:first')
-
-    addCheckboxes: ->
-      $('#cvi_cultivable_zones-list').find('tr:not(.edit-form)').each (index, element) ->
-        return $(element).find('th').eq(0).before('<th></td>') if index == 0
-        id = parseInt($(element).attr('id').replace('r', ''))
-        $(element).find('td').eq(0).before("<td><input type=\'checkbox\' value=\'#{id}\' data-list-selector=\'#{id}\'></td>")
-
 
     formatRow: ->
       $('[id^=cvi_cultivable_zones] tr th:nth-child(9) > i').remove()

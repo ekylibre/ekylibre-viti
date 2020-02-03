@@ -23,7 +23,14 @@ ekylibre.cviLandParcels ||= {}
 
     $(document).on E.Events.Map.edit.change, (e, obj) ->
       E.cviLandParcels.editForm.update(obj)
-  
+      
+    $(document).on 'click','[data-cancel-list-map-form]', ->
+      id = parseInt(this.dataset.id)
+      E.cviLandParcels.editForm.cancel(id)
+
+    $(document).on 'click','[data-cancel-list-map-split-form]', ->
+      id = parseInt(this.dataset.id)
+      E.cviLandParcels.splitForm.cancel(id)
   $(document).on 'list:page:change', ->
     return if $('[id^=cvi_land_parcels].active-list').length == 0
     E.cviLandParcels.list.init()
