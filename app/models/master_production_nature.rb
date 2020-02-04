@@ -39,6 +39,4 @@
 class MasterProductionNature < Ekylibre::Record::Base
   include Lexiconable
   belongs_to :pfi_crop, class_name: 'RegisteredPfiCrop', foreign_key: :pfi_crop_code
-
-  attr_accessor :first_production
 end
