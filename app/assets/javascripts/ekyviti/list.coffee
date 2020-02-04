@@ -33,7 +33,11 @@ ekylibre.list ||= {}
 
     addForm: (form, id) ->
       $row = $("#r#{id}")
-      $row.after(form)
+      $form =  $row.next("tr.edit-form")
+      if $form.length == 0
+        $row.after(form)
+      else
+        $form.replaceWith(form)
     
     addCheckboxes: (listName) ->
       $("##{listName}-list").find('tr:not(.edit-form)').each (index, element) ->
