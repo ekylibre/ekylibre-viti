@@ -132,7 +132,7 @@
 
           cadastralZonesSerie = [{cadastral_land_parcel_zones: data}, [name: 'cadastral_land_parcel_zones', label: I18n.t( 'front-end.labels.cadastral_land_parcel_zones'), type: 'simple', index: true, serie: 'cadastral_land_parcel_zones', onEachFeature: onEachFeature, style: style]]
 
-          @_cartography.addOverlay(cadastralZonesSerie)
+          @_cartography.addOverlay(cadastralZonesSerie) if @getZoom() >= 16
 
         @asyncLoading(url, onSuccess, 'cadastralLandParcelZone' )
 
