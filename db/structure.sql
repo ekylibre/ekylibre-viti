@@ -247,45 +247,6 @@ END;
 $$;
 
 
---
--- Name: cvi_land_parcel_simplified; Type: VIEW; Schema: postgis; Owner: -
---
-
-CREATE VIEW postgis.cvi_land_parcel_simplified AS
- SELECT postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.1)::double precision) AS st_simplifypreservetopology
-   FROM demo.cvi_land_parcels;
-
-
---
--- Name: cvi_land_parcels_simplified; Type: VIEW; Schema: postgis; Owner: -
---
-
-CREATE VIEW postgis.cvi_land_parcels_simplified AS
- SELECT postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.1)::double precision) AS st_simplifypreservetopology
-   FROM demo.cvi_land_parcels;
-
-
---
--- Name: mavue; Type: VIEW; Schema: postgis; Owner: -
---
-
-CREATE VIEW postgis.mavue AS
- SELECT postgis.st_npoints(cvi_land_parcels.shape) AS shape1,
-    postgis.st_npoints(postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.001)::double precision)) AS shape2
-   FROM demo.cvi_land_parcels
-  WHERE ((cvi_land_parcels.name)::text = 'L1022-1-2, L826-1'::text);
-
-
---
--- Name: test; Type: VIEW; Schema: postgis; Owner: -
---
-
-CREATE VIEW postgis.test AS
- SELECT postgis.st_astext(cvi_land_parcels.shape) AS st_astext
-   FROM demo.cvi_land_parcels
-  WHERE ((cvi_land_parcels.name)::text = ANY ((ARRAY['L778-1'::character varying, 'L779'::character varying])::text[]));
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -4524,7 +4485,7 @@ CREATE TABLE public.journal_entries (
     financial_year_exchange_id integer,
     continuous_number integer,
     validated_at timestamp without time zone,
-    reference_number character varying
+    reference_number character varying,
     providers jsonb
 );
 
@@ -18433,29 +18394,6 @@ CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING b
 
 
 --
--- Name: product_populations _RETURN; Type: RULE; Schema: public; Owner: -
---
-
-CREATE OR REPLACE VIEW public.product_populations AS
- SELECT DISTINCT ON (movements.started_at, movements.product_id) movements.product_id,
-    movements.started_at,
-    sum(precedings.delta) AS value,
-    max(movements.creator_id) AS creator_id,
-    max(movements.created_at) AS created_at,
-    max(movements.updated_at) AS updated_at,
-    max(movements.updater_id) AS updater_id,
-    min(movements.id) AS id,
-    1 AS lock_version
-   FROM (public.product_movements movements
-     LEFT JOIN ( SELECT sum(product_movements.delta) AS delta,
-            product_movements.product_id,
-            product_movements.started_at
-           FROM public.product_movements
-          GROUP BY product_movements.product_id, product_movements.started_at) precedings ON (((movements.started_at >= precedings.started_at) AND (movements.product_id = precedings.product_id))))
-  GROUP BY movements.id;
-
-
---
 -- Name: formatted_cvi_cultivable_zones _RETURN; Type: RULE; Schema: public; Owner: -
 --
 
@@ -18520,6 +18458,29 @@ CREATE OR REPLACE VIEW public.formatted_cvi_land_parcels AS
      LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_land_parcels.vine_variety_id)::text = (vine_varieties.id)::text)))
      LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_land_parcels.designation_of_origin_id = designation_of_origins.id)))
   GROUP BY cvi_land_parcels.id, designation_of_origins.product_human_name_fra, vine_varieties.specie_name;
+
+
+--
+-- Name: product_populations _RETURN; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE OR REPLACE VIEW public.product_populations AS
+ SELECT DISTINCT ON (movements.started_at, movements.product_id) movements.product_id,
+    movements.started_at,
+    sum(precedings.delta) AS value,
+    max(movements.creator_id) AS creator_id,
+    max(movements.created_at) AS created_at,
+    max(movements.updated_at) AS updated_at,
+    max(movements.updater_id) AS updater_id,
+    min(movements.id) AS id,
+    1 AS lock_version
+   FROM (public.product_movements movements
+     LEFT JOIN ( SELECT sum(product_movements.delta) AS delta,
+            product_movements.product_id,
+            product_movements.started_at
+           FROM public.product_movements
+          GROUP BY product_movements.product_id, product_movements.started_at) precedings ON (((movements.started_at >= precedings.started_at) AND (movements.product_id = precedings.product_id))))
+  GROUP BY movements.id;
 
 
 --

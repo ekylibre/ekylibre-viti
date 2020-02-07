@@ -3,57 +3,12 @@
   .modal-body
   .modal-footer
 
-= janus do |j|
-  - j.face :list do
-    = cobbles do |c|
-      - c.cobble :general_informations do
-        = infos do
-          - unless @cvi_statement.cvi_number.blank?
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:cvi_number)
-              %span.value= @cvi_statement.cvi_number
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:extraction_date)
-              %span.value= @cvi_statement.extraction_date.to_formatted_s(:default)
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:imported_at)
-              %span.value= @cvi_statement.created_at.to_date.to_formatted_s(:default)
+= cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
+                             class: 'map-fullwidth map-halfheight') do |c|
+  - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
+  - c.simple :cvi_cultivable_zones, :main, index: true, async_url: backend_cvi_cultivable_zones_url(id: params[:id])
 
-          - unless @cvi_statement.siret_number.blank?
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:siret_number)
-              %span.value= @cvi_statement.siret_number
-          - unless @cvi_statement.declarant.blank?
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:declarant)
-              %span.value= @cvi_statement.declarant
-          - unless @cvi_statement.farm_name.blank?
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:farm_name)
-              %span.value= @cvi_statement.farm_name
-
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:cadastral_plant_count)
-              %span.value= @cvi_statement.cadastral_plant_count
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:cadastral_sub_plant_count)
-              %span.value= @cvi_statement.cadastral_sub_plant_count
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:total_area)
-              %span.value= @cvi_statement.total_area_formatted
-        - c.cobble(:cvi_cultivable_zones) do
-          = cobble_list(:cvi_cultivable_zones)
-    
-    = render partial: 'buttons'
-  - j.face :map do
-    = cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
-                            class: 'map-fullwidth map-halfheight',
-                            data: {cvi_cultivable_zones_path:  backend_cvi_cultivable_zones_path(id: params[:id]) }) do |c|
-      - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
-      - c.simple :cvi_cultivable_zones, :main, index: true
-
-    = cobbles do |c|
-      - c.cobble(:cvi_cultivable_zones) do
-        = cobble_list(:cvi_cultivable_zones)
-    = render partial: 'buttons'
-
+= cobbles do |c|
+  - c.cobble(:cvi_cultivable_zones) do
+    = cobble_list(:cvi_cultivable_zones)
+= render partial: 'buttons'

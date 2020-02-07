@@ -29,6 +29,18 @@ ekylibre.templates ||= {}
           </div>
         </th>
       </tr>"
+    
+    cviCultivableZonesButton: ->
+      i18nRoot = "front-end.templates.actions"
+      "<tr>
+        <th colspan='1000'>
+          <div>
+            <a href='' class='btn btn-primary' id='group-cvi-land-parcels' data-remote='true' data-method='post' disabled>
+              #{I18n.t("#{i18nRoot}.regroup")}
+            </a>
+          </div>
+        </th>
+      </tr>"
 
     splitLandParcelForm: (oldObj, newObj) ->
       i18nRoot = "front-end.templates.form"

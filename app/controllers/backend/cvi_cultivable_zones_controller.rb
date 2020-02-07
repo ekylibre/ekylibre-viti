@@ -73,6 +73,18 @@ module Backend
 
     def delete_modal; end
 
+    def group
+      cvi_cultivable_zones = CviCultivableZone.joins(:cvi_cadastral_plants).where(id: params[:cvi_cultivable_zone_ids]).distinct
+      result = GroupCviCultivableZones.call(cvi_cultivable_zones: cvi_cultivable_zones)
+      if result.success?
+        notify_now(:grouped, name_pluralized: CviCultivableZone.model_name.human(count: 2).downcase)
+        render :update
+      else
+        notify_error(result.error)
+        render partial: 'notify', locals: { ids: params[:cvi_cultivable_zone_ids] }
+      end
+    end
+
     def generate_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
       unless cvi_cultivable_zone.cvi_land_parcels.any?
@@ -83,7 +95,15 @@ module Backend
 
     def confirm_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
-      shape = CviLandParcel.select('St_AStext(ST_Buffer(ST_Union(ARRAY_AGG(ST_Buffer(shape,0.000001,\'join=mitre\'))),-0.000001,\'join=mitre\')) AS shape').find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id).shape
+      shape = CviLandParcel.select('st_astext(
+                                      ST_Simplify(
+                                        ST_UNION(
+                                          ARRAY_AGG(
+                                            array[cvi_land_parcels.shape,cvi_cultivable_zones.shape]
+                                            )
+                                          ), 0.000000001
+                                        )
+                                      ) AS shape').joins(:cvi_cultivable_zone).find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id).shape
       calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
       cvi_cultivable_zone.update(shape: shape.to_rgeo, calculated_area: calculated_area, land_parcels_status: :created)
       redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
@@ -110,6 +130,13 @@ module Backend
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
       cvi_cultivable_zone.update(land_parcels_status: :not_created) if cvi_cultivable_zone.land_parcels_status == :created
       redirect_to backend_cvi_cultivable_zone_path(cvi_cultivable_zone)
+    end
+
+    private
+
+    def permitted_params
+      params.require(:cvi_cultivable_zone).permit(:name, :shape)
+        .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
     end
   end
 end

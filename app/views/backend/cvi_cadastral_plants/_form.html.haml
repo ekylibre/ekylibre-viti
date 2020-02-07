@@ -8,5 +8,5 @@
     = f.input :section
     = f.input :work_number, label: CviCadastralPlant.human_attribute_name(:work_number)
   - f.add(:submit, :update.tl, data: {disable_with: :please_wait.tl}, class: 'primary')
-  - f.add(:link, :cancel.tl, "#", {class: 'btn', onclick: "ekylibre.list.render()"} )
+  - f.add(:link, :cancel.tl, "#", class: 'btn', data: {"cancel-list-form": ""} )
   = f.actions

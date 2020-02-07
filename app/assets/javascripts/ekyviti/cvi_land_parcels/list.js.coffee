@@ -4,7 +4,7 @@
 
     init: ->
       E.list.bindCellsClickToCenterLayer('cvi_land_parcels', 2)
-      this.addCheckboxes()
+      E.list.addCheckboxes('cvi_land_parcels')
       this.addButtons()
       this.selectedCviLandParcels = []
       this.bindEditMultipleButton()
@@ -92,7 +92,7 @@
     disable: ->
       $('.btn-container a').attr("disabled", true)
       $('input[type=checkbox]').attr('disabled', true)
-      E.list.disable(this.selectedCviLandParcels)
+      E.list.disable()
     
     bindEditMultipleButton: ->
       list = this
@@ -108,12 +108,6 @@
             invalid: (frame, data, status, request) ->
               frame.html request.responseText
               frame.trigger('dialog:show')
-  
-    addCheckboxes: ->
-      $('#cvi_land_parcels-list').find('tr:not(.edit-form)').each (index, element) ->
-        return $(element).find('th').eq(0).before('<th></td>') if index == 0
-        id = parseInt($(element).attr('id').replace('r', ''))
-        $(element).find('td').eq(0).before("<td><input type=\'checkbox\' value=\'#{id}\' data-list-selector=\'#{id}\'></td>")
 
   }
   

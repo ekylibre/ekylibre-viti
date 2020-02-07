@@ -1,8 +1,7 @@
 = cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
-                        class: 'map-fullwidth map-halfheight',
-                        data: {cvi_land_parcels_path:  backend_cvi_land_parcels_path(id: params[:id]) }) do |c|
+                  class: 'map-fullwidth map-halfheight') do |c|
   - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
-  - c.simple :cvi_land_parcels, :main, index: true
+  - c.simple :cvi_land_parcels, :main, index: true, async_url: backend_cvi_land_parcels_url(id: params[:id])
 
 = cobbles do |c|
   - c.cobble(:cvi_land_parcels) do

@@ -1,5 +1,4 @@
 class GenerateCviCultivableZones < ApplicationInteractor
-
   def call
     get_cvi_cultivable_zones_properties
     ActiveRecord::Base.transaction do
@@ -31,9 +30,9 @@ class GenerateCviCultivableZones < ApplicationInteractor
     @cvi_cultivable_zones.each_with_index do |cvi_cultivable_zone, i|
       index = (i + 1).to_s.rjust(2, '0')
       cvi_cadastral_plants = CviCadastralPlant.find(cvi_cultivable_zone['cvi_cadastral_plant_ids'])
-      locations = cvi_cadastral_plants.map(&:location).uniq{ |e| e.insee_number && e.locality}
+      locations = cvi_cadastral_plants.map(&:location).uniq { |e| e.insee_number && e.locality }
       declared_area = cvi_cadastral_plants.collect(&:area).sum
-      shape = cvi_cultivable_zone['shape']
+      shape = Charta.new_geometry(cvi_cultivable_zone['shape']).to_rgeo.simplify(0)
 
       cvi_cultivable_zone = CviCultivableZone.create(
         name: "Zone ##{index}",

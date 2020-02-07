@@ -14,17 +14,16 @@
       @_cartography = new Cartography.Map @el, options
       @initHooks()
       @initControls()
-
-      path = window.location.pathname.match(/\D*/g)[0]
-      switch path
-        when "/backend/cvi_statements/"
-          this.displayCviCadastralPlants()
-        when "/backend/cvi_statement_conversions/"
-          this.displayCviCultivableZones()
-        when "/backend/cvi_cultivable_zones/"
-          this.displayCviLandParcels()
-      this.displayCadastralLandParcelZone()
+      @asyncLayersLoading()
+      @displayCadastralLandParcelZone()
       @firstLoad = true
+
+    asyncLayersLoading: ->
+      asyncLayers = @_cartography.options.layers.filter (layer) -> layer.asyncUrl?
+      for asyncLayer in asyncLayers
+        onSuccess = (data) =>
+          @onSync(data, asyncLayer.name)
+        @asyncLoading(asyncLayer.asyncUrl, onSuccess)
 
     initHooks: ->
       $(@_cartography.map).on Cartography.Events.edit.change, (e) ->
@@ -49,109 +48,8 @@
 
       layerName = args[1]
 
-      if @getMode() == "productions-index"
-        if layerName is 'cvi_cadastral_plants'
-          onEachFeature = (layer) ->
-            insertionMarker = () ->
-              if layer._map.getZoom() >= 16
-                positionLatLng = layer.getCenter()
-                centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
-                cadastralRef = layer.feature.properties.cadastral_ref
-                matchCadastralRefIndex = cadastralRef.match(/-(\d$)/)
-                if matchCadastralRefIndex
-                  cadastralRefIndex = matchCadastralRefIndex[1]
-                  offset = L.point(0, (cadastralRefIndex - 1) * layer._map.getZoom())
-                  positionLatLng = layer._map.layerPointToLatLng(centerPixels.add(offset))
+      onEachFeature = E["#{layerName}_onEachFeature"]
 
-                cadastral_ref = layer.feature.properties.cadastral_ref
-                layer._ghostIcon = new L.GhostIcon html: cadastral_ref, className: "simple-label blue", iconSize: [60, 40]
-                layer._ghostMarker = L.marker(positionLatLng, icon: layer._ghostIcon)
-                layer._ghostMarker.addTo layer._map
-
-            layer.setStyle(color: "#C5D4F0", fillOpacity: 0, opacity: 1, fill: false)
-            insertionMarker()
-            
-            layer._map.on 'zoomend', ->
-              if layer._ghostMarker
-                layer._map.removeLayer layer._ghostMarker
-                delete layer._ghostMarker
-              insertionMarker()
-
-            layer.on 'remove', (e) ->
-              if layer._ghostMarker
-                layer._map.removeLayer layer._ghostMarker
-                delete layer._ghostMarker
-        if layerName is 'cvi_cultivable_zones'
-          onEachFeature = (layer) ->
-            if layer.feature.properties.status == 'created'
-              color = '#000000'
-            else
-              color = "#C5D4F0"
-            insertionMarker = () ->
-              if layer._map.getZoom() >= 16
-                name = layer.feature.properties.name
-                layer._ghostIcon = new L.GhostIcon html: name, className: "simple-label white", iconSize: [60, 40]
-                layer._ghostMarker = L.marker(layer.getCenter(), icon: layer._ghostIcon)
-                layer._ghostMarker.addTo layer._map
-
-            layer.setStyle(color: color, fillOpacity: 0.3, opacity: 1, fill: true)
-            insertionMarker()
-
-            layer._map.on 'zoomend', ->
-              if layer._ghostMarker
-                layer._map.removeLayer layer._ghostMarker
-                delete layer._ghostMarker
-              insertionMarker()
-
-            layer.on 'remove', (e) ->
-              if layer._ghostMarker
-                layer._map.removeLayer layer._ghostMarker
-                delete layer._ghostMarker
-        
-        if layerName is 'cvi_land_parcels'
-          onEachFeature = (layer) ->
-            if  layer.feature.properties.updated
-                layer.bringToFront()
-                color = "#E7E8C0"
-                klass = 'yellow'
-              else
-                layer.bringToBack()
-                color = "#C5D4F0"
-                klass = 'blue'
-
-            insertionMarker = () ->
-              if layer._map and layer._map.getZoom() >= 16 
-                positionLatLng = layer.getCenter()
-                centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
-                name = layer.feature.properties.name
-                matchnameIndex =name.match(/-(\d$)/)
-                if matchnameIndex
-                  nameIndex = matchnameIndex[1]
-                  offset = L.point(0, (nameIndex - 1) * layer._map.getZoom())
-                  positionLatLng = layer._map.layerPointToLatLng(centerPixels.add(offset))
-
-                name = layer.feature.properties.name
-                layer._ghostIcon = new L.GhostIcon html: name, className: "simple-label #{klass}", iconSize: [60, 40]
-                layer._ghostMarker = L.marker(positionLatLng, icon: layer._ghostIcon)
-                layer._ghostMarker.addTo layer._map
-                
-            style = { color: color, fillOpacity: 0, opacity: 1, fill: true }
-            
-            insertionMarker()
-            layer.setStyle(style)
-            
-
-            layer._map.on 'zoomend', ->
-              if layer._ghostMarker
-                layer._map.removeLayer layer._ghostMarker
-                delete layer._ghostMarker
-              insertionMarker()
-
-            layer.on 'remove', (e) ->
-              if layer._ghostMarker
-                layer._map.removeLayer layer._ghostMarker
-                delete layer._ghostMarker
-      
       [].push.call args, onEachFeature: onEachFeature
 
       @_cartography.sync.apply @, args
@@ -159,15 +57,6 @@
       callback.call @, args if callback
       $(document).trigger E.Events.Map.ready
       $(@el).trigger E.Events.Map.ready
-
-    _cviCultivableZonesPath: ->
-      $(@el).data('cvi-cultivable-zones-path')
-    
-    _cviCadastralPlantsPath: ->
-      $(@el).data('cvi-cadastral-plants-path')
-
-    _cviLandParcelsPath: ->
-      $(@el).data('cvi-land-parcels-path')
 
     addControl: ->
       @_cartography.addControl.apply @_cartography, arguments
@@ -243,55 +132,11 @@
 
           cadastralZonesSerie = [{cadastral_land_parcel_zones: data}, [name: 'cadastral_land_parcel_zones', label: I18n.t( 'front-end.labels.cadastral_land_parcel_zones'), type: 'simple', index: true, serie: 'cadastral_land_parcel_zones', onEachFeature: onEachFeature, style: style]]
 
-          @_cartography.addOverlay(cadastralZonesSerie)
+          @_cartography.addOverlay(cadastralZonesSerie) if @getZoom() >= 16
 
         @asyncLoading(url, onSuccess, 'cadastralLandParcelZone' )
 
-
-    displayCviCadastralPlants: (visible = true) =>
-
-      return if @_cviCadastralPlantLoading
-
-      @_cartography.map.on 'moveend', ->
-        E.map.firstLoad = false
-        @displayCviCadastralPlants
-      url = @_cviCadastralPlantsPath()
-
-      onSuccess = (data) =>
-        @onSync( data, "cvi_cadastral_plants")
-      
-      @asyncLoading(url, onSuccess, 'cviCadastralPlant')
-
-
-    displayCviCultivableZones: (visible = true) =>
-
-      return if @_cviCultivableZonesLoading
-
-      @_cartography.map.on 'moveend', ->
-        E.map.firstLoad = false
-        @displayCviCultivableZones
-      url = @_cviCultivableZonesPath()
-
-      onSuccess = (data) =>
-        @onSync( data, "cvi_cultivable_zones")
-      
-      @asyncLoading(url, onSuccess, 'cviCultivableZone')
-
-    displayCviLandParcels: (visible = true) =>
-
-      return if @_cviLandParcelsLoading
-
-      @_cartography.map.on 'moveend', ->
-        E.map.firstLoad = false
-        @displayCviLandParcels
-      url = @_cviLandParcelsPath()
-
-      onSuccess = (data) =>
-        @onSync( data, "cvi_land_parcels")
-      
-      @asyncLoading(url, onSuccess, 'cviLandParcels')
-
-    asyncLoading: (url, onSuccess, resource_name) =>
+    asyncLoading: (url, onSuccess) =>
       return unless url
 
       $.ajax
@@ -299,10 +144,8 @@
         dataType: 'json'
         url: url
         beforeSend: =>
-          @['_' + resource_name + 'Loading'] = true
         success: (data) =>
           onSuccess.call @, data
-          @['_' + resource_name + 'Loading'] = false
         error: () =>
         complete: () =>
 
