@@ -69,18 +69,14 @@ module Ekylibre
       product_name = h_cvi_statement[:product].to_s.lower
       designation_of_origins = RegisteredProtectedDesignationOfOrigin.where("unaccent(product_human_name_fra) ILIKE unaccent(?)", "%#{product_name}%")
 
-      if designation_of_origins.length > 1
-        designation_of_origin = designation_of_origins.min_by do |designation_of_origin| 
-          (designation_of_origin.product_human_name_fra.length - product_name.length).abs
+      designation_of_origin = if product_name = ""
+                                nil
+                              elsif designation_of_origins.length > 1
+                                designation_of_origins.min_by do |doo|
+                                  (doo.product_human_name_fra.length - product_name.length).abs
         end
       else
-        designation_of_origin = designation_of_origins.first
-      end 
-
-      unless designation_of_origin
-        message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_designation_of_origin', value: h_cvi_statement[:product])
-        w.error message
-        raise message
+                                designation_of_origins.first
       end
 
       vine_variety = MasterVineVariety.find_by(specie_name: h_cvi_statement[:grape_variety], category_name: ['Cépage','Hybride'])
