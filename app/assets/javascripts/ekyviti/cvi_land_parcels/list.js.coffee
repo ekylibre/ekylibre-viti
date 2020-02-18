@@ -57,7 +57,7 @@
         }
       )
     bindCheckBoxes: ->
-      $(document).on "click", "*[data-list-source] td>input[data-list-selector]", (event) ->
+      $(document).on "click", "#cvi_land_parcels-list td>input[data-list-selector]", (event) ->
         list = E.cviLandParcels.list
         $list = $(this.closest('*[data-list-source]'))
         E.cviLandParcels.list.selectedCviLandParcels = Object.keys($list.prop('selection'))
