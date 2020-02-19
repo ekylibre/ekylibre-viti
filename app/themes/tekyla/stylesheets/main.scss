@@ -990,6 +990,8 @@ form.search {
     }
     dd {
       @include margin-left($attribute-label-width);
+      overflow: hidden;
+      text-overflow: ellipsis;
       .checkbox-true, .checkbox-false {
         display: inline;
         vertical-align: middle;

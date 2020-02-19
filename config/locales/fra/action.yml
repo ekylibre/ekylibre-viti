@@ -1019,7 +1019,7 @@ fra:
       levels: #?
         error: "Erreur\_!" #?
       messages: #?
-        unvalid_cvi_cadastral_plant: "Au moins une référence de parcelle cadastrale n'a pas été reconnue. Veuillez corriger ou supprimer la/les référence(s) identifiée(s) en rouge (depuis la vue Liste uniquement)." #?
+        unvalid_cvi_cadastral_plant: "Au moins une référence de parcelle cadastrale n'a pas été reconnue. Veuillez corriger ou supprimer la/les référence(s) identifiée(s) en rouge." #?
   labels:
     rootstock: "Porte-greffe"
     abilities: "Compétences" #?
