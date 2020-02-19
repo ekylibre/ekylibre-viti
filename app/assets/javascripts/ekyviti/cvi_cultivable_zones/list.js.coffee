@@ -28,7 +28,7 @@ ekylibre.cviCultivableZones ||= {}
         $groupButton.attr(href: "/backend/cvi_cultivable_zones/group?#{params}")
     
     bindCheckBoxes: ->
-      $(document).on "click", "*[data-list-source] td>input[data-list-selector]", (event) ->
+      $(document).on "click", "#cvi_cultivable_zones-list td>input[data-list-selector]", (event) ->
         list = E.cviCultivableZones.list
         $list = $(this.closest('*[data-list-source]'))
         E.cviCultivableZones.list.selectedCviCultivableZones = Object.keys($list.prop('selection'))

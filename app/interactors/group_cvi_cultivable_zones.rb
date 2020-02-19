@@ -69,8 +69,8 @@ class GroupCviCultivableZones < ApplicationInteractor
   end
 
   def update_associated_cvi_land_parcels
-    cvi_land_parcels = CviLandParcels.where(cvi_cultivable_zone_id: context.cvi_cultivable_zones.collect(&:id))
-    cvi_land_parcels.update_all(:cvi_cultivable_zone_id, context.new_cvi_cultivable_zone.id)
+    cvi_land_parcels = CviLandParcel.where(cvi_cultivable_zone_id: context.cvi_cultivable_zones.collect(&:id))
+    cvi_land_parcels.update_all(cvi_cultivable_zone_id: context.new_cvi_cultivable_zone.id)
   end
 
   def destroy_grouped_records
