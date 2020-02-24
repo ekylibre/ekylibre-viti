@@ -69,7 +69,7 @@ module Ekylibre
       product_name = h_cvi_statement[:product].to_s.lower
       designation_of_origins = RegisteredProtectedDesignationOfOrigin.where("unaccent(product_human_name_fra) ILIKE unaccent(?)", "%#{product_name}%")
 
-      designation_of_origin = if product_name = ""
+      designation_of_origin = if product_name == ""
                                 nil
                               elsif designation_of_origins.length > 1
                                 designation_of_origins.min_by do |doo|
