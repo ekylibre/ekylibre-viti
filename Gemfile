@@ -285,8 +285,8 @@ group :test do
   gem 'ruby-terminfo'
   gem 'factory_bot', '< 5'
 
-  gem 'shoulda', '~> 3.5'
-  gem 'shoulda-matchers', '~> 3.0'
+  gem 'shoulda', '~> 3.5.0'
+  gem 'shoulda-matchers', '~> 2.0'
   gem 'pdf-reader'
 end
 
