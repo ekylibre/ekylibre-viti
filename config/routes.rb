@@ -100,7 +100,16 @@ Rails.application.routes.draw do
       resources :issues, only: %i[index create]
       resources :plant_density_abaci, only: %i[index show]
       resources :plant_countings, only: %i[create]
+      get 'products(/:product_type)', to: 'products#index', as: :products
+      resources :variants, only: %i[index]
       resources :plants, only: %i[index]
+      get 'profile', to: 'users#show'
+      namespace :lexicon do
+        resources :ephy_cropsets, only: %i[index create]
+        resources :registered_phytosanitary_risks, only: %i[index create]
+        resources :registered_phytosanitary_usages, only: %i[index create]
+        resources :registered_phytosanitary_products, only: %i[index create]
+      end
     end
   end
 
@@ -692,6 +701,8 @@ Rails.application.routes.draw do
         get :purchase_order_items
         get :duplicate_interventions
         get :generate_buttons
+        get :validate_harvest_delay
+        get :validate_reentry_delay
 
         post :create_duplicate_intervention
         get :compare_realised_with_planned
@@ -850,8 +861,6 @@ Rails.application.routes.draw do
       concerns :products, :list
     end
 
-    resources :services, only: :index, concerns: :list
-
     resources :naming_formats
 
     resources :naming_format_land_parcels do
@@ -863,6 +872,56 @@ Rails.application.routes.draw do
     resources :net_services, concerns: [:list] do
       member do
         get :list_identifiers
+      end
+    end
+
+    %w[animal article crop equipment service worker zone].each do |model|
+      namespace :variants do
+        resources "#{model}_variants".to_sym, concerns: %i[incorporate list], only: %i[index show] do
+          member do
+            get :list_components
+            get :list_catalog_items
+            get :list_receptions
+            get :list_shipments
+            get :list_products
+            get :list_sale_items
+            get :list_purchase_invoice_items
+            get :list_purchase_order_items
+            get :list_suppliers
+            get :list_purchase_items
+          end
+        end
+      end
+
+      namespace :variant_categories do
+        resources "#{model}_categories".to_sym, concerns: %i[incorporate list], only: :index
+      end
+
+      namespace :variant_types do
+        resources "#{model}_types".to_sym, concerns: %i[incorporate list], only: :index
+      end
+    end
+
+    %w[fertilizer plant_medicine seed_and_plant].each do |model|
+      namespace :variants do
+        namespace :articles do
+          resources "#{model}_articles".to_sym, concerns: %i[incorporate list], only: %i[index show] do
+            member do
+              get :list_components
+              get :list_catalog_items
+              get :list_receptions
+              get :list_shipments
+              get :list_products
+              get :list_sale_items
+              get :list_purchase_invoice_items
+              get :list_purchase_order_items
+              get :list_suppliers
+              get :list_purchase_items
+              get :list_registered_phytosanitary_usages
+              get :list_registered_phytosanitary_risks
+            end
+          end
+        end
       end
     end
 
@@ -1080,6 +1139,23 @@ Rails.application.routes.draw do
     resources :quick_purchases, only: %i[new create], path: 'quick-purchases'
     resources :quick_sales,     only: %i[new create], path: 'quick-sales'
 
+    resources :registered_phytosanitary_products, only: [], concerns: :unroll do
+      collection do
+        get :get_products_infos
+      end
+    end
+
+    resources :registered_phytosanitary_usages, only: [], concerns: :unroll do
+      collection do
+        get :filter_usages
+      end
+
+      member do
+        get :get_usage_infos
+        get :dose_validations
+      end
+    end
+
     resources :regularizations, only: %i[show create destroy]
 
     resources :roles, concerns: %i[incorporate list unroll] do
@@ -1241,6 +1317,10 @@ Rails.application.routes.draw do
     end
 
     resources :unreceived_purchase_orders, except: [:new], concerns: [:list]
+
+    %i[variants variant_natures variant_categories registered_phytosanitary_products user_roles].each do |controller|
+      resources controller, only: [], concerns: :unroll
+    end
 
     namespace :variants do
       resources :fixed_assets, only: [] do

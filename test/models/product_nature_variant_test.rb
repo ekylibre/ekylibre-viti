@@ -6,7 +6,7 @@
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
 # Copyright (C) 2012-2014 Brice Texier, David Joulin
-# Copyright (C) 2015-2019 Ekylibre SAS
+# Copyright (C) 2015-2020 Ekylibre SAS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@
 #  france_maaid              :string
 #  gtin                      :string
 #  id                        :integer          not null, primary key
+#  imported_from             :string
 #  lock_version              :integer          default(0), not null
 #  name                      :string
 #  nature_id                 :integer          not null
@@ -42,8 +43,10 @@
 #  picture_updated_at        :datetime
 #  providers                 :jsonb
 #  reference_name            :string
+#  specie_variety            :string
 #  stock_account_id          :integer
 #  stock_movement_account_id :integer
+#  type                      :string           not null
 #  unit_name                 :string           not null
 #  updated_at                :datetime         not null
 #  updater_id                :integer
