@@ -6810,6 +6810,10 @@ product_natures:
     type: boolean
     required: true
     default: false
+  category_id:
+    type: integer
+    references: ''
+    required: true
   created_at:
     type: datetime
     required: true
