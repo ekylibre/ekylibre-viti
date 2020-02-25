@@ -15,14 +15,14 @@
         positionLatLng = layer.getCenter()
         centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
         name = layer.feature.properties.name
-        matchnameIndex =name.match(/-(\d$)/)
+        matchnameIndex =name.match(/-(\d{2}$)/)
         if matchnameIndex
-          nameIndex = matchnameIndex[1]
+          nameIndex = parseInt(matchnameIndex[1])
           offset = L.point(0, (nameIndex - 1) * layer._map.getZoom())
           positionLatLng = layer._map.layerPointToLatLng(centerPixels.add(offset))
 
         name = layer.feature.properties.name
-        layer._ghostIcon = new L.GhostIcon html: name, className: "simple-label #{klass}", iconSize: [60, 40]
+        layer._ghostIcon = new L.GhostIcon html: name, className: "simple-label #{klass}", iconSize: [70, 40]
         layer._ghostMarker = L.marker(positionLatLng, icon: layer._ghostIcon)
         layer._ghostMarker.addTo layer._map
         
@@ -48,14 +48,14 @@
         positionLatLng = layer.getCenter()
         centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
         cadastralRef = layer.feature.properties.cadastral_ref
-        matchCadastralRefIndex = cadastralRef.match(/-(\d$)/)
+        matchCadastralRefIndex = cadastralRef.match(/-(\d{2}$)/)
         if matchCadastralRefIndex
-          cadastralRefIndex = matchCadastralRefIndex[1]
+          cadastralRefIndex = parseInt(matchCadastralRefIndex[1])
           offset = L.point(0, (cadastralRefIndex - 1) * layer._map.getZoom())
           positionLatLng = layer._map.layerPointToLatLng(centerPixels.add(offset))
 
         cadastral_ref = layer.feature.properties.cadastral_ref
-        layer._ghostIcon = new L.GhostIcon html: cadastral_ref, className: "simple-label blue", iconSize: [60, 40]
+        layer._ghostIcon = new L.GhostIcon html: cadastral_ref, className: "simple-label blue", iconSize: [70, 40]
         layer._ghostMarker = L.marker(positionLatLng, icon: layer._ghostIcon)
         layer._ghostMarker.addTo layer._map
 
