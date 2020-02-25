@@ -21,7 +21,7 @@ class GenerateCviLandParcels < ApplicationInteractor
           land_modification_date: r.land_modification_date
         )
         LandParcelRootstock.create(land_parcel: cvi_land_parcel, rootstock_id: r.rootstock_id)
-        Location.create(localizable: cvi_land_parcel, locality: r.location.locality, insee_number: r.location.insee_number)
+        Location.create(localizable: cvi_land_parcel, locality: r.location.locality, registered_postal_zone_id: r.location.registered_postal_zone_id)
       end
     end
   end

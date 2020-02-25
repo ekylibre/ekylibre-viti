@@ -4,7 +4,7 @@ ekylibre.cviCadastralPlants ||= {}
   E.cviCadastralPlants.list = {
     init: ->
       this.manageErrorMessage()
-      E.list.bindCellsClickToCenterLayer('cvi_cadastral_plants', 3, 'cvi_cadastral_plants_map')
+      E.list.bindCellsClickToCenterLayer('cvi_cadastral_plants', 5, 'cvi_cadastral_plants')
 
     manageErrorMessage: ->
       if $("tr.invalid").length > 0 and $('#error').children().length == 0

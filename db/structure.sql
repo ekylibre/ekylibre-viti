@@ -24,66 +24,6 @@ CREATE SCHEMA postgis;
 
 
 --
--- Name: area_formatted(numeric); Type: FUNCTION; Schema: postgis; Owner: -
---
-
-CREATE FUNCTION postgis.area_formatted(area numeric) RETURNS character varying
-    LANGUAGE plpgsql
-    AS $$
-    DECLARE
-    ha_area_num  NUMERIC;
-    ar_area_num  NUMERIC;
-    ca_area_num  NUMERIC;
-    ha_area  VARCHAR(50);
-    ar_area  VARCHAR(50);
-    ca_area  VARCHAR(50);
-    result VARCHAR(50);
-    BEGIN
-    ha_area_num = TRUNC(area, 0);
-    ar_area_num = TRUNC(area - ha_area_num, 2);
-    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
-
-    ha_area = to_char(ha_area_num , 'FM00');
-    ar_area = to_char(ar_area_num * 100, 'FM00');
-    ca_area = to_char(ca_area_num * 10000, 'FM00');
-
-    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
-    RETURN result;
-    END;
-    $$;
-
-
---
--- Name: area_formatted(numeric); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.area_formatted(area numeric) RETURNS character varying
-    LANGUAGE plpgsql
-    AS $$
-    DECLARE
-    ha_area_num  NUMERIC;
-    ar_area_num  NUMERIC;
-    ca_area_num  NUMERIC;
-    ha_area  VARCHAR(50);
-    ar_area  VARCHAR(50);
-    ca_area  VARCHAR(50);
-    result VARCHAR(50);
-    BEGIN
-    ha_area_num = TRUNC(area, 0);
-    ar_area_num = TRUNC(area - ha_area_num, 2);
-    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
-
-    ha_area = to_char(ha_area_num , 'FM00');
-    ar_area = to_char(ar_area_num * 100, 'FM00');
-    ca_area = to_char(ca_area_num * 10000, 'FM00');
-
-    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
-    RETURN result;
-    END;
-    $$;
-
-
---
 -- Name: compute_journal_entry_continuous_number(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -247,45 +187,6 @@ END;
 $$;
 
 
---
--- Name: cvi_land_parcel_simplified; Type: VIEW; Schema: postgis; Owner: -
---
-
-CREATE VIEW postgis.cvi_land_parcel_simplified AS
- SELECT postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.1)::double precision) AS st_simplifypreservetopology
-   FROM demo.cvi_land_parcels;
-
-
---
--- Name: cvi_land_parcels_simplified; Type: VIEW; Schema: postgis; Owner: -
---
-
-CREATE VIEW postgis.cvi_land_parcels_simplified AS
- SELECT postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.1)::double precision) AS st_simplifypreservetopology
-   FROM demo.cvi_land_parcels;
-
-
---
--- Name: mavue; Type: VIEW; Schema: postgis; Owner: -
---
-
-CREATE VIEW postgis.mavue AS
- SELECT postgis.st_npoints(cvi_land_parcels.shape) AS shape1,
-    postgis.st_npoints(postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.001)::double precision)) AS shape2
-   FROM demo.cvi_land_parcels
-  WHERE ((cvi_land_parcels.name)::text = 'L1022-1-2, L826-1'::text);
-
-
---
--- Name: test; Type: VIEW; Schema: postgis; Owner: -
---
-
-CREATE VIEW postgis.test AS
- SELECT postgis.st_astext(cvi_land_parcels.shape) AS st_astext
-   FROM demo.cvi_land_parcels
-  WHERE ((cvi_land_parcels.name)::text = ANY ((ARRAY['L778-1'::character varying, 'L779'::character varying])::text[]));
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -417,10 +318,7 @@ CREATE TABLE public.activities (
     use_seasons boolean DEFAULT false,
     use_tactics boolean DEFAULT false,
     codes jsonb,
-    production_nature_id integer,
-    production_started_on date,
-    production_stopped_on date,
-    first_year_of_production integer
+    production_nature_id integer
 );
 
 
@@ -2241,8 +2139,7 @@ CREATE TABLE public.cvi_land_parcels (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     planting_campaign character varying,
-    land_modification_date date,
-    activity_id integer
+    land_modification_date date
 );
 
 
@@ -4529,9 +4426,9 @@ CREATE TABLE public.journal_entries (
     real_balance numeric(19,4) DEFAULT 0.0 NOT NULL,
     resource_prism character varying,
     financial_year_exchange_id integer,
+    reference_number character varying,
     continuous_number integer,
     validated_at timestamp without time zone,
-    reference_number character varying,
     providers jsonb
 );
 
@@ -4924,6 +4821,24 @@ ALTER SEQUENCE public.loans_id_seq OWNED BY public.loans.id;
 
 
 --
+<<<<<<< HEAD
+=======
+-- Name: locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.locations (
+    id integer NOT NULL,
+    registered_postal_zone_id character varying,
+    locality character varying,
+    localizable_id integer,
+    localizable_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+>>>>>>> c57b73432e... wip
 -- Name: locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -11894,13 +11809,6 @@ CREATE INDEX index_cvi_cultivable_zones_on_cvi_statement_id ON public.cvi_cultiv
 
 
 --
--- Name: index_cvi_land_parcels_on_activity_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_cvi_land_parcels_on_activity_id ON public.cvi_land_parcels USING btree (activity_id);
-
-
---
 -- Name: index_cvi_land_parcels_on_cvi_cultivable_zone_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -14572,6 +14480,13 @@ CREATE INDEX index_loans_on_updated_at ON public.loans USING btree (updated_at);
 --
 
 CREATE INDEX index_loans_on_updater_id ON public.loans USING btree (updater_id);
+
+
+--
+-- Name: index_locations_on_registered_postal_zone_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_locations_on_registered_postal_zone_id ON public.locations USING btree (registered_postal_zone_id);
 
 
 --
@@ -18778,14 +18693,6 @@ ALTER TABLE ONLY public.parcel_items
 
 
 --
--- Name: cvi_land_parcels fk_rails_71a1e59459; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.cvi_land_parcels
-    ADD CONSTRAINT fk_rails_71a1e59459 FOREIGN KEY (activity_id) REFERENCES public.activities(id);
-
-
---
 -- Name: interventions fk_rails_76eca6ee87; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -19837,15 +19744,13 @@ INSERT INTO schema_migrations (version) VALUES ('20200107092243');
 
 INSERT INTO schema_migrations (version) VALUES ('20200108090053');
 
-INSERT INTO schema_migrations (version) VALUES ('20200110142108');
-
 INSERT INTO schema_migrations (version) VALUES ('20200115164203');
-
-INSERT INTO schema_migrations (version) VALUES ('20200121161421');
 
 INSERT INTO schema_migrations (version) VALUES ('20200122100513');
 
 INSERT INTO schema_migrations (version) VALUES ('20200128133347');
 
 INSERT INTO schema_migrations (version) VALUES ('20200213102154');
+
+INSERT INTO schema_migrations (version) VALUES ('20200225093814');
 

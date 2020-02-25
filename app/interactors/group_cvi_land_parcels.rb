@@ -59,7 +59,7 @@ class GroupCviLandParcels < ApplicationInteractor
   end
 
   def create_associated_locations
-    new_locations = context.cvi_land_parcels.flat_map(&:locations).uniq { |r| [r.insee_number, r.locality] }.map(&:dup)
+    new_locations = context.cvi_land_parcels.flat_map(&:locations).uniq { |r| [r.registered_postal_zone_id, r.locality] }.map(&:dup)
     context.new_cvi_land_parcel.locations.create!(new_locations.map(&:attributes))
   end
 

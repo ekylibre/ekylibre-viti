@@ -86,7 +86,7 @@ module Ekylibre
         raise message
       end
 
-      registered_postal_zone = RegisteredPostalZone.find_by(id: h_cvi_statement[:insee_number])
+      registered_postal_zone = RegisteredPostalZone.find_by(code: h_cvi_statement[:insee_number])
       unless registered_postal_zone
         message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_insee_number', value: h_cvi_statement[:insee_number])
         w.error message
@@ -116,7 +116,7 @@ module Ekylibre
                  vine_variety_id: vine_variety.id, 
                  rootstock_id: rootstock.try('id'), 
                  area: h_cvi_statement[:area],
-                 location: Location.create(insee_number: registered_postal_zone.code, locality: h_cvi_statement[:locality])
+                 location: Location.create(registered_postal_zone_id: registered_postal_zone.id, locality: h_cvi_statement[:locality])
           )
       )
     end
