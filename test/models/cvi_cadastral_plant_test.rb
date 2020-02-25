@@ -90,9 +90,9 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   it 'updates land_parcel if cadastral reference or location change' do
     cvi_cadastral_plant = create(:cvi_cadastral_plant, land_parcel_id: nil)
     location_id = cvi_cadastral_plant.location.id
-    params = { section: 'A', work_number: '1428', location_attributes: { id: location_id, insee_number: '33501' } }
+    params = { section: 'AB', work_number: '132', location_attributes: { id: location_id, registered_postal_zone_id: '91121_91720_BUNOBO_' } }
     cvi_cadastral_plant.update(params)
-    assert_equal '335010000A1428', cvi_cadastral_plant.land_parcel_id
+    assert_equal '40004000AB0132', cvi_cadastral_plant.land_parcel_id
   end
 
   should enumerize(:state).in(:planted, :removed_with_authorization).with_predicates(true)

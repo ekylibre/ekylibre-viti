@@ -30,7 +30,7 @@ class GenerateCviCultivableZones < ApplicationInteractor
     @cvi_cultivable_zones.each_with_index do |cvi_cultivable_zone, i|
       index = (i + 1).to_s.rjust(2, '0')
       cvi_cadastral_plants = CviCadastralPlant.find(cvi_cultivable_zone['cvi_cadastral_plant_ids'])
-      locations = cvi_cadastral_plants.map(&:location).uniq { |e| e.insee_number && e.locality }
+      locations = cvi_cadastral_plants.map(&:location).uniq { |e| e.registered_postal_zone_id && e.locality }
       declared_area = cvi_cadastral_plants.collect(&:area).sum
       shape = Charta.new_geometry(cvi_cultivable_zone['shape']).to_rgeo.simplify(0)
 
@@ -41,7 +41,7 @@ class GenerateCviCultivableZones < ApplicationInteractor
         shape: shape
       )
       locations.each do |r|
-        Location.create(localizable: cvi_cultivable_zone, insee_number: r.insee_number, locality: r.locality)
+        Location.create(localizable: cvi_cultivable_zone, registered_postal_zone_id: r.registered_postal_zone_id, locality: r.locality)
       end
       cvi_cultivable_zone.cvi_cadastral_plants << cvi_cadastral_plants
     end

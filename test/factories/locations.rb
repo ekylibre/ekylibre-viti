@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :location do
-    insee_number { RegisteredPostalZone.order('RANDOM()').first.id }
+    registered_postal_zone_id { RegisteredPostalZone.order('RANDOM()').first.id }
     locality { FFaker::AddressFR.city }
     for_cvi_cadastral_plant
 
