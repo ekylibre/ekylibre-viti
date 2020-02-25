@@ -1,47 +1,133 @@
-image: "ruby:2.4.0"
-variables:
-  POSTGRES_DB: ekylibre_test
-  POSTGRES_USER: runner
-  POSTGRES_PASSWORD: $password 
-before_script: 
-  - echo "--------------------------------------------------------------------------------"
-  - echo "Dependencies install..."
-  - curl -sL https://deb.nodesource.com/setup_8.x | bash -
-  - apt-get update -qq
-  - apt-get install -y nodejs
-  - apt-get install -fy aptitude
-  - aptitude update
-  - apt-get install -y postgresql-9.6 postgresql-client-9.6 postgresql-contrib-9.6 postgresql-9.6-postgis-2.3
-  - apt install -fy graphicsmagick tesseract-ocr tesseract-ocr-fra tesseract-ocr-eng tesseract-ocr-spa pdftk libreoffice poppler-utils poppler-data qt5-default libqt5webkit5-dev gstreamer1.0-x gstreamer1.0-tools gstreamer1.0-plugins-base libgeos-dev libproj-dev redis-server libicu-dev
-  - apt-get install -y tzdata
-  - aptitude remove -fy default-jre-headless openjdk-8-jre openjdk-8-jre-headless
-  - aptitude install -fy openjdk-7-jdk libicu52
-  - aptitude install -fy build-essential
-  - aptitude install -fy yarn
-  - service redis-server start
-  - gem install bundler -v 1.14.6 --no-ri --no-rdoc
-  - sed -i '1i local all all trust' /etc/postgresql/9.6/main/pg_hba.conf
-  - /etc/init.d/postgresql stop
-  - /etc/init.d/postgresql start 9.6
-  - JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 RAILS_ENV=test bundle install --full-index --without development --jobs $(nproc) "${FLAGS[@]}"
-  - psql -U 'postgres' -c "CREATE USER "$POSTGRES_USER" WITH PASSWORD '"$POSTGRES_PASSWORD"' CREATEDB;"
-  - psql -U 'postgres' -c "ALTER USER "$POSTGRES_USER" WITH SUPERUSER;"
-  - psql -U 'postgres' -c "CREATE DATABASE "$POSTGRES_DB" OWNER "$POSTGRES_USER";"
-  - export PGPASSWORD=$POSTGRES_PASSWORD
-  - psql -U $POSTGRES_USER ekylibre_test -c 'CREATE EXTENSION "uuid-ossp";'
-  - psql -U $POSTGRES_USER ekylibre_test -c 'CREATE SCHEMA IF NOT EXISTS postgis;'
-  - psql -U $POSTGRES_USER ekylibre_test -c 'CREATE EXTENSION IF NOT EXISTS postgis SCHEMA postgis;'
-  - psql -U 'postgres' ekylibre_test -c "GRANT USAGE ON SCHEMA postgis TO "$POSTGRES_USER";"
-  - psql -U 'postgres' ekylibre_test -c "GRANT ALL PRIVILEGES ON SCHEMA postgis TO "$POSTGRES_USER";"
-  - psql -U 'postgres' ekylibre_test -c "GRANT ALL PRIVILEGES ON SCHEMA public TO "$POSTGRES_USER";"
-  - psql -U $POSTGRES_USER ekylibre_test -c 'CREATE EXTENSION "unaccent" SCHEMA postgis;'
-  - cp -f test/ci/database.yml config/database.yml
-  - yarn
-  - bundle exec rake db:migrate RAILS_ENV=test  
+stages:
+  - build
+  - test
+  - review
 
-test_libs:
+variables:
+  TEST_IMAGE: ${CI_REGISTRY_IMAGE}/test:$CI_COMMIT_REF_SLUG
+  TEST_LATEST: ${CI_REGISTRY_IMAGE}/test:latest
+  REVIEW_HOST: ${CI_BUILD_REF_SLUG}.ci.ekylibre.dev
+  KUBE_NAMESPACE: eky-test-deploy
+#  PROD_RAILS: ${CI_REGISTRY_IMAGE}/ekylibre-rails:$CI_COMMIT_REF_SLUG
+#  PROD_RAILS_LATEST: ${CI_REGISTRY_IMAGE}/ekylibre-rails:latest
+#  PROD_WEB: ${CI_REGISTRY_IMAGE}/ekylibre-web:$CI_COMMIT_REF_SLUG
+#  PROD_WEB_LATEST: ${CI_REGISTRY_IMAGE}/ekylibre-web:latest
+
+
+#########################################
+#                 BUILD                 #
+#########################################
+build_test:
+  image: registry.gitlab.com/ekylibre/docker-base-images/tools/deploy:1
+  stage: build
+  interruptible: true
+  except:
+    - tags
+  services:
+    - docker:18-dind
+  before_script:
+    - echo "${CI_BUILD_TOKEN}" | docker login --username $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  script:
+    - /exec ruby /build.rb -v -r $CI_COMMIT_REF_SLUG -b $CI_REGISTRY_IMAGE -f docker/test/Dockerfile -i test
+
+build_ci:
+  image: registry.gitlab.com/ekylibre/docker-base-images/tools/deploy:1
+  stage: build
+  when: manual
+  only:
+    - branches
+  variables:
+    RUBY_VERSION: "2.3"
+  services:
+    - docker:18-dind
+  before_script:
+    - apk add openssh-client
+    - /install-ssh-key $PLUGIN_SSH_KEY
+    - echo "${CI_BUILD_TOKEN}" | docker login --username $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  script:
+    - for plugin in $EKYLIBRE_PLUGINS; do echo "git@gitlab.com:ekylibre/ekylibre-${plugin}.git" && git clone "git@gitlab.com:ekylibre/ekylibre-${plugin}.git" "plugins/${plugin}"; done
+    - /exec ruby /build.rb -v -r $CI_COMMIT_REF_SLUG -b $CI_REGISTRY_IMAGE -f docker/prod/Dockerfile -i ci-rails-aio-2.3
+
+
+.review_key: &REVIEW_KEY
+  name: review/eky/$CI_BUILD_REF_NAME
+
+.review_branches: &REVIEW_BRANCHES
+  only:
+    - branches
+  except:
+    - prod
+    - core
+
+.default_review: &DEFAULT_REVIEW
+  <<: *REVIEW_BRANCHES
+  environment:
+    <<: *REVIEW_KEY
+    url: https://$REVIEW_HOST
+    on_stop: review_stop
+
+review_start:
+  <<: *DEFAULT_REVIEW
+  stage: review
+  dependencies:
+    - build_ci
+  image: registry.gitlab.com/ekylibre/helm-charts/ci-tool:master
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - (cd /apps/eky-ci && helm dep update)
+    - helm tiller run "$KUBE_NAMESPACE" -- helm upgrade
+      --install
+      --namespace "$KUBE_NAMESPACE"
+      --set eky.image.tag=$CI_COMMIT_REF_SLUG
+      --set eky.postgres.database=$CI_COMMIT_REF_SLUG
+      --set eky.ingress.domain=${REVIEW_HOST}
+      --set eky.rails.init.tenants[0]=demo1
+      --set eky.rails.load.tenants[0]=demo
+      --set eky.rails.load.lexicon=true
+      ci-eky-${CI_COMMIT_REF_SLUG} /apps/eky-ci
+  when: manual
+
+review_stop:
+  <<: *REVIEW_BRANCHES
+  environment:
+    <<: *REVIEW_KEY
+    action: stop
+  stage: review
+  image: registry.gitlab.com/ekylibre/docker-base-images/tools/deploy:1
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - helm tiller run "$KUBE_NAMESPACE" -- helm delete --purge ci-eky-${CI_COMMIT_REF_SLUG}
+  when: manual
+
+
+#########################################
+#               TEMPLATES               #
+#########################################
+.test_tpl: &test_task
+  image: $TEST_IMAGE
   stage: test
-  script: "RAILS_ENV=test bundle exec rake test:libs"
+  variables: &test_task_variables
+    # POSTGRES VARIABLES
+    POSTGRES_HOST: 127.0.0.1
+    REDIS_URL: redis://127.0.0.1:6379/
+    POSTGRES_USER: ekylibre
+    POSTGRES_DB: ekylibre_test
+    TZ: Europe/Paris
+    GIT_STRATEGY: none
+  services:
+    - mdillon/postgis:9.6-alpine
+    - redis:5.0-alpine
+  dependencies:
+    - build_test
+  except:
+    - tags
+  tags:
+    - kubernetes
+  script:
+    - env
+    - bash /app/test/ci/run_tests ${TASK}
 
 test_models:
   stage: test
