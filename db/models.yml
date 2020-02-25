@@ -62,6 +62,7 @@
 - entity
 - entity_address
 - entity_link
+- ephy_cropset
 - equipment
 - equipment_fleet
 - event
@@ -195,13 +196,13 @@
 - registered_phytosanitary_phrase
 - registered_phytosanitary_product
 - registered_phytosanitary_risk
+- registered_phytosanitary_symbol
 - registered_phytosanitary_usage
 - registered_postal_zone
 - registered_protected_designation_of_origin
 - registered_seed
 - regularization
 - role
-- rootstock
 - sale
 - sale_affair
 - sale_gap
@@ -230,8 +231,11 @@
 - token
 - tracking
 - user
+- user_role
+- variant
+- variant_category
+- variant_nature
 - version
-- vine_variety
 - wice_grid_serialized_query
 - worker
 - zone

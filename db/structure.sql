@@ -247,6 +247,45 @@ END;
 $$;
 
 
+--
+-- Name: cvi_land_parcel_simplified; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.cvi_land_parcel_simplified AS
+ SELECT postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.1)::double precision) AS st_simplifypreservetopology
+   FROM demo.cvi_land_parcels;
+
+
+--
+-- Name: cvi_land_parcels_simplified; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.cvi_land_parcels_simplified AS
+ SELECT postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.1)::double precision) AS st_simplifypreservetopology
+   FROM demo.cvi_land_parcels;
+
+
+--
+-- Name: mavue; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.mavue AS
+ SELECT postgis.st_npoints(cvi_land_parcels.shape) AS shape1,
+    postgis.st_npoints(postgis.st_simplifypreservetopology(cvi_land_parcels.shape, (0.001)::double precision)) AS shape2
+   FROM demo.cvi_land_parcels
+  WHERE ((cvi_land_parcels.name)::text = 'L1022-1-2, L826-1'::text);
+
+
+--
+-- Name: test; Type: VIEW; Schema: postgis; Owner: -
+--
+
+CREATE VIEW postgis.test AS
+ SELECT postgis.st_astext(cvi_land_parcels.shape) AS st_astext
+   FROM demo.cvi_land_parcels
+  WHERE ((cvi_land_parcels.name)::text = ANY ((ARRAY['L778-1'::character varying, 'L779'::character varying])::text[]));
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -378,7 +417,10 @@ CREATE TABLE public.activities (
     use_seasons boolean DEFAULT false,
     use_tactics boolean DEFAULT false,
     codes jsonb,
-    production_nature_id integer
+    production_nature_id integer,
+    production_started_on date,
+    production_stopped_on date,
+    first_year_of_production integer
 );
 
 
@@ -524,7 +566,10 @@ CREATE TABLE public.intervention_parameters (
     dead boolean DEFAULT false NOT NULL,
     identification_number character varying,
     variety character varying,
-    batch_number character varying
+    batch_number character varying,
+    usage_id character varying,
+    allowed_entry_factor integer,
+    allowed_harvest_factor integer
 );
 
 
@@ -565,7 +610,8 @@ CREATE TABLE public.interventions (
     purchase_id integer,
     costing_id integer,
     validator_id integer,
-    providers jsonb
+    providers jsonb,
+    provider jsonb
 );
 
 
@@ -3453,12 +3499,12 @@ ALTER SEQUENCE public.fixed_assets_id_seq OWNED BY public.fixed_assets.id;
 
 CREATE TABLE public.locations (
     id integer NOT NULL,
-    insee_number character varying,
     locality character varying,
     localizable_id integer,
     localizable_type character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    insee_number character varying
 );
 
 
@@ -6169,7 +6215,9 @@ CREATE TABLE public.product_nature_categories (
     fixed_asset_depreciation_method character varying,
     custom_fields jsonb,
     stock_movement_account_id integer,
-    asset_fixable boolean DEFAULT false
+    asset_fixable boolean DEFAULT false,
+    type character varying NOT NULL,
+    imported_from character varying
 );
 
 
@@ -6376,7 +6424,10 @@ CREATE TABLE public.product_nature_variants (
     stock_account_id integer,
     stock_movement_account_id integer,
     france_maaid character varying,
-    providers jsonb
+    providers jsonb,
+    specie_variety character varying,
+    type character varying NOT NULL,
+    imported_from character varying
 );
 
 
@@ -6405,7 +6456,6 @@ ALTER SEQUENCE public.product_nature_variants_id_seq OWNED BY public.product_nat
 
 CREATE TABLE public.product_natures (
     id integer NOT NULL,
-    category_id integer NOT NULL,
     name character varying NOT NULL,
     number character varying NOT NULL,
     variety character varying NOT NULL,
@@ -6434,7 +6484,9 @@ CREATE TABLE public.product_natures (
     subscription_nature_id integer,
     subscription_years_count integer DEFAULT 0 NOT NULL,
     subscription_months_count integer DEFAULT 0 NOT NULL,
-    subscription_days_count integer DEFAULT 0 NOT NULL
+    subscription_days_count integer DEFAULT 0 NOT NULL,
+    type character varying NOT NULL,
+    imported_from character varying
 );
 
 
@@ -14523,13 +14575,6 @@ CREATE INDEX index_loans_on_updater_id ON public.loans USING btree (updater_id);
 
 
 --
--- Name: index_locations_on_insee_number; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_locations_on_insee_number ON public.locations USING btree (insee_number);
-
-
---
 -- Name: index_manure_management_plan_zones_on_activity_production_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -16462,13 +16507,6 @@ CREATE INDEX index_product_nature_variants_on_updater_id ON public.product_natur
 
 
 --
--- Name: index_product_natures_on_category_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_product_natures_on_category_id ON public.product_natures USING btree (category_id);
-
-
---
 -- Name: index_product_natures_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -18387,10 +18425,40 @@ CREATE INDEX index_wice_grid_serialized_queries_on_grid_name_and_id ON public.wi
 
 
 --
+-- Name: intervention_provider_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX intervention_provider_index ON public.interventions USING gin (((provider -> 'vendor'::text)), ((provider -> 'name'::text)), ((provider -> 'id'::text)));
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
+
+
+--
+-- Name: product_populations _RETURN; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE OR REPLACE VIEW public.product_populations AS
+ SELECT DISTINCT ON (movements.started_at, movements.product_id) movements.product_id,
+    movements.started_at,
+    sum(precedings.delta) AS value,
+    max(movements.creator_id) AS creator_id,
+    max(movements.created_at) AS created_at,
+    max(movements.updated_at) AS updated_at,
+    max(movements.updater_id) AS updater_id,
+    min(movements.id) AS id,
+    1 AS lock_version
+   FROM (public.product_movements movements
+     LEFT JOIN ( SELECT sum(product_movements.delta) AS delta,
+            product_movements.product_id,
+            product_movements.started_at
+           FROM public.product_movements
+          GROUP BY product_movements.product_id, product_movements.started_at) precedings ON (((movements.started_at >= precedings.started_at) AND (movements.product_id = precedings.product_id))))
+  GROUP BY movements.id;
 
 
 --
@@ -18458,29 +18526,6 @@ CREATE OR REPLACE VIEW public.formatted_cvi_land_parcels AS
      LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_land_parcels.vine_variety_id)::text = (vine_varieties.id)::text)))
      LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_land_parcels.designation_of_origin_id = designation_of_origins.id)))
   GROUP BY cvi_land_parcels.id, designation_of_origins.product_human_name_fra, vine_varieties.specie_name;
-
-
---
--- Name: product_populations _RETURN; Type: RULE; Schema: public; Owner: -
---
-
-CREATE OR REPLACE VIEW public.product_populations AS
- SELECT DISTINCT ON (movements.started_at, movements.product_id) movements.product_id,
-    movements.started_at,
-    sum(precedings.delta) AS value,
-    max(movements.creator_id) AS creator_id,
-    max(movements.created_at) AS created_at,
-    max(movements.updated_at) AS updated_at,
-    max(movements.updater_id) AS updater_id,
-    min(movements.id) AS id,
-    1 AS lock_version
-   FROM (public.product_movements movements
-     LEFT JOIN ( SELECT sum(product_movements.delta) AS delta,
-            product_movements.product_id,
-            product_movements.started_at
-           FROM public.product_movements
-          GROUP BY product_movements.product_id, product_movements.started_at) precedings ON (((movements.started_at >= precedings.started_at) AND (movements.product_id = precedings.product_id))))
-  GROUP BY movements.id;
 
 
 --
@@ -19724,11 +19769,21 @@ INSERT INTO schema_migrations (version) VALUES ('20190710002904');
 
 INSERT INTO schema_migrations (version) VALUES ('20190712124724');
 
+INSERT INTO schema_migrations (version) VALUES ('20190715114423');
+
+INSERT INTO schema_migrations (version) VALUES ('20190716125202');
+
+INSERT INTO schema_migrations (version) VALUES ('20190716162315');
+
 INSERT INTO schema_migrations (version) VALUES ('20190718133342');
+
+INSERT INTO schema_migrations (version) VALUES ('20190719140916');
 
 INSERT INTO schema_migrations (version) VALUES ('20190726092304');
 
 INSERT INTO schema_migrations (version) VALUES ('20190807075910');
+
+INSERT INTO schema_migrations (version) VALUES ('20190808123912');
 
 INSERT INTO schema_migrations (version) VALUES ('20190808152235');
 
@@ -19785,4 +19840,12 @@ INSERT INTO schema_migrations (version) VALUES ('20200108090053');
 INSERT INTO schema_migrations (version) VALUES ('20200110142108');
 
 INSERT INTO schema_migrations (version) VALUES ('20200115164203');
+
+INSERT INTO schema_migrations (version) VALUES ('20200121161421');
+
+INSERT INTO schema_migrations (version) VALUES ('20200122100513');
+
+INSERT INTO schema_migrations (version) VALUES ('20200128133347');
+
+INSERT INTO schema_migrations (version) VALUES ('20200213102154');
 

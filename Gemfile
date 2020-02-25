@@ -90,10 +90,8 @@ gem 'rake', '~>12.0'
 gem 'timecop'
 
 # Manipulate map data
-gem 'charta', '~> 0.1.14'
-
-# Manage daemons
-gem 'foreman'
+# gem 'charta', '~> 0.1.14'
+gem 'charta', gitlab: 'ekylibre/charta', tag: 'v0.1.16'
 
 # active_list alternative
 gem 'font-awesome-sass', '~> 5.8.1'
@@ -120,8 +118,7 @@ gem 'capistrano-nvm', require: false, group: :development
 gem 'exception_notification'
 
 # Views helpers
-gem 'active_list', '~> 7'
-
+gem 'active_list', gitlab: 'ekylibre/active_list', branch: 'master'
 gem 'haml'
 gem 'simple_calendar'
 
@@ -288,7 +285,7 @@ group :test do
   gem 'ruby-terminfo'
   gem 'factory_bot', '< 5'
 
-  gem 'shoulda', '~> 3.5'
+  gem 'shoulda', '~> 3.5.0'
   gem 'shoulda-matchers', '~> 2.0'
   gem 'pdf-reader'
 end

@@ -14,7 +14,7 @@ module Procedo
             @product = Product.find_by(id: @attributes[:product_id])
           end
           if attributes[:working_zone].present?
-            @working_zone = Charta.from_geojson(attributes[:working_zone])
+            @working_zone = Charta.new_geometry(attributes[:working_zone])
             @working_zone = @working_zone.convert_to(:multi_polygon)
           end
           if intervention && intervention.working_periods.present?
@@ -205,12 +205,8 @@ module Procedo
         end
 
         def impact_on_components(_field = nil)
-          reference.components.each do |component_parameter|
-            inputs = intervention.parameters_of_name(component_parameter.name)
-            inputs.each do |input|
-              input.assign(:assembly, intervention.interpret(input.reference.component_of_tree, env))
-            end
-          end
+          return if reference.components.exclude?(self.name)
+          self.assign(:assembly, intervention.interpret(parameter.reference.component_of_tree, env))
         end
 
         def impact_on_parameters(_field)

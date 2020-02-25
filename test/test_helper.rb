@@ -41,7 +41,11 @@ Ekylibre::Tenant.switch 'test_without_fixtures' do
                                                    'master_vine_varieties',
                                                    'registered_protected_designation_of_origins',
                                                    'cadastral_land_parcel_zones',
-                                                   'registered_postal_zones']
+                                                   'registered_postal_zones',
+                                                   "ephy_cropsets", 
+                                                   "registered_phytosanitary_products", 
+                                                   "registered_phytosanitary_risks", 
+                                                   "registered_phytosanitary_usages"]
 end
 
 DatabaseCleaner.strategy = :transaction
@@ -168,10 +172,10 @@ module ActionController
         table_name = options.delete(:table_name) || controller_name
         model_name = options.delete(:class_name) || table_name.classify
         model = begin
-          model_name.constantize
-        rescue
-          nil
-        end
+                  model_name.constantize
+                rescue
+                  nil
+                end
         record = model_name.underscore
         other_record = "other_#{record}"
         attributes = nil
@@ -492,17 +496,17 @@ module ActionController
         action_name = array.last.to_sym
         if action_name == :new
           model = begin
-            array.first.split(/\//).last.classify.constantize
-          rescue
-            nil
-          end
+                    array.first.split(/\//).last.classify.constantize
+                  rescue
+                    nil
+                  end
           return :new_product if model && model <= Product
         elsif action_name == :show
           model = begin
-            array.first.split(/\//).last.classify.constantize
-          rescue
-            nil
-          end
+                    array.first.split(/\//).last.classify.constantize
+                  rescue
+                    nil
+                  end
           return :show_sti_record if model && (model <= Product || model <= Affair)
         end
         MODES.each do |exp, mode|
@@ -516,10 +520,6 @@ end
 
 def without_output(&block)
   main.stub :puts, Proc.new, &block
-end
-
-def main
-  TOPLEVEL_BINDING.eval('self')
 end
 
 module FFaker
@@ -536,11 +536,28 @@ end
 
 require 'pdf_printer'
 
-module PdfPrinter
+module ImportTest
+  class ImportTestDummyExchanger < ActiveExchanger::Base
+    mattr_accessor :check_block, :import_block
 
-  private
-
-    def convert_to_pdf(directory, odf_path)
-      system "soffice --headless --convert-to pdf --outdir #{directory} #{odf_path} > /dev/null 2> /dev/null"
+    def check
+      if check_block.nil?
+        true
+      else
+        check_block.call
+      end
     end
+
+    def import
+      if import_block.nil?
+        true
+      else
+        import_block.call
+      end
+    end
+  end
+end
+
+def main
+  TOPLEVEL_BINDING.eval('self')
 end
