@@ -4359,8 +4359,6 @@ journal_entries:
   printed_on:
     type: date
     required: true
-  providers:
-    type: jsonb
   real_balance:
     type: decimal
     precision: 19
@@ -6810,10 +6808,6 @@ product_natures:
     type: boolean
     required: true
     default: false
-  category_id:
-    type: integer
-    references: ''
-    required: true
   created_at:
     type: datetime
     required: true
@@ -7498,13 +7492,11 @@ registered_agroedi_codes:
     type: string
   reference_id:
     type: integer
-    references: ''
     required: true
   reference_label:
     type: string
   repository_id:
     type: integer
-    references: ''
     required: true
 registered_building_zones:
   centroid:
