@@ -15,7 +15,7 @@
         positionLatLng = layer.getCenter()
         centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
         name = layer.feature.properties.name
-        matchnameIndex =name.match(/-(\d{2}$)/)
+        matchnameIndex =name.match(/-(\d*$)/)
         if matchnameIndex
           nameIndex = parseInt(matchnameIndex[1])
           offset = L.point(0, (nameIndex - 1) * layer._map.getZoom())
@@ -48,7 +48,7 @@
         positionLatLng = layer.getCenter()
         centerPixels = layer._map.latLngToLayerPoint(positionLatLng)
         cadastralRef = layer.feature.properties.cadastral_ref
-        matchCadastralRefIndex = cadastralRef.match(/-(\d{2}$)/)
+        matchCadastralRefIndex = cadastralRef.match(/-(\d*$)/)
         if matchCadastralRefIndex
           cadastralRefIndex = parseInt(matchCadastralRefIndex[1])
           offset = L.point(0, (cadastralRefIndex - 1) * layer._map.getZoom())
