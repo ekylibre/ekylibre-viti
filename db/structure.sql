@@ -566,7 +566,10 @@ CREATE TABLE public.intervention_parameters (
     dead boolean DEFAULT false NOT NULL,
     identification_number character varying,
     variety character varying,
-    batch_number character varying
+    batch_number character varying,
+    usage_id character varying,
+    allowed_entry_factor integer,
+    allowed_harvest_factor integer
 );
 
 
@@ -607,7 +610,8 @@ CREATE TABLE public.interventions (
     purchase_id integer,
     costing_id integer,
     validator_id integer,
-    providers jsonb
+    providers jsonb,
+    provider jsonb
 );
 
 
@@ -3495,12 +3499,12 @@ ALTER SEQUENCE public.fixed_assets_id_seq OWNED BY public.fixed_assets.id;
 
 CREATE TABLE public.locations (
     id integer NOT NULL,
-    insee_number character varying,
     locality character varying,
     localizable_id integer,
     localizable_type character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    registered_postal_zone_id character varying
 );
 
 
@@ -3533,7 +3537,7 @@ CREATE VIEW public.formatted_cvi_cadastral_plants AS
     cvi_cadastral_plants.cvi_statement_id
    FROM (((((public.cvi_cadastral_plants
      LEFT JOIN public.locations ON (((cvi_cadastral_plants.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviCadastralPlant'::text))))
-     LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.insee_number)::text = (registered_postal_zones.code)::text)))
+     LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.registered_postal_zone_id)::text = (registered_postal_zones.id)::text)))
      LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_cadastral_plants.vine_variety_id)::text = (vine_varieties.id)::text)))
      LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((cvi_cadastral_plants.rootstock_id)::text = (rootstocks.id)::text)))
      LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.id)));
@@ -6211,7 +6215,9 @@ CREATE TABLE public.product_nature_categories (
     fixed_asset_depreciation_method character varying,
     custom_fields jsonb,
     stock_movement_account_id integer,
-    asset_fixable boolean DEFAULT false
+    asset_fixable boolean DEFAULT false,
+    type character varying NOT NULL,
+    imported_from character varying
 );
 
 
@@ -6418,7 +6424,10 @@ CREATE TABLE public.product_nature_variants (
     stock_account_id integer,
     stock_movement_account_id integer,
     france_maaid character varying,
-    providers jsonb
+    providers jsonb,
+    specie_variety character varying,
+    type character varying NOT NULL,
+    imported_from character varying
 );
 
 
@@ -6447,7 +6456,6 @@ ALTER SEQUENCE public.product_nature_variants_id_seq OWNED BY public.product_nat
 
 CREATE TABLE public.product_natures (
     id integer NOT NULL,
-    category_id integer NOT NULL,
     name character varying NOT NULL,
     number character varying NOT NULL,
     variety character varying NOT NULL,
@@ -6476,7 +6484,9 @@ CREATE TABLE public.product_natures (
     subscription_nature_id integer,
     subscription_years_count integer DEFAULT 0 NOT NULL,
     subscription_months_count integer DEFAULT 0 NOT NULL,
-    subscription_days_count integer DEFAULT 0 NOT NULL
+    subscription_days_count integer DEFAULT 0 NOT NULL,
+    type character varying NOT NULL,
+    imported_from character varying
 );
 
 
@@ -14565,13 +14575,6 @@ CREATE INDEX index_loans_on_updater_id ON public.loans USING btree (updater_id);
 
 
 --
--- Name: index_locations_on_insee_number; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_locations_on_insee_number ON public.locations USING btree (insee_number);
-
-
---
 -- Name: index_manure_management_plan_zones_on_activity_production_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -16504,13 +16507,6 @@ CREATE INDEX index_product_nature_variants_on_updater_id ON public.product_natur
 
 
 --
--- Name: index_product_natures_on_category_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_product_natures_on_category_id ON public.product_natures USING btree (category_id);
-
-
---
 -- Name: index_product_natures_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -18429,6 +18425,13 @@ CREATE INDEX index_wice_grid_serialized_queries_on_grid_name_and_id ON public.wi
 
 
 --
+-- Name: intervention_provider_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX intervention_provider_index ON public.interventions USING gin (((provider -> 'vendor'::text)), ((provider -> 'name'::text)), ((provider -> 'id'::text)));
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -18485,7 +18488,7 @@ CREATE OR REPLACE VIEW public.formatted_cvi_cultivable_zones AS
            FROM (((public.cvi_cultivable_zones
              LEFT JOIN public.locations locations ON (((cvi_cultivable_zones.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviCultivableZone'::text))))
              LEFT JOIN public.cvi_cadastral_plants ON ((cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id)))
-             LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.insee_number)::text = (registered_postal_zones.code)::text)))
+             LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.registered_postal_zone_id)::text = (registered_postal_zones.id)::text)))
           GROUP BY cvi_cultivable_zones.id, cvi_cultivable_zones.name,
                 CASE
                     WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN ((cvi_cadastral_plants.section)::text || (cvi_cadastral_plants.work_number)::text)
@@ -18519,7 +18522,7 @@ CREATE OR REPLACE VIEW public.formatted_cvi_land_parcels AS
      LEFT JOIN public.locations locations ON (((cvi_land_parcels.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviLandParcel'::text))))
      LEFT JOIN public.land_parcel_rootstocks ON (((cvi_land_parcels.id = land_parcel_rootstocks.land_parcel_id) AND ((land_parcel_rootstocks.land_parcel_type)::text = 'CviLandParcel'::text))))
      LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((land_parcel_rootstocks.rootstock_id)::text = (rootstocks.id)::text)))
-     LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.insee_number)::text = (registered_postal_zones.code)::text)))
+     LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.registered_postal_zone_id)::text = (registered_postal_zones.id)::text)))
      LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_land_parcels.vine_variety_id)::text = (vine_varieties.id)::text)))
      LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_land_parcels.designation_of_origin_id = designation_of_origins.id)))
   GROUP BY cvi_land_parcels.id, designation_of_origins.product_human_name_fra, vine_varieties.specie_name;
@@ -19766,11 +19769,21 @@ INSERT INTO schema_migrations (version) VALUES ('20190710002904');
 
 INSERT INTO schema_migrations (version) VALUES ('20190712124724');
 
+INSERT INTO schema_migrations (version) VALUES ('20190715114423');
+
+INSERT INTO schema_migrations (version) VALUES ('20190716125202');
+
+INSERT INTO schema_migrations (version) VALUES ('20190716162315');
+
 INSERT INTO schema_migrations (version) VALUES ('20190718133342');
+
+INSERT INTO schema_migrations (version) VALUES ('20190719140916');
 
 INSERT INTO schema_migrations (version) VALUES ('20190726092304');
 
 INSERT INTO schema_migrations (version) VALUES ('20190807075910');
+
+INSERT INTO schema_migrations (version) VALUES ('20190808123912');
 
 INSERT INTO schema_migrations (version) VALUES ('20190808152235');
 
@@ -19829,4 +19842,12 @@ INSERT INTO schema_migrations (version) VALUES ('20200110142108');
 INSERT INTO schema_migrations (version) VALUES ('20200115164203');
 
 INSERT INTO schema_migrations (version) VALUES ('20200121161421');
+
+INSERT INTO schema_migrations (version) VALUES ('20200122100513');
+
+INSERT INTO schema_migrations (version) VALUES ('20200128133347');
+
+INSERT INTO schema_migrations (version) VALUES ('20200213102154');
+
+INSERT INTO schema_migrations (version) VALUES ('20200225093814');
 
