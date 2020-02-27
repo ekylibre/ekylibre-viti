@@ -2,7 +2,7 @@ require 'test_helper'
 
 class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   ATTRIBUTES = %i[designation_of_origin_id vine_variety_id inter_vine_plant_distance_value inter_row_distance_value planting_campaign state].freeze
-  
+
   describe('GroupCviLandParcelsTest.call') do
     describe('cvi_land_parcels are not groupable') do
       let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2) }
@@ -21,6 +21,7 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
         GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
         cvi_land_parcel = CviLandParcel.last
         assert_equal cvi_land_parcels.map(&:declared_area).sum, cvi_land_parcel.declared_area
+        assert_in_delta cvi_land_parcels.map(&:calculated_area_value).sum, cvi_land_parcel.calculated_area.value, 0.001
         assert_equal name, cvi_land_parcel.name
       end
 
@@ -32,8 +33,8 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
         percentage2 = area_rootstock2 / total_area
         GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
         cvi_land_parcel = CviLandParcel.last
-        assert_in_epsilon(percentage1, cvi_land_parcel.land_parcel_rootstocks.first.percentage, epsilon = 0.01)
-        assert_in_epsilon(percentage2, cvi_land_parcel.land_parcel_rootstocks.second.percentage, epsilon = 0.01)
+        assert_in_delta(percentage1, cvi_land_parcel.land_parcel_rootstocks.first.percentage, delta = 0.01)
+        assert_in_delta(percentage2, cvi_land_parcel.land_parcel_rootstocks.second.percentage, delta = 0.01)
       end
 
       it 'destroy grouped cvi_land_parcels' do
@@ -44,5 +45,4 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
       end
     end
   end
-  
 end

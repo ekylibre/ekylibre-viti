@@ -56,7 +56,6 @@ class CviCadastralPlant < Ekylibre::Record::Base
 
   belongs_to :cvi_cultivable_zone
   belongs_to :cvi_statement
-  belongs_to :registered_postal_zone, foreign_key: :insee_number
   belongs_to :land_parcel, class_name: 'CadastralLandParcelZone', foreign_key: :land_parcel_id
   belongs_to :designation_of_origin, class_name: 'RegisteredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
   belongs_to :vine_variety, class_name: 'MasterVineVariety', foreign_key: :vine_variety_id
@@ -78,7 +77,7 @@ class CviCadastralPlant < Ekylibre::Record::Base
     end
   end
 
-  delegate :insee_number, to: :location
+  delegate :registered_postal_zone_id, to: :location
   delegate :shape, to: :land_parcel
 
   accepts_nested_attributes_for :location
@@ -92,11 +91,11 @@ class CviCadastralPlant < Ekylibre::Record::Base
   private
   # Check if any attributes parts of cadastral reference has changed
   def cadastral_reference_changed?
-    location.insee_number_changed? || section_changed? || work_number_changed?
+    location.registered_postal_zone_id_changed? || section_changed? || work_number_changed?
   end
 
   def set_land_parcel_id
-    land_parcel = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', "#{insee_number}%", section, work_number).first
+    land_parcel = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', "#{location.registered_postal_zone.code}%", section, work_number).first
     self.land_parcel = land_parcel
     self.cadastral_ref_updated = true
   end

@@ -44,10 +44,11 @@ class CviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
     assert(resource.reload.updated?)
   end
 
-  it 'has calculated_area updated when shape change' do
+  it 'has calculated_area setted when shape change' do
     resource = create(:cvi_land_parcel)
+    assert_in_delta Measure.new(resource.reload.shape.area, :square_meter).convert(:hectare).value, resource.reload.calculated_area_value, delta = 0.00001
     shape = FFaker::Shape.multipolygon
     resource.update(shape: shape)
-    assert_equal Measure.new(shape.area, :square_meter).convert(:hectare).value.round(5), resource.reload.calculated_area_value
+    assert_in_delta Measure.new(shape.area, :square_meter).convert(:hectare).value, resource.reload.calculated_area_value, delta = 0.00001
   end
 end

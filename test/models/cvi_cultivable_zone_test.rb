@@ -25,4 +25,12 @@ class CviCultivableZoneTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   should have_many(:locations)
 
   should enumerize(:land_parcels_status).in(:not_created,:created).with_predicates(true)
+
+  it 'has calculated_area setted when shape change' do
+    resource = create(:cvi_cultivable_zone)
+    assert_in_delta Measure.new(resource.reload.shape.area, :square_meter).convert(:hectare).value, resource.reload.calculated_area_value, delta = 0.0001
+    shape = FFaker::Shape.multipolygon
+    resource.update(shape: shape)
+    assert_in_delta Measure.new(shape.area, :square_meter).convert(:hectare).value, resource.reload.calculated_area_value, delta = 0.0001
+  end
 end

@@ -11,6 +11,36 @@ ekylibre.templates ||= {}
           <p>#{I18n.t( 'front-end.notifications.messages.unvalid_cvi_cadastral_plant')}</p>
         </div>
       </div>"
+    
+    cviLandParcelsButtons: ->
+      i18nRoot = "front-end.templates.actions"
+      "<tr>
+        <th colspan='1000'>
+          <div>
+            <a href='' class='btn btn-primary' id='cut-cvi-land-parcel' data-remote='true' disabled>
+              #{I18n.t("#{i18nRoot}.split")}
+            </a>
+            <a href='' class='btn btn-primary' id='group-cvi-land-parcels' data-remote='true' data-method='post' disabled>
+              #{I18n.t("#{i18nRoot}.regroup")}
+            </a>
+            <a href='' class='btn btn-primary' id='edit-multiple-cvi-land-parcels' data-remote='true' disabled>
+              #{I18n.t("#{i18nRoot}.edit")}
+            </a>
+          </div>
+        </th>
+      </tr>"
+    
+    cviCultivableZonesButton: ->
+      i18nRoot = "front-end.templates.actions"
+      "<tr>
+        <th colspan='1000'>
+          <div>
+            <a href='' class='btn btn-primary' id='group-cvi-land-parcels' data-remote='true' data-method='post' disabled>
+              #{I18n.t("#{i18nRoot}.regroup")}
+            </a>
+          </div>
+        </th>
+      </tr>"
 
     splitLandParcelForm: (oldObj, newObj) ->
       i18nRoot = "front-end.templates.form"

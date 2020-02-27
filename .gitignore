@@ -103,5 +103,4 @@ yarn-debug.log*
 .solargraph.yml
 package-lock.json
 /lib/tasks/around_clean.rake
-
-/db/lexicon/backup/
+/db/lexicon/backup

@@ -7,6 +7,8 @@ module Backend
 
         coordinates = params[:centroid]
 
+        return @forecast = nil unless CultivableZone.exists?
+
         # We try to get weather from cultivable zones
         coordinates ||= CultivableZone.geom_union(:shape).centroid
 

@@ -272,7 +272,7 @@ activity_budget_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
   variant_indicator:
     type: string
   variant_unit:
@@ -1524,7 +1524,7 @@ catalog_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
 catalogs:
   all_taxes_included:
@@ -1607,7 +1607,7 @@ contract_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
 contracts:
   created_at:
@@ -3963,7 +3963,7 @@ intervention_parameters:
     type: string
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
   variety:
     type: string
   working_zone:
@@ -4572,7 +4572,7 @@ journal_entry_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
 journals:
   accountant_id:
     type: integer
@@ -5726,7 +5726,7 @@ parcel_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
 parcels:
   accounted_at:
     type: datetime
@@ -6724,7 +6724,7 @@ product_nature_variant_readings:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
 product_nature_variants:
   active:
@@ -6975,7 +6975,7 @@ product_phases:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
 product_readings:
   absolute_measure_value_unit:
@@ -7212,7 +7212,7 @@ products:
     type: uuid
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
   variety:
     type: string
@@ -7348,7 +7348,7 @@ purchase_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
 purchase_natures:
   active:
     type: boolean
@@ -7990,7 +7990,7 @@ sale_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
 sale_natures:
   active:
@@ -9348,10 +9348,10 @@ variants:
     type: string
   variant_category_id:
     type: integer
-    references: ''
+    references: variant_category
   variant_nature_id:
     type: integer
-    references: ''
+    references: variant_nature
 versions:
   created_at:
     type: datetime

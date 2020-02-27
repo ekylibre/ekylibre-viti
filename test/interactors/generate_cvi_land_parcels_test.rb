@@ -18,7 +18,15 @@ class GenerateCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithF
       assert_equal cvi_cultivable_zone.cvi_cadastral_plants.collect(&:cadastral_reference).sort, cvi_cultivable_zone.cvi_land_parcels.collect(&:name).sort
       cvi_cadastral_plant = CviCadastralPlant.last
       cvi_land_parcel = CviLandParcel.find_by(name: cvi_cadastral_plant.cadastral_reference)
-      assert_equal cvi_cadastral_plant.shape, cvi_land_parcel.shape
+      assert_equal Charta.new_geometry(cvi_cadastral_plant.shape.to_rgeo.simplify(0)), cvi_land_parcel.shape
+    end
+
+    it 'it simplify shape without changing area' do
+      GenerateCviLandParcels.call(cvi_cultivable_zone: cvi_cultivable_zone)
+      cvi_cadastral_plant = CviCadastralPlant.last
+      cvi_land_parcel = CviLandParcel.find_by(name: cvi_cadastral_plant.cadastral_reference)
+      assert_equal :polygon, cvi_land_parcel.shape.type
+      assert_in_delta cvi_cadastral_plant.shape.area, cvi_land_parcel.shape.area, delta = 0.00001
     end
   end
 end

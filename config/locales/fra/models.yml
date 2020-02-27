@@ -107,7 +107,7 @@ fra:
         content_nature: "Type de Produit contenu" #?
         variety: "Type" #?
       cash:
-        enable_bookkeep_bank_item_details: "Comptabiliser le détails du relevé de comptes"
+        enable_bookkeep_bank_item_details: "Comptabiliser le détail du relevé de compte"
       cashes:
         main_account: "Compte principal"
       cvi_cadastral_plant:
@@ -280,6 +280,8 @@ fra:
       product_nature_variant: #?
         contour: "Contour de la forme" #?
         horizontal_rotation: "Rotation horizontale de la forme" #?
+        specie_variety: "Variété"
+        variety: "Espèce"
       product_transfer: #?
         building: "Lieu de stockage de départ" #?
         second_building: "Lieu de stockage d’arrivée" #?
@@ -294,6 +296,7 @@ fra:
         moved_at: "Reçu le" #?
         planned_at: "Réception prévue le" #?
       purchase_invoice: #?
+        delivery_address: "Adresse de facturation"
         description: "Notes" #?
         invoiced_at: "Date de facture" #?
         payment_delay: "Échéance" #?
@@ -310,6 +313,7 @@ fra:
         supplier_name: "Fournisseur"
       purchase_order: #?
         command_mode: "Mode de commande" #?
+        delivery_address: "Adresse de facturation"
         description: "Notes" #?
         estimate_reception_date: "Date prévisionnelle de réception" #?
         ordered_at: "Date commande" #?
@@ -318,6 +322,36 @@ fra:
       purchase_payment: #?
         delivered: "Remis au bénéficiaire" #?
         list: "Lot de décaissements" #?
+      registered_phytosanitary_product:
+        active_compounds: "Substance(s) active(s)"
+        firm_name: "Fabricant"
+        france_maaid: "N° AMM"
+        in_field_reentry_delay: "Délai de réentrée"
+        licence_number: "N° Permis"
+        name: "Nom usuel"
+        operator_protection_mentions: "Protection de l'opérateur"
+        other_name: "Seconds noms commerciaux"
+        product_type: "Type"
+        state: "État du produit"
+        started_on: "Date d'autorisation"
+        stopped_on: "Date de retrait"
+      registered_phytosanitary_usage:
+        applications_count: "Nb max"
+        applications_frequency: "Intervalle"
+        decision_date: "Date d'autorisation"
+        development_stage_min: "Stade BBCH min-max"
+        dose_quantity: "Dose max"
+        ephy_usage_phrase: "Usage"
+        lib_court: "Numéro"
+        pre_harvest_delay: "Délai avant récolte"
+        status: "Autorisé"
+        untreated_buffer_aquatic: "ZNT aquatique"
+        untreated_buffer_arthropod: "ZNT arthropodes"
+        untreated_buffer_plants: "ZNT plantes"
+      registered_phytosanitary_risk:
+        description: "Descriptif"
+        mentions: "Mentions de danger"
+        symbol_name: "Pictogramme"
       sale:
         affair_balance: "Solde"
         amount: "Montant TTC" #?
@@ -638,7 +672,9 @@ fra:
       custom_field_choice: "Choix de champ complémentaire"
       cvi_cadastral_plant: "CVI cadastral plant"
       cvi_statement: "Casier Viticole Informatisé"
-      cvi_cultivable_zone: "Zone cultivable"
+      cvi_cultivable_zone: 
+        one: "Zone cultivable"
+        other: "Zones cultivables"
       cvi_land_parcel: "Parcelle"
       dashboard: "Tableau de bord"
       debt_transfer: "Transfert de dettes"
@@ -891,6 +927,7 @@ fra:
     all_addresses: "Toutes les adresses"
     all_taxes_included: "Toutes taxes comprises"
     allocation_account: "Compte d'amortissement"
+    allowed_mentions: "Mentions autorisées"
     # already_existing: "Already existing"
     amount: "Montant"
     analysed_at: "Analysé le"
@@ -1235,7 +1272,7 @@ fra:
     emission_currency_rate: "Taux de la devise émise" #?
     emission_journal_entry: "Écriture de l’émission"
     emitted_on: "Émis le"
-    employed: "Employé par la société"
+    employed: "Travaillant pour la société"
     employee: "Employé"
     employee_account: "Compte employé"
     employees: "Employés"
@@ -1257,7 +1294,7 @@ fra:
     entry_number: "N° Écriture"
     entry_on: "Entrée le"
     entry_reason: "Raison de l'entrée"
-    # equipment: "Equipment"
+    equipment: "Équipement"
     # equipment_nature: "Equipment nature"
     establishment: "Établissement" #?
     # estimate_reception_date: "Estimate reception date"
@@ -1485,7 +1522,7 @@ fra:
     inventory: "Inventaire"
     # inventory_items: "Inventory items"
     invitation_accepted_at: "Invitation acceptée à"
-    invitation_created_at: "Invitation créé"
+    invitation_created_at: "Invitation créée"
     invitation_limit: "Limite d'invitation"
     invitation_sent_at: "Invitation envoyée à"
     invitation_token: "Invitation jeton"
@@ -1924,7 +1961,7 @@ fra:
     received_at: "Reçu le"
     reception: "Réception" #?
     reception_amount: "Montant reçu"
-    reception_cash: "Trésorie réceptrice"
+    reception_cash: "Trésorerie réceptrice"
     reception_currency: "Monnaie de réception"
     reception_items: "Éléments de réception"
     reception_journal_entry: "Écriture de la réception"
@@ -2068,7 +2105,7 @@ fra:
     size_value: "Valeur Taille"
     soil_nature: "Nature du sol"
     soil_production: "Contribution en azote du sol (Po)"
-    sold_journal_entry: "Ecriture de cession"
+    sold_journal_entry: "Écriture de cession"
     sold_on: "Date de cession"
     source: "Source"
     source_product: "Produit Source"
@@ -2133,6 +2170,7 @@ fra:
     supports: "Supports"
     suspend_until_reconciliation: "Suspendre jusqu'à réconciliation"
     suspended: "Suspendu"
+    suspended_balance: "Solde du compte d'attente"
     suspended_journal_entry_items: "Lignes d'écriture suspendues"
     suspense_account: "Compte d'attente bancaire"
     tactic: "Itinéraire technique"
@@ -2203,7 +2241,7 @@ fra:
     # type_of_occupancy: "Type of occupancy"
     # uid: "UID"
     unconfirmed_email: "E-mail non confirmé"
-    undelivered_invoice_journal_entry: "Ecriture Facture non parvenue (FNP)"
+    undelivered_invoice_journal_entry: "Écriture Facture non parvenue (FNP)"
     undelivered_quantity: "Reste à livrer"
     unit: "Unité"
     unit_amount: "PU TTC"
@@ -2599,7 +2637,7 @@ fra:
       exchange_undelivered_invoice: "Facture non parvenue - extourne [%{resource} %{mode} %{number}] %{entity}"
       label: "%{supplier} à %{address}"
       purchase: "Achat"
-      quantity_gap_on_invoice: "Ecart de stock en quantité [%{resource} %{number}] de %{entity}"
+      quantity_gap_on_invoice: "Écart de stock en quantité [%{resource} %{number}] de %{entity}"
       states:
         aborted: "Abandonné"
         draft: "Devis brouillon"
@@ -2611,7 +2649,7 @@ fra:
       bookkeep: "[%{resource} %{number}] %{supplier}"
     purchase_invoice:
       bookkeep: "[%{resource} %{number}] %{products} de %{supplier}"
-      quantity_gap_on_invoice: "Ecart de stock en quantité [%{resource} %{number}] de %{entity}"
+      quantity_gap_on_invoice: "Écart de stock en quantité [%{resource} %{number}] de %{entity}"
     purchase_item:
       name: "%{product} (%{quantity}%{unit}) à %{amount}%{currency}/%{unit}"
       name_with_tracking: "%{product}/%{tracking} (%{quantity}%{unit}) à %{amount}%{currency}/%{unit}"
@@ -2652,7 +2690,7 @@ fra:
         invoice: "Facture %{number}"
         order: "Commande %{number}"
         refused: "Devis refusé %{number}"
-      quantity_gap_on_invoice: "Ecart de stock en quantité [%{resource} %{number}] de %{entity}"
+      quantity_gap_on_invoice: "Écart de stock en quantité [%{resource} %{number}] de %{entity}"
       sale: "Vente %{number}"
       sales_conditions:
         downpayment: "Un acompte de %{percentage}% (soit %{amount}) devra être versé à la signature du présent devis."

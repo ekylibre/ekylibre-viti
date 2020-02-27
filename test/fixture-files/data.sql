@@ -355,108 +355,202 @@ COPY "lexicon"."cadastral_land_parcel_zones" FROM stdin;
 
 
 COPY "lexicon"."registered_postal_zones" FROM stdin;
-FR	40004	BUNO BONNEVAUX	91720	BUNO BONNEVAUX	\N	0101000020E6100000D4CA4904754103408BC19131AF2D4840
-FR	91122	BURES SUR YVETTE	91440	BURES SUR YVETTE	\N	0101000020E6100000E762A65460440140BCB37F28B4584840
-FR	91248	LA FORET STE CROIX	91150	LA FORET STE CROIX	\N	0101000020E6100000FED1B38F22D80140D21A648A29314840
-FR	91340	LISSES	91090	LISSES	\N	0101000020E610000048E1E15DC4650340AD1863A55F4C4840
-FR	91521	RIS ORANGIS	91130	RIS ORANGIS	\N	0101000020E61000005A9AB91D74430340F81DDAB695524840
-FR	91639	VAYRES SUR ESSONNE	91820	VAYRES SUR ESSONNE	\N	0101000020E6100000EA05DFCEF9C30240BE326A1C3C374840
-FR	91665	LA VILLE DU BOIS	91620	LA VILLE DU BOIS	\N	0101000020E610000056A5E84ECA1E0240F3E371499C544840
-FR	91671	VILLENEUVE SUR AUVERS	91580	VILLENEUVE SUR AUVERS	\N	0101000020E6100000C5E341D97F080240298F888FCA3B4840
-FR	91685	VILLIERS SUR ORGE	91700	VILLIERS SUR ORGE	\N	0101000020E6100000FB07A9E3606502408FA5201B47544840
-FR	92009	BOIS COLOMBES	92270	BOIS COLOMBES	\N	0101000020E610000022B8CB059B2302403CE5F5C129754840
-FR	92012	BOULOGNE BILLANCOURT	92100	BOULOGNE BILLANCOURT	\N	0101000020E610000089B35621C0E901400E0FDE31156B4840
-FR	92035	LA GARENNE COLOMBES	92250	LA GARENNE COLOMBES	\N	0101000020E61000008A07C4FB08F501400049FDA210744840
-FR	93013	LE BOURGET	93350	LE BOURGET	\N	0101000020E61000003161BA4E1D6D0340CF1CD9E6D4774840
-FR	93015	COUBRON	93470	COUBRON	\N	0101000020E61000001AE2BDA1499C0440D1FD889E75754840
-FR	93074	VAUJOURS	93410	VAUJOURS	\N	0101000020E61000005A14F6ACE4A504403B0E356A5B774840
-FR	94042	JOINVILLE LE PONT	94340	JOINVILLE LE PONT	\N	0101000020E6100000C0745A2C7BC303404153A80FE1684840
-FR	95040	AVERNES	95450	AVERNES	\N	0101000020E61000003821D17BAEEBFD3FDB430DAA5E8B4840
-FR	95055	BELLEFONTAINE	95270	BELLEFONTAINE	\N	0101000020E610000094D3A7B3A7C10340562BCB83D88B4840
-FR	95480	PARMAIN	95620	PARMAIN	\N	0101000020E61000007895B094379C0140B0FA7F33BA8F4840
-FR	97109	GOURBEYRE	97113	GOURBEYRE	\N	0101000020E610000076E75A8ADCD74EC011EEF7C7E0FC2F40
-FR	97133	VIEUX FORT	97141	VIEUX FORT	\N	0101000020E61000000D822103E6D84EC0DEDD6153A2EB2F40
-FR	97209	FORT DE FRANCE	97200	FORT DE FRANCE	\N	0101000020E61000008FC5C32EDB884EC081552EC23F482D40
-FR	97223	ST ESPRIT	97270	ST ESPRIT	\N	0101000020E61000004A836239F7754EC05396E674271E2D40
-FR	97309	REMIRE MONTJOLY	97354	REMIRE MONTJOLY	\N	0101000020E6100000E5A6B509B1234AC0FF5C5AA098891340
-FR	97412	ST JOSEPH	97480	ST JOSEPH	\N	0101000020E6100000930E384E2FD24B40AE3BC0486D4E35C0
-FR	97415	ST PAUL	97434	ST PAUL	LA SALINE LES BAINS	0101000020E610000002B3C93842A94B402455D36E660B35C0
-FR	97417	ST PHILIPPE	97442	ST PHILIPPE	BASSE VALLEE	0101000020E610000080EFEE746BDF4B407419AEFAD24D35C0
-FR	97418	STE MARIE	97438	STE MARIE	\N	0101000020E610000067341DB1E2C34B406F94EA7272F234C0
-FR	97418	STE MARIE	97438	STE MARIE	LA GRANDE MONTEE	0101000020E610000067341DB1E2C34B406F94EA7272F234C0
-FR	98711	ANAA	98786	HITIANAU	ANAA	\N
-FR	98713	ARUTUA	98761	RAUTINI	ARUTUA	\N
-FR	98726	MAKEMO	98790	HITI	MAKEMO	\N
-FR	98745	TAHAA	98733	PATIO	TAHAA	\N
-FR	98750	TAPUTAPUATEA	98735	OPOA	TAPUTAPUATEA	\N
-FR	2A001	AFA	20167	AFA	\N	0101000020E610000095AE4A62B9982140A4FFA91C01FE4440
-FR	2A103	CUTTOLI CORTICCHIATO	20167	CUTTOLI CORTICCHIATO	\N	0101000020E61000003C4F8352A4C42140BC8BFA9B05FD4440
-FR	2A200	PALNECA	20134	PALNECA	\N	0101000020E6100000B77806EFD26022409E496794F1FE4440
-FR	2A249	PROPRIANO	20110	PROPRIANO	\N	0101000020E610000040F3CD5E9EC921402B69A2DF40D34440
-FR	2A270	SARI D'ORCINO	20151	SARI D ORCINO	\N	0101000020E61000001E79F204E4AA2140D43C44BE4B084540
-FR	2A276	SERRA DI FERRO	20140	SERRA DI FERRO	\N	0101000020E610000094B89B1001A021406E9E6DA4DADE4440
-FR	2A336	VALLE DI MEZZANA	20167	VALLE DI MEZZANA	\N	0101000020E6100000DECA8D3F9CA321400A24E8F403034540
-FR	2A345	VERO	20172	VERO	\N	0101000020E6100000A13F7EF5F8D7214076A58EDAD0074540
-FR	2B037	BIGUGLIA	20620	BIGUGLIA	\N	0101000020E6100000615DB50287E1224084D684EAE64E4540
-FR	2B101	CROCE	20237	CROCE	\N	0101000020E610000090B096D1F1B622401156DB3C32344540
-FR	2B147	LOZZI	20224	LOZZI	\N	0101000020E6100000FBC9D711ECF521404115E493682E4540
-FR	2B150	LUMIO	20260	LUMIO	\N	0101000020E61000005205C474C9A6214081FA71E03E4A4540
-FR	2B152	LURI	20228	LURI	\N	0101000020E6100000BF49A1BEDBD1224012848B5B5C724540
-FR	2B164	MONACIA D'OREZZA	20229	MONACIA D OREZZA	\N	0101000020E61000008442338F5FCF2240FF74D515D2304540
-FR	2B179	NOVALE	20234	NOVALE	\N	0101000020E610000033DFFF6260D2224082F7F54604274540
-FR	2B205	PATRIMONIO	20253	PATRIMONIO	\N	0101000020E6100000C44D29D2EDBB22404D87BDB5745A4540
-FR	2B206	PENTA ACQUATELLA	20290	PENTA ACQUATELLA	\N	0101000020E61000000B1A97A588BE22402D2EA9B1583B4540
-FR	2B261	ROGLIANO	20248	ROGLIANO	MACINAGGIO	0101000020E61000005D6B3BCCCDD9224041D0012D6C7C4540
-FR	2B315	SANTO PIETRO DI VENACO	20250	SANTO PIETRO DI VENACO	\N	0101000020E6100000C8DCB95AF85422407A59B0E0601F4540
-FR	49057	CERNUSSON	49310	CERNUSSON	\N	0101000020E61000008063E2CFF5DBDEBF596C91407C954740
-FR	49069	OREE D'ANJOU	49530	OREE D ANJOU	BOUZILLE	0101000020E61000008FBC4C9B272BF4BF1F8137D433A94740
-FR	49076	LA CHAPELLE ST LAUD	49140	LA CHAPELLE ST LAUD	\N	0101000020E61000006A6AE75D9615D3BFCEB4695A95CE4740
-FR	49127	DURTAL	49430	DURTAL	\N	0101000020E610000015EEC1BF804BD0BF33299764CAD64740
-FR	49135	FENEU	49460	FENEU	\N	0101000020E61000003D21653C033AE3BF969C052CC1CA4740
-FR	49200	LONGUENEE EN ANJOU	49770	LONGUENEE EN ANJOU	LE PLESSIS MACE	0101000020E6100000A8237F53F9DEE5BF2A148A31C7C74740
-FR	49226	NOELLET	49520	NOELLET	\N	0101000020E6100000F5E647B98B6FF1BF5892D762D2D84740
-FR	49244	MAUGES SUR LOIRE	49620	MAUGES SUR LOIRE	LA POMMERAYE	0101000020E6100000F2411F2461D0EBBF90E22CC5E6AB4740
-FR	49299	ST LEGER SOUS CHOLET	49280	ST LEGER SOUS CHOLET	\N	0101000020E61000001EF586A827EFECBFACD1ECAF178D4740
-FR	49326	SARRIGNE	49800	SARRIGNE	\N	0101000020E61000008E8E1422EDB0D8BF2A46381251C04740
-FR	49328	SAUMUR	49400	SAUMUR	DAMPIERRE SUR LOIRE	0101000020E610000070EA7BC92D42B5BF5E35E8AE39A24740
-FR	49329	SAVENNIERES	49170	SAVENNIERES	\N	0101000020E61000003E0ACF2F5759E5BF54B06868F3B34740
-FR	50003	AGON COUTAINVILLE	50230	AGON COUTAINVILLE	\N	0101000020E6100000FF6D860E9A4DF9BF8C207378F8844840
-FR	50039	BEAUCOUDRAY	50420	BEAUCOUDRAY	\N	0101000020E61000005CBD73232B47F2BF445B68C30E7B4840
-FR	50094	CAMPROND	50210	CAMPROND	\N	0101000020E610000008BE1D2A006BF5BFE25DCA92FB8A4840
-FR	50115	LE GRIPPON	50320	LE GRIPPON	LES CHAMBRES	0101000020E610000045665681666AF6BF5C7BBBB6D2624840
-FR	50166	DOVILLE	50250	DOVILLE	\N	0101000020E61000002D705BE185C5F8BFC9EBDC8B23AB4840
-FR	50257	JOBOURG	50440	JOBOURG	\N	0101000020E6100000D405E31725A1FEBF759BF70D21D74840
-FR	50259	JUILLEY	50220	JUILLEY	\N	0101000020E61000008F48A3F6808EF5BF5614DDA1A24B4840
-FR	50272	LINGREVILLE	50660	LINGREVILLE	\N	0101000020E610000090AF8CDCF374F8BF2A070D9EBD784840
-FR	50376	NICORPS	50200	NICORPS	\N	0101000020E6100000998901AC1292F6BFCEC4E79B03844840
-FR	50488	ST JEAN DE DAYE	50620	ST JEAN DE DAYE	\N	0101000020E6100000B16C8F0C4A2EF2BFA6C49499A99D4840
-FR	50498	ST JOSEPH	50700	ST JOSEPH	\N	0101000020E61000002334C1666860F8BFF321ACAE11C44840
-FR	50511	ST MARTIN D'AUDOUVILLE	50310	ST MARTIN D AUDOUVILLE	\N	0101000020E61000008620C22451E9F5BFCDD89690B6C34840
-FR	50516	ST MARTIN DES CHAMPS	50300	ST MARTIN DES CHAMPS	\N	0101000020E6100000CC4B42457C63F5BFF187B7775A554840
-FR	50540	ST PIERRE LANGERS	50530	ST PIERRE LANGERS	\N	0101000020E6100000DFE5EBAD13D2F7BF193F584064644840
-FR	50563	ST VIGOR DES MONTS	50420	ST VIGOR DES MONTS	\N	0101000020E6100000BFFE8F473CE8F0BFADB68C2370744840
-FR	50593	TEURTHEVILLE BOCAGE	50630	TEURTHEVILLE BOCAGE	\N	0101000020E6100000CEC4160F0151F6BFDA08E241D5CB4840
-FR	50629	VESLY	50430	VESLY	GERVILLE LA FORET	0101000020E61000002F33ECD958D7F7BFA79FDA5A8B9F4840
-FR	51005	ALLEMANT	51120	ALLEMANT	\N	0101000020E6100000C2B4B5E735870E40758940F779614840
-FR	51031	BACONNES	51400	BACONNES	\N	0101000020E610000009B034DE895A11407E5CBEDD09954840
-FR	51036	BARBONNE FAYEL	51120	BARBONNE FAYEL	\N	0101000020E610000037577974B6800D406A3276D1B6534840
-FR	51057	BETTANCOURT LA LONGUE	51330	BETTANCOURT LA LONGUE	\N	0101000020E61000001F3791BD2989134046C0B6B8856A4840
-FR	51097	BUSSY LE CHATEAU	51600	BUSSY LE CHATEAU	\N	0101000020E6100000DA4CDD800021124043B0DBBC99874840
-FR	51102	CAUROY LES HERMONVILLE	51220	CAUROY LES HERMONVILLE	\N	0101000020E61000009B4D0C1AFB6C0F40D9A7C26C99AD4840
-FR	51105	CERNAY LES REIMS	51420	CERNAY LES REIMS	\N	0101000020E61000002F8AE17E737010401C9D70407DA04840
-FR	51132	LES CHARMONTOIS	51330	LES CHARMONTOIS	\N	0101000020E61000003949495334FD134044DEFD308C7B4840
-FR	51139	CHAUDEFONTAINE	51800	CHAUDEFONTAINE	\N	0101000020E6100000BE8C5A32507B13401A86805DDC8C4840
-FR	51151	CHICHEY	51120	CHICHEY	\N	0101000020E61000001A896775D5080E402A4DEACE6A574840
-FR	51170	CORFELIX	51210	CORFELIX	\N	0101000020E6100000BFB832FDE5930D40C2371D1D686A4840
-FR	51274	GIZAUCOURT	51800	GIZAUCOURT	\N	0101000020E610000036971C47A71F1340B90583D640874840
-FR	51311	JUSSECOURT MINECOURT	51340	JUSSECOURT MINECOURT	\N	0101000020E610000039541946981F1340DBEC4C4073654840
-FR	51348	MARFAUX	51170	MARFAUX	\N	0101000020E6100000802BF23825340F4017ED0695A5954840
-FR	51355	MASSIGES	51800	MASSIGES	\N	0101000020E61000001AAE0BB21CF41240F677EDCCC8984840
-FR	51379	MONTIGNY SUR VESLE	51140	MONTIGNY SUR VESLE	\N	0101000020E61000005926ED7F46690E40B9BA877725A84840
-FR	51409	NUISEMENT SUR COOLE	51240	NUISEMENT SUR COOLE	\N	0101000020E61000009BFE1D90382311408A384E67966F4840
-FR	51414	OLIZY	51700	OLIZY	\N	0101000020E6100000C3A7DE1753120E4089784849B8924840
+91121_91720_BUNOBO_	FR	40004	BUNO BONNEVAUX	91720	BUNO BONNEVAUX	\N	0101000020E6100000D4CA4904754103408BC19131AF2D4840
+91122_91440_BURESS_	FR	91122	BURES SUR YVETTE	91440	BURES SUR YVETTE	\N	0101000020E6100000E762A65460440140BCB37F28B4584840
+91248_91150_LAFORE_	FR	91248	LA FORET STE CROIX	91150	LA FORET STE CROIX	\N	0101000020E6100000FED1B38F22D80140D21A648A29314840
+91340_91090_LISSES_	FR	91340	LISSES	91090	LISSES	\N	0101000020E610000048E1E15DC4650340AD1863A55F4C4840
+91521_91130_RISORA_	FR	91521	RIS ORANGIS	91130	RIS ORANGIS	\N	0101000020E61000005A9AB91D74430340F81DDAB695524840
+91639_91820_VAYRES_	FR	91639	VAYRES SUR ESSONNE	91820	VAYRES SUR ESSONNE	\N	0101000020E6100000EA05DFCEF9C30240BE326A1C3C374840
+91665_91620_LAVILL_	FR	91665	LA VILLE DU BOIS	91620	LA VILLE DU BOIS	\N	0101000020E610000056A5E84ECA1E0240F3E371499C544840
+91671_91580_VILLEN_	FR	91671	VILLENEUVE SUR AUVERS	91580	VILLENEUVE SUR AUVERS	\N	0101000020E6100000C5E341D97F080240298F888FCA3B4840
+91685_91700_VILLIE_	FR	91685	VILLIERS SUR ORGE	91700	VILLIERS SUR ORGE	\N	0101000020E6100000FB07A9E3606502408FA5201B47544840
+92009_92270_BOISCO_	FR	92009	BOIS COLOMBES	92270	BOIS COLOMBES	\N	0101000020E610000022B8CB059B2302403CE5F5C129754840
+92012_92100_BOULOG_	FR	92012	BOULOGNE BILLANCOURT	92100	BOULOGNE BILLANCOURT	\N	0101000020E610000089B35621C0E901400E0FDE31156B4840
+92035_92250_LAGARE_	FR	92035	LA GARENNE COLOMBES	92250	LA GARENNE COLOMBES	\N	0101000020E61000008A07C4FB08F501400049FDA210744840
+93013_93350_LEBOUR_	FR	93013	LE BOURGET	93350	LE BOURGET	\N	0101000020E61000003161BA4E1D6D0340CF1CD9E6D4774840
+93015_93470_COUBRO_	FR	93015	COUBRON	93470	COUBRON	\N	0101000020E61000001AE2BDA1499C0440D1FD889E75754840
+93074_93410_VAUJOU_	FR	93074	VAUJOURS	93410	VAUJOURS	\N	0101000020E61000005A14F6ACE4A504403B0E356A5B774840
+94042_94340_JOINVI_	FR	94042	JOINVILLE LE PONT	94340	JOINVILLE LE PONT	\N	0101000020E6100000C0745A2C7BC303404153A80FE1684840
+95040_95450_AVERNE_	FR	95040	AVERNES	95450	AVERNES	\N	0101000020E61000003821D17BAEEBFD3FDB430DAA5E8B4840
+95055_95270_BELLEF_	FR	95055	BELLEFONTAINE	95270	BELLEFONTAINE	\N	0101000020E610000094D3A7B3A7C10340562BCB83D88B4840
+95480_95620_PARMAI_	FR	95480	PARMAIN	95620	PARMAIN	\N	0101000020E61000007895B094379C0140B0FA7F33BA8F4840
+97109_97113_GOURBE_	FR	97109	GOURBEYRE	97113	GOURBEYRE	\N	0101000020E610000076E75A8ADCD74EC011EEF7C7E0FC2F40
+97133_97141_VIEUXF_	FR	97133	VIEUX FORT	97141	VIEUX FORT	\N	0101000020E61000000D822103E6D84EC0DEDD6153A2EB2F40
+97209_97200_FORTDE_	FR	97209	FORT DE FRANCE	97200	FORT DE FRANCE	\N	0101000020E61000008FC5C32EDB884EC081552EC23F482D40
+97223_97270_STESPR_	FR	97223	ST ESPRIT	97270	ST ESPRIT	\N	0101000020E61000004A836239F7754EC05396E674271E2D40
+97309_97354_REMIRE_	FR	97309	REMIRE MONTJOLY	97354	REMIRE MONTJOLY	\N	0101000020E6100000E5A6B509B1234AC0FF5C5AA098891340
+97412_97480_STJOSE_	FR	97412	ST JOSEPH	97480	ST JOSEPH	\N	0101000020E6100000930E384E2FD24B40AE3BC0486D4E35C0
+97415_97434_STPAUL_LASALINELESB	FR	97415	ST PAUL	97434	ST PAUL	LA SALINE LES BAINS	0101000020E610000002B3C93842A94B402455D36E660B35C0
+97417_97442_STPHIL_BASSEVALLEE	FR	97417	ST PHILIPPE	97442	ST PHILIPPE	BASSE VALLEE	0101000020E610000080EFEE746BDF4B407419AEFAD24D35C0
+97418_97438_STEMAR_	FR	97418	STE MARIE	97438	STE MARIE	\N	0101000020E610000067341DB1E2C34B406F94EA7272F234C0
+97418_97438_STEMAR_LAGRANDEMONT	FR	97418	STE MARIE	97438	STE MARIE	LA GRANDE MONTEE	0101000020E610000067341DB1E2C34B406F94EA7272F234C0
+98711_98786_HITIAN_ANAA	FR	98711	ANAA	98786	HITIANAU	ANAA	\N
+98713_98761_RAUTIN_ARUTUA	FR	98713	ARUTUA	98761	RAUTINI	ARUTUA	\N
+98726_98790_HITI_MAKEMO	FR	98726	MAKEMO	98790	HITI	MAKEMO	\N
+98745_98733_PATIO_TAHAA	FR	98745	TAHAA	98733	PATIO	TAHAA	\N
+98750_98735_OPOA_TAPUTAPUATEA	FR	98750	TAPUTAPUATEA	98735	OPOA	TAPUTAPUATEA	\N
+2A001_20167_AFA_	FR	2A001	AFA	20167	AFA	\N	0101000020E610000095AE4A62B9982140A4FFA91C01FE4440
+2A103_20167_CUTTOL_	FR	2A103	CUTTOLI CORTICCHIATO	20167	CUTTOLI CORTICCHIATO	\N	0101000020E61000003C4F8352A4C42140BC8BFA9B05FD4440
+2A200_20134_PALNEC_	FR	2A200	PALNECA	20134	PALNECA	\N	0101000020E6100000B77806EFD26022409E496794F1FE4440
+2A249_20110_PROPRI_	FR	2A249	PROPRIANO	20110	PROPRIANO	\N	0101000020E610000040F3CD5E9EC921402B69A2DF40D34440
+2A270_20151_SARIDO_	FR	2A270	SARI D'ORCINO	20151	SARI D ORCINO	\N	0101000020E61000001E79F204E4AA2140D43C44BE4B084540
+2A276_20140_SERRAD_	FR	2A276	SERRA DI FERRO	20140	SERRA DI FERRO	\N	0101000020E610000094B89B1001A021406E9E6DA4DADE4440
+2A336_20167_VALLED_	FR	2A336	VALLE DI MEZZANA	20167	VALLE DI MEZZANA	\N	0101000020E6100000DECA8D3F9CA321400A24E8F403034540
+2A345_20172_VERO_	FR	2A345	VERO	20172	VERO	\N	0101000020E6100000A13F7EF5F8D7214076A58EDAD0074540
+2B037_20620_BIGUGL_	FR	2B037	BIGUGLIA	20620	BIGUGLIA	\N	0101000020E6100000615DB50287E1224084D684EAE64E4540
+2B101_20237_CROCE_	FR	2B101	CROCE	20237	CROCE	\N	0101000020E610000090B096D1F1B622401156DB3C32344540
+2B147_20224_LOZZI_	FR	2B147	LOZZI	20224	LOZZI	\N	0101000020E6100000FBC9D711ECF521404115E493682E4540
+2B150_20260_LUMIO_	FR	2B150	LUMIO	20260	LUMIO	\N	0101000020E61000005205C474C9A6214081FA71E03E4A4540
+2B152_20228_LURI_	FR	2B152	LURI	20228	LURI	\N	0101000020E6100000BF49A1BEDBD1224012848B5B5C724540
+2B164_20229_MONACI_	FR	2B164	MONACIA D'OREZZA	20229	MONACIA D OREZZA	\N	0101000020E61000008442338F5FCF2240FF74D515D2304540
+2B179_20234_NOVALE_	FR	2B179	NOVALE	20234	NOVALE	\N	0101000020E610000033DFFF6260D2224082F7F54604274540
+2B205_20253_PATRIM_	FR	2B205	PATRIMONIO	20253	PATRIMONIO	\N	0101000020E6100000C44D29D2EDBB22404D87BDB5745A4540
+2B206_20290_PENTAA_	FR	2B206	PENTA ACQUATELLA	20290	PENTA ACQUATELLA	\N	0101000020E61000000B1A97A588BE22402D2EA9B1583B4540
+2B261_20248_ROGLIA_MACINAGGIO	FR	2B261	ROGLIANO	20248	ROGLIANO	MACINAGGIO	0101000020E61000005D6B3BCCCDD9224041D0012D6C7C4540
+2B315_20250_SANTOP_	FR	2B315	SANTO PIETRO DI VENACO	20250	SANTO PIETRO DI VENACO	\N	0101000020E6100000C8DCB95AF85422407A59B0E0601F4540
+49057_49310_CERNUS_	FR	49057	CERNUSSON	49310	CERNUSSON	\N	0101000020E61000008063E2CFF5DBDEBF596C91407C954740
+49069_49530_OREEDA_BOUZILLE	FR	49069	OREE D'ANJOU	49530	OREE D ANJOU	BOUZILLE	0101000020E61000008FBC4C9B272BF4BF1F8137D433A94740
+49076_49140_LACHAP_	FR	49076	LA CHAPELLE ST LAUD	49140	LA CHAPELLE ST LAUD	\N	0101000020E61000006A6AE75D9615D3BFCEB4695A95CE4740
+49127_49430_DURTAL_	FR	49127	DURTAL	49430	DURTAL	\N	0101000020E610000015EEC1BF804BD0BF33299764CAD64740
+49135_49460_FENEU_	FR	49135	FENEU	49460	FENEU	\N	0101000020E61000003D21653C033AE3BF969C052CC1CA4740
+49200_49770_LONGUE_LEPLESSISMAC	FR	49200	LONGUENEE EN ANJOU	49770	LONGUENEE EN ANJOU	LE PLESSIS MACE	0101000020E6100000A8237F53F9DEE5BF2A148A31C7C74740
+49226_49520_NOELLE_	FR	49226	NOELLET	49520	NOELLET	\N	0101000020E6100000F5E647B98B6FF1BF5892D762D2D84740
+49244_49620_MAUGES_LAPOMMERAYE	FR	49244	MAUGES SUR LOIRE	49620	MAUGES SUR LOIRE	LA POMMERAYE	0101000020E6100000F2411F2461D0EBBF90E22CC5E6AB4740
+49299_49280_STLEGE_	FR	49299	ST LEGER SOUS CHOLET	49280	ST LEGER SOUS CHOLET	\N	0101000020E61000001EF586A827EFECBFACD1ECAF178D4740
+49326_49800_SARRIG_	FR	49326	SARRIGNE	49800	SARRIGNE	\N	0101000020E61000008E8E1422EDB0D8BF2A46381251C04740
+49328_49400_SAUMUR_DAMPIERRESUR	FR	49328	SAUMUR	49400	SAUMUR	DAMPIERRE SUR LOIRE	0101000020E610000070EA7BC92D42B5BF5E35E8AE39A24740
+49329_49170_SAVENN_	FR	49329	SAVENNIERES	49170	SAVENNIERES	\N	0101000020E61000003E0ACF2F5759E5BF54B06868F3B34740
+50003_50230_AGONCO_	FR	50003	AGON COUTAINVILLE	50230	AGON COUTAINVILLE	\N	0101000020E6100000FF6D860E9A4DF9BF8C207378F8844840
+50039_50420_BEAUCO_	FR	50039	BEAUCOUDRAY	50420	BEAUCOUDRAY	\N	0101000020E61000005CBD73232B47F2BF445B68C30E7B4840
+50094_50210_CAMPRO_	FR	50094	CAMPROND	50210	CAMPROND	\N	0101000020E610000008BE1D2A006BF5BFE25DCA92FB8A4840
+50115_50320_LEGRIP_LESCHAMBRES	FR	50115	LE GRIPPON	50320	LE GRIPPON	LES CHAMBRES	0101000020E610000045665681666AF6BF5C7BBBB6D2624840
+50166_50250_DOVILL_	FR	50166	DOVILLE	50250	DOVILLE	\N	0101000020E61000002D705BE185C5F8BFC9EBDC8B23AB4840
+50257_50440_JOBOUR_	FR	50257	JOBOURG	50440	JOBOURG	\N	0101000020E6100000D405E31725A1FEBF759BF70D21D74840
+50259_50220_JUILLE_	FR	50259	JUILLEY	50220	JUILLEY	\N	0101000020E61000008F48A3F6808EF5BF5614DDA1A24B4840
+50272_50660_LINGRE_	FR	50272	LINGREVILLE	50660	LINGREVILLE	\N	0101000020E610000090AF8CDCF374F8BF2A070D9EBD784840
+50376_50200_NICORP_	FR	50376	NICORPS	50200	NICORPS	\N	0101000020E6100000998901AC1292F6BFCEC4E79B03844840
+50488_50620_STJEAN_	FR	50488	ST JEAN DE DAYE	50620	ST JEAN DE DAYE	\N	0101000020E6100000B16C8F0C4A2EF2BFA6C49499A99D4840
+50498_50700_STJOSE_	FR	50498	ST JOSEPH	50700	ST JOSEPH	\N	0101000020E61000002334C1666860F8BFF321ACAE11C44840
+50511_50310_STMART_	FR	50511	ST MARTIN D'AUDOUVILLE	50310	ST MARTIN D AUDOUVILLE	\N	0101000020E61000008620C22451E9F5BFCDD89690B6C34840
+50516_50300_STMART_	FR	50516	ST MARTIN DES CHAMPS	50300	ST MARTIN DES CHAMPS	\N	0101000020E6100000CC4B42457C63F5BFF187B7775A554840
+50540_50530_STPIER_	FR	50540	ST PIERRE LANGERS	50530	ST PIERRE LANGERS	\N	0101000020E6100000DFE5EBAD13D2F7BF193F584064644840
+50563_50420_STVIGO_	FR	50563	ST VIGOR DES MONTS	50420	ST VIGOR DES MONTS	\N	0101000020E6100000BFFE8F473CE8F0BFADB68C2370744840
+50593_50630_TEURTH_	FR	50593	TEURTHEVILLE BOCAGE	50630	TEURTHEVILLE BOCAGE	\N	0101000020E6100000CEC4160F0151F6BFDA08E241D5CB4840
+50629_50430_VESLY_GERVILLELAFO	FR	50629	VESLY	50430	VESLY	GERVILLE LA FORET	0101000020E61000002F33ECD958D7F7BFA79FDA5A8B9F4840
+51005_51120_ALLEMA_	FR	51005	ALLEMANT	51120	ALLEMANT	\N	0101000020E6100000C2B4B5E735870E40758940F779614840
+51031_51400_BACONN_	FR	51031	BACONNES	51400	BACONNES	\N	0101000020E610000009B034DE895A11407E5CBEDD09954840
+51036_51120_BARBON_	FR	51036	BARBONNE FAYEL	51120	BARBONNE FAYEL	\N	0101000020E610000037577974B6800D406A3276D1B6534840
+51057_51330_BETTAN_	FR	51057	BETTANCOURT LA LONGUE	51330	BETTANCOURT LA LONGUE	\N	0101000020E61000001F3791BD2989134046C0B6B8856A4840
+51097_51600_BUSSYL_	FR	51097	BUSSY LE CHATEAU	51600	BUSSY LE CHATEAU	\N	0101000020E6100000DA4CDD800021124043B0DBBC99874840
+51102_51220_CAUROY_	FR	51102	CAUROY LES HERMONVILLE	51220	CAUROY LES HERMONVILLE	\N	0101000020E61000009B4D0C1AFB6C0F40D9A7C26C99AD4840
+51105_51420_CERNAY_	FR	51105	CERNAY LES REIMS	51420	CERNAY LES REIMS	\N	0101000020E61000002F8AE17E737010401C9D70407DA04840
+51132_51330_LESCHA_	FR	51132	LES CHARMONTOIS	51330	LES CHARMONTOIS	\N	0101000020E61000003949495334FD134044DEFD308C7B4840
+51139_51800_CHAUDE_	FR	51139	CHAUDEFONTAINE	51800	CHAUDEFONTAINE	\N	0101000020E6100000BE8C5A32507B13401A86805DDC8C4840
+51151_51120_CHICHE_	FR	51151	CHICHEY	51120	CHICHEY	\N	0101000020E61000001A896775D5080E402A4DEACE6A574840
+51170_51210_CORFEL_	FR	51170	CORFELIX	51210	CORFELIX	\N	0101000020E6100000BFB832FDE5930D40C2371D1D686A4840
+51274_51800_GIZAUC_	FR	51274	GIZAUCOURT	51800	GIZAUCOURT	\N	0101000020E610000036971C47A71F1340B90583D640874840
+51311_51340_JUSSEC_	FR	51311	JUSSECOURT MINECOURT	51340	JUSSECOURT MINECOURT	\N	0101000020E610000039541946981F1340DBEC4C4073654840
+51348_51170_MARFAU_	FR	51348	MARFAUX	51170	MARFAUX	\N	0101000020E6100000802BF23825340F4017ED0695A5954840
+51355_51800_MASSIG_	FR	51355	MASSIGES	51800	MASSIGES	\N	0101000020E61000001AAE0BB21CF41240F677EDCCC8984840
+51379_51140_MONTIG_	FR	51379	MONTIGNY SUR VESLE	51140	MONTIGNY SUR VESLE	\N	0101000020E61000005926ED7F46690E40B9BA877725A84840
+51409_51240_NUISEM_	FR	51409	NUISEMENT SUR COOLE	51240	NUISEMENT SUR COOLE	\N	0101000020E61000009BFE1D90382311408A384E67966F4840
+51414_51700_OLIZY_	FR	51414	OLIZY	51700	OLIZY	\N	0101000020E6100000C3A7DE1753120E4089784849B8924840
+\.
+
+COPY lexicon.ephy_cropsets (id, name, label, crop_names, crop_labels, record_checksum) FROM stdin;
+3	ephy_artichoke	{"fra": "Artichaut"}	{cynara_scolymus}	{"fra": "Artichaut, cardon"}	-457872021
+1	ephy_citrus	{"fra": "Agrumes"}	{citrus,poncirus}	{"fra": "Oranger, citronnier, pamplemoussier, mandarinier, clémentinier, limettes et autres agrumes"}	-2113121812
+2	ephy_trees_and_shrubs	{"fra": "Arbres et arbustes"}	{acer,alnus,cercis,fraxinus,hevea,koelreuteria,robinia,salix,sambucus,rosa,castanea,ceratonia,citrus,corylus,cydonia,ficus,fortunella,juglans,malus,morus,musa,olea,prunus,pyrus,ribes,vitellaria,annona,artocarpus,chrysophyllum,mangifera,persea,pouteria,cananga,theobroma,pistacia,actinidia,coffea,crataegus,ligustrum,anacardium,argania_spinosa,berberis,betula,carica,carpinus,cinnamomum,fagus,forsythia,gleditsia,gossypium,laburnum,manilkara_zapota,palaquium,philadelphus,poncirus,psidium,quercus,tieghemella,tilia,vasconcellea_pubescens,vitex,weigela}	{"fra": "Toutes espèces ligneuses de feuillus et résineux produites en pépinières ornementales et forestières, peupleraies, oseraies, palmeraies, plantations de sapins de Noël, vergers à graines, suberaies cultivées, truffières artificielles, boisement de terrains agricoles, taillis à courte et à très courte révolution"}	-2126857547
+4	ephy_wheat	{"fra": "Blé"}	{triticum,triticosecale}	{"fra": "Blé, triticale, épeautre"}	1423631094
+5	ephy_ornamental_bulbs	{"fra": "Bulbes ornementaux"}	{plant}	{"fra": "Toutes espèces de plantes ornementales à bulbes, à rhizomes ou à tubercules"}	1862210495
+6	ephy_carrot	{"fra": "Carotte"}	{daucus,apium_graveolens_rapaceum,pastinaca_sativa,armoracia_rusticana,helianthus_tuberosus,stachys_affinis,petroselinum_crispum_tuberosum,chaerophyllum_bulbosum,tragopogon}	{"fra": "Carotte, céleri rave, panais, raifort, topinambour et crosne, persil à grosse racine et cerfeuil tubéreux, salsifis"}	681772233
+7	ephy_blackcurrant	{"fra": "Cassissier"}	{ribes,vaccinium,sambucus_nigra,morus,vaccinium,rosa,crataegus_azarolus}	{"fra": "Cassissier, myrtillier, groseillier, sureau noir, mûre (Morus sp.), airelle, cynhorodon, azerolier"}	-152429739
+8	ephy_celery_branch	{"fra": "Céleri branche"}	{apium_graveolens_dulce,foeniculum,rheum}	{"fra": "Céleri branche, fenouil, rhubarbe"}	1372537450
+9	ephy_celery	{"fra": "Céleris"}	{apium_graveolens_dulce,apium_graveolens_rapaceum}	{"fra": "Céleri branche, céleri rave"}	-711638082
+10	ephy_cereal	{"fra": "Céréales"}	{zea_mays,panicum_miliaceum,setaria_italica,sorghum,oryza,avena,triticum,hordeum,secale_cereale,fagopyrum}	{"fra": "Avoine, blé, orge, seigle, sarrasin, maïs, millet, moha, sorgho, riz"}	2112037670
+11	ephy_straw_cereals	{"fra": "Céréales à pailles"}	{avena,triticum,hordeum,secale_cereale,fagopyrum}	{"fra": "Avoine, blé, orge, seigle, sarrasin"}	-2122812950
+12	ephy_fungus	{"fra": "Champignons"}	{uncinula,fomitiporia,plasmopara,saccharomyces,botrytis}	{"fra": "Champignons de couche, champignons sauvages"}	-540544795
+13	ephy_chicory_endives	{"fra": "Chicorées - production de chicons"}	{taraxacum,cichorium}	{"fra": "Endive, barbe de capucin, pissenlit"}	-1958247006
+14	ephy_chicory_roots	{"fra": "Chicorées - production de racines"}	{cichorium}	{"fra": "Toutes racines de chicorées"}	-524544097
+15	ephy_cabbages	{"fra": "Choux"}	{brassica_oleracea_gongylodes,brassica_oleracea_botrytis,brassica_oleracea_italica,brassica_oleracea_viridis,brassica_oleracea_acephala,brassica_oleracea_medullosa,brassica_rapa_pekinensis,brassica_oleracea_capitata,brassica_oleracea_gemmifera}	{"fra": "Choux à inflorescence, choux feuillus, choux pommés, choux-rave"}	-907554257
+16	ephy_inflorescence_cabbages	{"fra": "Choux à inflorescence"}	{brassica_oleracea_botrytis,brassica_oleracea_italica}	{"fra": "Chou-fleur, brocoli et autres choux à inflorescence"}	840752772
+17	ephy_leafy_cabbages	{"fra": "Choux feuillus"}	{brassica_oleracea_viridis,brassica_oleracea_acephala,brassica_oleracea_medullosa,brassica_rapa_pekinensis}	{"fra": "Choux verts (type non pommés), choux chinois et autres choux feuillus"}	-374394074
+18	ephy_headed_cabbages	{"fra": "Choux pommés"}	{brassica_oleracea_capitata,brassica_oleracea_gemmifera}	{"fra": "Choux pommés, choux de Bruxelles et autres choux pommés"}	-415849264
+19	ephy_cucumber	{"fra": "Concombre"}	{cucumis_sativus,cucurbita_pepo_pepo,cucumis_anguria}	{"fra": "Concombre, courgette, cornichon et autres cucurbitacées à peau comestible"}	-721813725
+20	ephy_soursop	{"fra": "Corossol"}	{annona_cherimola}	{"fra": "Corossol, cherimole, fruit de l arbre à pain"}	2085429829
+21	ephy_oilseed_crucifers	{"fra": "Crucifères oléagineuses"}	{brassica_napus,camelina_sativa,brassica_nigra,brassica_rapa_oleifera,cannabis,borago,linum}	{"fra": "Colza, cameline, moutarde, navette, chanvre, bourrache, sésame, lin oléagineux, lin fibre"}	55997914
+22	ephy_floral_crops_and_green_plants	{"fra": "Cultures florales et plantes vertes"}	{rosa,hibiscus,viburnum,viola,centaurea_cyanus,passiflora,bellis,forsythia,geranium,humulus,lavandula,philadelphus,spiraea}	{"fra": "Toutes espèces de plantes florales et de plantes vertes : potées fleuries, plantes à massifs, vivaces, fleurs et feuillages coupés, jeunes plants et boutures, y compris les espèces de plantes géophytes à bulbes, rhizomes ou tubercules ornementaux (pendant leur phase végétative)"}	-2006482234
+23	ephy_fruit_crops	{"fra": "Cultures fruitières"}	{castanea,ceratonia,citrus,corylus,cydonia,ficus,fortunella,juglans,malus,morus,musa,olea,prunus,pyrus,ribes,vitellaria,annona,artocarpus,chrysophyllum,mangifera,persea,pouteria,citrullus_colocynthis,citrullus_lanatus,cucumis_melo,fragaria,pistacia,actinidia,ananas,cucumis_metuliferus,hippophae,solanum_muricatum,vitis,carica,dimocarpus_longan,manilkara_zapota,poncirus,psidium,solanum_quitoense,vasconcellea_pubescens}	{"fra": "Toutes cultures fruitières et petits fruits (cassissier, myrtillier, groseillier, sureau noir, airelle, cynhorodon, azerolier, framboisier, mûre, mûre des haies)"}	-1309718315
+24	ephy_vegetable_crops	{"fra": "Cultures légumières"}	{apium,arctium,asparagus,beta_vulgaris,brassica_oleracea,brassica_rapa,cucumis_sativus,cucurbita,cynara_scolymus,daucus_carota,dioscorea,manihot,ipomoea_batatas,foeniculum,lactuca,pastinaca_sativa,phaseolus_vulgaris,pisum_sativum,raphanus_sativus,solanum_lycopersicum,solanum_melongena,solanum_torvum,solanum_tuberosum,spinacia_oleracea,valerianella_locusta,solanum_torvum,crambe_maritima,lathyrus_sativus}	{"fra": "Toutes cultures légumières"}	179267868
+25	ephy_ornamental_crops	{"fra": "Cultures ornementales"}	{acer,alnus,cercis,fraxinus,hevea,koelreuteria,robinia,salix,sambucus,rosa,castanea,ceratonia,citrus,corylus,cydonia,ficus,fortunella,juglans,malus,morus,musa,olea,prunus,pyrus,ribes,vitellaria,annona,artocarpus,chrysophyllum,mangifera,persea,pouteria,cananga,theobroma,pistacia,actinidia,coffea,crataegus,ligustrum,anacardium,argania_spinosa,berberis,betula,carica,carpinus,cinnamomum,fagus,forsythia,gleditsia,gossypium,laburnum,manilkara_zapota,palaquium,philadelphus,poncirus,psidium,quercus,tieghemella,tilia,vasconcellea_pubescens,vitex,weigela,hibiscus,viburnum,viola,centaurea_cyanus,passiflora,bellis,geranium,humulus,lavandula,spiraea,carum_carvi,anethum,anthriscus,artemisia,coriandrum,curcuma,ocimum,origanum,petroselinum,salvia,vanilla,brassica_nigra,allium_schoenoprasum,thymus,satureja,mentha,arctium,crocus_sativus,capsicum_baccatum,lepidium_sativum,malva_sylvestris,rumex,silybum,origanum,hypericum,nicotiana,valeriana}	{"fra": "Arbres et arbustes, rosier, cultures florales et plantes vertes, bulbes ornementaux"}	-1925156313
+26	ephy_tropical_crops	{"fra": "Cultures tropicales"}	{annona,artocarpus,chrysophyllum,mangifera,persea,pouteria,theobroma,vanilla,citrullus_colocynthis,actinidia,ananas,dioscorea,manihot,ipomoea_batatas,coffea,cucumis_metuliferus,saccharum_officinarum,anacardium,carica,manilkara_zapota,psidium,tieghemella,vasconcellea_pubescens}	{"fra": "Toutes cultures tropicales"}	538501000
+27	ephy_spinach	{"fra": "Epinard"}	{spinacia_oleracea,beta_vulgaris}	{"fra": "Epinard, feuilles de bette, pourpier, salicorne"}	760540767
+28	ephy_herbs	{"fra": "Fines herbes"}	{carum_carvi,foeniculum,allium_schoenoprasum,rosa,cananga,anethum,anthriscus,artemisia,coriandrum,curcuma,ocimum,origanum,petroselinum,salvia,vanilla,brassica_nigra,thymus,satureja,mentha,crataegus,centaurea_cyanus,crataegus,lepidium_sativum,malva_sylvestris,silybum,hypericum,nicotiana,passiflora,lavandula,valeriana}	{"fra": "Plantes alliacées dont ciboulette. Plantes apiacées dont aneth, persil, cerfeuil, feuilles de fenouil, angélique, carvi. Plantes astéracées dont estragon, stevia. Plantes lamiacées dont basilic, thym, sauge, sarriette, origan, marjolaine, hysope, menthe. Autres plantes condimentaires, fines herbes consommées fraîches, fleurs comestibles et PPAM non alimentaires"}	-1561021659
+29	ephy_forest	{"fra": "Forêt"}	{acer,alnus,fraxinus,hevea,koelreuteria,robinia,salix,sambucus,betula,carpinus,cinnamomum,fagus,gleditsia,quercus,tieghemella,tilia}	{"fra": "Espèces d arbres feuillus et résineux en peuplements"}	257911741
+30	ephy_raspberry_brush	{"fra": "Framboisier"}	{rubus}	{"fra": "Framboisier, mûres (Rubus sp.), mûres des haies"}	439258896
+31	ephy_passion_fruit	{"fra": "Fruit de la passion"}	{plant}	{"fra": "Fruit de la passion, grenadilles, barbadines"}	-1027517207
+32	ephy_nut	{"fra": "Fruits à coque"}	{prunus_dulcis,juglans,castanea,corylus}	{"fra": "Amandier, noyer, châtaignier, noisetier"}	1707908418
+33	ephy_stone_fruit	{"fra": "Fruits à noyau"}	{prunus}	{"fra": "Pêcher, abricotier, cerisier, prunier, nectarinier, mirabellier"}	880459823
+34	ephy_grasses_turf	{"fra": "Gazons de graminées"}	{dactylis,lolium,festuca,poa}	{"fra": "Toutes espèces de graminées, comme dactyle, fétuque utilisées pour la création de gazons"}	-2015606993
+35	ephy_protein_seeds	{"fra": "Graines protéagineuses"}	{pisum_sativum,vicia_faba,lupinus}	{"fra": "Pois protéagineux, pois fourrager, féveroles, lupin"}	-675748674
+36	ephy_forage_grasses	{"fra": "Graminées fourragères"}	{dactylis,lolium,festuca,bromus,phleum,chloris_gayana,poa}	{"fra": "Toutes espèces de graminées comme ray-grass, fétuque, brome, fléole pour produire du fourrage destiné à l alimentation du bétail"}	-2054268783
+37	ephy_shelled_beans	{"fra": "Haricots écossés (frais)"}	{vicia_faba,vigna_unguiculata}	{"fra": "Pois sabre, flageolet, fève, lima, niébé"}	195602603
+38	ephy_unshelled_beans_and_peas	{"fra": "Haricots et pois non écossés (frais)"}	{phaseolus_vulgaris}	{"fra": "Haricot vert, haricot filet, haricot d Espagne, haricot à couper, dolique, fèves de soja, pois mange-tout"}	153767982
+39	ephy_infusions	{"fra": "Infusions (séchées)"}	{rosa,cananga,hibiscus,thymus,salvia,anethum,ocimum,origanum,petroselinum,mentha,centaurea_cyanus,crataegus,malva_sylvestris,silybum,hypericum,nicotiana,passiflora,lavandula,tilia,valeriana}	{"fra": "Plantes ou parties de plantes à infusion séchées (fleurs, feuilles, racines) ainsi que les PPAM non alimentaires"}	883995916
+40	ephy_lettuce	{"fra": "Laitue"}	{lactuca,cichorium_endivia_latifolium,cichorium_endivia_crispum,valerianella_locusta,eruca_vesicaria}	{"fra": "Laitue, chicorée - scarole, chicorée - frisée, mâche, roquette et autres salades"}	462999587
+41	ephy_root_vegetables_and_tropical_tubers	{"fra": "Légumes racines et tubercules tropicaux"}	{dioscorea,manihot,ipomoea_batatas}	{"fra": "Igname, manioc, patate douce, songe, dachine"}	-1733659534
+42	ephy_fodder_legumes	{"fra": "Légumineuses fourragères"}	{lotus_corniculatus,medicago,onobrychis,trifolium,vicia,melilotus}	{"fra": "Lotier, luzerne, sainfoin, trèfle, vesce"}	1672576334
+43	ephy_legume_vegetables	{"fra": "Légumineuses potagères (sèches)"}	{cicer_arietinum,lens,chenopodium_quinoa}	{"fra": "Fève sèche, haricot sec, pois sec, pois chiche et lentille sèche"}	-758467177
+44	ephy_lychee	{"fra": "Litchi"}	{dimocarpus_longan}	{"fra": "Litchi, ramboutan, longanis"}	1136554231
+45	ephy_corn	{"fra": "Maïs"}	{zea_mays,panicum_miliaceum,miscanthus,panicum,sorghum}	{"fra": "Maïs, millet, moha, miscanthus, panic (dont Switchgrass), sorgho"}	-756673372
+46	ephy_mango_tree	{"fra": "Manguier"}	{anacardiaceae}	{"fra": "Manguier et autres anacardiacées"}	-1734457043
+47	ephy_melon	{"fra": "Melon"}	{cucumis_melo,citrullus,cucurbita,cucumis_metuliferus}	{"fra": "Melon, pastèque, potiron et autres cucurbitacées à peau non comestible"}	-285197453
+48	ephy_turnip	{"fra": "Navet"}	{brassica_rapa_rapa,brassica_napus_rapifera,raphanus_sativus}	{"fra": "Navet, rutabaga, radis"}	-40279790
+49	ephy_onion	{"fra": "Oignon"}	{allium_cepa,allium_sativum,allium_oleraceum,allium_scorodoprasum,allium_tricoccum,allium_triquetrum,allium_ursinum,allium_victorialis,allium_vineale,allium_ascalonicum,allium_triquetrum}	{"fra": "Oignon, ail, échalote et bulbes ornementaux"}	677623868
+50	ephy_poppy	{"fra": "Pavot"}	{papaver,borago,cucurbita,ricinus,rosa,cananga,centaurea_cyanus,crataegus,malva_sylvestris,silybum,hypericum,nicotiana,passiflora,lavandula,valeriana}	{"fra": "Pavot, œillette, bourrache, chènevis, courges à graines, onagre, carthame, sésame, ricin ainsi que les PPAM non alimentaires"}	1316423413
+51	ephy_peach_tree	{"fra": "Pêcher"}	{prunus_persica,prunus_armeniaca}	{"fra": "Pêcher, abricotier, nectarinier"}	-1875683210
+52	ephy_small_fruits	{"fra": "Petits fruits"}	{ribes,vaccinium,sambucus_nigra,morus,vaccinium,rosa,crataegus_azarolus,rubus}	{"fra": "Cassissier, myrtillier, groseillier, sureau noir, airelle, cynhorodon, azerolier, framboisier, mûre, mûre des haies"}	-338460346
+53	ephy_house_and_balcony_plants	{"fra": "Plantes d intérieur et balcons"}	{plant}	{"fra": "Plantes ou parties de plantes en place dans les habitations, locaux de travail ou tous lieux fermés publics ou privés, et sur balcons, vérandas et terrasses directement raccordés aux intérieurs"}	1885939472
+54	ephy_leek	{"fra": "Poireau"}	{allium_porrum,allium_cepa,allium_ampeloprasum}	{"fra": "Poireau, oignon de printemps, ciboule et autres oignons verts"}	-309367489
+55	ephy_pea_without_pods	{"fra": "Pois écossés (frais)"}	{pisum_sativum,lens}	{"fra": "Pois écossé frais et lentille fraîche"}	-1405127891
+56	ephy_pepper	{"fra": "Poivron"}	{capsicum}	{"fra": "Poivron, piment"}	705523124
+57	ephy_apple_tree	{"fra": "Pommier"}	{malus,pyrus,cydonia_oblonga}	{"fra": "Pommier, poirier, cognassier, néflier, nashi, pommette (Malus sylvestris)"}	-1664800223
+58	ephy_seed_pamcp	{"fra": "Porte graine - PPAMC, florales et potagères"}	{plant}	{"fra": "Toute plante destinée à la production de semences de PPAMC, florales ou potagères"}	-1744899220
+59	ephy_pamp	{"fra": "PPAM - non alimentaires"}	{rosa,cananga,centaurea_cyanus,crataegus,malva_sylvestris,silybum,hypericum,nicotiana,passiflora,lavandula,valeriana}	{"fra": "Plantes à parfum, aromatiques et médicinales, non alimentaires"}	667549493
+60	ephy_pamcp	{"fra": "PPAMC"}	{carum_carvi,rosa,cananga,anethum,anthriscus,artemisia,coriandrum,curcuma,ocimum,origanum,petroselinum,salvia,vanilla,brassica_nigra,allium_schoenoprasum,thymus,satureja,mentha,arctium,centaurea_cyanus,crataegus,crocus_sativus,capsicum_baccatum,lepidium_sativum,malva_sylvestris,rumex,silybum,origanum,hypericum,nicotiana,passiflora,lavandula,tilia,valeriana}	{"fra": "Plantes à parfum, aromatiques, médicinales et condimentaires (alimentaires et non alimentaires), épices, fines herbes, infusions séchées, pavot"}	1580590449
+61	ephy_plum_tree	{"fra": "Prunier"}	{prunus}	{"fra": "Prunier, jujubier"}	-230245663
+62	ephy_rosebush	{"fra": "Rosier"}	{rosa}	{"fra": "Toutes espèces et cultivars du genre Rosa : rosiers miniatures en pot, rosiers pour fleurs coupées, rosiers de pépinières y compris les porte-greffes."}	1390906472
+63	ephy_salsify	{"fra": "Salsifis"}	{tragopogon}	{"fra": "Salsifis, scorsonère"}	-1605803195
+64	ephy_soy	{"fra": "Soja"}	{glycine_max,arachis}	{"fra": "Soja, arachide"}	-158384832
+65	ephy_tomato	{"fra": "Tomate"}	{solanum_lycopersicum,solanum_melongena}	{"fra": "Tomate, aubergine"}	235234460
+\.
+
+COPY lexicon.registered_phytosanitary_products (id, reference_name, name, other_name, nature, active_compounds, france_maaid, mix_category_code, in_field_reentry_delay, state, started_on, stopped_on, allowed_mentions, restricted_mentions, operator_protection_mentions, firm_name, product_type, record_checksum) FROM stdin;
+7200298	7200298_extravon	EXTRAVON	AGRAL MAXX | AGRAM MAXX	Adjuv. Fongicide | Adjuv. Insecticide | Adjuv. Herbicide	Octylphenol octaglycol ether 250.0 g/L	7200298	1	24	RETIRE	1972-12-01	2019-04-27	\N	\N	• pendant le mélange/chargement \n- Gants en nitrile certifiés EN 374-3 ; \n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m2 ou plus avec traitement déperlant ; \n- EPI partiel (blouse ou tablier à manches longues) de catégorie III et de type PB (3) à porter par dessus la combinaison précitée ; \n- Lunettes ou écran facial certifié norme EN 166 (CE, sigle 3); \n• pendant l'application - Pulvérisation vers le bas \nSi application avec tracteur avec cabine \n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m2 ou plus avec traitement déperlant ; \n- Gants en nitrile certifiés EN 374-2 à usage unique, dans le cas d'une intervention sur le matériel pendant la phase de pulvérisation. Dans ce cas, les gants ne doivent être portés qu'à l'extérieur de la cabine et doivent être stockés après utilisation à l'extérieur de la cabine ; \nSi application avec tracteur sans cabine \n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m2 ou plus avec traitement déperlant ; \n- Gants en nitrile certifiés EN 374-2 à usage unique, dans le cas d'une intervention sur le matériel pendant la phase de pulvérisation ; \n• pendant le nettoyage du matériel de pulvérisation \n- Gants en nitrile certifiés EN 374-3 ; \n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m2 ou plus avec traitement déperlant ; \n- EPI partiel (blouse ou tablier à manches longues) de catégorie III et de type PB (3) à porter par dessus la combinaison précitée.\n- Lunettes ou écran facial certifié norme EN 166 (CE, sigle 3).	SYNGENTA FRANCE SAS	ADJUVANT	1207320650
+2160478	2160478_slider	SLIDER	\N	Adjuvant	Ammonium sulphate 460.0 g/L	2160478	1	8	AUTORISE	2016-07-22	\N	\N	\N	Dans le cadre d'une application effectuée à l'aide d'un pulvérisateur à rampe\nPendant le mélange/chargement\n- Gants en nitrile certifiés EN 374-3 ;\n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m² ou plus avec traitement déperlant ;\n- EPI partiel (blouse ou tablier à manches longues) de catégorie III et de type PB (3) à porter par-dessus la combinaison précitée ;\n- Lunettes ou écran facial certifié norme EN 166 (CE, sigle 3).\nPendant l'application - Pulvérisation vers le bas\nSi application avec tracteur avec cabine\n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m² ou plus avec traitement déperlant ;\n- Gants en nitrile certifiés EN 374-2 à usage unique, dans le cas d'une intervention sur le matériel pendant la phase de pulvérisation. Dans ce cas, les gants ne doivent être portés qu'à l'extérieur de la cabine et doivent être stockés après utilisation à l'extérieur de la cabine.\nSi application avec tracteur sans cabine\n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m² ou plus avec traitement déperlant ;\n- Gants en nitrile certifiés EN 374-2 à usage unique, dans le cas d'une intervention sur le matériel pendant la phase de pulvérisation ;\n- En cas d'exposition aux gouttelettes pulvérisées, porter un demi-masque filtrant à particules (EN 149) ou un demi-masque (EN 140) équipé d'un filtre à particules P3 (EN 143) ;\n- Lunettes ou écran facial certifié norme EN 166 (CE, sigle 3) ;\nPendant le nettoyage du matériel de pulvérisation\n- Gants en nitrile certifiés EN 374-3 ;\n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m² ou plus avec traitement déperlant ;\n- EPI partiel (blouse ou tablier à manches longues) de catégorie III et de type PB (3) à porter par-dessus la combinaison précitée ;\n- Lunettes ou écran facial certifié norme EN 166 (CE, sigle 3) .	JOUFFRAY DRILLAUD	ADJUVANT	1628246832
+2000235	2000235_silwet_l_77	SILWET L 77	PULVI-X	Adjuv. Fongicide | Adjuv. Herbicide	Heptamethyltrisiloxane modifie polyalkyleneoxide 60.38 g/L | Heptamethyltrisiloxane modifie polyalkyleneoxide 785.5 g/L	2000235	1	24	AUTORISE	2003-02-07	\N	\N	\N	Dans le cadre d'une application avec pulvérisateur à rampe :\n• pendant le mélange/chargement\n- Gants en nitrile certifiés EN 374-3 ;\n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m² ou plus avec traitement déperlant ;\n- EPI partiel (blouse ou tablier à manches longues) de catégorie III et de type PB (3) à porter par-dessus la combinaison précitée ;\n• pendant l'application - Pulvérisation vers le bas\nSi application avec tracteur avec cabine\n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m² ou plus avec traitement déperlant ;\n- Gants en nitrile certifiés EN 374-2 à usage unique, dans le cas d'une intervention sur le matériel pendant la phase de pulvérisation. Dans ce cas, les gants ne doivent être portés qu'à l'extérieur de la cabine et doivent être stockés après utilisation à l'extérieur de la cabine ;\nSi application avec tracteur sans cabine\n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m² ou plus avec traitement déperlant ;\n- Gants en nitrile certifiés EN 374-2 à usage unique, dans le cas d'une intervention sur le matériel pendant la phase de pulvérisation ;\n• pendant le nettoyage du matériel de pulvérisation\n- Gants en nitrile certifiés EN 374-3 ;\n- Combinaison de travail en polyester 65 %/coton 35 % avec un grammage de 230 g/m² ou plus avec traitement déperlant ;\n- EPI partiel (blouse ou tablier à manches longues) de catégorie III et de type PB (3) à porter par-dessus la combinaison précitée ;	DE SANGOSSE	ADJUVANT	-1962963314
+\.
+
+COPY lexicon.registered_phytosanitary_usages (id, product_id, ephy_usage_phrase, crop, species, target_name, description, treatment, dose_quantity, dose_unit, dose_unit_name, dose_unit_factor, pre_harvest_delay, pre_harvest_delay_bbch, applications_count, applications_frequency, development_stage_min, development_stage_max, usage_conditions, untreated_buffer_aquatic, untreated_buffer_arthropod, untreated_buffer_plants, decision_date, state, record_checksum) FROM stdin;
+20151012160519370333	7200298	Adjuvants*Bouil. Fongicide	{"fra": "Adjuvants"}	{plant}	{"fra": "Bouil. Fongicide"}	\N	\N	0.0500	centiliter_per_liter	L/hL	1	3	\N	\N	\N	\N	\N	\N	\N	\N	\N	2017-10-27	Retrait	-1209918418
+20151012160522378385	7200298	Adjuvants*Bouil. Herbicide	{"fra": "Adjuvants"}	{plant}	{"fra": "Bouil. Herbicide"}	\N	\N	0.0500	centiliter_per_liter	L/hL	1	3	\N	\N	\N	\N	\N	\N	\N	\N	\N	2017-10-27	Retrait	1611657037
+20151012160524727437	7200298	Adjuvants*Bouil. Insecticide	{"fra": "Adjuvants"}	{plant}	{"fra": "Bouil. Insecticide"}	\N	\N	0.0500	centiliter_per_liter	L/hL	1	3	\N	\N	\N	\N	\N	\N	\N	\N	\N	2017-10-27	Retrait	720889187
+20160712164039054134	2160478	Adjuvants*Bouil. Herbicide	{"fra": "Adjuvants"}	{plant}	{"fra": "Bouil. Herbicide"}	\N	\N	1.0000	centiliter_per_liter	L/hL	1	3	\N	\N	\N	\N	\N	- Non autorisé sur légumes "feuilles" et "tige" et uniquement avant apparition des parties consommables des végétaux traités.\n- Dose maximale d'application : 1L/hL dans un volume de bouillie de 100 à 400 L/ha.\n- Amélioration de la pénétration (humectant, correcteur d'eau)\n- Nombre d'application/stade d'application/délai avant récolte/zones non traitées : selon les préparations phytopharmaceutiques associées et dans les conditions d'emploi générales décrites pour la préparation adjuvante.	5	\N	\N	2016-07-22	Autorisé	1887571745
+20151015175614214387	2000235	Adjuvants*Bouil. Fongicide	{"fra": "Adjuvants"}	{plant}	{"fra": "Bouil. Fongicide"}	\N	\N	0.1500	liter_per_hectare	L/ha	1	48	\N	1	\N	\N	\N	Uniquement sur blé, orge, avoine, sorgho, millet, maïs, betterave sucrière et colza.\nVolume maximal de bouillie : 200 L/ha.\nStades d'application / délai avant récolte / zones non traitées : selon les produits phytopharmaceutiques associés et dans les conditions d'emploi générales décrites pour l'adjuvant.	5	\N	\N	2014-02-27	Autorisé	-174537941
+20151015175614270440	2000235	Adjuvants*Bouil. Herbicide	{"fra": "Adjuvants"}	{plant}	{"fra": "Bouil. Herbicide"}	\N	\N	0.1000	liter_per_hectare	L/ha	1	56	\N	2	\N	\N	\N	Uniquement sur seigle.\nVolume maximal de bouillie : 200 L/ha.\nStades d'application / délai avant récolte / zones non traitées : selon les produits phytopharmaceutiques associés et dans les conditions d'emploi générales décrites pour l'adjuvant.	5	\N	\N	2009-03-01	Autorisé	-111444982
+20180730173523725925	2000235	Adjuvants*Bouil. Fongicide	{"fra": "Adjuvants"}	{plant}	{"fra": "Bouil. Fongicide"}	\N	\N	0.1500	liter_per_hectare	L/ha	1	56	\N	1	\N	\N	\N	Uniquement sur seigle.\nVolume maximal de bouillie : 200 L/ha.\nStades d'application / délai avant récolte / zones non traitées : selon les produits phytopharmaceutiques associés et dans les conditions d'emploi générales décrites pour l'adjuvant.	5	\N	\N	\N	Autorisé	-961565573
+20180730175223584018	2000235	Adjuvants*Bouil. Herbicide	{"fra": "Adjuvants"}	{plant}	{"fra": "Bouil. Herbicide"}	\N	\N	0.1000	liter_per_hectare	L/ha	1	48	\N	2	\N	\N	\N	Uniquement sur blé, orge, avoine, sorgho, millet, maïs, betterave sucrière et colza.\nVolume maximal de bouillie : 200 L/ha.\nStades d'application / délai avant récolte / zones non traitées : selon les produits phytopharmaceutiques associés et dans les conditions d'emploi générales décrites pour l'adjuvant.	5	\N	\N	\N	Autorisé	736878373
+\.
+
+COPY lexicon.registered_phytosanitary_risks (product_id, risk_code, risk_phrase, record_checksum) FROM stdin;
+7200298	H318	Provoque des lésions oculaires graves	-867535879
+2160478	H411	Toxique pour les organismes aquatiques, entraîne des effets à long terme	-151460045
+2000235	H319	Provoque une sévère irritation des yeux	161223406
+2000235	H332	Nocif par inhalation	700150670
+2000235	H411	Toxique pour les organismes aquatiques, entraîne des effets à long terme	-720684058
 \.
 
 --
 -- PostgreSQL database dump complete
 --
+

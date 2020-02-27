@@ -81,7 +81,7 @@ module Backend
     # Mode de paiement du fournisseur
 
     list(:items, model: :purchase_items, order: { id: :asc }, conditions: { purchase_id: 'params[:id]'.c }) do |t|
-      t.column :variant, url: true
+      t.column :variant, url: { controller: 'RECORD.variant.class.name.tableize'.c, namespace: :backend }
       t.column :annotation
       t.column :first_reception_number, label: :reception, url: { controller: '/backend/receptions', id: 'RECORD.first_reception_id'.c }
       t.column :quantity
@@ -137,9 +137,11 @@ module Backend
       @purchase_invoice.responsible ||= current_user
       @purchase_invoice.planned_at = Time.zone.now
       @purchase_invoice.supplier_id ||= params[:supplier_id] if params[:supplier_id]
+
       if (address = Entity.of_company.default_mail_address)
         @purchase_invoice.delivery_address = address
       end
+
       render locals: { with_continue: true }
     end
 

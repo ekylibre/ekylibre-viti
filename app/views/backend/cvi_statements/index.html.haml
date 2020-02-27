@@ -2,6 +2,6 @@
   - k.text
 
 - main_toolbar do |t|
-  = t.new params: { redirect: nil }
+  = link_to :new.tl, { controller: :imports, action: :new} , { class: 'btn btn-default icn btn-new'}
 
 = main_list

@@ -6,7 +6,7 @@
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
 # Copyright (C) 2012-2014 Brice Texier, David Joulin
-# Copyright (C) 2015-2019 Ekylibre SAS
+# Copyright (C) 2015-2020 Ekylibre SAS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -42,6 +42,7 @@
 #  parent_id                      :integer
 #  prescription_id                :integer
 #  procedure_name                 :string           not null
+#  provider                       :jsonb
 #  providers                      :jsonb
 #  purchase_id                    :integer
 #  request_compliant              :boolean
@@ -60,8 +61,9 @@
 
 class Intervention < Ekylibre::Record::Base
   include CastGroupable
-  include PeriodicCalculable
   include Customizable
+  include PeriodicCalculable
+  include Providable
 
   PLANNED_REALISED_ACCEPTED_GAP = { intervention_doer: 1.2, intervention_tool: 1.2, intervention_input: 1.2 }.freeze
 
@@ -162,8 +164,8 @@ class Intervention < Ekylibre::Record::Base
   scope :of_activities, lambda { |*activities|
     where(id: InterventionTarget.of_activities(activities.flatten))
   }
-
   scope :ordered_by, ->(by = :started_at) { reorder(by) }
+
   scope :provisional, -> { where('stopped_at > ?', Time.zone.now) }
   scope :real, -> { where(nature: :record).where('stopped_at <= ?', Time.zone.now) }
 
@@ -271,6 +273,10 @@ class Intervention < Ekylibre::Record::Base
 
   scope :with_doers, lambda { |*doers|
     where(id: InterventionDoer.of_actors(doers).select(:intervention_id))
+  }
+
+  scope :with_maaids, lambda { |*maaids|
+    where(id: InterventionInput.of_maaids(*maaids).pluck(:intervention_id))
   }
 
   scope :done, -> {}
@@ -510,7 +516,7 @@ class Intervention < Ekylibre::Record::Base
     raise 'Can only generate record for an intervention request' unless request?
     return record_interventions.first if record_interventions.any?
     new_record = deep_clone(
-      only: %i[actions custom_fields description event_id issue_id
+      only: %i[auto_calculate_working_periods actions custom_fields description event_id issue_id
                nature number prescription_id procedure_name
                request_intervention_id started_at state
                stopped_at trouble_description trouble_encountered
@@ -904,8 +910,11 @@ class Intervention < Ekylibre::Record::Base
     InterventionParticipation.of_intervention(self).of_product(product).first
   end
 
-  def worker_working_periods(nature: nil, not_nature: nil)
+  def worker_working_periods(nature: nil, not_nature: nil, worker_id: nil)
     workers_participations = participations.select { |participation| participation.product.is_a?(Worker) }
+    if worker_id
+      workers_participations = workers_participations.select { |participation| participation.product_id = worker_id }
+    end
     working_periods = nil
 
     if nature.nil? && not_nature.nil?

@@ -11,6 +11,7 @@
   = f.referenced_association :supplier, source: :suppliers, new: { supplier: 1 }
   = f.input :reference_number
   = f.referenced_association :responsible, source: :employees, new: { employed: 1 }
+  = f.referenced_association :delivery_address, source: :own_mails, new: false
   = f.association :nature, as: :hidden
   = f.input :invoiced_at, as: :date
   = f.input :payment_delay
@@ -26,15 +27,15 @@
   .purchase-totals
     .purchase-total-row.total-except-tax
       %span.total-label= :total_amount_without_taxes.tl
-      %span.total-value= f.object.decorate.total_amount_excluding_taxes
+      %span.total-value= f.object.decorate.total_amount_excluding_taxes.round_l
       %span.total-currency= Nomen::Currency[f.object.currency]&.symbol
     .purchase-total-row.vat-total
       %span.total-label= :vat.tl
-      %span.total-value= f.object.decorate.total_vat_amount.round(2)
+      %span.total-value= f.object.decorate.total_vat_amount.round_l
       %span.total-currency= Nomen::Currency[f.object.currency]&.symbol
     .purchase-total-row.purchase-total
       %span.total-label= :total_amount_with_taxes.tl
-      %span.total-value= f.object.decorate.total_amount_including_taxes
+      %span.total-value= f.object.decorate.total_amount_including_taxes.round_l
       %span.total-currency= Nomen::Currency[f.object.currency]&.symbol
 
   .control-group.button-modal-reconciliation

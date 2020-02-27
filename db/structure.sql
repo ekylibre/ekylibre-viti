@@ -24,66 +24,6 @@ CREATE SCHEMA postgis;
 
 
 --
--- Name: area_formatted(numeric); Type: FUNCTION; Schema: postgis; Owner: -
---
-
-CREATE FUNCTION postgis.area_formatted(area numeric) RETURNS character varying
-    LANGUAGE plpgsql
-    AS $$
-    DECLARE
-    ha_area_num  NUMERIC;
-    ar_area_num  NUMERIC;
-    ca_area_num  NUMERIC;
-    ha_area  VARCHAR(50);
-    ar_area  VARCHAR(50);
-    ca_area  VARCHAR(50);
-    result VARCHAR(50);
-    BEGIN
-    ha_area_num = TRUNC(area, 0);
-    ar_area_num = TRUNC(area - ha_area_num, 2);
-    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
-
-    ha_area = to_char(ha_area_num , 'FM00');
-    ar_area = to_char(ar_area_num * 100, 'FM00');
-    ca_area = to_char(ca_area_num * 10000, 'FM00');
-
-    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
-    RETURN result;
-    END;
-    $$;
-
-
---
--- Name: area_formatted(numeric); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.area_formatted(area numeric) RETURNS character varying
-    LANGUAGE plpgsql
-    AS $$
-    DECLARE
-    ha_area_num  NUMERIC;
-    ar_area_num  NUMERIC;
-    ca_area_num  NUMERIC;
-    ha_area  VARCHAR(50);
-    ar_area  VARCHAR(50);
-    ca_area  VARCHAR(50);
-    result VARCHAR(50);
-    BEGIN
-    ha_area_num = TRUNC(area, 0);
-    ar_area_num = TRUNC(area - ha_area_num, 2);
-    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
-
-    ha_area = to_char(ha_area_num , 'FM00');
-    ar_area = to_char(ar_area_num * 100, 'FM00');
-    ca_area = to_char(ca_area_num * 10000, 'FM00');
-
-    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
-    RETURN result;
-    END;
-    $$;
-
-
---
 -- Name: compute_journal_entry_continuous_number(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -4529,9 +4469,9 @@ CREATE TABLE public.journal_entries (
     real_balance numeric(19,4) DEFAULT 0.0 NOT NULL,
     resource_prism character varying,
     financial_year_exchange_id integer,
+    reference_number character varying,
     continuous_number integer,
     validated_at timestamp without time zone,
-    reference_number character varying,
     providers jsonb
 );
 
@@ -4921,6 +4861,21 @@ CREATE SEQUENCE public.loans_id_seq
 --
 
 ALTER SEQUENCE public.loans_id_seq OWNED BY public.loans.id;
+
+
+--
+-- Name: locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.locations (
+    id integer NOT NULL,
+    registered_postal_zone_id character varying,
+    locality character varying,
+    localizable_id integer,
+    localizable_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
 
 
 --
@@ -14575,6 +14530,13 @@ CREATE INDEX index_loans_on_updater_id ON public.loans USING btree (updater_id);
 
 
 --
+-- Name: index_locations_on_registered_postal_zone_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_locations_on_registered_postal_zone_id ON public.locations USING btree (registered_postal_zone_id);
+
+
+--
 -- Name: index_manure_management_plan_zones_on_activity_production_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -18435,7 +18397,7 @@ CREATE INDEX intervention_provider_index ON public.interventions USING gin (((pr
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
+CREATE INDEX intervention_provider_index ON public.interventions USING gin (((provider -> 'vendor'::text)), ((provider -> 'name'::text)), ((provider -> 'id'::text)));
 
 
 --
