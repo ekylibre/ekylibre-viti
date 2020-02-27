@@ -137,8 +137,6 @@ activities:
   family:
     type: string
     required: true
-  first_year_of_production:
-    type: integer
   grading_net_mass_unit_name:
     type: string
   grading_sizes_indicator_name:
@@ -177,10 +175,6 @@ activities:
   production_nature_id:
     type: integer
     references: master_production_nature
-  production_started_on:
-    type: date
-  production_stopped_on:
-    type: date
   production_system_name:
     type: string
   size_indicator_name:

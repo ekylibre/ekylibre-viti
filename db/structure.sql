@@ -417,10 +417,7 @@ CREATE TABLE public.activities (
     use_seasons boolean DEFAULT false,
     use_tactics boolean DEFAULT false,
     codes jsonb,
-    production_nature_id integer,
-    production_started_on date,
-    production_stopped_on date,
-    first_year_of_production integer
+    production_nature_id integer
 );
 
 
