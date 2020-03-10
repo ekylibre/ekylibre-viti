@@ -14,7 +14,9 @@ class GenerateCviCultivableZones < ApplicationInteractor
         St_AStext(
           ST_Simplify(
             ST_Union(
-              ARRAY_AGG(shape)
+              ARRAY_AGG(
+                ST_MakeValid(shape)
+              )
             ),0.000000001
           )
         ) AS shape
