@@ -99,7 +99,10 @@ module Backend
                                       ST_Simplify(
                                         ST_UNION(
                                           ARRAY_AGG(
-                                            array[cvi_land_parcels.shape,cvi_cultivable_zones.shape]
+                                            array[
+                                              ST_MakeValid(cvi_land_parcels.shape),
+                                              ST_MakeValid(cvi_cultivable_zones.shape)
+                                            ]
                                             )
                                           ), 0.000000001
                                         )
