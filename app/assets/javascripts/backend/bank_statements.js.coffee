@@ -1,68 +1,13 @@
 ((E, $) ->
   "use strict"
 
-  ### DatePicker ###
-
-  class DatePickerButton
-    # Used to display a datepicker on a button click while the date input
-    # remains hidden
-    constructor: (@container, @onSelect) ->
-      @dateInput = @container.find("input[type=date]")
-      @dateInput.hide()
-      @_initializeDatePicker()
-      @_findAndCustomizeButton()
-
-    _initializeDatePicker: ->
-      minDate = $(this.dateInput).attr('data-min-date')
-      maxDate = $(this.dateInput).attr('data-max-date')
-      bankStatementDatesRanges = $(this.dateInput).attr('data-bank-statement-dates-ranges')
-
-      bankStatementDates = null
-      if bankStatementDatesRanges
-        bankStatementDates = JSON.parse("[" + bankStatementDatesRanges + "]")
-
-      @dateInput.datepicker
-        showOn: "button"
-        buttonText: @dateInput.data("label")
-        onSelect: @onSelect
-        dateFormat: "yy-mm-dd"
-        minDate: minDate
-        maxDate: maxDate
-        beforeShowDay: (date) ->
-          if bankStatementDates
-            enableDateCase = false
-            bankStatementDates[0].some (item, index) ->
-              startDate = new Date(item.start)
-              startDate.setHours(0, 0, 0)
-
-              endDate = new Date(item.end)
-              endDate.setHours(0, 0, 0)
-
-              if date >= startDate && date <= endDate
-                enableDateCase = true
-                return true
-
-            return [enableDateCase, 'disabled']
-
-      @dateInput.attr "autocomplete", "off"
-
-    _findAndCustomizeButton: ->
-      @button = @container.find(".ui-datepicker-trigger")
-      @button.addClass(classes) if classes = @dateInput.data("classes")
-
-  ### Bank reconciliation ###
-
-  bankReconciliation = null
+  E.bankReconciliation = null
 
   $ ->
     precision = parseInt($(".reconciliation-list").data('currency-precision'))
-    bankReconciliation = new BankReconciliation(precision)
+    E.bankReconciliation = new BankReconciliation(precision)
 
-    datePickerContainer = $(".totals #new-item")
-    datePickerOnSelect = $.proxy(bankReconciliation.createBankStatementItem, bankReconciliation)
-    new DatePickerButton(datePickerContainer, datePickerOnSelect)
-
-    bankReconciliation.initialize()
+    E.bankReconciliation.initialize()
 
     position_space = new RegExp(".*scroll_to=(\\d+).*")
     position = position_space.exec location.search
@@ -73,71 +18,63 @@
   $(document).on "click", ".reconciliation-item[data-type=bank_statement_item] a#delete", ->
     # Remove bank statement item
     button = $(@)
-    bankStatementItem = bankReconciliation.closestLine(button)
-    bankReconciliation.destroyLine bankStatementItem
+    bankStatementItem = E.bankReconciliation.closestLine(button)
+    E.bankReconciliation.destroyLine bankStatementItem
     return false
 
   $(document).on "click", ".reconciliation-item:not(.selected)", (event) ->
     # Select line
     return if $(event.target).is("input,a,form")
-    bankReconciliation.selectLine $(@)
+    E.bankReconciliation.selectLine $(@)
 
   $(document).on "click", ".reconciliation-item.selected", (event) ->
     # Deselect line
     return if $(event.target).is("input,a")
-    bankReconciliation.deselectLine $(@)
+    E.bankReconciliation.deselectLine $(@)
 
   $(document).on "click", ".reconciliation-item a#clear", (event) ->
     # Clear reconciliation letter
     event.stopPropagation();
     button = $(@)
-    line = bankReconciliation.closestLine(button)
-    bankReconciliation.clearReconciliationLetterFromLine line
+    line = E.bankReconciliation.closestLine(button)
+    E.bankReconciliation.clearReconciliationLetterFromLine line
     return false
 
   $(document).on "click", ".reconciliation-item[data-type=journal_entry_item] a#complete", ->
     # Complete journal entry items
     button = $(@)
-    line = bankReconciliation.closestLine(button)
-    bankReconciliation.completeJournalEntryItems line
+    line = E.bankReconciliation.closestLine(button)
+    E.bankReconciliation.completeJournalEntryItems line
     return false
 
   $(document).on "confirm:complete", "#reset_reconciliation", (e, response) ->
     if response
-      bankReconciliation.clearAllReconciliationLetters()
+      E.bankReconciliation.clearAllReconciliationLetters()
 
   $(document).on "click", "#auto_reconciliation", ->
     # Automatic reconciliation
-    bankReconciliation.autoReconciliate()
+    E.bankReconciliation.autoReconciliate()
 
   $(document).on "change", "#hide-lettered", ->
-    bankReconciliation.uiUpdate()
+    E.bankReconciliation.uiUpdate()
 
   $(document).on "change", "#set_period", (event) ->
     matches = event.target.value.match(/\d+-\d+-\d+/g)
-    if matches.length < 2
+    if matches.length != 2
       return
-    dates = {date1: new Date(matches[0]), date2: new Date(matches[1])}
 
-    current_params = document.location.search
+    start = moment(matches[0]).format('YYYY-MM-DD')
+    end = moment(matches[1]).format('YYYY-MM-DD')
 
-    start = dates.date1
-    start = "period_start=#{start.getFullYear()}-#{start.getMonth()+1}-#{start.getDate()}"
-    param_space = new RegExp("(&|\\?)period_start=[^\&]*")
-    if param_space.exec(current_params)
-      current_params = current_params.replace(param_space, "$1" + start)
-    else
-      current_params += (if current_params.length > 0 then '&' else '?') + start
+    url = new URL(location.href)
+    url.searchParams.set('period_start', start)
+    url.searchParams.set('period_end', end)
 
-    end = dates.date2
-    end = "period_end=#{end.getFullYear()}-#{end.getMonth()+1}-#{end.getDate()}"
-    param_space = new RegExp("(&|\\?)period_end=[^\&]*")
-    if param_space.exec(current_params)
-      current_params = current_params.replace(param_space, "$1" + end)
-    else
-      current_params += (if current_params.length > 0 then '&' else '?') + end
+    urlStr = url.toString()
 
-    document.location.search = current_params
+    if location.href != urlStr
+      location.href = urlStr
+
 
   class BankReconciliation
     constructor: (@precision) ->
@@ -156,12 +93,14 @@
 
     createBankStatementItem: (date) ->
       return if @_addBankStatementItemInDateSection(date)
-      @_insertDateSection date
+      #@_insertDateSection date
       @_addBankStatementItemInDateSection date
 
     _addBankStatementItemInDateSection: (date) ->
-      dateSection = $(".date-header p[data-date=#{date}]")
-      newItemButton = dateSection.parent(".date-header").find('a')
+      formatedDate = moment(date).format("YYYY-MM-DD")
+      dateSection = $("p[data-date=#{formatedDate}]").closest('.date-section')
+      dateSection.removeClass('hidden')
+      newItemButton = dateSection.children(".date-header").find('a')
       return false unless newItemButton.length
       newItemButton.click()
       true
@@ -221,7 +160,7 @@
       line.deepRemove()
       form.deepRemove() if form?
       if siblings.length <= 1
-        parent.deepRemove()
+        parent.addClass('hidden')
 
     _isDateSection: (line) ->
       line.hasClass("date-header")
@@ -346,28 +285,32 @@
           $(this).find('span').html('')
           $(this).attr('id', '')
 
+    _setButtonActiveState: ($button, enabled) ->
+      if $button.hasClass('btn')
+        $button.attr("disabled", !enabled)
+        $button.parents('.btn-group').attr("disabled", !enabled)
+      else
+        $button.parents('.btn-group').find('> button').attr("disabled", !enabled)
+
     _showOrHideNewPaymentButtons: ->
       selectedBankStatements = @_bankStatementLines().filter(".selected")
-      selectedJournalItems   = @_journalEntryLines().filter(".selected")
+      selectedJournalItems = @_journalEntryLines().filter(".selected")
       if selectedBankStatements.length > 0
         @_updateIdsInButtons()
-        $("a.from-selected-bank").attr("disabled", false)
-        $("a.from-selected-bank").parents('.btn-group').attr("disabled", false)
+        @_setButtonActiveState $("a.from-selected-bank"), true
       else
-        $("a.from-selected-bank").attr("disabled", true)
-        $("a.from-selected-bank").parents('.btn-group').attr("disabled", true)
+        @_setButtonActiveState $("a.from-selected-bank"), false
 
       if selectedJournalItems.length > 0
         @_updateIdsInButtons()
-        $("a.from-selected-journal").attr("disabled", false)
-        $("a.from-selected-journal").parents('.btn-group').attr("disabled", false)
+        @_setButtonActiveState $("a.from-selected-journal"), true
       else
-        $("a.from-selected-journal").attr("disabled", true)
-        $("a.from-selected-journal").parents('.btn-group').attr("disabled", true)
+        @_setButtonActiveState $("a.from-selected-journal"), false
 
-      unless selectedBankStatements.length > 0 and selectedJournalItems.length > 0
-        $("a.from-selected-journal.from-selected-bank").attr("disabled", true)
-        $("a.from-selected-journal.from-selected-bank").parents('.btn-group').attr("disabled", true)
+      if selectedBankStatements.length == 0 || selectedJournalItems.length == 0
+        @_setButtonActiveState $("a.gap-creation"), false
+      else
+        @_setButtonActiveState $("a.gap-creation"), true
 
     _showOrHideReconciliatedLines: ->
       if $("#hide-lettered").is(":checked")
@@ -380,10 +323,10 @@
       @_updateEntryIdsInButtons()
 
     _updateItemIdsInButtons: ->
-      @_updateIdsInButtonsFor('.from-selected-bank', 'bank_statement_item')
+      @_updateIdsInButtonsFor('.from-selected-bank, .gap-creation', 'bank_statement_item')
 
     _updateEntryIdsInButtons: ->
-      @_updateIdsInButtonsFor('.from-selected-journal', 'journal_entry_item')
+      @_updateIdsInButtonsFor('.from-selected-journal, .gap-creation', 'journal_entry_item')
 
     _updateIdsInButtonsFor: (selector, type) ->
       selectedLines = @_lines().filter("[data-type=#{type}].selected")
@@ -476,7 +419,7 @@
       $(".reconciliation-item[data-type=journal_entry_item]")
 
     _filterLinesBy: (lines, filters) ->
-      { date, debit, credit } = filters
+      {date, debit, credit} = filters
       lines.filter (i, e) =>
         return if @_dateForLine($(e)) isnt date
         @_debitForLine($(e)) is debit && @_creditForLine($(e)) is credit

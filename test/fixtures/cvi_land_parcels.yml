@@ -10,7 +10,6 @@ one:
   declared_area_value: 9.99
   shape: 
   planting_campaign: MyString
-  rootstock_id: MyString
   inter_vine_plant_distance_value: 9.99
   inter_vine_plant_distance_unit: MyString
   inter_row_distance_value: 9.99
@@ -29,7 +28,6 @@ two:
   declared_area_value: 9.99
   shape: 
   planting_campaign: MyString
-  rootstock_id: MyString
   inter_vine_plant_distance_value: 9.99
   inter_vine_plant_distance_unit: MyString
   inter_row_distance_value: 9.99

@@ -91,21 +91,5 @@ module Backend
       t.column :inter_row_distance_value
       t.column :state
     end
-
-    list(:cvi_cadastral_plants_map, order: 'land_parcel_id DESC', model: :formatted_cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions,
-                                    line_class: "('invalid' unless RECORD.land_parcel_id) || ('edited' if  RECORD.cadastral_ref_updated)".c) do |t|
-      t.column :land_parcel_id, hidden: true
-      t.column :commune
-      t.column :locality
-      t.column :cadastral_reference
-      t.column :designation_of_origin_name
-      t.column :vine_variety_name
-      t.column :area_formatted
-      t.column :planting_campaign
-      t.column :rootstock
-      t.column :inter_vine_plant_distance_value
-      t.column :inter_row_distance_value
-      t.column :state
-    end
   end
 end

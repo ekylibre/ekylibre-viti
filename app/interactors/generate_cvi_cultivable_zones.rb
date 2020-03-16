@@ -1,5 +1,4 @@
 class GenerateCviCultivableZones < ApplicationInteractor
-
   def call
     get_cvi_cultivable_zones_properties
     ActiveRecord::Base.transaction do
@@ -12,7 +11,15 @@ class GenerateCviCultivableZones < ApplicationInteractor
   def get_cvi_cultivable_zones_properties
     result = ActiveRecord::Base.connection.execute("
       SELECT ARRAY_AGG(id) AS cvi_cadastral_plant_ids,
-       St_AStext(ST_Union(ARRAY_AGG(shape))) AS shape
+        St_AStext(
+          ST_Simplify(
+            ST_Union(
+              ARRAY_AGG(
+                ST_MakeValid(shape)
+              )
+            ),0.000000001
+          )
+        ) AS shape
       FROM  (SELECT cvi_cadastral_plants.*, shape, ST_ClusterDBSCAN(shape, 0, 1) OVER() AS clst
 	            FROM cvi_cadastral_plants
               LEFT JOIN lexicon.cadastral_land_parcel_zones  ON cvi_cadastral_plants.land_parcel_id = cadastral_land_parcel_zones.id
@@ -25,20 +32,18 @@ class GenerateCviCultivableZones < ApplicationInteractor
     @cvi_cultivable_zones.each_with_index do |cvi_cultivable_zone, i|
       index = (i + 1).to_s.rjust(2, '0')
       cvi_cadastral_plants = CviCadastralPlant.find(cvi_cultivable_zone['cvi_cadastral_plant_ids'])
-      locations = cvi_cadastral_plants.map(&:location).uniq{ |e| e.insee_number && e.locality}
+      locations = cvi_cadastral_plants.map(&:location).uniq { |e| e.registered_postal_zone_id && e.locality }
       declared_area = cvi_cadastral_plants.collect(&:area).sum
-      shape = cvi_cultivable_zone['shape']
-      calculated_area = Measure.new(Charta.new_geometry(shape).area, :square_meter).convert(:hectare)
+      shape = Charta.new_geometry(cvi_cultivable_zone['shape']).to_rgeo.simplify(0)
 
       cvi_cultivable_zone = CviCultivableZone.create(
         name: "Zone ##{index}",
         cvi_statement_id: context.cvi_statement.id,
         declared_area: declared_area,
-        calculated_area: calculated_area,
         shape: shape
       )
       locations.each do |r|
-        Location.create(localizable: cvi_cultivable_zone, insee_number: r.insee_number, locality: r.locality)
+        Location.create(localizable: cvi_cultivable_zone, registered_postal_zone_id: r.registered_postal_zone_id, locality: r.locality)
       end
       cvi_cultivable_zone.cvi_cadastral_plants << cvi_cadastral_plants
     end

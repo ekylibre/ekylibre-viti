@@ -26,7 +26,7 @@
       %span.range-maximum= max.to_s(:short_form_unit)
   - k.helper do
     %label= CviCadastralPlant.human_attribute_name(:designation_of_origin_name)
-    = select_tag(:designation_of_origin_name, options_for_select(([""] + FormattedCviCadastralPlant.where(cvi_statement_id:@cvi_statement.id).collect(&:designation_of_origin_name)).uniq.sort, selected: params[:designation_of_origin_name]))
+    = select_tag(:designation_of_origin_name, options_for_select(([""] + FormattedCviCadastralPlant.where(cvi_statement_id:@cvi_statement.id).collect(&:designation_of_origin_name)).compact.uniq.sort, selected: params[:designation_of_origin_name]))
   - k.helper do
     %label= CviCadastralPlant.human_attribute_name(:vine_variety_name)
     = select_tag(:vine_variety_name, options_for_select(([""] + FormattedCviCadastralPlant.where(cvi_statement_id:@cvi_statement.id).collect(&:vine_variety_name)).uniq.sort , selected: params[:vine_variety_name]))
@@ -45,60 +45,48 @@
       %input{ name: :inter_vine_plant_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_vine_plant_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
       %span.range-maximum= max.to_i
 
-= janus do |j|
-  - j.face :list do
-    = cobbles do |c|
-      - c.cobble :general_informations do
-        = infos do
-          - unless resource.cvi_number.blank?
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:cvi_number)
-              %span.value= resource.cvi_number
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:extraction_date)
-              %span.value= resource.extraction_date.to_formatted_s(:default)
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:imported_at)
-              %span.value= resource.created_at.to_date.to_formatted_s(:default)
+= cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
+                  class: 'map-fullwidth map-halfheight') do |c|
+  - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
+  - c.simple :cvi_cadastral_plants, :main, index: true, async_url: backend_cvi_cadastral_plants_url(id: params[:id])
 
-          - unless resource.siret_number.blank?
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:siret_number)
-              %span.value= resource.siret_number
-          - unless resource.declarant.blank?
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:declarant)
-              %span.value= resource.declarant
-          - unless resource.farm_name.blank?
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:farm_name)
-              %span.value= resource.farm_name
+= cobbles do |c|
+  - c.cobble(:cvi_cadastral_plants_map) do
+    = kujaku
+    = cobble_list(:cvi_cadastral_plants)
+  - c.cobble :general_informations do
+    = infos do
+      - unless resource.cvi_number.blank?
+        .med-info
+          %span.title= CviStatement.human_attribute_name(:cvi_number)
+          %span.value= resource.cvi_number
+        .med-info
+          %span.title= CviStatement.human_attribute_name(:extraction_date)
+          %span.value= resource.extraction_date.to_formatted_s(:default)
+        .med-info
+          %span.title= CviStatement.human_attribute_name(:imported_at)
+          %span.value= resource.created_at.to_date.to_formatted_s(:default)
 
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:cadastral_plant_count)
-              %span.value= resource.cadastral_plant_count
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:cadastral_sub_plant_count)
-              %span.value= resource.cadastral_sub_plant_count
-            .med-info
-              %span.title= CviStatement.human_attribute_name(:total_area)
-              %span.value= resource.total_area_formatted
-              = @cvi_cadastral_plants
-      - c.cobble(:cvi_cadastral_plants) do
-        = kujaku
-        = cobble_list(:cvi_cadastral_plants)
+      - unless resource.siret_number.blank?
+        .med-info
+          %span.title= CviStatement.human_attribute_name(:siret_number)
+          %span.value= resource.siret_number
+      - unless resource.declarant.blank?
+        .med-info
+          %span.title= CviStatement.human_attribute_name(:declarant)
+          %span.value= resource.declarant
+      - unless resource.farm_name.blank?
+        .med-info
+          %span.title= CviStatement.human_attribute_name(:farm_name)
+          %span.value= resource.farm_name
 
-
-
-  - if resource.cvi_cadastral_plants.any?
-    - j.face :map do
-      = cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
-                              class: 'map-fullwidth map-halfheight',
-                              data: {cvi_cadastral_plants_path:  backend_cvi_cadastral_plants_path(id: params[:id]) }) do |c|
-        - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
-        - c.simple :cvi_cadastral_plants, :main, index: true
-
-      = cobbles do |c|
-        - c.cobble(:cvi_cadastral_plants_map) do
-          = kujaku
-          = cobble_list(:cvi_cadastral_plants_map)
+        .med-info
+          %span.title= CviStatement.human_attribute_name(:cadastral_plant_count)
+          %span.value= resource.cadastral_plant_count
+        .med-info
+          %span.title= CviStatement.human_attribute_name(:cadastral_sub_plant_count)
+          %span.value= resource.cadastral_sub_plant_count
+        .med-info
+          %span.title= CviStatement.human_attribute_name(:total_area)
+          %span.value= resource.total_area_formatted
+          = @cvi_cadastral_plants

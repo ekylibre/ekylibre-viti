@@ -37,7 +37,7 @@ module Ekylibre
     }.freeze
 
     CVI_STATEMENT_KEYS = %i[cvi_number extraction_date siret_number farm_name declarant].freeze
-    CVI_CADASTRAL_PLANT_KEYS = %i[section land_parcel_number work_number planting_campaign inter_row_distance inter_vine_plant_distance state type_of_occupancy land_modification_date].freeze
+    CVI_CADASTRAL_PLANT_KEYS = %i[section work_number planting_campaign inter_row_distance inter_vine_plant_distance state type_of_occupancy land_modification_date].freeze
 
     def import
       w.count = cvi_row_list.length
@@ -69,19 +69,15 @@ module Ekylibre
       product_name = h_cvi_statement[:product].to_s.lower
       designation_of_origins = RegisteredProtectedDesignationOfOrigin.where("unaccent(product_human_name_fra) ILIKE unaccent(?)", "%#{product_name}%")
 
-      if designation_of_origins.length > 1
-        designation_of_origin = designation_of_origins.min_by do |designation_of_origin| 
-          (designation_of_origin.product_human_name_fra.length - product_name.length).abs
-        end
-      else
-        designation_of_origin = designation_of_origins.first
-      end 
-
-      unless designation_of_origin
-        message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_designation_of_origin', value: h_cvi_statement[:product])
-        w.error message
-        raise message
-      end
+      designation_of_origin = if product_name == ""
+                                nil
+                              elsif designation_of_origins.length > 1
+                                designation_of_origins.min_by do |doo|
+                                  (doo.product_human_name_fra.length - product_name.length).abs
+                                end
+                              else
+                                designation_of_origins.first
+                              end
 
       vine_variety = MasterVineVariety.find_by(specie_name: h_cvi_statement[:grape_variety], category_name: ['Cépage','Hybride'])
       unless vine_variety
@@ -90,7 +86,7 @@ module Ekylibre
         raise message
       end
 
-      registered_postal_zone = RegisteredPostalZone.find_by(id: h_cvi_statement[:insee_number])
+      registered_postal_zone = RegisteredPostalZone.find_by(code: h_cvi_statement[:insee_number])
       unless registered_postal_zone
         message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_insee_number', value: h_cvi_statement[:insee_number])
         w.error message
@@ -111,16 +107,16 @@ module Ekylibre
       section = h_cvi_statement[:section]
 
       cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
-
       CviCadastralPlant.create!(
         h_cvi_statement.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }
           .merge(cvi_statement_id: cvi_statement.id, 
                  land_parcel_id: cadastral_land_parcel_zone.try('id'), 
-                 designation_of_origin_id: designation_of_origin.id, 
+                 designation_of_origin_id: designation_of_origin.try('id'), 
+                 land_parcel_number: h_cvi_statement[:land_parcel_number] && h_cvi_statement[:land_parcel_number].rjust(2,"0"),
                  vine_variety_id: vine_variety.id, 
                  rootstock_id: rootstock.try('id'), 
                  area: h_cvi_statement[:area],
-                 location: Location.create(insee_number: registered_postal_zone.code, locality: h_cvi_statement[:locality])
+                 location: Location.create(registered_postal_zone_id: registered_postal_zone.id, locality: h_cvi_statement[:locality])
           )
       )
     end

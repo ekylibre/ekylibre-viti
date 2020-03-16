@@ -266,7 +266,7 @@ activity_budget_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
   variant_indicator:
     type: string
   variant_unit:
@@ -1518,7 +1518,7 @@ catalog_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
 catalogs:
   all_taxes_included:
@@ -1601,7 +1601,7 @@ contract_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
 contracts:
   created_at:
@@ -1981,8 +1981,6 @@ cvi_land_parcels:
     required: true
   planting_campaign:
     type: string
-  rootstock_id:
-    type: string
   shape:
     type: geometry
     limit:
@@ -2277,6 +2275,9 @@ document_templates:
   creator_id:
     type: integer
     references: user
+  file_extension:
+    type: string
+    default: xml
   formats:
     type: string
   id:
@@ -2298,6 +2299,10 @@ document_templates:
   nature:
     type: string
     required: true
+  signed:
+    type: boolean
+    required: true
+    default: false
   updated_at:
     type: datetime
     required: true
@@ -2634,6 +2639,34 @@ ephy_cropsets:
   name:
     type: string
     required: true
+  record_checksum:
+    type: integer
+eu_market_prices:
+  category:
+    type: string
+  country:
+    type: string
+  id:
+    type: string
+    required: true
+  price:
+    type: decimal
+    precision: 8
+    scale: 2
+  product_code:
+    type: string
+  product_description:
+    type: string
+  product_label:
+    type: string
+  sector_code:
+    type: string
+  start_date:
+    type: date
+  unit_name:
+    type: string
+  unit_value:
+    type: integer
 event_participations:
   created_at:
     type: datetime
@@ -3476,6 +3509,8 @@ incoming_payments:
   payer_id:
     type: integer
     references: entity
+  providers:
+    type: jsonb
   receipt:
     type: text
   received:
@@ -3826,6 +3861,10 @@ intervention_parameter_readings:
     type: integer
     references: user
 intervention_parameters:
+  allowed_entry_factor:
+    type: integer
+  allowed_harvest_factor:
+    type: integer
   assembly_id:
     type: integer
     references: product
@@ -3914,9 +3953,11 @@ intervention_parameters:
   updater_id:
     type: integer
     references: user
+  usage_id:
+    type: string
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
   variety:
     type: string
   working_zone:
@@ -4045,6 +4086,8 @@ interventions:
   procedure_name:
     type: string
     required: true
+  provider:
+    type: jsonb
   providers:
     type: jsonb
   purchase_id:
@@ -4310,6 +4353,8 @@ journal_entries:
   printed_on:
     type: date
     required: true
+  providers:
+    type: jsonb
   real_balance:
     type: decimal
     precision: 19
@@ -4521,7 +4566,7 @@ journal_entry_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
 journals:
   accountant_id:
     type: integer
@@ -4934,14 +4979,14 @@ locations:
   id:
     type: integer
     required: true
-  insee_number:
-    type: string
   locality:
     type: string
   localizable_id:
     type: integer
     references: "~localizable_type"
   localizable_type:
+    type: string
+  registered_postal_zone_id:
     type: string
   updated_at:
     type: datetime
@@ -5675,7 +5720,7 @@ parcel_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
 parcels:
   accounted_at:
     type: datetime
@@ -5892,6 +5937,22 @@ payslips:
   updater_id:
     type: integer
     references: user
+phenological_stages:
+  bbch:
+    type: string
+  biaggiolini:
+    type: string
+  chasselas_date:
+    type: date
+  description:
+    type: jsonb
+  eichhorn_lorenz:
+    type: string
+  id:
+    type: integer
+    required: true
+  label:
+    type: jsonb
 plant_counting_items:
   created_at:
     type: datetime
@@ -6472,6 +6533,8 @@ product_nature_categories:
   id:
     type: integer
     required: true
+  imported_from:
+    type: string
   lock_version:
     type: integer
     required: true
@@ -6514,6 +6577,9 @@ product_nature_categories:
     type: boolean
     required: true
     default: false
+  type:
+    type: string
+    required: true
   updated_at:
     type: datetime
     required: true
@@ -6652,7 +6718,7 @@ product_nature_variant_readings:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
 product_nature_variants:
   active:
@@ -6680,6 +6746,8 @@ product_nature_variants:
   id:
     type: integer
     required: true
+  imported_from:
+    type: string
   lock_version:
     type: integer
     required: true
@@ -6704,12 +6772,17 @@ product_nature_variants:
     type: jsonb
   reference_name:
     type: string
+  specie_variety:
+    type: string
   stock_account_id:
     type: integer
     references: account
   stock_movement_account_id:
     type: integer
     references: account
+  type:
+    type: string
+    required: true
   unit_name:
     type: string
     required: true
@@ -6731,10 +6804,6 @@ product_natures:
     type: boolean
     required: true
     default: false
-  category_id:
-    type: integer
-    references: product_nature_category
-    required: true
   created_at:
     type: datetime
     required: true
@@ -6758,6 +6827,8 @@ product_natures:
   id:
     type: integer
     required: true
+  imported_from:
+    type: string
   linkage_points_list:
     type: text
   lock_version:
@@ -6797,6 +6868,9 @@ product_natures:
     references: subscription_nature
   subscription_years_count:
     type: integer
+    required: true
+  type:
+    type: string
     required: true
   updated_at:
     type: datetime
@@ -6895,7 +6969,7 @@ product_phases:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
 product_readings:
   absolute_measure_value_unit:
@@ -7132,7 +7206,7 @@ products:
     type: uuid
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
   variety:
     type: string
@@ -7268,7 +7342,7 @@ purchase_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
 purchase_natures:
   active:
     type: boolean
@@ -7553,12 +7627,12 @@ registered_pfi_doses:
     scale: 4
   dose_unity:
     type: string
+  france_maaid:
+    type: integer
+    required: true
   functions:
     type: string
   harvest_year:
-    type: integer
-    required: true
-  maaid:
     type: integer
     required: true
   pesticide_name:
@@ -7579,14 +7653,14 @@ registered_phytosanitary_products:
     type: jsonb
   firm_name:
     type: string
+  france_maaid:
+    type: string
+    required: true
   id:
     type: integer
     required: true
   in_field_reentry_delay:
     type: integer
-  maaid:
-    type: string
-    required: true
   mix_category_code:
     type: string
     required: true
@@ -7601,6 +7675,11 @@ registered_phytosanitary_products:
     type: string
   product_type:
     type: string
+  record_checksum:
+    type: integer
+  reference_name:
+    type: string
+    required: true
   restricted_mentions:
     type: string
   started_on:
@@ -7615,17 +7694,29 @@ registered_phytosanitary_risks:
     type: integer
     references: product
     required: true
+  record_checksum:
+    type: integer
   risk_code:
     type: string
     required: true
   risk_phrase:
     type: string
     required: true
+registered_phytosanitary_symbols:
+  id:
+    type: string
+    required: true
+  symbol_name:
+    type: string
 registered_phytosanitary_usages:
   applications_count:
     type: integer
   applications_frequency:
     type: integer
+  crop:
+    type: jsonb
+  crop_label_fra:
+    type: string
   decision_date:
     type: date
   description:
@@ -7650,6 +7741,8 @@ registered_phytosanitary_usages:
   id:
     type: string
     required: true
+  lib_court:
+    type: integer
   pre_harvest_delay:
     type: integer
   pre_harvest_delay_bbch:
@@ -7658,6 +7751,8 @@ registered_phytosanitary_usages:
     type: integer
     references: product
     required: true
+  record_checksum:
+    type: integer
   species:
     type: text
   state:
@@ -7665,6 +7760,8 @@ registered_phytosanitary_usages:
     required: true
   target_name:
     type: jsonb
+  target_name_label_fra:
+    type: string
   treatment:
     type: jsonb
   untreated_buffer_aquatic:
@@ -7692,6 +7789,9 @@ registered_postal_zones:
     type: string
     required: true
   country:
+    type: string
+    required: true
+  id:
     type: string
     required: true
   postal_code:
@@ -7884,7 +7984,7 @@ sale_items:
     references: user
   variant_id:
     type: integer
-    references: product_nature_variant
+    references: variant
     required: true
 sale_natures:
   active:
@@ -8057,6 +8157,8 @@ sales:
     precision: 19
     scale: 4
     required: true
+  providers:
+    type: jsonb
   quantity_gap_on_invoice_journal_entry_id:
     type: integer
     references: journal_entry
@@ -8746,6 +8848,8 @@ technical_workflow_procedure_items:
   unit:
     type: string
 technical_workflow_procedures:
+  bbch_stage:
+    type: string
   frequency:
     type: string
   id:
@@ -8878,6 +8982,18 @@ trackings:
     type: string
   usage_limit_on:
     type: date
+user_roles:
+  accesses:
+    type: text
+  id:
+    type: integer
+    required: true
+  label_fra:
+    type: string
+  name:
+    type: jsonb
+  reference_name:
+    type: string
 users:
   administrator:
     type: boolean
@@ -9003,6 +9119,10 @@ users:
     type: integer
     references: user
 variant_categories:
+  default_vat_rate:
+    type: decimal
+    precision: 5
+    scale: 2
   depreciable:
     type: boolean
   depreciation_percentage:
@@ -9016,11 +9136,18 @@ variant_categories:
   id:
     type: integer
     required: true
+  label_fra:
+    type: string
+    required: true
   name:
     type: jsonb
   nature:
     type: string
     required: true
+  payment_frequency_unit:
+    type: string
+  payment_frequency_value:
+    type: integer
   purchasable:
     type: boolean
   purchase_account:
@@ -9075,6 +9202,9 @@ variant_natures:
     required: true
   indicators:
     type: text
+  label_fra:
+    type: string
+    required: true
   name:
     type: jsonb
   nature:
@@ -9085,6 +9215,8 @@ variant_natures:
   reference_name:
     type: string
     required: true
+  variety:
+    type: string
 variant_prices:
   currency:
     type: string
@@ -9185,11 +9317,16 @@ variants:
     type: string
   default_unit:
     type: string
+  eu_product_code:
+    type: string
   id:
     type: string
     required: true
   indicators:
     type: jsonb
+  label_fra:
+    type: string
+    required: true
   name:
     type: jsonb
   nature:
@@ -9199,14 +9336,16 @@ variants:
     required: true
   specie:
     type: string
+  sub_nature:
+    type: string
   target_specie:
     type: string
   variant_category_id:
     type: integer
-    references: ''
+    references: variant_category
   variant_nature_id:
     type: integer
-    references: ''
+    references: variant_nature
 versions:
   created_at:
     type: datetime

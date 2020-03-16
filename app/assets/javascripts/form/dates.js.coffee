@@ -44,14 +44,14 @@
 
   # Watch for element insertion via javascript
   E.onDOMElementAdded
-    "input[type='date']": ($element) => $element.each -> enableDatePicker @
-    "input[type='datetime']": ($element) => $element.each -> enableDatetimePicker @
-    "input[type='daterange']": ($element) => $element.each -> enableDateRangePicker @
+    "input[type='date']": ($element) => $element.each -> E.forms.date.enableDatePicker @
+    "input[type='datetime']": ($element) => $element.each -> E.forms.date.enableDatetimePicker @
+    "input[type='daterange']": ($element) => $element.each -> E.forms.date.enableDateRangePicker @
 
   # Initializes date fields
   $(document).ready =>
-    $("input[type='date']").each -> enableDatePicker @
-    $("input[type='datetime']").each -> enableDatetimePicker @
-    $("input[type='daterange']").each -> enableDateRangePicker @
+    $("input[type='date']").each -> E.forms.date.enableDatePicker @
+    $("input[type='datetime']").each -> E.forms.date.enableDatetimePicker @
+    $("input[type='daterange']").each -> E.forms.date.enableDateRangePicker @
 
 ) ekylibre, jQuery

@@ -42,12 +42,7 @@ ekylibre.cviLandParcels.editForm ||= {}
     cancel: ->
       this.count = 0
       E.cviLandParcels.list.render()
-      map = E.map._cartography.map
-      currentBounds = map.getBounds()
-      map.remove()
-      $("#face-map > div.map-fullwidth.map-halfheight > div").remove()
-      $.loadMap()
-      E.map._cartography.map.fitBounds(currentBounds)
+      $.reloadMap()
   }
 
 )(ekylibre, jQuery)

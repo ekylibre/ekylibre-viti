@@ -1,7 +1,7 @@
 
 = ekylibre_form_for(resource, remote: true) do |f|  
   - current_year = Time.current.year
-  = field_set( tl(:edit) + ' ' + resource.name, class:"multi-columns" ) do
+  = field_set( tl(:edit) + ' ' + resource.name.to_s, class:"multi-columns" ) do
     = f.input :name
     = f.referenced_association :designation_of_origin, new: false, label: CviLandParcel.human_attribute_name(:designation_of_origin_name), input_html: {data: {'search-treshold'=> 3, button: false}}
     = f.referenced_association :vine_variety,source: {action: :unroll_vine_varieties}, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
@@ -17,5 +17,5 @@
     = f.referenced_association :activity, source: {controller: 'ekyviti/activities', scope: :wine }, new: true, label: :activity.tl
     = f.hidden_field :shape
   - f.add(:submit, :update.tl, data: {disable_with: :please_wait.tl}, class: 'primary')
-  - f.add(:link, :cancel.tl, "#", {class: 'btn', onclick: "ekylibre.cviLandParcels.editForm.cancel(#{params[:id]})"} )
+  - f.add(:link, :cancel.tl, "#", class: 'btn', data: { "cancel-list-map-form": "", id: params[:id]} )
   = f.actions

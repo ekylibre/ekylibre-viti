@@ -20,7 +20,7 @@ class SplitCviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtu
       SplitCviLandParcel.call(cvi_land_parcel: cvi_land_parcel, new_cvi_land_parcels_params: new_cvi_land_parcels_params)
       new_declared_area1 = CviLandParcel.last(2).first.declared_area
       new_declared_area2 = CviLandParcel.last(2).last.declared_area
-      assert_in_epsilon old_declared_area.value, (new_declared_area1 + new_declared_area2).value , epsilon = 0.001
+      assert_in_delta old_declared_area.value, (new_declared_area1 + new_declared_area2).value , delta = 0.001
     end
 
     it 'creates 2 records and  destroy 1' do
@@ -30,11 +30,11 @@ class SplitCviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtu
     end
 
     it 'sets relations' do
-      old_cvi_land_parcel_locations = cvi_land_parcel.locations.map { |r| [r.insee_number, r.locality] }
+      old_cvi_land_parcel_locations = cvi_land_parcel.locations.map { |r| [r.registered_postal_zone_id, r.locality] }
       old_cvi_land_parcel_rootstocks = cvi_land_parcel.land_parcel_rootstocks.map { |r| [r.rootstock_id, r.percentage] }
       SplitCviLandParcel.call(cvi_land_parcel: cvi_land_parcel, new_cvi_land_parcels_params: new_cvi_land_parcels_params)
       new_cvi_land_parcel = CviLandParcel.last
-      assert_equal old_cvi_land_parcel_locations, new_cvi_land_parcel.locations.pluck(:insee_number, :locality)
+      assert_equal old_cvi_land_parcel_locations, new_cvi_land_parcel.locations.pluck(:registered_postal_zone_id, :locality)
       assert_equal old_cvi_land_parcel_rootstocks, new_cvi_land_parcel.land_parcel_rootstocks.pluck(:rootstock_id, :percentage)
     end
 
