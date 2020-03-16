@@ -3,8 +3,9 @@
   = f.input :name
   = f.input :nature, as: :radio_buttons, show: '.{{value}}-nature-options'
   = f.referenced_nomenclature :production_system
-  = f.referenced_association :production_nature, new: false, label: :production_nature.tl
   = f.referenced_nomenclature :family, input_html: {data: {activity_family: true}}
+  = f.input :production_cycle, as: :radio_buttons, show: '.{{value}}-production-cycle-options'
+  = f.referenced_association :production_nature, new: false, label: :production_nature.tl
   - family = Nomen::ActivityFamily[f.object.family]
   = f.input :with_cultivation, as: :hidden
   = f.referenced_nomenclature :cultivation_variety, collection: ((family and family.cultivation_variety.present?) ? Nomen::Variety.selection(family.cultivation_variety) : []), wrapper_html: {style: "display: #{(family and family.cultivation_variety.present?) ? 'block' : 'none'}"}
@@ -14,9 +15,9 @@
     input_html: { class: "day-year-hidden", data: {"alt-format": 'd-F'}}, 
     start_label: :from_current_year,
     stop_label: :to_next_year)
-  = f.input :production_cycle, as: :radio_buttons, show: '.{{value}}-production-cycle-options'
   .perennial-production-cycle-options
-    = f.input :first_year_of_production, collection: ['']
+    = f.input :start_state_of_production, collection: ['']
+    = f.input :life_duration, wrapper: :append, append: "hello"
   -#.main-nature-options
     = f.input :size_indicator_name
     = f.input :size_unit_name

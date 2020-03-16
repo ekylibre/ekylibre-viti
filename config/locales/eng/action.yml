@@ -1296,6 +1296,11 @@ eng:
       nature:
         harvest: "Harvest:"
         reentry: "Reentry:"
+    production:
+      start_state_of_production:
+        n_3_4_leaf: "N+3 (2nd leaf)"
+        n_2_3_leaf: "N+2 (3rd leaf)"
+        n_4_5_leaf: "N+4 (5th leaf)"
   labels:
     rootstock: "Rootstock"
     accepted: "Accepted"

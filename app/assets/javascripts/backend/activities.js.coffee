@@ -22,26 +22,32 @@
     $.ajax
       url: "/backend/master_production_natures/#{id}.json"
       success: (data, status, request) ->
-        fpStaredOn = $('input#activity_production_started_on').flatpickr(options)
+        fpStaredOn = flatpickr($('input#activity_production_started_on'), options)
         fpStaredOn.setDate(data.started_on)
-        fpStaredOn.calendarContainer.classList.add('day-year-hidden')
-        fpStoppedOn = $('input#activity_production_stopped_on').flatpickr(options)
+        fpStaredOn.calendarContainer.classList.add('day-names-hidden','year-hidden')
+        fpStoppedOn = flatpickr($('input#activity_production_stopped_on'), options)
         fpStoppedOn.setDate(data.stopped_on)
-        fpStoppedOn.calendarContainer.classList.add('day-year-hidden')
-
-        if data.first_year_of_production.length == 0
+        fpStoppedOn.calendarContainer.classList.add('day-names-hidden','year-hidden')
+        if !data.start_state_of_production 
+          return
+        if data.start_state_of_production.length == 0
           $('div.perennial-production-cycle-options').hide()
           return
 
-        options = ''
-        firstYearOfProductions = data.first_year_of_production
-        OrderedFirstYearOfProductions = firstYearOfProductions.concat().sort (a, b) -> a[0] - b[0]
-        DefaultFirstYearOfProduction = firstYearOfProductions[0][0]
-        for value in  OrderedFirstYearOfProductions
-          options += "<option value=#{value[0]}>#{value[1]}</option>"
-        $('select#activity_first_year_of_production').children('option').remove()
-        $('select#activity_first_year_of_production').append(options)
-        $('select#activity_first_year_of_production').val(DefaultFirstYearOfProduction)
+        defaultStartStateOfProduction = parseInt(data.start_state_of_production.match(/^(\D*)(\d+)/)[2])
+        startStateOfProductions = JSON.parse(data.start_state_of_production)
+        options = ''  
+        for key,value of startStateOfProductions
+          tlOption = I18n.t("front-end.production.start_state_of_production.#{value}")
+          options += "<option value=#{key}>#{tlOption}</option>"
+        $('select#activity_start_state_of_production').children('option').remove()
+        $('select#activity_start_state_of_production').append(options)
+        $('select#activity_start_state_of_production').val(defaultStartStateOfProduction)
+
+        if !data.life_duration 
+          return
+
+        $('input#activity_life_duration').val(data.life_duration)
 
   $(document).on "change keyup", ".plant-density-abacus .activity_plant_density_abaci_seeding_density_unit select", (event)->
     element = $(this)

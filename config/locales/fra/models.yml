@@ -86,6 +86,8 @@ fra:
         net_margin: "Marge nette" #?
         parent: "Activité parente" #?
         work_unit: "Unité d’œuvre" #?
+        start_state_of_production: "1ère année de production (plantation année N)"
+        life_duration: "Durée de vie après plantation"
       activity_budget:
         expenses_amount: "Montant des dépenses"
         revenues_amount: "Montant des recettes"

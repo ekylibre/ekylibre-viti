@@ -1098,6 +1098,11 @@ fra:
       nature:
         harvest: "Récolte :"
         reentry: "Réentrée :"
+    production:
+      start_state_of_production:
+        n_3_4_leaf: "N+3 (2ème feuille)"
+        n_2_3_leaf: "N+2 (3ème feuille)"
+        n_4_5_leaf: "N+4 (5ème feuille"
   labels:
     rootstock: "Porte-greffe"
     abilities: "Compétences" #?

@@ -1,7 +1,9 @@
 @import "variables";
 @import "vendor/flatpickr";
 
-.flatpickr-time input.flatpickr-hour, .flatpickr-time input.flatpickr-minute, .flatpickr-time input.flatpickr-second {
+.flatpickr-time input.flatpickr-hour,
+.flatpickr-time input.flatpickr-minute,
+.flatpickr-time input.flatpickr-second {
   height: inherit; // Override reset rule
   font-size: 18px;
   padding: 0;
@@ -20,13 +22,4 @@
 
 .flatpickr-time .numInput {
   text-align: center !important;
-}
-
-.flatpickr-calendar.day-year-hidden {
-  .numInputWrapper{
-    display: none;
-  }
-  .flatpickr-weekdaycontainer {
-    display: none;
-  }
 }
