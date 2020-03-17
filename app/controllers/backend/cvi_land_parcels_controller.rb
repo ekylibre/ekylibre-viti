@@ -85,12 +85,12 @@ module Backend
       end
 
       def update_params
-        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :land_modification_date, land_parcel_rootstocks_attributes: %i[id rootstock_id])
+        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :activity_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :land_modification_date, land_parcel_rootstocks_attributes: %i[id rootstock_id])
               .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
       end
 
       def update_multiple_params
-        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :land_modification_date, land_parcel_rootstocks_attributes: %i[rootstock_id])
+        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :activity_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :land_modification_date, land_parcel_rootstocks_attributes: %i[rootstock_id])
       end
   end
 end
