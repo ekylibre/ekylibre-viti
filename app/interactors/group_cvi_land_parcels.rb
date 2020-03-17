@@ -1,12 +1,14 @@
 class GroupCviLandParcels < ApplicationInteractor
-  ATTRIBUTES = %i[designation_of_origin_id vine_variety_id inter_vine_plant_distance_value inter_row_distance_value planting_campaign state].freeze
+  ATTRIBUTES = %i[designation_of_origin_id vine_variety_id inter_vine_plant_distance_value inter_row_distance_value state].freeze
 
   def call
     check_if_groupable
     ActiveRecord::Base.transaction do
       create_new_record
       create_associated_locations
-      create_associated_land_parcel_rootstocks
+      set_associated_cvi_cadastral_plants
+      set_main_rootstock
+      set_main_campaign
       destroy_grouped_records
     end
   end
@@ -39,23 +41,29 @@ class GroupCviLandParcels < ApplicationInteractor
     context.new_cvi_land_parcel = new_cvi_land_parcel
   end
 
-  def create_associated_land_parcel_rootstocks
-    land_parcel_rootstocks = context.cvi_land_parcels.flat_map(&:land_parcel_rootstocks)
-    uniq_rootstock_ids = land_parcel_rootstocks.collect(&:rootstock_id).uniq
-
-    if uniq_rootstock_ids.length > 1
-      new_land_parcel_rootstock = uniq_rootstock_ids.map do |rootstock_id|
-        new_land_parcel_rootstock = { area: nil, percentage: nil, rootstock_id: rootstock_id }
-        rootstock_area = land_parcel_rootstocks.select { |r| r.rootstock_id == rootstock_id }.sum { |r| r.land_parcel.calculated_area * r.percentage }
-        percentage = rootstock_area / @total_area
-        { percentage: percentage, rootstock_id: rootstock_id, land_parcel: context.new_cvi_land_parcel }
-      end
-      LandParcelRootstock.create!(new_land_parcel_rootstock)
-    else
-      new_land_parcel_rootstock = land_parcel_rootstocks.first.dup
-      new_land_parcel_rootstock.land_parcel = context.new_cvi_land_parcel
-      new_land_parcel_rootstock.save!
+  def set_associated_cvi_cadastral_plants
+    context.cvi_land_parcels.flat_map(&:cvi_cadastral_plants).each do |cvi_cadastral_plant|
+      percentage = cvi_cadastral_plant.area / context.new_cvi_land_parcel.declared_area
+      context.new_cvi_land_parcel.cvi_cadastral_plant_cvi_land_parcels.create!(cvi_cadastral_plant: cvi_cadastral_plant, percentage: percentage )
     end
+  end
+
+  def set_main_rootstock
+    rootstocks_percentages = context.new_cvi_land_parcel.cvi_cadastral_plant_cvi_land_parcels.map do |ccp_clp|
+      { rootstock_id: ccp_clp.cvi_cadastral_plant.rootstock_id, percentage: ccp_clp.percentage }
+    end.group_by{ |x| x[:rootstock_id]}.map do |key,value| 
+      { rootstock_id: key, percentage: value.inject(0) {|sum,hash| sum + hash[:percentage]}}
+    end
+    context.new_cvi_land_parcel.update( rootstock_id: rootstocks_percentages.max { |a, b| a[:percentage] <=> b[:percentage]}[:rootstock_id]    )
+  end
+
+  def set_main_campaign
+    rootstocks_percentages = context.new_cvi_land_parcel.cvi_cadastral_plant_cvi_land_parcels.map do |ccp_clp|
+      { campaign: ccp_clp.cvi_cadastral_plant.planting_campaign, percentage: ccp_clp.percentage }
+    end.group_by{ |x| x[:campaign]}.map do |key,value| 
+      { campaign: key, percentage: value.inject(0) {|sum,hash| sum + hash[:percentage]}}
+    end
+    context.new_cvi_land_parcel.update( planting_campaign: rootstocks_percentages.max { |a, b| a[:percentage] <=> b[:percentage]}[:campaign]    )
   end
 
   def create_associated_locations

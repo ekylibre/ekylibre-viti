@@ -9,13 +9,14 @@ FactoryBot.define do
     inter_row_distance_unit { :centimeter }
     designation_of_origin_id { RegisteredProtectedDesignationOfOrigin.order('RANDOM()').first.id }
     vine_variety_id { MasterVineVariety.where(category_name: 'Cépage').order('RANDOM()').first.id }
+    rootstock_id { MasterVineVariety.where(category_name: 'Porte-greffe').order('RANDOM()').first.id }
     state { %i[planted removed_with_authorization].sample }
     shape { FFaker::Shape.multipolygon.simplify(0.05) }
     planting_campaign { FFaker::Time.between(10.years.ago, Time.zone.today).year.to_s }
     land_modification_date { Time.zone.today - rand(10_000) }
     cvi_cultivable_zone
     with_location
-    with_rootstock
+    with_cvi_cadastral_plant
 
     trait :old_splitted do
       shape {'POLYGON ((-0.2532838 45.77936779560541, -0.252766 45.78065979560589, -0.25263 45.78060929560586, -0.2531422999999999 45.77933279560539, -0.2532838 45.77936779560541))'}
@@ -36,15 +37,11 @@ FactoryBot.define do
       end
     end
 
-    trait :with_rootstock do
+    trait :with_cvi_cadastral_plant do
       after(:create) do |resource|
-        create(:land_parcel_rootstock, land_parcel: resource)
-      end
-    end
-
-    trait :with_2_rootstocks do
-      after(:create) do |resource|
-        create_list(:land_parcel_rootstock,2, land_parcel: resource)
+        cvi_cadastral_plant = create(:cvi_cadastral_plant)
+        resource.update(declared_area_value: cvi_cadastral_plant.area_value,declared_area_unit: cvi_cadastral_plant.area_unit)
+        resource.cvi_cadastral_plants << cvi_cadastral_plant
       end
     end
 
@@ -54,7 +51,6 @@ FactoryBot.define do
       designation_of_origin_id { RegisteredProtectedDesignationOfOrigin.first.id }
       vine_variety_id { MasterVineVariety.where(category_name: 'Cépage').first.id }
       state { :planted }
-      planting_campaign { '1900' }
     end
   end
 end

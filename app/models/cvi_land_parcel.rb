@@ -15,6 +15,8 @@ class CviLandParcel < Ekylibre::Record::Base
   has_many :land_parcel_rootstocks, as: :land_parcel, dependent: :destroy
   has_many :cvi_cadastral_plant_cvi_land_parcels, dependent: :destroy
   has_many :cvi_cadastral_plants, through: :cvi_cadastral_plant_cvi_land_parcels
+  has_many :rootstocks, through: :cvi_cadastral_plants
+  belongs_to :rootstock, class_name: 'MasterVineVariety', foreign_key: :rootstock_id
 
   accepts_nested_attributes_for :land_parcel_rootstocks, reject_if: proc { |attributes| attributes['rootstock_id'].blank? }
 
