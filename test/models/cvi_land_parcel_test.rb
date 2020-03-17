@@ -34,6 +34,7 @@ class CviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   should belong_to(:vine_variety).with_foreign_key('vine_variety_id')
   should have_many(:land_parcel_rootstocks)
   should have_many(:locations)
+  should have_many(:cvi_cadastral_plant_cvi_land_parcels)
 
   should enumerize(:state).in(:planted, :removed_with_authorization).with_predicates(true)
 

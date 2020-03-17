@@ -8,6 +8,7 @@ class CviCultivableZone < Ekylibre::Record::Base
   has_many :cvi_cadastral_plants, dependent: :nullify
   has_many :cvi_land_parcels, dependent: :destroy
   has_many :locations, as: :localizable, dependent: :destroy
+  has_many :cvi_cadastral_plant_cvi_land_parcels, dependent: :destroy
 
   validates_presence_of :name
 
