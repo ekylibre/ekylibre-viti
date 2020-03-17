@@ -74,6 +74,13 @@ module Backend
         h
       end
       SplitCviLandParcel.call(cvi_land_parcel: cvi_land_parcel, new_cvi_land_parcels_params: new_cvi_land_parcels_params)
+      if result.success?
+        notify_now(:cvi_land_parcels_splitted)
+        render :update
+      else
+        notify_error(result.error)
+        render partial: 'notify'
+      end
       notify_now(:cvi_land_parcels_splitted)
       render :update
     end

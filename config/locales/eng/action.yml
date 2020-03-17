@@ -3226,6 +3226,7 @@ eng:
       record_x_updated_f: "%{record} %{name} updated" #?
       can_not_group_cvi_land_parcels: "CVI land parcels can't be grouped, because vine variety, designation of origin, inter vine plant distance, inter row distance, tree-planting campaign date or state is different. Please check these values before retrying."
       can_not_group_no_intersection: "%{name_pluralized} can't be grouped because its doesn't have any intersection points."
+      can_not_split_grouped: "CVI land parcels can't be splited, because it's already composed of multiple grouped land parcels."
       grouped: "%{name_pluralized} have been grouped."
       cvi_land_parcels_splitted: "Land parcels have been splitted."
       sale_is_not_duplicatable: "Sale is not duplicatable"
