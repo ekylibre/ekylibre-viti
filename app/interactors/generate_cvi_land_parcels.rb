@@ -20,7 +20,7 @@ class GenerateCviLandParcels < ApplicationInteractor
           planting_campaign: r.planting_campaign,
           land_modification_date: r.land_modification_date
         )
-        LandParcelRootstock.create(land_parcel: cvi_land_parcel, rootstock_id: r.rootstock_id)
+        cvi_land_parcel.cvi_cadastral_plants << r
         Location.create(localizable: cvi_land_parcel, locality: r.location.locality, registered_postal_zone_id: r.location.registered_postal_zone_id)
       end
     end
