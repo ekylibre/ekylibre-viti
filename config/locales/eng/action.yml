@@ -1297,16 +1297,11 @@ eng:
         harvest: "Harvest:"
         reentry: "Reentry:"
   labels:
-    rootstock:
-      one: "Rootstock"
-      other: "Rootstocks"  
+    rootstock: "Rootstock"
     major: "main"
-    percentage: 
-      one: "Percentage"
-      other: "Percentages"
-    planting_campaign:
-      one: "Year"
-      other: "Years"
+    percentage: "Percentage"
+    planting_campaign: "Year"
+    cadastral_reference: "Cadastral reference"
     accepted: "Accepted"
     accepted_for_paiment: "Accepted for paiment"
     access: "Access"
