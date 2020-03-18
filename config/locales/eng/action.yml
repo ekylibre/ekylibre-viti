@@ -1298,6 +1298,8 @@ eng:
         reentry: "Reentry:"
   labels:
     rootstock: "Rootstock"
+    major: "main"
+    planting_campaign: "Year"
     accepted: "Accepted"
     accepted_for_paiment: "Accepted for paiment"
     access: "Access"

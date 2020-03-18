@@ -1100,6 +1100,8 @@ fra:
         reentry: "Réentrée :"
   labels:
     rootstock: "Porte-greffe"
+    major: "majoritaire"
+    planting_campaign: "Année"
     abilities: "Compétences" #?
     accepted: "Acceptée"
     accepted_for_paiment: "Acceptée pour paiement"

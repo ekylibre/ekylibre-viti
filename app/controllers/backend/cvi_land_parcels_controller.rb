@@ -52,7 +52,7 @@ module Backend
     end
 
     def group
-      cvi_land_parcels = CviLandParcel.joins(:locations, :land_parcel_rootstocks).where(id: params[:cvi_land_parcel_ids]).distinct
+      cvi_land_parcels = CviLandParcel.joins(:locations).where(id: params[:cvi_land_parcel_ids]).distinct
       result = GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
       if result.success?
         notify_now(:grouped, name_pluralized: CviLandParcel.model_name.human.pluralize.downcase)
@@ -92,7 +92,7 @@ module Backend
       end
 
       def update_params
-        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :land_modification_date, land_parcel_rootstocks_attributes: %i[id rootstock_id])
+        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :land_modification_date, :rootstock_id)
               .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
       end
 

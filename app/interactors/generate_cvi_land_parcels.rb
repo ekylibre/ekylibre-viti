@@ -18,7 +18,8 @@ class GenerateCviLandParcels < ApplicationInteractor
           shape: shape,
           cvi_cultivable_zone_id: cvi_cultivable_zone.id,
           planting_campaign: r.planting_campaign,
-          land_modification_date: r.land_modification_date
+          land_modification_date: r.land_modification_date,
+          rootstock_id: r.rootstock_id
         )
         cvi_land_parcel.cvi_cadastral_plants << r
         Location.create(localizable: cvi_land_parcel, locality: r.location.locality, registered_postal_zone_id: r.location.registered_postal_zone_id)

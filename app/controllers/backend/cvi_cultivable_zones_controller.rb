@@ -122,7 +122,7 @@ module Backend
       t.column :vine_variety_name
       t.column :declared_area_formatted, label: :declared_area
       t.column :calculated_area_formatted, label: :calculated_area
-      t.column :rootstocks
+      t.column :rootstock
       t.column :planting_campaign
       t.column :inter_vine_plant_distance_value
       t.column :inter_row_distance_value
