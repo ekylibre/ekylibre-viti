@@ -108,7 +108,7 @@ SELECT
 	
 	product_human_name_fra AS designation_of_origin_name,
 	vine_varieties.specie_name AS vine_variety_name,
-	INITCAP(string_agg(DISTINCT rootstocks.specie_name,', ' ORDER BY rootstocks.specie_name)) AS rootstocks,
+	INITCAP(rootstocks.specie_name) AS rootstock,
 
 	declared_area_value,
 	calculated_area_value,
@@ -122,9 +122,8 @@ SELECT
 	
 FROM cvi_land_parcels
 LEFT JOIN locations as locations ON cvi_land_parcels.id = locations.localizable_id AND locations.localizable_type = 'CviLandParcel'
-LEFT JOIN land_parcel_rootstocks ON cvi_land_parcels.id = land_parcel_rootstocks.land_parcel_id AND land_parcel_rootstocks.land_parcel_type = 'CviLandParcel'
-LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON land_parcel_rootstocks.rootstock_id = rootstocks.id
+LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_land_parcels.rootstock_id = rootstocks.id
 LEFT JOIN lexicon.registered_postal_zones ON locations.registered_postal_zone_id = registered_postal_zones.id
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_land_parcels.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.registered_protected_designation_of_origins AS designation_of_origins ON cvi_land_parcels.designation_of_origin_id = designation_of_origins.id
-GROUP BY cvi_land_parcels.id, designation_of_origin_name, vine_variety_name;
+GROUP BY cvi_land_parcels.id, designation_of_origin_name, vine_variety_name, rootstock;
