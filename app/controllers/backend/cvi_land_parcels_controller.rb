@@ -65,6 +65,10 @@ module Backend
 
     def pre_split
       @cvi_land_parcel = CviLandParcel.find(params[:id])
+      if @cvi_land_parcel.regrouped?
+        notify_error(:can_not_split_grouped)
+        render partial: 'notify', format: [:js]
+      end
     end
 
     def split

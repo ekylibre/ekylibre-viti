@@ -1,6 +1,5 @@
 class SplitCviLandParcel < ApplicationInteractor
   def call
-    check_if_splitable
     ActiveRecord::Base.transaction do
       context.new_cvi_land_parcels_params.each do |params|
         create_new_cvi_land_parcels(params)
@@ -10,12 +9,6 @@ class SplitCviLandParcel < ApplicationInteractor
   end
 
   private
-
-  def check_if_splitable
-    if context.cvi_land_parcel.cvi_cadastral_plants.length > 1
-      context.fail!(error: ::I18n.t(:can_not_group_no_intersection,scope: [:notifications, :messages]))
-    end
-  end
 
   def create_new_cvi_land_parcels(new_cvi_land_parcel_params)
     cvi_land_parcel = context.cvi_land_parcel.dup
