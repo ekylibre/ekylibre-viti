@@ -24,7 +24,6 @@ module Backend
 
     def edit_multiple
       @cvi_land_parcels = CviLandParcel.find(params[:ids])
-      rootstock_editable?
       result = ConcatCviLandParcels.call(cvi_land_parcels: @cvi_land_parcels)
       @cvi_land_parcel = result.cvi_land_parcel
     end
@@ -35,14 +34,12 @@ module Backend
       unless @cvi_land_parcel.valid_for_update_multiple?
         notify_error_now :records_cannot_be_saved.tl
         response.headers['X-Return-Code'] = 'invalid'
-        rootstock_editable?
         render :edit_multiple
         return
       end
 
       @cvi_land_parcels.each do |cvi_land_parcel|
         update_params = update_multiple_params
-        update_params['land_parcel_rootstocks_attributes']['0']['id'] = cvi_land_parcel.land_parcel_rootstock_ids.first if rootstock_editable?
         cvi_land_parcel.update!(update_params.reject { |_k, v| v.blank? })
       end
       response.headers['X-Return-Code'] = 'success'
@@ -90,18 +87,13 @@ module Backend
     end
 
     private
-
-      def rootstock_editable?
-        @rootstock_editable ||= @cvi_land_parcels.none? { |cvi_land_parcel| cvi_land_parcel.land_parcel_rootstocks.length > 1 }
-      end
-
       def update_params
         params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :land_modification_date, :rootstock_id)
               .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
       end
 
       def update_multiple_params
-        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :land_modification_date, land_parcel_rootstocks_attributes: %i[rootstock_id])
+        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :land_modification_date, :rootstock_id)
       end
   end
 end

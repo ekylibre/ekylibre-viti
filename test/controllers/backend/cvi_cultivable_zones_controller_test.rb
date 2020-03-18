@@ -1,7 +1,7 @@
 require 'test_helper'
 module Backend
   class CviCultivableZonesControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
-    test_restfully_all_actions except: %i[show update delete_modal generate_cvi_land_parcels edit_cvi_land_parcels confirm_cvi_land_parcels index]
+    test_restfully_all_actions except: %i[show update delete_modal generate_cvi_land_parcels edit_cvi_land_parcels confirm_cvi_land_parcels index group]
 
     describe('#delete_modal') do
       let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone) }
