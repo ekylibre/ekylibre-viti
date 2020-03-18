@@ -35,4 +35,8 @@ class CviLandParcel < Ekylibre::Record::Base
     errors.delete(:inter_row_distance_value) if errors.added?(:inter_row_distance_value, :blank)
     errors.empty?
   end
+
+  def regrouped?
+    self.rootstocks.length > 1
+  end
 end

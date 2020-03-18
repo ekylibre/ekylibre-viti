@@ -1297,9 +1297,16 @@ eng:
         harvest: "Harvest:"
         reentry: "Reentry:"
   labels:
-    rootstock: "Rootstock"
+    rootstock:
+      one: "Rootstock"
+      other: "Rootstocks"  
     major: "main"
-    planting_campaign: "Year"
+    percentage: 
+      one: "Percentage"
+      other: "Percentages"
+    planting_campaign:
+      one: "Year"
+      other: "Years"
     accepted: "Accepted"
     accepted_for_paiment: "Accepted for paiment"
     access: "Access"

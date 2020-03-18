@@ -1099,9 +1099,16 @@ fra:
         harvest: "Récolte :"
         reentry: "Réentrée :"
   labels:
-    rootstock: "Porte-greffe"
+    rootstock: 
+      one: "Porte-greffe"
+      other: "Porte-greffes"
     major: "majoritaire"
-    planting_campaign: "Année"
+    percentage:
+      one: "Répartition"
+      other: "Répartitions"
+    planting_campaign: 
+      one: "Année"
+      other: "Années"
     abilities: "Compétences" #?
     accepted: "Acceptée"
     accepted_for_paiment: "Acceptée pour paiement"

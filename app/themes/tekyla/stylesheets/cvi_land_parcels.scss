@@ -1,3 +1,14 @@
 .edit-form .instructions{
   flex: 0 0 30%
 }
+
+table.multi-rootstocks{
+  max-width: 800px;
+  margin-left: 14px;
+  td.align-right{
+    text-align: right;
+  }
+  td.border-top{
+    border-top: 1px solid #000000 !important; 
+  }
+}
