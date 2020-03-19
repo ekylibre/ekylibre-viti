@@ -509,6 +509,10 @@ td.with-details {
   }
   div.control-group{
     min-width:500px;
+    .controls{
+      max-width: 68%;
+      margin-left: 32%;
+    }
   }
 }
 
