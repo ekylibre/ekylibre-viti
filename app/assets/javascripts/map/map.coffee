@@ -22,7 +22,7 @@
     #TODO: move to cartography
     configPanes: ->
       ghostIconPane = @_cartography.getMap().createPane('ghost-icon');
-      ghostIconPane.style.zIndex = 5;
+      ghostIconPane.style.zIndex = 6;
       makerPane = @_cartography.getMap().getPane('markerPane')
       makerPane.style.zIndex = 1000;
 
