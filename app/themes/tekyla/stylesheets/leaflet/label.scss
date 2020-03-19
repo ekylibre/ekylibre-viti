@@ -45,15 +45,14 @@
 
 .simple-label {
   font-weight: bold;
-}
-
-.simple-label.white {
-  color: #fff;
-}
-
-.simple-label.blue {
-  color: rgb(197, 212, 240);
-}
-.simple-label.yellow {
-  color: #E7E8C0
+  text-align: center;
+  &.white {
+    color: #fff;
+  }
+  &.blue {
+    color: rgb(197, 212, 240);
+  }
+  &.yellow {
+    color: #E7E8C0
+  }
 }

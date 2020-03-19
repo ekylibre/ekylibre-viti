@@ -14,9 +14,17 @@
       @_cartography = new Cartography.Map @el, options
       @initHooks()
       @initControls()
+      @configPanes()
       @asyncLayersLoading()
       @displayCadastralLandParcelZone()
       @firstLoad = true
+
+    #TODO: move to cartography
+    configPanes: ->
+      ghostIconPane = @_cartography.getMap().createPane('ghost-icon');
+      ghostIconPane.style.zIndex = 5;
+      makerPane = @_cartography.getMap().getPane('markerPane')
+      makerPane.style.zIndex = 1000;
 
     asyncLayersLoading: ->
       asyncLayers = @_cartography.options.layers.filter (layer) -> layer.asyncUrl?
@@ -114,7 +122,7 @@
             insertionMarker = () ->
               cadastral_ref = layer.feature.properties.cadastral_ref
               layer._ghostIcon = new L.GhostIcon html: cadastral_ref, className: "simple-label white", iconSize: [40, 40]
-              layer._ghostMarker = L.marker(layer.getCenter(), icon: layer._ghostIcon)
+              layer._ghostMarker = L.marker(layer.getCenter(), icon: layer._ghostIcon, pane: 'ghost-icon')
 
               layer._ghostMarker.addTo layer._map
               layer.addTo layer._map
