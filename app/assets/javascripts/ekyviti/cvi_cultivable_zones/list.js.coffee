@@ -8,7 +8,6 @@ ekylibre.cviCultivableZones ||= {}
       this.formatRow()
       E.list.bindCellsClickToCenterLayer('cvi_cultivable_zones', 2)
       this.selectedCviCultivableZones = []
-      E.list.addCheckboxes('cvi_cultivable_zones')
       this.addButton()
       this.bindCheckBoxes()
 

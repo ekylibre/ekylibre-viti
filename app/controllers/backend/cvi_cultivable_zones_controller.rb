@@ -133,7 +133,7 @@ module Backend
       redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
     end
 
-    list(:cvi_land_parcels, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: cvi_land_parcels_conditions) do |t|
+    list(:cvi_land_parcels, selectable: true, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: cvi_land_parcels_conditions) do |t|
       t.column :id, hidden: true
       t.action :edit, url: { controller: 'cvi_land_parcels', action: 'edit', remote: true }
       t.column :name

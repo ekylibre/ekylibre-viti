@@ -4,7 +4,6 @@
 
     init: ->
       E.list.bindCellsClickToCenterLayer('cvi_land_parcels', 2)
-      E.list.addCheckboxes('cvi_land_parcels')
       this.addButtons()
       this.selectedCviLandParcels = []
       this.bindEditMultipleButton()
