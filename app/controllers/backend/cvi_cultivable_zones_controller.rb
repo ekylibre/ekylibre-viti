@@ -91,7 +91,18 @@ module Backend
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
       cvi_cultivable_zone.cvi_land_parcels.destroy_all
       GenerateCviLandParcels.call(cvi_cultivable_zone: cvi_cultivable_zone)
-      redirect_to action: 'show', id: cvi_cultivable_zone.id
+      shape = CviLandParcel.select('st_astext(
+        ST_Simplify(
+          ST_UNION(
+            ARRAY_AGG(
+                ST_MakeValid(cvi_land_parcels.shape)
+              )
+            ), 0.000000001
+          )
+        ) AS shape').joins(:cvi_cultivable_zone).find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id).shape
+      calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
+      cvi_cultivable_zone.update(shape: shape.to_rgeo, calculated_area: calculated_area)
+      redirect_to backend_cvi_cultivable_zone_path(cvi_cultivable_zone.id)
     end
 
     def generate_cvi_land_parcels
