@@ -1101,6 +1101,7 @@ fra:
     active_list:
       labels:
         manage_land_parcels: "Gérer le parcellaire"
+        edit: "Modifier"
   labels:
     rootstock: "Porte-greffe"
     major: "majoritaire"
@@ -1571,6 +1572,7 @@ fra:
     counts: "Totaux"
     counts_by_nature: "Nombre de pièces à comptabiliser par type"
     create: "Créer"
+    complete: "Terminer"
     create_a_sale: "Créer une vente"
     create_and_continue: "Créer et saisir suivant"
     create_journal: "— Créer le journal —"
@@ -3710,8 +3712,8 @@ fra:
       convert: "Convertir"
       correct: "Corriger"
       create: "Créer"
-      generate_cvi_land_parcels: "Créer parcellaire"
-      edit_cvi_land_parcels: "Modifier parcellaire"
+      generate_cvi_land_parcels: "Commencer"
+      edit_cvi_land_parcels: "Reprendre"
       decrement: "Décrementer" #?
       delete_modal: "Supprimer"
       destroy: "Supprimer"

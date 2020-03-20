@@ -110,6 +110,7 @@ module Backend
       unless cvi_cultivable_zone.cvi_land_parcels.any?
         GenerateCviLandParcels.call(cvi_cultivable_zone: cvi_cultivable_zone)
       end
+      cvi_cultivable_zone.update(land_parcels_status: :started)
       redirect_to action: 'show', id: cvi_cultivable_zone.id
     end
 
@@ -128,7 +129,7 @@ module Backend
                                         )
                                       ) AS shape').joins(:cvi_cultivable_zone).find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id).shape
       calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
-      cvi_cultivable_zone.update(shape: shape.to_rgeo, calculated_area: calculated_area, land_parcels_status: :created)
+      cvi_cultivable_zone.update(shape: shape.to_rgeo, calculated_area: calculated_area, land_parcels_status: :completed)
       redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
     end
 
@@ -151,7 +152,7 @@ module Backend
 
     def edit_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
-      cvi_cultivable_zone.update(land_parcels_status: :not_created) if cvi_cultivable_zone.land_parcels_status == :created
+      cvi_cultivable_zone.update(land_parcels_status: :started)
       redirect_to backend_cvi_cultivable_zone_path(cvi_cultivable_zone)
     end
 

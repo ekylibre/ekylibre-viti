@@ -1,17 +1,23 @@
-tr.not_created {
+tr.not_started {
   td.c7{
     font-weight: bolder;
     color: #c91c07;
   }
 }
 
-tr.created {
+tr.started {
+  td.c7{
+    font-weight: bolder;
+    color: rgb(243, 77, 0);
+  }
+}
+
+tr.completed {
   td.c7{
     font-weight: bolder;
     color: #7BA651;
   }
 }
-
 
 .btn-container{
   display: flex;

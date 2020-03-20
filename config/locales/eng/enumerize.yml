@@ -126,12 +126,14 @@ eng:
         tenant_farming: "Tenant farming"
     cvi_cultivable_zone:
       land_parcels_status:
-        created: "Created"
-        not_created: "Not created"
+        not_started: "Not Started"
+        started: "In progress"
+        completed: "Completed"
     formatted_cvi_cultivable_zone:
       land_parcels_status:
-        created: "Created"
-        not_created: "Not created"
+          not_started: "Not Started"
+          started: "In progress"
+          completed: "Completed"
     cvi_statement:
       state:
         converted: "Converted"

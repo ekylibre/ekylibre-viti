@@ -38,7 +38,7 @@ module Backend
     end
 
     describe('#confirm_cvi_land_parcels') do
-      let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_land_parcels, land_parcels_status: :not_created) }
+      let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_land_parcels, land_parcels_status: :completed) }
 
       it 'sets cvi_land_parcels_status to created' do
         get :confirm_cvi_land_parcels, id: cvi_cultivable_zone.id

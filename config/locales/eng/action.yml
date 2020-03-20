@@ -1295,6 +1295,7 @@ eng:
     active_list:
       labels:
         manage_land_parcels: "Manage land parcels"
+        edit: "Edit"
     intervention:
       nature:
         harvest: "Harvest:"
@@ -1672,6 +1673,7 @@ eng:
     counts: "Counts"
     counts_by_nature: "Number of documents to account per type"
     create: "Create"
+    complete: "Complete"
     create_a_sale: "Create a sale"
     create_and_continue: "Create and continue"
     create_journal: "— Create journal —"
@@ -3340,8 +3342,8 @@ eng:
       # count: "Count"
       create: "Create"
       # create_duplicate_intervention: "Create duplicate intervention"
-      generate_cvi_land_parcels: "Create land parcels"
-      edit_cvi_land_parcels: "Edit land parcels"
+      generate_cvi_land_parcels: "Start"
+      edit_cvi_land_parcels: "Continue"
       # csv: "Csv"
       # currency_state: "Currency state"
       # current: "Current"
