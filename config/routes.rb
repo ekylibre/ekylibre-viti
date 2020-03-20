@@ -445,6 +445,7 @@ Rails.application.routes.draw do
         get :confirm_cvi_land_parcels
         get :edit_cvi_land_parcels
         get :list_cvi_land_parcels
+        get :reset_modal
         post :reset
         resources :cvi_land_parcels, only: %i[index]
       end

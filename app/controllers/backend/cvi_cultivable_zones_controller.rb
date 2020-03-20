@@ -73,6 +73,8 @@ module Backend
 
     def delete_modal; end
 
+    def reset_modal; end
+
     def group
       cvi_cultivable_zones = CviCultivableZone.joins(:cvi_cadastral_plants).where(id: params[:cvi_cultivable_zone_ids]).distinct
       result = GroupCviCultivableZones.call(cvi_cultivable_zones: cvi_cultivable_zones)

@@ -1662,6 +1662,8 @@ fra:
     delete: "Supprimer"
     delete_cvi_cutlivable_zone_header: "Supprimer la Zone Cultivable"
     delete_cvi_cutlivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
+    reset_cvi_cutlivable_zone_header: "Réinitialiser le parcellaire d'une Zone cultivable"
+    reset_cvi_cutlivable_zone_body: "<b>Attention !</b><br>Vous allez réinitialiser le parcellaire de cette Zone cultivable. Si vous confirmez, toutes les modifications déjà enregistrées seront perdues.<br><br>Souhaitez-vous confirmer cette réinitialisation?"
     delete_cvi_cadastral_plant_header: "Supprimer une parcelle cadastrale de votre CVI"
     delete_cvi_cadastral_plant_body: "<b>Attention !</b><br>Vous allez supprimer une parcelle cadastrale de votre CVI.Pour la rajouter ou la modifier, vous devrez ré-importer la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette parcelle de votre CVI ?"
     delete_only_record: #? String expected ("Or only delete the selected intervention(s) and display the request associate ?")
