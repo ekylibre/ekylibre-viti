@@ -15,6 +15,7 @@ module Backend
       t.column :land_parcels_status
       t.action :generate_cvi_land_parcels, unless: :has_cvi_land_parcels?, url: { controller: 'cvi_cultivable_zones' }
       t.action :edit_cvi_land_parcels, if: :has_cvi_land_parcels?, url: { controller: 'cvi_cultivable_zones' }
+      t.action :reset, method: :post,  if: :has_cvi_land_parcels?, url: { controller: 'cvi_cultivable_zones' }
     end
 
     def create

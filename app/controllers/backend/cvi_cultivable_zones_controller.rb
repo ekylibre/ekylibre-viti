@@ -85,6 +85,13 @@ module Backend
       end
     end
 
+    def reset
+      cvi_cultivable_zone = CviCultivableZone.find(params[:id])
+      cvi_cultivable_zone.cvi_land_parcels.destroy_all
+      GenerateCviLandParcels.call(cvi_cultivable_zone: cvi_cultivable_zone)
+      redirect_to action: 'show', id: cvi_cultivable_zone.id
+    end
+
     def generate_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
       unless cvi_cultivable_zone.cvi_land_parcels.any?

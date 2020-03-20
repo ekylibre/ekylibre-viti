@@ -1098,6 +1098,9 @@ fra:
       nature:
         harvest: "Récolte :"
         reentry: "Réentrée :"
+    active_list:
+      labels:
+        manage_land_parcels: "Gérer le parcellaire"
   labels:
     rootstock: "Porte-greffe"
     major: "majoritaire"
@@ -3774,7 +3777,7 @@ fra:
       renew: "Renouveler"
       reopen: "Réouvrir"
       repay: "Rembourser"
-      reset: "Ré-initialiser"
+      reset: "Réinitialiser"
       retrieve: "Relever"
       run: "Exécuter"
       scrap: "Mettre au rebut"

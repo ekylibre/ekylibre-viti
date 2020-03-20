@@ -52,10 +52,14 @@ ekylibre.cviCultivableZones ||= {}
     formatRow: ->
       $('[id^=cvi_cultivable_zones] tr th:nth-child(9) > i').remove()
       $('[id^=cvi_cultivable_zones] tr th:nth-child(10) > i').remove()
+      $('[id^=cvi_cultivable_zones] tr th:nth-child(11) > i').remove()
+      $('[id^=cvi_cultivable_zones] tr th:nth-child(9)').html(I18n.t("front-end.active_list.labels.manage_land_parcels"))
       $('[id^=cvi_cultivable_zones] tr td.c8 i').remove()
       $('[id^=cvi_cultivable_zones] tr td.c8 a').addClass('btn btn-primary')
       $('[id^=cvi_cultivable_zones] tr td.c9 i').remove()
       $('[id^=cvi_cultivable_zones] tr td.c9 a').addClass('btn btn-primary')
+      $('[id^=cvi_cultivable_zones] tr td.c10 i').remove()
+      $('[id^=cvi_cultivable_zones] tr td.c10 a').addClass('btn btn-primary')
   }
 
 ) ekylibre, jQuery
