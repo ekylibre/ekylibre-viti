@@ -35,8 +35,14 @@ module Backend
 
     def convert
       cvi_statement = CviStatement.find(params[:id])
-      ConvertCvi.call(cvi_statement: cvi_statement)
-      redirect_to production_backend_dashboards_path
+      result = ConvertCvi.call(cvi_statement_id: cvi_statement.id)
+      if result.success?
+        notify_success(:x_land_parcel_have_been_created_successfully, count: result.log_result[:count_land_parcel_created])
+        redirect_to production_backend_dashboards_path
+      else
+        notify_error(result.error)
+        redirect_to action: 'show', id: cvi_statement.id
+      end
     end
 
     private
