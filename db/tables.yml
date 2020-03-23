@@ -146,6 +146,8 @@ activities:
   id:
     type: integer
     required: true
+  life_duration:
+    type: integer
   lock_version:
     type: integer
     required: true
@@ -175,12 +177,18 @@ activities:
   production_nature_id:
     type: integer
     references: master_production_nature
+  production_started_on:
+    type: date
+  production_stopped_on:
+    type: date
   production_system_name:
     type: string
   size_indicator_name:
     type: string
   size_unit_name:
     type: string
+  start_state_of_production:
+    type: jsonb
   support_variety:
     type: string
   suspended:
@@ -1834,6 +1842,24 @@ custom_fields:
   updater_id:
     type: integer
     references: user
+cvi_cadastral_plant_cvi_land_parcels:
+  created_at:
+    type: datetime
+    required: true
+  cvi_cadastral_plant_id:
+    type: integer
+    references: cvi_cadastral_plant
+  cvi_land_parcel_id:
+    type: integer
+    references: cvi_land_parcel
+  id:
+    type: integer
+    required: true
+  percentage:
+    type: decimal
+  updated_at:
+    type: datetime
+    required: true
 cvi_cadastral_plants:
   area_unit:
     type: string
@@ -1981,6 +2007,8 @@ cvi_land_parcels:
     required: true
   planting_campaign:
     type: string
+  rootstock_id:
+    type: string
   shape:
     type: geometry
     limit:
@@ -2062,6 +2090,21 @@ dashboards:
   updater_id:
     type: integer
     references: user
+datasource_credits:
+  datasource:
+    type: string
+  licence:
+    type: string
+  licence_url:
+    type: string
+  name:
+    type: string
+  provider:
+    type: string
+  updated_at:
+    type: datetime
+  url:
+    type: string
 debt_transfers:
   accounted_at:
     type: datetime
@@ -2626,21 +2669,6 @@ entity_links:
   updater_id:
     type: integer
     references: user
-ephy_cropsets:
-  crop_labels:
-    type: jsonb
-  crop_names:
-    type: text
-  id:
-    type: string
-    required: true
-  label:
-    type: jsonb
-  name:
-    type: string
-    required: true
-  record_checksum:
-    type: integer
 eu_market_prices:
   category:
     type: string
@@ -4651,25 +4679,6 @@ labels:
   updater_id:
     type: integer
     references: user
-land_parcel_rootstocks:
-  created_at:
-    type: datetime
-    required: true
-  id:
-    type: integer
-    required: true
-  land_parcel_id:
-    type: integer
-    references: "~land_parcel_type"
-  land_parcel_type:
-    type: string
-  percentage:
-    type: decimal
-  rootstock_id:
-    type: string
-  updated_at:
-    type: datetime
-    required: true
 listing_node_items:
   created_at:
     type: datetime
@@ -5203,6 +5212,10 @@ master_production_natures:
   id:
     type: integer
     required: true
+  life_duration:
+    type: decimal
+    precision: 5
+    scale: 2
   pfi_crop_code:
     type: string
   season:
@@ -5210,6 +5223,8 @@ master_production_natures:
   specie:
     type: string
     required: true
+  start_state_of_production:
+    type: jsonb
   started_on:
     type: date
     required: true
@@ -7646,6 +7661,21 @@ registered_pfi_targets:
     required: true
   reference_label_fra:
     type: string
+registered_phytosanitary_cropsets:
+  crop_labels:
+    type: jsonb
+  crop_names:
+    type: text
+  id:
+    type: string
+    required: true
+  label:
+    type: jsonb
+  name:
+    type: string
+    required: true
+  record_checksum:
+    type: integer
 registered_phytosanitary_products:
   active_compounds:
     type: string
@@ -7660,10 +7690,9 @@ registered_phytosanitary_products:
     type: integer
     required: true
   in_field_reentry_delay:
-    type: integer
-  mix_category_code:
     type: string
-    required: true
+  mix_category_codes:
+    type: integer
   name:
     type: string
     required: true
@@ -7744,7 +7773,7 @@ registered_phytosanitary_usages:
   lib_court:
     type: integer
   pre_harvest_delay:
-    type: integer
+    type: string
   pre_harvest_delay_bbch:
     type: integer
   product_id:
