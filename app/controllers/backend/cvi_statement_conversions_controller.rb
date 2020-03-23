@@ -35,9 +35,12 @@ module Backend
 
     def convert
       cvi_statement = CviStatement.find(params[:id])
+      if cvi_statement.cvi_land_parcels.map(&:activity_id).include? nil
+        notify_error(:activity_is_not_set_on_all_cvi_land_parcels)
+      end
       result = ConvertCvi.call(cvi_statement_id: cvi_statement.id)
       if result.success?
-        notify_success(:x_land_parcel_have_been_created_successfully, count: result.log_result[:count_land_parcel_created])
+        notify_success(:x_land_parcel_have_been_created_successfully, count: result.count_land_parcel_created)
         redirect_to production_backend_dashboards_path
       else
         notify_error(result.error)
