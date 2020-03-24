@@ -37,7 +37,12 @@ class ConvertCvi < ApplicationInteractor
 
         # 2 Find or create an activity_production according to current cvi_land_parcel informations
         # activity_production will created land_parcel automaticaly
-        productions = activity.productions.support_shape_matching(cvi_land_parcel.shape, 0.02) if activity.productions.any?
+
+        # find existing productions by shape matching and providers
+        if activity.productions.any?
+          productions = activity.productions.support_shape_matching(cvi_land_parcel.shape, 0.02)
+          productions || activity.productions.where('providers ->> ? = ?', 'cvi_land_parcel_id', cvi_land_parcel.id)
+        end
         activity_production = if productions.any?
                                 productions.first
                               else
@@ -48,6 +53,7 @@ class ConvertCvi < ApplicationInteractor
         activity_production.campaign = campaign
         activity_production.started_on = Date.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
         activity_production.stopped_on = Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i, activity.production_started_on.month, activity.production_started_on.day)
+        activity_production.providers = {'cvi_land_parcel_id' => cvi_land_parcel.id}
         activity_production.save!
 
         context.count_land_parcel_created += 1
@@ -60,16 +66,21 @@ class ConvertCvi < ApplicationInteractor
           # variant = ProductNatureVariant.new(category: category, nature: nature)
           variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
           start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
-          plant = Plant.create!(variant_id: variant.id,
-                                 work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
-                                 name: cvi_land_parcel.name,
-                                 initial_born_at: start_at,
-                                 initial_shape: cvi_land_parcel.shape,
-                                 initial_owner: Entity.of_company
-                               )
-          plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(cvi_land_parcel.inter_row_distance_unit.to_sym), at: start_at)
-          plant.read!(:plants_interval, cvi_land_parcel.inter_vine_plant_distance_value.in(cvi_land_parcel.inter_vine_plant_distance_unit.to_sym), at: start_at)
-          plant.read!(:shape, cvi_land_parcel.shape, at: start_at, force: true)
+          # create only if no plant exist with the current cvi_land_parcel_id
+          unless Plant.where('providers ->> ? = ?', 'cvi_land_parcel_id', cvi_land_parcel.id).any?
+            plant = Plant.create!( variant_id: variant.id,
+                                   work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
+                                   name: activity_production.support.name,
+                                   initial_born_at: start_at,
+                                   initial_shape: cvi_land_parcel.shape,
+                                   initial_owner: Entity.of_company,
+                                   activity_production_id: activity_production.id,
+                                   providers: {'cvi_land_parcel_id' => cvi_land_parcel.id}
+                                 )
+            plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(cvi_land_parcel.inter_row_distance_unit.to_sym), at: start_at)
+            plant.read!(:plants_interval, cvi_land_parcel.inter_vine_plant_distance_value.in(cvi_land_parcel.inter_vine_plant_distance_unit.to_sym), at: start_at)
+            plant.read!(:shape, cvi_land_parcel.shape, at: start_at, force: true)
+          end
         end
 
       end
