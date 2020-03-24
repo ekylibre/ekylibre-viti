@@ -12,7 +12,7 @@ ekylibre.cviCultivableZones ||= {}
       this.bindCheckBoxes()
 
     manageButtons: ->
-      $groupButton =  $('#group-cvi-land-parcels')
+      $groupButton =  $('.group-cvi-land-parcels')
       $editButtons = $('td > a.edit')
       selectedCviCultivableZones = this.selectedCviCultivableZones
       if selectedCviCultivableZones.length == 0 || selectedCviCultivableZones.length == 1
@@ -61,6 +61,7 @@ ekylibre.cviCultivableZones ||= {}
 
     addButton: ->
       $(E.templates.cviCultivableZonesButton()).insertBefore('#cvi_cultivable_zones-list tr:first')
+      $(E.templates.cviCultivableZonesButton()).insertAfter('#cvi_cultivable_zones-list tr:last')
 
     formatRow: ->
       $('[id^=cvi_cultivable_zones] tr th:nth-child(9) > i').remove().html(I18n.t("front-end.active_list.labels.manage_land_parcels"))

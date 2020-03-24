@@ -10,9 +10,9 @@
       this.bindCheckBoxes()
   
     manageButtons: ->
-      $groupButton =  $('#group-cvi-land-parcels')
-      $cutButton = $('#cut-cvi-land-parcel')
-      $editMultipleButton = $('#edit-multiple-cvi-land-parcels')
+      $groupButton =  $('.group-cvi-land-parcels')
+      $cutButton = $('.cut-cvi-land-parcel')
+      $editMultipleButton = $('.edit-multiple-cvi-land-parcels')
       $editButtons = $('td > a.edit')
       selectedCviLandParcels = this.selectedCviLandParcels
       if selectedCviLandParcels.length == 1
@@ -93,6 +93,7 @@
 
     addButtons: ->
       $(E.templates.cviLandParcelsButtons()).insertBefore('#cvi_land_parcels-list tr:first')
+      $(E.templates.cviLandParcelsButtons()).insertAfter('#cvi_land_parcels-list tr:last')
     
     formatUngroupableRow: (ids, attributes) ->
       list = this
@@ -109,7 +110,7 @@
     
     bindEditMultipleButton: ->
       list = this
-      $editMultipleButton = $('#edit-multiple-cvi-land-parcels')
+      $editMultipleButton = $('.edit-multiple-cvi-land-parcels')
       $editMultipleButton.on "click", ->
         params = list.selectedCviLandParcels.map (id) ->
               "ids[]=#{id}"
