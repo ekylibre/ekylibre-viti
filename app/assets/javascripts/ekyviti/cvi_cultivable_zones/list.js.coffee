@@ -44,6 +44,20 @@ ekylibre.cviCultivableZones ||= {}
         layer.setStyle(color: "#6f9bee")
         if list.selectedCviCultivableZones.length == 1
           E.map.centerLayer(id, true, "cvi_cultivable_zones") if list.selectedCviCultivableZones.length == 1
+      
+      $(document).on "change", "#cvi_cultivable_zones-list [data-list-selector=all]", (event) ->
+        list = E.cviCultivableZones.list
+        $list = $(this.closest('*[data-list-source]'))
+        if this.checked
+          E.cviCultivableZones.list.selectedCviCultivableZones = Object.keys($list.prop('selection'))
+          for id in E.cviCultivableZones.list.selectedCviCultivableZones
+            layer = E.map.select parseInt(id) , false, 'cvi_cultivable_zones'
+            layer.setStyle(color: "#6f9bee")
+        else
+          E.cviCultivableZones.list.selectedCviCultivableZones = []
+          E.map._cartography.getOverlay('cvi_cultivable_zones').setStyle(color: "#C5D4F0")
+          E.map.setView()
+        list.manageButtons()
 
     addButton: ->
       $(E.templates.cviCultivableZonesButton()).insertBefore('#cvi_cultivable_zones-list tr:first')

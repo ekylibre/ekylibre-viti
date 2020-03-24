@@ -28,7 +28,7 @@
         $editButtons.removeClass("disabled-link")
         $groupButton.attr("disabled", true)
         $cutButton.attr("disabled", true)
-        $editMultipleButton.prop( "disabled", true )
+        $editMultipleButton.attr( "disabled", true )
       else
         $editButtons.addClass("disabled-link")
         $groupButton.removeAttr('disabled')
@@ -76,6 +76,20 @@
           E.map.centerLayer(id, true, "cvi_land_parcels") if list.selectedCviLandParcels.length == 1
         else if list.selectedCviLandParcels.length == 2
           E.map.setView()
+      
+      $(document).on "change", "#cvi_land_parcels-list [data-list-selector=all]", (event) ->
+        list = E.cviLandParcels.list
+        $list = $(this.closest('*[data-list-source]'))
+        if this.checked
+          E.cviLandParcels.list.selectedCviLandParcels = Object.keys($list.prop('selection'))
+          for id in  E.cviLandParcels.list.selectedCviLandParcels
+            layer = E.map.select parseInt(id) , false, 'cvi_land_parcels'
+            layer.setStyle(fillOpacity: 0.3)
+        else
+          E.cviLandParcels.list.selectedCviLandParcels = []
+          E.map._cartography.getOverlay('cvi_land_parcels').setStyle(fillOpacity: 0)
+          E.map.setView()
+        list.manageButtons()
 
     addButtons: ->
       $(E.templates.cviLandParcelsButtons()).insertBefore('#cvi_land_parcels-list tr:first')
