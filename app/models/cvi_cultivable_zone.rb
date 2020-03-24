@@ -11,7 +11,7 @@ class CviCultivableZone < Ekylibre::Record::Base
 
   validates_presence_of :name
 
-  enumerize :land_parcels_status, in: %i[not_started started completed], predicates: true
+  enumerize :land_parcels_status, in: %i[not_started started not_created created completed], predicates: true
 
   def has_cvi_land_parcels?
     cvi_land_parcels.any?
