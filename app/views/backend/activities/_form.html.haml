@@ -4,20 +4,22 @@
   = f.input :nature, as: :radio_buttons, show: '.{{value}}-nature-options'
   = f.referenced_nomenclature :production_system
   = f.referenced_nomenclature :family, input_html: {data: {activity_family: true}}
-  = f.input :production_cycle, as: :radio_buttons, show: '.{{value}}-production-cycle-options'
-  = f.referenced_association :production_nature, new: false, label: :production_nature.tl
   - family = Nomen::ActivityFamily[f.object.family]
+  = f.referenced_association :production_nature, new: false, label: :production_nature.tl,  wrapper_html: {style: "display: #{(family and family.name == 'plant_farming') ? 'block' : 'none'}"}
   = f.input :with_cultivation, as: :hidden
   = f.referenced_nomenclature :cultivation_variety, collection: ((family and family.cultivation_variety.present?) ? Nomen::Variety.selection(family.cultivation_variety) : []), wrapper_html: {style: "display: #{(family and family.cultivation_variety.present?) ? 'block' : 'none'}"}
   -#= f.input :with_supports, as: :hidden
   -# = f.input :support_variety, collection: ((family and family.support_variety) ? Nomen::Variety.selection(family.support_variety) : []), wrapper_html: {style: "display: #{(family and family.support_variety) ? 'block' : 'none'}"}
+  = f.input :production_cycle, as: :radio_buttons, show: '.{{value}}-production-cycle-options'
   = f.date_range(:production_started_on, :production_stopped_on, label: :production_campaign_period.tl, 
     input_html: { class: "day-year-hidden", data: {"alt-format": 'd-F'}}, 
     start_label: :from_current_year,
     stop_label: :to_next_year)
   .perennial-production-cycle-options
     = f.input :start_state_of_production, collection: ['']
-    = f.input :life_duration, wrapper: :append, append: "hello"
+    = f.input :life_duration, wrapper: :append do 
+      = f.input_field :life_duration
+      %span.add-on= :year.tl.pluralize
   -#.main-nature-options
     = f.input :size_indicator_name
     = f.input :size_unit_name

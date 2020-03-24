@@ -1140,7 +1140,7 @@ fra:
     cultivable_zone: "Zone cultivable"
     cultivable_zones: "Zones cultivables"
     cultivation_variant: "Type de culture"
-    cultivation_variety: "Variété de la culture"
+    cultivation_variety: "Espèce de la culture"
     cumulated_absolute_credit: "Crédit absolu cumulé"
     cumulated_absolute_debit: "Débit absolu cumulé"
     cumulated_balance: "Balance cumulée"
