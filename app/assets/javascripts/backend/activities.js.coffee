@@ -34,6 +34,17 @@
         fpStoppedOn = flatpickr($('input#activity_production_stopped_on'), options)
         fpStoppedOn.setDate(data.stopped_on)
         fpStoppedOn.calendarContainer.classList.add('day-names-hidden','year-hidden')
+        cultivation_select = $("select#activity_cultivation_variety")
+        $.ajax
+          url: "/backend/varieties/selection.json?specie=#{data.specie}"
+          success: (data, status, request) ->
+            cultivation_select.empty()
+            $.each data.varieties, (index, variety) ->
+              option = $("<option>")
+                .html(variety[0])
+                .attr("value", variety[1])
+                .appendTo(cultivation_select)
+
         if !data.start_state_of_production 
           return
         if data.start_state_of_production.length == 0
