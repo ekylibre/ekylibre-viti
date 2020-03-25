@@ -1365,10 +1365,6 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :ekyviti do 
-    resources :activities, concerns: %i[unroll]
-  end
-
   namespace :public do
     resources :financial_year_exchange_exports, path: 'financial-year-exchange-exports', only: [:show] do
       get :csv, on: :member
