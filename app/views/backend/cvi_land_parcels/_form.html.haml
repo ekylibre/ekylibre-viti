@@ -1,4 +1,5 @@
 
+- activity_default_params = { family:"plant_farming", production_nature_id: 154, cultivation_variety: "vitis", production_cycle: "perennial"}
 = ekylibre_form_for(resource, remote: true) do |f|  
   - current_year = Time.current.year
   = field_set( tl(:edit) + ' ' + resource.name.to_s, class:"multi-columns" ) do
@@ -14,7 +15,7 @@
     = f.input :inter_row_distance_value, as: :numeric, input_html: {type: 'number', value: resource.inter_row_distance_value&.to_i, min:12, step:1}
     = f.input :inter_vine_plant_distance_value,as: "numeric", input_html: {value: resource.inter_vine_plant_distance_value&.to_i }
     = f.input :area, label: :calculated_area.tl, input_html: {value: resource.calculated_area.to_s(:ha_a_ca)}, disabled: true
-    = f.referenced_association :activity, source: {controller: 'ekyviti/activities', scope: :wine }, new: true, label: :activity.tl
+    = f.referenced_association :activity, source: {scope: :wine }, new: activity_default_params, label: :activity.tl
     = f.hidden_field :shape
   - f.add(:submit, :update.tl, data: {disable_with: :please_wait.tl}, class: 'primary')
   - f.add(:link, :cancel.tl, "#", class: 'btn', data: { "cancel-list-map-form": "", id: params[:id]} )
