@@ -46,6 +46,9 @@
 .simple-label {
   font-weight: bold;
   text-align: center;
+  &.leaflet-label {
+  text-shadow: none;
+  }
   &.white {
     color: #fff;
   }
@@ -55,4 +58,8 @@
   &.yellow {
     color: #E7E8C0
   }
+}
+
+.leaflet-ghost-icon-pane .leaflet-label {
+  z-index: 6;
 }
