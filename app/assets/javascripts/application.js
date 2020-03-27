@@ -66,6 +66,7 @@
 //= require autosize
 //= require plugins
 //= require main.js
+//= require leaflet-cartography/label
 //= require_tree .
 //= require tour
 //= require bootstrap-slider

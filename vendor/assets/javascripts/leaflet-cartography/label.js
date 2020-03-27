@@ -6,6 +6,7 @@
 	http://leafletjs.com
 	https://github.com/jacobtoye
 */
+
 (function (window, document, undefined) {
 var L = window.L;/*
  * L.label assumes that you have already included the L library.
