@@ -74,7 +74,7 @@ module Backend
         h['shape'] = Charta.new_geometry(h['shape']).to_rgeo
         h
       end
-      SplitCviLandParcel.call(cvi_land_parcel: cvi_land_parcel, new_cvi_land_parcels_params: new_cvi_land_parcels_params)
+      result = SplitCviLandParcel.call(cvi_land_parcel: cvi_land_parcel, new_cvi_land_parcels_params: new_cvi_land_parcels_params)
       if result.success?
         notify_now(:cvi_land_parcels_splitted)
         render :update
@@ -82,8 +82,6 @@ module Backend
         notify_error(result.error)
         render partial: 'notify'
       end
-      notify_now(:cvi_land_parcels_splitted)
-      render :update
     end
 
     private

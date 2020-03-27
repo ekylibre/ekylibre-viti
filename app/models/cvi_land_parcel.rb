@@ -38,6 +38,6 @@ class CviLandParcel < Ekylibre::Record::Base
   end
 
   def regrouped?
-    rootstocks.length > 1
+    cvi_cadastral_plants.length > 1
   end
 end
