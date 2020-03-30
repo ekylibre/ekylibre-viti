@@ -6,8 +6,7 @@ ekylibre.cviCultivableZones ||= {}
     
     E.cviCultivableZones.list.init()
 
-  $(document).on "ekylibre:map:events:edit:change", (e, obj) ->
-    return if $('[id^=cvi_cultivable_zones].active-list').length == 0
+  $(document).on "ekylibre:map:events:edit:change", '[id^=cvi_cultivable_zones].active-list', (e, obj) ->
     E.cviCultivableZones.editForm.update(obj)
   
   $(document).on 'click','[id^=cvi_cultivable_zones] [data-cancel-list-map-form]', ->
