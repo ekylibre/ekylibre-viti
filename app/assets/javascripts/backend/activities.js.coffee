@@ -15,7 +15,11 @@
     element = $(this)
     activityFamily = element.selector('value')
     
-
+  $(document).on "change", "input[type=radio][name='activity[production_cycle]']", (event)->
+    if this.value == 'perennial'
+      $('.perennial-production-cycle-options').show()
+    else
+      $('.perennial-production-cycle-options').hide()
 
   $(document).on "selector:change", "#activity_production_nature_id", (event)->
     element = $(this)
@@ -45,26 +49,25 @@
                 .attr("value", variety[1])
                 .appendTo(cultivation_select)
 
-        if !data.start_state_of_production 
-          return
-        if data.start_state_of_production.length == 0
+        if data.start_state_of_production == null || data.start_state_of_production.length == 0
           $('div.perennial-production-cycle-options').hide()
-          return
+        else 
+          defaultStartStateOfProduction = parseInt(data.start_state_of_production.match(/^(\D*)(\d+)/)[2])
+          startStateOfProductions = JSON.parse(data.start_state_of_production)
+          options = ''  
+          for key,value of startStateOfProductions
+            tlOption = I18n.t("front-end.production.start_state_of_production.#{value}")
+            options += "<option value=#{key}>#{tlOption}</option>"
+          $('select#activity_start_state_of_production').children('option').remove()
+          $('select#activity_start_state_of_production').append(options)
+          $('select#activity_start_state_of_production').val(defaultStartStateOfProduction)
 
-        defaultStartStateOfProduction = parseInt(data.start_state_of_production.match(/^(\D*)(\d+)/)[2])
-        startStateOfProductions = JSON.parse(data.start_state_of_production)
-        options = ''  
-        for key,value of startStateOfProductions
-          tlOption = I18n.t("front-end.production.start_state_of_production.#{value}")
-          options += "<option value=#{key}>#{tlOption}</option>"
-        $('select#activity_start_state_of_production').children('option').remove()
-        $('select#activity_start_state_of_production').append(options)
-        $('select#activity_start_state_of_production').val(defaultStartStateOfProduction)
-
-        if !data.life_duration 
-          return
-
-        $('input#activity_life_duration').val(data.life_duration)
+        if data.life_duration != null
+          $('#activity_production_cycle_perennial').attr('checked', true).trigger('change')
+          $('input#activity_life_duration').val(data.life_duration)
+        else
+          $('#activity_production_cycle_annual').attr('checked', true).trigger('change')
+          
 
   $(document).on "change keyup", ".plant-density-abacus .activity_plant_density_abaci_seeding_density_unit select", (event)->
     element = $(this)
