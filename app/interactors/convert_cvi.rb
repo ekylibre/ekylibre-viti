@@ -1,26 +1,25 @@
 class ConvertCvi < ApplicationInteractor
 
-  def self.call(params)
-    interactor = new(params)
-    interactor.run
-    interactor
+  before do
+    context.count_land_parcel_created = 0
   end
 
-  attr_reader :cvi_statement, :log_result, :error
-
-  def initialize(params)
-    @cvi_statement = CviStatement.find(params[:cvi_statement_id])
-    @log_result = {}
+  def call
+    @cvi_statement = CviStatement.find(context.cvi_statement_id)
+    convert_cvi_land_parcel
   end
 
-  def run
-    @log_result[:count_land_parcel_created] = 0
+  private
 
+  def convert_cvi_land_parcel
     begin
       @cvi_statement.cvi_land_parcels.each do |cvi_land_parcel|
         # 0 Update activity attributes
         # REMOVE WHEN MERGING BRANCH PERENNIAL ACTIVITY
         activity = cvi_land_parcel.activity
+        unless activity
+          context.fail!(error: :missing_activity_on_cvi_land_parcel)
+        end
         attributes = {
           cultivation_variety: 'vitis',
           production_cycle: :perennial,
@@ -31,12 +30,19 @@ class ConvertCvi < ApplicationInteractor
         }
         activity.update_attributes(attributes)
 
+        campaign = Campaign.of(cvi_land_parcel.planting_campaign)
+
         # 1 Find or create a cultivable zone with cvi cultivable CultivableZone
         cultivable_zone = find_or_create_cz_with_cvi_cz(cvi_land_parcel.cvi_cultivable_zone)
 
         # 2 Find or create an activity_production according to current cvi_land_parcel informations
         # activity_production will created land_parcel automaticaly
-        productions = activity.productions.support_shape_matching(cvi_land_parcel.shape, 0.02) if activity.productions.any?
+
+        # find existing productions by shape matching and providers
+        if activity.productions.any?
+          productions = activity.productions.support_shape_matching(cvi_land_parcel.shape, 0.02)
+          productions || activity.productions.where('providers ->> ? = ?', 'cvi_land_parcel_id', cvi_land_parcel.id)
+        end
         activity_production = if productions.any?
                                 productions.first
                               else
@@ -44,11 +50,13 @@ class ConvertCvi < ApplicationInteractor
                               end
         activity_production.support_nature = :cultivation
         activity_production.usage = :fruit
+        activity_production.campaign = campaign
         activity_production.started_on = Date.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
         activity_production.stopped_on = Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i, activity.production_started_on.month, activity.production_started_on.day)
+        activity_production.providers = {'cvi_land_parcel_id' => cvi_land_parcel.id}
         activity_production.save!
 
-        @log_result[:count_land_parcel_created] += 1
+        context.count_land_parcel_created += 1
 
         # 3 Find or create a plant according to current cvi_land_parcel informations
         if cvi_land_parcel.state == "planted"
@@ -58,23 +66,26 @@ class ConvertCvi < ApplicationInteractor
           # variant = ProductNatureVariant.new(category: category, nature: nature)
           variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
           start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
-          plant = Plant.create!(variant_id: variant.id,
-                                 work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
-                                 name: cvi_land_parcel.name,
-                                 initial_born_at: start_at,
-                                 initial_shape: cvi_land_parcel.shape,
-                                 initial_owner: Entity.of_company
-                               )
-          plant.read!(:population, cvi_land_parcel.calculated_area_value, at: start_at)
-          plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(inter_row_distance_unit.to_sym), at: start_at)
-          plant.read!(:plants_interval, cvi_land_parcel.inter_vine_plant_distance_value.in(inter_vine_plant_distance_unit.to_sym), at: start_at)
-          plant.read!(:shape, cvi_land_parcel.shape, at: start_at, force: true)
+          # create only if no plant exist with the current cvi_land_parcel_id
+          unless Plant.where('providers ->> ? = ?', 'cvi_land_parcel_id', cvi_land_parcel.id).any?
+            plant = Plant.create!( variant_id: variant.id,
+                                   work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
+                                   name: activity_production.support.name,
+                                   initial_born_at: start_at,
+                                   initial_shape: cvi_land_parcel.shape,
+                                   initial_owner: Entity.of_company,
+                                   activity_production_id: activity_production.id,
+                                   providers: {'cvi_land_parcel_id' => cvi_land_parcel.id}
+                                 )
+            plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(cvi_land_parcel.inter_row_distance_unit.to_sym), at: start_at)
+            plant.read!(:plants_interval, cvi_land_parcel.inter_vine_plant_distance_value.in(cvi_land_parcel.inter_vine_plant_distance_unit.to_sym), at: start_at)
+            plant.read!(:shape, cvi_land_parcel.shape, at: start_at, force: true)
+          end
         end
 
       end
     rescue StandardError => exception
-      fail!(exception.message)
-      nil
+      context.fail!(error: exception.message)
     end
   end
 
@@ -100,21 +111,6 @@ class ConvertCvi < ApplicationInteractor
         shape: cvi_cz.shape
       ).find_or_create_by(name: cvi_cz.name)
     end
-    cultivable_zone
-  end
-
-  def success?
-    @error.nil?
-  end
-
-  def fail?
-    !success
-  end
-
-  private
-
-  def fail!(error)
-    @error = error
   end
 
   attr_accessor :cvi_land_parcels, :activities, :campaign
