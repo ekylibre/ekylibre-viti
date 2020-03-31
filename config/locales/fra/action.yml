@@ -1952,9 +1952,9 @@ fra:
     forecast_harvest_week: "Semaine de récolte"
     france_maaid: "N° AMM" #?
     from: "À partir du"
-    from_current_year: "À partir du (Année N)"
-    to_next_year: "Au (Année N+1)"
-    production_campaign_period: "Campagne annuelle de production (année N)"
+    from_current_year: "À partir du"
+    to_next_year: "Au"
+    production_campaign_period: "Campagne annuelle de production"
     from_to_date: "du %{from} au %{to}"
     fruit_yield: "Rendement fruit" #?
     full_name: "Client" #?
@@ -3431,6 +3431,7 @@ fra:
       other: "%{count} ans"
     y: "Oui" #?
     year: "an"
+    year_long: "année"
     year_end: "Fin d'exercice"
     year_start: "Début d'exercice"
     yearly: "Annuelle" #?

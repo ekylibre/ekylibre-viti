@@ -462,6 +462,20 @@ module Backend
       end
     end
 
+    def production_cycle_range(*args)
+      options = args.extract_options!
+      input(:production_campaign_period.tl, options.merge(wrapper: :append)) do
+        @template.content_tag(:span, :from_current_year.tl, class: 'add-on') +
+          input(:production_started_on, options.merge(wrapper: :simplest)) +
+          @template.content_tag(:span, :year_long.tl, class: 'add-on') +
+          input(:production_campaign, collection: [['N-1', :at_cycle_end], ['N', :at_cycle_start]], wrapper: :simplest, selected: object.production_campaign || :at_cycle_start) +
+          @template.content_tag(:span,  :to_next_year.tl, class: 'add-on') +
+          input(:production_stopped_on, options.merge(wrapper: :simplest)) +
+          @template.content_tag(:span, :year_long.tl, class: 'add-on') +
+          @template.content_tag(:span, 'N', class: 'add-on')
+      end
+    end
+
     def delta_field(value_attribute, delta_attribute, unit_name_attribute, unit_values, *args)
       options = args.extract_options!
       attribute_name = args.shift || options[:name]

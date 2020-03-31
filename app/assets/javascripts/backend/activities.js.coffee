@@ -29,15 +29,18 @@
       dateFormat: 'Y-m-d'
       altInput: true
       altFormat: 'd-F'
+    return if $('input#activity_production_started_on').val()
     $.ajax
       url: "/backend/master_production_natures/#{id}.json"
       success: (data, status, request) ->
-        fpStaredOn = flatpickr($('input#activity_production_started_on'), options)
-        fpStaredOn.setDate(data.started_on)
-        fpStaredOn.calendarContainer.classList.add('day-names-hidden','year-hidden')
+        fpStartedOn = flatpickr($('input#activity_production_started_on'), options)
+        fpStartedOn.setDate(data.started_on)
+        fpStartedOn.calendarContainer.classList.add('day-names-hidden','year-hidden')
         fpStoppedOn = flatpickr($('input#activity_production_stopped_on'), options)
         fpStoppedOn.setDate(data.stopped_on)
         fpStoppedOn.calendarContainer.classList.add('day-names-hidden','year-hidden')
+        period = new Date(data.stopped_on).getFullYear() - new Date(data.started_on).getFullYear()
+        $('select#activity_production_campaign').val(if period == 1 then "at_cycle_end" else "at_cycle_start")
         cultivation_select = $("select#activity_cultivation_variety")
         $.ajax
           url: "/backend/varieties/selection.json?specie=#{data.specie}"
@@ -67,7 +70,6 @@
           $('input#activity_life_duration').val(data.life_duration)
         else
           $('#activity_production_cycle_annual').attr('checked', true).trigger('change')
-          
 
   $(document).on "change keyup", ".plant-density-abacus .activity_plant_density_abaci_seeding_density_unit select", (event)->
     element = $(this)
