@@ -1,13 +1,22 @@
 require 'test_helper'
 module Backend
   class CviCultivableZonesControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
-    test_restfully_all_actions except: %i[show update delete_modal generate_cvi_land_parcels edit_cvi_land_parcels confirm_cvi_land_parcels index]
+    test_restfully_all_actions except: %i[show update delete_modal generate_cvi_land_parcels edit_cvi_land_parcels confirm_cvi_land_parcels index group reset reset_modal]
 
     describe('#delete_modal') do
       let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone) }
 
       it 'gets delete_modal' do
         xhr :get, :delete_modal, id: cvi_cultivable_zone.id, format: :js
+        assert_response :success
+      end
+    end
+
+    describe('#reset_modal') do
+      let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone) }
+
+      it 'gets reset_modal' do
+        xhr :get, :reset_modal, id: cvi_cultivable_zone.id, format: :js
         assert_response :success
       end
     end
@@ -38,16 +47,34 @@ module Backend
     end
 
     describe('#confirm_cvi_land_parcels') do
-      let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_land_parcels, land_parcels_status: :not_created) }
+      let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_land_parcels, land_parcels_status: :completed) }
 
-      it 'sets cvi_land_parcels_status to created' do
+      it 'sets cvi_land_parcels_status to completed' do
         get :confirm_cvi_land_parcels, id: cvi_cultivable_zone.id
-        assert_equal 'created', cvi_cultivable_zone.reload.land_parcels_status
+        assert_equal 'completed', cvi_cultivable_zone.reload.land_parcels_status
+      end
+    end
+
+    describe('#reset') do
+      let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_cadastral_plants) }
+
+      it 'sets cvi_land_parcels_status to started' do
+        get :reset, id: cvi_cultivable_zone.id
+        assert_equal 'started', cvi_cultivable_zone.reload.land_parcels_status
       end
 
-      it 'updates cvi_cultivable_zone calculated_surface with the sum of associated cvi_land_parcels areas' do
-        get :confirm_cvi_land_parcels, id: cvi_cultivable_zone.id
-        assert_in_epsilon cvi_cultivable_zone.cvi_land_parcels.collect { |e| e.shape.area }.sum / 10_000, cvi_cultivable_zone.reload.calculated_area_value.to_f, epsilon = 0.001
+      it 'updates cvi_cultivable_zone calculated_surface with the sum of associated cvi_cadastral_plant' do
+        get :reset, id: cvi_cultivable_zone.id
+        assert_in_delta cvi_cultivable_zone.cvi_cadastral_plants.collect { |e| e.shape.area }.sum / 10_000, cvi_cultivable_zone.reload.calculated_area_value.to_f, epsilon = 0.0001
+      end
+    end
+
+    describe('#edit_cvi_land_parcels') do
+      let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_cadastral_plants) }
+
+      it 'sets cvi_land_parcels_status to started' do
+        get :edit_cvi_land_parcels, id: cvi_cultivable_zone.id
+        assert_equal 'started', cvi_cultivable_zone.reload.land_parcels_status
       end
     end
   end

@@ -14,9 +14,19 @@
       @_cartography = new Cartography.Map @el, options
       @initHooks()
       @initControls()
+      @configMap()
       @asyncLayersLoading()
       @displayCadastralLandParcelZone()
       @firstLoad = true
+
+    #TODO: move to cartography
+    configMap: ->
+      @ghostLabelCluster = L.ghostLabelCluster {innerClassName: 'leaflet-ghost-label-collapsed', margin: -5 }
+      @ghostLabelCluster.addTo @_cartography.getMap()
+      ghostIconPane = @_cartography.getMap().createPane('ghost-icon')
+      ghostIconPane.style.zIndex = 6
+      makerPane = @_cartography.getMap().getPane('markerPane')
+      makerPane.style.zIndex = 1000
 
     asyncLayersLoading: ->
       asyncLayers = @_cartography.options.layers.filter (layer) -> layer.asyncUrl?
@@ -97,13 +107,13 @@
 
       @_cartography.map.on 'moveend', @displayCadastralLandParcelZone
 
-      if @getZoom() < 16 and @_cartography.getOverlay('cadastral_land_parcel_zones')
+      if @getZoom() < 17 and @_cartography.getOverlay('cadastral_land_parcel_zones')
         cadastralZonesLayer = E.map._cartography.getFeatureGroup(name: 'cadastral_land_parcel_zones')
         for layer in cadastralZonesLayer.getLayers()
           layer.selected = false
         @_cartography.removeOverlay('cadastral_land_parcel_zones')
 
-      if @getZoom() >= 16
+      if @getZoom() >= 17
         selectedIds = $('.map').data('selected-ids') || []
         selectedIdsParams = if selectedIds && selectedIds.length > 0 then "&selected_ids=#{selectedIds}" else ""
         url = '/backend/cadastral_land_parcel_zones' + "?bounding_box=#{@boundingBox()}" + selectedIdsParams
@@ -114,7 +124,7 @@
             insertionMarker = () ->
               cadastral_ref = layer.feature.properties.cadastral_ref
               layer._ghostIcon = new L.GhostIcon html: cadastral_ref, className: "simple-label white", iconSize: [40, 40]
-              layer._ghostMarker = L.marker(layer.getCenter(), icon: layer._ghostIcon)
+              layer._ghostMarker = L.marker(layer.getCenter(), icon: layer._ghostIcon, pane: 'ghost-icon')
 
               layer._ghostMarker.addTo layer._map
               layer.addTo layer._map
@@ -132,7 +142,7 @@
 
           cadastralZonesSerie = [{cadastral_land_parcel_zones: data}, [name: 'cadastral_land_parcel_zones', label: I18n.t( 'front-end.labels.cadastral_land_parcel_zones'), type: 'simple', index: true, serie: 'cadastral_land_parcel_zones', onEachFeature: onEachFeature, style: style]]
 
-          @_cartography.addOverlay(cadastralZonesSerie) if @getZoom() >= 16
+          @_cartography.addOverlay(cadastralZonesSerie) if @getZoom() >= 17
 
         @asyncLoading(url, onSuccess, 'cadastralLandParcelZone' )
 

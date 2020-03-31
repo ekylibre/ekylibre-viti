@@ -26,11 +26,8 @@ class SplitCviLandParcel < ApplicationInteractor
       new_location.save!
     end
 
-    # create associated land_parcel_rootstocks
-    context.cvi_land_parcel.land_parcel_rootstocks.map(&:dup).each do |new_land_parcel_rootstock|
-      new_land_parcel_rootstock.assign_attributes(land_parcel_id: new_cvi_land_parcel.id, land_parcel_type: new_cvi_land_parcel.class.name)
-      new_land_parcel_rootstock.save!
-    end
+    # set associated cvi_cadastral_plants
+    new_cvi_land_parcel.cvi_cadastral_plants << context.cvi_land_parcel.cvi_cadastral_plants.first
   end
 
   def destroy_splitted_cvi_land_parcel

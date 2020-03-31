@@ -14,7 +14,7 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
     end
 
     describe('cvi_land_parcels are groupable') do
-      let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2, :groupable,:new_splitted) }
+      let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2, :groupable, :new_splitted) }
 
       it 'create à new record from records with correct attributes' do
         name = cvi_land_parcels.map(&:name).sort.join(', ')
@@ -25,16 +25,24 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
         assert_equal name, cvi_land_parcel.name
       end
 
-      it 'set the percentage of each rootstocks' do
-        total_area = cvi_land_parcels.sum(&:calculated_area)
-        area_rootstock1 = cvi_land_parcels.first.calculated_area
-        area_rootstock2 = cvi_land_parcels.second.calculated_area
+      it 'set the percentage' do
+        total_area = cvi_land_parcels.sum(&:declared_area)
+        area_rootstock1 = cvi_land_parcels.first.cvi_cadastral_plants.first.area
+        area_rootstock2 = cvi_land_parcels.second.cvi_cadastral_plants.first.area
         percentage1 = area_rootstock1 / total_area
         percentage2 = area_rootstock2 / total_area
         GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
         cvi_land_parcel = CviLandParcel.last
-        assert_in_delta(percentage1, cvi_land_parcel.land_parcel_rootstocks.first.percentage, delta = 0.01)
-        assert_in_delta(percentage2, cvi_land_parcel.land_parcel_rootstocks.second.percentage, delta = 0.01)
+        assert_in_delta(percentage1, cvi_land_parcel.cvi_cadastral_plant_cvi_land_parcels.first.percentage, delta = 0.01)
+        assert_in_delta(percentage2, cvi_land_parcel.cvi_cadastral_plant_cvi_land_parcels.second.percentage, delta = 0.01)
+      end
+
+      it 'set the main rootstock and the main campaign' do
+        GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
+        cvi_land_parcel = CviLandParcel.last
+        main_cvi_cadastral_plant = cvi_land_parcel.cvi_cadastral_plants.order(:area_value).last
+        assert_equal main_cvi_cadastral_plant.planting_campaign, cvi_land_parcel.planting_campaign
+        assert_equal main_cvi_cadastral_plant.rootstock_id , cvi_land_parcel.rootstock_id
       end
 
       it 'destroy grouped cvi_land_parcels' do

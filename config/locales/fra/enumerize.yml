@@ -134,12 +134,14 @@ fra:
         removed_with_authorization: "Arrachées avec autorisation"
     cvi_cultivable_zone:
       land_parcels_status:
-        created: "Créé"
-        not_created: "À créer"
+        not_started: "Non commencé"
+        started: "En cours"
+        completed: "Terminé"
     formatted_cvi_cultivable_zone:
       land_parcels_status:
-        created: "Créé"
-        not_created: "À créer"
+        not_started: "Non commencé"
+        started: "En cours"
+        completed: "Terminé"
     cvi_statement:
       state:
         converted: "Parcellaire converti"

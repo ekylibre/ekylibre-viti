@@ -38,13 +38,6 @@ ekylibre.list ||= {}
         $row.after(form)
       else
         $form.replaceWith(form)
-    
-    addCheckboxes: (listName) ->
-      $("##{listName}-list").find('tr:not(.edit-form)').each (index, element) ->
-        return $(element).find('th').eq(0).before('<th></td>') if index == 0
-        id = parseInt($(element).attr('id').replace('r', ''))
-        $(element).find('td').eq(0).before("<td><input type=\'checkbox\' value=\'#{id}\' data-list-selector=\'#{id}\'></td>")
-
   }
 
 )(ekylibre, jQuery)

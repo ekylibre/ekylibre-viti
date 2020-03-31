@@ -8,25 +8,26 @@
 #   margin: {number (as px)} Wrap labels in a margin box, considering as the clustering limits. Default: 0
 #
 #
-# Thanks to LayerGroup.collision for inspiration https://github.com/MazeMap/Leaflet.LayerGroup.Collision
+# Thanks to LayerGroup.collision for inspiration https://github.com/MazeMap/L.LayerGroup.Collision
 # Thanks to RBush for awesome lib https://github.com/mourner/rbush
 #
  ###
 
-Leaflet.GhostLabelCluster = Leaflet.LayerGroup.extend
-  __initialize: Leaflet.LayerGroup::initialize
-  __addLayer: Leaflet.LayerGroup::addLayer
-  __removeLayer: Leaflet.LayerGroup::removeLayer
-  __clearLayers: Leaflet.LayerGroup::clearLayers
+L.GhostLabelCluster = L.LayerGroup.extend
+  __initialize: L.LayerGroup::initialize
+  __addLayer: L.LayerGroup::addLayer
+  __removeLayer: L.LayerGroup::removeLayer
+  __clearLayers: L.LayerGroup::clearLayers
 
   initialize: (options) ->
-    Leaflet.setOptions @, options
+    L.setOptions @, options
     @_originalLayers =  []
     @_clusterIndex = []
     @_visibleLayers = {}
     @_cachedRelativeBoxes = []
+    @_margin = -8
     @__initialize.call @, options
-    @_margin = options.margin or 0
+    # @_margin = options.margin or 0
     @_rbush = new RBush()
     return
 
@@ -92,9 +93,7 @@ Leaflet.GhostLabelCluster = Leaflet.LayerGroup.extend
       #   in order to fetch its position and size.
       @__addLayer.call @, layer
       visible = true
-
       box = @_getContainerBox(layer._container)
-
       @_cachedRelativeBoxes[layer._leaflet_id] = box
 
     box = @_positionBox(@_map.latLngToLayerPoint(layer.getLatLng()), box)
@@ -113,7 +112,7 @@ Leaflet.GhostLabelCluster = Leaflet.LayerGroup.extend
     else
       @__removeLayer.call @, layer
       # Layers which collided
-      latLngBounds = new Leaflet.LatLngBounds
+      latLngBounds = new L.LatLngBounds
       latLngBounds.extend layer.getLatLng()
 
       idsToCollapse = []
@@ -131,10 +130,9 @@ Leaflet.GhostLabelCluster = Leaflet.LayerGroup.extend
         latLngBounds.extend bounds unless bounds is undefined
 
 
-      collapsedLayer ||= new Leaflet.GhostLabel(className: className)
+      collapsedLayer ||= new L.GhostLabel(className: className)
 
       collapsedLayer.setLatLng latLngBounds.getCenter()
-
 
       # add to this layer group
       @__addLayer.call @, collapsedLayer
@@ -149,6 +147,7 @@ Leaflet.GhostLabelCluster = Leaflet.LayerGroup.extend
 
       if @options.type is 'number'
         count = @_clusterIndex.filter((i) -> i == collapsedLayer._leaflet_id).length
+
         collapsedLayer.setContent("<span class='#{innerClass}'>#{count}</span>")
 
         collapsedLayer.setLatLng latLngBounds.getCenter()
@@ -185,6 +184,20 @@ Leaflet.GhostLabelCluster = Leaflet.LayerGroup.extend
     return
 
 
-Leaflet.ghostLabelCluster  = (options) ->
-  new (Leaflet.GhostLabelCluster)(options or {})
+L.ghostLabelCluster  = (options) ->
+  new (L.GhostLabelCluster)(options or {})
 
+L.extendedMethods =
+  # Allow to be updated
+  bindGhostLabel: (object, options) ->
+
+    if !@label
+      @label = object
+
+    if !@_showLabelAdded
+      @on 'remove', @_hideLabel, @
+
+    @_showLabelAdded = true
+    return
+
+L.Layer.include L.extendedMethods

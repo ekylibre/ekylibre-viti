@@ -2156,7 +2156,7 @@ CREATE TABLE public.cvi_cultivable_zones (
     declared_area_value numeric(19,4),
     calculated_area_unit character varying,
     calculated_area_value numeric(19,4),
-    land_parcels_status character varying DEFAULT 'not_created'::character varying,
+    land_parcels_status character varying DEFAULT 'not_started'::character varying,
     shape postgis.geometry(Geometry,4326),
     cvi_statement_id integer,
     created_at timestamp without time zone NOT NULL,
@@ -4618,6 +4618,40 @@ CREATE SEQUENCE public.labels_id_seq
 --
 
 ALTER SEQUENCE public.labels_id_seq OWNED BY public.labels.id;
+
+
+--
+-- Name: land_parcel_rootstocks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.land_parcel_rootstocks (
+    id integer NOT NULL,
+    percentage numeric DEFAULT 1.0,
+    rootstock_id character varying,
+    land_parcel_id integer,
+    land_parcel_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: land_parcel_rootstocks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.land_parcel_rootstocks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: land_parcel_rootstocks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.land_parcel_rootstocks_id_seq OWNED BY public.land_parcel_rootstocks.id;
 
 
 --
@@ -8317,6 +8351,13 @@ ALTER TABLE ONLY public.labels ALTER COLUMN id SET DEFAULT nextval('public.label
 
 
 --
+-- Name: land_parcel_rootstocks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.land_parcel_rootstocks ALTER COLUMN id SET DEFAULT nextval('public.land_parcel_rootstocks_id_seq'::regclass);
+
+
+--
 -- Name: listing_node_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -9544,6 +9585,14 @@ ALTER TABLE ONLY public.journals
 
 ALTER TABLE ONLY public.labels
     ADD CONSTRAINT labels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: land_parcel_rootstocks land_parcel_rootstocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.land_parcel_rootstocks
+    ADD CONSTRAINT land_parcel_rootstocks_pkey PRIMARY KEY (id);
 
 
 --
@@ -19823,5 +19872,5 @@ INSERT INTO schema_migrations (version) VALUES ('20200316151202');
 
 INSERT INTO schema_migrations (version) VALUES ('20200317174840');
 
-INSERT INTO schema_migrations (version) VALUES ('20200318081151');
+INSERT INTO schema_migrations (version) VALUES ('20200320154251');
 

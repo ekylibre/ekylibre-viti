@@ -14,6 +14,10 @@ class CviLandParcel < Ekylibre::Record::Base
   validates :inter_row_distance_value, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 500 }, allow_blank: true
   validates :inter_vine_plant_distance_value, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 200 }, allow_blank: true
   has_many :land_parcel_rootstocks, as: :land_parcel, dependent: :destroy
+  has_many :cvi_cadastral_plant_cvi_land_parcels, dependent: :destroy
+  has_many :cvi_cadastral_plants, through: :cvi_cadastral_plant_cvi_land_parcels
+  has_many :rootstocks, through: :cvi_cadastral_plants
+  belongs_to :rootstock, class_name: 'MasterVineVariety', foreign_key: :rootstock_id
 
   accepts_nested_attributes_for :land_parcel_rootstocks, reject_if: proc { |attributes| attributes['rootstock_id'].blank? }
 
@@ -30,6 +34,11 @@ class CviLandParcel < Ekylibre::Record::Base
     errors.delete(:name)
     errors.delete(:inter_vine_plant_distance_value) if errors.added?(:inter_vine_plant_distance_value, :blank)
     errors.delete(:inter_row_distance_value) if errors.added?(:inter_row_distance_value, :blank)
+    errors.delete(:vine_variety_id) if errors.added?(:vine_variety_id, :blank)
     errors.empty?
+  end
+
+  def regrouped?
+    cvi_cadastral_plants.length > 1
   end
 end

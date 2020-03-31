@@ -4,16 +4,15 @@
 
     init: ->
       E.list.bindCellsClickToCenterLayer('cvi_land_parcels', 2)
-      E.list.addCheckboxes('cvi_land_parcels')
       this.addButtons()
       this.selectedCviLandParcels = []
       this.bindEditMultipleButton()
       this.bindCheckBoxes()
   
     manageButtons: ->
-      $groupButton =  $('#group-cvi-land-parcels')
-      $cutButton = $('#cut-cvi-land-parcel')
-      $editMultipleButton = $('#edit-multiple-cvi-land-parcels')
+      $groupButton =  $('.group-cvi-land-parcels')
+      $cutButton = $('.cut-cvi-land-parcel')
+      $editMultipleButton = $('.edit-multiple-cvi-land-parcels')
       $editButtons = $('td > a.edit')
       selectedCviLandParcels = this.selectedCviLandParcels
       if selectedCviLandParcels.length == 1
@@ -29,7 +28,7 @@
         $editButtons.removeClass("disabled-link")
         $groupButton.attr("disabled", true)
         $cutButton.attr("disabled", true)
-        $editMultipleButton.prop( "disabled", true )
+        $editMultipleButton.attr( "disabled", true )
       else
         $editButtons.addClass("disabled-link")
         $groupButton.removeAttr('disabled')
@@ -77,9 +76,24 @@
           E.map.centerLayer(id, true, "cvi_land_parcels") if list.selectedCviLandParcels.length == 1
         else if list.selectedCviLandParcels.length == 2
           E.map.setView()
+      
+      $(document).on "change", "#cvi_land_parcels-list [data-list-selector=all]", (event) ->
+        list = E.cviLandParcels.list
+        $list = $(this.closest('*[data-list-source]'))
+        if this.checked
+          E.cviLandParcels.list.selectedCviLandParcels = Object.keys($list.prop('selection'))
+          for id in  E.cviLandParcels.list.selectedCviLandParcels
+            layer = E.map.select parseInt(id) , false, 'cvi_land_parcels'
+            layer.setStyle(fillOpacity: 0.3)
+        else
+          E.cviLandParcels.list.selectedCviLandParcels = []
+          E.map._cartography.getOverlay('cvi_land_parcels').setStyle(fillOpacity: 0)
+          E.map.setView()
+        list.manageButtons()
 
     addButtons: ->
       $(E.templates.cviLandParcelsButtons()).insertBefore('#cvi_land_parcels-list tr:first')
+      $(E.templates.cviLandParcelsButtons()).insertAfter('#cvi_land_parcels-list tr:last')
     
     formatUngroupableRow: (ids, attributes) ->
       list = this
@@ -96,7 +110,7 @@
     
     bindEditMultipleButton: ->
       list = this
-      $editMultipleButton = $('#edit-multiple-cvi-land-parcels')
+      $editMultipleButton = $('.edit-multiple-cvi-land-parcels')
       $editMultipleButton.on "click", ->
         params = list.selectedCviLandParcels.map (id) ->
               "ids[]=#{id}"

@@ -119,6 +119,7 @@ gem 'exception_notification'
 
 # Views helpers
 gem 'active_list', gitlab: 'ekylibre/active_list', branch: 'master'
+
 gem 'haml'
 gem 'simple_calendar'
 

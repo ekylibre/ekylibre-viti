@@ -80,6 +80,7 @@ class CviCadastralPlantTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   should belong_to(:designation_of_origin).with_foreign_key('designation_of_origin_id')
   should belong_to(:vine_variety).with_foreign_key('vine_variety_id')
   should have_one(:location)
+  should have_many(:cvi_cadastral_plant_cvi_land_parcels)
 
   it 'doesnt update when it is valid and it is updated with invalid value ' do
     cvi_cadastral_plant = create(:cvi_cadastral_plant, land_parcel_id: '335010000A1428', section: 'A', work_number: '1428')

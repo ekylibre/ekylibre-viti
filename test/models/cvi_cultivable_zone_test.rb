@@ -24,7 +24,7 @@ class CviCultivableZoneTest < Ekylibre::Testing::ApplicationTestCase::WithFixtur
   should have_many(:cvi_land_parcels)
   should have_many(:locations)
 
-  should enumerize(:land_parcels_status).in(:not_created,:created).with_predicates(true)
+  should enumerize(:land_parcels_status).in(:not_started, :started, :completed).with_predicates(true)
 
   it 'has calculated_area setted when shape change' do
     resource = create(:cvi_cultivable_zone)

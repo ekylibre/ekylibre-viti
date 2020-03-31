@@ -73,6 +73,8 @@ module Backend
 
     def delete_modal; end
 
+    def reset_modal; end
+
     def group
       cvi_cultivable_zones = CviCultivableZone.joins(:cvi_cadastral_plants).where(id: params[:cvi_cultivable_zone_ids]).distinct
       result = GroupCviCultivableZones.call(cvi_cultivable_zones: cvi_cultivable_zones)
@@ -85,11 +87,30 @@ module Backend
       end
     end
 
+    def reset
+      cvi_cultivable_zone = CviCultivableZone.find(params[:id])
+      cvi_cultivable_zone.cvi_land_parcels.destroy_all
+      GenerateCviLandParcels.call(cvi_cultivable_zone: cvi_cultivable_zone)
+      shape = CviLandParcel.select('st_astext(
+        ST_Simplify(
+          ST_UNION(
+            ARRAY_AGG(
+                ST_MakeValid(cvi_land_parcels.shape)
+              )
+            ), 0.000000001
+          )
+        ) AS shape').joins(:cvi_cultivable_zone).find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id).shape
+      calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
+      cvi_cultivable_zone.update(shape: shape.to_rgeo, calculated_area: calculated_area, land_parcels_status: :started)
+      redirect_to backend_cvi_cultivable_zone_path(cvi_cultivable_zone.id)
+    end
+
     def generate_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
       unless cvi_cultivable_zone.cvi_land_parcels.any?
         GenerateCviLandParcels.call(cvi_cultivable_zone: cvi_cultivable_zone)
       end
+      cvi_cultivable_zone.update(land_parcels_status: :started)
       redirect_to action: 'show', id: cvi_cultivable_zone.id
     end
 
@@ -108,12 +129,11 @@ module Backend
                                         )
                                       ) AS shape').joins(:cvi_cultivable_zone).find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id).shape
       calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
-      cvi_cultivable_zone.update(shape: shape.to_rgeo, calculated_area: calculated_area, land_parcels_status: :created)
+      cvi_cultivable_zone.update(shape: shape.to_rgeo, calculated_area: calculated_area, land_parcels_status: :completed)
       redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
     end
 
-
-    list(:cvi_land_parcels, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: cvi_land_parcels_conditions, line_class: "'activity-undefined' if RECORD.activity_name == 'A définir'".c) do |t|
+    list(:cvi_land_parcels, selectable: true, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: cvi_land_parcels_conditions, line_class: "'activity-undefined' if RECORD.activity_name == 'A définir'".c) do |t|
       t.column :id, hidden: true
       t.action :edit, url: { controller: 'cvi_land_parcels', action: 'edit', remote: true }
       t.column :name
@@ -123,7 +143,7 @@ module Backend
       t.column :vine_variety_name
       t.column :declared_area_formatted, label: :declared_area
       t.column :calculated_area_formatted, label: :calculated_area
-      t.column :rootstocks
+      t.column :rootstock
       t.column :planting_campaign
       t.column :inter_vine_plant_distance_value
       t.column :inter_row_distance_value
@@ -133,7 +153,7 @@ module Backend
 
     def edit_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
-      cvi_cultivable_zone.update(land_parcels_status: :not_created) if cvi_cultivable_zone.land_parcels_status == :created
+      cvi_cultivable_zone.update(land_parcels_status: :started)
       redirect_to backend_cvi_cultivable_zone_path(cvi_cultivable_zone)
     end
 

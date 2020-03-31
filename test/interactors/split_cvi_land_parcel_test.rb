@@ -30,12 +30,12 @@ class SplitCviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtu
     end
 
     it 'sets relations' do
+      cvi_cadastral_plant = cvi_land_parcel.cvi_cadastral_plants.first
       old_cvi_land_parcel_locations = cvi_land_parcel.locations.map { |r| [r.registered_postal_zone_id, r.locality] }
-      old_cvi_land_parcel_rootstocks = cvi_land_parcel.land_parcel_rootstocks.map { |r| [r.rootstock_id, r.percentage] }
       SplitCviLandParcel.call(cvi_land_parcel: cvi_land_parcel, new_cvi_land_parcels_params: new_cvi_land_parcels_params)
       new_cvi_land_parcel = CviLandParcel.last
       assert_equal old_cvi_land_parcel_locations, new_cvi_land_parcel.locations.pluck(:registered_postal_zone_id, :locality)
-      assert_equal old_cvi_land_parcel_rootstocks, new_cvi_land_parcel.land_parcel_rootstocks.pluck(:rootstock_id, :percentage)
+      assert_equal cvi_cadastral_plant.id , new_cvi_land_parcel.cvi_cadastral_plants.first.id
     end
 
     it 'destroys old record' do

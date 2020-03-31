@@ -1948,7 +1948,7 @@ cvi_cultivable_zones:
     required: true
   land_parcels_status:
     type: string
-    default: not_created
+    default: not_started
   name:
     type: string
     required: true

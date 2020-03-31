@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Zone#{n}" }
     declared_area_unit { :hectare }
     declared_area_value { rand.round(2) }
-    land_parcels_status { %i[not_created created].sample }
+    land_parcels_status { %i[not_started started completed].sample }
     shape { FFaker::Shape.multipolygon.simplify(0.05) }
     cvi_statement
     with_location

@@ -1103,8 +1103,16 @@ fra:
         n_3_4_leaf: "N+3 (2ème feuille)"
         n_2_3_leaf: "N+2 (3ème feuille)"
         n_4_5_leaf: "N+4 (5ème feuille"
+    active_list:
+      labels:
+        manage_land_parcels: "Gérer le parcellaire"
+        edit: "Modifier"
   labels:
     rootstock: "Porte-greffe"
+    major: "majoritaire"
+    percentage: "Répartition"
+    planting_campaign: "Année"
+    cadastral_reference: "Ref. cadastrale"
     abilities: "Compétences" #?
     accepted: "Acceptée"
     accepted_for_paiment: "Acceptée pour paiement"
@@ -1570,6 +1578,7 @@ fra:
     counts: "Totaux"
     counts_by_nature: "Nombre de pièces à comptabiliser par type"
     create: "Créer"
+    complete: "Terminer"
     create_a_sale: "Créer une vente"
     create_and_continue: "Créer et saisir suivant"
     create_journal: "— Créer le journal —"
@@ -1661,6 +1670,8 @@ fra:
     delete: "Supprimer"
     delete_cvi_cutlivable_zone_header: "Supprimer la Zone Cultivable"
     delete_cvi_cutlivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
+    reset_cvi_cutlivable_zone_header: "Réinitialiser le parcellaire d'une Zone cultivable"
+    reset_cvi_cutlivable_zone_body: "<b>Attention !</b><br>Vous allez réinitialiser le parcellaire de cette Zone cultivable. Si vous confirmez, toutes les modifications déjà enregistrées seront perdues.<br><br>Souhaitez-vous confirmer cette réinitialisation?"
     delete_cvi_cadastral_plant_header: "Supprimer une parcelle cadastrale de votre CVI"
     delete_cvi_cadastral_plant_body: "<b>Attention !</b><br>Vous allez supprimer une parcelle cadastrale de votre CVI.Pour la rajouter ou la modifier, vous devrez ré-importer la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette parcelle de votre CVI ?"
     delete_only_record: #? String expected ("Or only delete the selected intervention(s) and display the request associate ?")
@@ -3608,8 +3619,9 @@ fra:
       record_x_updated: "%{record} %{name} mise à jour"
       record_x_updated_f: "La %{record} %{name} a été mise à jour"
       records_x_updated_f: "Les %{record} %{name} ont été mises à jour"
-      can_not_group_cvi_land_parcels: "Les parcelles ne peuvent pas être regroupées car le cépage, le produit revendiqué, la densité, la campagne de plantation ou l’état diffère. Veuillez vérifier les valeurs avant de regrouper les parcelles."
+      can_not_group_cvi_land_parcels: "Les parcelles ne peuvent pas être regroupées car le cépage, le produit revendiqué, la densité ou l’état diffère. Veuillez vérifier les valeurs avant de regrouper les parcelles."
       can_not_group_no_intersection: "Les %{name_pluralized} n’ont pas pu être regroupées. Si vous souhaitez les regrouper, éditez l’une des deux %{name_pluralized} de façon à ce que leurs contours aient au moins un point d’intersection."
+      can_not_split_grouped: "La parcelle ne peut pas être dissociée car elle provient déjà du regroupement de plusieurs parcelles. Veuillez choisir une autre parcelle ou réinitialiser la Zone cultivable."
       grouped: "Les %{name_pluralized} ont été regroupées."
       cvi_land_parcels_splitted:  "La parcelle a été dissociée."
       restoration_finished: "La restauration de la sauvegarde s’est terminée (en %{value} secondes)." #?
@@ -3709,8 +3721,8 @@ fra:
       convert: "Convertir"
       correct: "Corriger"
       create: "Créer"
-      generate_cvi_land_parcels: "Créer parcellaire"
-      edit_cvi_land_parcels: "Modifier parcellaire"
+      generate_cvi_land_parcels: "Commencer"
+      edit_cvi_land_parcels: "Reprendre"
       decrement: "Décrementer" #?
       delete_modal: "Supprimer"
       destroy: "Supprimer"
@@ -3778,7 +3790,7 @@ fra:
       renew: "Renouveler"
       reopen: "Réouvrir"
       repay: "Rembourser"
-      reset: "Ré-initialiser"
+      reset: "Réinitialiser"
       retrieve: "Relever"
       run: "Exécuter"
       scrap: "Mettre au rebut"

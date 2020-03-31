@@ -17,13 +17,13 @@ ekylibre.templates ||= {}
       "<tr>
         <th colspan='1000'>
           <div>
-            <a href='' class='btn btn-primary' id='cut-cvi-land-parcel' data-remote='true' disabled>
+            <a href='' class='btn btn-primary cut-cvi-land-parcel' data-remote='true' disabled>
               #{I18n.t("#{i18nRoot}.split")}
             </a>
-            <a href='' class='btn btn-primary' id='group-cvi-land-parcels' data-remote='true' data-method='post' disabled>
+            <a href='' class='btn btn-primary group-cvi-land-parcels' data-remote='true' data-method='post' disabled>
               #{I18n.t("#{i18nRoot}.regroup")}
             </a>
-            <a href='' class='btn btn-primary' id='edit-multiple-cvi-land-parcels' data-remote='true' disabled>
+            <a href='' class='btn btn-primary edit-multiple-cvi-land-parcels' data-remote='true' disabled>
               #{I18n.t("#{i18nRoot}.edit")}
             </a>
           </div>
@@ -35,7 +35,7 @@ ekylibre.templates ||= {}
       "<tr>
         <th colspan='1000'>
           <div>
-            <a href='' class='btn btn-primary' id='group-cvi-land-parcels' data-remote='true' data-method='post' disabled>
+            <a href='' class='btn btn-primary group-cvi-land-parcels' data-remote='true' data-method='post' disabled>
               #{I18n.t("#{i18nRoot}.regroup")}
             </a>
           </div>
