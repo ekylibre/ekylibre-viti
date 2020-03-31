@@ -19,6 +19,6 @@ ekylibre.cviCadastralPlants ||= {}
     if  $('[id^=cvi_cadastral_plants].active-list').length > 0
       E.cviCadastralPlants.list.init()
 
-  $(document).on 'click', '[id^=cvi_cadastral_plants] [data-cancel-list-form]', ->
+  $(document).on 'click','[id^=cvi_cadastral_plants] [data-cancel-list-form]', ->
     E.list.render()
 ) ekylibre, jQuery
