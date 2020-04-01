@@ -1104,6 +1104,7 @@ fra:
         n_2_3_leaf: "N+2 (3ème feuille)"
         n_4_5_leaf: "N+4 (5ème feuille"
   labels:
+    start_state_of_production: "1ère année de production (plantation année N)"
     rootstock: "Porte-greffe"
     abilities: "Compétences" #?
     accepted: "Acceptée"

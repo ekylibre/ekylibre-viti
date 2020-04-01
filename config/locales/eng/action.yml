@@ -1302,6 +1302,7 @@ eng:
         n_2_3_leaf: "N+2 (3rd leaf)"
         n_4_5_leaf: "N+4 (5th leaf)"
   labels:
+    start_state_of_production: "Start state of production (year N)"
     rootstock: "Rootstock"
     accepted: "Accepted"
     accepted_for_paiment: "Accepted for paiment"

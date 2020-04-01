@@ -108,7 +108,7 @@ class Activity < Ekylibre::Record::Base
   validates :support_variety, presence: { if: :with_supports }
   validates :name, uniqueness: true
   # validates_associated :productions
-  validates :production_campaign_period, :production_campaign, presence: { if: :perennial? }
+  validates :start_state_of_production, :life_duration, :production_campaign_period, :production_campaign, presence: { if: :perennial? }
   validates :grading_net_mass_unit, presence: { if: :measure_grading_net_mass }
   validates :grading_sizes_indicator, :grading_sizes_unit, presence: { if: :measure_grading_sizes }
 
