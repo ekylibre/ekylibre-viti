@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 11.2
--- Dumped by pg_dump version 11.6 (Debian 11.6-0+deb10u1)
+-- Dumped by pg_dump version 11.7 (Debian 11.7-0+deb10u1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -57,17 +57,91 @@ CREATE TABLE lexicon.datasource_credits (
 
 
 --
--- Name: ephy_cropsets; Type: TABLE; Schema: lexicon; Owner: -
+-- Name: detail_hydrographique_2975; Type: TABLE; Schema: lexicon; Owner: -
 --
 
-CREATE TABLE lexicon.ephy_cropsets (
-    id character varying NOT NULL,
-    name character varying NOT NULL,
-    label jsonb,
-    crop_names text[],
-    crop_labels jsonb,
-    record_checksum integer
+CREATE TABLE lexicon.detail_hydrographique_2975 (
+    gid integer NOT NULL,
+    id character varying(24),
+    nature character varying(15),
+    nat_detail character varying(18),
+    toponyme character varying(127),
+    statut_top character varying(10),
+    importance character varying(1),
+    etat character varying(15),
+    date_creat character varying(19),
+    date_maj character varying(19),
+    date_app date,
+    date_conf date,
+    source character varying(127),
+    id_source character varying(254),
+    prec_plani double precision,
+    geom postgis.geometry(Point,2975)
 );
+
+
+--
+-- Name: detail_hydrographique_2975_gid_seq; Type: SEQUENCE; Schema: lexicon; Owner: -
+--
+
+CREATE SEQUENCE lexicon.detail_hydrographique_2975_gid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: detail_hydrographique_2975_gid_seq; Type: SEQUENCE OWNED BY; Schema: lexicon; Owner: -
+--
+
+ALTER SEQUENCE lexicon.detail_hydrographique_2975_gid_seq OWNED BY lexicon.detail_hydrographique_2975.gid;
+
+
+--
+-- Name: detail_hydrographique_4471; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE TABLE lexicon.detail_hydrographique_4471 (
+    gid integer NOT NULL,
+    id character varying(24),
+    nature character varying(15),
+    nat_detail character varying(18),
+    toponyme character varying(127),
+    statut_top character varying(10),
+    importance character varying(1),
+    etat character varying(15),
+    date_creat character varying(19),
+    date_maj character varying(19),
+    date_app date,
+    date_conf date,
+    source character varying(127),
+    id_source character varying(254),
+    prec_plani double precision,
+    geom postgis.geometry(Point,4471)
+);
+
+
+--
+-- Name: detail_hydrographique_4471_gid_seq; Type: SEQUENCE; Schema: lexicon; Owner: -
+--
+
+CREATE SEQUENCE lexicon.detail_hydrographique_4471_gid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: detail_hydrographique_4471_gid_seq; Type: SEQUENCE OWNED BY; Schema: lexicon; Owner: -
+--
+
+ALTER SEQUENCE lexicon.detail_hydrographique_4471_gid_seq OWNED BY lexicon.detail_hydrographique_4471.gid;
 
 
 --
@@ -462,6 +536,63 @@ CREATE TABLE lexicon.registered_seeds (
 
 
 --
+-- Name: surface_hydrographique_5490; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE TABLE lexicon.surface_hydrographique_5490 (
+    gid integer NOT NULL,
+    id character varying(24),
+    code_hydro character varying(19),
+    code_pays character varying(8),
+    nature character varying(27),
+    pos_sol character varying(2),
+    etat character varying(15),
+    date_creat character varying(19),
+    date_maj character varying(19),
+    date_app date,
+    date_conf date,
+    source character varying(127),
+    id_source character varying(254),
+    prec_plani double precision,
+    prec_alti double precision,
+    src_coord character varying(31),
+    src_alti character varying(41),
+    statut character varying(7),
+    persistanc character varying(12),
+    salinite character varying(3),
+    origine character varying(24),
+    comment character varying(80),
+    id_p_eau character varying(80),
+    id_c_eau character varying(80),
+    id_ent_tr character varying(24),
+    nom_p_eau character varying(120),
+    nom_c_eau character varying(120),
+    nom_ent_tr character varying(120),
+    geom postgis.geometry(MultiPolygonZM,5490)
+);
+
+
+--
+-- Name: surface_hydrographique_5490_gid_seq; Type: SEQUENCE; Schema: lexicon; Owner: -
+--
+
+CREATE SEQUENCE lexicon.surface_hydrographique_5490_gid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: surface_hydrographique_5490_gid_seq; Type: SEQUENCE OWNED BY; Schema: lexicon; Owner: -
+--
+
+ALTER SEQUENCE lexicon.surface_hydrographique_5490_gid_seq OWNED BY lexicon.surface_hydrographique_5490.gid;
+
+
+--
 -- Name: technical_workflow_procedure_items; Type: TABLE; Schema: lexicon; Owner: -
 --
 
@@ -527,6 +658,74 @@ CREATE TABLE lexicon.technical_workflows (
     life_state character varying,
     life_cycle character varying
 );
+
+
+--
+-- Name: troncon_hydrographique_2972; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE TABLE lexicon.troncon_hydrographique_2972 (
+    gid integer NOT NULL,
+    id character varying(24),
+    code_hydro character varying(19),
+    code_pays character varying(8),
+    nature character varying(27),
+    fictif character varying(3),
+    pos_sol character varying(8),
+    etat character varying(15),
+    date_creat character varying(19),
+    date_maj character varying(19),
+    date_app date,
+    date_conf date,
+    source character varying(127),
+    id_source character varying(254),
+    prec_plani double precision,
+    prec_alti double precision,
+    src_coord character varying(31),
+    src_alti character varying(41),
+    statut character varying(7),
+    persistanc character varying(12),
+    fosse character varying(3),
+    navigabl character varying(3),
+    salinite character varying(3),
+    num_ordre character varying(2),
+    cla_ordre character varying(32),
+    origine character varying(24),
+    per_ordre character varying(32),
+    sens_ecoul character varying(12),
+    res_coulan character varying(3),
+    delimit character varying(3),
+    largeur character varying(26),
+    bras character varying(10),
+    comment character varying(80),
+    code_carth character varying(8),
+    id_c_eau character varying(80),
+    id_s_hydro character varying(80),
+    id_ent_tr character varying(24),
+    nom_c_eau character varying(120),
+    nom_ent_tr character varying(120),
+    geom postgis.geometry(MultiLineStringZM,2972)
+);
+
+
+--
+-- Name: troncon_hydrographique_2972_gid_seq; Type: SEQUENCE; Schema: lexicon; Owner: -
+--
+
+CREATE SEQUENCE lexicon.troncon_hydrographique_2972_gid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: troncon_hydrographique_2972_gid_seq; Type: SEQUENCE OWNED BY; Schema: lexicon; Owner: -
+--
+
+ALTER SEQUENCE lexicon.troncon_hydrographique_2972_gid_seq OWNED BY lexicon.troncon_hydrographique_2972.gid;
 
 
 --
@@ -675,6 +874,34 @@ CREATE TABLE lexicon.variants (
 
 
 --
+-- Name: detail_hydrographique_2975 gid; Type: DEFAULT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.detail_hydrographique_2975 ALTER COLUMN gid SET DEFAULT nextval('lexicon.detail_hydrographique_2975_gid_seq'::regclass);
+
+
+--
+-- Name: detail_hydrographique_4471 gid; Type: DEFAULT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.detail_hydrographique_4471 ALTER COLUMN gid SET DEFAULT nextval('lexicon.detail_hydrographique_4471_gid_seq'::regclass);
+
+
+--
+-- Name: surface_hydrographique_5490 gid; Type: DEFAULT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.surface_hydrographique_5490 ALTER COLUMN gid SET DEFAULT nextval('lexicon.surface_hydrographique_5490_gid_seq'::regclass);
+
+
+--
+-- Name: troncon_hydrographique_2972 gid; Type: DEFAULT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.troncon_hydrographique_2972 ALTER COLUMN gid SET DEFAULT nextval('lexicon.troncon_hydrographique_2972_gid_seq'::regclass);
+
+
+--
 -- Name: cadastral_land_parcel_zones cadastral_land_parcel_zones_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
 --
 
@@ -683,11 +910,19 @@ ALTER TABLE ONLY lexicon.cadastral_land_parcel_zones
 
 
 --
--- Name: ephy_cropsets ephy_cropsets_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+-- Name: detail_hydrographique_2975 detail_hydrographique_2975_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
 --
 
-ALTER TABLE ONLY lexicon.ephy_cropsets
-    ADD CONSTRAINT ephy_cropsets_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY lexicon.detail_hydrographique_2975
+    ADD CONSTRAINT detail_hydrographique_2975_pkey PRIMARY KEY (gid);
+
+
+--
+-- Name: detail_hydrographique_4471 detail_hydrographique_4471_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.detail_hydrographique_4471
+    ADD CONSTRAINT detail_hydrographique_4471_pkey PRIMARY KEY (gid);
 
 
 --
@@ -859,6 +1094,14 @@ ALTER TABLE ONLY lexicon.registered_seeds
 
 
 --
+-- Name: surface_hydrographique_5490 surface_hydrographique_5490_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.surface_hydrographique_5490
+    ADD CONSTRAINT surface_hydrographique_5490_pkey PRIMARY KEY (gid);
+
+
+--
 -- Name: technical_workflow_procedure_items technical_workflow_procedure_items_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
 --
 
@@ -888,6 +1131,14 @@ ALTER TABLE ONLY lexicon.technical_workflow_sequences
 
 ALTER TABLE ONLY lexicon.technical_workflows
     ADD CONSTRAINT technical_workflows_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: troncon_hydrographique_2972 troncon_hydrographique_2972_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.troncon_hydrographique_2972
+    ADD CONSTRAINT troncon_hydrographique_2972_pkey PRIMARY KEY (gid);
 
 
 --
@@ -958,13 +1209,6 @@ CREATE INDEX cadastral_land_parcel_zones_centroid ON lexicon.cadastral_land_parc
 --
 
 CREATE INDEX cadastral_land_parcel_zones_shape ON lexicon.cadastral_land_parcel_zones USING gist (shape);
-
-
---
--- Name: ephy_cropsets_crop_names; Type: INDEX; Schema: lexicon; Owner: -
---
-
-CREATE INDEX ephy_cropsets_crop_names ON lexicon.ephy_cropsets USING btree (crop_names);
 
 
 --

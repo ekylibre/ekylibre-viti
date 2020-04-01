@@ -402,7 +402,8 @@ CREATE TABLE public.activity_productions (
     campaign_id integer,
     custom_fields jsonb,
     season_id integer,
-    tactic_id integer
+    tactic_id integer,
+    providers jsonb
 );
 
 
@@ -613,7 +614,8 @@ CREATE TABLE public.products (
     originator_id integer,
     codes jsonb,
     reading_cache jsonb DEFAULT '{}'::jsonb,
-    activity_production_id integer
+    activity_production_id integer,
+    providers jsonb
 );
 
 
@@ -19873,4 +19875,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200316151202');
 INSERT INTO schema_migrations (version) VALUES ('20200317174840');
 
 INSERT INTO schema_migrations (version) VALUES ('20200320154251');
+
+INSERT INTO schema_migrations (version) VALUES ('20200324010101');
 

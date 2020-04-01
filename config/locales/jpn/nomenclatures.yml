@@ -702,7 +702,6 @@ jpn:
         senescence: "老化"
       name: "動物の生活状態"
     cation_exchange_capacity_analysis_methods:
-      
       name: "陽イオン交換容量の分析方法"
     certification_labels:
       items:
@@ -1824,8 +1823,7 @@ jpn:
         precision: "精度"
         symbol: "シンボル"
     delivery_modes:
-      choices:
-        
+      
       items:
         delivered_at_place: "場所でお届け"
         delivered_at_terminal: "ターミナルでお届け"

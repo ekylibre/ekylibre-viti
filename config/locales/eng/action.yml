@@ -1306,6 +1306,7 @@ eng:
         n_2_3_leaf: "N+2 (3rd leaf)"
         n_4_5_leaf: "N+4 (5th leaf)"
   labels:
+    start_state_of_production: "Start state of production (year N)"
     rootstock: "Rootstock"
     major: "main"
     percentage: "Percentage"
@@ -1994,9 +1995,9 @@ eng:
     flammable_agents: "Flammable agents"
     forecast_harvest_week: "Forecast harvest week"
     from: "From"
-    from_current_year: "From (year N)"
-    to_next_year: "To (year N+1)"
-    production_campaign_period: "Production campaign period (year N)"
+    from_current_year: "From"
+    to_next_year: "To"
+    production_campaign_period: "Production campaign period"
     from_to_date: "from %{from} to %{to}" #?
     fullscreen: "Fullscreen"
     function: "Function"
@@ -3100,6 +3101,7 @@ eng:
       one: "%{count} year"
       other: "%{count} years"
     year: "Year"
+    year_long: "Year"
     year_end: "Year end"
     year_start: "Year start"
     yield: "Yield" #?

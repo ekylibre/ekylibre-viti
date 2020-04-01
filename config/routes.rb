@@ -1359,10 +1359,12 @@ Rails.application.routes.draw do
 
     resources :registrations, only: %i[index edit update destroy], concerns: [:list]
     resources :gaps, only: %i[index show destroy]
-  end
 
-  namespace :ekyviti do 
-    resources :activities, concerns: %i[unroll]
+    resources :varieties, only: [] do
+      collection do
+        get :selection
+      end
+    end
   end
 
   namespace :public do
