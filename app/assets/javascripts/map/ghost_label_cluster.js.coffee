@@ -25,9 +25,8 @@ L.GhostLabelCluster = L.LayerGroup.extend
     @_clusterIndex = []
     @_visibleLayers = {}
     @_cachedRelativeBoxes = []
-    @_margin = -8
     @__initialize.call @, options
-    # @_margin = options.margin or 0
+    @_margin = options.margin or 0
     @_rbush = new RBush()
     return
 

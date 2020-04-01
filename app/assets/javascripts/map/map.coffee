@@ -21,7 +21,7 @@
 
     #TODO: move to cartography
     configMap: ->
-      @ghostLabelCluster = L.ghostLabelCluster {innerClassName: 'leaflet-ghost-label-collapsed', margin: -5 }
+      @ghostLabelCluster = L.ghostLabelCluster {type: 'number', innerClassName: 'leaflet-ghost-label-collapsed', margin: -3 }
       @ghostLabelCluster.addTo @_cartography.getMap()
       ghostIconPane = @_cartography.getMap().createPane('ghost-icon')
       ghostIconPane.style.zIndex = 6

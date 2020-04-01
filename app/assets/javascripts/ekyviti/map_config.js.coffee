@@ -10,29 +10,38 @@
       color = "#C5D4F0"
       klass = 'blue'
 
-    insertionMarker = () ->
+    addLabel = () ->
       positionLatLng = layer.getCenter()
       centerPixels = layer._map.latLngToContainerPoint(positionLatLng)
       name = layer.feature.properties.name
-      matchnameIndex =name.match(/-(\d*$)/)
+      matchnameIndex = name.match(/-(\d*$)/)
       if matchnameIndex
         nameIndex = parseInt(matchnameIndex[1])
-        offset = L.point(0, (nameIndex - 1) * 0.35 * layer._map.getZoom())
+        offset = L.point(0, (nameIndex - 1) * 1.1 * layer._map.getZoom())
         positionLatLng = layer._map.containerPointToLatLng(centerPixels.add(offset))
-
       name = "#{layer.feature.properties.name} | #{layer.feature.properties.vine_variety} | #{layer.feature.properties.year}"
       layer.label = new L.GhostLabel( { baseClassName: '', className: "simple-label #{klass}", pane: 'ghost-icon' } ).setContent(name).setLatLng(positionLatLng)
-      E.map.ghostLabelCluster.bind layer.label, layer
-        
+              
     style = { color: color, fillOpacity: 0, opacity: 1, fill: true }
    
     layer.setStyle(style)
 
     layer._map.on 'zoomend', ->
-      if layer._map.getZoom() >= 16 and !layer.label
-        insertionMarker()
-      if layer.label
+      if layer._map.getZoom() == 16
+        layer.label.removeFrom(layer._map) if layer.label
+        E.map.ghostLabelCluster.removeLayer target: { label: layer.label } unless layer.label is undefined
+        addLabel()
+        E.map.ghostLabelCluster.bind layer.label, layer
         E.map.ghostLabelCluster.refresh()
+        return
+      if layer._map.getZoom() < 16
+        E.map.ghostLabelCluster.refresh()
+      if layer._map.getZoom() >= 17 
+        layer.label.removeFrom(layer._map) if layer.label
+        E.map.ghostLabelCluster.removeLayer target: { label: layer.label } unless layer.label is undefined
+        E.map.ghostLabelCluster.refresh()
+        addLabel()
+        layer.label.addTo(layer._map)
 
     layer.on 'remove', ->
       E.map.ghostLabelCluster.removeLayer target: { label: layer.label } unless layer.label is undefined
