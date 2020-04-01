@@ -464,7 +464,7 @@ module Backend
 
     def production_cycle_range(*args)
       options = args.extract_options!
-      input(:production_campaign_period.tl, options.merge(wrapper: :append)) do
+      input(:production_campaign_period, options.merge(label: :production_campaign_period.tl, wrapper: :append)) do
         @template.content_tag(:span, :from_current_year.tl, class: 'add-on') +
           input(:production_started_on, options.merge(wrapper: :simplest)) +
           @template.content_tag(:span, :year_long.tl, class: 'add-on') +

@@ -15,9 +15,12 @@
     activityFamily = element.selector('value')
     
   $(document).on "change", "input[type=radio][name='activity[production_cycle]']", (event)->
+    production_cycle_control = $(".activity_production_campaign_period")
     if this.value == 'perennial'
       $('.perennial-production-cycle-options').show()
+      production_cycle_control.find('label').addClass('required').append(required_indicator())
     else
+      production_cycle_control.find('label').removeClass('required').find('abbr').remove()
       $('.perennial-production-cycle-options').hide()
 
   $(document).on "selector:change", "#activity_production_nature_id", (event)->
@@ -159,4 +162,8 @@
           cultivation_control.hide()
           cultivation_check.val(0)
         cultivation_check.trigger("change")
+
+  required_indicator = ->
+    "<abbr title=#{I18n.t('front-end.templates.form.required')}>*</abbr>"
+
 ) ekylibre, jQuery
