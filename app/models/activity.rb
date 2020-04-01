@@ -102,6 +102,7 @@ class Activity < Ekylibre::Record::Base
   validates :name, presence: true, length: { maximum: 500 }
   validates :use_seasons, :use_tactics, inclusion: { in: [true, false] }, allow_blank: true
   # ]VALIDATORS]
+  validates :cultivation_variety, presence: true, if: -> { Nomen::ActivityFamily[family] && Nomen::ActivityFamily[family].cultivation_variety.present? }
   validates :family, inclusion: { in: family.values }
   validates :cultivation_variety, presence: { if: :with_cultivation }
   validates :support_variety, presence: { if: :with_supports }

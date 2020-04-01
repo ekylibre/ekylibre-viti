@@ -8,7 +8,6 @@
     $.ajax
       url: "/backend/cultivable-zones/#{id}.json"
       success: (data, status, request) ->
-        console.log data
         map.mapeditor('edit', data.shape, true)
   
   $(document).on "selector:change", "#activity_family", (event)->

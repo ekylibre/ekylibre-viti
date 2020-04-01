@@ -159,6 +159,10 @@ module Backend
     end
 
     def set_production_cycle_years
+      return unless permitted_params["production_started_on"].present? && 
+                    permitted_params["production_stopped_on"].present? && 
+                    permitted_params["production_campaign"].present?
+
       production_started_on = permitted_params["production_started_on"].to_date.change(year: 2000)
       permitted_params["production_started_on"] = production_started_on.to_s
       year = if permitted_params["production_campaign"] == "at_cycle_end"
