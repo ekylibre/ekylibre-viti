@@ -18,6 +18,7 @@
     production_cycle_control = $(".activity_production_campaign_period")
     if this.value == 'perennial'
       $('.perennial-production-cycle-options').show()
+      return if production_cycle_control.find('abbr').length == 1
       production_cycle_control.find('label').addClass('required').append(required_indicator())
     else
       production_cycle_control.find('label').removeClass('required').find('abbr').remove()
@@ -60,16 +61,20 @@
 
           if data.start_state_of_production == null || data.start_state_of_production.length == 0
             $('div.perennial-production-cycle-options').hide()
-          else 
-            defaultStartStateOfProduction = parseInt(data.start_state_of_production.match(/^(\D*)(\d+)/)[2])
+          else
+            defaultDuration = parseInt(data.start_state_of_production.match(/^(\D*)(\d+)/)[2])
             startStateOfProductions = JSON.parse(data.start_state_of_production)
-            options = ''  
+            defaultStartStateOfProduction = {}
+            defaultStartStateOfProduction[defaultDuration] = startStateOfProductions[defaultDuration]
+            options = ''
             for key,value of startStateOfProductions
+              valueObject = {}
+              valueObject[key] = value
               tlOption = I18n.t("front-end.production.start_state_of_production.#{value}")
-              options += "<option value=#{key}>#{tlOption}</option>"
+              options += "<option value=#{JSON.stringify(valueObject)}>#{tlOption}</option>"
             $('select#activity_start_state_of_production').children('option').remove()
             $('select#activity_start_state_of_production').append(options)
-            $('select#activity_start_state_of_production').val(defaultStartStateOfProduction)
+            $('select#activity_start_state_of_production').val(JSON.stringify(defaultStartStateOfProduction)) unless $('select#activity_start_state_of_production').val()
 
           if data.life_duration
             $activity_life_duration_input = $('input#activity_life_duration')

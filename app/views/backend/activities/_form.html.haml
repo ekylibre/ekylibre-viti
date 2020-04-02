@@ -13,7 +13,11 @@
   = f.input :production_cycle, as: :radio_buttons, checked:  f.object.production_cycle || 'annual'
   = f.production_cycle_range(required: f.object.perennial?, input_html: { class: "day-year-hidden", data: {"alt-format": 'd-F'}})
   .perennial-production-cycle-options{style: "display: #{(f.object.production_cycle == 'perennial') ? 'block' : 'none'}"}
-    = f.input :start_state_of_production, label: :start_state_of_production.tl, required: true , collection: ['']
+    :ruby
+      if f.object.production_nature && f.object.production_nature.start_state_of_production
+        collection = JSON.parse(f.object.production_nature.start_state_of_production).map { |k,v| ["front-end.production.start_state_of_production.#{v}".t, ({}[k] = v).to_json]}
+      end
+    = f.input :start_state_of_production, label: :start_state_of_production.tl, required: true , collection: collection || ['']
     = f.input :life_duration,required: true , wrapper: :append do 
       = f.input_field :life_duration
       %span.add-on= :year.tl.pluralize
