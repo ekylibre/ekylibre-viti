@@ -33,4 +33,5 @@
           %span.range-maximum= max.to_i
     = cobble_list(:cvi_land_parcels)
 
-= render partial: 'buttons'
+#cvi-cultibable-zone-action-button
+  = render partial: 'buttons', locals: { cvi_cultivable_zone: @cvi_cultivable_zone }

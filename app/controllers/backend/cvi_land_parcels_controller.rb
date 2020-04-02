@@ -11,6 +11,7 @@ module Backend
 
     def update
       return unless @cvi_land_parcel = find_and_check(:cvi_land_parcel)
+      @cvi_cultivable_zone = @cvi_land_parcel.cvi_cultivable_zone
 
       @cvi_land_parcel.attributes = update_params
       if @cvi_land_parcel.save
@@ -31,6 +32,7 @@ module Backend
     def update_multiple
       @cvi_land_parcels = CviLandParcel.find(params[:ids])
       @cvi_land_parcel = CviLandParcel.new(update_multiple_params)
+      @cvi_cultivable_zone = @cvi_land_parcels.first.cvi_cultivable_zone
       unless @cvi_land_parcel.valid_for_update_multiple?
         notify_error_now :records_cannot_be_saved.tl
         response.headers['X-Return-Code'] = 'invalid'
