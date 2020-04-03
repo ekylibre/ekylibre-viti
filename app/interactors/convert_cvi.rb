@@ -54,8 +54,6 @@ class ConvertCvi < ApplicationInteractor
         context.count_land_parcel_created += 1
 
         # 3 Find or create a plant according to current cvi_land_parcel informations
-        next if cvi_land_parcel.state == 'removed_with_authorization'
-
         # create only if no plant exist with the current cvi_land_parcel_id
         next if Plant.where('providers @> ?', { cvi_land_parcel_id: cvi_land_parcel.id }.to_json).any?
 
@@ -69,6 +67,7 @@ class ConvertCvi < ApplicationInteractor
                               work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
                               name: activity_production.support.name,
                               initial_born_at: start_at,
+                              initial_dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                               initial_shape: cvi_land_parcel.shape,
                               initial_owner: Entity.of_company,
                               activity_production_id: activity_production.id,
