@@ -42,7 +42,7 @@ class ConvertCvi < ApplicationInteractor
           support_nature: :headland_cultivation,
           usage: :fruit,
           campaign: campaign,
-          started_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.first_state_of_production.keys.first.to_i,
+          started_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.start_state_of_production.keys.first.to_i,
                                activity.production_started_on.month,
                                activity.production_started_on.day),
           stopped_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i,
@@ -61,6 +61,14 @@ class ConvertCvi < ApplicationInteractor
         # category = ProductNatureCategory.import_from_lexicon(:amortized_plant)
         # nature = ProductNature.import_from_lexicon(:crop)
         # variant = ProductNatureVariant.new(category: category, nature: nature)
+        if cvi_land_parcel.rootstocks.any?
+          plant_rootstocks_attributes = cvi_land_parcel.cvi_cadastral_plant_cvi_land_parcels.map do |ccp_clp|
+            { percentage: ccp_clp.percentage.to_f, rootstock_id: ccp_clp.cvi_cadastral_plant.rootstock_id }
+          end
+        end
+
+        type_of_occupancy = cvi_land_parcel.cvi_cadastral_plants.first.type_of_occupancy.presence
+
         variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
         start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
         plant = Plant.create!(variant_id: variant.id,
@@ -69,6 +77,10 @@ class ConvertCvi < ApplicationInteractor
                               initial_born_at: start_at,
                               initial_dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                               initial_shape: cvi_land_parcel.shape,
+                              vine_variety: cvi_land_parcel.vine_variety,
+                              designation_of_origin: cvi_land_parcel.designation_of_origin,
+                              plant_rootsotcks_attributes: plant_rootstocks_attributes,
+                              type_of_occupancy: type_of_occupancy,
                               initial_owner: Entity.of_company,
                               activity_production_id: activity_production.id,
                               providers: { cvi_land_parcel_id: cvi_land_parcel.id })

@@ -89,6 +89,9 @@
 class Plant < Bioproduct
   has_many :plant_countings
   refers_to :variety, scope: :plant
+  belongs_to :designation_of_origin, class_name: 'RegisteredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
+  has_many :plant_rootstocks, dependent: :destroy, foreign_key: :plant_id
+  accepts_nested_attributes_for :plant_rootstocks
 
   has_shape
 

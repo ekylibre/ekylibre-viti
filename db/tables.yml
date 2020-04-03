@@ -7203,6 +7203,8 @@ products:
     type: integer
     references: product_nature_category
     required: true
+  certification_label:
+    type: string
   codes:
     type: jsonb
   country:
@@ -7224,6 +7226,9 @@ products:
     type: string
   description:
     type: text
+  designation_of_origin_id:
+    type: integer
+    references: ''
   end_of_life_reason:
     type: string
   father_country:
@@ -7335,6 +7340,8 @@ products:
     references: tracking
   type:
     type: string
+  type_of_occupancy:
+    type: string
   updated_at:
     type: datetime
     required: true
@@ -7350,6 +7357,8 @@ products:
   variety:
     type: string
     required: true
+  vine_variety_id:
+    type: string
   work_number:
     type: string
 project_budgets:

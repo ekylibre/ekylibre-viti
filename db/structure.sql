@@ -616,7 +616,11 @@ CREATE TABLE public.products (
     codes jsonb,
     reading_cache jsonb DEFAULT '{}'::jsonb,
     activity_production_id integer,
-    providers jsonb DEFAULT '{}'::jsonb
+    providers jsonb DEFAULT '{}'::jsonb,
+    vine_variety_id character varying,
+    designation_of_origin_id integer,
+    type_of_occupancy character varying,
+    certification_label character varying
 );
 
 
@@ -5750,6 +5754,39 @@ ALTER SEQUENCE public.plant_density_abacus_items_id_seq OWNED BY public.plant_de
 
 
 --
+-- Name: plant_rootstocks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.plant_rootstocks (
+    id integer NOT NULL,
+    percentage numeric,
+    rootstock_id character varying,
+    plant_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: plant_rootstocks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.plant_rootstocks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: plant_rootstocks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.plant_rootstocks_id_seq OWNED BY public.plant_rootstocks.id;
+
+
+--
 -- Name: postal_zones; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -8544,6 +8581,13 @@ ALTER TABLE ONLY public.plant_density_abacus_items ALTER COLUMN id SET DEFAULT n
 
 
 --
+-- Name: plant_rootstocks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.plant_rootstocks ALTER COLUMN id SET DEFAULT nextval('public.plant_rootstocks_id_seq'::regclass);
+
+
+--
 -- Name: postal_zones id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -9805,6 +9849,14 @@ ALTER TABLE ONLY public.plant_density_abaci
 
 ALTER TABLE ONLY public.plant_density_abacus_items
     ADD CONSTRAINT plant_density_abacus_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: plant_rootstocks plant_rootstocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.plant_rootstocks
+    ADD CONSTRAINT plant_rootstocks_pkey PRIMARY KEY (id);
 
 
 --
@@ -15603,6 +15655,13 @@ CREATE INDEX index_plant_density_abacus_items_on_updater_id ON public.plant_dens
 
 
 --
+-- Name: index_plant_rootstocks_on_plant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_plant_rootstocks_on_plant_id ON public.plant_rootstocks USING btree (plant_id);
+
+
+--
 -- Name: index_pnc_on_financial_asset_allocation_account_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -19886,4 +19945,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200320154251');
 INSERT INTO schema_migrations (version) VALUES ('20200324010101');
 
 INSERT INTO schema_migrations (version) VALUES ('20200403091907');
+
+INSERT INTO schema_migrations (version) VALUES ('20200403123414');
+
+INSERT INTO schema_migrations (version) VALUES ('20200403130045');
 
