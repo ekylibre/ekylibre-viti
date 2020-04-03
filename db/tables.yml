@@ -455,6 +455,11 @@ activity_productions:
     references: cultivable_zone
   custom_fields:
     type: jsonb
+  headland_shape:
+    type: geometry
+    limit:
+      srid: 4326
+      type: geometry
   id:
     type: integer
     required: true

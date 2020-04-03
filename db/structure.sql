@@ -403,7 +403,8 @@ CREATE TABLE public.activity_productions (
     custom_fields jsonb,
     season_id integer,
     tactic_id integer,
-    providers jsonb DEFAULT '{}'::jsonb
+    providers jsonb DEFAULT '{}'::jsonb,
+    headland_shape postgis.geometry(Geometry,4326)
 );
 
 
@@ -19883,4 +19884,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200317174840');
 INSERT INTO schema_migrations (version) VALUES ('20200320154251');
 
 INSERT INTO schema_migrations (version) VALUES ('20200324010101');
+
+INSERT INTO schema_migrations (version) VALUES ('20200403091907');
 

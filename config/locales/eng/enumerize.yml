@@ -34,6 +34,7 @@ eng:
         border: "Border"
         buffer: "Buffer"
         cultivation: "Cultivation"
+        headland_cultivation: "Headland cultivation"
         fallow_land: "Fallow land"
         none: "None"
     activity_tactic:
