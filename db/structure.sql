@@ -403,7 +403,7 @@ CREATE TABLE public.activity_productions (
     custom_fields jsonb,
     season_id integer,
     tactic_id integer,
-    providers jsonb
+    providers jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -615,7 +615,7 @@ CREATE TABLE public.products (
     codes jsonb,
     reading_cache jsonb DEFAULT '{}'::jsonb,
     activity_production_id integer,
-    providers jsonb
+    providers jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -3548,6 +3548,7 @@ SELECT
     NULL::integer AS inter_vine_plant_distance_value,
     NULL::integer AS inter_row_distance_value,
     NULL::character varying AS state,
+    NULL::character varying AS activity_name,
     NULL::integer AS cvi_cultivable_zone_id;
 
 
@@ -18521,14 +18522,19 @@ CREATE OR REPLACE VIEW public.formatted_cvi_land_parcels AS
     (cvi_land_parcels.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
     (cvi_land_parcels.inter_row_distance_value)::integer AS inter_row_distance_value,
     cvi_land_parcels.state,
+        CASE
+            WHEN (activities.name IS NULL) THEN 'A définir'::character varying
+            ELSE activities.name
+        END AS activity_name,
     cvi_land_parcels.cvi_cultivable_zone_id
-   FROM (((((public.cvi_land_parcels
+   FROM ((((((public.cvi_land_parcels
      LEFT JOIN public.locations locations ON (((cvi_land_parcels.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviLandParcel'::text))))
+     LEFT JOIN public.activities ON ((cvi_land_parcels.activity_id = activities.id)))
      LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((cvi_land_parcels.rootstock_id)::text = (rootstocks.id)::text)))
      LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.registered_postal_zone_id)::text = (registered_postal_zones.id)::text)))
      LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_land_parcels.vine_variety_id)::text = (vine_varieties.id)::text)))
      LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_land_parcels.designation_of_origin_id = designation_of_origins.id)))
-  GROUP BY cvi_land_parcels.id, designation_of_origins.product_human_name_fra, vine_varieties.specie_name, (initcap((rootstocks.specie_name)::text));
+  GROUP BY cvi_land_parcels.id, designation_of_origins.product_human_name_fra, vine_varieties.specie_name, (initcap((rootstocks.specie_name)::text)), activities.name;
 
 
 --

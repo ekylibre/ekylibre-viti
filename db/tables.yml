@@ -469,6 +469,8 @@ activity_productions:
     type: boolean
     required: true
     default: false
+  providers:
+    type: jsonb
   rank_number:
     type: integer
     required: true
@@ -7316,6 +7318,8 @@ products:
     type: integer
   picture_updated_at:
     type: datetime
+  providers:
+    type: jsonb
   reading_cache:
     type: jsonb
   team_id:
