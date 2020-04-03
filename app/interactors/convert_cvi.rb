@@ -1,12 +1,13 @@
 class ConvertCvi < ApplicationInteractor
-
   before do
     context.count_land_parcel_created = 0
   end
 
   def call
     @cvi_statement = CviStatement.find(context.cvi_statement_id)
-    convert_cvi_land_parcel
+    ActiveRecord::Base.transaction do
+      convert_cvi_land_parcel
+    end
   end
 
   private
@@ -14,21 +15,10 @@ class ConvertCvi < ApplicationInteractor
   def convert_cvi_land_parcel
     begin
       @cvi_statement.cvi_land_parcels.each do |cvi_land_parcel|
-        # 0 Update activity attributes
-        # REMOVE WHEN MERGING BRANCH PERENNIAL ACTIVITY
         activity = cvi_land_parcel.activity
         unless activity
           context.fail!(error: :missing_activity_on_cvi_land_parcel)
         end
-        attributes = {
-          cultivation_variety: 'vitis',
-          production_cycle: :perennial,
-          production_started_on: Date.new(2000,11,01),
-          production_stopped_on: Date.new(2001,10,31),
-          start_state_of_production: {"3" => "n_3_4_leaf"},
-          life_duration: 30
-        }
-        activity.update_attributes(attributes)
 
         campaign = Campaign.of(cvi_land_parcel.planting_campaign)
 
@@ -41,7 +31,7 @@ class ConvertCvi < ApplicationInteractor
         # find existing productions by shape matching and providers
         if activity.productions.any?
           productions = activity.productions.support_shape_matching(cvi_land_parcel.shape, 0.02)
-          productions || activity.productions.where('providers ->> ? = ?', 'cvi_land_parcel_id', cvi_land_parcel.id)
+          productions ||= activity.productions.where('providers @> ?', { cvi_land_parcel_id: cvi_land_parcel.id }.to_json)
         end
         activity_production = if productions.any?
                                 productions.first
@@ -53,36 +43,34 @@ class ConvertCvi < ApplicationInteractor
         activity_production.campaign = campaign
         activity_production.started_on = Date.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
         activity_production.stopped_on = Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i, activity.production_started_on.month, activity.production_started_on.day)
-        activity_production.providers = {'cvi_land_parcel_id' => cvi_land_parcel.id}
+        activity_production.providers = { 'cvi_land_parcel_id' => cvi_land_parcel.id }
         activity_production.save!
 
         context.count_land_parcel_created += 1
 
         # 3 Find or create a plant according to current cvi_land_parcel informations
-        if cvi_land_parcel.state == "planted"
-          # WAITING FOR Conditionning branch
-          # category = ProductNatureCategory.import_from_lexicon(:amortized_plant)
-          # nature = ProductNature.import_from_lexicon(:crop)
-          # variant = ProductNatureVariant.new(category: category, nature: nature)
-          variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
-          start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
-          # create only if no plant exist with the current cvi_land_parcel_id
-          unless Plant.where('providers ->> ? = ?', 'cvi_land_parcel_id', cvi_land_parcel.id).any?
-            plant = Plant.create!( variant_id: variant.id,
-                                   work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
-                                   name: activity_production.support.name,
-                                   initial_born_at: start_at,
-                                   initial_shape: cvi_land_parcel.shape,
-                                   initial_owner: Entity.of_company,
-                                   activity_production_id: activity_production.id,
-                                   providers: {'cvi_land_parcel_id' => cvi_land_parcel.id}
-                                 )
-            plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(cvi_land_parcel.inter_row_distance_unit.to_sym), at: start_at)
-            plant.read!(:plants_interval, cvi_land_parcel.inter_vine_plant_distance_value.in(cvi_land_parcel.inter_vine_plant_distance_unit.to_sym), at: start_at)
-            plant.read!(:shape, cvi_land_parcel.shape, at: start_at, force: true)
-          end
-        end
+        next if cvi_land_parcel.state == 'removed_with_authorization'
 
+        # create only if no plant exist with the current cvi_land_parcel_id
+        next if Plant.where('providers @> ?', { cvi_land_parcel_id: cvi_land_parcel.id }.to_json).any?
+
+        # WAITING FOR Conditionning branch
+        # category = ProductNatureCategory.import_from_lexicon(:amortized_plant)
+        # nature = ProductNature.import_from_lexicon(:crop)
+        # variant = ProductNatureVariant.new(category: category, nature: nature)
+        variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
+        start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
+        plant = Plant.create!(variant_id: variant.id,
+                              work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
+                              name: activity_production.support.name,
+                              initial_born_at: start_at,
+                              initial_shape: cvi_land_parcel.shape,
+                              initial_owner: Entity.of_company,
+                              activity_production_id: activity_production.id,
+                              providers: { cvi_land_parcel_id: cvi_land_parcel.id })
+        plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(cvi_land_parcel.inter_row_distance_unit.to_sym), at: start_at)
+        plant.read!(:plants_interval, cvi_land_parcel.inter_vine_plant_distance_value.in(cvi_land_parcel.inter_vine_plant_distance_unit.to_sym), at: start_at)
+        plant.read!(:shape, cvi_land_parcel.shape, at: start_at, force: true)
       end
     rescue StandardError => exception
       context.fail!(error: exception.message)
@@ -102,10 +90,10 @@ class ConvertCvi < ApplicationInteractor
     end
     # select the first if one exist which cover, match or intersect
     if cvi_cz_inside_cultivable_zone.any?
-      cultivable_zone = cvi_cz_inside_cultivable_zone.first
-    # or find or create it by name
+      cvi_cz_inside_cultivable_zone.first
     else
-      cultivable_zone = CultivableZone.create_with(
+      # or find or create it by name
+      CultivableZone.create_with(
         name: cvi_cz.name,
         description: "Convert from CVI ID : #{cvi_cz.cvi_statement_id}",
         shape: cvi_cz.shape
