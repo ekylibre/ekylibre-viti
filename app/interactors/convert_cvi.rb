@@ -38,13 +38,18 @@ class ConvertCvi < ApplicationInteractor
                               else
                                 activity.productions.new(cultivable_zone: cultivable_zone, support_shape: cvi_land_parcel.shape)
                               end
-        activity_production.support_nature = :cultivation
-        activity_production.usage = :fruit
-        activity_production.campaign = campaign
-        activity_production.started_on = Date.new(cvi_land_parcel.planting_campaign.to_i + activity.first_state_of_production.keys.first.to_i, activity.production_started_on.month, activity.production_started_on.day)
-        activity_production.stopped_on = Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i, activity.production_started_on.month, activity.production_started_on.day)
-        activity_production.providers = { 'cvi_land_parcel_id' => cvi_land_parcel.id }
-        activity_production.save!
+        activity_production.update!(
+          support_nature: :headland_cultivation,
+          usage: :fruit,
+          campaign: campaign,
+          started_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.first_state_of_production.keys.first.to_i,
+                               activity.production_started_on.month,
+                               activity.production_started_on.day),
+          stopped_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i,
+                               activity.production_started_on.month,
+                               activity.production_started_on.day),
+          providers: { 'cvi_land_parcel_id' => cvi_land_parcel.id }
+        )
 
         context.count_land_parcel_created += 1
 
