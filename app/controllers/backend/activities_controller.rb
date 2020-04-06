@@ -24,6 +24,8 @@ module Backend
 
     unroll
 
+    before_action :set_production_cycle_years, only: %i[update create]
+
     list line_class: '(:success if RECORD.of_campaign?(current_campaign))'.c do |t|
       # t.action :show, url: {format: :pdf}, image: :print
       t.action :edit
@@ -156,5 +158,20 @@ module Backend
       t.column :main_activity, url: true
     end
 
+    def set_production_cycle_years
+      return unless permitted_params["production_started_on"].present? && 
+                    permitted_params["production_stopped_on"].present? && 
+                    permitted_params["production_campaign"].present?
+
+      production_started_on = permitted_params["production_started_on"].to_date.change(year: 2000)
+      permitted_params["production_started_on"] = production_started_on.to_s
+      year = if permitted_params["production_campaign"] == "at_cycle_end"
+               2001
+             else
+               2000
+             end
+      production_stopped_on = permitted_params["production_stopped_on"].to_date.change(year: year)
+      permitted_params["production_stopped_on"] = production_stopped_on.to_s
+    end
   end
 end

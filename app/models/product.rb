@@ -164,6 +164,8 @@ class Product < Ekylibre::Record::Base
   has_geometry :initial_shape, type: :multi_polygon
   has_geometry :initial_geolocation, type: :point
 
+  enumerize :type_of_occupancy, in: %i[owner rent sharecropper], predicates: true
+
   # find Product by work_numbers (work_numbers must be an Array)
   scope :of_work_numbers, lambda { |work_numbers|
     where(work_number: work_numbers)

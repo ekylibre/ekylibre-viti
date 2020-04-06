@@ -7,7 +7,7 @@ ekylibre.cviLandParcels ||= {}
 
   $(document).on "ekylibre:map:events:split:change", (e, obj) ->
     return if $('[id^=cvi_land_parcels].active-list').length == 0
-    
+
     splitForms = E.cviLandParcels.splitForm
     splitFromCount = splitForms.count
     vine_variety_id = $('#cvi_land_parcel_vine_variety_id').attr('value')

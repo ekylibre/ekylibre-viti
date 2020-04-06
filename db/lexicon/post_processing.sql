@@ -133,4 +133,4 @@ LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_land_parcels.rootst
 LEFT JOIN lexicon.registered_postal_zones ON locations.registered_postal_zone_id = registered_postal_zones.id
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_land_parcels.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.registered_protected_designation_of_origins AS designation_of_origins ON cvi_land_parcels.designation_of_origin_id = designation_of_origins.id
-GROUP BY cvi_land_parcels.id, designation_of_origin_name, vine_variety_name, rootstock;
+GROUP BY cvi_land_parcels.id, designation_of_origin_name, vine_variety_name, rootstock, activities.name;

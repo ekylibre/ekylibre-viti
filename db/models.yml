@@ -46,6 +46,7 @@
 - custom_field
 - custom_field_choice
 - cvi_cadastral_plant
+- cvi_cadastral_plant_cvi_land_parcel
 - cvi_cultivable_zone
 - cvi_land_parcel
 - cvi_statement

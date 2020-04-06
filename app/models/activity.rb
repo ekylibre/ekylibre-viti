@@ -102,19 +102,20 @@ class Activity < Ekylibre::Record::Base
   validates :name, presence: true, length: { maximum: 500 }
   validates :use_seasons, :use_tactics, inclusion: { in: [true, false] }, allow_blank: true
   # ]VALIDATORS]
+  validates :cultivation_variety, presence: true, if: -> { Nomen::ActivityFamily[family] && Nomen::ActivityFamily[family].cultivation_variety.present? }
   validates :family, inclusion: { in: family.values }
   validates :cultivation_variety, presence: { if: :with_cultivation }
   validates :support_variety, presence: { if: :with_supports }
   validates :name, uniqueness: true
   # validates_associated :productions
-  validates :production_campaign, presence: { if: :perennial? }
+  validates :start_state_of_production, :life_duration, :production_campaign_period, :production_campaign, presence: { if: :perennial? }
   validates :grading_net_mass_unit, presence: { if: :measure_grading_net_mass }
   validates :grading_sizes_indicator, :grading_sizes_unit, presence: { if: :measure_grading_sizes }
 
   scope :actives, -> { availables.where(id: ActivityProduction.where(state: :opened).select(:activity_id)) }
   scope :availables, -> { where.not('suspended') }
   scope :main, -> { where(nature: 'main') }
-  scope :wine, -> { joins(:production_nature).where( "human_name_fra LIKE 'Vigne%'") }
+  scope :wine, -> { where(cultivation_variety: Nomen::Variety.find('vitis').children.map(&:name)) }
 
   scope :of_campaign, lambda { |campaign|
     if campaign
@@ -444,5 +445,9 @@ class Activity < Ekylibre::Record::Base
     pref ||= :items_count
     pref = unit_choices.find { |c| c.to_sym == pref.to_sym }
     pref ||= unit_choices.first
+  end
+
+  def production_campaign_period
+    production_started_on && production_stopped_on && production_stopped_on - production_started_on
   end
 end

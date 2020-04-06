@@ -1432,7 +1432,6 @@ fra:
         ghs_toxic: "Toxique "
         ghs-h360fd2: "Peut nuire à la fertilité. Peut nuire au fœtus."
       name: "Classifications chimiques"
-    
     chemical_elements:
       items:
         actinium: "Actinium"
@@ -4743,6 +4742,9 @@ fra:
         organic_farming: "Agriculture biologique"
         permaculture: "Permaculture"
         sustainable_agriculture: "Agriculture durable"
+        integrated_agriculture: "Agriculture raisonnée"
+        biodynamic_agriculture: "Biodynamie"
+        conservation_agriculture: "Agriculture de conservation"
       name: "Systèmes de production"
     production_usages:
       items:
