@@ -33,7 +33,7 @@ class ConvertCvi < ApplicationInteractor
           productions = activity.productions.support_shape_matching(cvi_land_parcel.shape, 0.02)
           productions ||= activity.productions.where('providers @> ?', { cvi_land_parcel_id: cvi_land_parcel.id }.to_json)
         end
-        activity_production = if productions.any?
+        activity_production = if productions.present?
                                 productions.first
                               else
                                 activity.productions.new(cultivable_zone: cultivable_zone, support_shape: cvi_land_parcel.shape)
@@ -68,6 +68,7 @@ class ConvertCvi < ApplicationInteractor
         #     { percentage: ccp_clp.percentage.to_f, rootstock_id: ccp_clp.cvi_cadastral_plant.rootstock_id }
         #   end
         # end
+        type_of_occupancy = cvi_land_parcel.cvi_cadastral_plants.first.type_of_occupancy.presence if cvi_land_parcel.cvi_cadastral_plants.present?
 
         variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
         start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
