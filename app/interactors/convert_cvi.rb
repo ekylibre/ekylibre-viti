@@ -76,6 +76,7 @@ class ConvertCvi < ApplicationInteractor
 
         variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
         start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
+        vine_variety = cvi_land_parcel.vine_variety
 
         plant = Plant.create!(variant_id: variant.id,
                               work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
@@ -83,7 +84,9 @@ class ConvertCvi < ApplicationInteractor
                               initial_born_at: start_at,
                               initial_dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                               initial_shape: cvi_land_parcel.shape,
-                              # vine_variety: cvi_land_parcel.vine_variety,
+                              specie_variety: { name: vine_variety.specie_name,
+                                                uuid: vine_variety.id,
+                                                providers: vine_variety.class.name },
                               # designation_of_origin: cvi_land_parcel.designation_of_origin,
                               # plant_rootsotcks_attributes: plant_rootstocks_attributes,
                               type_of_occupancy: type_of_occupancy,

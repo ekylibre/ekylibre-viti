@@ -7330,6 +7330,8 @@ products:
     type: jsonb
   reading_cache:
     type: jsonb
+  specie_variety:
+    type: jsonb
   team_id:
     type: integer
     references: team

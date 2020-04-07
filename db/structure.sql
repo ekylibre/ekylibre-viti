@@ -618,7 +618,8 @@ CREATE TABLE public.products (
     reading_cache jsonb DEFAULT '{}'::jsonb,
     activity_production_id integer,
     providers jsonb DEFAULT '{}'::jsonb,
-    type_of_occupancy character varying
+    type_of_occupancy character varying,
+    specie_variety jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -19899,4 +19900,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200403091907');
 INSERT INTO schema_migrations (version) VALUES ('20200403123414');
 
 INSERT INTO schema_migrations (version) VALUES ('20200407075511');
+
+INSERT INTO schema_migrations (version) VALUES ('20200407090249');
 
