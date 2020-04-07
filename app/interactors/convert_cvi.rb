@@ -89,8 +89,8 @@ class ConvertCvi < ApplicationInteractor
                                                 providers: vine_variety.class.name },
                               # designation_of_origin: cvi_land_parcel.designation_of_origin,
                               # plant_rootsotcks_attributes: plant_rootstocks_attributes,
-                              type_of_occupancy: type_of_occupancy,
-                              initial_owner: Entity.of_company,
+                              type_of_occupancy: (type_of_occupancy == 'tenant_farming' ? :rent : type_of_occupancy),
+                              initial_owner: (Entity.of_company if type_of_occupancy == :owner),
                               activity_production_id: activity_production.id,
                               providers: { cvi_land_parcel_id: cvi_land_parcel.id })
         plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(cvi_land_parcel.inter_row_distance_unit.to_sym), at: start_at)
