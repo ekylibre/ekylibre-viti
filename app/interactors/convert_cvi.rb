@@ -80,7 +80,7 @@ class ConvertCvi < ApplicationInteractor
 
         plant = Plant.create!(variant_id: variant.id,
                               work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
-                              name: "name#{index}",
+                              name: name + index,
                               initial_born_at: start_at,
                               initial_dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                               initial_shape: cvi_land_parcel.shape,
