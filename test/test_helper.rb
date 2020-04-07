@@ -42,10 +42,13 @@ Ekylibre::Tenant.switch 'test_without_fixtures' do
                                                    'registered_protected_designation_of_origins',
                                                    'cadastral_land_parcel_zones',
                                                    'registered_postal_zones',
-                                                   "ephy_cropsets", 
                                                    "registered_phytosanitary_products", 
                                                    "registered_phytosanitary_risks", 
-                                                   "registered_phytosanitary_usages"]
+                                                   "registered_phytosanitary_usages",
+                                                   "registered_phytosanitary_cropsets",
+                                                   "variant_natures", 
+                                                   "variant_categories",
+                                                    "variants"]
 end
 
 DatabaseCleaner.strategy = :transaction

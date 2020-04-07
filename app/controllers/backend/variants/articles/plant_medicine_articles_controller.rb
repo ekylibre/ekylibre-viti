@@ -5,6 +5,22 @@ module Backend
 
         importable_from_lexicon :registered_phytosanitary_products, model_name: "Variants::Articles::#{controller_name.classify}".constantize
 
+        list(model: :product_nature_variants, conditions: variants_conditions, collection: true) do |t|
+          t.action :edit, url: { controller: '/backend/product_nature_variants' }
+          t.action :destroy, if: :destroyable?, url: { controller: '/backend/product_nature_variants' }
+          t.column :name, url: { namespace: :backend }
+          t.status
+          t.column :number
+          t.column :nature, url: { controller: '/backend/product_natures' }
+          t.column :category, url: { controller: '/backend/product_nature_categories' }
+          t.column :current_stock_displayed, label: :current_stock
+          t.column :current_outgoing_stock_ordered_not_delivered_displayed
+          t.column :unit_name
+          t.column :variety
+          t.column :derivative_of
+          t.column :active
+        end
+
         list(:registered_phytosanitary_usages, conditions: ['product_id = ?', 'ProductNatureVariant.find(params[:id]).phytosanitary_product.france_maaid'.c],
                                                order: [:state, :ephy_usage_phrase],
                                                per_page: 10) do |t|
@@ -16,6 +32,7 @@ module Backend
           t.column :pre_harvest_delay, label_method: :decorated_pre_harvest_delay, class: 'center-align'
           t.column :applications_frequency, label_method: :decorated_applications_frequency, class: 'center-align'
           t.column :untreated_buffer_aquatic, label_method: :decorated_untreated_buffer_aquatic, class: 'center-align'
+          t.column :usage_conditions, label_method: :decorated_usage_conditions, class: 'center-align'
           t.column :decision_date, class: 'center-align', hidden: true
           t.column :development_stage_min, label_method: :decorated_development_stage_min, class: 'center-align', hidden: true
           t.column :untreated_buffer_arthropod, label_method: :decorated_untreated_buffer_arthropod, class: 'center-align', hidden: true
