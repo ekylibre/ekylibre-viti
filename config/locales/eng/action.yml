@@ -721,10 +721,10 @@ eng:
       # take: "Take product: %{name}"
       # update_many: "Update many product: %{name}"
     backend/project_budgets:
-      # edit: "Edit project budget: %{name}"
-      # index: "Project budgets"
-      # new: "New project budget"
-      # show: "Project budget: %{name}"
+       edit: "Edit project budget: %{name}"
+       index: "Project budgets"
+       new: "New project budget"
+       show: "Project budget: %{name}"
     backend/purchase_affairs:
       # attach: "Attach purchase affair: %{name}"
       # detach: "Detach purchase affair: %{name}"
@@ -1300,6 +1300,7 @@ eng:
       nature:
         harvest: "Harvest:"
         reentry: "Reentry:"
+        add_two_hours: "Add two hours if application happened in a close area"
   labels:
     rootstock: "Rootstock"
     major: "main"
@@ -1409,6 +1410,7 @@ eng:
     add_support: "Add support"
     add_tactic: "Add cropping technique"
     add_tool: "Add tool"
+    add_two_hours_reentry_delay: "Add two hours if application happened in a close area"
     add_website: "Add website"
     add_working_period: "Add working period"
     add_x: "Add “%{x}”"
@@ -1431,6 +1433,8 @@ eng:
     alive_corporeal_assets_young_animals: "Alive corporeal assets young animals" #?
     all: "All"
     allocation_balance: "Budget allocation - %{name} allocation"
+    allowed: "Allowed"
+    allowed_harvest_on: "Allowed harvest on"
     all_accounts: "All accounts"
     all_columns: "All columns" #?
     all_conditions: "All conditions" #?!
@@ -1487,6 +1491,7 @@ eng:
     attach_deal: "Add a deal"
     attachment: "Attachment"
     attachments: "Attachments"
+    authorized: "Authorized"
     automatic: "Auto" #?
     auxiliary: "Auxiliary" #?
     available: "Available"
@@ -1575,6 +1580,7 @@ eng:
     chart: "Chart"
     check: "Check" #?
     check_letter: "Check letter"
+    check_usage_conditions: "Check usage conditions"
     check_x_entries_to_balance: #?!
       one: "Check entry to balance (%{count})" #?!
       other: "Check entries to balance (%{count})" #?!
@@ -1612,7 +1618,7 @@ eng:
     commission: "Commission"
     communes: "commune(s)" #?
     company: "Society"
-    # compare_planned_and_realised: "Compare planned and realised"
+    compare_planned_and_realised: "Compare planned and done"
     completed: "Completed"
     # components: "Components"
     compute_balances: "Computing balances" #?
@@ -1664,7 +1670,7 @@ eng:
     corporeal_assets_settlements: "Settlements" #?
     corrosive_skin_and_mucosa_risks_of_severe_burns: "Corrosive skin and mucosa, risks of severe burns"
     corrosive_substances: "Corrosive substances"
-    # cost: "Cost"
+    cost: "Cost"
     cost_per_net_surface_area: "Cost per net surface area"
     costs: "Costs"
     costs_per_hectare: "Costs per hectare"
@@ -1807,6 +1813,9 @@ eng:
     dont_generate_result_entries: "— Do not generate result entries —"
     dont_use_journal: "— Do not use journal —" #?!
     # dose: "Dose"
+    dose_bigger_than_max: "Dose bigger than max"
+    dose_equal_to_max: "Dose equal to max"
+    dose_less_than_max: "Dose less than max"
     down: "Down" #?
     download: "Download"
     download_cvi_template_file: "Download CVR template file" #?
@@ -1987,10 +1996,13 @@ eng:
     fixed_asset_successfully_associated_to_sale: "The fixed asset has been successfully associated to the sale. Click the 'Sold' button to proceed."
     fixed_assets: "Fixed assets"
     flammable_agents: "Flammable agents"
+    forbidden: "Unauthorized"
     forecast_harvest_week: "Forecast harvest week"
     from: "From"
     from_to_date: "from %{from} to %{to}" #?
+    fruit_yield: "Fruit yield"
     fullscreen: "Fullscreen"
+    full_name: "Full name"
     function: "Function"
     fungi: "Fungi" #?
     future_events: "Future events"
@@ -2337,6 +2349,7 @@ eng:
     number_of_cap_islets: "Number of CAP islets"
     number_of_cap_land_parcels: "Number of CAP land parcels"
     number_of_cap_neutral_areas: "Number of cap neutral areas"
+    number_with_param: "N° %{number}" #?
     numbers: "Numbers" #?
     # observations: "Observations"
     on_account: "On account" #?
@@ -2419,9 +2432,9 @@ eng:
     permute: "Permute" #?
     personalized_mail: "Send a personalized mail"
     pertinence: "%{value}%"
-    # pfi_dose: "Pfi dose"
-    # pfi_parcel_ratio: "Pfi parcel ratio"
-    # pfi_treatment_ratio: "Pfi treatment ratio"
+    pfi_dose: "Pfi dose"
+    pfi_parcel_ratio: "Pfi parcel ratio"
+    pfi_treatment_ratio: "Pfi treatment ratio"
     phosphorus_concentration: "Phosphorus concentration" #?
     physical_h2: "Physical H2"
     phyto_data: "Phytosanitary data"
@@ -2522,6 +2535,7 @@ eng:
     radical_class_accounts_dont_have_entries: "Radical class accounts does not contain any entry" #?
     radical_class_accounts_have_entries: "Radical class accounts contains entries" #?
     raw_income: "Raw income" #?!
+    re_entry_delay: "Re entry delay"
     re_entry_interval: "Re-entry interval"
     reading_tasks: "Reading tasks" #?
     readings: "Readings"
@@ -2743,6 +2757,7 @@ eng:
     third_balance: "(balance - supplier account balance : %{balance} - %{supplier_account_balance})" #?
     third_is_unbalanced: "Third is unbalanced. (balance - supplier account balance)" #?!
     this_archive_is_digitally_signed: "This archive is digitally signed."
+    this_product_has_been_withdrawn: "This product has been withdrawn"
     threshold_commercialization_by_production: "Threshold commercialization by production" #?
     thumb: "Thumb" #?
     time_cost: "Time cost" #?
@@ -2871,6 +2886,7 @@ eng:
     updated_by_ago: "Updated by %{author} %{when}"
     upload: "Upload"
     usage: "Usage" #?
+    usage_conditions: "Usage conditions"
     usage_phyto: "Usage"
     user_status: "Status" #?
     users: "Users"
@@ -2884,6 +2900,7 @@ eng:
       one: "Validate the entry" #?
       other: "Validate %{count} entries" #?
     validated: "Validated"
+    validated_by: "Validated by"
     validated_vat_declaration: "Definitive VAT declaration" #?!
     values: "Values"
     variable_indicators: "Variable indicators"
@@ -2891,6 +2908,7 @@ eng:
     variants: "Variants" #?
     vat: "VAT"
     vat_rate: "VAT rate"
+    vegetable_yield: "Vegetable yield"
     view: "View"
     view_map_when_creating_an_intervention: "View map when creating an intervention"
     # vine_yield: "Vine yield"
@@ -2912,7 +2930,7 @@ eng:
     worker_natures: "Workers"
     workers: "Workers"
     workforce: "Workforce" #?!
-    # working_area: "Working area"
+    working_area: "Working area"
     working_duration: "Working duration"
     working_hectare_costs: "Working hectare costs" #?
     working_sets_stocks: "Working sets stocks" #?
@@ -3425,6 +3443,7 @@ eng:
       prepare: "Prepare"
       print: "Print"
       print_worker_register: "Print worker register"
+      print_land_parcel_register: "Print land parcel register"
       # progress: "Progress"
       propose: "Propose"
       propose_and_invoice: "Propose and invoice"

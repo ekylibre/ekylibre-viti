@@ -90,7 +90,7 @@ class ProductNatureVariant < Ekylibre::Record::Base
 
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
   validates :active, inclusion: { in: [true, false] }
-  validates :france_maaid, :gtin, :name, :picture_content_type, :picture_file_name, :reference_name, :work_number, length: { maximum: 500 }, allow_blank: true
+  validates :france_maaid, :gtin, :name, :picture_content_type, :picture_file_name, :reference_name, :specie_variety, :work_number, length: { maximum: 500 }, allow_blank: true
   validates :number, presence: true, uniqueness: true, length: { maximum: 500 }
   validates :picture_file_size, numericality: { only_integer: true, greater_than: -2_147_483_649, less_than: 2_147_483_648 }, allow_blank: true
   validates :picture_updated_at, timeliness: { on_or_after: -> { Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.now + 50.years } }, allow_blank: true
@@ -232,6 +232,11 @@ class ProductNatureVariant < Ekylibre::Record::Base
       raise "Account '#{account_key}' is not configured on category of #{self.name.inspect} variant. You have to check category first"
     end
     category_account
+  end
+
+
+  def variant_type
+    Maybe(type).constantize.variant_type.or_nil
   end
 
   # add animals to new variant
@@ -499,6 +504,17 @@ class ProductNatureVariant < Ekylibre::Record::Base
     end
   end
 
+  def status
+    phyto = phytosanitary_product
+    if phyto&.authorized?
+      :go
+    elsif phyto&.withdrawn?
+      :stop
+    else
+      nil
+    end
+  end
+
   class << self
     # Returns some nomenclature items are available to be imported, e.g. not
     # already imported
@@ -608,7 +624,7 @@ class ProductNatureVariant < Ekylibre::Record::Base
         raise ArgumentError, "The nature of the product_nature_variant #{item.nature.inspect} is not known"
       end
       unless category_item = VariantCategory.find_by_reference_name(item.category)
-        raise ArgumentError, "The category of the product_nature_variant #{nature_item.category.inspect} is not known"
+        raise ArgumentError, "The category of the product_nature_variant #{item.category.inspect} is not known"
       end
       unless !force && variant = ProductNatureVariant.find_by_reference_name(reference_name)
         category = ProductNatureCategory.import_from_lexicon(item.category)

@@ -310,10 +310,14 @@ module Backend
             else
               params[:redirect] || { action: :show, id: 'id'.c }
             end
-      @intervention.save
-      reconcile_receptions
-      return if save_and_redirect(@intervention, url: url, notify: :record_x_created, identifier: :number)
-      render(locals: { cancel_url: { action: :index }, with_continue: true })
+
+      Ekylibre::Record::Base.transaction do
+        @intervention.save!
+        reconcile_receptions
+
+        return if save_and_redirect(@intervention, url: url, notify: :record_x_created, identifier: :number)
+        render(locals: { cancel_url: { action: :index }, with_continue: true })
+      end
     end
 
     def update
@@ -576,33 +580,16 @@ module Backend
       end
     end
 
-    class HarvestReentryValidationParams
-      include Ekylibre::Model
-      include ActiveModel::Validations
-
-      attr_accessor :date, :date_end, :targets, :ignore_intervention
-
-      validates :date, :targets, presence: true
-
-      def intervention
-        if ignore_intervention.present?
-          Intervention.find_by(id: ignore_intervention)
-        else
-          nil
-        end
-      end
-    end
-
     def validate_harvest_delay
-      params_obj = HarvestReentryValidationParams.new(params.permit(:date, :date_end, :ignore_intervention, targets: []))
+      params_obj = FormObjects::Backend::Interventions::ValidateHarvestReentry.new(params.permit(:date, :date_end, :ignore_intervention, targets: []))
       return head :bad_request unless params_obj.valid?
 
-      date = params_obj.date.to_datetime
+      date = DateTime.soft_parse(params_obj.date)
+      date_end = DateTime.soft_parse(params_obj.date_end) || date
       parcels = Product.find(params_obj.targets)
       ignore_intervention = params_obj.intervention
-      date_end = params_obj.date_end&.to_datetime || date
 
-      harvest_advisor = ::Interventions::Computation::PhytoHarvestAdvisor.new
+      harvest_advisor = ::Interventions::Phytosanitary::PhytoHarvestAdvisor.new
 
       result = parcels.map do |parcel|
         result = harvest_advisor.harvest_possible?(parcel, date, date_end: date_end, ignore_intervention: ignore_intervention)
@@ -612,28 +599,34 @@ module Backend
           date: result.next_possible_date
         }
       end
+
       render json: { targets: result }
     end
 
     def validate_reentry_delay
-      params_obj = HarvestReentryValidationParams.new(params.permit(:date, :date_end, :ignore_intervention, targets: []))
+      params_obj = FormObjects::Backend::Interventions::ValidateHarvestReentry.new(params.permit(:date, :date_end, :ignore_intervention, targets: []))
       return head :bad_request unless params_obj.valid?
 
-      date = params_obj.date.to_datetime
-      parcels = Product.find(params_obj.targets)
+      date = DateTime.soft_parse(params_obj.date)
+      date_end = DateTime.soft_parse(params_obj.date_end) || date
+      parcels = Product.find_by_id(params_obj.targets)
       ignore_intervention = params_obj.intervention
-      date_end = params_obj.date_end&.to_datetime || date
 
-      harvest_advisor = ::Interventions::Computation::PhytoHarvestAdvisor.new
+      harvest_advisor = ::Interventions::Phytosanitary::PhytoHarvestAdvisor.new
+      result = Array(parcels).map do |parcel|
+        advisor_result = harvest_advisor.reentry_possible?(parcel, date, date_end: date_end, ignore_intervention: ignore_intervention)
 
-      result = parcels.map do |parcel|
-        result = harvest_advisor.reentry_possible?(parcel, date, date_end: date_end, ignore_intervention: ignore_intervention)
-        {
-          id: parcel.id,
-          possible: result.possible,
-          date: result.next_possible_date
-        }
+        data = { id: parcel.id, possible: advisor_result.possible, }
+        unless advisor_result.possible
+          data = {
+            **data,
+            period_duration: advisor_result.period_duration.iso8601,
+            date: advisor_result.next_possible_date
+          }
+        end
+        data
       end
+
       render json: { targets: result }
     end
 
