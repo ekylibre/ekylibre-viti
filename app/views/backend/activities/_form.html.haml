@@ -5,7 +5,10 @@
   = f.referenced_nomenclature :production_system
   = f.referenced_nomenclature :family, input_html: {data: {activity_family: true}}
   - family = Nomen::ActivityFamily[f.object.family]
-  = f.referenced_association :production_nature, new: false, label: :production_nature.tl,  wrapper_html: {style: "display: #{(family and family.name == 'plant_farming') ? 'block' : 'none'}"}
+  - hint = content_tag :span, class: 'hint-warning' do
+    %i.icon.icon-warning
+    = :warning_could_not_use_ift.tl
+  = f.referenced_association :production_nature, new: false, label: :production_nature.tl,  wrapper_html: {style: "display: #{(family and family.name == 'plant_farming') ? 'block' : 'none'}"} , hint: (hint unless f.object.production_nature.present?) 
   = f.input :with_cultivation, as: :hidden
   = f.referenced_nomenclature :cultivation_variety, required: true, collection: ((family and family.cultivation_variety.present?) ? Nomen::Variety.selection(family.cultivation_variety) : []), wrapper_html: {style: "display: #{(family and family.cultivation_variety.present?) ? 'block' : 'none'}"}
   -#= f.input :with_supports, as: :hidden
