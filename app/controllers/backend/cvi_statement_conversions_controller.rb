@@ -38,11 +38,9 @@ module Backend
 
     def convert
       cvi_statement = CviStatement.find(params[:id])
-      if cvi_statement.cvi_land_parcels.map(&:activity_id).include? nil
-        notify_error(:activity_is_not_set_on_all_cvi_land_parcels)
-      end
       result = ConvertCvi.call(cvi_statement_id: cvi_statement.id)
       if result.success?
+        cvi_statement.update(state: :converted)
         notify(:cvi_converted.tl)
         redirect_to backend_cvi_statements_path
       else
