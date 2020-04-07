@@ -404,7 +404,8 @@ CREATE TABLE public.activity_productions (
     season_id integer,
     tactic_id integer,
     providers jsonb DEFAULT '{}'::jsonb,
-    headland_shape postgis.geometry(Geometry,4326)
+    headland_shape postgis.geometry(Geometry,4326),
+    planting_campaign_id integer
 );
 
 
@@ -617,7 +618,8 @@ CREATE TABLE public.products (
     reading_cache jsonb DEFAULT '{}'::jsonb,
     activity_production_id integer,
     providers jsonb DEFAULT '{}'::jsonb,
-    type_of_occupancy character varying
+    type_of_occupancy character varying,
+    specie_variety jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -10571,6 +10573,13 @@ CREATE INDEX index_activity_productions_on_cultivable_zone_id ON public.activity
 
 
 --
+-- Name: index_activity_productions_on_planting_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_activity_productions_on_planting_campaign_id ON public.activity_productions USING btree (planting_campaign_id);
+
+
+--
 -- Name: index_activity_productions_on_season_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -19889,4 +19898,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200324010101');
 INSERT INTO schema_migrations (version) VALUES ('20200403091907');
 
 INSERT INTO schema_migrations (version) VALUES ('20200403123414');
+
+INSERT INTO schema_migrations (version) VALUES ('20200407075511');
+
+INSERT INTO schema_migrations (version) VALUES ('20200407090249');
 

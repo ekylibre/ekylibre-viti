@@ -474,6 +474,9 @@ activity_productions:
     type: boolean
     required: true
     default: false
+  planting_campaign_id:
+    type: integer
+    references: campaign
   providers:
     type: jsonb
   rank_number:
@@ -7326,6 +7329,8 @@ products:
   providers:
     type: jsonb
   reading_cache:
+    type: jsonb
+  specie_variety:
     type: jsonb
   team_id:
     type: integer

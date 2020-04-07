@@ -20,7 +20,7 @@ class ConvertCvi < ApplicationInteractor
           context.fail!(error: :missing_activity_on_cvi_land_parcel)
         end
 
-        campaign = Campaign.of(cvi_land_parcel.planting_campaign)
+        planting_campaign = Campaign.of(cvi_land_parcel.planting_campaign)
 
         # 1 Find or create a cultivable zone with cvi cultivable CultivableZone
         cultivable_zone = find_or_create_cz_with_cvi_cz(cvi_land_parcel.cvi_cultivable_zone)
@@ -41,7 +41,7 @@ class ConvertCvi < ApplicationInteractor
         activity_production.update!(
           support_nature: :headland_cultivation,
           usage: :fruit,
-          campaign: campaign,
+          planting_campaign: planting_campaign,
           started_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.start_state_of_production.keys.first.to_i,
                                activity.production_started_on.month,
                                activity.production_started_on.day),
@@ -69,21 +69,28 @@ class ConvertCvi < ApplicationInteractor
         #   end
         # end
         type_of_occupancy = cvi_land_parcel.cvi_cadastral_plants.first.type_of_occupancy.presence if cvi_land_parcel.cvi_cadastral_plants.present?
-        name = "#{activity.name} #{campaign.name} #{cultivable_zone.name} #{cvi_land_parcel.vine_variety.specie_name} #{(Plant.count + 1).to_s}"
+
+        name = "#{activity.name} #{planting_campaign.name} #{cultivable_zone.name} #{cvi_land_parcel.vine_variety.specie_name}"
+        plant_with_same_name = Plant.where('name like ?', "%#{name}").count
+        index = " n° #{plant_with_same_name + 1}" if plant_with_same_name.positive?
+
         variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
-        start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
-        
+        start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, 1, 1)
+        vine_variety = cvi_land_parcel.vine_variety
+
         plant = Plant.create!(variant_id: variant.id,
                               work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
-                              name: name,
+                              name: "name#{index}",
                               initial_born_at: start_at,
                               initial_dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                               initial_shape: cvi_land_parcel.shape,
-                              # vine_variety: cvi_land_parcel.vine_variety,
+                              specie_variety: { name: vine_variety.specie_name,
+                                                uuid: vine_variety.id,
+                                                providers: vine_variety.class.name },
                               # designation_of_origin: cvi_land_parcel.designation_of_origin,
                               # plant_rootsotcks_attributes: plant_rootstocks_attributes,
-                              type_of_occupancy: type_of_occupancy,
-                              initial_owner: Entity.of_company,
+                              type_of_occupancy: (type_of_occupancy == 'tenant_farming' ? :rent : type_of_occupancy),
+                              initial_owner: (Entity.of_company if type_of_occupancy == :owner),
                               activity_production_id: activity_production.id,
                               providers: { cvi_land_parcel_id: cvi_land_parcel.id })
         plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(cvi_land_parcel.inter_row_distance_unit.to_sym), at: start_at)
@@ -118,6 +125,4 @@ class ConvertCvi < ApplicationInteractor
       ).find_or_create_by(name: cvi_cz.name)
     end
   end
-
-  attr_accessor :cvi_land_parcels, :activities, :campaign
 end

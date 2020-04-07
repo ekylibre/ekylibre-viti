@@ -3,4 +3,4 @@
 .btn-container  
   %div 
     = link_to :go_back.tl, backend_cvi_statement_path(@cvi_statement), class:"btn btn-default" 
-    = link_to :convert.tl, convert_backend_cvi_statement_conversion_path(@cvi_statement), method: :post, class: [('disabled' unless all_created),"btn btn-primary"] 
+    = link_to :convert.tl, convert_modal_backend_cvi_statement_conversion_path(@cvi_statement), remote: true, class: [('disabled' unless all_created),"btn btn-primary"] 
