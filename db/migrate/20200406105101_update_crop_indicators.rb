@@ -6,7 +6,7 @@ class UpdateCropIndicators < ActiveRecord::Migration
         execute <<-SQL
           UPDATE product_natures
           SET reference_name = 'vine_crop',
-          variable_indicators_list = 'certification, certification_label, plant_life_state, plants_count, plants_interval, rows_interval, shape, rootstock_variety, vine_pruning_system'
+          variable_indicators_list = 'certification, certification_label, complanted_rootstock, dead_rootstock, layered_rootstock, missing_rootstock, plants_count, plants_interval, plant_life_state, rootstock_bud_charge, rows_interval, shape, vine_pruning_system'
           WHERE reference_name = 'wine_crop' AND imported_from = 'Nomenclature'
         SQL
 
@@ -41,13 +41,6 @@ class UpdateCropIndicators < ActiveRecord::Migration
       end
       dir.down do
         execute <<-SQL
-          UPDATE product_natures
-          SET reference_name = 'wine_crop',
-          variable_indicators_list = 'certification, plant_life_state, plants_count, plants_interval, rows_interval, shape, woodstock_variety'
-          WHERE reference_name = 'vine_crop' AND imported_from = 'Nomenclature'
-        SQL
-
-        execute <<-SQL
           UPDATE product_nature_variant_readings
           SET indicator_name = 'woodstock_variety'
           WHERE indicator_name = 'rootstock_variety'
@@ -57,6 +50,13 @@ class UpdateCropIndicators < ActiveRecord::Migration
           UPDATE product_readings
           SET indicator_name = 'woodstock_variety'
           WHERE indicator_name = 'rootstock_variety'
+        SQL
+
+        execute <<-SQL
+          UPDATE product_natures
+          SET reference_name = 'wine_crop',
+          variable_indicators_list = 'certification, plant_life_state, plants_count, plants_interval, rows_interval, shape, woodstock_variety'
+          WHERE reference_name = 'vine_crop' AND imported_from = 'Nomenclature'
         SQL
 
         execute <<-SQL

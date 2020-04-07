@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<nomenclatures xmlns="http://www.ekylibre.org/XML/2013/nomenclatures" version="20200325091205">
+<nomenclatures xmlns="http://www.ekylibre.org/XML/2013/nomenclatures" version="20200205094010">
   <nomenclature name="abilities" translateable="true">
     <properties>
       <property name="parameters" type="choice_list" choices="variety, issue_nature"/>
@@ -2174,6 +2174,7 @@
       <item name="certification" datatype="string"/>
       <item name="certification_label" datatype="string"/>
       <item name="clostridial_spores_concentration" datatype="measure" unit="unity_per_liter"/>
+      <item name="complanted_rootstock" datatype="integer"/>
       <item name="consumption_period" datatype="measure" unit="day"/>
       <item name="copper_concentration" datatype="measure" unit="parts_per_million"/>
       <item name="country_code" datatype="string"/>
@@ -2182,6 +2183,7 @@
       <item name="daily_average_working_time" datatype="measure" unit="hour"/>
       <item name="daily_nitrogen_production" datatype="measure" unit="kilogram"/>
       <item name="daily_pest_count" datatype="integer"/>
+      <item name="dead_rootstock" datatype="integer"/>
       <item name="diameter" datatype="measure" unit="meter"/>
       <item name="dry_matter_rate" datatype="measure" unit="mass_percent"/>
       <item name="easement_area" datatype="measure" unit="square_meter" gathering="proportional_to_population"/>
@@ -2223,6 +2225,7 @@
       <item name="items_count" datatype="integer" unit="unity"/>
       <item name="lactating" datatype="boolean"/>
       <item name="last_birth_children_count" datatype="integer"/>
+      <item name="layered_rootstock" datatype="integer"/>
       <item name="length" datatype="measure" unit="meter"/>
       <item name="lifespan" datatype="measure" unit="hour"/>
       <item name="lipolysis" datatype="measure" unit="thousand_per_hectogram"/>
@@ -2258,6 +2261,7 @@
       <item name="minimal_solar_irradiance" datatype="measure" unit="watt_per_square_meter" sampling_temporal_mode="period"/>
       <item name="minimal_temperature" datatype="measure" unit="celsius" sampling_temporal_mode="period"/>
       <item name="minimal_wind_speed" datatype="measure" unit="kilometer_per_hour" sampling_temporal_mode="period"/>
+      <item name="missing_rootstock" datatype="integer"/>
       <item name="molybdenum_concentration" datatype="measure" unit="parts_per_million"/>
       <item name="mother_country_code" datatype="string"/>
       <item name="mother_identification_number" datatype="string"/>
@@ -2297,6 +2301,7 @@
       <item name="relative_humidity" datatype="measure" unit="percent" sampling_temporal_mode="instant"/>
       <item name="reproductor" datatype="boolean"/>
       <item name="residue_elimination_method" datatype="choice" choices="residue_elimination_methods"/>
+      <item name="rootstock_bud_charge" datatype="integer"/>
       <item name="rows_count" datatype="integer"/>
       <item name="rows_interval" datatype="measure" unit="meter"/>
       <item name="rows_orientation" datatype="measure" unit="degree"/>
@@ -2329,7 +2334,7 @@
       <item name="untreated_zone_length" datatype="measure" unit="meter"/>
       <item name="urea_concentration" datatype="measure" unit="milligram_per_liter"/>
       <item name="usage_duration" datatype="measure" unit="hour"/>
-      <item name="vine_pruning_system" datatype="string"/>
+      <item name="vine_pruning_system" datatype="choice" choices="vine_pruning_systems"/>
       <item name="volume_area_density" datatype="measure" unit="liter_per_square_meter"/>
       <item name="volume_density" datatype="measure" unit="centiliter_per_hectoliter"/>
       <item name="volume_flow" datatype="measure" unit="cubic_meter_per_hour"/>
@@ -4277,7 +4282,7 @@
       <item name="vegetable_crop" category="crop" variety="plant" population_counting="decimal" abilities="consume(water), consume(preparation), produce(vegetable)" variable_indicators="fresh_mass, plant_life_state, plant_reproduction_state, plants_count, shape, tiller_count" frozen_indicators="net_surface_area" derivatives="vegetable" nature="crop"/>
       <item name="vegetals_making_services" category="vegetals_making_services" variety="service" population_counting="decimal" variable_indicators="" nature="fee_and_service"/>
       <item name="vial" category="animal_reproduction" variety="vial" derivative_of="animal" population_counting="integer" abilities="inseminate(animal)" variable_indicators="economical_milk_index, sex, unique_synthesis_index" nature="article"/>
-      <item name="vine_crop" category="crop" variety="vitis" population_counting="decimal" abilities="consume(water), consume(preparation), produce(fruit), produce(straw)" variable_indicators="certification, plant_life_state, plants_count, plants_interval, rows_interval, shape, rootstock_variety" frozen_indicators="net_surface_area" derivatives="fruit, straw" nature="crop"/>
+      <item name="vine_crop" category="crop" variety="vitis" population_counting="decimal" abilities="consume(water), consume(preparation), produce(fruit), produce(straw)" variable_indicators="certification, certification_label, complanted_rootstock, dead_rootstock, layered_rootstock, missing_rootstock, plants_count, plants_interval, plant_life_state, rootstock_bud_charge, rows_interval, shape, vine_pruning_system" frozen_indicators="net_surface_area" derivatives="fruit, straw" nature="crop"/>
       <item name="vine_lifter" category="equipment" variety="equipment" population_counting="unitary" abilities="remove(vitis)" nature="equipment"/>
       <item name="vine_shoot_extractor" category="equipment" variety="equipment" population_counting="unitary" frozen_indicators="rows_count" abilities="remove(matter)" nature="equipment"/>
       <item name="walnut" category="fruit" variety="walnut" derivative_of="juglans" population_counting="decimal" variable_indicators="impurity_concentration, water_content_rate" frozen_indicators="net_mass" nature="article"/>
@@ -4406,10 +4411,7 @@
   </nomenclature>
   <nomenclature name="production_systems" translateable="true">
     <items>
-      <item name="biodynamic_agriculture"/>
-      <item name="conservation_agriculture"/>
       <item name="extensive_farming"/>
-      <item name="integrated_agriculture"/>
       <item name="intensive_farming"/>
       <item name="organic_farming"/>
       <item name="permaculture"/>
@@ -12893,6 +12895,15 @@
       <item name="zingiberaceae" parent="plant" itis_tsn="42392"/>
       <item name="zone" parent="product"/>
       <item name="zone_property_title" parent="property_title"/>
+    </items>
+  </nomenclature>
+  <nomenclature name="vine_pruning_systems" translateable="true">
+    <items>
+      <item name="guyot_simple_pruning"/>
+      <item name="guyot_double_pruning"/>
+      <item name="cordon_pruning"/>
+      <item name="gobelet_pruning"/>
+      <item name="formation_pruning"/>
     </items>
   </nomenclature>
   <nomenclature name="working_sets" translateable="true">
