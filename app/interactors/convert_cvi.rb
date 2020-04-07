@@ -75,7 +75,7 @@ class ConvertCvi < ApplicationInteractor
         index = " n° #{plant_with_same_name + 1}" if plant_with_same_name.positive?
 
         variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
-        start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
+        start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, 1, 1)
         vine_variety = cvi_land_parcel.vine_variety
 
         plant = Plant.create!(variant_id: variant.id,
