@@ -25,6 +25,11 @@
       $('.perennial-production-cycle-options').hide()
 
   $(document).on "selector:change", "#activity_production_nature_id", (event)->
+    $control = $('.control-group.activity_production_nature')
+    $hint = $control.find("p.help-block")
+    $hint.hide()
+
+  $(document).on "selector:change", "#activity_production_nature_id", (event)->
     element = $(this)
     id = element.selector('value')
     options =
