@@ -74,6 +74,7 @@ class ActivityProduction < Ekylibre::Record::Base
 
   has_and_belongs_to_many :interventions
   has_and_belongs_to_many :campaigns
+  belongs_to :planting_campaign, class_name: 'Campaign'
 
   has_geometry :support_shape, :headland_shape, type: :multi_polygon
   composed_of :size, class_name: 'Measure', mapping: [%w[size_value to_d], %w[size_unit_name unit]]

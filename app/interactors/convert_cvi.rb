@@ -20,7 +20,7 @@ class ConvertCvi < ApplicationInteractor
           context.fail!(error: :missing_activity_on_cvi_land_parcel)
         end
 
-        campaign = Campaign.of(cvi_land_parcel.planting_campaign)
+        planting_campaign = Campaign.of(cvi_land_parcel.planting_campaign)
 
         # 1 Find or create a cultivable zone with cvi cultivable CultivableZone
         cultivable_zone = find_or_create_cz_with_cvi_cz(cvi_land_parcel.cvi_cultivable_zone)
@@ -41,7 +41,7 @@ class ConvertCvi < ApplicationInteractor
         activity_production.update!(
           support_nature: :headland_cultivation,
           usage: :fruit,
-          campaign: campaign,
+          planting_campaign: planting_campaign,
           started_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.start_state_of_production.keys.first.to_i,
                                activity.production_started_on.month,
                                activity.production_started_on.day),
@@ -69,7 +69,7 @@ class ConvertCvi < ApplicationInteractor
         #   end
         # end
         type_of_occupancy = cvi_land_parcel.cvi_cadastral_plants.first.type_of_occupancy.presence if cvi_land_parcel.cvi_cadastral_plants.present?
-        name = "#{activity.name} #{campaign.name} #{cultivable_zone.name} #{cvi_land_parcel.vine_variety.specie_name} #{(Plant.count + 1).to_s}"
+        name = "#{activity.name} #{planting_campaign.name} #{cultivable_zone.name} #{cvi_land_parcel.vine_variety.specie_name} #{(Plant.count + 1).to_s}"
         variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
         start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day)
         
@@ -118,6 +118,4 @@ class ConvertCvi < ApplicationInteractor
       ).find_or_create_by(name: cvi_cz.name)
     end
   end
-
-  attr_accessor :cvi_land_parcels, :activities, :campaign
 end
