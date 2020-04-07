@@ -433,6 +433,7 @@ Rails.application.routes.draw do
 
     resources :cvi_statement_conversions, concerns: %i[list], only: %i[show create] do
       member do
+        get :convert_modal
         get :list_cvi_cultivable_zones
         get :reset
         post :convert

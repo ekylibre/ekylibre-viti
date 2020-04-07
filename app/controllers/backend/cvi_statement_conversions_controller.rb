@@ -34,6 +34,8 @@ module Backend
       redirect_to action: 'show', id: cvi_statement.id
     end
 
+    def convert_modal; end
+
     def convert
       cvi_statement = CviStatement.find(params[:id])
       if cvi_statement.cvi_land_parcels.map(&:activity_id).include? nil
