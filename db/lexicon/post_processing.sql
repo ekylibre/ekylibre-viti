@@ -119,7 +119,7 @@ SELECT
 	state,
 
 	(CASE WHEN activities.name IS NULL THEN
-		'A définir'
+		'not_defined'
     ELSE
     	activities.name
     END) as activity_name,

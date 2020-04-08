@@ -18534,7 +18534,7 @@ CREATE OR REPLACE VIEW public.formatted_cvi_land_parcels AS
     (cvi_land_parcels.inter_row_distance_value)::integer AS inter_row_distance_value,
     cvi_land_parcels.state,
         CASE
-            WHEN (activities.name IS NULL) THEN 'A définir'::character varying
+            WHEN (activities.name IS NULL) THEN 'not_defined'::character varying
             ELSE activities.name
         END AS activity_name,
     cvi_land_parcels.cvi_cultivable_zone_id

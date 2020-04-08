@@ -1296,6 +1296,7 @@ eng:
       labels:
         manage_land_parcels: "Manage land parcels"
         edit: "Edit"
+        not_defined: "To define"
     intervention:
       nature:
         harvest: "Harvest:"
