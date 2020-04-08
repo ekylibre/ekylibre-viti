@@ -29,7 +29,6 @@ db/first_runs
 # Ignore lexicon data
 db/lexicon/data.sql
 db/lexicon/data.sql.gz
-test/fixture-files/lexicon/data.sql
 
 # Ignore all logfiles and tempfiles.
 /log/*

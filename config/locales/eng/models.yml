@@ -180,9 +180,12 @@ eng:
       plant_density_abacus_item:
         plants_count: "Expected plants count"
         seeding_density_value: "Expected seeding density"
+      product_nature_category:
+        type: "Nature"
       product_nature_variant:
         specie_variety: "Variety"
-        variety: "Specie"
+        status: "Allowed"
+        variety: "Variety"
       purchase:
         affair_balance: "Balance"
       purchase_invoice:
@@ -200,7 +203,7 @@ eng:
         france_maaid: "AMM number"
         licence_number: "Licence number"
         operator_protection_mentions: "Operator protection"
-        other_name: "Other commercial names"
+        other_names: "Other commercial names"
         product_type: "Type"
         state: "Product state"
         started_on: "Authorization date"
@@ -214,6 +217,7 @@ eng:
         ephy_usage_phrase: "Usage"
         lib_court: "Number"
         status: "Allowed"
+        usage_conditions: "Usage conditions"
       registered_phytosanitary_risk:
         mentions: "Risk mentions"
         symbol_name: "Pictogram"
@@ -243,6 +247,9 @@ eng:
     errors:
       messages:
         <<: *error_messages
+      models:
+        product_nature_variant:
+          cannot_change_maaid_number_if_it_has_already_been_set: "The MAAID number already refers to a phytosanitary product and thus cannot be changed"
     models:
       account: "Account"
       account_balance: "Account balance"
