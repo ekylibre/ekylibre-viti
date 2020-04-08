@@ -207,6 +207,7 @@ fra:
     pollinating_insects: "Insectes pollinisateurs"
     pollination_tool: "Outil de pollinisation"
     poultry: "Volailles"
+    pre_pruner: "Outil de taille"
     prepared_product: "Produit préparé"
     press: "Presse"
     product_to_prepare: "Produit à préparer"
@@ -442,6 +443,8 @@ fra:
     tunnel_removing: "Retrait de chenille ou tunnel"
     uncompacting: "Décompactage"
     vine_harvest: "Vendange" #?
+    vine_pre_pruning: "Pré-taillage"
+    vine_pruning: "Taille"
     walnuts_harvest: "Récolte de noix" #?
     walnuts_transport: "Transport de noix" #?
     watering: "Irrigation" #?
