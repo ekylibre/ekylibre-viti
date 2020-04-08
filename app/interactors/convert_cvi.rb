@@ -31,7 +31,7 @@ class ConvertCvi < ApplicationInteractor
         # find existing productions by shape matching and providers
         if activity.productions.any?
           productions = activity.productions.support_shape_matching(cvi_land_parcel.shape, 0.02)
-          productions = activity.productions.where('providers @> ?', { cvi_land_parcel_id: cvi_land_parcel.id }.to_json) if productions.empty
+          productions = activity.productions.where('providers @> ?', { cvi_land_parcel_id: cvi_land_parcel.id }.to_json) if productions.empty?
         end
         activity_production = if productions.present?
                                 productions.first
