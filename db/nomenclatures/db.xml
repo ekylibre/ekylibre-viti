@@ -587,15 +587,17 @@
       <property name="cultivation_variety" type="item" choices="varieties"/>
       <property name="nature" type="choice" choices="main, auxiliary, standalone" required="true" default="main"/>
       <property name="support_variety" type="item" choices="varieties"/>
+      <property name="position" type="integer"/>
     </properties>
     <items>
-      <item name="administering" nature="auxiliary"/>
-      <item name="animal_farming" support_variety="animal_group" cultivation_variety="animal"/>
-      <item name="plant_farming" support_variety="land_parcel" cultivation_variety="plant"/>
-      <item name="processing"/>
-      <item name="service_delivering"/>
-      <item name="tool_maintaining" nature="auxiliary" cultivation_variety="equipment" support_variety="equipment_fleet"/>
-      <item name="wine_making" parent="processing"/>
+      <item name="administering" nature="auxiliary" position="900"/>
+      <item name="animal_farming" support_variety="animal_group" cultivation_variety="animal" position="300"/>
+      <item name="plant_farming" support_variety="land_parcel" cultivation_variety="plant" position="200"/>
+      <item name="processing" position="400"/>
+      <item name="service_delivering" position="600"/>
+      <item name="tool_maintaining" nature="auxiliary" cultivation_variety="equipment" support_variety="equipment_fleet" position="500"/>
+      <item name="vine_farming" support_variety="land_parcel" cultivation_variety="plant" position="100"/>
+      <item name="wine_making" parent="processing" position="401"/>
     </items>
   </nomenclature>
   <nomenclature name="administrative_area_natures" translateable="true">
@@ -2851,38 +2853,46 @@
   <nomenclature name="procedure_categories" translateable="true">
     <properties>
       <property name="activity_family" type="item_list" choices="activity_families"/>
+      <property name="position" type="integer"/>
     </properties>
     <items>
-      <item name="administrative_tasks" activity_family="administering"/>
-      <item name="animal_breeding" activity_family="animal_farming"/>
-      <item name="animal_feeding" activity_family="animal_farming"/>
-      <item name="animal_identification" activity_family="animal_farming"/>
-      <item name="animal_production" activity_family="animal_farming"/>
-      <item name="animal_treating" activity_family="animal_farming"/>
-      <item name="building_maintenance" activity_family="tool_maintaining"/>
-      <item name="cook_transformation" activity_family="processing"/>
-      <item name="crop_maintenance" activity_family="plant_farming"/>
-      <item name="crop_protection" activity_family="plant_farming"/>
-      <item name="dairy_transformation" activity_family="processing"/>
-      <item name="energy_supplying" activity_family="tool_maintaining"/>
-      <item name="equipment_maintenance" activity_family="tool_maintaining"/>
-      <item name="fertilizing" activity_family="plant_farming"/>
-      <item name="fish_transformation" activity_family="processing"/>
-      <item name="habitat_maintenance" activity_family="animal_farming"/>
-      <item name="handling" activity_family="tool_maintaining"/>
-      <item name="harvesting" activity_family="plant_farming"/>
-      <item name="installations_modification" activity_family="animal_farming, tool_maintaining, plant_farming"/>
-      <item name="irrigating" activity_family="plant_farming"/>
-      <item name="land_maintenance" activity_family="animal_farming, tool_maintaining, plant_farming"/>
-      <item name="meat_transformation" activity_family="processing"/>
-      <item name="packaging" activity_family="processing"/>
-      <item name="planting" activity_family="plant_farming"/>
-      <item name="plants_transformation" activity_family="processing"/>
-      <item name="soil_working" activity_family="plant_farming"/>
-      <item name="textile_transformation" activity_family="processing"/>
-      <item name="troubleshooting" activity_family="tool_maintaining"/>
-      <item name="viticulture_transformation" activity_family="processing"/>
-      <item name="washing_packaging_transformation" activity_family="processing"/>
+      <item name="administrative_tasks" activity_family="administering" position="100"/>
+      <item name="animal_breeding" activity_family="animal_farming" position="100"/>
+      <item name="animal_feeding" activity_family="animal_farming" position="300"/>
+      <item name="animal_identification" activity_family="animal_farming" position="200"/>
+      <item name="animal_production" activity_family="animal_farming" position="400"/>
+      <item name="animal_treating" activity_family="animal_farming" position="500"/>
+      <item name="building_maintenance" activity_family="tool_maintaining" position="100"/>
+      <item name="cook_transformation" activity_family="processing" position="500"/>
+      <item name="crop_maintenance" activity_family="plant_farming" position="600"/>
+      <item name="crop_protection" activity_family="plant_farming" position="500"/>
+      <item name="dairy_transformation" activity_family="processing" position="400"/>
+      <item name="energy_supplying" activity_family="tool_maintaining" position="200"/>
+      <item name="equipment_maintenance" activity_family="tool_maintaining" position="300"/>
+      <item name="fertilizing" activity_family="plant_farming" position="300"/>
+      <item name="fish_transformation" activity_family="processing" position="300"/>
+      <item name="habitat_maintenance" activity_family="animal_farming" position="600"/>
+      <item name="handling" activity_family="tool_maintaining" position="400"/>
+      <item name="harvesting" activity_family="plant_farming" position="700"/>
+      <item name="installations_modification" activity_family="animal_farming, tool_maintaining, plant_farming" position="901"/>
+      <item name="irrigating" activity_family="plant_farming" position="400"/>
+      <item name="land_maintenance" activity_family="animal_farming, tool_maintaining, plant_farming" position="902"/>
+      <item name="meat_transformation" activity_family="processing" position="200"/>
+      <item name="packaging" activity_family="processing" position="600"/>
+      <item name="planting" activity_family="plant_farming" position="200"/>
+      <item name="plants_transformation" activity_family="processing" position="100"/>
+      <item name="soil_working" activity_family="plant_farming" position="100"/>
+      <item name="textile_transformation" activity_family="processing" position="700"/>
+      <item name="troubleshooting" activity_family="tool_maintaining" position="500"/>
+      <item name="vine_fertilizing" activity_family="vine_farming" position="200"/>
+      <item name="vine_planting" activity_family="vine_farming" position="600"/>
+      <item name="vine_protection" activity_family="vine_farming" position="300"/>
+      <item name="vine_soil_working_and_maintenance" activity_family="vine_farming" position="400"/>
+      <item name="vineyard_maintenance" activity_family="vine_farming" position="100"/>
+      <item name="vintage" activity_family="vine_farming" position="500"/>
+      <item name="vine_land_maintenance" activity_family="vine_farming" position="700"/>
+      <item name="viticulture_transformation" activity_family="processing" position="800"/>
+      <item name="washing_packaging_transformation" activity_family="processing" position="900"/>
     </items>
   </nomenclature>
   <nomenclature name="procedure_natures" translateable="true">
