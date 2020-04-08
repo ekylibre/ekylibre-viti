@@ -503,8 +503,8 @@ CREATE TABLE public.intervention_parameters (
     variety character varying,
     batch_number character varying,
     usage_id character varying,
-    allowed_entry_factor integer,
-    allowed_harvest_factor integer
+    allowed_entry_factor interval,
+    allowed_harvest_factor interval
 );
 
 
@@ -18534,7 +18534,7 @@ CREATE OR REPLACE VIEW public.formatted_cvi_land_parcels AS
     (cvi_land_parcels.inter_row_distance_value)::integer AS inter_row_distance_value,
     cvi_land_parcels.state,
         CASE
-            WHEN (activities.name IS NULL) THEN 'A définir'::character varying
+            WHEN (activities.name IS NULL) THEN 'not_defined'::character varying
             ELSE activities.name
         END AS activity_name,
     cvi_land_parcels.cvi_cultivable_zone_id
@@ -19885,6 +19885,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200213102154');
 
 INSERT INTO schema_migrations (version) VALUES ('20200225093814');
 
+INSERT INTO schema_migrations (version) VALUES ('20200312163243');
+
 INSERT INTO schema_migrations (version) VALUES ('20200313161422');
 
 INSERT INTO schema_migrations (version) VALUES ('20200316151202');
@@ -19899,7 +19901,11 @@ INSERT INTO schema_migrations (version) VALUES ('20200403091907');
 
 INSERT INTO schema_migrations (version) VALUES ('20200403123414');
 
+INSERT INTO schema_migrations (version) VALUES ('20200406105101');
+
 INSERT INTO schema_migrations (version) VALUES ('20200407075511');
 
 INSERT INTO schema_migrations (version) VALUES ('20200407090249');
+
+INSERT INTO schema_migrations (version) VALUES ('20200407172801');
 

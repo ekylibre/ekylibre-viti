@@ -29,4 +29,10 @@ FactoryBot.define do
       create_list(:cvi_cultivable_zone, Random.rand(1..3), :with_cvi_land_parcels_all_created, cvi_statement: cvi_statement)
     end
   end
+
+  trait :with_one_cvi_cultivable_zone_ready_to_convert do
+    after(:create) do |cvi_statement|
+      create(:cvi_cultivable_zone, :with_cvi_land_parcel_created, cvi_statement: cvi_statement)
+    end
+  end
 end

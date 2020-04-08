@@ -41,7 +41,15 @@ FactoryBot.define do
 
     trait :with_cvi_land_parcels_all_created do
       after(:create) do |cvi_cultivable_zone|
-        create_list(:cvi_land_parcel, Random.rand(1..4), :with_activity, cvi_cultivable_zone: cvi_cultivable_zone)
+        activity = create(:activity)
+        create_list(:cvi_land_parcel, Random.rand(1..4), activity: activity, cvi_cultivable_zone: cvi_cultivable_zone)
+      end
+    end
+
+    trait :with_cvi_land_parcel_created do
+      after(:create) do |cvi_cultivable_zone|
+        activity = create(:activity, :perennial)
+        create(:cvi_land_parcel, activity: activity, cvi_cultivable_zone: cvi_cultivable_zone)
       end
     end
   end

@@ -10,6 +10,8 @@ class RegisteredPhytosanitaryUsageDoseComputation
     return { none: :provide_metrics_for_this_article.tl } unless user_measure
 
     compute_dose_message(user_measure, reference_measure)
+  rescue FloatDomainError
+    {none: ""}
   end
 
   def validate_intervention_input(input)
@@ -28,7 +30,6 @@ class RegisteredPhytosanitaryUsageDoseComputation
 
       true
     end
-
 
     def handle_volume_area_density(quantity, usage, product, targets)
       return Measure.new(quantity, :liter_per_hectare) if usage.of_dimension?(:volume_area_density)
@@ -112,18 +113,20 @@ class RegisteredPhytosanitaryUsageDoseComputation
     end
 
     def convert_into_area_density(measure, targets)
-      targets_area = targets.values.map do |target_info|
+      targets_area = targets.values.sum do |target_info|
         Charta.new_geometry(target_info[:shape]).area
-      end.reduce(:+)
+      end
       coeff = Measure.new(targets_area, :square_meter).in(:hectare).to_f
+
       Measure.new(measure.to_f / coeff, "#{measure.unit}_per_hectare")
     end
 
     def convert_from_area_density(measure, targets)
-      targets_area = targets.values.map do |target_info|
+      targets_area = targets.values.sum do |target_info|
         Charta.new_geometry(target_info[:shape]).area
-      end.reduce(:+)
+      end
       coeff = Measure.new(targets_area, :square_meter).in(:hectare).to_f
+
       Measure.new(measure.to_f * coeff, measure.unit.match(/([a-zA-Z]+)_per_hectare/)[1])
     end
 
@@ -144,5 +147,4 @@ class RegisteredPhytosanitaryUsageDoseComputation
         product.net_volume.in(:liter) * quantity
       end
     end
-
 end

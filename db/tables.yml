@@ -3996,9 +3996,9 @@ intervention_parameter_readings:
     references: user
 intervention_parameters:
   allowed_entry_factor:
-    type: integer
+    type: string
   allowed_harvest_factor:
-    type: integer
+    type: string
   assembly_id:
     type: integer
     references: product

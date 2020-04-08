@@ -63,7 +63,6 @@
 - entity
 - entity_address
 - entity_link
-- ephy_cropset
 - equipment
 - equipment_fleet
 - event
@@ -194,6 +193,7 @@
 - registered_pfi_crop
 - registered_pfi_dose
 - registered_pfi_target
+- registered_phytosanitary_cropset
 - registered_phytosanitary_phrase
 - registered_phytosanitary_product
 - registered_phytosanitary_risk

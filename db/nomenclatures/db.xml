@@ -586,6 +586,7 @@
     <properties>
       <property name="cultivation_variety" type="item" choices="varieties"/>
       <property name="nature" type="choice" choices="main, auxiliary, standalone" required="true" default="main"/>
+      <property name="position" type="integer"/>
       <property name="support_variety" type="item" choices="varieties"/>
       <property name="position" type="integer"/>
     </properties>
@@ -2304,6 +2305,7 @@
       <item name="reproductor" datatype="boolean"/>
       <item name="residue_elimination_method" datatype="choice" choices="residue_elimination_methods"/>
       <item name="rootstock_bud_charge" datatype="integer"/>
+      <item name="rootstock_variety" datatype="string"/>
       <item name="rows_count" datatype="integer"/>
       <item name="rows_interval" datatype="measure" unit="meter"/>
       <item name="rows_orientation" datatype="measure" unit="degree"/>
@@ -2348,7 +2350,6 @@
       <item name="wind_direction" datatype="measure" unit="degree" sampling_temporal_mode="instant"/>
       <item name="wind_speed" datatype="measure" unit="kilometer_per_hour" sampling_temporal_mode="instant"/>
       <item name="witness" datatype="string"/>
-      <item name="rootstock_variety" datatype="string"/>
       <item name="working_lifespan" datatype="measure" unit="hour"/>
       <item name="zinc_concentration" datatype="measure" unit="parts_per_million"/>
     </items>
@@ -2885,12 +2886,12 @@
       <item name="textile_transformation" activity_family="processing" position="700"/>
       <item name="troubleshooting" activity_family="tool_maintaining" position="500"/>
       <item name="vine_fertilizing" activity_family="vine_farming" position="200"/>
+      <item name="vine_land_maintenance" activity_family="vine_farming" position="700"/>
       <item name="vine_planting" activity_family="vine_farming" position="600"/>
       <item name="vine_protection" activity_family="vine_farming" position="300"/>
       <item name="vine_soil_working_and_maintenance" activity_family="vine_farming" position="400"/>
       <item name="vineyard_maintenance" activity_family="vine_farming" position="100"/>
       <item name="vintage" activity_family="vine_farming" position="500"/>
-      <item name="vine_land_maintenance" activity_family="vine_farming" position="700"/>
       <item name="viticulture_transformation" activity_family="processing" position="800"/>
       <item name="washing_packaging_transformation" activity_family="processing" position="900"/>
     </items>
@@ -10304,6 +10305,7 @@
       <item name="arctium" parent="asteraceae" itis_tsn="36544"/>
       <item name="arctium_lappa" parent="arctium" itis_tsn="36545"/>
       <item name="arctium_minus" parent="arctium" itis_tsn="36546"/>
+      <item name="arecaceae" parent="plant" itis_tsn="500043"/>
       <item name="argania" parent="sapotaceae"/>
       <item name="argania_spinosa" parent="argania"/>
       <item name="artemisia" parent="asteraceae" itis_tsn="35431"/>
@@ -10885,7 +10887,10 @@
       <item name="dioscorea_trifida" parent="dioscorea" itis_tsn="43378"/>
       <item name="dioscorea_villosa" parent="dioscorea" itis_tsn="43367"/>
       <item name="dioscoreaceae" parent="plant" itis_tsn="43365"/>
+      <item name="diospyros" parent="ebenaceae" itis_tsn="23853"/>
+      <item name="diospyros_kaki" parent="diospyros" itis_tsn="896176"/>
       <item name="easement" parent="zone"/>
+      <item name="ebenaceae" parent="plant" itis_tsn="23852"/>
       <item name="egg" parent="raw_matter" derivative_of="aves"/>
       <item name="elaeagnaceae" parent="plant" itis_tsn="27768"/>
       <item name="elaeagnus" parent="elaeagnaceae" itis_tsn="27769"/>
@@ -10911,6 +10916,8 @@
       <item name="erysiphaceae" parent="fungus" itis_tsn="194121"/>
       <item name="eucalyptus" parent="myrtaceae" itis_tsn="27187"/>
       <item name="euphorbiaceae" parent="plant" itis_tsn="28031"/>
+      <item name="euterpe" parent="arecaceae" itis_tsn="500808"/>
+      <item name="euterpe_oleracea" parent="euterpe" itis_tsn="506722"/>
       <item name="excrement" parent="raw_matter" derivative_of="animal"/>
       <item name="fabaceae" parent="plant" itis_tsn="500059"/>
       <item name="fagaceae" parent="plant" itis_tsn="19275"/>
@@ -11550,6 +11557,8 @@
       <item name="mytilus_edulis" parent="mytilus" itis_tsn="79454"/>
       <item name="mytilus_galloprovincialis" parent="mytilus" itis_tsn="79456"/>
       <item name="mytilus_trossulus" parent="mytilus" itis_tsn="567928"/>
+      <item name="nasturtium" parent="brassicaceae" itis_tsn="23252"/>
+      <item name="nasturtium_officinale" parent="nasturtium" itis_tsn="23255"/>
       <item name="nematoda" parent="animal" itis_tsn="59490"/>
       <item name="nicotiana" parent="solanaceae" itis_tsn="30562"/>
       <item name="nicotiana_tabacum" parent="nicotiana" itis_tsn="30568"/>
@@ -12860,11 +12869,11 @@
   </nomenclature>
   <nomenclature name="vine_pruning_systems" translateable="true">
     <items>
-      <item name="guyot_simple_pruning"/>
-      <item name="guyot_double_pruning"/>
       <item name="cordon_pruning"/>
-      <item name="gobelet_pruning"/>
       <item name="formation_pruning"/>
+      <item name="gobelet_pruning"/>
+      <item name="guyot_double_pruning"/>
+      <item name="guyot_simple_pruning"/>
     </items>
   </nomenclature>
   <nomenclature name="working_sets" translateable="true">

@@ -52,6 +52,7 @@ module Backend
 
     def group
       cvi_land_parcels = CviLandParcel.joins(:locations).where(id: params[:cvi_land_parcel_ids]).distinct
+      @cvi_cultivable_zone = cvi_land_parcels.first.cvi_cultivable_zone
       result = GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
       if result.success?
         notify_now(:grouped, name_pluralized: CviLandParcel.model_name.human.pluralize.downcase)
@@ -72,6 +73,7 @@ module Backend
 
     def split
       cvi_land_parcel = CviLandParcel.find(params[:id])
+      @cvi_cultivable_zone = cvi_land_parcel.cvi_cultivable_zone
       new_cvi_land_parcels_params = params[:new_cvi_land_parcels].values.map do |h|
         h['shape'] = Charta.new_geometry(h['shape']).to_rgeo
         h

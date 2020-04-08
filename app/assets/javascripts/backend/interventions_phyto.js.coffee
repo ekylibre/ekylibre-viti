@@ -8,8 +8,9 @@
       $.getJSON "/backend/registered_phytosanitary_products/get_products_infos", values, (data) =>
         for id, infos of data
           $productField = $(".selector-value[value='#{id}']").closest('.nested-plant_medicine')
+
           @._displayAllowedMentions($productField, infos.allowed_mentions)
-          @._displayBadge($productField, infos.state)
+          @._displayBadge($productField, infos.state, infos.check_conditions)
           @._displayMessages($productField, infos.messages)
 
     _displayAllowedMentions: ($productField, allowedMentions) ->
@@ -17,26 +18,30 @@
       for mention in allowedMentions
         $productField.find("##{mention}").show()
 
-    _displayBadge: ($productField, state) ->
-      $productField.find('#intervention-products-badges').addClass("state-badge-set--#{state}")
+    _displayBadge: ($productField, state, checkConditions) ->
+      new StateBadgeSet($productField.find('#intervention-products-badges')).setState(state)
+      $productField.find('.input-authorization__text').show() if checkConditions
 
     _displayMessages: ($productField, messages) ->
       $productField.find('#product-authorization-message').html(messages.join('<br>'))
 
     _clear: ($productField) ->
       $productField.find('.allowed-mentions img').each -> $(this).hide()
-      $productField.find('#intervention-products-badges').removeClass("state-badge-set--allowed state-badge-set--forbidden")
+      new StateBadgeSet($productField.find('#intervention-products-badges')).setState(null)
+      $productField.find('.input-authorization__text').hide()
 
     _retrieveValues: () ->
-      targetsIds = $('.nested-cultivation').map ->
-        $(this).find("[data-selector-id='intervention_target_product_id']").next('.selector-value').val()
-      productsIds = $(".nested-plant_medicine").map ->
-        $(this).find("[data-selector-id='intervention_input_product_id']").next('.selector-value').val()
-      usagesIds = $(".nested-plant_medicine").map ->
-        $(this).find("[data-selector-id='intervention_input_usage_id']").next('.selector-value').val()
+      targetsData = Array.from(document.querySelectorAll('.nested-cultivation')).map (element) =>
+        id: $(element).find("[data-selector-id='intervention_target_product_id']").next('.selector-value').val()
+        shape: $(element).find('[data-map-editor]').val()
 
-      { products_ids: _.compact(productsIds.toArray()), targets_ids: _.compact(targetsIds.toArray()), usages_ids: _.compact(usagesIds.toArray()) }
+      productsData = Array.from(document.querySelectorAll(".nested-plant_medicine")).map (element) =>
+        product_id: element.querySelector('.intervention_inputs_product input.selector-value').value
+        usage_id: element.querySelector('.intervention_inputs_usage input.selector-value').value
+        quantity: element.querySelector('.intervention_inputs_quantity input').value
+        dimension: element.querySelector('.intervention_inputs_quantity select').value
 
+      { products_data: productsData, targets_data: targetsData }
 
   usageMainInfos =
     display: ($input, $productField) ->
@@ -53,7 +58,10 @@
 
     _displayInfos: ($productField, infos) ->
       for key, value of infos
-        $productField.find("[data-usage-attribute='#{key}']").text(value || '-')
+        if key == "usage_conditions" && value != null
+          value = value.replace(/\n/, '<br />')
+
+        $productField.find("[data-usage-attribute='#{key}']").html(value || '-')
 
       $productField.find('.usage-infos-container').show()
 
@@ -86,23 +94,23 @@
 
 
   usageDoseInfos =
-    display: ($input, $productField) ->
-      @._clear($input)
+    display: ($quantityInput, $productField) ->
+      @._clearLights($quantityInput)
       usageId = $productField.find("[data-selector-id='intervention_input_usage_id']").next('.selector-value').val()
       return unless usageId
-      values = @._retrieveValues($input, $productField)
+      values = @._retrieveValues($quantityInput, $productField)
       return unless values.product_id && values.quantity && values.dimension && values.targets_data
 
       $.getJSON "/backend/registered_phytosanitary_usages/#{usageId}/dose_validations", values, (data) =>
-        @._displayDose($input, data)
+        @._displayDose($quantityInput, data)
 
     _displayDose: ($input, data) ->
-      for key, value of data
+      for key, value of data.dose_validation
         addedClass = if key == 'stop' then 'warning' else ''
         $input.closest('.controls').find('.lights').addClass("lights-#{key}")
         $input.closest('.controls').find('.lights-message').addClass(addedClass).text("#{value}")
 
-    _clear: ($input) ->
+    _clearLights: ($input) ->
       $input.closest('.controls').find('.lights').removeClass("lights-go lights-caution lights-stop")
       $input.closest('.controls').find('.lights-message').removeClass("warning")
 
@@ -142,7 +150,9 @@
     usageMainInfos.display($(this), $(this).closest('.nested-plant_medicine'))
 
   # Update allowed doses on quantity change
+  # And compute authorization badge again
   $(document).on 'input change', "input[data-intervention-field='quantity-value']", ->
+    productsInfos.display()
     usageDoseInfos.display($(this), $(this).closest('.nested-plant_medicine'))
 
 

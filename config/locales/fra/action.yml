@@ -1098,6 +1098,7 @@ fra:
       nature:
         harvest: "Récolte :"
         reentry: "Réentrée :"
+        add_two_hours: "Ajouter 2h dans le cas d'une application en milieu fermé"
     production:
       start_state_of_production:
         n_3_4_leaf: "N+3 (2ème feuille)"
@@ -1107,6 +1108,7 @@ fra:
       labels:
         manage_land_parcels: "Gérer le parcellaire"
         edit: "Modifier"
+        not_defined: "A définir"
   labels:
     cvi_converted: "Votre parcellaire a bien été converti à partir de votre CVI. Pour le modifier, veuillez vous rendre dans le module Production."
     warning_could_not_use_ift: "Attention, si la production de référence n'est pas renseignée, les IFT ne pourront pas être calculés."
@@ -1248,6 +1250,7 @@ fra:
     add_support: "Ajouter un support de production"
     add_tactic: "Ajouter un itinéraire technique"
     add_tool: "Ajouter un outil"
+    add_two_hours_reentry_delay: "Ajouter 2h dans le cas d'une application en milieu fermé"
     add_website: "Ajouter un site web"
     add_working_period: "Ajouter une période de travail"
     add_x: "Ajouter «\_%{x}\_»"
@@ -1274,6 +1277,7 @@ fra:
     all: "Tous"
     allocation_balance: "Affectation du budget - Allocation %{name}"
     allowed: "Autorisé"
+    allowed_harvest_on: "RÉCOLTE POSSIBLE À PARTIR DU"
     all_accounts: "Tous les comptes"
     all_areas: "— Toutes les zones postales —" #?
     all_cash_balances: "Soldes des comptes" #?
@@ -1356,6 +1360,7 @@ fra:
     attachment: "Pièce jointe"
     attachments: "Pièces jointes"
     attorney: "Informations mandataire" #?
+    authorized: "Autorisé"
     automatic: "Auto"
     auxiliary: "Auxiliaire"
     available: "Disponible"
@@ -1459,6 +1464,7 @@ fra:
     check: "Vérifier"
     check_fields: "Vous devez cocher au moins une case pour effectuer la modification" #?
     check_letter: "Lettre-chèque"
+    check_usage_conditions: "Vérifiez les conditions d'usage"
     check_x_entries_to_balance:
       one: "Consulter l'écriture à équilibrer (%{count})"
       other: "Consulter les écritures à équilibrer (%{count})"
@@ -1677,7 +1683,7 @@ fra:
     delay: "Délai"
     delete: "Supprimer"
     convert_cvi_header: "Convertir CVI en parcellaire"
-    convert_cvi_body: "<b>Attention !</b><br><br>Une fois converties, les parcelles devront être modifiées depuis le module Production.<br><br>Voulez-vous convertir l’ensemble de votre CVI en parcellaire ?"
+    convert_cvi_body: "<b>Information importante !</b><br><br>En cliquant sur ‘Convertir’, les parcelles culturales que vous avez définies vont être automatiquement converties en productions de vigne (=cultures avec tournière).<br><br>Si vous souhaitez modifier les informations associées à ces productions (nom, contours, tournières) par la suite,vous devrez le faire depuis le module “Production”.<br><br>Pour cela :<br>- vous devrez sélectionner la ou les activités concernées depuis le module Production>Activités (les productions de vigne créées seront listées en bas de chaque activité) <br>- vous pourrez ensuite cliquer sur la production, puis “Modifier” pour éditer les contours ou créer les tournières sur vos parcelles culturales<br><br><b>Note: l’ajout de tournières sur une production devra être effectué avant toute intervention sur la culture</b>"
     delete_cvi_cultivable_zone_header: "Supprimer la Zone Cultivable"
     delete_cvi_cultivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
     reset_cvi_cutlivable_zone_header: "Réinitialiser le parcellaire d'une Zone cultivable"
@@ -2698,6 +2704,7 @@ fra:
     rain: "Pluviométrie" #?
     raw_income: "Résultat d’exploitation"
     raw_margin: "Marge brute" #?
+    re_entry_delay: "RÉENTRÉE"
     re_entry_interval: "Délai de réentrée"
     reading_tasks: "Relevés d’indicateur"
     readings: "Relevés d’indicateur"
@@ -3018,6 +3025,7 @@ fra:
     third_informations: "Informations tierces" #?
     third_is_unbalanced: "Tiers à soldes non-rapprochés. (solde - solde comptable fournisseur)"
     this_archive_is_digitally_signed: "Cette archive est signée numériquement."
+    this_product_has_been_withdrawn: "Ce produit est retiré"
     threshold_commercialization_by_production: "Seuil de commercialisation par production"
     thumb: "Miniature"
     time_cost: "Coût de main d’œuvre"
@@ -3184,6 +3192,7 @@ fra:
     uploading_unicoque_traceability: "Télétransmission - Traçabilité Unicoque" #?
     urea_concentration: "Teneur moyenne en urée" #?
     usage: "Utilisation"
+    usage_conditions: "Conditions d'usage"
     usage_duration: "Durée d’utilisation" #?
     usage_phyto: "Usage"
     use_forward: "Sélectionnez un journal pour reporter les à nouveaux" #?
