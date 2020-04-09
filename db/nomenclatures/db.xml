@@ -596,7 +596,7 @@
       <item name="processing" position="400"/>
       <item name="service_delivering" position="600"/>
       <item name="tool_maintaining" nature="auxiliary" cultivation_variety="equipment" support_variety="equipment_fleet" position="500"/>
-      <item name="vine_farming" support_variety="land_parcel" cultivation_variety="plant" position="100"/>
+      <item name="vine_farming" support_variety="land_parcel" cultivation_variety="vitis" position="100"/>
       <item name="wine_making" parent="processing" position="401"/>
     </items>
   </nomenclature>

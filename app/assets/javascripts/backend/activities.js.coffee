@@ -9,11 +9,11 @@
       url: "/backend/cultivable-zones/#{id}.json"
       success: (data, status, request) ->
         map.mapeditor('edit', data.shape, true)
-  
+
   $(document).on "selector:change", "#activity_family", (event)->
     element = $(this)
     activityFamily = element.selector('value')
-    
+
   $(document).on "change", "input[type=radio][name='activity[production_cycle]']", (event)->
     production_cycle_control = $(".activity_production_campaign_period")
     if this.value == 'perennial'
@@ -42,7 +42,7 @@
       success: (data, status, request) ->
         if data.started_on and data.stopped_on and !$('input#activity_production_started_on').val()
           return if $('input#activity_production_started_on').val()
-          
+
           fpStartedOn = flatpickr($('input#activity_production_started_on'), options)
           fpStartedOn.setDate(data.started_on) unless $('input#activity_production_started_on').val()
           fpStartedOn.calendarContainer.classList.add('day-names-hidden','year-hidden')
@@ -51,7 +51,7 @@
           fpStoppedOn.calendarContainer.classList.add('day-names-hidden','year-hidden')
           period = new Date(data.stopped_on).getFullYear() - new Date(data.started_on).getFullYear()
           $('select#activity_production_campaign').val(if period == 1 then "at_cycle_end" else "at_cycle_start")
-        
+
         if data.specie
           $.ajax
             url: "/backend/varieties/selection.json?specie=#{data.specie}"
@@ -133,7 +133,7 @@
       production_nature_control.hide()
       return
 
-    if value == "plant_farming"
+    if value == "plant_farming" || value == "vine_farming"
       production_nature_control.show()
     else
       production_nature_select.val(null)
