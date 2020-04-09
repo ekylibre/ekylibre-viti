@@ -3,7 +3,7 @@
   = t.destroy show_disabled: true, disabled_tooltip_content: :contact_support_to_delete_production.tl
 
 = main_informations attachment: true do
-  - if resource.plant_farming? && (resource.support.is_a?(LandParcel) || resource.support.is_a?(Plant))
+  - if (resource.plant_farming? || resource.vine_farming?) && (resource.support.is_a?(LandParcel) || resource.support.is_a?(Plant))
     = mini_map(resource, shape_method: :support_shape)
     = infos do
       .med-info.important
@@ -52,7 +52,7 @@
 .activity-production-cobbles
   = cobbles do |c|
 
-    - if resource.plant_farming? && (resource.support.is_a?(LandParcel) || resource.support.is_a?(Plant))
+    - if (resource.plant_farming? || resource.vine_farming?) && (resource.support.is_a?(LandParcel) || resource.support.is_a?(Plant))
       - c.cobble :weather do
         = cell :weather, params: {centroid: resource.support_shape.centroid}
     - if resource.selected_manure_management_plan_zone
