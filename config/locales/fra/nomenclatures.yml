@@ -2548,6 +2548,8 @@ fra:
         width: "Largeur"
         wind_direction: "Direction du vent"
         wind_speed: "Vitesse du vent"
+        vine_pruning_system: "Système de taille"
+        vine_stock_bud_charge: "Charge de la souche"
         witness: "Témoin"
         woodstock_variety: "Variété du porte-greffe"
         working_lifespan: "Esperance de vie de travail"
@@ -2955,7 +2957,9 @@ fra:
         fermentation: "Fermentation"
         fertilization: "Fertilisation"
         field_plant_sorting: "Tri au champ"
+        finishing_rerun: "Finition/repasse"
         fireproofing: "Ignifugeant"
+        folding: "Pliage"
         food_preparation: "Prépapration des aliments"
         forest_grinding: "Broyage forestier"
         frost_protection: "Paragèle"
@@ -3050,6 +3054,7 @@ fra:
         tunnel_installation: "Installation de chenille/tunnel"
         tunnel_removal: "Retrait de chenille/tunnel"
         tunnel_removing: "Retrait de chenille/tunnel"
+        tying: "Attachage"
         upgrading_maintenance: "Maintenance améliorative"
         virucide: "Virucide"
         water_flow_improvement: "Amélioration de la circulation d’eau"
@@ -7736,6 +7741,14 @@ fra:
         europa_tsn: "ID Europa"
         french_race_code: "Code race français"
         itis_tsn: "ID ITIS"
+    vine_pruning_systems:
+      items:
+        cordon_pruning: "Cordon de Royat"
+        formation_pruning: "Taille de formation"
+        gobelet_pruning: "Gobelet"
+        guyot_double_pruning: "Guyot double "
+        guyot_simple_pruning: "Guyot simple"
+      name: "Système de taille"
     working_sets:
       items:
         animal_foods: "Aliments pour animaux"
