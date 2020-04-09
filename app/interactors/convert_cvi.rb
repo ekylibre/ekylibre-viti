@@ -42,7 +42,7 @@ class ConvertCvi < ApplicationInteractor
           support_nature: :headland_cultivation,
           usage: :fruit,
           planting_campaign: planting_campaign,
-          started_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.start_state_of_production.keys.first.to_i,
+          started_on: Date.new(cvi_land_parcel.planting_campaign.to_i,
                                activity.production_started_on.month,
                                activity.production_started_on.day),
           stopped_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i,

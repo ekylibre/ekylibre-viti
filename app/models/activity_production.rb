@@ -92,6 +92,7 @@ class ActivityProduction < Ekylibre::Record::Base
   validates :started_on, presence: true
   # validates_presence_of :cultivable_zone, :support_nature, if: :plant_farming?
   validates :support_nature, presence: { if: :plant_farming? }
+  validates :support_nature, presence: { if: :vine_farming? }
   validates :campaign, :stopped_on, presence: { if: :annual? }
   validates :started_on, presence: true
   # validates_numericality_of :size_value, greater_than: 0
@@ -100,7 +101,7 @@ class ActivityProduction < Ekylibre::Record::Base
   delegate :name, :work_number, to: :support, prefix: true
   # delegate :shape, :shape_to_ewkt, :shape_svg, :net_surface_area, :shape_area, to: :support
   delegate :name, :size_indicator_name, :size_unit_name, to: :activity, prefix: true
-  delegate :animal_farming?, :plant_farming?, :tool_maintaining?,
+  delegate :animal_farming?, :plant_farming?, :tool_maintaining?, :vine_farming?,
            :at_cycle_start?, :at_cycle_end?, :use_seasons?, :use_tactics?,
            :with_cultivation, :cultivation_variety, :with_supports, :support_variety,
            :color, :annual?, :perennial?, to: :activity, allow_nil: true
@@ -175,7 +176,7 @@ class ActivityProduction < Ekylibre::Record::Base
       self.size_unit_name = activity_size_unit_name
       self.rank_number ||= (activity.productions.maximum(:rank_number) ? activity.productions.maximum(:rank_number) : 0) + 1
       if valid_period_for_support?
-        if plant_farming?
+        if plant_farming? || vine_farming?
           initialize_land_parcel_support!
         elsif animal_farming?
           initialize_animal_group_support!
@@ -193,7 +194,7 @@ class ActivityProduction < Ekylibre::Record::Base
   end
 
   validate do
-    errors.add(:support_shape, :empty) if plant_farming? && support_shape && support_shape.empty?
+    errors.add(:support_shape, :empty) if (plant_farming? || vine_farming?) && support_shape && support_shape.empty?
   end
 
   after_save do
