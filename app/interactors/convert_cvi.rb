@@ -69,7 +69,7 @@ class ConvertCvi < ApplicationInteractor
         variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
         start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, 1, 1)
         vine_variety = cvi_land_parcel.vine_variety
-        certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra
+        certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra if cvi_land_parcel.designation_of_origin
 
         plant = Plant.create!(variant_id: variant.id,
                               work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
@@ -86,7 +86,7 @@ class ConvertCvi < ApplicationInteractor
                               providers: { cvi_land_parcel_id: cvi_land_parcel.id })
         plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(cvi_land_parcel.inter_row_distance_unit.to_sym), at: start_at)
         plant.read!(:plants_interval, cvi_land_parcel.inter_vine_plant_distance_value.in(cvi_land_parcel.inter_vine_plant_distance_unit.to_sym), at: start_at)
-        plant.read!(:certification_label, certification_label, at: start_at)
+        plant.read!(:certification_label, certification_label, at: start_at) if certification_label
         plant.read!(:shape, cvi_land_parcel.shape, at: start_at, force: true)
       end
     rescue StandardError => exception
