@@ -155,20 +155,21 @@ class Activity < Ekylibre::Record::Base
   end
 
   before_validation do
-    if Nomen::ActivityFamily.find(family)
+    item = Nomen::ActivityFamily.find(family)
+    if item
       # FIXME: Need to use nomenclatures to set that data!
-      if plant_farming?
+      if plant_farming? || vine_farming?
         self.with_supports ||= true
-        self.support_variety ||= :land_parcel
+        self.support_variety ||= item.support_variety
         self.with_cultivation ||= true
-        self.cultivation_variety ||= :plant
+        self.cultivation_variety ||= item.cultivation_variety
         self.size_indicator_name = 'net_surface_area' if size_indicator_name.blank?
         self.size_unit_name = 'hectare' if size_unit_name.blank?
       elsif animal_farming?
         self.with_supports = true
-        self.support_variety = :animal_group
+        self.support_variety = item.support_variety
         self.with_cultivation = true
-        self.cultivation_variety ||= :animal
+        self.cultivation_variety ||= item.cultivation_variety
         self.size_indicator_name = 'members_population' if size_indicator_name.blank?
         self.size_unit_name = 'unity' if size_unit_name.blank?
       elsif tool_maintaining?
