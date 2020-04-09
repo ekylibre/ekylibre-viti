@@ -447,12 +447,16 @@ fra:
     vine_grapes_removing: "Eclaircissage"
     vine_harvest: "Vendange" #?
     vine_leaves_removing: "Effeuillage"
+    vine_layering: "Marcottage"
+    vine_leaves_fertilzing_with_spraying: "Fertilisation foliaire"
     vine_lifting: "Relevage"
     vine_pre_pruning: "Pré-taillage"
     vine_pruning: "Taille"
     vine_pulling: "Retrait pieds morts/malades"
     vine_shoot_extracting: "Tirage des bois"
     vine_shoot_grinding: "Broyage des sarments"
+    vine_soil_fertilizing: "Epandage engrais | Amendement"
+    vine_spraying_without_fertilizing: "Pulvérisation sans fertilisation"
     vine_trimming: "Ecimage | Rognage"
     vine_trunk_cleaning_debudding: "Epamprage | Ebourgeonnage"
     walnuts_harvest: "Récolte de noix" #?
