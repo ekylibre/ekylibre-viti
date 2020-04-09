@@ -588,7 +588,6 @@
       <property name="nature" type="choice" choices="main, auxiliary, standalone" required="true" default="main"/>
       <property name="position" type="integer"/>
       <property name="support_variety" type="item" choices="varieties"/>
-      <property name="position" type="integer"/>
     </properties>
     <items>
       <item name="administering" nature="auxiliary" position="900"/>
@@ -597,7 +596,7 @@
       <item name="processing" position="400"/>
       <item name="service_delivering" position="600"/>
       <item name="tool_maintaining" nature="auxiliary" cultivation_variety="equipment" support_variety="equipment_fleet" position="500"/>
-      <item name="vine_farming" support_variety="land_parcel" cultivation_variety="plant" position="100"/>
+      <item name="vine_farming" support_variety="land_parcel" cultivation_variety="vitis" position="100"/>
       <item name="wine_making" parent="processing" position="401"/>
     </items>
   </nomenclature>

@@ -8,7 +8,7 @@
   - hint = content_tag :span, class: 'hint-warning' do
     %i.icon.icon-warning
     = :warning_could_not_use_ift.tl
-  = f.referenced_association :production_nature, new: false, label: :production_nature.tl,  wrapper_html: {style: "display: #{(family and family.name == 'plant_farming') ? 'block' : 'none'}"} , hint: (hint unless f.object.production_nature.present?) 
+  = f.referenced_association :production_nature, new: false, label: :production_nature.tl,  wrapper_html: {style: "display: #{(family and family.name.in?(['plant_farming', 'vine_farming'])) ? 'block' : 'none'}"} , hint: (hint unless f.object.production_nature.present?) 
   = f.input :with_cultivation, as: :hidden
   = f.referenced_nomenclature :cultivation_variety, required: true, collection: ((family and family.cultivation_variety.present?) ? Nomen::Variety.selection(family.cultivation_variety) : []), wrapper_html: {style: "display: #{(family and family.cultivation_variety.present?) ? 'block' : 'none'}"}
   -#= f.input :with_supports, as: :hidden
@@ -21,7 +21,7 @@
         collection = JSON.parse(f.object.production_nature.start_state_of_production).map { |k,v| ["front-end.production.start_state_of_production.#{v}".t, ({}[k] = v).to_json]}
       end
     = f.input :start_state_of_production, label: :start_state_of_production.tl, required: true , collection: collection || ['']
-    = f.input :life_duration,required: true , wrapper: :append do 
+    = f.input :life_duration,required: true , wrapper: :append do
       = f.input_field :life_duration
       %span.add-on= :year.tl.pluralize
   -#.main-nature-options
