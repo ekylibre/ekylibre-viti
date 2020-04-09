@@ -1,5 +1,5 @@
 - vine_default_production_id = MasterProductionNature.where(specie: 'vitis').first
-- activity_default_params = { family:"vine_farming", production_nature_id: vine_default_production_id, cultivation_variety: "vitis", production_cycle: "perennial", countings_hidden:true, countings_hidden:true, seasons_hidden:true, tactic_hidden:true}
+- activity_default_params = { family:"vine_farming", production_nature_id: vine_default_production_id, cultivation_variety: "vitis", production_cycle: "perennial", countings_hidden:true, seasons_hidden:true, tactic_hidden:true}
 = ekylibre_form_for(resource, remote: true) do |f|
   - current_year = Time.current.year
   = field_set( tl(:edit) + ' ' + resource.name.to_s, class:"multi-columns" ) do
