@@ -2713,6 +2713,7 @@
       <item name="bactericide"/>
       <item name="biostimulation"/>
       <item name="bird_repellent"/>
+      <item name="braiding"/>
       <item name="bridge_construction"/>
       <item name="building_construction"/>
       <item name="building_extension_construction"/>
@@ -2731,6 +2732,7 @@
       <item name="detasseling"/>
       <item name="disease_protection"/>
       <item name="disease_treatment"/>
+      <item name="doubling"/>
       <item name="drainage_improvement"/>
       <item name="drainage_system_installation"/>
       <item name="draining"/>
@@ -2745,6 +2747,7 @@
       <item name="field_plant_sorting"/>
       <item name="finishing_rerun"/>
       <item name="fireproofing"/>
+      <item name="first_lifting"/>
       <item name="food_preparation"/>
       <item name="folding"/>
       <item name="forest_grinding"/>
@@ -2761,6 +2764,7 @@
       <item name="handling"/>
       <item name="hardpan_destruction"/>
       <item name="harvest"/>
+      <item name="heading"/>
       <item name="herbicide"/>
       <item name="hilling"/>
       <item name="hilling_for_sifting"/>
@@ -2815,6 +2819,7 @@
       <item name="residue_destruction"/>
       <item name="ridging"/>
       <item name="rodenticide"/>
+      <item name="second_lifting"/>
       <item name="seedbed_preparing"/>
       <item name="semen_collecting"/>
       <item name="semen_freezing"/>
@@ -2833,10 +2838,13 @@
       <item name="swathing"/>
       <item name="talpicide"/>
       <item name="temperature_improvement"/>
+      <item name="topping"/>
       <item name="topkilling"/>
       <item name="tractor_troubleshooting"/>
       <item name="transportation"/>
+      <item name="trimming"/>
       <item name="troubleshooting"/>
+      <item name="trunking"/>
       <item name="tunnel_installation"/>
       <item name="tunnel_removal"/>
       <item name="tunnel_removing"/>

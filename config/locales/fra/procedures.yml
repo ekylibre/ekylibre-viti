@@ -443,11 +443,17 @@ fra:
     tunnel_removing: "Retrait de chenille ou tunnel"
     uncompacting: "Décompactage"
     vine_folding: "Pliage"
+    vine_grapes_removing: "Eclaircissage"
     vine_harvest: "Vendange" #?
+    vine_leaves_removing: "Effeuillage"
+    vine_lifting: "Relevage"
     vine_pre_pruning: "Pré-taillage"
     vine_pruning: "Taille"
+    vine_pulling: "Retrait pieds morts/malades"
     vine_shoot_extracting: "Tirage des bois"
     vine_shoot_grinding: "Broyage des sarments"
+    vine_trimming: "Ecimage | Rognage"
+    vine_trunk_cleaning_debudding: "Epamprage | Ebourgeonnage"
     walnuts_harvest: "Récolte de noix" #?
     walnuts_transport: "Transport de noix" #?
     watering: "Irrigation" #?
