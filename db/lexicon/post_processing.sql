@@ -118,12 +118,19 @@ SELECT
 	inter_row_distance_value :: int AS inter_row_distance_value,
 	state,
 
+	(CASE WHEN activities.name IS NULL THEN
+		'not_defined'
+    ELSE
+    	activities.name
+    END) as activity_name,
+
 	cvi_cultivable_zone_id
 	
 FROM cvi_land_parcels
 LEFT JOIN locations as locations ON cvi_land_parcels.id = locations.localizable_id AND locations.localizable_type = 'CviLandParcel'
+LEFT JOIN activities ON cvi_land_parcels.activity_id = activities.id
 LEFT JOIN lexicon.master_vine_varieties AS rootstocks ON cvi_land_parcels.rootstock_id = rootstocks.id
 LEFT JOIN lexicon.registered_postal_zones ON locations.registered_postal_zone_id = registered_postal_zones.id
 LEFT JOIN lexicon.master_vine_varieties AS vine_varieties  ON cvi_land_parcels.vine_variety_id = vine_varieties.id
 LEFT JOIN lexicon.registered_protected_designation_of_origins AS designation_of_origins ON cvi_land_parcels.designation_of_origin_id = designation_of_origins.id
-GROUP BY cvi_land_parcels.id, designation_of_origin_name, vine_variety_name, rootstock;
+GROUP BY cvi_land_parcels.id, designation_of_origin_name, vine_variety_name, rootstock, activities.name;

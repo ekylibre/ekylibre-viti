@@ -1099,11 +1099,20 @@ fra:
         harvest: "Récolte :"
         reentry: "Réentrée :"
         add_two_hours: "Ajouter 2h dans le cas d'une application en milieu fermé"
+    production:
+      start_state_of_production:
+        n_3_4_leaf: "N+3 (2ème feuille)"
+        n_2_3_leaf: "N+2 (3ème feuille)"
+        n_4_5_leaf: "N+4 (5ème feuille"
     active_list:
       labels:
         manage_land_parcels: "Gérer le parcellaire"
         edit: "Modifier"
+        not_defined: "A définir"
   labels:
+    cvi_converted: "Votre parcellaire a bien été converti à partir de votre CVI. Pour le modifier, veuillez vous rendre dans le module Production."
+    warning_could_not_use_ift: "Attention, si la production de référence n'est pas renseignée, les IFT ne pourront pas être calculés."
+    start_state_of_production: "1ère année de production (plantation année N)"
     rootstock: "Porte-greffe"
     major: "majoritaire"
     percentage: "Répartition"
@@ -1159,7 +1168,7 @@ fra:
     active_sum: "Total actifs" #?
     active_totals: "Total général"
     activities: "Activités"
-    activity: "Activités"
+    activity: "Activité"
     activity_production: "Production"
     activity_productions: "Productions"
     add: "Ajouter"
@@ -1515,6 +1524,7 @@ fra:
     conducted: "Réalisée"
     configure: "Configurer"
     confirm: "Confirmer"
+    confirm_cvi_land_parcels: "Confirmer les parcelles"
     confirmation: "Confirmation"
     confirmation_update_historical_plans: "Voulez-vous appliquer ces modifications sur l'historique des noms de parcelles ?"
     confirmed: "Confirmées" #?
@@ -1667,8 +1677,10 @@ fra:
     deformity_percentage_evolution: "Evolution des malformations"
     delay: "Délai"
     delete: "Supprimer"
-    delete_cvi_cutlivable_zone_header: "Supprimer la Zone Cultivable"
-    delete_cvi_cutlivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
+    convert_cvi_header: "Convertir CVI en parcellaire"
+    convert_cvi_body: "<b>Information importante !</b><br><br>En cliquant sur ‘Convertir’, les parcelles culturales que vous avez définies vont être automatiquement converties en productions de vigne (=cultures avec tournière).<br><br>Si vous souhaitez modifier les informations associées à ces productions (nom, contours, tournières) par la suite,vous devrez le faire depuis le module “Production”.<br><br>Pour cela :<br>- vous devrez sélectionner la ou les activités concernées depuis le module Production>Activités (les productions de vigne créées seront listées en bas de chaque activité) <br>- vous pourrez ensuite cliquer sur la production, puis “Modifier” pour éditer les contours ou créer les tournières sur vos parcelles culturales<br><br><b>Note: l’ajout de tournières sur une production devra être effectué avant toute intervention sur la culture</b>"
+    delete_cvi_cultivable_zone_header: "Supprimer la Zone Cultivable"
+    delete_cvi_cultivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
     reset_cvi_cutlivable_zone_header: "Réinitialiser le parcellaire d'une Zone cultivable"
     reset_cvi_cutlivable_zone_body: "<b>Attention !</b><br>Vous allez réinitialiser le parcellaire de cette Zone cultivable. Si vous confirmez, toutes les modifications déjà enregistrées seront perdues.<br><br>Souhaitez-vous confirmer cette réinitialisation?"
     delete_cvi_cadastral_plant_header: "Supprimer une parcelle cadastrale de votre CVI"
@@ -1962,6 +1974,9 @@ fra:
     forecast_harvest_week: "Semaine de récolte"
     france_maaid: "N° AMM" #?
     from: "À partir du"
+    from_current_year: "À partir du"
+    to_next_year: "Au"
+    production_campaign_period: "Campagne annuelle de production"
     from_to_date: "du %{from} au %{to}"
     fruit_yield: "Rendement fruit" #?
     full_name: "Client" #?
@@ -2618,7 +2633,7 @@ fra:
     production_cost: "Coût de production"
     production_costs: "Coûts de production"
     production_distribution: "Répartition de la production"
-    production_nature: "Type de production"
+    production_nature: "Production de référence"
     production_others_charges: "Autres charges"
     production_purchases: "Achats d'approvisionnements"
     production_support: "Support de production"
@@ -3440,7 +3455,8 @@ fra:
       one: "%{count} an"
       other: "%{count} ans"
     y: "Oui" #?
-    year: "Année"
+    year: "an"
+    year_long: "année"
     year_end: "Fin d'exercice"
     year_start: "Début d'exercice"
     yearly: "Annuelle" #?

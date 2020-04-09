@@ -45,5 +45,31 @@ require 'test_helper'
 
 class CultivableZoneTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   test_model_actions
-  # Add tests here...
+  
+  describe "#find_or_create_with_cvi_cz" do
+  let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, shape: 'POLYGON ((-0.2532838 45.77936779560541, -0.252766 45.78065979560589, -0.25263 45.78060929560586, -0.2531422999999999 45.77933279560539, -0.2532838 45.77936779560541))') }
+
+    it 'create new cultivable zone with correct attributes' do
+      returned_cultivable_zone = CultivableZone.find_or_create_with_cvi_cz(cvi_cultivable_zone)
+      assert_equal cvi_cultivable_zone.name, returned_cultivable_zone.name
+      assert_equal "Convert from CVI ID : #{cvi_cultivable_zone.cvi_statement_id}", returned_cultivable_zone.description
+      assert_equal cvi_cultivable_zone.shape, returned_cultivable_zone.shape
+    end
+
+    describe "there is a cultivable_zone with the same shape as cvi_cultivable_zone" do
+      it 'return the existing cultivable zone' do
+        cultivable_zone = create(:cultivable_zone, shape: 'POLYGON ((-0.2532838 45.77936779560541, -0.252766 45.78065979560589, -0.25263 45.78060929560586, -0.2531422999999999 45.77933279560539, -0.2532838 45.77936779560541))')
+        returned_cultivable_zone = CultivableZone.find_or_create_with_cvi_cz(cvi_cultivable_zone)
+        assert_equal cultivable_zone.id, returned_cultivable_zone.id
+      end
+    end 
+
+    describe "there is a cultivable_zone with the same name as cvi_cultivable_zone" do
+      it 'return the existing cultivable zone' do
+        cultivable_zone = create(:cultivable_zone, name: cvi_cultivable_zone.name)
+        returned_cultivable_zone = CultivableZone.find_or_create_with_cvi_cz(cvi_cultivable_zone)
+        assert_equal cultivable_zone.id, returned_cultivable_zone.id
+      end
+    end 
+  end
 end

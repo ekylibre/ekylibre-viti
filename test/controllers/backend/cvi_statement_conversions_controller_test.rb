@@ -2,7 +2,16 @@ require 'test_helper'
 
 module Backend
   class CviStatementConversionsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
-    test_restfully_all_actions class_name: 'CviStatement', except: %i[show create reset]
+    test_restfully_all_actions class_name: 'CviStatement', except: %i[show create reset convert_modal]
+
+    describe('#convert_modal') do
+      let(:cvi_statement) { create(:cvi_statement,) }
+
+      it 'gets convert_modal' do
+        xhr :get, :convert_modal, id: cvi_statement.id, format: :js
+        assert_response :success
+      end
+    end
 
     describe '#show' do
       let(:invalid_cvi_statement) { create(:cvi_statement) }

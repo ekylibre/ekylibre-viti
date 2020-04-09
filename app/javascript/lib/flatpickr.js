@@ -30,7 +30,7 @@ function baseDateOptions(element) {
     dateFormat: 'Y-m-d',
     altInput: true,
     allowInput: true,
-    altFormat: 'd-m-Y',
+    altFormat: element.dataset.altFormat || 'd-m-Y',
     static: true
   }
 }
@@ -70,6 +70,7 @@ export function enableDatePicker(element) {
 
   const options = baseDateOptions(element)
   const flatInstance = flatpickr(element, options)
+  flatInstance.calendarContainer.classList.add('day-names-hidden','year-hidden')
 
   setupBlurListener(flatInstance)
 

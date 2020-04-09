@@ -455,6 +455,11 @@ activity_productions:
     references: cultivable_zone
   custom_fields:
     type: jsonb
+  headland_shape:
+    type: geometry
+    limit:
+      srid: 4326
+      type: geometry
   id:
     type: integer
     required: true
@@ -469,6 +474,11 @@ activity_productions:
     type: boolean
     required: true
     default: false
+  planting_campaign_id:
+    type: integer
+    references: campaign
+  providers:
+    type: jsonb
   rank_number:
     type: integer
     required: true
@@ -7316,7 +7326,11 @@ products:
     type: integer
   picture_updated_at:
     type: datetime
+  providers:
+    type: jsonb
   reading_cache:
+    type: jsonb
+  specie_variety:
     type: jsonb
   team_id:
     type: integer
@@ -7325,6 +7339,8 @@ products:
     type: integer
     references: tracking
   type:
+    type: string
+  type_of_occupancy:
     type: string
   updated_at:
     type: datetime

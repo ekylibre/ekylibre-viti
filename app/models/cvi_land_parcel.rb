@@ -10,6 +10,7 @@ class CviLandParcel < Ekylibre::Record::Base
   belongs_to :designation_of_origin, class_name: 'RegisteredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
   belongs_to :vine_variety, class_name: 'MasterVineVariety', foreign_key: :vine_variety_id
   has_many :locations, as: :localizable, dependent: :destroy
+  belongs_to :activity
   validates :inter_row_distance_value, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 500 }, allow_blank: true
   validates :inter_vine_plant_distance_value, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 200 }, allow_blank: true
   has_many :land_parcel_rootstocks, as: :land_parcel, dependent: :destroy

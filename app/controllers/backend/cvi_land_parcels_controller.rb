@@ -11,6 +11,7 @@ module Backend
 
     def update
       return unless @cvi_land_parcel = find_and_check(:cvi_land_parcel)
+      @cvi_cultivable_zone = @cvi_land_parcel.cvi_cultivable_zone
 
       @cvi_land_parcel.attributes = update_params
       if @cvi_land_parcel.save
@@ -31,6 +32,7 @@ module Backend
     def update_multiple
       @cvi_land_parcels = CviLandParcel.find(params[:ids])
       @cvi_land_parcel = CviLandParcel.new(update_multiple_params)
+      @cvi_cultivable_zone = @cvi_land_parcels.first.cvi_cultivable_zone
       unless @cvi_land_parcel.valid_for_update_multiple?
         notify_error_now :records_cannot_be_saved.tl
         response.headers['X-Return-Code'] = 'invalid'
@@ -50,6 +52,7 @@ module Backend
 
     def group
       cvi_land_parcels = CviLandParcel.joins(:locations).where(id: params[:cvi_land_parcel_ids]).distinct
+      @cvi_cultivable_zone = cvi_land_parcels.first.cvi_cultivable_zone
       result = GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
       if result.success?
         notify_now(:grouped, name_pluralized: CviLandParcel.model_name.human.pluralize.downcase)
@@ -70,6 +73,7 @@ module Backend
 
     def split
       cvi_land_parcel = CviLandParcel.find(params[:id])
+      @cvi_cultivable_zone = cvi_land_parcel.cvi_cultivable_zone
       new_cvi_land_parcels_params = params[:new_cvi_land_parcels].values.map do |h|
         h['shape'] = Charta.new_geometry(h['shape']).to_rgeo
         h
@@ -86,12 +90,12 @@ module Backend
 
     private
       def update_params
-        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :land_modification_date, :rootstock_id)
+        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :activity_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :land_modification_date, :rootstock_id)
               .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
       end
 
       def update_multiple_params
-        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :land_modification_date, :rootstock_id)
+        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :activity_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :land_modification_date, :rootstock_id)
       end
   end
 end

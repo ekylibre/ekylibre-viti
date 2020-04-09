@@ -288,6 +288,8 @@ class PlantDecorator < ProductDecorator
   end
 
   def divider_costs(costs, divider)
+    return costs if divider.zero?
+
     costs.each { |key, value| costs[key] = value / divider }
   end
 

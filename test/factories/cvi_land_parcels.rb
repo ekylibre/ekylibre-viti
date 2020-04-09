@@ -37,6 +37,10 @@ FactoryBot.define do
       end
     end
 
+    trait :with_activity do
+      activity
+    end
+
     trait :with_cvi_cadastral_plant do
       after(:create) do |resource|
         cvi_cadastral_plant = create(:cvi_cadastral_plant)

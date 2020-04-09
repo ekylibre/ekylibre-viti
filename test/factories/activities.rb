@@ -3,6 +3,14 @@ FactoryBot.define do
     sequence(:name)  { |n| "Fake Activity #{n}" }
     family           { :plant_farming }
     production_cycle { :annual }
+    production_started_on { Date.today - rand(10000) }
+    production_stopped_on { Date.today + rand(10000) }
+  end
+
+  trait :perennial do
+    production_cycle { :perennial }
+    start_state_of_production { {"3": "n_3_4_leaf"} }
+    life_duration { 30 }
   end
 
   factory :corn_activity, class: Activity do

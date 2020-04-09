@@ -4,11 +4,18 @@
 
     init: ->
       E.list.bindCellsClickToCenterLayer('cvi_land_parcels', 2)
+      this.translateActivity()
       this.addButtons()
       this.selectedCviLandParcels = []
       this.bindEditMultipleButton()
       this.bindCheckBoxes()
-  
+
+    translateActivity: ->
+      activity = $('[id^=cvi_land_parcels] tr td.c14').html()
+      if activity == "not_defined"
+        $('[id^=cvi_land_parcels] tr td.c14').html(I18n.t("front-end.active_list.labels.not_defined"))
+
+
     manageButtons: ->
       $groupButton =  $('.group-cvi-land-parcels')
       $cutButton = $('.cut-cvi-land-parcel')

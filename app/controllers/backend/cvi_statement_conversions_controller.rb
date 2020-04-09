@@ -34,6 +34,21 @@ module Backend
       redirect_to action: 'show', id: cvi_statement.id
     end
 
+    def convert_modal; end
+
+    def convert
+      cvi_statement = CviStatement.find(params[:id])
+      result = ConvertCvi.call(cvi_statement_id: cvi_statement.id)
+      if result.success?
+        cvi_statement.update(state: :converted)
+        notify(:cvi_converted.tl)
+        redirect_to backend_cvi_statements_path
+      else
+        notify_error(result.error)
+        redirect_to action: 'show', id: cvi_statement.id
+      end
+    end
+
     private
 
     def cvi_cultivable_zones_exist?
