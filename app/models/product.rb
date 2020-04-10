@@ -166,6 +166,9 @@ class Product < Ekylibre::Record::Base
 
   enumerize :type_of_occupancy, in: %i[owner rent sharecropper], predicates: true
 
+  serialize :specie_variety, HashSerializer
+  store_accessor :specie_variety, :specie_variety_name
+
   # find Product by work_numbers (work_numbers must be an Array)
   scope :of_work_numbers, lambda { |work_numbers|
     where(work_number: work_numbers)

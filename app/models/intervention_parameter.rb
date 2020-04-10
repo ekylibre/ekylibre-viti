@@ -67,6 +67,9 @@ class InterventionParameter < Ekylibre::Record::Base
   belongs_to :intervention, inverse_of: :parameters
   belongs_to :usage, class_name: 'RegisteredPhytosanitaryUsage'
 
+  serialize :specie_variety, HashSerializer
+  store_accessor :specie_variety, :specie_variety_name
+
   has_interval :allowed_entry_factor, :allowed_harvest_factor
 
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
