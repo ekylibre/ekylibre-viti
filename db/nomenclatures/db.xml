@@ -36,6 +36,7 @@
       <item name="grind" parameters="variety"/>
       <item name="grow"/>
       <item name="harvest" parameters="variety"/>
+      <item name="heat"/>
       <item name="hoe"/>
       <item name="implant"/>
       <item name="inseminate" parameters="variety"/>

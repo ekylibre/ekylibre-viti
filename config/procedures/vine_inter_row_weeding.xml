@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<procedures xmlns="http://www.ekylibre.org/XML/2013/procedures">
+  <procedure name="vine_inter_row_weeding" categories="vine_soil_working_and_maintenance" actions="weeding" optional-actions="herbicide" position="60">
+    <parameters>
+      <target name="cultivation" filter="(is vitis or is land_parcel) and has indicator shape">
+        <attribute name="working_zone" default-value="PRODUCT.shape" if="PRODUCT?"/>
+      </target>
+      <input name="energy" filter="is gas" cardinality="*">
+        <handler name="population"/>
+      </input>
+      <input name="plant_medicine" filter="is preparation and can care(plant)" display-status="miscibility" cardinality="*">
+        <handler name="population"/>
+        <handler indicator="net_mass" unit="kilogram"
+                 if="population_counting_is(PRODUCT, :decimal) > 0 and PRODUCT..net_mass? and (usage_unit_name_include(PRODUCT, 'kilogram') == 1)"
+                 backward="POPULATION * PRODUCT..net_mass(kilogram)"
+                 forward="VALUE / PRODUCT..net_mass(kilogram)"/>
+        <handler indicator="net_volume" unit="liter"
+                 if="population_counting_is(PRODUCT, :decimal) > 0 and PRODUCT..net_volume? and (usage_unit_name_include(PRODUCT, 'liter') == 1)"
+                 backward="POPULATION * PRODUCT..net_volume(liter)"
+                 forward="VALUE / PRODUCT..net_volume(liter)"/>
+        <handler indicator="mass_area_density" unit="kilogram_per_hectare"
+                 if="(sum_working_zone_areas(cultivation) != 0) and PRODUCT..net_mass? and (usage_unit_name_include(PRODUCT, 'kilogram') == 1)"
+                 backward="(POPULATION * PRODUCT..net_mass(kilogram)) / sum_working_zone_areas(cultivation, :hectare)"
+                 forward="(VALUE * sum_working_zone_areas(cultivation, :hectare)) / PRODUCT..net_mass(kilogram)"/>
+        <handler indicator="volume_area_density" unit="liter_per_hectare"
+                 if="PRODUCT..net_volume? and sum_working_zone_areas(cultivation) != 0 and (usage_unit_name_include(PRODUCT, 'liter') == 1)"
+                 backward="(POPULATION * PRODUCT..net_volume(liter)) / sum_working_zone_areas(cultivation, :hectare)"
+                 forward="(VALUE * sum_working_zone_areas(cultivation, :hectare)) / PRODUCT..net_volume(liter)"/>
+        <attribute name="usage_id" />
+        <attribute name="allowed_entry_factor" />
+        <attribute name="allowed_harvest_factor" />
+      </input>
+      <doer name="driver" filter="can drive(equipment) and can move" cardinality="*"/>
+      <doer name="worker" filter="is worker" cardinality="*"/>
+      <tool name="tractor" filter="can tow(equipment) and can move" cardinality="*"/>
+      <tool name="gaz_engine" filter="can store_gaz and can kill(plant)" cardinality="*"/>
+      <tool name="sprayer" filter="can spray" cardinality="*"/>
+    </parameters>
+  </procedure>
+</procedures>

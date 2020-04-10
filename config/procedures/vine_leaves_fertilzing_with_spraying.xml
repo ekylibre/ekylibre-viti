@@ -56,7 +56,7 @@
       </input>
       <doer name="driver" filter="can drive(tractor) and can move" cardinality="*"/>
       <tool name="tractor" filter="is equipment and can catch(equipment)" cardinality="*"/>
-      <tool name="sprayer" filter="can spray" cardinality="*"/>
+      <tool name="sprayer" filter="is equipment and can spray" cardinality="*"/>
     </parameters>
   </procedure>
 </procedures>
