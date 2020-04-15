@@ -6,7 +6,7 @@ class UpdateVineStockBudCharge < ActiveRecord::Migration
         execute <<-SQL
           UPDATE product_natures
           SET variable_indicators_list = 'certification, certification_label, complanted_vine_stock, dead_vine_stock, layered_vine_stock, missing_vine_stock, plants_count, plants_interval, plant_life_state, vine_stock_bud_charge, rows_interval, shape, vine_pruning_system'
-          WHERE reference_name = 'wine_crop' AND imported_from = 'Nomenclature'
+          WHERE reference_name = 'vine_crop' AND imported_from = 'Nomenclature'
         SQL
 
         # Update indicator rootstock_variety instead of woodstock_variety
