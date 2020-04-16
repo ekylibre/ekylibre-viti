@@ -231,16 +231,6 @@ class ActivityProduction < Ekylibre::Record::Base
     end.flatten.uniq
   end
 
-  def computed_support_name
-    list = []
-    list << cultivable_zone.name if cultivable_zone
-    list << campaign.name if campaign
-    list << activity.name
-    list << :rank.t(number: rank_number)
-    list.reverse! if 'i18n.dir'.t == 'rtl'
-    list.join(' ')
-  end
-
   # compile unique work_number for support
   # a : P_ for Parcel
   # b : First letter of activity cultivation variety (v for vitis_vinifera, t for triticum)
@@ -291,8 +281,8 @@ class ActivityProduction < Ekylibre::Record::Base
       end
       self.support ||= LandParcel.new
     end
-    support.name ||= name
-    support.initial_shape ||= self.support_shape
+    support.name = name
+    support.initial_shape = self.support_shape
 
     if self.activity && self.cultivable_zone
       support.work_number = computed_work_number
@@ -730,14 +720,16 @@ class ActivityProduction < Ekylibre::Record::Base
     interactor = NamingFormats::LandParcels::BuildActivityProductionNameInteractor
                  .call(activity_production: self)
 
-    return interactor.build_name if interactor.success?
-    if interactor.fail?
+    if interactor.success?
+      interactor.build_name
+    #interactor is not loaded before the rake first run task
+    else
       list = []
+      list << cultivable_zone.name if cultivable_zone && (plant_farming? || vine_farming?)
       list << activity.name
       list << campaign.harvest_year.to_s if activity.annual? && started_on
       # list << started_on.to_date.l(format: :month) if activity.annual? && started_on
-      list << cultivable_zone.name if cultivable_zone && plant_farming?
-      # list << :rank.t(number: rank_number)
+      list << :rank.t(number: rank_number)
       list = list.reverse! if 'i18n.dir'.t == 'rtl'
       list.join(' ')
     end
