@@ -24,6 +24,7 @@ class CviLandParcel < Ekylibre::Record::Base
   enumerize :state, in: %i[planted removed_with_authorization], predicates: true
 
   validates_presence_of :name, :inter_row_distance_value, :inter_vine_plant_distance_value, :vine_variety_id
+  validates :activity_id, presence: true, on: :update
 
   def updated?
     updated_at != created_at
