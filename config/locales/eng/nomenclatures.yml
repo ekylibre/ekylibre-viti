@@ -555,6 +555,7 @@ eng:
         processing: "Processing"
         service_delivering: "Service delivering"
         tool_maintaining: "Tool maintaining"
+        vine_farming: "Vine farming"
         wine_making: "Wine making"
       name: "Activity families"
       property_natures:
