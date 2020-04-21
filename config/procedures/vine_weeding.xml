@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <procedures xmlns="http://www.ekylibre.org/XML/2013/procedures">
-  <procedure name="vine_inter_row_weeding" categories="vine_soil_working_and_maintenance" actions="weeding" optional-actions="herbicide" position="60">
+  <procedure name="vine_weeding" categories="vine_soil_working_and_maintenance" actions="weeding" optional-actions="herbicide" position="60">
     <parameters>
       <target name="cultivation" filter="(is vitis or is land_parcel) and has indicator shape">
         <attribute name="working_zone" default-value="PRODUCT.shape" if="PRODUCT?"/>

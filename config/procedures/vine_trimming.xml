@@ -7,7 +7,7 @@
       </target>
       <doer name="driver" filter="is worker and can drive(equipment) and can move" cardinality="*"/>
       <doer name="worker" filter="is worker and can move" cardinality="*"/>
-      <tool name="vine_trimmer" filter="is equipment" cardinality="*"/>
+      <tool name="vine_trimmer" filter="is equipment and can cut" cardinality="*"/>
     </parameters>
   </procedure>
 </procedures>

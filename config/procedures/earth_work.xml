@@ -5,9 +5,6 @@
       <target name="cultivation" filter="is land_parcel and has indicator shape">
         <attribute name="working_zone" default-value="PRODUCT.shape" if="PRODUCT?"/>
       </target>
-      <input name="candles" filter="is matter" cardinality="*">
-        <handler name="population"/>
-      </input>
       <doer name="driver" filter="can drive(equipment) and can move" cardinality="*"/>
       <tool name="tractor" filter="is equipment and can move" cardinality="*"/>
     </parameters>

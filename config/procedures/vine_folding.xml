@@ -6,7 +6,7 @@
         <attribute name="working_zone" default-value="PRODUCT.shape" if="PRODUCT?"/>
       </target>
       <doer name="worker" filter="is worker and can move" cardinality="*"/>
-      <tool name="hand_tying" filter="is equipment" cardinality="*"/>
+      <tool name="hand_tying" filter="is equipment and can tie(plant)" cardinality="*"/>
     </parameters>
   </procedure>
 </procedures>
