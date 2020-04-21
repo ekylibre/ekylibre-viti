@@ -28,6 +28,7 @@
       <item name="drive" parameters="variety"/>
       <item name="earth_up"/>
       <item name="enclose"/>
+      <item name="extract" parameters="variety"/>
       <item name="feed" parameters="variety"/>
       <item name="fermentize" parameters="variety"/>
       <item name="fertilize"/>
@@ -67,6 +68,7 @@
       <item name="store_liquid"/>
       <item name="sulfurize" parameters="variety"/>
       <item name="tamp"/>
+      <item name="tie" parameters="variety"/>
       <item name="tow" parameters="variety"/>
       <item name="treat" parameters="issue_nature, variety"/>
       <item name="uncompact"/>
@@ -2762,11 +2764,13 @@
       <item name="greasing"/>
       <item name="greenhouse_assembling"/>
       <item name="growth_regulator"/>
+      <item name="hail_protection"/>
       <item name="handling"/>
       <item name="hardpan_destruction"/>
       <item name="harvest"/>
       <item name="heading"/>
       <item name="herbicide"/>
+      <item name="herbicide_protection"/>
       <item name="hilling"/>
       <item name="hilling_for_sifting"/>
       <item name="hoof_trimming"/>
@@ -2820,6 +2824,7 @@
       <item name="residue_destruction"/>
       <item name="ridging"/>
       <item name="rodenticide"/>
+      <item name="rodent_protection"/>
       <item name="second_lifting"/>
       <item name="seedbed_preparing"/>
       <item name="semen_collecting"/>
