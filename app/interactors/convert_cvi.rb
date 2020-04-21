@@ -75,7 +75,6 @@ class ConvertCvi < ApplicationInteractor
         certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra
 
         plant = Plant.create!(variant_id: variant.id,
-                              work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
                               name: "#{name}#{index}",
                               initial_born_at: start_at,
                               initial_dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
