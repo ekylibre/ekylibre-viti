@@ -1116,6 +1116,7 @@ fra:
     rootstock: "Porte-greffe"
     major: "majoritaire"
     percentage: "Répartition"
+    year: "Année"
     planting_campaign: "Campagne de plantation"
     cadastral_reference: "Ref. cadastrale"
     vine_area: "Superficie encépagée"
