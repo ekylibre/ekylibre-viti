@@ -4074,6 +4074,8 @@ intervention_parameters:
   reference_name:
     type: string
     required: true
+  specie_variety:
+    type: jsonb
   type:
     type: string
   unit_pretax_stock_amount:
