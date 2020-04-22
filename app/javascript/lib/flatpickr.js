@@ -20,6 +20,8 @@ const locales = {
   zh: Mandarin
 }
 
+const DEFAULT_ELEMENT_CLASS_LIST = ["date", "required", "flatpickr-input"];
+
 function getLocale(element) {
   return locales[element.lang || I18n.locale.substr(0, 2)]
 }
@@ -70,29 +72,32 @@ export function enableDatePicker(element) {
 
   const options = baseDateOptions(element)
   const flatInstance = flatpickr(element, options)
-  flatInstance.calendarContainer.classList.add('day-names-hidden','year-hidden')
+  const elementClassList = [...element.classList].filter(function (value) {
+    return !DEFAULT_ELEMENT_CLASS_LIST.includes(value);
+  });
+  flatInstance.calendarContainer.classList.add(...elementClassList);
 
-  setupBlurListener(flatInstance)
+  setupBlurListener(flatInstance);
 
-  return flatInstance
+  return flatInstance;
 }
 
 export function enableDatetimePicker(element) {
-  const options = baseDateTimeOptions(element)
-  const flatInstance = flatpickr(element, options)
+  const options = baseDateTimeOptions(element);
+  const flatInstance = flatpickr(element, options);
 
-  setupBlurListener(flatInstance)
+  setupBlurListener(flatInstance);
 
-  return flatInstance
+  return flatInstance;
 }
 
 export function enableDateRangePicker(element) {
-  element.type = 'text'
+  element.type = "text";
 
-  const options = baseDateRangeOptions(element)
-  const flatInstance = flatpickr(element, options)
+  const options = baseDateRangeOptions(element);
+  const flatInstance = flatpickr(element, options);
 
-  setupBlurListener(flatInstance)
+  setupBlurListener(flatInstance);
 
-  return flatInstance
+  return flatInstance;
 }

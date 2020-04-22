@@ -115,7 +115,7 @@ class Activity < Ekylibre::Record::Base
   scope :actives, -> { availables.where(id: ActivityProduction.where(state: :opened).select(:activity_id)) }
   scope :availables, -> { where.not('suspended') }
   scope :main, -> { where(nature: 'main') }
-  scope :wine, -> { where(cultivation_variety: 'vitis') }
+  scope :wine, -> { where(family: 'vine_farming') }
 
   scope :of_campaign, lambda { |campaign|
     if campaign

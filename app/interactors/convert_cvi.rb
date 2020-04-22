@@ -14,14 +14,17 @@ class ConvertCvi < ApplicationInteractor
 
   def convert_cvi_land_parcel
     begin
+      activity_open_from = @cvi_statement.campaign.harvest_year
       @cvi_statement.cvi_land_parcels.each do |cvi_land_parcel|
         activity = cvi_land_parcel.activity
         unless activity
           context.fail!(error: :missing_activity_on_cvi_land_parcel)
         end
 
+        (activity_open_from..Campaign.at.first.harvest_year).to_a.each do |harvest_year|
+          activity.budgets.find_or_create_by!(campaign: Campaign.of(harvest_year))
+        end
         planting_campaign = Campaign.of(cvi_land_parcel.planting_campaign)
-
         # 1 Find or create a cultivable zone with cvi cultivable CultivableZone
         cultivable_zone = CultivableZone.find_or_create_with_cvi_cz(cvi_land_parcel.cvi_cultivable_zone)
 
@@ -72,7 +75,6 @@ class ConvertCvi < ApplicationInteractor
         certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra if cvi_land_parcel.designation_of_origin
 
         plant = Plant.create!(variant_id: variant.id,
-                              work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
                               name: "#{name}#{index}",
                               initial_born_at: start_at,
                               initial_dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
