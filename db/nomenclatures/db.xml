@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<nomenclatures xmlns="http://www.ekylibre.org/XML/2013/nomenclatures" version="20200325091205">
+<nomenclatures xmlns="http://www.ekylibre.org/XML/2013/nomenclatures" version="20200205094010">
   <nomenclature name="abilities" translateable="true">
     <properties>
       <property name="parameters" type="choice_list" choices="variety, issue_nature"/>
@@ -28,6 +28,7 @@
       <item name="drive" parameters="variety"/>
       <item name="earth_up"/>
       <item name="enclose"/>
+      <item name="extract" parameters="variety"/>
       <item name="feed" parameters="variety"/>
       <item name="fermentize" parameters="variety"/>
       <item name="fertilize"/>
@@ -36,6 +37,7 @@
       <item name="grind" parameters="variety"/>
       <item name="grow"/>
       <item name="harvest" parameters="variety"/>
+      <item name="heat"/>
       <item name="hoe"/>
       <item name="implant"/>
       <item name="inseminate" parameters="variety"/>
@@ -66,6 +68,7 @@
       <item name="store_liquid"/>
       <item name="sulfurize" parameters="variety"/>
       <item name="tamp"/>
+      <item name="tie" parameters="variety"/>
       <item name="tow" parameters="variety"/>
       <item name="treat" parameters="issue_nature, variety"/>
       <item name="uncompact"/>
@@ -2303,7 +2306,6 @@
       <item name="relative_humidity" datatype="measure" unit="percent" sampling_temporal_mode="instant"/>
       <item name="reproductor" datatype="boolean"/>
       <item name="residue_elimination_method" datatype="choice" choices="residue_elimination_methods"/>
-      <item name="rootstock_bud_charge" datatype="integer"/>
       <item name="rootstock_variety" datatype="string"/>
       <item name="rows_count" datatype="integer"/>
       <item name="rows_interval" datatype="measure" unit="meter"/>
@@ -2348,6 +2350,7 @@
       <item name="width" datatype="measure" unit="meter"/>
       <item name="wind_direction" datatype="measure" unit="degree" sampling_temporal_mode="instant"/>
       <item name="wind_speed" datatype="measure" unit="kilometer_per_hour" sampling_temporal_mode="instant"/>
+      <item name="vine_stock_bud_charge" datatype="integer"/>
       <item name="witness" datatype="string"/>
       <item name="working_lifespan" datatype="measure" unit="hour"/>
       <item name="zinc_concentration" datatype="measure" unit="parts_per_million"/>
@@ -2713,6 +2716,7 @@
       <item name="bactericide"/>
       <item name="biostimulation"/>
       <item name="bird_repellent"/>
+      <item name="braiding"/>
       <item name="bridge_construction"/>
       <item name="building_construction"/>
       <item name="building_extension_construction"/>
@@ -2731,6 +2735,7 @@
       <item name="detasseling"/>
       <item name="disease_protection"/>
       <item name="disease_treatment"/>
+      <item name="doubling"/>
       <item name="drainage_improvement"/>
       <item name="drainage_system_installation"/>
       <item name="draining"/>
@@ -2743,8 +2748,11 @@
       <item name="fermentation"/>
       <item name="fertilization"/>
       <item name="field_plant_sorting"/>
+      <item name="finishing_rerun"/>
       <item name="fireproofing"/>
+      <item name="first_lifting"/>
       <item name="food_preparation"/>
+      <item name="folding"/>
       <item name="forest_grinding"/>
       <item name="frost_protection"/>
       <item name="fuel_up"/>
@@ -2756,10 +2764,13 @@
       <item name="greasing"/>
       <item name="greenhouse_assembling"/>
       <item name="growth_regulator"/>
+      <item name="hail_protection"/>
       <item name="handling"/>
       <item name="hardpan_destruction"/>
       <item name="harvest"/>
+      <item name="heading"/>
       <item name="herbicide"/>
+      <item name="herbicide_protection"/>
       <item name="hilling"/>
       <item name="hilling_for_sifting"/>
       <item name="hoof_trimming"/>
@@ -2813,6 +2824,8 @@
       <item name="residue_destruction"/>
       <item name="ridging"/>
       <item name="rodenticide"/>
+      <item name="rodent_protection"/>
+      <item name="second_lifting"/>
       <item name="seedbed_preparing"/>
       <item name="semen_collecting"/>
       <item name="semen_freezing"/>
@@ -2831,13 +2844,17 @@
       <item name="swathing"/>
       <item name="talpicide"/>
       <item name="temperature_improvement"/>
+      <item name="topping"/>
       <item name="topkilling"/>
       <item name="tractor_troubleshooting"/>
       <item name="transportation"/>
+      <item name="trimming"/>
       <item name="troubleshooting"/>
+      <item name="trunking"/>
       <item name="tunnel_installation"/>
       <item name="tunnel_removal"/>
       <item name="tunnel_removing"/>
+      <item name="tying"/>
       <item name="upgrading_maintenance"/>
       <item name="virucide"/>
       <item name="water_flow_improvement"/>
@@ -4292,7 +4309,7 @@
       <item name="vegetable_crop" category="crop" variety="plant" population_counting="decimal" abilities="consume(water), consume(preparation), produce(vegetable)" variable_indicators="fresh_mass, plant_life_state, plant_reproduction_state, plants_count, shape, tiller_count" frozen_indicators="net_surface_area" derivatives="vegetable" nature="crop"/>
       <item name="vegetals_making_services" category="vegetals_making_services" variety="service" population_counting="decimal" variable_indicators="" nature="fee_and_service"/>
       <item name="vial" category="animal_reproduction" variety="vial" derivative_of="animal" population_counting="integer" abilities="inseminate(animal)" variable_indicators="economical_milk_index, sex, unique_synthesis_index" nature="article"/>
-      <item name="vine_crop" category="crop" variety="vitis" population_counting="decimal" abilities="consume(water), consume(preparation), produce(fruit), produce(straw)" variable_indicators="certification, certification_label, complanted_vine_stock, dead_vine_stock, layered_vine_stock, missing_vine_stock, plants_count, plants_interval, plant_life_state, rootstock_bud_charge, rows_interval, shape, vine_pruning_system" frozen_indicators="net_surface_area" derivatives="fruit, straw" nature="crop"/>
+      <item name="vine_crop" category="crop" variety="vitis" population_counting="decimal" abilities="consume(water), consume(preparation), produce(fruit), produce(straw)" variable_indicators="certification, certification_label, complanted_vine_stock, dead_vine_stock, layered_vine_stock, missing_vine_stock, plants_count, plants_interval, plant_life_state, vine_stock_bud_charge, rows_interval, shape, vine_pruning_system" frozen_indicators="net_surface_area" derivatives="fruit, straw" nature="crop"/>
       <item name="vine_lifter" category="equipment" variety="equipment" population_counting="unitary" abilities="remove(vitis)" nature="equipment"/>
       <item name="vine_shoot_extractor" category="equipment" variety="equipment" population_counting="unitary" frozen_indicators="rows_count" abilities="remove(matter)" nature="equipment"/>
       <item name="walnut" category="fruit" variety="walnut" derivative_of="juglans" population_counting="decimal" variable_indicators="impurity_concentration, water_content_rate" frozen_indicators="net_mass" nature="article"/>
@@ -4421,10 +4438,7 @@
   </nomenclature>
   <nomenclature name="production_systems" translateable="true">
     <items>
-      <item name="biodynamic_agriculture"/>
-      <item name="conservation_agriculture"/>
       <item name="extensive_farming"/>
-      <item name="integrated_agriculture"/>
       <item name="intensive_farming"/>
       <item name="organic_farming"/>
       <item name="permaculture"/>

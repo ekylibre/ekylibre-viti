@@ -1,6 +1,7 @@
 module Backend
   class CviLandParcelsController < Backend::CviBaseController
     manage_restfully only: %i[edit]
+    before_action :find_vine_default_production_id, only: %i[edit edit_multiple]
 
     def index
       records = CviCultivableZone.find(params[:id]).cvi_land_parcels.collect do |r|
@@ -86,6 +87,10 @@ module Backend
         notify_error(result.error)
         render partial: 'notify'
       end
+    end
+
+    def find_vine_default_production_id
+      @vine_default_production_id = MasterProductionNature.find_by(specie: 'vitis')&.id
     end
 
     private

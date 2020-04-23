@@ -10,10 +10,6 @@
       success: (data, status, request) ->
         map.mapeditor('edit', data.shape, true)
 
-  $(document).on "selector:change", "#activity_family", (event)->
-    element = $(this)
-    activityFamily = element.selector('value')
-
   $(document).on "change", "input[type=radio][name='activity[production_cycle]']", (event)->
     production_cycle_control = $(".activity_production_campaign_period")
     if this.value == 'perennial'
@@ -29,7 +25,7 @@
     $hint = $control.find("p.help-block")
     $hint.hide()
 
-  $(document).on "selector:change", "#activity_production_nature_id", (event)->
+  $(document).on "selector:change selector:set", "#activity_production_nature_id", (event)->
     element = $(this)
     id = element.selector('value')
     options =
@@ -114,6 +110,7 @@
 
   # Set
   $(document).on "change keyup", "select[data-activity-family]", (event)->
+    VINE_PRODUCTION_NATURE_ID = $("input#activity_production_nature_id").data('default-vine-production-id')
     select = $(this)
     form = select.closest("form")
     support_check   = form.find("#activity_with_supports")
@@ -138,6 +135,11 @@
     else
       production_nature_select.val(null)
       production_nature_control.hide()
+
+    if value == "vine_farming"
+      activity_production_selector = $('input#activity_production_nature_id')[0]
+      $(activity_production_selector).selector('value', VINE_PRODUCTION_NATURE_ID)
+
     $.ajax
       url: "/backend/activities/family.json"
       data:

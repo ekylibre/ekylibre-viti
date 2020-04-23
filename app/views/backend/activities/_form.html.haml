@@ -8,13 +8,13 @@
   - hint = content_tag :span, class: 'hint-warning' do
     %i.icon.icon-warning
     = :warning_could_not_use_ift.tl
-  = f.referenced_association :production_nature, new: false, label: :production_nature.tl,  wrapper_html: {style: "display: #{(family and family.name.in?(['plant_farming', 'vine_farming'])) ? 'block' : 'none'}"} , hint: (hint unless f.object.production_nature.present?) 
+  = f.referenced_association :production_nature, new: false, label: :production_nature.tl, :input_html => { :data => {default_vine_production_id: @vine_default_production_id}}, wrapper_html: {style: "display: #{(family and family.name.in?(['plant_farming', 'vine_farming'])) ? 'block' : 'none'}"} , hint: (hint unless f.object.production_nature.present?) 
   = f.input :with_cultivation, as: :hidden
   = f.referenced_nomenclature :cultivation_variety, required: true, collection: ((family and family.cultivation_variety.present?) ? Nomen::Variety.selection(family.cultivation_variety) : []), wrapper_html: {style: "display: #{(family and family.cultivation_variety.present?) ? 'block' : 'none'}"}
   -#= f.input :with_supports, as: :hidden
   -# = f.input :support_variety, collection: ((family and family.support_variety) ? Nomen::Variety.selection(family.support_variety) : []), wrapper_html: {style: "display: #{(family and family.support_variety) ? 'block' : 'none'}"}
   = f.input :production_cycle, as: :radio_buttons, checked:  f.object.production_cycle || 'annual'
-  = f.production_cycle_range(required: f.object.perennial?, input_html: { class: "day-year-hidden", data: {"alt-format": 'd-F'}})
+  = f.production_cycle_range(required: f.object.perennial?, input_html: { class: 'day-names-hidden year-hidden', data: {"alt-format": 'd-F'}})
   .perennial-production-cycle-options{style: "display: #{(f.object.production_cycle == 'perennial') ? 'block' : 'none'}"}
     :ruby
       if f.object.production_nature && f.object.production_nature.start_state_of_production

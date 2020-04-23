@@ -14,14 +14,17 @@ class ConvertCvi < ApplicationInteractor
 
   def convert_cvi_land_parcel
     begin
+      activity_open_from = @cvi_statement.campaign.harvest_year
       @cvi_statement.cvi_land_parcels.each do |cvi_land_parcel|
         activity = cvi_land_parcel.activity
         unless activity
           context.fail!(error: :missing_activity_on_cvi_land_parcel)
         end
 
+        (activity_open_from..Campaign.at.first.harvest_year).to_a.each do |harvest_year|
+          activity.budgets.find_or_create_by!(campaign: Campaign.of(harvest_year))
+        end
         planting_campaign = Campaign.of(cvi_land_parcel.planting_campaign)
-
         # 1 Find or create a cultivable zone with cvi cultivable CultivableZone
         cultivable_zone = CultivableZone.find_or_create_with_cvi_cz(cvi_land_parcel.cvi_cultivable_zone)
 
@@ -69,24 +72,23 @@ class ConvertCvi < ApplicationInteractor
         variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
         start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, 1, 1)
         vine_variety = cvi_land_parcel.vine_variety
-        certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra
+        certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra if cvi_land_parcel.designation_of_origin
 
         plant = Plant.create!(variant_id: variant.id,
-                              work_number: 'V_' + cvi_land_parcel.planting_campaign + '_' + cvi_land_parcel.name,
                               name: "#{name}#{index}",
                               initial_born_at: start_at,
                               initial_dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                               initial_shape: cvi_land_parcel.shape,
-                              specie_variety: { name: vine_variety.specie_name,
-                                                uuid: vine_variety.id,
-                                                providers: vine_variety.class.name },
+                              specie_variety: { specie_variety_name: vine_variety.specie_name,
+                                                specie_variety_uuid: vine_variety.id,
+                                                specie_variety_providers: vine_variety.class.name },
                               type_of_occupancy: (type_of_occupancy == 'tenant_farming' ? :rent : type_of_occupancy),
                               initial_owner: (Entity.of_company if type_of_occupancy == :owner),
                               activity_production_id: activity_production.id,
                               providers: { cvi_land_parcel_id: cvi_land_parcel.id })
         plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(cvi_land_parcel.inter_row_distance_unit.to_sym), at: start_at)
         plant.read!(:plants_interval, cvi_land_parcel.inter_vine_plant_distance_value.in(cvi_land_parcel.inter_vine_plant_distance_unit.to_sym), at: start_at)
-        plant.read!(:certification_label, certification_label, at: start_at)
+        plant.read!(:certification_label, certification_label, at: start_at) if certification_label
         plant.read!(:shape, cvi_land_parcel.shape, at: start_at, force: true)
       end
     rescue StandardError => exception

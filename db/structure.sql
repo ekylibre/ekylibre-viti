@@ -504,7 +504,8 @@ CREATE TABLE public.intervention_parameters (
     batch_number character varying,
     usage_id character varying,
     allowed_entry_factor interval,
-    allowed_harvest_factor interval
+    allowed_harvest_factor interval,
+    specie_variety jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -19908,4 +19909,12 @@ INSERT INTO schema_migrations (version) VALUES ('20200407075511');
 INSERT INTO schema_migrations (version) VALUES ('20200407090249');
 
 INSERT INTO schema_migrations (version) VALUES ('20200407172801');
+
+INSERT INTO schema_migrations (version) VALUES ('20200409094501');
+
+INSERT INTO schema_migrations (version) VALUES ('20200410183701');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415160201');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415162701');
 

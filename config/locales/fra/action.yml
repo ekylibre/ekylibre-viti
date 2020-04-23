@@ -1101,7 +1101,7 @@ fra:
         add_two_hours: "Ajouter 2h dans le cas d'une application en milieu fermé"
     production:
       start_state_of_production:
-        n_3_4_leaf: "N+3 (2ème feuille)"
+        n_3_4_leaf: "N+3 (4ème feuille)"
         n_2_3_leaf: "N+2 (3ème feuille)"
         n_4_5_leaf: "N+4 (5ème feuille"
     active_list:
@@ -1116,8 +1116,14 @@ fra:
     rootstock: "Porte-greffe"
     major: "majoritaire"
     percentage: "Répartition"
-    planting_campaign: "Année"
+    year: "Année"
+    planting_campaign: "Campagne de plantation"
     cadastral_reference: "Ref. cadastrale"
+    vine_area: "Superficie encépagée"
+    vine_variety_name: "Cépage"
+    vine_certification: "Appelation / AOP / IGP"
+    vine_plants_interval: "Inter-pied"
+    vine_rows_interval: "Inter-rang"
     abilities: "Compétences" #?
     accepted: "Acceptée"
     accepted_for_paiment: "Acceptée pour paiement"
