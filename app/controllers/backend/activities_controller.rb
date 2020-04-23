@@ -22,6 +22,8 @@ module Backend
 
     manage_restfully except: %i[index show], subclass_inheritance: true
 
+    before_action :find_vine_default_production_id, only: %i[edit new]
+
     unroll
 
     before_action :set_production_cycle_years, only: %i[update create]
@@ -172,6 +174,10 @@ module Backend
              end
       production_stopped_on = permitted_params["production_stopped_on"].to_date.change(year: year)
       permitted_params["production_stopped_on"] = production_stopped_on.to_s
+    end
+
+    def find_vine_default_production_id
+      @vine_default_production_id = MasterProductionNature.find_by(specie: 'vitis')&.id
     end
   end
 end

@@ -1,8 +1,6 @@
 ((E, $) ->
   'use strict'
 
-  VINE_PRODUCTION_NATURE_ID = 154
-
   $(document).on "selector:change", "#activity_production_cultivable_zone_id", (event)->
     element = $(this)
     id = element.selector('value')
@@ -112,6 +110,7 @@
 
   # Set
   $(document).on "change keyup", "select[data-activity-family]", (event)->
+    VINE_PRODUCTION_NATURE_ID = $("input#activity_production_nature_id").data('default-vine-production-id')
     select = $(this)
     form = select.closest("form")
     support_check   = form.find("#activity_with_supports")
