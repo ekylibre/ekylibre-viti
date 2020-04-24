@@ -13,19 +13,20 @@
   $(document).on "change", "input[type=radio][name='activity[production_cycle]']", (event)->
     production_cycle_control = $(".activity_production_campaign_period")
     if this.value == 'perennial'
-      $('.perennial-production-cycle-options').show()
       return if production_cycle_control.find('abbr').length == 1
       production_cycle_control.find('label').addClass('required').append(required_indicator())
     else
+      $('input#activity_life_duration').val(null)
+      $('select#activity_start_state_of_production').val(null)
       production_cycle_control.find('label').removeClass('required').find('abbr').remove()
-      $('.perennial-production-cycle-options').hide()
 
   $(document).on "selector:change", "#activity_production_nature_id", (event)->
     $control = $('.control-group.activity_production_nature')
     $hint = $control.find("p.help-block")
     $hint.hide()
 
-  $(document).on "selector:change selector:set", "#activity_production_nature_id", (event)->
+  $(document).on "selector:change", "#activity_production_nature_id", (event,selectedElement, was_initializing)->
+    return if was_initializing
     element = $(this)
     id = element.selector('value')
     options =
@@ -60,9 +61,7 @@
                   .attr("value", variety[1])
                   .appendTo(cultivation_select)
 
-          if data.start_state_of_production == null || data.start_state_of_production.length == 0
-            $('div.perennial-production-cycle-options').hide()
-          else
+          if data.start_state_of_production and data.start_state_of_production.length > 0
             defaultDuration = parseInt(data.start_state_of_production.match(/^(\D*)(\d+)/)[2])
             startStateOfProductions = JSON.parse(data.start_state_of_production)
             defaultStartStateOfProduction = {}
@@ -138,7 +137,7 @@
 
     if value == "vine_farming"
       activity_production_selector = $('input#activity_production_nature_id')[0]
-      $(activity_production_selector).selector('value', VINE_PRODUCTION_NATURE_ID)
+      $(activity_production_selector).selector('value', VINE_PRODUCTION_NATURE_ID).trigger("selector:change")
 
     $.ajax
       url: "/backend/activities/family.json"
