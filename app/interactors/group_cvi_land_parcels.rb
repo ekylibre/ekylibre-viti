@@ -37,7 +37,7 @@ class GroupCviLandParcels < ApplicationInteractor
     new_cvi_land_parcel = context.cvi_land_parcels.first.dup
     new_cvi_land_parcel.save!
     new_cvi_land_parcel.assign_attributes(name: name, declared_area: declared_area, shape: @new_shape)
-    new_cvi_land_parcel.save!(skip_validation: true)
+    new_cvi_land_parcel.save!(validate: false)
     context.new_cvi_land_parcel = new_cvi_land_parcel
   end
 
