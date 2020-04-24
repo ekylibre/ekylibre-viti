@@ -36,6 +36,7 @@ class CviLandParcel < Ekylibre::Record::Base
     errors.delete(:inter_vine_plant_distance_value) if errors.added?(:inter_vine_plant_distance_value, :blank)
     errors.delete(:inter_row_distance_value) if errors.added?(:inter_row_distance_value, :blank)
     errors.delete(:vine_variety_id) if errors.added?(:vine_variety_id, :blank)
+    errors.delete(:activity_id) if errors.added?(:activity_id, :blank)
     errors.empty?
   end
 

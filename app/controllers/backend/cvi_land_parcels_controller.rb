@@ -42,8 +42,8 @@ module Backend
       end
 
       @cvi_land_parcels.each do |cvi_land_parcel|
-        update_params = update_multiple_params
-        cvi_land_parcel.update!(update_params.reject { |_k, v| v.blank? })
+        cvi_land_parcel.attributes = update_multiple_params.reject { |_k, v| v.blank? }
+        cvi_land_parcel.save!(context: :update_multiple)
       end
       response.headers['X-Return-Code'] = 'success'
       notify_success(:records_x_updated_f, record: @cvi_land_parcel.model_name.human.pluralize,
