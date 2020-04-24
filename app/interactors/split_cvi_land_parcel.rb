@@ -17,7 +17,7 @@ class SplitCviLandParcel < ApplicationInteractor
       r.assign_attributes(new_cvi_land_parcel_params)
       calculated_area = Measure.new(r.shape.area, :square_meter).convert(:hectare)
       r.declared_area = context.cvi_land_parcel.declared_area * (calculated_area / context.cvi_land_parcel.calculated_area)
-      r.save!
+      r.save!(validate: false)
     end
 
     # create associated locations
