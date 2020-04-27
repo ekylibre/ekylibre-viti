@@ -1314,7 +1314,6 @@ eng:
     rootstock: "Rootstock"
     major: "main"
     percentage: "Percentage"
-    year: "Year"
     planting_campaign: "Planting campaign"
     cadastral_reference: "Cadastral reference"
     accepted: "Accepted"

@@ -1116,7 +1116,6 @@ fra:
     rootstock: "Porte-greffe"
     major: "majoritaire"
     percentage: "Répartition"
-    year: "Année"
     planting_campaign: "Campagne de plantation"
     cadastral_reference: "Ref. cadastrale"
     vine_area: "Superficie encépagée"
@@ -3462,7 +3461,7 @@ fra:
       other: "%{count} ans"
     y: "Oui" #?
     year: "an"
-    year_long: "année"
+    year_long: "Année"
     year_end: "Fin d'exercice"
     year_start: "Début d'exercice"
     yearly: "Annuelle" #?
