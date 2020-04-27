@@ -25,8 +25,7 @@
     $hint = $control.find("p.help-block")
     $hint.hide()
 
-  $(document).on "selector:change", "#activity_production_nature_id", (event,selectedElement, was_initializing)->
-    return if was_initializing
+  $(document).on "selector:change selector:set", "#activity_production_nature_id", (event,selectedElement, was_initializing)->
     element = $(this)
     id = element.selector('value')
     options =
@@ -48,40 +47,45 @@
           fpStoppedOn.calendarContainer.classList.add('day-names-hidden','year-hidden')
           period = new Date(data.stopped_on).getFullYear() - new Date(data.started_on).getFullYear()
           $('select#activity_production_campaign').val(if period == 1 then "at_cycle_end" else "at_cycle_start")
+        
+        if data.life_duration and !$('#activity_production_cycle_perennial').prop('checked') and !$('#activity_production_cycle_annual').prop('checked')
+          $('#activity_production_cycle_perennial').prop('checked', true).trigger('change')
+        
+        $.ajax
+          url: "/backend/varieties/selection.json?specie=#{data.specie}"
+          success: (data, status, request) ->
+            cultivation_select = $("select#activity_cultivation_variety")
+            cultivation_select.empty()
+            $.each data.varieties, (index, variety) ->
+              option = $("<option>")
+                .html(variety[0])
+                .attr("value", variety[1])
+                .appendTo(cultivation_select)
 
-        if data.specie
-          $.ajax
-            url: "/backend/varieties/selection.json?specie=#{data.specie}"
-            success: (data, status, request) ->
-              cultivation_select = $("select#activity_cultivation_variety")
-              cultivation_select.empty()
-              $.each data.varieties, (index, variety) ->
-                option = $("<option>")
-                  .html(variety[0])
-                  .attr("value", variety[1])
-                  .appendTo(cultivation_select)
+        if data.start_state_of_production and data.start_state_of_production.length > 0
+          defaultDuration = parseInt(data.start_state_of_production.match(/^(\D*)(\d+)/)[2])
+          startStateOfProductions = JSON.parse(data.start_state_of_production)
+          defaultStartStateOfProduction = {}
+          defaultStartStateOfProduction[defaultDuration] = startStateOfProductions[defaultDuration]
+          options = ''
+          for key,value of startStateOfProductions
+            valueObject = {}
+            valueObject[key] = value
+            tlOption = I18n.t("front-end.production.start_state_of_production.#{value}")
+            options += "<option value=#{JSON.stringify(valueObject)}>#{tlOption}</option>"
+          $('select#activity_start_state_of_production').children('option').remove()
+          $('select#activity_start_state_of_production').append(options)
+          $('select#activity_start_state_of_production').val(JSON.stringify(defaultStartStateOfProduction)) unless $('select#activity_start_state_of_production').val()
+        else
+          $('select#activity_start_state_of_production').children('option').remove()
 
-          if data.start_state_of_production and data.start_state_of_production.length > 0
-            defaultDuration = parseInt(data.start_state_of_production.match(/^(\D*)(\d+)/)[2])
-            startStateOfProductions = JSON.parse(data.start_state_of_production)
-            defaultStartStateOfProduction = {}
-            defaultStartStateOfProduction[defaultDuration] = startStateOfProductions[defaultDuration]
-            options = ''
-            for key,value of startStateOfProductions
-              valueObject = {}
-              valueObject[key] = value
-              tlOption = I18n.t("front-end.production.start_state_of_production.#{value}")
-              options += "<option value=#{JSON.stringify(valueObject)}>#{tlOption}</option>"
-            $('select#activity_start_state_of_production').children('option').remove()
-            $('select#activity_start_state_of_production').append(options)
-            $('select#activity_start_state_of_production').val(JSON.stringify(defaultStartStateOfProduction)) unless $('select#activity_start_state_of_production').val()
 
-          if data.life_duration
-            $activity_life_duration_input = $('input#activity_life_duration')
-            $('#activity_production_cycle_perennial').prop('checked', true).trigger('change')
-            $activity_life_duration_input.val(data.life_duration) unless $activity_life_duration_input.val()
-          else
-            $('#activity_production_cycle_annual').prop('checked', true).trigger('change')
+        if data.life_duration and !$('input#activity_life_duration').val()
+          $activity_life_duration_input = $('input#activity_life_duration')
+          $activity_life_duration_input.val(data.life_duration)
+        
+
+
 
   $(document).on "change keyup", ".plant-density-abacus .activity_plant_density_abaci_seeding_density_unit select", (event)->
     element = $(this)
@@ -137,7 +141,7 @@
 
     if value == "vine_farming"
       activity_production_selector = $('input#activity_production_nature_id')[0]
-      $(activity_production_selector).selector('value', VINE_PRODUCTION_NATURE_ID).trigger("selector:change")
+      $(activity_production_selector).selector('value', VINE_PRODUCTION_NATURE_ID)
 
     $.ajax
       url: "/backend/activities/family.json"
