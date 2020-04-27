@@ -1,7 +1,7 @@
 module Backend
   class CviLandParcelsController < Backend::CviBaseController
     manage_restfully only: %i[edit]
-    before_action :find_vine_default_production_id, only: %i[edit edit_multiple]
+    before_action :new_vine_activity_params, only: %i[edit edit_multiple]
 
     def index
       records = CviCultivableZone.find(params[:id]).cvi_land_parcels.collect do |r|
@@ -89,8 +89,29 @@ module Backend
       end
     end
 
-    def find_vine_default_production_id
-      @vine_default_production_id = MasterProductionNature.find_by(specie: 'vitis')&.id
+    def new_vine_activity_params
+      vine_default_production = MasterProductionNature.find_by(specie: 'vitis')
+      if vine_default_production&.start_state_of_production
+        start_state_of_production_collection = JSON.parse(vine_default_production.start_state_of_production).map do |k, v|
+          ["front-end.production.start_state_of_production.#{v}".t, ({}[k] = Hash[k, v]).to_json]
+        end
+        default = JSON.parse(vine_default_production.start_state_of_production).first
+        start_state_of_production = Hash[*default].to_json
+      end
+      @new_vine_activity_params = {
+        family: 'vine_farming',
+        production_nature_id: vine_default_production&.id,
+        cultivation_variety: 'vitis',
+        production_cycle: 'perennial',
+        production_started_on: vine_default_production&.started_on,
+        production_stopped_on: vine_default_production&.stopped_on,
+        start_state_of_production: start_state_of_production,
+        life_duration: vine_default_production&.life_duration,
+        countings_hidden: true,
+        seasons_hidden: true,
+        tactic_hidden: true,
+        start_state_of_production_collection: start_state_of_production_collection
+      }
     end
 
     private
