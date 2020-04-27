@@ -22,7 +22,7 @@ class GroupCviLandParcels < ApplicationInteractor
                                     scope: [:notifications, :messages]))
     end
     attributes_with_differente_values = ATTRIBUTES.map do |a|
-      a if context.cvi_land_parcels.collect { |r| r.try(a) }.compact.uniq.length > 1
+      a if context.cvi_land_parcels.collect { |r| r.try(a) }.compact.uniq.length >= 1
     end
     context.fail!(error: :can_not_group_cvi_land_parcels, attributes: attributes_with_differente_values.compact) if attributes_with_differente_values.any?
   end
@@ -37,7 +37,7 @@ class GroupCviLandParcels < ApplicationInteractor
     new_cvi_land_parcel = context.cvi_land_parcels.first.dup
     new_cvi_land_parcel.save!
     new_cvi_land_parcel.assign_attributes(name: name, declared_area: declared_area, shape: @new_shape)
-    new_cvi_land_parcel.save!(validate: false)
+    new_cvi_land_parcel.save!(context: :group_cvi_land_parcel)
     context.new_cvi_land_parcel = new_cvi_land_parcel
   end
 
