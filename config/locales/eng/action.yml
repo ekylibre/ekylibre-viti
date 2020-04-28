@@ -1314,7 +1314,6 @@ eng:
     rootstock: "Rootstock"
     major: "main"
     percentage: "Percentage"
-    year: "Year"
     planting_campaign: "Planting campaign"
     cadastral_reference: "Cadastral reference"
     accepted: "Accepted"
@@ -3269,7 +3268,7 @@ eng:
       record_x_updated: "%{record} %{name} updated" #?
       record_x_updated_f: "%{record} %{name} updated" #?
       record_x_updated_f: "%{record} %{name} updated" #?
-      can_not_group_cvi_land_parcels: "CVI land parcels can't be grouped, because vine variety, designation of origin, inter vine plant distance, inter row distance or state is different. Please check these values before retrying."
+      can_not_group_cvi_land_parcels: "CVI land parcels can't be grouped, because vine variety, designation of origin, inter vine plant distance, inter row distance, state or activity is different. Please check these values before retrying."
       can_not_group_no_intersection: "%{name_pluralized} can't be grouped because its doesn't have any intersection points."
       can_not_split_grouped: "CVI land parcels can't be splited, because it's already composed of multiple land parcels. Please select another land parcel"
       grouped: "%{name_pluralized} have been grouped."

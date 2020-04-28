@@ -61,6 +61,7 @@
           inter_vine_plant_distance_value: $("#r#{id} > td.c11")
           inter_row_distance_value: $("#r#{id} > td.c12")
           state: $("#r#{id} > td.c13")
+          activity_id: $("#r#{id} > td.c14")
         }
       )
     bindCheckBoxes: ->

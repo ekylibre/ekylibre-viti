@@ -1116,7 +1116,6 @@ fra:
     rootstock: "Porte-greffe"
     major: "majoritaire"
     percentage: "Répartition"
-    year: "Année"
     planting_campaign: "Campagne de plantation"
     cadastral_reference: "Ref. cadastrale"
     vine_area: "Superficie encépagée"
@@ -3462,7 +3461,7 @@ fra:
       other: "%{count} ans"
     y: "Oui" #?
     year: "an"
-    year_long: "année"
+    year_long: "Année"
     year_end: "Fin d'exercice"
     year_start: "Début d'exercice"
     yearly: "Annuelle" #?
@@ -3640,7 +3639,7 @@ fra:
       record_x_updated: "%{record} %{name} mise à jour"
       record_x_updated_f: "La %{record} %{name} a été mise à jour"
       records_x_updated_f: "Les %{record} %{name} ont été mises à jour"
-      can_not_group_cvi_land_parcels: "Les parcelles ne peuvent pas être regroupées car le cépage, le produit revendiqué, la densité ou l’état diffère. Veuillez vérifier les valeurs avant de regrouper les parcelles."
+      can_not_group_cvi_land_parcels: "Les parcelles ne peuvent pas être regroupées car le cépage, le produit, la densité, l'activité ou l’état diffère. Veuillez vérifier les valeurs avant de regrouper les parcelles."
       can_not_group_no_intersection: "Les %{name_pluralized} n’ont pas pu être regroupées. Si vous souhaitez les regrouper, éditez l’une des deux %{name_pluralized} de façon à ce que leurs contours aient au moins un point d’intersection."
       can_not_split_grouped: "La parcelle ne peut pas être dissociée car elle provient déjà du regroupement de plusieurs parcelles. Veuillez choisir une autre parcelle ou réinitialiser la Zone cultivable."
       grouped: "Les %{name_pluralized} ont été regroupées."

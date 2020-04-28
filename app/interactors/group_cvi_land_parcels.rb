@@ -1,5 +1,5 @@
 class GroupCviLandParcels < ApplicationInteractor
-  ATTRIBUTES = %i[designation_of_origin_id vine_variety_id inter_vine_plant_distance_value inter_row_distance_value state].freeze
+  ATTRIBUTES = %i[designation_of_origin_id vine_variety_id inter_vine_plant_distance_value inter_row_distance_value state activity_id].freeze
 
   def call
     check_if_groupable
@@ -22,7 +22,7 @@ class GroupCviLandParcels < ApplicationInteractor
                                     scope: [:notifications, :messages]))
     end
     attributes_with_differente_values = ATTRIBUTES.map do |a|
-      a if context.cvi_land_parcels.collect { |r| r.try(a) }.compact.uniq.length > 1
+      a if context.cvi_land_parcels.collect { |r| r.try(a) }.compact.uniq.length >= 1
     end
     context.fail!(error: :can_not_group_cvi_land_parcels, attributes: attributes_with_differente_values.compact) if attributes_with_differente_values.any?
   end
@@ -37,7 +37,7 @@ class GroupCviLandParcels < ApplicationInteractor
     new_cvi_land_parcel = context.cvi_land_parcels.first.dup
     new_cvi_land_parcel.save!
     new_cvi_land_parcel.assign_attributes(name: name, declared_area: declared_area, shape: @new_shape)
-    new_cvi_land_parcel.save!
+    new_cvi_land_parcel.save!(context: :group_cvi_land_parcel)
     context.new_cvi_land_parcel = new_cvi_land_parcel
   end
 
@@ -54,7 +54,7 @@ class GroupCviLandParcels < ApplicationInteractor
     end.group_by{ |x| x[:rootstock_id]}.map do |key,value| 
       { rootstock_id: key, percentage: value.inject(0) {|sum,hash| sum + hash[:percentage]}}
     end
-    context.new_cvi_land_parcel.update( rootstock_id: rootstocks_percentages.max { |a, b| a[:percentage] <=> b[:percentage]}[:rootstock_id]    )
+    context.new_cvi_land_parcel.update_attribute('rootstock_id', rootstocks_percentages.max { |a, b| a[:percentage] <=> b[:percentage]}[:rootstock_id])
   end
 
   def set_main_campaign
@@ -63,7 +63,7 @@ class GroupCviLandParcels < ApplicationInteractor
     end.group_by{ |x| x[:campaign]}.map do |key,value| 
       { campaign: key, percentage: value.inject(0) {|sum,hash| sum + hash[:percentage]}}
     end
-    context.new_cvi_land_parcel.update( planting_campaign: rootstocks_percentages.max { |a, b| a[:percentage] <=> b[:percentage]}[:campaign]    )
+    context.new_cvi_land_parcel.update_attribute( 'planting_campaign', rootstocks_percentages.max { |a, b| a[:percentage] <=> b[:percentage]}[:campaign])
   end
 
   def create_associated_locations

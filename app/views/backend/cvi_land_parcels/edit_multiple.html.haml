@@ -14,7 +14,7 @@
     = f.input :land_modification_date
     = f.input :inter_row_distance_value, as: :numeric, input_html: {type: 'number', value: resource.inter_row_distance_value&.to_i, min:12, step:1}
     = f.input :inter_vine_plant_distance_value,as: "numeric", input_html: {value: resource.inter_vine_plant_distance_value&.to_i }
-    = f.referenced_association :activity, source: {scope: :wine }, new: activity_default_params, label: :activity.tl
+    = f.referenced_association :activity, source: {scope: :wine }, new: activity_default_params, label: :activity.tl, required: true
   - f.add(:submit, :update.tl, data: {disable_with: :please_wait.tl}, class: 'primary')
   - f.add(:link, :cancel.tl, '', {class: 'btn', data: {close_dialog: params[:dialog]}})
   = f.actions

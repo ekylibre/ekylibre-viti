@@ -1,18 +1,17 @@
-- activity_default_params = { family:"vine_farming", production_nature_id: @vine_default_production_id, cultivation_variety: "vitis", production_cycle: "perennial", countings_hidden:true, seasons_hidden:true, tactic_hidden:true}
 = ekylibre_form_for(resource, remote: true) do |f|
   - current_year = Time.current.year
   = field_set( tl(:edit) + ' ' + resource.name.to_s, class:"multi-columns" ) do
     = f.input :name
     = f.referenced_association :designation_of_origin, new: false, label: CviLandParcel.human_attribute_name(:designation_of_origin_name), input_html: {data: {'search-treshold'=> 3, button: false}}
     = f.referenced_association :vine_variety,source: {action: :unroll_vine_varieties}, new: false, label: CviLandParcel.human_attribute_name(:vine_variety_name)
-    = f.input :planting_campaign, as: :select, collection: (1900..(current_year+1)).to_a.reverse.map(&:to_s), label: resource.regrouped? ? "#{:year.tl} #{:major.tl}" : :year.tl
+    = f.input :planting_campaign, as: :select, collection: (1900..(current_year+1)).to_a.reverse.map(&:to_s), label: resource.regrouped? ? "#{:year_long.tl} #{:major.tl}" : :year_long.tl
     = f.referenced_association :rootstock, source: {action: :unroll_rootstocks}, new: false, label: resource.regrouped? ? "#{:rootstock.tl} #{:major.tl}" : :rootstock.tl
     = f.input :state,include_blank: false
     = f.input :land_modification_date
     = f.input :area, label: :calculated_area.tl, input_html: {value: resource.calculated_area.to_s(:ha_a_ca)}, disabled: true
     = f.input :inter_row_distance_value, as: :numeric, input_html: {type: 'number', value: resource.inter_row_distance_value&.to_i, min:12, step:1}
     = f.input :inter_vine_plant_distance_value,as: "numeric", input_html: {value: resource.inter_vine_plant_distance_value&.to_i }
-    = f.referenced_association :activity, source: {scope: :wine }, new: activity_default_params, label: :activity.tl
+    = f.referenced_association :activity, source: {scope: :wine }, new: @new_vine_activity_params, label: :activity.tl
     = f.hidden_field :shape
   - f.add(:submit, :update.tl, data: {disable_with: :please_wait.tl}, class: 'primary')
   - f.add(:link, :cancel.tl, "#", class: 'btn', data: { "cancel-list-map-form": "", id: params[:id]} )
@@ -22,7 +21,7 @@
         %th
         %th
         %th= :cadastral_reference.tl
-        %th= :year.tl
+        %th= :year_long.tl
         %th= :rootstock.tl
         %th= :percentage.tl
       - resource.cvi_cadastral_plant_cvi_land_parcels.order(percentage: :desc).each do |ccp_clp|

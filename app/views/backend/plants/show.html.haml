@@ -36,7 +36,7 @@
         = link_to(container.work_name, {controller: container.type.tableize, action: :show, id: container.id})
       - if resource.customized?
         = attributes_list(stamps: false)
-  -# Core
+-# Core
   - else
     = infos do
       = product_info(:work_number, important: true)

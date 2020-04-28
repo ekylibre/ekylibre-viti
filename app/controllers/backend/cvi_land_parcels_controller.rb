@@ -1,7 +1,7 @@
 module Backend
   class CviLandParcelsController < Backend::CviBaseController
     manage_restfully only: %i[edit]
-    before_action :find_vine_default_production_id, only: %i[edit edit_multiple]
+    before_action :new_vine_activity_params, only: %i[edit edit_multiple]
 
     def index
       records = CviCultivableZone.find(params[:id]).cvi_land_parcels.collect do |r|
@@ -42,8 +42,8 @@ module Backend
       end
 
       @cvi_land_parcels.each do |cvi_land_parcel|
-        update_params = update_multiple_params
-        cvi_land_parcel.update!(update_params.reject { |_k, v| v.blank? })
+        cvi_land_parcel.attributes = update_multiple_params.reject { |_k, v| v.blank? }
+        cvi_land_parcel.save!(context: :update_multiple)
       end
       response.headers['X-Return-Code'] = 'success'
       notify_success(:records_x_updated_f, record: @cvi_land_parcel.model_name.human.pluralize,
@@ -89,8 +89,17 @@ module Backend
       end
     end
 
-    def find_vine_default_production_id
-      @vine_default_production_id = MasterProductionNature.find_by(specie: 'vitis')&.id
+    def new_vine_activity_params
+      vine_default_production = MasterProductionNature.find_by(specie: 'vitis')
+      @new_vine_activity_params = {
+        family: 'vine_farming',
+        production_nature_id: vine_default_production&.id,
+        cultivation_variety: 'vitis',
+        production_cycle: 'perennial',
+        countings_hidden: true,
+        seasons_hidden: true,
+        tactic_hidden: true,
+      }
     end
 
     private

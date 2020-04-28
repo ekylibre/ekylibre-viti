@@ -55,6 +55,7 @@ FactoryBot.define do
       designation_of_origin_id { RegisteredProtectedDesignationOfOrigin.first.id }
       vine_variety_id { MasterVineVariety.where(category_name: 'Cépage').first.id }
       state { :planted }
+      activity { Activity.first || create(:activity) }
     end
   end
 end

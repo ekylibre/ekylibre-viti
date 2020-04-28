@@ -66,7 +66,7 @@ class ConvertCvi < ApplicationInteractor
         type_of_occupancy = cvi_land_parcel.cvi_cadastral_plants.first.type_of_occupancy.presence if cvi_land_parcel.cvi_cadastral_plants.present?
 
         name = "#{activity.name} #{planting_campaign.name} #{cultivable_zone.name} #{cvi_land_parcel.vine_variety.specie_name}"
-        plant_with_same_name = Plant.where('name like ?', "%#{name}").count
+        plant_with_same_name = Plant.where('name like ?', "#{name}%").count
         index = " n° #{plant_with_same_name + 1}" if plant_with_same_name.positive?
 
         variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
