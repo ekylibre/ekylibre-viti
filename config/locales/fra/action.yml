@@ -1121,7 +1121,7 @@ fra:
     cadastral_reference: "Ref. cadastrale"
     vine_area: "Superficie encépagée"
     vine_variety_name: "Cépage"
-    vine_certification: "Appelation / AOP / IGP"
+    vine_certification: "Appellation / AOP / IGP"
     vine_plants_interval: "Inter-pied"
     vine_rows_interval: "Inter-rang"
     abilities: "Compétences" #?

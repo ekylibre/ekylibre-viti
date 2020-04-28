@@ -2123,7 +2123,7 @@ fra:
     # sowing_interval: "Sowing interval"
     spaced_iban: "IBAN"
     special_imputation_asset_account: "Compte d'imputation spéciale"
-    specie: "Espece"
+    specie: "Espèce"
     specie_variety_name: "Variété / Cépage"
     sql_type: "Type SQL"
     ssl: "Ssl"

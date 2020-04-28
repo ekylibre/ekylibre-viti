@@ -2383,7 +2383,7 @@ fra:
         cells_concentration: "Concentration en cellules actives"
         cells_mass_concentration: "Concentration massique en cellules actives"
         certification: "Certification"
-        certification_label: "Appelation / Certification"
+        certification_label: "Appellation / Certification"
         clostridial_spores_concentration: "Concentration en spores butyriques"
         complanted_vine_stock: "Nombre de plant complanté"
         consumption_period: "Période de consommation limite"
