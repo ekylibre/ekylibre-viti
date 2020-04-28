@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <procedures xmlns="http://www.ekylibre.org/XML/2013/procedures">
-  <procedure name="vine_sleeves_net_protecting" categories="vine_protection" optional-actions="game_repellent, gas_refilling, game_protection, rodent_protection, herbicide_protection, hail_protection" position="40">
+  <procedure name="vine_sleeves_net_protecting" categories="vine_protection" optional-actions="game_repellent, gas_refilling, hail_protection, herbicide" position="40">
     <parameters>
       <target name="cultivation" filter="is plant and has indicator shape">
         <attribute name="working_zone" default-value="PRODUCT.shape" if="PRODUCT?"/>

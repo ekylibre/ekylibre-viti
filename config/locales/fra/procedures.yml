@@ -119,6 +119,7 @@ fra:
     food_storage: "Stockage du mélange" #?
     forager: "Ensileuse"
     forager_driver: "Conducteur d’ensileuse"
+    frost_protection_equipment: "Équipement de protection anti-gel"
     fruit_harvester: "Récolteuse de fruit" #?
     fruits: "Fruits" #?
     fuel: "Carburant"
@@ -164,6 +165,7 @@ fra:
     juice: "Jus"
     juice_to_ferment: "Jus à fermenter"
     land_parcel: "Parcelle"
+    leaves_remover: "Éffeuilleuse"
     lifter: "Souleveuse"
     litter: "Litière"
     maintained: "Maintenu" #?
