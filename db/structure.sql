@@ -24,36 +24,6 @@ CREATE SCHEMA postgis;
 
 
 --
--- Name: area_formatted(numeric); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.area_formatted(area numeric) RETURNS character varying
-    LANGUAGE plpgsql
-    AS $$
-    DECLARE
-    ha_area_num  NUMERIC;
-    ar_area_num  NUMERIC;
-    ca_area_num  NUMERIC;
-    ha_area  VARCHAR(50);
-    ar_area  VARCHAR(50);
-    ca_area  VARCHAR(50);
-    result VARCHAR(50);
-    BEGIN
-    ha_area_num = TRUNC(area, 0);
-    ar_area_num = TRUNC(area - ha_area_num, 2);
-    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
-
-    ha_area = to_char(ha_area_num , 'FM00');
-    ar_area = to_char(ar_area_num * 100, 'FM00');
-    ca_area = to_char(ca_area_num * 10000, 'FM00');
-
-    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
-    RETURN result;
-    END;
-    $$;
-
-
---
 -- Name: compute_journal_entry_continuous_number(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1903,6 +1873,103 @@ ALTER SEQUENCE public.contracts_id_seq OWNED BY public.contracts.id;
 
 
 --
+-- Name: crop_group_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.crop_group_items (
+    id integer NOT NULL,
+    crop_group_id integer,
+    crop_id integer,
+    crop_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crop_group_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.crop_group_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crop_group_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.crop_group_items_id_seq OWNED BY public.crop_group_items.id;
+
+
+--
+-- Name: crop_group_labellings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.crop_group_labellings (
+    id integer NOT NULL,
+    crop_group_id integer,
+    label_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crop_group_labellings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.crop_group_labellings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crop_group_labellings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.crop_group_labellings_id_seq OWNED BY public.crop_group_labellings.id;
+
+
+--
+-- Name: crop_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.crop_groups (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    target character varying DEFAULT 'plant'::character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crop_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.crop_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crop_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.crop_groups_id_seq OWNED BY public.crop_groups.id;
+
+
+--
 -- Name: crumbs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2214,8 +2281,8 @@ CREATE TABLE public.cvi_land_parcels (
     updated_at timestamp without time zone NOT NULL,
     planting_campaign character varying,
     land_modification_date date,
-    rootstock_id character varying,
-    activity_id integer
+    activity_id integer,
+    rootstock_id character varying
 );
 
 
@@ -3464,97 +3531,6 @@ CREATE SEQUENCE public.fixed_assets_id_seq
 --
 
 ALTER SEQUENCE public.fixed_assets_id_seq OWNED BY public.fixed_assets.id;
-
-
---
--- Name: locations; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.locations (
-    id integer NOT NULL,
-    registered_postal_zone_id character varying,
-    locality character varying,
-    localizable_id integer,
-    localizable_type character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: formatted_cvi_cadastral_plants; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW public.formatted_cvi_cadastral_plants AS
- SELECT cvi_cadastral_plants.id,
-    cvi_cadastral_plants.land_parcel_id,
-    locations.locality,
-    initcap((registered_postal_zones.city_name)::text) AS commune,
-        CASE
-            WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN concat(cvi_cadastral_plants.section, ' ', cvi_cadastral_plants.work_number)
-            ELSE concat(cvi_cadastral_plants.section, ' ', cvi_cadastral_plants.work_number, '-', cvi_cadastral_plants.land_parcel_number)
-        END AS cadastral_reference,
-    designation_of_origins.product_human_name_fra AS designation_of_origin_name,
-    initcap((vine_varieties.specie_name)::text) AS vine_variety_name,
-    cvi_cadastral_plants.area_value,
-    public.area_formatted(cvi_cadastral_plants.area_value) AS area_formatted,
-    cvi_cadastral_plants.planting_campaign,
-    cvi_cadastral_plants.cadastral_ref_updated,
-        CASE
-            WHEN (cvi_cadastral_plants.rootstock_id IS NULL) THEN NULL::text
-            ELSE initcap((rootstocks.specie_name)::text)
-        END AS rootstock,
-    (cvi_cadastral_plants.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
-    (cvi_cadastral_plants.inter_row_distance_value)::integer AS inter_row_distance_value,
-    cvi_cadastral_plants.state,
-    cvi_cadastral_plants.cvi_statement_id
-   FROM (((((public.cvi_cadastral_plants
-     LEFT JOIN public.locations ON (((cvi_cadastral_plants.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviCadastralPlant'::text))))
-     LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.registered_postal_zone_id)::text = (registered_postal_zones.id)::text)))
-     LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_cadastral_plants.vine_variety_id)::text = (vine_varieties.id)::text)))
-     LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((cvi_cadastral_plants.rootstock_id)::text = (rootstocks.id)::text)))
-     LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.id)));
-
-
---
--- Name: formatted_cvi_cultivable_zones; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW public.formatted_cvi_cultivable_zones AS
-SELECT
-    NULL::character varying AS name,
-    NULL::integer AS id,
-    NULL::text AS cadastral_references,
-    NULL::text AS communes,
-    NULL::integer AS cvi_statement_id,
-    NULL::character varying AS formatted_calculated_area,
-    NULL::character varying AS formatted_declared_area,
-    NULL::character varying AS land_parcels_status;
-
-
---
--- Name: formatted_cvi_land_parcels; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW public.formatted_cvi_land_parcels AS
-SELECT
-    NULL::integer AS id,
-    NULL::character varying AS name,
-    NULL::text AS communes,
-    NULL::text AS localities,
-    NULL::character varying AS planting_campaign,
-    NULL::character varying AS designation_of_origin_name,
-    NULL::character varying AS vine_variety_name,
-    NULL::text AS rootstock,
-    NULL::numeric(19,5) AS declared_area_value,
-    NULL::numeric(19,5) AS calculated_area_value,
-    NULL::character varying AS declared_area_formatted,
-    NULL::character varying AS calculated_area_formatted,
-    NULL::integer AS inter_vine_plant_distance_value,
-    NULL::integer AS inter_row_distance_value,
-    NULL::character varying AS state,
-    NULL::character varying AS activity_name,
-    NULL::integer AS cvi_cultivable_zone_id;
 
 
 --
@@ -4895,6 +4871,21 @@ CREATE SEQUENCE public.loans_id_seq
 --
 
 ALTER SEQUENCE public.loans_id_seq OWNED BY public.loans.id;
+
+
+--
+-- Name: locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.locations (
+    id integer NOT NULL,
+    registered_postal_zone_id character varying,
+    locality character varying,
+    localizable_id integer,
+    localizable_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
 
 
 --
@@ -7974,6 +7965,27 @@ ALTER TABLE ONLY public.contracts ALTER COLUMN id SET DEFAULT nextval('public.co
 
 
 --
+-- Name: crop_group_items id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_items ALTER COLUMN id SET DEFAULT nextval('public.crop_group_items_id_seq'::regclass);
+
+
+--
+-- Name: crop_group_labellings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings ALTER COLUMN id SET DEFAULT nextval('public.crop_group_labellings_id_seq'::regclass);
+
+
+--
+-- Name: crop_groups id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_groups ALTER COLUMN id SET DEFAULT nextval('public.crop_groups_id_seq'::regclass);
+
+
+--
 -- Name: crumbs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -9153,6 +9165,30 @@ ALTER TABLE ONLY public.contract_items
 
 ALTER TABLE ONLY public.contracts
     ADD CONSTRAINT contracts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crop_group_items crop_group_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_items
+    ADD CONSTRAINT crop_group_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crop_group_labellings crop_group_labellings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings
+    ADD CONSTRAINT crop_group_labellings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crop_groups crop_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_groups
+    ADD CONSTRAINT crop_groups_pkey PRIMARY KEY (id);
 
 
 --
@@ -11698,6 +11734,34 @@ CREATE INDEX index_contracts_on_updated_at ON public.contracts USING btree (upda
 --
 
 CREATE INDEX index_contracts_on_updater_id ON public.contracts USING btree (updater_id);
+
+
+--
+-- Name: index_crop_group_items_on_crop_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_items_on_crop_group_id ON public.crop_group_items USING btree (crop_group_id);
+
+
+--
+-- Name: index_crop_group_items_on_crop_type_and_crop_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_items_on_crop_type_and_crop_id ON public.crop_group_items USING btree (crop_type, crop_id);
+
+
+--
+-- Name: index_crop_group_labellings_on_crop_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_labellings_on_crop_group_id ON public.crop_group_labellings USING btree (crop_group_id);
+
+
+--
+-- Name: index_crop_group_labellings_on_label_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_labellings_on_label_id ON public.crop_group_labellings USING btree (label_id);
 
 
 --
@@ -18479,77 +18543,6 @@ CREATE OR REPLACE VIEW public.product_populations AS
 
 
 --
--- Name: formatted_cvi_cultivable_zones _RETURN; Type: RULE; Schema: public; Owner: -
---
-
-CREATE OR REPLACE VIEW public.formatted_cvi_cultivable_zones AS
- SELECT subq.name,
-    subq.id,
-    string_agg(DISTINCT subq.cadastral_ref, ', '::text) AS cadastral_references,
-    subq.communes,
-    subq.cvi_statement_id,
-    subq.formatted_calculated_area,
-    subq.formatted_declared_area,
-    subq.land_parcels_status
-   FROM ( SELECT cvi_cultivable_zones.name,
-            initcap(string_agg(DISTINCT (registered_postal_zones.city_name)::text, ', '::text ORDER BY (registered_postal_zones.city_name)::text)) AS communes,
-            cvi_cultivable_zones.id,
-                CASE
-                    WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN ((cvi_cadastral_plants.section)::text || (cvi_cadastral_plants.work_number)::text)
-                    ELSE ((((cvi_cadastral_plants.section)::text || (cvi_cadastral_plants.work_number)::text) || '-'::text) || (cvi_cadastral_plants.land_parcel_number)::text)
-                END AS cadastral_ref,
-            public.area_formatted(cvi_cultivable_zones.calculated_area_value) AS formatted_calculated_area,
-            public.area_formatted(cvi_cultivable_zones.declared_area_value) AS formatted_declared_area,
-            cvi_cultivable_zones.land_parcels_status,
-            cvi_cultivable_zones.cvi_statement_id
-           FROM (((public.cvi_cultivable_zones
-             LEFT JOIN public.locations locations ON (((cvi_cultivable_zones.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviCultivableZone'::text))))
-             LEFT JOIN public.cvi_cadastral_plants ON ((cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id)))
-             LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.registered_postal_zone_id)::text = (registered_postal_zones.id)::text)))
-          GROUP BY cvi_cultivable_zones.id, cvi_cultivable_zones.name,
-                CASE
-                    WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN ((cvi_cadastral_plants.section)::text || (cvi_cadastral_plants.work_number)::text)
-                    ELSE ((((cvi_cadastral_plants.section)::text || (cvi_cadastral_plants.work_number)::text) || '-'::text) || (cvi_cadastral_plants.land_parcel_number)::text)
-                END) subq
-  GROUP BY subq.id, subq.name, subq.communes, subq.cvi_statement_id, subq.formatted_calculated_area, subq.formatted_declared_area, subq.land_parcels_status;
-
-
---
--- Name: formatted_cvi_land_parcels _RETURN; Type: RULE; Schema: public; Owner: -
---
-
-CREATE OR REPLACE VIEW public.formatted_cvi_land_parcels AS
- SELECT cvi_land_parcels.id,
-    cvi_land_parcels.name,
-    initcap(string_agg(DISTINCT (registered_postal_zones.city_name)::text, ', '::text ORDER BY (registered_postal_zones.city_name)::text)) AS communes,
-    initcap(string_agg(DISTINCT (locations.locality)::text, ', '::text ORDER BY (locations.locality)::text)) AS localities,
-    cvi_land_parcels.planting_campaign,
-    designation_of_origins.product_human_name_fra AS designation_of_origin_name,
-    vine_varieties.specie_name AS vine_variety_name,
-    initcap((rootstocks.specie_name)::text) AS rootstock,
-    cvi_land_parcels.declared_area_value,
-    cvi_land_parcels.calculated_area_value,
-    public.area_formatted(cvi_land_parcels.declared_area_value) AS declared_area_formatted,
-    public.area_formatted(cvi_land_parcels.calculated_area_value) AS calculated_area_formatted,
-    (cvi_land_parcels.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
-    (cvi_land_parcels.inter_row_distance_value)::integer AS inter_row_distance_value,
-    cvi_land_parcels.state,
-        CASE
-            WHEN (activities.name IS NULL) THEN 'not_defined'::character varying
-            ELSE activities.name
-        END AS activity_name,
-    cvi_land_parcels.cvi_cultivable_zone_id
-   FROM ((((((public.cvi_land_parcels
-     LEFT JOIN public.locations locations ON (((cvi_land_parcels.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviLandParcel'::text))))
-     LEFT JOIN public.activities ON ((cvi_land_parcels.activity_id = activities.id)))
-     LEFT JOIN ___lexicon.master_vine_varieties rootstocks ON (((cvi_land_parcels.rootstock_id)::text = (rootstocks.id)::text)))
-     LEFT JOIN ___lexicon.registered_postal_zones ON (((locations.registered_postal_zone_id)::text = (registered_postal_zones.id)::text)))
-     LEFT JOIN ___lexicon.master_vine_varieties vine_varieties ON (((cvi_land_parcels.vine_variety_id)::text = (vine_varieties.id)::text)))
-     LEFT JOIN ___lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_land_parcels.designation_of_origin_id = designation_of_origins.id)))
-  GROUP BY cvi_land_parcels.id, designation_of_origins.product_human_name_fra, vine_varieties.specie_name, (initcap((rootstocks.specie_name)::text)), activities.name;
-
-
---
 -- Name: activities_campaigns delete_activities_campaigns; Type: RULE; Schema: public; Owner: -
 --
 
@@ -18655,6 +18648,14 @@ ALTER TABLE ONLY public.payslips
 
 
 --
+-- Name: crop_group_labellings fk_rails_07865fc029; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings
+    ADD CONSTRAINT fk_rails_07865fc029 FOREIGN KEY (label_id) REFERENCES public.labels(id);
+
+
+--
 -- Name: cvi_cadastral_plant_cvi_land_parcels fk_rails_0e970be37a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -18716,6 +18717,14 @@ ALTER TABLE ONLY public.cvi_statements
 
 ALTER TABLE ONLY public.journal_entry_items
     ADD CONSTRAINT fk_rails_3143e6e260 FOREIGN KEY (variant_id) REFERENCES public.product_nature_variants(id);
+
+
+--
+-- Name: crop_group_labellings fk_rails_36924e7b4a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings
+    ADD CONSTRAINT fk_rails_36924e7b4a FOREIGN KEY (crop_group_id) REFERENCES public.crop_groups(id);
 
 
 --
@@ -18844,6 +18853,14 @@ ALTER TABLE ONLY public.cvi_cultivable_zones
 
 ALTER TABLE ONLY public.regularizations
     ADD CONSTRAINT fk_rails_8043b7d279 FOREIGN KEY (affair_id) REFERENCES public.affairs(id);
+
+
+--
+-- Name: crop_group_items fk_rails_819f6e41b9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_items
+    ADD CONSTRAINT fk_rails_819f6e41b9 FOREIGN KEY (crop_group_id) REFERENCES public.crop_groups(id);
 
 
 --
@@ -19917,4 +19934,10 @@ INSERT INTO schema_migrations (version) VALUES ('20200410183701');
 INSERT INTO schema_migrations (version) VALUES ('20200415160201');
 
 INSERT INTO schema_migrations (version) VALUES ('20200415162701');
+
+INSERT INTO schema_migrations (version) VALUES ('20200428162128');
+
+INSERT INTO schema_migrations (version) VALUES ('20200428162212');
+
+INSERT INTO schema_migrations (version) VALUES ('20200428162256');
 
