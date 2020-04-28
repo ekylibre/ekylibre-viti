@@ -251,7 +251,8 @@ fra:
         born_at: "Planté/semé le"
         nature: "Nature de la culture" #?
         reproductor: "Multiplication" #?
-        variety: "Variété" #?
+        variety: "Espèce" #?
+        specie_variety_name: "Variété / Cépage" #?
       plant_counting:
         expected_plants_count: "Nombre de graines théorique" #?
         expected_seeding_density: "Densité théorique" #?
@@ -681,7 +682,7 @@ fra:
       custom_field_choice: "Choix de champ complémentaire"
       cvi_cadastral_plant: "CVI cadastral plant"
       cvi_statement: "Casier Viticole Informatisé"
-      cvi_cultivable_zone: 
+      cvi_cultivable_zone:
         one: "Zone cultivable"
         other: "Zones cultivables"
       cvi_land_parcel: "Parcelle"
@@ -2122,7 +2123,8 @@ fra:
     # sowing_interval: "Sowing interval"
     spaced_iban: "IBAN"
     special_imputation_asset_account: "Compte d'imputation spéciale"
-    # specie: "Specie"
+    specie: "Espece"
+    specie_variety_name: "Variété / Cépage"
     sql_type: "Type SQL"
     ssl: "Ssl"
     start: "Début"

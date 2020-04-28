@@ -92,7 +92,7 @@ eng:
         area: "Area"
         cadastral_reference: "Cadastral reference"
         land_parcel_id: "Cadastral reference id"
-        work_number: "Cadastral land parcel number" 
+        work_number: "Cadastral land parcel number"
         rootstock_number: "Rootstock"
         state: "State"
       cvi_statement:
@@ -171,6 +171,7 @@ eng:
         reception_planned_at: "Planned at"
       plant:
         born_at: "Planted at"
+        specie_variety_name: "Variety name" #?
       plant_counting:
         plant: "Product"
         plant_activity: "Activity"
@@ -1714,6 +1715,7 @@ eng:
     spaced_iban: "Spaced IBAN"
     special_imputation_asset_account: "Special imputation asset account"
     specie: "Specie"
+    specie_variety_name: "Variety"
     # specie_long_name: "Specie long name"
     # specie_name: "Specie name"
     sql_type: "SQL type"
