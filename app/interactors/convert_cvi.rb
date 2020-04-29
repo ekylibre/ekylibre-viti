@@ -22,7 +22,7 @@ class ConvertCvi < ApplicationInteractor
         end
 
         if activity_open_from < Campaign.at.first.harvest_year
-          (activity_open_from..Campaign.at.first.harvest_year).to_a.each do |harvest_year|
+          (activity_open_from..(Campaign.at.first.harvest_year + 1)).to_a.each do |harvest_year|
             activity.budgets.find_or_create_by!(campaign: Campaign.of(harvest_year))
           end
         else 
