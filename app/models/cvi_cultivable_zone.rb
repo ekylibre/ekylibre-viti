@@ -16,4 +16,10 @@ class CviCultivableZone < Ekylibre::Record::Base
   def has_cvi_land_parcels?
     cvi_land_parcels.any?
   end
+
+  def land_parcels_valid?
+    !(cvi_land_parcels.pluck(:planting_campaign).include?("9999") ||
+      cvi_land_parcels.pluck(:planting_campaign).include?("") ||
+      cvi_land_parcels.pluck(:planting_campaign).include?(nil))
+  end
 end
