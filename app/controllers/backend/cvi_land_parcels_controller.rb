@@ -98,7 +98,8 @@ module Backend
         production_cycle: 'perennial',
         countings_hidden: true,
         seasons_hidden: true,
-        tactic_hidden: true,
+        tactics_hidden: true,
+        inspections_hidden: true
       }
     end
 
