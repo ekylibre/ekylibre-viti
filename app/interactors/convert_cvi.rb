@@ -21,9 +21,14 @@ class ConvertCvi < ApplicationInteractor
           context.fail!(error: :missing_activity_on_cvi_land_parcel)
         end
 
-        (activity_open_from..Campaign.at.first.harvest_year).to_a.each do |harvest_year|
-          activity.budgets.find_or_create_by!(campaign: Campaign.of(harvest_year))
+        if activity_open_from < Campaign.at.first.harvest_year
+          (activity_open_from..Campaign.at.first.harvest_year).to_a.each do |harvest_year|
+            activity.budgets.find_or_create_by!(campaign: Campaign.of(harvest_year))
+          end
+        else 
+          activity.budgets.find_or_create_by!(campaign: Campaign.of(activity_open_from))
         end
+
         planting_campaign = Campaign.of(cvi_land_parcel.planting_campaign)
         # 1 Find or create a cultivable zone with cvi cultivable CultivableZone
         cultivable_zone = CultivableZone.find_or_create_with_cvi_cz(cvi_land_parcel.cvi_cultivable_zone)
