@@ -1729,6 +1729,7 @@ eng:
     cvi_cadastral_plants_map: "Cvi cadastral plants"
     cvi_cultivable_zones: "Cvi cultivable zones"
     cvi_land_parcels: "CVI land parcels"
+    cvi_land_parcels_planting_campaign_invalid: "One or many land_parcel tree planting campaigns are not setted or are incorrect. Edit these values before pressing finish button again."
     # data: "Data"
     # data_transmissions: "Data transmissions"
     # date: "Date"

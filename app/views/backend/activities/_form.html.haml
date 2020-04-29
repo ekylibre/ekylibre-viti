@@ -30,7 +30,8 @@
   = f.input :description
   = f.custom_fields
 
-- unless params[:countings_hidden]
+= hidden_field_tag :inspections_hidden, params[:inspections_hidden]
+- unless params[:inspections_hidden]
   = field_set(:inspections, title: Activity.human_attribute_name(:inspections)) do
     = f.input :use_gradings, show: '#inspections-fields'
     #inspections-fields
@@ -47,6 +48,7 @@
       = f.nested_association(:inspection_calibration_scales)
       = f.nested_association(:inspection_point_natures)
 
+= hidden_field_tag :countings_hidden, params[:countings_hidden]
 - unless params[:countings_hidden]
   = field_set(:countings, title: Activity.human_attribute_name(:countings)) do
     = f.input :use_countings, show: '#countings-fields'
@@ -57,13 +59,15 @@
   = field_set(Activity.human_attribute_name(:distributions)) do
     = f.nested_association(:distributions)
 
+= hidden_field_tag :seasons_hidden, params[:seasons_hidden]
 - unless params[:seasons_hidden]
   = field_set(:seasons, title: Activity.human_attribute_name(:seasons)) do
     = f.input :use_seasons, show: '#seasons-fields'
     #seasons-fields
       = f.nested_association(:seasons)
 
-- unless params[:tactic_hidden]
+= hidden_field_tag :tactics_hidden, params[:tactics_hidden]
+- unless params[:tactics_hidden]
   = field_set(:tactics, title: Activity.human_attribute_name(:tactics)) do
     = f.input :use_tactics, show: '#tactics-fields'
     #tactics-fields

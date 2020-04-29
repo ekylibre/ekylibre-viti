@@ -22,7 +22,7 @@ class GroupCviLandParcels < ApplicationInteractor
                                     scope: [:notifications, :messages]))
     end
     attributes_with_differente_values = ATTRIBUTES.map do |a|
-      a if context.cvi_land_parcels.collect { |r| r.try(a) }.compact.uniq.length >= 1
+      a if context.cvi_land_parcels.collect { |r| r.try(a) }.uniq.length > 1
     end
     context.fail!(error: :can_not_group_cvi_land_parcels, attributes: attributes_with_differente_values.compact) if attributes_with_differente_values.any?
   end
