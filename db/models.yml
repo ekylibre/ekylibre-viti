@@ -41,6 +41,9 @@
 - catalog_item
 - contract
 - contract_item
+- crop_group
+- crop_group_item
+- crop_group_labelling
 - crumb
 - cultivable_zone
 - custom_field
