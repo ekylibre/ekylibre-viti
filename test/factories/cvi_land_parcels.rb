@@ -55,6 +55,17 @@ FactoryBot.define do
       designation_of_origin_id { RegisteredProtectedDesignationOfOrigin.first.id }
       vine_variety_id { MasterVineVariety.where(category_name: 'Cépage').first.id }
       state { :planted }
+      activity { Activity.first || create(:activity) }
     end
+
+    trait :not_groupable do
+      sequence(:inter_vine_plant_distance_value) { |n| n + 1 }
+      sequence(:inter_row_distance_value) { |n| n + 1 }
+      sequence(:designation_of_origin_id) { |n| RegisteredProtectedDesignationOfOrigin.all[n].id }
+      sequence(:vine_variety_id) { |n| MasterVineVariety.where(category_name: 'Cépage').all[n].id }
+      sequence(:state) { |n| n % 2 == 0 ? :planted : :removed_with_authorization }
+      activity
+    end
+    
   end
 end
