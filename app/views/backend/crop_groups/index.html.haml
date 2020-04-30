@@ -1,4 +1,7 @@
 - main_toolbar do |t|
-  = t.new(label: :add_intervention_request.tl, params: { redirect: nil })
+  = t.new(params: { redirect: nil })
+
+= kujaku do |k|
+  - k.text
 
 = main_list
