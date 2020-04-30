@@ -291,6 +291,7 @@ class Product < Ekylibre::Record::Base
   scope :support, -> { joins(:nature).merge(ProductNature.support) }
   scope :storage, -> { of_expression('is building_division or can store(product) or can store_liquid or can store_fluid or can store_gaz') }
   scope :plants, -> { where(type: 'Plant') }
+  scope :land_parcels, -> { where(type: 'LandParcel') }
 
   scope :mine, -> { of_owner(:own) }
   scope :mine_or_undefined, ->(at = nil) {
