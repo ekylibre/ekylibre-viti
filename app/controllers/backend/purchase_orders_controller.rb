@@ -63,7 +63,7 @@ module Backend
     end
 
     list(:items, model: :purchase_items, order: { id: :asc }, conditions: { purchase_id: 'params[:id]'.c }) do |t|
-      t.column :variant, url: true
+      t.column :variant, url: { controller: 'RECORD.variant.class.name.tableize'.c, namespace: :backend }
       t.column :annotation
       t.column :first_reception_number, label: :reception, url: { controller: '/backend/receptions', id: 'RECORD.first_reception_id'.c }
       t.column :quantity
@@ -105,13 +105,17 @@ module Backend
       @purchase_order.planned_at = Time.zone.now
       @purchase_order.ordered_at = Time.zone.now
       @purchase_order.supplier_id ||= params[:supplier_id] if params[:supplier_id]
-      if address = Entity.of_company.default_mail_address
+
+      if (address = Entity.of_company.default_mail_address)
         @purchase_order.delivery_address = address
       end
-      if items_attributes = params[:items_attributes]
+
+      if (items_attributes = params[:items_attributes])
         items_attributes.each { |item| @purchase_order.items.build(variant_id: item[:variant_id], role: item[:role])}
       end
+
       @display_items_form = true if params[:display_items_form]
+
       render locals: { with_continue: true }
     end
 

@@ -142,6 +142,8 @@ ita:
       new: "Nuovo campo personalizzato"
       # show: "Custom field: %{name}"
       sort: "scelte di campo ordinamento personalizzato"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
     backend/cvi_statements:
       # edit: "Edit CVI statement: %{id}"
       # index: "CVI statements"
@@ -893,7 +895,7 @@ ita:
       home:
         toolbar:
           buttons:
-            # home: "Center to my plots"
+            # home: "Center"
       importerButtonTitle: "Importare"
       locking:
         # from_date_html: "from {{from}}<br>({{production}})"
@@ -1136,7 +1138,9 @@ ita:
     # building_zones: "Building zones"
     # by_account_fixed_assets: "Fixed assets by account on %{to}"
     by_year: "Per anno"
+    # cadastral_references: "associated cadastral ref."
     calculate: "Calcolare"
+    # calculated_area: "calculated area"
     calculated_hours: "Ore calcolate"
     calculators: "Calcolatrici"
     calendar: "Calendario"
@@ -1216,6 +1220,7 @@ ita:
     # comment: "Comment"
     # commercial_margin: "Commercial margin"
     commission: "Commissione"
+    # communes: "commune(s)"
     company: "Società"
     completed: "Completato"
     # compute_balances: "Computing balances"
@@ -1319,6 +1324,7 @@ ita:
     # debts_other_financial_debts: "debts_other_financial_debts"
     # debts_others_loans: "debts_others_loans"
     decision_making: "Il processo decisionale"
+    # declared_area: "declared area"
     default_letter_conclusion: "Voglia gradire, Gentile Signora, Egregio Signore, i sensi della mia più alta considerazione."
     default_letter_function_title: "Signora, caro signore"
     default_letter_introduction: "A seguito della nostra conversazione, io ti do gli elementi della stima."
@@ -1485,9 +1491,9 @@ ita:
     export_as_xcsv: "Esportare come Excel CSV"
     # export_balance_sheet: "Export balance sheet"
     # export_centralizing_journal: "Export centralizing journal"
-    # export_fixed_assets_by_account: "Fixed assets by account"
-    # export_fixed_assets_gain_and_loss: "Added values and capital losses"
-    # export_fixed_assets_general: "Fixed assets"
+    # export_by_account_fixed_asset_registry: "Fixed assets by account"
+    # export_gain_and_loss_fixed_asset_registry: "Added values and capital losses"
+    # export_fixed_asset_registry: "Fixed assets"
     # export_income_statement: "Export income statement"
     # export_text_fec_all: "Export FEC corporate tax (Text)"
     # export_text_fec_ba_bnc_ir_commercial_accountancy: "Export FEC for agriculture and professional operations income taxation commercial accountancy (Text)"
@@ -2148,7 +2154,7 @@ ita:
     select_a_journal: "Seleziona una rivista"
     select_closure_date: "Scegli la data di chiusura"
     select_columns: "selezionare le colonne"
-    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
+    # select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     select_date: "Seleziona la data"
     select_date_generation: "Data limite per la generazione"
     select_file_to_upload: "Selezionare il file da caricare"
@@ -2792,6 +2798,7 @@ ita:
       convert: "Convertire"
       correct: "Corretta"
       create: "Creare"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "diminuzione" #?
       destroy: "Distruggere"
       detach: "distaccare"

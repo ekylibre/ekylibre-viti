@@ -185,6 +185,9 @@ arb:
         exceptional_depreciations_inputations_revenues: "اكسسيبتيونال المعنوية إيرادات انخفاض قيمة الأصول"
         exceptional_expenses: "نفقات استثنائية"
         exceptional_revenues: "إيرادات استثنائية"
+        exceptionnal_charge_transfer_revenues: "اكسسيبتيونال إيرادات نقل المسؤول"
+        exceptionnal_depreciations_inputations_expenses: "مصاريف انخفاض قيمة اكسسيبتيونال inputations"
+        exceptionnal_incorporeal_asset_depreciation_revenues: "اكسسيبتيونال المعنوية إيرادات انخفاض قيمة الأصول"
         expenses: "مصاريف"
         exploitation_depreciations_inputations_expenses: "مصاريف انخفاض قيمة استغلال inputations"
         exploitation_expenses_transfers: "نقل نفقات الاستغلال"
@@ -699,7 +702,6 @@ arb:
         senescence: "الشيخوخة"
       name: "الدول الحياة الحيوانية"
     cation_exchange_capacity_analysis_methods:
-      
       name: "طرق تحليل قدرة تبادل الأيونات الموجبة"
     certification_labels:
       items:

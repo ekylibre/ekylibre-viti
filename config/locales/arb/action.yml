@@ -162,6 +162,8 @@ arb:
       new: "انشاء حقل مخصص"
       show: "الحقل المخصص : %{name}"
       sort: "خيارات فرز الحقول المخصصة"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
     backend/cvi_statements:
       # edit: "Edit CVI statement: %{id}"
       # index: "CVI statements"
@@ -1062,7 +1064,7 @@ arb:
       home:
         toolbar:
           buttons:
-            # home: "Center to my plots"
+            # home: "Center"
       importerButtonTitle: "استيراد"
       locking:
         # from_date_html: "from {{from}}<br>({{production}})"
@@ -1363,7 +1365,9 @@ arb:
     # building_zones: "Building zones"
     # by_account_fixed_assets: "Fixed assets by account on %{to}"
     by_year: "وبحلول العام"
+    # cadastral_references: "associated cadastral ref."
     calculate: "حساب"
+    # calculated_area: "calculated area"
     calculated_hours: "الساعات المحسوبة"
     calculators: "الآلات الحاسبة"
     calendar: "تقويم"
@@ -1453,6 +1457,7 @@ arb:
     # comment: "Comment"
     # commercial_margin: "Commercial margin"
     commission: "عمولة"
+    # communes: "commune(s)"
     company: "المجتمع"
     completed: "منجز"
     components: "العناصر" #?
@@ -1575,6 +1580,7 @@ arb:
     # debts_others_loans: "debts_others_loans"
     decimal_case: "خيارات للكسر العشري" #?
     decision_making: "اتخاذ القرار"
+    # declared_area: "declared area"
     default_letter_conclusion: "وتفضلوا، سيدتي، سيدي العزيز، بقبول أسمى عبارات التقدير."
     default_letter_function_title: "سيدتي، سيدي العزيز"
     default_letter_introduction: "بعد حديثنا، وأنا أعطيك عناصر التقدير."
@@ -1782,9 +1788,9 @@ arb:
     export_as_xcsv: "تصدير واكسل CSV"
     # export_balance_sheet: "Export balance sheet"
     # export_centralizing_journal: "Export centralizing journal"
-    # export_fixed_assets_by_account: "Fixed assets by account"
-    # export_fixed_assets_gain_and_loss: "Added values and capital losses"
-    # export_fixed_assets_general: "Fixed assets"
+    # export_by_account_fixed_asset_registry: "Fixed assets by account"
+    # export_gain_and_loss_fixed_asset_registry: "Added values and capital losses"
+    # export_fixed_asset_registry: "Fixed assets"
     # export_income_statement: "Export income statement"
     # export_text_fec_all: "Export FEC corporate tax (Text)"
     # export_text_fec_ba_bnc_ir_commercial_accountancy: "Export FEC for agriculture and professional operations income taxation commercial accountancy (Text)"
@@ -2676,7 +2682,7 @@ arb:
     select_building: "اختر مكان التخزين" #?
     select_closure_date: "اختيار تاريخ الاغلاق"
     select_columns: "ضع علامة على العمود الذي ترغب باظهاره في الجدول"
-    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
+    # select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     select_date: "ادخل تاريخ"
     select_date_generation: "تاريخ نهاية الدمج"
     select_existing_payment: "ختيار الدفعة الموجودة" #?
@@ -3504,6 +3510,7 @@ arb:
       convert: "تحول"
       correct: "صحيح"
       create: "خلق"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "إنقاص" #?
       destroy: "هدم"
       detach: "فصل"

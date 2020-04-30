@@ -1,7 +1,6 @@
 require 'minitest/mock'
 require 'rake'
 
-include FactoryBot::Syntax::Methods
 class ActiveSupport::TestCase
   require 'enumerize/integrations/rspec'
   extend Enumerize::Integrations::RSpec
@@ -10,7 +9,7 @@ ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-
+require "minitest/spec"
 require 'minitest/reporters'
 require 'database_cleaner'
 
@@ -37,10 +36,20 @@ Ekylibre::Tenant.setup!('test', keep_files: true)
 
 Ekylibre::Tenant.switch 'test_without_fixtures' do
   puts "Cleaning tenant: #{'test_without_fixtures'.green}".yellow
-  DatabaseCleaner.clean_with :truncation, { except: ['spatial_ref_sys', "registered_legal_positions"] }
+  DatabaseCleaner.clean_with :truncation, except: ['spatial_ref_sys', 
+                                                   'registered_legal_positions',
+                                                   'master_vine_varieties',
+                                                   'registered_protected_designation_of_origins',
+                                                   'cadastral_land_parcel_zones',
+                                                   'registered_postal_zones',
+                                                   "registered_phytosanitary_products", 
+                                                   "registered_phytosanitary_risks", 
+                                                   "registered_phytosanitary_usages",
+                                                   "registered_phytosanitary_cropsets",
+                                                   "variant_natures", 
+                                                   "variant_categories",
+                                                    "variants"]
 end
-
-Lexicon.reload! if File.exist?(Rails.root.join('test', 'fixture-files', 'lexicon', 'data.sql'))
 
 DatabaseCleaner.strategy = :transaction
 
@@ -101,6 +110,8 @@ class ActiveSupport::TestCase
   setup do
     I18n.locale = :eng
   end
+
+  extend MiniTest::Spec::DSL
 end
 
 module ActionController
@@ -164,10 +175,10 @@ module ActionController
         table_name = options.delete(:table_name) || controller_name
         model_name = options.delete(:class_name) || table_name.classify
         model = begin
-          model_name.constantize
-        rescue
-          nil
-        end
+                  model_name.constantize
+                rescue
+                  nil
+                end
         record = model_name.underscore
         other_record = "other_#{record}"
         attributes = nil
@@ -488,17 +499,17 @@ module ActionController
         action_name = array.last.to_sym
         if action_name == :new
           model = begin
-            array.first.split(/\//).last.classify.constantize
-          rescue
-            nil
-          end
+                    array.first.split(/\//).last.classify.constantize
+                  rescue
+                    nil
+                  end
           return :new_product if model && model <= Product
         elsif action_name == :show
           model = begin
-            array.first.split(/\//).last.classify.constantize
-          rescue
-            nil
-          end
+                    array.first.split(/\//).last.classify.constantize
+                  rescue
+                    nil
+                  end
           return :show_sti_record if model && (model <= Product || model <= Affair)
         end
         MODES.each do |exp, mode|
@@ -514,17 +525,42 @@ def without_output(&block)
   main.stub :puts, Proc.new, &block
 end
 
-def main
-  TOPLEVEL_BINDING.eval('self')
-end
+module FFaker
+  module Shape
+    extend self
+
+    SHAPES = File.readlines(Rails.root.join('test','fixture-files',"shapes")).freeze
+
+    def multipolygon
+      Charta.new_geometry(SHAPES.sample).to_rgeo
+    end
+  end
+end 
 
 require 'pdf_printer'
 
-module PdfPrinter
+module ImportTest
+  class ImportTestDummyExchanger < ActiveExchanger::Base
+    mattr_accessor :check_block, :import_block
 
-  private
-
-    def convert_to_pdf(directory, odf_path)
-      system "soffice --headless --convert-to pdf --outdir #{directory} #{odf_path} > /dev/null 2> /dev/null"
+    def check
+      if check_block.nil?
+        true
+      else
+        check_block.call
+      end
     end
+
+    def import
+      if import_block.nil?
+        true
+      else
+        import_block.call
+      end
+    end
+  end
+end
+
+def main
+  TOPLEVEL_BINDING.eval('self')
 end

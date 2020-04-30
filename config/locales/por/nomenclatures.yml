@@ -185,6 +185,9 @@ por:
         exceptional_depreciations_inputations_revenues: "As receitas de depreciação dos ativos imateriais exceptionnal"
         exceptional_expenses: "Despesas excepcionais"
         exceptional_revenues: "As receitas excepcionais"
+        exceptionnal_charge_transfer_revenues: "As receitas de transferência de carga excepcional"
+        exceptionnal_depreciations_inputations_expenses: "As despesas de depreciação excepcional inputations"
+        exceptionnal_incorporeal_asset_depreciation_revenues: "As receitas de depreciação dos ativos imateriais exceptionnal"
         expenses: "Gastos"
         exploitation_depreciations_inputations_expenses: "As despesas de exploração depreciações inputations"
         exploitation_expenses_transfers: "Transferências de despesas de exploração"
@@ -700,7 +703,6 @@ por:
         senescence: "Senescência"
       name: "Estados vida animal"
     cation_exchange_capacity_analysis_methods:
-      
       name: "Métodos de análise de capacidade de troca catiônica"
     certification_labels:
       items:
@@ -1663,15 +1665,13 @@ por:
         precision: "Precisão"
         symbol: "Símbolo"
     delivery_modes:
-      choices:
-        
+      
       items:
         delivered_at_place: "Entregue no local"
         delivered_at_terminal: "Entregue no terminal"
         delivered_duty_paid: "Imposto entregue pago"
         ex_works: "Antigo trabalho"
       name: "Modos de entrega"
-    
     dimensions:
       items:
         amount_of_substance: "Quantidade de substância"

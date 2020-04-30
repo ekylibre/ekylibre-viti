@@ -1,0 +1,8 @@
+
+const form =
+  "<tr class='edit-form'><td colspan='13'><%= j render(partial:'form') %></td></tr>";
+ekylibre.list.addForm(form,<%=params[:id]%>)
+ekylibre.map.select(<%=params[:id]%>,true)
+ekylibre.map.edit(<%=params[:id]%>,'cvi_cultivable_zones')
+ekylibre.form.init(<%=params[:id]%>)
+ekylibre.list.disable()

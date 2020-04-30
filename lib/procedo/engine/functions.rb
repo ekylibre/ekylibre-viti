@@ -8,7 +8,7 @@ module Procedo
             next parameter.variant if parameter.respond_to? :variant
             parameter.product
           end
-          PhytosanitaryMiscibility.new(products.compact).validity
+          Interventions::Phytosanitary::PhytosanitaryMiscibility.new(products.compact).validity
         end
 
         # Test if population counting is as specified for given product
@@ -65,6 +65,31 @@ module Procedo
             zone = zone.nil? ? parameter.working_zone : zone.merge(parameter.working_zone)
           end
           zone
+        end
+
+        # WIP / # TODO
+        # puts call in xml procedure as :
+        # computed_complanted_plant_by_target(siblings(SELF, plant), SELF, siblings(SELF, plants))
+        # it's return the number (population) of complanted plant (input) divided by target.working_zone / target(s).working_zone by target
+        # to store complanted_vine_stock for each plant
+        # procedure = vine_complanting
+        def computed_complanted_plant_by_target(set, parameter, inputs)
+          #get sum of all working zone
+          puts "set [siblings(SELF, plant)] : #{set}".inspect.red
+          puts "parameter [SELF] : #{parameter}".inspect.yellow
+          working_zones_area = sum_working_zone_areas(set)
+          puts "working_zones_area : #{working_zones_area}".inspect.green
+          working_zone_area = parameter.working_zone.area
+          puts "working_zone_area : #{working_zone_area}".inspect.red
+          # sum of population of inputs
+          list = set.map do |input_parameter|
+            unless input_parameter.is_a?(Procedo::Engine::Intervention::ProductParameter)
+              raise 'Invalid parameter. Only product_parameter wanted. Got: ' + input_parameter.class.name
+            end
+            input_parameter.population ? input_parameter.population : nil
+          end
+          list.compact!
+          (list.sum.to_d * (working_zone_area / working_zones_area)).to_d
         end
 
         # Returns a set composed of sibling parameter
@@ -171,6 +196,20 @@ module Procedo
         # return last date as Datetime object
         def intervention_stopped_at(set)
           set.collect { |h| DateTime.parse(h[:stopped_at]) }.max
+        end
+
+        def usage_unit_name_include(product, unit)
+          variant = product.variant
+          return 1 unless variant.imported_from == 'Lexicon' && variant.is_a?(Variants::Articles::PlantMedicineArticle)
+
+          phyto = RegisteredPhytosanitaryProduct.find_by_reference_name(variant.reference_name)
+          return 1 if phyto.nil?
+
+          usages = phyto.usages
+          return 1 if usages.empty?
+
+          usage_units = usages.pluck(:dose_unit).uniq.compact
+          usage_units.any? { |u| u =~ /\A#{Regexp.quote(unit)}_/ } || usage_units.empty? ? 1 : 0
         end
       end
     end

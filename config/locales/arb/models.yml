@@ -1526,6 +1526,7 @@ arb:
     custom_fields_columns: "الحقول المخصصة الأعمدة"
     customized_type: "نوع مرغوب"
     # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_statement: "Cvi statement"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "إنتاج النيتروجين اليومي"
     dashboards: "لوحات"
@@ -1600,6 +1601,7 @@ arb:
     derivative_of: "مشتق من"
     derivatives_list: "قائمة المشتقات"
     description: "الوصف"
+    # designation_of_origin_name: "Designation of origin name"
     dest_contact: "عنوان التسليم" #?
     dest_contact_id: "عنوان التسليم" #?
     detail_payments: "المدفوعات التفاصيل"
@@ -1967,6 +1969,7 @@ arb:
     labels: "تسميات"
     land_parcel_number: "عدد قطعة أرض"
     land_parcels: "الكتل"
+    # land_parcels_status: "Land parcels status"
     language: "اللغة"
     last_analysis: "التحليل الأخير"
     last_bank_statement: "(((LAST_BANK_STATEMENT)))"

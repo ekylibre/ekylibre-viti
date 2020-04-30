@@ -100,7 +100,16 @@ Rails.application.routes.draw do
       resources :issues, only: %i[index create]
       resources :plant_density_abaci, only: %i[index show]
       resources :plant_countings, only: %i[create]
+      get 'products(/:product_type)', to: 'products#index', as: :products
+      resources :variants, only: %i[index]
       resources :plants, only: %i[index]
+      get 'profile', to: 'users#show'
+      namespace :lexicon do
+        resources :registered_phytosanitary_cropsets, only: %i[index create]
+        resources :registered_phytosanitary_risks, only: %i[index create]
+        resources :registered_phytosanitary_usages, only: %i[index create]
+        resources :registered_phytosanitary_products, only: %i[index create]
+      end
     end
   end
 
@@ -157,6 +166,7 @@ Rails.application.routes.draw do
       resource :accountancy_balance_cell, only: :show
       resource :cashes_balance_cell, only: :show
       resource :cashes_balance_evolution_cell, only: :show
+      resource :cash_variations_cell, only: :show
       resource :calendar_cell, only: :show
       resource :payable_taxes_cell, only: :show
       resource :cropping_plan_cell, only: :show
@@ -181,6 +191,7 @@ Rails.application.routes.draw do
       resource :last_sales_cell, only: :show, concerns: :list
       resource :main_settings_cell, only: :show
       resource :map_cell, only: :show
+      resource :last_panier_local_import_cell, only: :show
       resource :parts_cell, only: :show
       resource :profit_and_loss_cell, only: :show
       resource :quandl_cell, only: :show
@@ -420,9 +431,59 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { format: 'js' }
+    resources :cvi_statement_conversions, concerns: %i[list], only: %i[show create] do
+      member do
+        get :convert_modal
+        get :list_cvi_cultivable_zones
+        get :reset
+        post :convert
+      end
+    end
+
+    resources :cvi_cultivable_zones do
+      member do
+        get :delete_modal
+        get :generate_cvi_land_parcels
+        get :confirm_cvi_land_parcels
+        get :edit_cvi_land_parcels
+        get :list_cvi_land_parcels
+        get :reset_modal
+        post :reset
+        resources :cvi_land_parcels, only: %i[index]
+      end
+      collection do
+        post :group
+      end
+    end
+
+    resources :cvi_land_parcels, only: %i[edit update] do
+      member do 
+        get :pre_split
+        post :split
+      end
+      collection do
+        post :group
+        get :edit_multiple
+        put :update_multiple
+      end
+    end
+
+    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' } do
+      member do
+        get :delete_modal
+      end
+    end
 
     resources :cadastral_land_parcel_zones, only: %i[index]
+
+    resources :registered_protected_designation_of_origins, concerns: %i[unroll]
+    resources :master_vine_varieties, concerns: %i[unroll] do
+      collection do 
+        get :unroll_vine_varieties
+        get :unroll_rootstocks
+      end
+    end
+
 
     resources :deliveries, concerns: %i[list unroll] do
       member do
@@ -644,6 +705,8 @@ Rails.application.routes.draw do
         get :purchase_order_items
         get :duplicate_interventions
         get :generate_buttons
+        get :validate_harvest_delay
+        get :validate_reentry_delay
 
         post :create_duplicate_intervention
         get :compare_realised_with_planned
@@ -794,15 +857,13 @@ Rails.application.routes.draw do
 
     resources :map_editor_shapes, only: :index
 
-    resources :master_production_natures, only: [], concerns: %i[unroll]
+    resources :master_production_natures, only: [:show], concerns: %i[unroll] 
 
     resources :registered_postal_zones, only: [], concerns: %i[unroll]
 
     resources :matters do
       concerns :products, :list
     end
-
-    resources :services, only: :index, concerns: :list
 
     resources :naming_formats
 
@@ -815,6 +876,56 @@ Rails.application.routes.draw do
     resources :net_services, concerns: [:list] do
       member do
         get :list_identifiers
+      end
+    end
+
+    %w[animal article crop equipment service worker zone].each do |model|
+      namespace :variants do
+        resources "#{model}_variants".to_sym, concerns: %i[incorporate list], only: %i[index show new create] do
+          member do
+            get :list_components
+            get :list_catalog_items
+            get :list_receptions
+            get :list_shipments
+            get :list_products
+            get :list_sale_items
+            get :list_purchase_invoice_items
+            get :list_purchase_order_items
+            get :list_suppliers
+            get :list_purchase_items
+          end
+        end
+      end
+
+      namespace :variant_categories do
+        resources "#{model}_categories".to_sym, concerns: %i[incorporate list], only: :index
+      end
+
+      namespace :variant_types do
+        resources "#{model}_types".to_sym, concerns: %i[incorporate list], only: :index
+      end
+    end
+
+    %w[fertilizer plant_medicine seed_and_plant].each do |model|
+      namespace :variants do
+        namespace :articles do
+          resources "#{model}_articles".to_sym, concerns: %i[incorporate list], only: %i[index show new create] do
+            member do
+              get :list_components
+              get :list_catalog_items
+              get :list_receptions
+              get :list_shipments
+              get :list_products
+              get :list_sale_items
+              get :list_purchase_invoice_items
+              get :list_purchase_order_items
+              get :list_suppliers
+              get :list_purchase_items
+              get :list_registered_phytosanitary_usages
+              get :list_registered_phytosanitary_risks
+            end
+          end
+        end
       end
     end
 
@@ -951,6 +1062,7 @@ Rails.application.routes.draw do
 
     resources :product_natures, concerns: %i[incorporate list unroll] do
       member do
+        get :compatible_varieties
         get :list_variants
       end
     end
@@ -1031,6 +1143,23 @@ Rails.application.routes.draw do
 
     resources :quick_purchases, only: %i[new create], path: 'quick-purchases'
     resources :quick_sales,     only: %i[new create], path: 'quick-sales'
+
+    resources :registered_phytosanitary_products, only: [], concerns: :unroll do
+      collection do
+        get :get_products_infos
+      end
+    end
+
+    resources :registered_phytosanitary_usages, only: [], concerns: :unroll do
+      collection do
+        get :filter_usages
+      end
+
+      member do
+        get :get_usage_infos
+        get :dose_validations
+      end
+    end
 
     resources :regularizations, only: %i[show create destroy]
 
@@ -1194,6 +1323,10 @@ Rails.application.routes.draw do
 
     resources :unreceived_purchase_orders, except: [:new], concerns: [:list]
 
+    %i[variants variant_natures variant_categories registered_phytosanitary_products user_roles].each do |controller|
+      resources controller, only: [], concerns: :unroll
+    end
+
     namespace :variants do
       resources :fixed_assets, only: [] do
         member do
@@ -1228,6 +1361,12 @@ Rails.application.routes.draw do
 
     resources :registrations, only: %i[index edit update destroy], concerns: [:list]
     resources :gaps, only: %i[index show destroy]
+
+    resources :varieties, only: [] do
+      collection do
+        get :selection
+      end
+    end
   end
 
   namespace :public do

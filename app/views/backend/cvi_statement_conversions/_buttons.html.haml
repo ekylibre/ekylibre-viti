@@ -1,0 +1,6 @@
+
+- all_created = @cvi_statement.cvi_cultivable_zones.all?{ |cvi_cultivable_zone| cvi_cultivable_zone.land_parcels_status == :completed }
+.btn-container  
+  %div 
+    = link_to :convert.tl, convert_modal_backend_cvi_statement_conversion_path(@cvi_statement), remote: true, class: [('disabled' unless all_created),"btn btn-primary"] 
+    = link_to :go_back.tl, backend_cvi_statement_path(@cvi_statement), class:"btn btn-default" 

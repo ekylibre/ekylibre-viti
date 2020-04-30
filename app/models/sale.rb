@@ -6,7 +6,7 @@
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
 # Copyright (C) 2012-2014 Brice Texier, David Joulin
-# Copyright (C) 2015-2019 Ekylibre SAS
+# Copyright (C) 2015-2020 Ekylibre SAS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -59,6 +59,7 @@
 #  payment_at                               :datetime
 #  payment_delay                            :string           not null
 #  pretax_amount                            :decimal(19, 4)   default(0.0), not null
+#  providers                                :jsonb
 #  quantity_gap_on_invoice_journal_entry_id :integer
 #  reference_number                         :string
 #  responsible_id                           :integer
@@ -101,8 +102,8 @@ class Sale < Ekylibre::Record::Base
   validates :annotation, :conclusion, :description, :introduction, length: { maximum: 500_000 }, allow_blank: true
   validates :client_reference, :expiration_delay, :function_title, :initial_number, :reference_number, :subject, length: { maximum: 500 }, allow_blank: true
   validates :credit, :has_downpayment, :letter_format, inclusion: { in: [true, false] }
-  validates :client, :currency, :payer, presence: true
-  validates :number, :payment_delay, :state, presence: true, length: { maximum: 500 }
+  validates :client, :currency, :payer, :payment_delay, presence: true
+  validates :number, :state, presence: true, length: { maximum: 500 }
   # ]VALIDATORS]
   validates :currency, length: { allow_nil: true, maximum: 3 }
   validates :initial_number, :number, :state, length: { allow_nil: true, maximum: 60 }
@@ -117,6 +118,8 @@ class Sale < Ekylibre::Record::Base
   accepts_nested_attributes_for :items, reject_if: proc { |item| item[:variant_id].blank? }, allow_destroy: true
 
   delegate :with_accounting, to: :nature
+
+  enumerize :payment_delay, in: ['1 week', '30 days', '30 days, end of month', '60 days', '60 days, end of month']
 
   scope :invoiced_between, lambda { |started_at, stopped_at|
     where(invoiced_at: started_at..stopped_at)

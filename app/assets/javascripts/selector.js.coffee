@@ -13,6 +13,8 @@
     id: null
 
     _create: ->
+      # @searchTreshold = @element.attr('data-search-treshold') || 0
+      # @dropDownButtonShown = @element.attr('data-button') != "false"
       @lastSearch = @element.val()
       if @element.parent().is('.selector')
         parent = @element.parent()
@@ -32,6 +34,9 @@
             tabindex: -1
             class: 'selector-dropdown btn btn-default dropdown-toggle sr-only'
           .insertAfter @element
+
+        # unless  @dropDownButtonShown
+        #   @dropDownButton.hide()
 
         # Create drop down menu
         @dropDownMenu = $ "<div>",
@@ -302,7 +307,7 @@
           window.clearTimeout(@searchRequestTimeout)
         @searchRequestTimeout = window.setTimeout(
           () =>
-            if search.length > 0
+            if search.length > 0 #@searchTreshold
               @_openMenu search
             else
               @dropDownMenu.hide()
@@ -395,6 +400,53 @@
     request.success (data) ->
       $(detailedInput).closest('.selector').append(data)
       $(cell).addClass('with-details')
+
+  $(document).on 'selector:change', '[data-filter-unroll]', (e) ->
+    filterableUnroll.filter $(this)
+
+  filterableUnroll =
+    filter: ($filteringUnroll) ->
+      filterId = $filteringUnroll.selector('value')
+      return unless filterId
+
+      $filteredUnroll = @._retrieveFilteredUnroll($filteringUnroll)
+      url = $filteredUnroll.data('filters-url')
+      values = @._retrieveValues($filteredUnroll, $filteringUnroll)
+
+      $.getJSON url, _.merge(values, filter_id: filterId), (data) =>
+        $filteredUnroll.attr('disabled', false)
+        $filteredUnroll.closest($filteringUnroll.data('parent')).find($filteredUnroll.data('msg-container')).text('') if $filteredUnroll.data('msg-container')
+        @._handleScope($filteredUnroll, data.scope_url) if data.scope_url
+        @._handleNew($filteredUnroll, data.new_url) if data.new_url
+        @._handleClear($filteredUnroll, data.clear)
+        @._handleDisable($filteredUnroll, $filteringUnroll, data.disable) if data.disable
+
+    _handleScope: ($filteredUnroll, scope_url) ->
+      $filteredUnroll.data('selector', scope_url)
+      $filteredUnroll.attr('data-selector', scope_url)
+
+    _handleNew: ($filteredUnroll, new_url) ->
+      $filteredUnroll.data('selector-new-item', new_url)
+      $filteredUnroll.attr('data-selector-new-item', new_url)
+
+    _handleDisable: ($filteredUnroll, $filteringUnroll, disable) ->
+      $filteredUnroll.attr('disabled', true)
+      $filteredUnroll.closest($filteringUnroll.data('parent')).find($filteredUnroll.data('msg-container')).text(disable) if $filteredUnroll.data('msg-container')
+
+    _handleClear: ($filteredUnroll, clear) ->
+      if clear then $filteredUnroll.first().selector('clear') else $filteredUnroll.trigger('selector:change')
+
+    _retrieveFilteredUnroll: ($filteringUnroll) ->
+      $filteringUnroll.closest($filteringUnroll.data('parent')).find($filteringUnroll.data('filter-unroll'))
+
+    _retrieveValues: ($filteredUnroll, $filteringUnroll) ->
+      selectedValue = $filteredUnroll.next('.selector-value').val()
+      retrievedIds = []
+      if $filteringUnroll.data('retrieve-unroll')
+        $($filteringUnroll.data('retrieve-unroll')).each ->
+          retrievedIds.push $(this).selector('value')
+
+      { retrieved_ids: retrievedIds, selected_value: selectedValue }
 
   return
 ) ekylibre, jQuery

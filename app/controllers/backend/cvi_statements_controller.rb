@@ -74,48 +74,22 @@ module Backend
       t.column :state
     end
 
-    list(:cvi_cadastral_plants, order: 'land_parcel_id DESC', model: :formatted_cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions) do |t|
+    list(:cvi_cadastral_plants, order: 'land_parcel_id DESC', model: :formatted_cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions,
+                                line_class: "('invalid' unless RECORD.land_parcel_id) || ('edited' if RECORD.cadastral_ref_updated)".c) do |t|
       t.column :land_parcel_id, hidden: true
       t.action :edit, url: { controller: 'cvi_cadastral_plants',action: 'edit', remote: true }
-      t.action :destroy, url: { controller: 'cvi_cadastral_plants', action: 'destroy' }
+      t.action :delete_modal, url: { controller: 'cvi_cadastral_plants', action: 'delete_modal', remote: true },  icon_name: 'delete'
       t.column :commune
       t.column :locality
       t.column :cadastral_reference
       t.column :designation_of_origin_name
       t.column :vine_variety_name
       t.column :area_formatted
-      t.column :campaign
+      t.column :planting_campaign
       t.column :rootstock
       t.column :inter_vine_plant_distance_value
       t.column :inter_row_distance_value
       t.column :state
-    end
-
-    list(:cvi_cadastral_plants_map, order: 'land_parcel_id DESC', model: :formatted_cvi_cadastral_plants, conditions: cvi_cadastral_plants_conditions) do |t|
-      t.column :land_parcel_id, hidden: true
-      t.column :commune
-      t.column :locality
-      t.column :cadastral_reference
-      t.column :designation_of_origin_name
-      t.column :vine_variety_name
-      t.column :area_formatted
-      t.column :campaign
-      t.column :rootstock
-      t.column :inter_vine_plant_distance_value
-      t.column :inter_row_distance_value
-      t.column :state
-    end
-
-    def update_campaign
-      campaign = Campaign.find_or_create_by(harvest_year: params[:campaign]) if params[:campaign]
-      current_cvi_statement.update(campaign_id: campaign.id)
-      redirect_to backend_cvi_statement_path(@current_cvi_statement)
-    end
-
-    private
-
-    def current_cvi_statement
-      @current_cvi_statement ||= CviStatement.find(params[:id])
     end
   end
 end

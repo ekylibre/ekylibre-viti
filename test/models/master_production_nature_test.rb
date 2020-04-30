@@ -6,7 +6,7 @@
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
 # Copyright (C) 2012-2014 Brice Texier, David Joulin
-# Copyright (C) 2015-2019 Ekylibre SAS
+# Copyright (C) 2015-2020 Ekylibre SAS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -23,18 +23,20 @@
 #
 # == Table: master_production_natures
 #
-#  agroedi_crop_code  :string
-#  cap_2017_crop_code :string
-#  cap_2018_crop_code :string
-#  cap_2019_crop_code :string
-#  human_name         :jsonb
-#  human_name_fra     :string
-#  id                 :integer          not null, primary key
-#  pfi_crop_code      :string
-#  season             :string
-#  specie             :string           not null
-#  started_on         :date             not null
-#  stopped_on         :date             not null
+#  agroedi_crop_code         :string
+#  cap_2017_crop_code        :string
+#  cap_2018_crop_code        :string
+#  cap_2019_crop_code        :string
+#  human_name                :jsonb
+#  human_name_fra            :string           not null
+#  id                        :integer          not null, primary key
+#  life_duration             :decimal(5, 2)
+#  pfi_crop_code             :string
+#  season                    :string
+#  specie                    :string           not null
+#  start_state_of_production :jsonb
+#  started_on                :date             not null
+#  stopped_on                :date             not null
 #
 require 'test_helper'
 

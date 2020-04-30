@@ -5,10 +5,6 @@ module Printers
       WITH_SIGNATURE = WITH_PARCELS = WITH_CONDITIONS = [{}].freeze
       WITHOUT_SIGNATURE = WITHOUT_PARCELS = IN_PROGRESS = WITHOUT_CONDITIONS = [].freeze
 
-      def find_open_document_template(*)
-        super(:sales_estimate_and_order)
-      end
-
       def run_pdf
         # In progress or not
         state = sale.aborted? ? [{aborted: :export_sales_aborted}] : IN_PROGRESS
@@ -18,18 +14,20 @@ module Printers
         receiver = EntityDecorator.decorate(sale.client)
 
         # Cash
-        cash = Cash.bank_accounts.find_by(by_default: true) || Cash.bank_accounts.first
+        cash = get_company_cash
+
+        description = Maybe(sale).description.fmap { |d| [{ description: d }] }.or_else([])
 
         generate_report(template_path) do |r|
           # Header
-          r.add_image :company_logo, company.picture.path if company.has_picture?
+          r.add_image :company_logo, company.picture.path, keep_ratio: true if company.has_picture?
 
           # Title
-          r.add_field :title, title.upcase
+          r.add_field :title, title
 
           # Aborted
           r.add_section('section-aborted', state) do |s|
-            s.add_field(:aborted) { |item| I18n.transliterate(item[:aborted].tl).upcase }
+            s.add_field(:aborted) { |item| item[:aborted].tl }
           end
 
           # Expired_at
@@ -37,16 +35,20 @@ module Printers
             s.add_field(:expired_at) { sale.expired_at.to_date.l }
           end
 
+          r.add_section('section-description', description) do |sd|
+            sd.add_field(:description) { |item| item[:description] }
+          end
+
           # Company_address
           r.add_field :company_name, company.full_name
-          r.add_field :company_address, company.address.upcase
+          r.add_field :company_address, company.address
           r.add_field :company_email, company.email
           r.add_field :company_phone, company.phone
           r.add_field :company_website, company.website
 
           # Receiver_address
           r.add_field :receiver, receiver.full_name
-          r.add_field :receiver_address, receiver.address.upcase
+          r.add_field :receiver_address, receiver.address
           r.add_field :receiver_phone, receiver.phone
           r.add_field :receiver_email, receiver.email
 
@@ -92,11 +94,12 @@ module Printers
 
           # Footer
           r.add_field :footer, "#{I18n.t 'attributes.intracommunity_vat'} : #{company.vat_number} - #{I18n.t 'attributes.siret'} : #{company.siret_number} - #{I18n.t 'attributes.activity_code'} : #{company.activity_code}"
+
           # Bank details
-          r.add_field :account_holder_name, company.bank_account_holder_name
-          r.add_field :bank_name, cash.bank_name
-          r.add_field :bank_identifier_code, cash.bank_identifier_code
-          r.add_field :iban, cash.iban.scan(/.{1,4}/).join(' ')
+          r.add_field :account_holder_name, cash.bank_account_holder_name.recover { company.bank_account_holder_name }.or_else('')
+          r.add_field :bank_name, cash.bank_name.or_else('')
+          r.add_field :bank_identifier_code, cash.bank_identifier_code.or_else('')
+          r.add_field :iban, cash.iban.scan(/.{1,4}/).join(' ').or_else('')
         end
       end
     end

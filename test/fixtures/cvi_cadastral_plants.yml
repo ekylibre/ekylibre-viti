@@ -1,0 +1,93 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+cvi_cadastral_plants_001:
+  area_unit: hectare
+  area_value: 9.99
+  planting_campaign: String
+  created_at: 2014-11-05 09:36:48.608936000
+  cvi_statement_id: 1
+  designation_of_origin_id: 4184
+  id: 1
+  inter_row_distance_unit: meter
+  inter_row_distance_value: 9.9
+  inter_vine_plant_distance_unit: meter
+  inter_vine_plant_distance_value: 9.99
+  land_parcel_id: String
+  land_parcel_number: String
+  rootstock_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
+  section: String 
+  state: String
+  type_of_occupancy: String
+  updated_at: 2014-11-05 09:36:48.608936000
+  vine_variety_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
+  work_number: 1
+  land_modification_date: 2019-11-27
+
+cvi_cadastral_plants_002:
+  area_unit: hectare
+  area_value: 9.99
+  planting_campaign: String
+  created_at: 2014-11-05 09:36:48.608936000
+  cvi_statement_id: 1
+  designation_of_origin_id: 4184
+  id: 2
+  inter_row_distance_unit: meter
+  inter_row_distance_value: 9.9
+  inter_vine_plant_distance_unit: meter
+  inter_vine_plant_distance_value: 9.99
+  land_parcel_id: String
+  land_parcel_number: String
+  rootstock_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
+  section: String
+  state: String
+  type_of_occupancy: String
+  updated_at: 2014-11-05 09:36:48.608936000
+  vine_variety_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
+  work_number: 1
+  land_modification_date: 2019-11-27
+
+cvi_cadastral_plants_003:
+  area_unit: hectare
+  area_value: 9.99
+  planting_campaign: String
+  created_at: 2014-11-05 09:36:48.608936000
+  cvi_statement_id: 2
+  designation_of_origin_id: 4184
+  id: 3
+  inter_row_distance_unit: meter
+  inter_row_distance_value: 9.9
+  inter_vine_plant_distance_unit: meter
+  inter_vine_plant_distance_value: 9.99
+  land_parcel_id: String
+  land_parcel_number: String
+  rootstock_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
+  section: String 
+  state: String
+  type_of_occupancy: String
+  updated_at: 2014-11-05 09:36:48.608936000
+  vine_variety_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
+  work_number: 1
+  land_modification_date: 2019-11-27
+
+cvi_cadastral_plants_004:
+  area_unit: hectare
+  area_value: 9.99
+  planting_campaign: String
+  created_at: 2014-11-05 09:36:48.608936000
+  cvi_statement_id: 2
+  designation_of_origin_id: 4184
+  id: 4
+  inter_row_distance_unit: meter
+  inter_row_distance_value: 9.9
+  inter_vine_plant_distance_unit: meter
+  inter_vine_plant_distance_value: 9.99
+  land_parcel_id: String
+  land_parcel_number: String
+  rootstock_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
+  section: String
+  state: String
+  type_of_occupancy: String
+  updated_at: 2014-11-05 09:36:48.608936000
+  vine_variety_id: "017dfaf3f77d487f1da1acee8a7b782f5742458c"
+  work_number: 1
+  land_modification_date: 2019-11-27

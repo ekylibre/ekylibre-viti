@@ -186,6 +186,9 @@ cmn:
         exceptional_depreciations_inputations_revenues: "Exceptionnal无形的资产减值收入"
         exceptional_expenses: "特殊支出"
         exceptional_revenues: "特殊的收入"
+        exceptionnal_charge_transfer_revenues: "Exceptionnal电荷转移收入"
+        exceptionnal_depreciations_inputations_expenses: "Exceptionnal贬值inputations费用"
+        exceptionnal_incorporeal_asset_depreciation_revenues: "Exceptionnal无形的资产减值收入"
         expenses: "开支"
         exploitation_depreciations_inputations_expenses: "开发贬值inputations费用"
         exploitation_expenses_transfers: "开发费用转移"
@@ -700,7 +703,6 @@ cmn:
         senescence: "衰老"
       name: "动物的生活状态"
     cation_exchange_capacity_analysis_methods:
-      
       name: "阳离子交换量分析方法"
     certification_labels:
       items:
@@ -1804,8 +1806,7 @@ cmn:
         precision: "精确"
         symbol: "符号"
     delivery_modes:
-      choices:
-        
+      
       items:
         delivered_at_place: "在交货地点"
         delivered_at_terminal: "在终端交付"

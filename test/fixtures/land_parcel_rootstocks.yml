@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  percentage: 9.99
+  rootstock_id: 
+  land_parcel_id: 
+  land_parcel_type: Land parcel
+
+two:
+  percentage: 9.99
+  rootstock_id: 
+  land_parcel_id: 
+  land_parcel_type: Land parcel

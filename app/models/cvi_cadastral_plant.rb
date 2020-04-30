@@ -54,14 +54,16 @@ class CviCadastralPlant < Ekylibre::Record::Base
   enumerize :state, in: %i[planted removed_with_authorization], predicates: true
   enumerize :type_of_occupancy, in: %i[tenant_farming owner], predicates: true
 
+  belongs_to :cvi_cultivable_zone
   belongs_to :cvi_statement
-  belongs_to :registered_postal_zone, foreign_key: :insee_number
   belongs_to :land_parcel, class_name: 'CadastralLandParcelZone', foreign_key: :land_parcel_id
-  belongs_to :designation_of_origin, class_name: 'RegistredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
+  belongs_to :designation_of_origin, class_name: 'RegisteredProtectedDesignationOfOrigin', foreign_key: :designation_of_origin_id
   belongs_to :vine_variety, class_name: 'MasterVineVariety', foreign_key: :vine_variety_id
   belongs_to :rootstock, class_name: 'MasterVineVariety', foreign_key: :rootstock_id
+  has_one :location, as: :localizable, dependent: :destroy
+  has_many :cvi_cadastral_plant_cvi_land_parcels, dependent: :destroy
 
-  validates :insee_number, :work_number, :section, :campaign, :state, presence: true
+  validates :work_number, :section, :state, presence: true
   validates :area_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
   validates :inter_row_distance_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
   validates :inter_vine_plant_distance_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
@@ -76,35 +78,26 @@ class CviCadastralPlant < Ekylibre::Record::Base
     end
   end
 
-  delegate :geographic_area, to: :designation_of_origin
-  alias designation_of_origin_name geographic_area
-
-  delegate :specie_name, to: :vine_variety
-  alias vine_variety_name specie_name
-
+  delegate :registered_postal_zone_id, to: :location
   delegate :shape, to: :land_parcel
 
-  before_validation :set_commune, on: :update, if: :insee_number_changed_and_exist?
+  accepts_nested_attributes_for :location
+
   before_validation :set_land_parcel_id, on: :update, if: :cadastral_reference_changed?
 
-  private
-
-  # Check if insee number has changed and if it match a registered postal zone record in lexicon
-  def insee_number_changed_and_exist?
-    insee_number_changed? && registered_postal_zone
+  def updated?
+    created_at != updated_at
   end
-
+  
+  private
   # Check if any attributes parts of cadastral reference has changed
   def cadastral_reference_changed?
-    insee_number_changed? || section_changed? || work_number_changed?
-  end
-
-  def set_commune
-    self.commune = registered_postal_zone.city_name
+    location.registered_postal_zone_id_changed? || section_changed? || work_number_changed?
   end
 
   def set_land_parcel_id
-    land_parcel = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', "#{insee_number}%", section, work_number).first
+    land_parcel = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', "#{location.registered_postal_zone.code}%", section, work_number).first
     self.land_parcel = land_parcel
+    self.cadastral_ref_updated = true
   end
 end

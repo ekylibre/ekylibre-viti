@@ -142,6 +142,8 @@ deu:
       new: "Neue benutzerdefiniertes Feld"
       # show: "Custom field: %{name}"
       sort: "Sortieren benutzerdefiniertes Feld Auswahl"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
     backend/cvi_statements:
       # edit: "Edit CVI statement: %{id}"
       # index: "CVI statements"
@@ -827,7 +829,7 @@ deu:
       home:
         toolbar:
           buttons:
-            # home: "Center to my plots"
+            # home: "Center"
       importerButtonTitle: "Einführen"
       locking:
         # from_date_html: "from {{from}}<br>({{production}})"
@@ -1070,7 +1072,9 @@ deu:
     # building_zones: "Building zones"
     # by_account_fixed_assets: "Fixed assets by account on %{to}"
     by_year: "Mit dem Jahr"
+    # cadastral_references: "associated cadastral ref."
     calculate: "Berechnen"
+    # calculated_area: "calculated area"
     calculated_hours: "Berechnete Stunden"
     calculators: "Taschenrechner"
     calendar: "Kalender"
@@ -1150,6 +1154,7 @@ deu:
     # comment: "Comment"
     # commercial_margin: "Commercial margin"
     commission: "Kommission"
+    # communes: "commune(s)"
     company: "Gesellschaft"
     completed: "Fertiggestellt"
     # compute_balances: "Computing balances"
@@ -1253,6 +1258,7 @@ deu:
     # debts_other_financial_debts: "debts_other_financial_debts"
     # debts_others_loans: "debts_others_loans"
     decision_making: "Entscheidung fällen"
+    # declared_area: "declared area"
     default_letter_conclusion: "Genehmigen Sie, sehr geehrte Damen und Herren, Sehr geehrter Herr, den Ausdruck meiner ausgezeichneten Hochachtung."
     default_letter_function_title: "Sehr geehrte Damen, Sehr geehrter Herr"
     default_letter_introduction: "Im Anschluss an das Gespräch, ich gebe Ihnen die Elemente der Schätzung."
@@ -1419,9 +1425,9 @@ deu:
     export_as_xcsv: "Export als Excel CSV"
     # export_balance_sheet: "Export balance sheet"
     # export_centralizing_journal: "Export centralizing journal"
-    # export_fixed_assets_by_account: "Fixed assets by account"
-    # export_fixed_assets_gain_and_loss: "Added values and capital losses"
-    # export_fixed_assets_general: "Fixed assets"
+    # export_by_account_fixed_asset_registry: "Fixed assets by account"
+    # export_gain_and_loss_fixed_asset_registry: "Added values and capital losses"
+    # export_fixed_asset_registry: "Fixed assets"
     # export_income_statement: "Export income statement"
     # export_text_fec_all: "Export FEC corporate tax (Text)"
     # export_text_fec_ba_bnc_ir_commercial_accountancy: "Export FEC for agriculture and professional operations income taxation commercial accountancy (Text)"
@@ -2082,7 +2088,7 @@ deu:
     select_a_journal: "Wählen Sie eine Zeitschrift"
     select_closure_date: "Wählen Sie Schluss"
     select_columns: "Spalten auswählen"
-    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
+    # select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     # select_date: "Select date"
     select_date_generation: "Gültigkeitsdatum für die Erzeugung"
     select_file_to_upload: "Wählen Sie Datei hochzuladen"
@@ -2726,6 +2732,7 @@ deu:
       convert: "Konvertieren"
       correct: "Korrekt"
       create: "Erstellen"
+      # generate_cvi_land_parcels: "Create land parcels"
       destroy: "Zerstören"
       detach: "ablösen"
       # detail: "Detail"

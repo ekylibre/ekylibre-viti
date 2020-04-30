@@ -8,6 +8,8 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 server '217.182.193.16', roles: %w[app db web], user: 'ekylibre', ssh_options: { port: 12721 }
 
+set :branch, ENV['DEPLOY_BRANCH'] || :master
+
 # role-based syntax
 # ==================
 

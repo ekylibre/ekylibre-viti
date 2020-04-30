@@ -1,5 +1,5 @@
-= modal(id: "campaign-selection", size: :large) do
-  = form_tag(update_campaign_backend_cvi_statement_path, method: :patch) do
+= modal(id: "campaign-selection",class:"vertical-center", size: :large) do
+  = form_tag(backend_cvi_statement_conversions_path(id: @cvi_statement.id), method: :post) do
     .modal-header.colored-background
       %span.modal-title.h4= :convert_cvi_into_land_parcels.tl
     .modal-body
@@ -15,5 +15,5 @@
           %span#wine-production-period
           )
     .modal-footer
-      = link_to :cancel.tl, "path", class: 'btn btn-default',data: { dismiss: 'modal' }
+      = link_to :cancel.tl, '#', class: 'btn btn-default',data: { dismiss: 'modal' }
       = submit_tag :confirm.tl, class: 'btn btn-primary'

@@ -230,9 +230,9 @@ module Backend
         selection = []
         if options[:of].to_s =~ /\#/
           array = options[:of].to_s.split('#')
-          selection = Nomen[array.first].property_natures[array.second].selection
+          selection = Nomen.find(array.first).property_natures[array.second].selection
         else
-          selection = Nomen[options[:of]].selection
+          selection = Nomen.find(options[:of]).selection
         end
       else
         raise 'Need selection'
@@ -452,11 +452,27 @@ module Backend
     def date_range(start_attribute_name = :started_on, stop_attribute_name = :stopped_on, *args)
       options = args.extract_options!
       attribute_name = args.shift || options[:name] || :period
+      start_label = args.shift || options[:start_label] || :from
+      stop_label = args.shift || options[:stop_label] || :to
       input(attribute_name, options.merge(wrapper: :append)) do
-        @template.content_tag(:span, :from.tl, class: 'add-on') +
-          input(start_attribute_name, wrapper: :simplest) +
-          @template.content_tag(:span, :to.tl, class: 'add-on') +
-          input(stop_attribute_name, wrapper: :simplest)
+        @template.content_tag(:span, start_label.tl, class: 'add-on') +
+          input(start_attribute_name, options.merge(wrapper: :simplest)) +
+          @template.content_tag(:span, stop_label.tl, class: 'add-on') +
+          input(stop_attribute_name, options.merge(wrapper: :simplest))
+      end
+    end
+
+    def production_cycle_range(*args)
+      options = args.extract_options!
+      input(:production_campaign_period, options.merge(label: :production_campaign_period.tl, wrapper: :append)) do
+        @template.content_tag(:span, :from_current_year.tl, class: 'add-on') +
+          input(:production_started_on, options.merge(wrapper: :simplest)) +
+          @template.content_tag(:span, :year_long.tl, class: 'add-on') +
+          input(:production_campaign, collection: [['N-1', :at_cycle_end], ['N', :at_cycle_start]], wrapper: :simplest, selected: object.production_campaign || :at_cycle_start) +
+          @template.content_tag(:span,  :to_next_year.tl, class: 'add-on') +
+          input(:production_stopped_on, options.merge(wrapper: :simplest)) +
+          @template.content_tag(:span, :year_long.tl, class: 'add-on') +
+          @template.content_tag(:span, 'N', class: 'add-on')
       end
     end
 
@@ -652,7 +668,6 @@ module Backend
         varieties.keep_if { |(_l, n)| child_scope.all? { |c| c.variety? && Nomen::Variety.find(c.variety) <= n } }
       end
       @object.variety ||= scope.variety if scope
-      @object.variety ||= varieties.first.last if @object.new_record? && varieties.first
       if options[:derivative_of] || (scope && scope.derivative_of)
         derivatives = Nomen::Variety.selection(scope ? scope.derivative_of : nil)
         @object.derivative_of ||= scope.derivative_of if scope
@@ -772,7 +787,7 @@ module Backend
       choices = options.delete(:source) || {}
       choices = { scope: choices } if choices.is_a?(Symbol)
       choices[:action] ||= :unroll
-      choices[:controller] ||= reflection.class_name.underscore.pluralize
+      choices[:controller] ||= options.delete(:controller) || reflection.class_name.underscore.pluralize
 
       model = @object.class
 

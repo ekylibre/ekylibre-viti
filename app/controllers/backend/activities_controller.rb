@@ -22,7 +22,11 @@ module Backend
 
     manage_restfully except: %i[index show], subclass_inheritance: true
 
+    before_action :find_vine_default_production_id, only: %i[edit new]
+
     unroll
+
+    before_action :set_production_cycle_years, only: %i[update create]
 
     list line_class: '(:success if RECORD.of_campaign?(current_campaign))'.c do |t|
       # t.action :show, url: {format: :pdf}, image: :print
@@ -78,6 +82,8 @@ module Backend
           redirect_to backend_activity_path(@activity)
         end
       end
+      harvest_advisor = ::Interventions::Phytosanitary::PhytoHarvestAdvisor.new
+      @reentry_possible = harvest_advisor.reentry_possible?(@activity, Time.zone.now)
     end
 
     # Duplicate activity basing on campaign
@@ -152,6 +158,26 @@ module Backend
     list(:distributions, model: :activity_distributions, conditions: { activity_id: 'params[:id]'.c }) do |t|
       t.column :affectation_percentage, percentage: true
       t.column :main_activity, url: true
+    end
+
+    def set_production_cycle_years
+      return unless permitted_params["production_started_on"].present? && 
+                    permitted_params["production_stopped_on"].present? && 
+                    permitted_params["production_campaign"].present?
+
+      production_started_on = permitted_params["production_started_on"].to_date.change(year: 2000)
+      permitted_params["production_started_on"] = production_started_on.to_s
+      year = if permitted_params["production_campaign"] == "at_cycle_end"
+               2001
+             else
+               2000
+             end
+      production_stopped_on = permitted_params["production_stopped_on"].to_date.change(year: year)
+      permitted_params["production_stopped_on"] = production_stopped_on.to_s
+    end
+
+    def find_vine_default_production_id
+      @vine_default_production_id = MasterProductionNature.find_by(specie: 'vitis')&.id
     end
   end
 end

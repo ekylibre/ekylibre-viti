@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  registered_postal_zone_id: MyString
+  locality: MyString
+
+two:
+  registered_postal_zone_id: MyString
+  locality: MyString

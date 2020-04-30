@@ -25,7 +25,6 @@ Leaflet.GhostLabelCluster = Leaflet.LayerGroup.extend
     @_clusterIndex = []
     @_visibleLayers = {}
     @_cachedRelativeBoxes = []
-    @_margin = 0
     @__initialize.call @, options
     @_margin = options.margin or 0
     @_rbush = new RBush()

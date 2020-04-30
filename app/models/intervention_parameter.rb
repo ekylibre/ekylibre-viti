@@ -6,7 +6,7 @@
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
 # Copyright (C) 2012-2014 Brice Texier, David Joulin
-# Copyright (C) 2015-2019 Ekylibre SAS
+# Copyright (C) 2015-2020 Ekylibre SAS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -23,6 +23,8 @@
 #
 # == Table: intervention_parameters
 #
+#  allowed_entry_factor     :interval
+#  allowed_harvest_factor   :interval
 #  assembly_id              :integer
 #  batch_number             :string
 #  component_id             :integer
@@ -53,6 +55,7 @@
 #  unit_pretax_stock_amount :decimal(19, 4)   default(0.0), not null
 #  updated_at               :datetime         not null
 #  updater_id               :integer
+#  usage_id                 :string
 #  variant_id               :integer
 #  variety                  :string
 #  working_zone             :geometry({:srid=>4326, :type=>"multi_polygon"})
@@ -62,9 +65,15 @@ class InterventionParameter < Ekylibre::Record::Base
   belongs_to :group, class_name: 'InterventionGroupParameter'
   belongs_to :parent, class_name: 'InterventionGroupParameter', foreign_key: :group_id, inverse_of: :children
   belongs_to :intervention, inverse_of: :parameters
+  belongs_to :usage, class_name: 'RegisteredPhytosanitaryUsage'
+
+  serialize :specie_variety, HashSerializer
+  store_accessor :specie_variety, :specie_variety_name
+
+  has_interval :allowed_entry_factor, :allowed_harvest_factor
 
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
-  validates :batch_number, :currency, :identification_number, :new_name, :quantity_handler, :quantity_indicator_name, :quantity_unit_name, :variety, length: { maximum: 500 }, allow_blank: true
+  validates :allowed_entry_factor, :allowed_harvest_factor, :batch_number, :currency, :identification_number, :new_name, :quantity_handler, :quantity_indicator_name, :quantity_unit_name, :variety, length: { maximum: 500 }, allow_blank: true
   validates :dead, inclusion: { in: [true, false] }
   validates :quantity_population, :quantity_value, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
   validates :reference_name, presence: true, length: { maximum: 500 }

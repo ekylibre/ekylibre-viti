@@ -6,7 +6,7 @@
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
 # Copyright (C) 2012-2014 Brice Texier, David Joulin
-# Copyright (C) 2015-2019 Ekylibre SAS
+# Copyright (C) 2015-2020 Ekylibre SAS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -23,6 +23,8 @@
 #
 # == Table: intervention_parameters
 #
+#  allowed_entry_factor     :interval
+#  allowed_harvest_factor   :interval
 #  assembly_id              :integer
 #  batch_number             :string
 #  component_id             :integer
@@ -53,6 +55,7 @@
 #  unit_pretax_stock_amount :decimal(19, 4)   default(0.0), not null
 #  updated_at               :datetime         not null
 #  updater_id               :integer
+#  usage_id                 :string
 #  variant_id               :integer
 #  variety                  :string
 #  working_zone             :geometry({:srid=>4326, :type=>"multi_polygon"})
@@ -76,7 +79,7 @@ class InterventionOutput < InterventionProductParameter
 
       output.name = new_name if !procedure.of_category?(:planting) && new_name.present?
       output.name = compute_output_planting_name if procedure.of_category?(:planting)
-
+      output.specie_variety_name = specie_variety_name if procedure.of_category?(:planting) && specie_variety_name.present?
       output.identification_number = identification_number if identification_number.present?
       # output.attributes = product_attributes
       reading = readings.find_by(indicator_name: :shape)

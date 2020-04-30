@@ -142,6 +142,8 @@ jpn:
       new: "新しいカスタムフィールド"
       # show: "Custom field: %{name}"
       sort: "ソートカスタムフィールドの選択"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
     backend/cvi_statements:
       # edit: "Edit CVI statement: %{id}"
       # index: "CVI statements"
@@ -893,7 +895,7 @@ jpn:
       home:
         toolbar:
           buttons:
-            # home: "Center to my plots"
+            # home: "Center"
       importerButtonTitle: "インポート"
       locking:
         # from_date_html: "from {{from}}<br>({{production}})"
@@ -1137,7 +1139,9 @@ jpn:
     # building_zones: "Building zones"
     # by_account_fixed_assets: "Fixed assets by account on %{to}"
     by_year: "年度別"
+    # cadastral_references: "associated cadastral ref."
     calculate: "計算"
+    # calculated_area: "calculated area"
     calculated_hours: "計算時間"
     calculators: "電卓"
     calendar: "カレンダー"
@@ -1217,6 +1221,7 @@ jpn:
     # comment: "Comment"
     # commercial_margin: "Commercial margin"
     commission: "手数料"
+    # communes: "commune(s)"
     company: "社会"
     completed: "完成しました"
     # compute_balances: "Computing balances"
@@ -1320,6 +1325,7 @@ jpn:
     # debts_other_financial_debts: "debts_other_financial_debts"
     # debts_others_loans: "debts_others_loans"
     decision_making: "意思決定"
+    # declared_area: "declared area"
     default_letter_conclusion: "、拝啓、親愛なる、私の最高の対価の保証を受け入れてください。"
     default_letter_function_title: "親愛なるマダム、親愛なります"
     default_letter_introduction: "私たちの会話の後、私はあなたの推定値の要素を与えます。"
@@ -1487,9 +1493,9 @@ jpn:
     export_as_xcsv: "Excel CSVとしてエクスポート"
     # export_balance_sheet: "Export balance sheet"
     # export_centralizing_journal: "Export centralizing journal"
-    # export_fixed_assets_by_account: "Fixed assets by account"
-    # export_fixed_assets_gain_and_loss: "Added values and capital losses"
-    # export_fixed_assets_general: "Fixed assets"
+    # export_by_account_fixed_asset_registry: "Fixed assets by account"
+    # export_gain_and_loss_fixed_asset_registry: "Added values and capital losses"
+    # export_fixed_asset_registry: "Fixed assets"
     # export_income_statement: "Export income statement"
     # export_text_fec_all: "Export FEC corporate tax (Text)"
     # export_text_fec_ba_bnc_ir_commercial_accountancy: "Export FEC for agriculture and professional operations income taxation commercial accountancy (Text)"
@@ -2154,7 +2160,7 @@ jpn:
     select_a_journal: "ジャーナルの選択"
     select_closure_date: "閉じる日付を選択します。"
     select_columns: "列を選択します"
-    # select_cvi_campaign_intro: "<p>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p>Please select the asociated wine production campaign below.</p>"
+    # select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     select_date: "日付を選択"
     select_date_generation: "生成のための期限日"
     select_file_to_upload: "アップロードするファイルを選択します"
@@ -2802,6 +2808,7 @@ jpn:
       convert: "変換"
       correct: "正しい"
       create: "作ります"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "デクリメント" #?
       destroy: "破壊する"
       detach: "デタッチ"

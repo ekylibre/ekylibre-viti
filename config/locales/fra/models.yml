@@ -86,6 +86,9 @@ fra:
         net_margin: "Marge nette" #?
         parent: "Activité parente" #?
         work_unit: "Unité d’œuvre" #?
+        start_state_of_production: "1ère année de production"
+        life_duration: "Durée de vie après plantation"
+        production_campaign_period: "Campagne annuelle de production"
       activity_budget:
         expenses_amount: "Montant des dépenses"
         revenues_amount: "Montant des recettes"
@@ -107,22 +110,18 @@ fra:
         content_nature: "Type de Produit contenu" #?
         variety: "Type" #?
       cash:
-        enable_bookkeep_bank_item_details: "Comptabiliser le détails du relevé de comptes"
+        enable_bookkeep_bank_item_details: "Comptabiliser le détail du relevé de compte"
       cashes:
         main_account: "Compte principal"
       cvi_cadastral_plant:
         area: "Superficie déclarée"
         cadastral_reference: "référence cadastrale"
-        commune: "Commune"
         work_number: "Numéro de la parcelle cadastrale"
-        designation_of_origin_name: "Produit"
         inter_row_distance: "Inter rang"
         inter_vine_plant_distance: "Inter pied"
         land_parcel_id: "Ref. cadastrale id"
-        locality: "Lieu-dit"
         rootstock_number: "Porte-greffe"
         state: "Etat"
-        vine_variety_name: "Cépage"
       cvi_statement:
         cadastral_plant_count: "Nombre de cultures cadastrales"
         cadastral_sub_plant_count: "Nombre de sous-cultures cadastrales"
@@ -132,6 +131,9 @@ fra:
         farm_name: "Nom du domaine"
         state: "Statut"
         total_area: "Superficie encépagée déclarée"
+      cvi_land_parcel:
+        activity_id: Activité
+        land_modification_date: "Date d’arrachage"
       document:
         filename: "Fichier"
       document_archive: #?
@@ -176,14 +178,8 @@ fra:
         area_formatted: "Superficie déclarée" #?
         cadastral_reference: "Ref. cadastrale" #?
         commune: "Commune" #?
-        designation_of_origin_name: "Produit" #?
-        inter_row_distance_value: "Inter rang (cm)" #?
-        inter_vine_plant_distance_value: "Inter pied (cm)" #?
         land_parcel_id: "Ref. cadastrale id" #?
-        locality: "Lieu-dit" #?
-        rootstock: "Porte-greffe" #?
         state: "Etat" #?
-        vine_variety_name: "Cépage" #?
       incoming_payment: #?
         to_bank_at: "À encaisser le" #?
       inspection: #?
@@ -255,7 +251,8 @@ fra:
         born_at: "Planté/semé le"
         nature: "Nature de la culture" #?
         reproductor: "Multiplication" #?
-        variety: "Variété" #?
+        variety: "Espèce" #?
+        specie_variety_name: "Variété / Cépage" #?
       plant_counting:
         expected_plants_count: "Nombre de graines théorique" #?
         expected_seeding_density: "Densité théorique" #?
@@ -285,9 +282,13 @@ fra:
         fixed_asset_expenses_account: "Compte de dotation aux amortissements" #?
         price: "Prix de revient" #?
         subscribing: "Abonnement ?" #?
+        type: "Nature"
       product_nature_variant: #?
         contour: "Contour de la forme" #?
         horizontal_rotation: "Rotation horizontale de la forme" #?
+        specie_variety: "Variété"
+        status: "Autorisé"
+        variety: "Variété"
       product_transfer: #?
         building: "Lieu de stockage de départ" #?
         second_building: "Lieu de stockage d’arrivée" #?
@@ -302,6 +303,7 @@ fra:
         moved_at: "Reçu le" #?
         planned_at: "Réception prévue le" #?
       purchase_invoice: #?
+        delivery_address: "Adresse de facturation"
         description: "Notes" #?
         invoiced_at: "Date de facture" #?
         payment_delay: "Échéance" #?
@@ -318,6 +320,7 @@ fra:
         supplier_name: "Fournisseur"
       purchase_order: #?
         command_mode: "Mode de commande" #?
+        delivery_address: "Adresse de facturation"
         description: "Notes" #?
         estimate_reception_date: "Date prévisionnelle de réception" #?
         ordered_at: "Date commande" #?
@@ -326,6 +329,37 @@ fra:
       purchase_payment: #?
         delivered: "Remis au bénéficiaire" #?
         list: "Lot de décaissements" #?
+      registered_phytosanitary_product:
+        active_compounds: "Substance(s) active(s)"
+        firm_name: "Fabricant"
+        france_maaid: "N° AMM"
+        in_field_reentry_delay: "Délai de réentrée"
+        licence_number: "N° Permis"
+        name: "Nom usuel"
+        operator_protection_mentions: "Protection de l'opérateur"
+        other_names: "Seconds noms commerciaux"
+        product_type: "Type"
+        state: "État du produit"
+        started_on: "Date d'autorisation"
+        stopped_on: "Date de retrait"
+      registered_phytosanitary_usage:
+        applications_count: "Nb max"
+        applications_frequency: "Intervalle"
+        decision_date: "Date d'autorisation"
+        development_stage_min: "Stade BBCH min-max"
+        dose_quantity: "Dose max"
+        ephy_usage_phrase: "Usage"
+        lib_court: "Numéro"
+        pre_harvest_delay: "Délai avant récolte"
+        status: "Autorisé"
+        untreated_buffer_aquatic: "ZNT aquatique"
+        untreated_buffer_arthropod: "ZNT arthropodes"
+        untreated_buffer_plants: "ZNT plantes"
+        usage_conditions: "Conditions d'usage"
+      registered_phytosanitary_risk:
+        description: "Descriptif"
+        mentions: "Mentions de danger"
+        symbol_name: "Pictogramme"
       sale:
         affair_balance: "Solde"
         amount: "Montant TTC" #?
@@ -524,6 +558,14 @@ fra:
           attributes: #?
             parameters: #?
               check_errored: "La connexion au partenaire a échoué. Veuillez vérifier les informations saisies ou réessayer plus tard." #?
+        intervention_working_period:
+          attributes:
+            started_at:
+              inferior: "La date de début d'intervention saisie doit être antérieure à la date de fin des cultures sélectionnées (%{to})"
+              posterior: "La date de début d'intervention saisie doit être postérieure à la date de début des cultures sélectionnées (%{to})"
+            stopped_at:
+              inferior: "La date de fin d'intervention saisie doit être antérieure à la date de fin des cultures sélectionnées (%{to})"
+              posterior: "La date de fin d'intervention saisie doit être postérieure à la date de début des cultures sélectionnées (%{to})"
         journal: #?
           attributes: #?
             accountant: #?
@@ -556,6 +598,8 @@ fra:
           financial_year_matching_this_date_is_in_closure_preparation: "L'exercice comptable correspondant à cette date est en préparation de clôture par un autre utilisateur" #?
           financial_year_not_found: "Il n'y a pas d'exercice comptable pour cette date" #?
           not_opened_financial_year: "Un exercice comptable ouvert est nécessaire" #?
+        product_nature_variant:
+          cannot_change_maaid_number_if_it_has_already_been_set: "Le numéro d'AMM pointe déjà vers un produit phytosanitaire et ne peut être modifié"
         purchase: #?
           financial_year_exchange_on_this_period: "Un échange comptable est ouvert à cette période" #?
           financial_year_matching_this_date_is_in_closure_preparation: "L'exercice comptable correspondant à cette date est en préparation de clôture par un autre utilisateur" #?
@@ -636,8 +680,12 @@ fra:
       cultivable_zone: "Zone cultivable"
       custom_field: "Champ complémentaire"
       custom_field_choice: "Choix de champ complémentaire"
-      # cvi_cadastral_plant: "CVI cadastral plant"
+      cvi_cadastral_plant: "CVI cadastral plant"
       cvi_statement: "Casier Viticole Informatisé"
+      cvi_cultivable_zone:
+        one: "Zone cultivable"
+        other: "Zones cultivables"
+      cvi_land_parcel: "Parcelle"
       dashboard: "Tableau de bord"
       debt_transfer: "Transfert de dettes"
       delivery: "Livraison"
@@ -820,6 +868,12 @@ fra:
       worker: "Équipier"
       zone: "Zone"
   attributes:
+    designation_of_origin_name: "Produit" #?
+    inter_row_distance_value: "Inter rang (cm)" #?
+    inter_vine_plant_distance_value: "Inter pied (cm)" #?
+    rootstock: "Porte-greffe" #?
+    rootstocks: "Porte-greffe(s)"
+    vine_variety_name: "Cépage" #?
     abilities: "Compétences" #?
     abilities_list: "Liste des compétences"
     absolute_credit: "Crédit (absolu)"
@@ -883,6 +937,7 @@ fra:
     all_addresses: "Toutes les adresses"
     all_taxes_included: "Toutes taxes comprises"
     allocation_account: "Compte d'amortissement"
+    allowed_mentions: "Mentions autorisées"
     # already_existing: "Already existing"
     amount: "Montant"
     analysed_at: "Analysé le"
@@ -1040,7 +1095,8 @@ fra:
     commission_base_amount: "Montant fixe de la commission"
     commission_percentage: "Pourcentage de commission"
     commissioned_incoming_payment_modes: "Modes d’encaissement avec commission"
-    # commune: "Commune"
+    commune: "Commune"
+    communes: "Commune(s)"
     company_creation_date: "Date de création de l'entreprise"
     company_name: "Nom de l'entreprise"
     component: "Composant"
@@ -1092,7 +1148,7 @@ fra:
     cultivable_zone: "Zone cultivable"
     cultivable_zones: "Zones cultivables"
     cultivation_variant: "Type de culture"
-    cultivation_variety: "Variété de la culture"
+    cultivation_variety: "Espèce de la culture"
     cumulated_absolute_credit: "Crédit absolu cumulé"
     cumulated_absolute_debit: "Débit absolu cumulé"
     cumulated_balance: "Balance cumulée"
@@ -1121,6 +1177,7 @@ fra:
     customized: "Enregistrement personnalisé" #?
     customized_type: "Type d’enregistrement personnalisé"
     cvi_cadastral_plants: "Cultures cadastrales CVI"
+    # cvi_statement: "Cvi statement"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "Excrétion d’azote journalière"
     dashboards: "Tableaux de bord"
@@ -1225,7 +1282,7 @@ fra:
     emission_currency_rate: "Taux de la devise émise" #?
     emission_journal_entry: "Écriture de l’émission"
     emitted_on: "Émis le"
-    employed: "Employé par la société"
+    employed: "Travaillant pour la société"
     employee: "Employé"
     employee_account: "Compte employé"
     employees: "Employés"
@@ -1247,7 +1304,7 @@ fra:
     entry_number: "N° Écriture"
     entry_on: "Entrée le"
     entry_reason: "Raison de l'entrée"
-    # equipment: "Equipment"
+    equipment: "Équipement"
     # equipment_nature: "Equipment nature"
     establishment: "Établissement" #?
     # estimate_reception_date: "Estimate reception date"
@@ -1475,7 +1532,7 @@ fra:
     inventory: "Inventaire"
     # inventory_items: "Inventory items"
     invitation_accepted_at: "Invitation acceptée à"
-    invitation_created_at: "Invitation créé"
+    invitation_created_at: "Invitation créée"
     invitation_limit: "Limite d'invitation"
     invitation_sent_at: "Invitation envoyée à"
     invitation_token: "Invitation jeton"
@@ -1522,6 +1579,7 @@ fra:
     labels: "Étiquettes"
     land_parcel_number: "Numéro de la parcelle PAC"
     land_parcels: "Parcelles"
+    land_parcels_status: "Statut parcellaire"
     language: "Langue"
     last_analysis: "Dernières analyses"
     last_archive: "Dernière archive" #?
@@ -1560,7 +1618,8 @@ fra:
     local_count: "Population"
     local_credit: "Crédit"
     local_debit: "Débit"
-    # locality: "Locality"
+    locality: "Lieu-dit"
+    localities: "Lieu-dit(s)"
     localizations: "Localisations"
     lock_version: "Version"
     locked: "Verrouillé"
@@ -1761,6 +1820,7 @@ fra:
     planned_depreciations: "Amortissements prévus"
     planned_on: "Prévu sur"
     plant: "Plante"
+    planting_campaign: "Année"
     plant_counting: "Comptage"
     plant_countings: "Comptages"
     plant_density_abaci: "Abaques de densité de plant"
@@ -1911,7 +1971,7 @@ fra:
     received_at: "Reçu le"
     reception: "Réception" #?
     reception_amount: "Montant reçu"
-    reception_cash: "Trésorie réceptrice"
+    reception_cash: "Trésorerie réceptrice"
     reception_currency: "Monnaie de réception"
     reception_items: "Éléments de réception"
     reception_journal_entry: "Écriture de la réception"
@@ -1989,7 +2049,6 @@ fra:
     root_model_name: "Racine"
     root_node: "Nœud racine"
     root_parameters: "Paramètres Root"
-    # rootstock: "Rootstock"
     rows_count_value: "Nombre de rangs"
     sale: "Vente"
     sale_credit: "Avoir"
@@ -2056,7 +2115,7 @@ fra:
     size_value: "Valeur Taille"
     soil_nature: "Nature du sol"
     soil_production: "Contribution en azote du sol (Po)"
-    sold_journal_entry: "Ecriture de cession"
+    sold_journal_entry: "Écriture de cession"
     sold_on: "Date de cession"
     source: "Source"
     source_product: "Produit Source"
@@ -2064,7 +2123,8 @@ fra:
     # sowing_interval: "Sowing interval"
     spaced_iban: "IBAN"
     special_imputation_asset_account: "Compte d'imputation spéciale"
-    # specie: "Specie"
+    specie: "Espèce"
+    specie_variety_name: "Variété / Cépage"
     sql_type: "Type SQL"
     ssl: "Ssl"
     start: "Début"
@@ -2121,6 +2181,7 @@ fra:
     supports: "Supports"
     suspend_until_reconciliation: "Suspendre jusqu'à réconciliation"
     suspended: "Suspendu"
+    suspended_balance: "Solde du compte d'attente"
     suspended_journal_entry_items: "Lignes d'écriture suspendues"
     suspense_account: "Compte d'attente bancaire"
     tactic: "Itinéraire technique"
@@ -2191,7 +2252,7 @@ fra:
     # type_of_occupancy: "Type of occupancy"
     # uid: "UID"
     unconfirmed_email: "E-mail non confirmé"
-    undelivered_invoice_journal_entry: "Ecriture Facture non parvenue (FNP)"
+    undelivered_invoice_journal_entry: "Écriture Facture non parvenue (FNP)"
     undelivered_quantity: "Reste à livrer"
     unit: "Unité"
     unit_amount: "PU TTC"
@@ -2587,7 +2648,7 @@ fra:
       exchange_undelivered_invoice: "Facture non parvenue - extourne [%{resource} %{mode} %{number}] %{entity}"
       label: "%{supplier} à %{address}"
       purchase: "Achat"
-      quantity_gap_on_invoice: "Ecart de stock en quantité [%{resource} %{number}] de %{entity}"
+      quantity_gap_on_invoice: "Écart de stock en quantité [%{resource} %{number}] de %{entity}"
       states:
         aborted: "Abandonné"
         draft: "Devis brouillon"
@@ -2599,7 +2660,7 @@ fra:
       bookkeep: "[%{resource} %{number}] %{supplier}"
     purchase_invoice:
       bookkeep: "[%{resource} %{number}] %{products} de %{supplier}"
-      quantity_gap_on_invoice: "Ecart de stock en quantité [%{resource} %{number}] de %{entity}"
+      quantity_gap_on_invoice: "Écart de stock en quantité [%{resource} %{number}] de %{entity}"
     purchase_item:
       name: "%{product} (%{quantity}%{unit}) à %{amount}%{currency}/%{unit}"
       name_with_tracking: "%{product}/%{tracking} (%{quantity}%{unit}) à %{amount}%{currency}/%{unit}"
@@ -2640,7 +2701,7 @@ fra:
         invoice: "Facture %{number}"
         order: "Commande %{number}"
         refused: "Devis refusé %{number}"
-      quantity_gap_on_invoice: "Ecart de stock en quantité [%{resource} %{number}] de %{entity}"
+      quantity_gap_on_invoice: "Écart de stock en quantité [%{resource} %{number}] de %{entity}"
       sale: "Vente %{number}"
       sales_conditions:
         downpayment: "Un acompte de %{percentage}% (soit %{amount}) devra être versé à la signature du présent devis."

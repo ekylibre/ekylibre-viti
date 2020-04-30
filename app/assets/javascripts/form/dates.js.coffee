@@ -4,7 +4,7 @@
     locale: getLocale($element)
     dateFormat: 'Y-m-d'
     altInput: true
-    altFormat: 'd-m-Y'
+    altFormat: $element.data('alt-format') || 'd-m-Y'
   baseDateTimeOptions = ($element) => $.extend {}, baseDateOptions($element),
     enableTime: true
     dateFormat: 'Y-m-d H:i'
@@ -25,8 +25,9 @@
     $element = $(element)
     return if $element.is('[data-flatpickr="false"]')
     options = baseDateOptions $element
-    $element
-      .flatpickr options
+    fp = $element.flatpickr options
+    if $element.data('alt-format') == 'd-F'
+      fp.calendarContainer.classList.add('day-year-hidden')
 
   enableDatetimePicker = (element) =>
     $element = $(element)
@@ -43,14 +44,14 @@
 
   # Watch for element insertion via javascript
   E.onDOMElementAdded
-    "input[type='date']": ($element) => $element.each -> enableDatePicker @
-    "input[type='datetime']": ($element) => $element.each -> enableDatetimePicker @
-    "input[type='daterange']": ($element) => $element.each -> enableDateRangePicker @
+    "input[type='date']": ($element) => $element.each -> E.forms.date.enableDatePicker @
+    "input[type='datetime']": ($element) => $element.each -> E.forms.date.enableDatetimePicker @
+    "input[type='daterange']": ($element) => $element.each -> E.forms.date.enableDateRangePicker @
 
   # Initializes date fields
   $(document).ready =>
-    $("input[type='date']").each -> enableDatePicker @
-    $("input[type='datetime']").each -> enableDatetimePicker @
-    $("input[type='daterange']").each -> enableDateRangePicker @
+    $("input[type='date']").each -> E.forms.date.enableDatePicker @
+    $("input[type='datetime']").each -> E.forms.date.enableDatetimePicker @
+    $("input[type='daterange']").each -> E.forms.date.enableDateRangePicker @
 
 ) ekylibre, jQuery

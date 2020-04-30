@@ -6,7 +6,7 @@
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
 # Copyright (C) 2012-2014 Brice Texier, David Joulin
-# Copyright (C) 2015-2019 Ekylibre SAS
+# Copyright (C) 2015-2020 Ekylibre SAS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -54,7 +54,7 @@ class ActivityProduction < Ekylibre::Record::Base
   include Attachable
   include Customizable
 
-  enumerize :support_nature, in: %i[cultivation fallow_land buffer border none animal_group], default: :cultivation
+  enumerize :support_nature, in: %i[headland_cultivation cultivation fallow_land buffer border none animal_group], default: :cultivation
   refers_to :usage, class_name: 'ProductionUsage'
   refers_to :size_indicator, class_name: 'Indicator'
   refers_to :size_unit, class_name: 'Unit'
@@ -74,8 +74,9 @@ class ActivityProduction < Ekylibre::Record::Base
 
   has_and_belongs_to_many :interventions
   has_and_belongs_to_many :campaigns
+  belongs_to :planting_campaign, class_name: 'Campaign'
 
-  has_geometry :support_shape, type: :multi_polygon
+  has_geometry :support_shape, :headland_shape, type: :multi_polygon
   composed_of :size, class_name: 'Measure', mapping: [%w[size_value to_d], %w[size_unit_name unit]]
 
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
@@ -91,6 +92,7 @@ class ActivityProduction < Ekylibre::Record::Base
   validates :started_on, presence: true
   # validates_presence_of :cultivable_zone, :support_nature, if: :plant_farming?
   validates :support_nature, presence: { if: :plant_farming? }
+  validates :support_nature, presence: { if: :vine_farming? }
   validates :campaign, :stopped_on, presence: { if: :annual? }
   validates :started_on, presence: true
   # validates_numericality_of :size_value, greater_than: 0
@@ -99,7 +101,7 @@ class ActivityProduction < Ekylibre::Record::Base
   delegate :name, :work_number, to: :support, prefix: true
   # delegate :shape, :shape_to_ewkt, :shape_svg, :net_surface_area, :shape_area, to: :support
   delegate :name, :size_indicator_name, :size_unit_name, to: :activity, prefix: true
-  delegate :animal_farming?, :plant_farming?, :tool_maintaining?,
+  delegate :animal_farming?, :plant_farming?, :tool_maintaining?, :vine_farming?,
            :at_cycle_start?, :at_cycle_end?, :use_seasons?, :use_tactics?,
            :with_cultivation, :cultivation_variety, :with_supports, :support_variety,
            :color, :annual?, :perennial?, to: :activity, allow_nil: true
@@ -174,7 +176,7 @@ class ActivityProduction < Ekylibre::Record::Base
       self.size_unit_name = activity_size_unit_name
       self.rank_number ||= (activity.productions.maximum(:rank_number) ? activity.productions.maximum(:rank_number) : 0) + 1
       if valid_period_for_support?
-        if plant_farming?
+        if plant_farming? || vine_farming?
           initialize_land_parcel_support!
         elsif animal_farming?
           initialize_animal_group_support!
@@ -192,7 +194,7 @@ class ActivityProduction < Ekylibre::Record::Base
   end
 
   validate do
-    errors.add(:support_shape, :empty) if plant_farming? && support_shape && support_shape.empty?
+    errors.add(:support_shape, :empty) if (plant_farming? || vine_farming?) && support_shape && support_shape.empty?
   end
 
   after_save do
@@ -216,14 +218,17 @@ class ActivityProduction < Ekylibre::Record::Base
     interventions.any? || products.any?
   end
 
-  def computed_support_name
-    list = []
-    list << cultivable_zone.name if cultivable_zone
-    list << campaign.name if campaign
-    list << activity.name
-    list << :rank.t(number: rank_number)
-    list.reverse! if 'i18n.dir'.t == 'rtl'
-    list.join(' ')
+  def self.retrieve_varieties_ancestors(*varieties)
+    varieties.map do |variety|
+      ancestors = [variety]
+      nomen_variety = Nomen::Variety.find(variety)
+      loop do
+        nomen_variety = nomen_variety.parent
+        ancestors << nomen_variety.name
+        break if nomen_variety.name == 'plant'
+      end
+      ancestors
+    end.flatten.uniq
   end
 
   # compile unique work_number for support
@@ -715,14 +720,16 @@ class ActivityProduction < Ekylibre::Record::Base
     interactor = NamingFormats::LandParcels::BuildActivityProductionNameInteractor
                  .call(activity_production: self)
 
-    return interactor.build_name if interactor.success?
-    if interactor.fail?
+    if interactor.success?
+      interactor.build_name
+    #interactor is not loaded before the rake first run task
+    else
       list = []
+      list << cultivable_zone.name if cultivable_zone && (plant_farming? || vine_farming?)
       list << activity.name
       list << campaign.harvest_year.to_s if activity.annual? && started_on
       # list << started_on.to_date.l(format: :month) if activity.annual? && started_on
-      list << cultivable_zone.name if cultivable_zone && plant_farming?
-      # list << :rank.t(number: rank_number)
+      list << :rank.t(number: rank_number)
       list = list.reverse! if 'i18n.dir'.t == 'rtl'
       list.join(' ')
     end

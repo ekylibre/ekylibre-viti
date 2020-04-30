@@ -28,7 +28,7 @@ db/first_runs
 
 # Ignore lexicon data
 db/lexicon/data.sql
-test/fixture-files/lexicon/data.sql
+db/lexicon/data.sql.gz
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -102,3 +102,5 @@ yarn-debug.log*
 .yarn-integrity
 .solargraph.yml
 package-lock.json
+/lib/tasks/around_clean.rake
+/db/lexicon/backup

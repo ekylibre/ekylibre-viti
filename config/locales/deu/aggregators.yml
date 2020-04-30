@@ -64,7 +64,7 @@ deu:
     other_products: "Andere Produkte" #?
     other_purchases: "andere Käufe" #?
     owner_name: "Besitzername" #?
-    payment_ratio: "Payment-Verhältnis"
+    payment_ratio: "Payment-Verhältnis" #?
     person_name: "Name der Person"
     pictogram: "Piktogramm" #?
     picture_path: "Bildpfad"

@@ -44,6 +44,9 @@
             list-style-type: disc;
           }
         }
+        .registered-phytosanitary-usage-block {
+          padding: 0 14px;
+        }
       }
       .modal-footer {
         @include text-align(right);
@@ -52,5 +55,16 @@
         }
       }
     }
+  }
+}
+
+.modal.vertical-center {
+  .modal-dialog {
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }
