@@ -1,5 +1,4 @@
 
-- activity_default_params = { family:"plant_farming", production_nature_id: 154, cultivation_variety: "vitis", production_cycle: "perennial", countings_hidden:true, countings_hidden:true, seasons_hidden:true, tactic_hidden:true}
 = ekylibre_form_for(@cvi_land_parcel, url: update_multiple_backend_cvi_land_parcels_path, method: :put, data: {dialog: params[:dialog]}) do |f|
   - current_year = Time.current.year
   - for cvi_land_parcel in @cvi_land_parcels
@@ -14,7 +13,7 @@
     = f.input :land_modification_date
     = f.input :inter_row_distance_value, as: :numeric, input_html: {type: 'number', value: resource.inter_row_distance_value&.to_i, min:12, step:1}
     = f.input :inter_vine_plant_distance_value,as: "numeric", input_html: {value: resource.inter_vine_plant_distance_value&.to_i }
-    = f.referenced_association :activity, source: {scope: :wine }, new: activity_default_params, label: :activity.tl, required: true
+    = f.referenced_association :activity, source: {scope: :wine }, new: @new_vine_activity_params, label: :activity.tl, required: true
   - f.add(:submit, :update.tl, data: {disable_with: :please_wait.tl}, class: 'primary')
   - f.add(:link, :cancel.tl, '', {class: 'btn', data: {close_dialog: params[:dialog]}})
   = f.actions
