@@ -17,11 +17,11 @@ class CropGroup < Ekylibre::Record::Base
   end
 
   def label_names
-    labels.collect(&:name).join('')
+    labels.collect(&:name).sort.join(', ')
   end
 
   def crop_names
-    crops.collect(&:name).join('')
+    crops.collect(&:name).sort.join(', ')
   end
 
   def total_area
