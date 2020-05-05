@@ -3,5 +3,6 @@
 
 = kujaku do |k|
   - k.text
+  - k.multi_choice :label, CropGroup.all.collect(&:labels).compact.map{ |s| [s.name.tl, s.name] }
 
 = main_list

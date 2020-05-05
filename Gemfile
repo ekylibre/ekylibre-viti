@@ -118,6 +118,7 @@ gem 'capistrano-nvm', require: false, group: :development
 gem 'exception_notification'
 
 # Views helpers
+# gem 'active_list', path: '../active_list'
 gem 'active_list', gitlab: 'ekylibre/active_list', branch: 'master'
 
 gem 'haml'
