@@ -10,6 +10,5 @@ FactoryBot.define do
     trait :for_plant do
       association :crop, factory: :plant
     end
-
   end
 end

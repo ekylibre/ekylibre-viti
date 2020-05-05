@@ -394,7 +394,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :crop_groups, concerns: %i[list unroll], only: %i[index new edit create update destroy]
+    resources :crop_groups, concerns: %i[list unroll], only: %i[index new edit create update destroy] do 
+      member do
+        post :duplicate
+      end
+    end
 
     resources :crumbs, only: %i[index update destroy] do
       member do

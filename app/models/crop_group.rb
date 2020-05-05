@@ -1,8 +1,8 @@
-class CropGroup < Ekylibre::Record::Base 
-  enumerize :target, in: %i[land_parcel plant], default: :plant
+class CropGroup < Ekylibre::Record::Base
+  enumerize :target, in: %i[land_parcel plant], predicates: true, default: :plant
 
   has_many :labellings, class_name: 'CropGroupLabelling', dependent: :destroy
-  has_many :items, class_name: 'CropGroupItem', dependent: :nullify 
+  has_many :items, class_name: 'CropGroupItem', dependent: :nullify
   has_many :plants, through: :items, source: :crop, source_type: 'Plant'
   has_many :land_parcels, through: :items, source: :crop, source_type: 'LandParcel'
   has_many :labels, through: :labellings
@@ -12,7 +12,7 @@ class CropGroup < Ekylibre::Record::Base
   accepts_nested_attributes_for :labellings, allow_destroy: true
   accepts_nested_attributes_for :items, allow_destroy: true
 
-  def crops 
+  def crops
     plants + land_parcels
   end
 
@@ -26,5 +26,17 @@ class CropGroup < Ekylibre::Record::Base
 
   def total_area
     crops.collect(&:net_surface_area).sum
+  end
+
+  def duplicate
+    index = self.class.where('name like ?', "#{name}%").count
+    crop_group = self.class.create!(attributes.merge(name: "#{name} (#{index})").delete_if { |a| a.to_s == 'id' })
+    items.each do |item|
+      item.duplicate(crop_group)
+    end
+    labellings.each do |labelling|
+      labelling.duplicate(crop_group)
+    end
+    crop_group
   end
 end
