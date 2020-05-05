@@ -1101,6 +1101,7 @@
       </item>
        <item name="crop_groups">
         <page to="backend/crop_groups#index"/>
+        <page to="backend/crop_groups#show"/>
         <page to="backend/crop_groups#create"/>
         <page to="backend/crop_groups#destroy"/>
         <page to="backend/crop_groups#edit"/>

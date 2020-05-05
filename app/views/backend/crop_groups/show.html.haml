@@ -1,0 +1,16 @@
+- main_toolbar do |t|
+  = t.edit
+  = t.destroy
+  = t.duplicate resource, method: :post, params: {redirect: nil}
+
+= main_informations do
+  = infos do
+    .med-info.important
+      %span.title= :vine_area.tl
+      %span.value
+        = resource.total_area
+= cobbles do |c|
+
+  - c.cobble(:map) do
+    #map
+  

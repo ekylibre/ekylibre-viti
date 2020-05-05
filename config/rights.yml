@@ -679,6 +679,7 @@ crop_groups:
     - "backend/crop_groups#index"
     - "backend/crop_groups#list"
     - "backend/crop_groups#new"
+    - "backend/crop_groups#show"
   write:
     dependencies:
     - read-crop_groups
