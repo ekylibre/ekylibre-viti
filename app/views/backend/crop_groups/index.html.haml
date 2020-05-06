@@ -5,4 +5,7 @@
   - k.text
   - k.multi_choice :label, CropGroup.all.collect(&:labels).compact.map{ |s| [s.name.tl, s.name] }
 
+= toolbar do |t|
+  = t.new(nature: :request, label: :add_intervention_request.tl, params: { controller: :interventions }, class: 'disabled' ,id: 'new-intervention-request-crop-groups')
+  = t.new(nature: :record, label: :add_intervention_record.tl, params: { controller: :interventions }, class: 'disabled', id: 'new-intervention-record-crop-groups')
 = main_list

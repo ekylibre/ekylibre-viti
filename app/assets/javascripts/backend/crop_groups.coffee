@@ -1,6 +1,46 @@
 ((E, $ ) ->
   'use strict'
-  E.PRODUCTS_UNROLL_URL = 
+
+  toolbar = {
+    init: () ->
+      this.$interventionRequestBtn = $('#new-intervention-request-crop-groups')
+      this.$interventionRecordBtn = $('#new-intervention-record-crop-groups')
+      this.interventionRequestUrl = this.$interventionRequestBtn.prop('href')
+      this.interventionRecordUrl = this.$interventionRecordBtn.prop('href')
+                    
+    handleBtnsDisabling: (ids) ->
+      disabled = !ids.length
+      toolbar.$interventionRequestBtn.toggleClass('disabled', !!disabled)
+      toolbar.$interventionRecordBtn.toggleClass('disabled', !!disabled)
+    
+    updateBtnsHref: (ids) ->
+        if ids.length > 0
+          toolbar.$interventionRequestBtn
+                 .prop('href', "#{toolbar.interventionRequestUrl}?crop_groups_ids=#{ids}")
+          toolbar.$interventionRecordBtn
+                 .prop('href', "#{toolbar.interventionRecordUrl}?crop_groups_ids=#{ids}")
+        else
+          toolbar.$interventionRequestBtn.prop('href', toolbar.interventionRequestUrl)
+          toolbar.$interventionRecordBtn.prop('href', toolbar.interventionRecordUrl)
+  }
+
+  list = {
+    getSelectedIds: () ->
+      selectedCropGroups = $('input[data-list-selector]:checked').filter ->
+                             /\d/.test($(this).data('list-selector'))
+      selectedCropGroupIds = selectedCropGroups.map ->
+                              $(this).data('list-selector')
+                            .toArray()
+  }
+
+  $(document).ready ->
+    toolbar.init() if $('#crop_groups-list').length > 0
+  
+  $(document).on 'change', '#crop_groups-list input[data-list-selector]', ->
+    selectedIds = list.getSelectedIds()
+    toolbar.handleBtnsDisabling(selectedIds)
+    toolbar.updateBtnsHref(selectedIds)
+
   form = {
     selectedTarget: () -> $("input[type=radio][name='crop_group[target]']:checked")[0].value
     handleRadioButonsState: () ->
