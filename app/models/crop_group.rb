@@ -13,7 +13,8 @@ class CropGroup < Ekylibre::Record::Base
   accepts_nested_attributes_for :items, allow_destroy: true
 
   def crops
-    plants + land_parcels
+    Product.joins(:crop_group_items)
+           .where("products.type IN ('Plant', 'LandParcel') AND crop_group_items.crop_group_id = #{id} AND crop_group_items.crop_type IN ('Plant', 'LandParcel')")
   end
 
   def label_names
