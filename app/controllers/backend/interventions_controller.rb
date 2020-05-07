@@ -21,7 +21,7 @@ require_dependency 'procedo'
 module Backend
   class InterventionsController < Backend::BaseController
     manage_restfully t3e: { procedure_name: '(RECORD.procedure ? RECORD.procedure.human_name : nil)'.c },
-                     continue: %i[nature procedure_name]
+                     continue: %i[nature procedure_name crop_group_ids]
 
     respond_to :pdf, :odt, :docx, :xml, :json, :html, :csv
 
@@ -227,6 +227,27 @@ module Backend
          stopped_at trouble_description trouble_encountered
          whole_duration working_duration].each do |param|
         options[param] = params[param]
+      end
+      if params[:crop_group_ids] && params[:procedure_name]
+        procedure = Procedo::Procedure.find(params[:procedure_name])
+        target_parameter = procedure.parameters_of_type(:target, true).first
+        targets = CropGroup.find(params[:crop_group_ids].split(','))
+                            .collect(&:crops)
+                            .flatten
+        if target_parameter
+          options[:targets_attributes] = if target_parameter && targets.any? && target_parameter.name == :cultivation
+                                          targets.map { |target| { reference_name: :cultivation, product_id: target.id } }
+                                        else
+                                          targets.map { |target| { reference_name: target.class.name.snakecase.to_sym , product_id: target.id } }
+                                        end 
+        end
+
+        if target_parameter.group.name != :root_
+          group_name = target_parameter.group.name
+          options[:group_parameters_attributes] = options.delete(:targets_attributes)
+                                                         .select{ |target| target[:reference_name] == target_parameter.name }
+                                                         .map{ |target| { reference_name: group_name, targets_attributes: [target] } }
+        end
       end
 
       # , :doers, :inputs, :outputs, :tools
