@@ -4,15 +4,16 @@ class Backend::CropGroupsController < Backend::BaseController
   def self.crop_groups_conditions
     code = ''
     code << search_conditions(crop_groups: %i[name target], labels: %i[name]) + " ||= []\n"
-    # code << "unless params[:state].blank? \n"
-    # code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.state IN (?)'\n"
-    # code << "  c << params[:state]\n"
-    # code << "end\n"
+    code << "unless params[:label].blank? \n"
+    code << "  c[0] << ' AND labels.name = ?'\n"
+    code << "  c << params[:label]\n"
+    code << "end\n"
     code << "c\n "
     code.c
   end
 
-  list selectable: true, joins: %i[labels], conditions: crop_groups_conditions do |t|
+  list selectable: true, conditions: crop_groups_conditions, joins:"LEFT JOIN crop_group_labellings ON crop_group_labellings.crop_group_id = crop_groups.id 
+  LEFT JOIN labels ON labels.id = crop_group_labellings.label_id" do |t|
     t.action :edit
     t.action :destroy, if: :destroyable?
     t.action :duplicate, method: :post
