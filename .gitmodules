@@ -6,3 +6,6 @@
 	path = plugins/hajimari
 	url = git@gitlab.com:ekylibre/ekylibre-hajimari.git
 	branch = master
+[submodule "weenat"]
+	path = plugins/weenat
+	url = git@gitlab.com:ekylibre/ekylibre-weenat.git
