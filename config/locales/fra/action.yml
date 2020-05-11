@@ -1116,7 +1116,6 @@ fra:
         not_defined: "A définir"
   labels:
     use: "Usage"
-    usages: "Usages"
     land_parcel_plant: "Parcelle/culture"
     land_parcels_plants: "Parcelles/cultures"
     add_crop: "Ajouter une parcelle/culture"

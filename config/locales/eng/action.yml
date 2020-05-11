@@ -1314,7 +1314,6 @@ eng:
         n_4_5_leaf: "N+4 (5th leaf)"
   labels:
     use: "use"
-    usages: "uses"
     land_parcel_plant: "Land parcel/plant"
     land_parcels_plants: "Land parcels/plants"
     add_crop: "Add crop"

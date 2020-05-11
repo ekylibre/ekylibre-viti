@@ -26,7 +26,7 @@ class CropGroup < Ekylibre::Record::Base
   end
 
   def total_area
-    crops.collect(&:net_surface_area).sum
+    crops.collect(&:net_surface_area).sum.to_s(:ha_a_ca)
   end
 
   def duplicate

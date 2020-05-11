@@ -1,6 +1,12 @@
 class Backend::CropGroupsController < Backend::BaseController
   manage_restfully
 
+  before_action :kujaku_options, only: %i[index]
+
+  def kujaku_options
+    @labels = CropGroup.all.collect(&:labels).flatten
+  end
+
   def self.crop_groups_conditions
     code = ''
     code << search_conditions(crop_groups: %i[name target], labels: %i[name], products: %i[name]) + " ||= []\n"
@@ -20,7 +26,7 @@ class Backend::CropGroupsController < Backend::BaseController
     t.action :destroy, if: :destroyable?
     t.action :duplicate, method: :post
     t.column :name, url: true
-    t.column :uses, label_method: :label_names, label: :use 
+    t.column :uses, label_method: :label_names, label: :use
     t.column :crop_names, label_method: :crop_names, label: :land_parcels_plants
     t.column :total_area, label_method: :total_area, label: :total_area
   end
