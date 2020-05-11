@@ -687,7 +687,7 @@ crop_groups:
     - "backend/crop_groups#create"
     - "backend/crop_groups#destroy"
     - "backend/crop_groups#update"
-
+    - "backend/crop_groups#duplicate"
 cultivable_zones:
   read:
     actions:
