@@ -14,7 +14,7 @@ class CropGroup < Ekylibre::Record::Base
 
   def crops
     Product.joins(:crop_group_items)
-           .where("products.type IN ('Plant', 'LandParcel') AND crop_group_items.crop_group_id = #{id} AND crop_group_items.crop_type IN ('Plant', 'LandParcel')")
+           .where('crop_group_items.crop_group_id = ?', id)
   end
 
   def label_names
