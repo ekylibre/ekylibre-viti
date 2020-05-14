@@ -32,14 +32,16 @@ class CropGroup < Ekylibre::Record::Base
   end
 
   def duplicate
-    index = self.class.where('name like ?', "#{name}%").count
-    crop_group = self.class.create!(attributes.merge(name: "#{name} (#{index})").delete_if { |a| a.to_s == 'id' })
-    items.each do |item|
-      item.duplicate(crop_group)
+    transaction do
+      index = self.class.where('name like ?', "#{name}%").count
+      crop_group = self.class.create!(attributes.merge(name: "#{name} (#{index})").delete_if { |a| a.to_s == 'id' })
+      items.each do |item|
+        item.duplicate(crop_group)
+      end
+      labellings.each do |labelling|
+        labelling.duplicate(crop_group)
+      end
+      crop_group
     end
-    labellings.each do |labelling|
-      labelling.duplicate(crop_group)
-    end
-    crop_group
   end
 end
