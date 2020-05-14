@@ -230,16 +230,16 @@ module Backend
       end
       if params[:crop_group_ids] && params[:procedure_name]
         procedure = Procedo::Procedure.find(params[:procedure_name])
-        target_parameter = procedure.parameters_of_type(:target, true).first
-        targets = CropGroup.find(params[:crop_group_ids].split(','))
-                           .collect{ |crop_group| crop_group.crops.availables(at: (Time.zone.now - 1.hour))}
+        target_parameter = procedure.parameters_of_type(:target, true).first if procedure.present?
+        targets = CropGroup.where(id: params[:crop_group_ids].split(','))
+                           .collect { |crop_group| crop_group.crops.availables(at: (Time.zone.now - 1.hour)) }
                            .flatten
         if target_parameter
           options[:targets_attributes] = if target_parameter && targets.any? && target_parameter.name == :cultivation
-                                          targets.map { |target| { reference_name: :cultivation, product_id: target.id } }
-                                        else
-                                          targets.map { |target| { reference_name: target.class.name.snakecase.to_sym , product_id: target.id } }
-                                        end 
+                                           targets.map { |target| { reference_name: :cultivation, product_id: target.id } }
+                                         else
+                                           targets.map { |target| { reference_name: target.class.name.snakecase.to_sym , product_id: target.id } }
+                                         end
         end
 
         if target_parameter.group.name != :root_
