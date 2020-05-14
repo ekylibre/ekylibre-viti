@@ -231,19 +231,15 @@ module Backend
       if params[:crop_group_ids] && params[:procedure_name]
         procedure = Procedo::Procedure.find(params[:procedure_name])
         target_parameter = procedure.parameters_of_type(:target, true).first if procedure.present?
-        targets = CropGroup.available_crops(params[:crop_group_ids].split(','))
-        if target_parameter
-          options[:targets_attributes] = if target_parameter && targets.any? && target_parameter.name == :cultivation
-                                           targets.map { |target| { reference_name: :cultivation, product_id: target.id } }
-                                         else
-                                           targets.map { |target| { reference_name: target.class.name.snakecase.to_sym , product_id: target.id } }
-                                         end
+        type = target_parameter.name == :cultivation ? %w[Plant LandParcel] : target_parameter.name.to_s.classify if target_parameter.present?
+        targets = CropGroup.available_crops(params[:crop_group_ids].split(','), type)
+        if targets.any?
+          options[:targets_attributes] = targets.map { |target| { reference_name: target_parameter.name, product_id: target.id } }
         end
 
         if target_parameter.group.name != :root_
           group_name = target_parameter.group.name
           options[:group_parameters_attributes] = options.delete(:targets_attributes)
-                                                         .select{ |target| target[:reference_name] == target_parameter.name }
                                                          .map{ |target| { reference_name: group_name, targets_attributes: [target] } }
         end
       end
