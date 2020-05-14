@@ -15,7 +15,7 @@ class CropGroup < Ekylibre::Record::Base
   scope :available_crops, ->(ids, type = %w[Plant LandParcel]) { where(id: ids).collect { |crop_group| crop_group.crops.where(type: type).availables(at: (Time.zone.now - 1.hour)) }.flatten }
 
   def crops
-    Product.joins(:crop_group_items)
+    Crop.all.joins(:crop_group_items)
            .where('crop_group_items.crop_group_id = ?', id)
   end
 
