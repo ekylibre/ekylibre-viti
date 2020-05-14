@@ -394,6 +394,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :crops, concerns: %i[unroll]
+
     resources :crop_groups, concerns: %i[list unroll] do
       member do
         post :duplicate

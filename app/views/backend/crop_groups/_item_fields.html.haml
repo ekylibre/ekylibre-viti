@@ -1,4 +1,4 @@
 .nested-fields
   = link_to_remove_nested_association('crop', f)
   = f.hidden_field :crop_type, input_html: { value: target }
-  = f.referenced_association :crop, source: { controller: :products, scope: :plants }, new: false, label: :land_parcel_plant.tl
+  = f.referenced_association :crop, new: false, label: :land_parcel_plant.tl
