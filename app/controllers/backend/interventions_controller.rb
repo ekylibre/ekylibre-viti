@@ -234,7 +234,7 @@ module Backend
         type = target_parameter.name == :cultivation ? %w[Plant LandParcel] : target_parameter.name.to_s.classify if target_parameter.present?
         targets = CropGroup.available_crops(params[:crop_group_ids].split(','), type)
         if targets.any?
-          options[:targets_attributes] = targets.map { |target| { reference_name: target_parameter.name, product_id: target.id } }
+          options[:targets_attributes] = targets.map { |target| { reference_name: target_parameter.name, product_id: target.id, working_zone: target.initial_shape } }
         end
 
         if target_parameter.group.name != :root_
