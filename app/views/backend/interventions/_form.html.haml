@@ -75,7 +75,7 @@
             = dropdown_menu_button(category.human_name, class: 'btn-group-lg procedure-dropdown', icon: false) do |menu|
               - procedures = Procedo::Procedure.of_main_category(category.name.to_sym).sort_by{ |a| [a.position, a.human_name]}
               - procedures.each do |procedure|
-                - menu.item procedure.human_name, { procedure_name: procedure.name, redirect: params[:redirect], nature: params[:nature] }
+                - menu.item procedure.human_name, { procedure_name: procedure.name, redirect: params[:redirect], nature: params[:nature], crop_group_ids: params[:crop_group_ids]}
 
     - form_action_content(:after) do
       %span.pull-right

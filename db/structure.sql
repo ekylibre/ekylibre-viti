@@ -1903,6 +1903,103 @@ ALTER SEQUENCE public.contracts_id_seq OWNED BY public.contracts.id;
 
 
 --
+-- Name: crop_group_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.crop_group_items (
+    id integer NOT NULL,
+    crop_group_id integer,
+    crop_id integer,
+    crop_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crop_group_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.crop_group_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crop_group_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.crop_group_items_id_seq OWNED BY public.crop_group_items.id;
+
+
+--
+-- Name: crop_group_labellings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.crop_group_labellings (
+    id integer NOT NULL,
+    crop_group_id integer,
+    label_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crop_group_labellings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.crop_group_labellings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crop_group_labellings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.crop_group_labellings_id_seq OWNED BY public.crop_group_labellings.id;
+
+
+--
+-- Name: crop_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.crop_groups (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    target character varying DEFAULT 'plant'::character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crop_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.crop_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crop_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.crop_groups_id_seq OWNED BY public.crop_groups.id;
+
+
+--
 -- Name: crumbs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -7974,6 +8071,27 @@ ALTER TABLE ONLY public.contracts ALTER COLUMN id SET DEFAULT nextval('public.co
 
 
 --
+-- Name: crop_group_items id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_items ALTER COLUMN id SET DEFAULT nextval('public.crop_group_items_id_seq'::regclass);
+
+
+--
+-- Name: crop_group_labellings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings ALTER COLUMN id SET DEFAULT nextval('public.crop_group_labellings_id_seq'::regclass);
+
+
+--
+-- Name: crop_groups id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_groups ALTER COLUMN id SET DEFAULT nextval('public.crop_groups_id_seq'::regclass);
+
+
+--
 -- Name: crumbs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -9153,6 +9271,30 @@ ALTER TABLE ONLY public.contract_items
 
 ALTER TABLE ONLY public.contracts
     ADD CONSTRAINT contracts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crop_group_items crop_group_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_items
+    ADD CONSTRAINT crop_group_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crop_group_labellings crop_group_labellings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings
+    ADD CONSTRAINT crop_group_labellings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crop_groups crop_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_groups
+    ADD CONSTRAINT crop_groups_pkey PRIMARY KEY (id);
 
 
 --
@@ -11698,6 +11840,34 @@ CREATE INDEX index_contracts_on_updated_at ON public.contracts USING btree (upda
 --
 
 CREATE INDEX index_contracts_on_updater_id ON public.contracts USING btree (updater_id);
+
+
+--
+-- Name: index_crop_group_items_on_crop_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_items_on_crop_group_id ON public.crop_group_items USING btree (crop_group_id);
+
+
+--
+-- Name: index_crop_group_items_on_crop_type_and_crop_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_items_on_crop_type_and_crop_id ON public.crop_group_items USING btree (crop_type, crop_id);
+
+
+--
+-- Name: index_crop_group_labellings_on_crop_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_labellings_on_crop_group_id ON public.crop_group_labellings USING btree (crop_group_id);
+
+
+--
+-- Name: index_crop_group_labellings_on_label_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_labellings_on_label_id ON public.crop_group_labellings USING btree (label_id);
 
 
 --
@@ -18655,6 +18825,14 @@ ALTER TABLE ONLY public.payslips
 
 
 --
+-- Name: crop_group_labellings fk_rails_07865fc029; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings
+    ADD CONSTRAINT fk_rails_07865fc029 FOREIGN KEY (label_id) REFERENCES public.labels(id);
+
+
+--
 -- Name: cvi_cadastral_plant_cvi_land_parcels fk_rails_0e970be37a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -18716,6 +18894,14 @@ ALTER TABLE ONLY public.cvi_statements
 
 ALTER TABLE ONLY public.journal_entry_items
     ADD CONSTRAINT fk_rails_3143e6e260 FOREIGN KEY (variant_id) REFERENCES public.product_nature_variants(id);
+
+
+--
+-- Name: crop_group_labellings fk_rails_36924e7b4a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings
+    ADD CONSTRAINT fk_rails_36924e7b4a FOREIGN KEY (crop_group_id) REFERENCES public.crop_groups(id);
 
 
 --
@@ -18844,6 +19030,14 @@ ALTER TABLE ONLY public.cvi_cultivable_zones
 
 ALTER TABLE ONLY public.regularizations
     ADD CONSTRAINT fk_rails_8043b7d279 FOREIGN KEY (affair_id) REFERENCES public.affairs(id);
+
+
+--
+-- Name: crop_group_items fk_rails_819f6e41b9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_items
+    ADD CONSTRAINT fk_rails_819f6e41b9 FOREIGN KEY (crop_group_id) REFERENCES public.crop_groups(id);
 
 
 --
@@ -19917,4 +20111,10 @@ INSERT INTO schema_migrations (version) VALUES ('20200410183701');
 INSERT INTO schema_migrations (version) VALUES ('20200415160201');
 
 INSERT INTO schema_migrations (version) VALUES ('20200415162701');
+
+INSERT INTO schema_migrations (version) VALUES ('20200428162128');
+
+INSERT INTO schema_migrations (version) VALUES ('20200428162212');
+
+INSERT INTO schema_migrations (version) VALUES ('20200428162256');
 

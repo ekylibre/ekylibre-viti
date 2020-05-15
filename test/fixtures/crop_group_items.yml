@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  crop_group_id: 
+  crop_id: 
+  crop_type: Crop
+
+two:
+  crop_group_id: 
+  crop_id: 
+  crop_type: Crop
