@@ -275,6 +275,8 @@
               success: (frame, data, status, request) =>
                 @_set(request.getResponseHeader("X-Saved-Record-Id"), true)
                 frame.dialog "close"
+                frame.dialog("destroy")
+                frame.remove()
               invalid: (frame, data, status, request) ->
                 frame.html request.responseText
                 frame.trigger('dialog:show')
