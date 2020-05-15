@@ -107,6 +107,8 @@ accounts:
   number:
     type: string
     required: true
+  provider:
+    type: jsonb
   reconcilable:
     type: boolean
     required: true
@@ -1570,6 +1572,8 @@ catalogs:
   name:
     type: string
     required: true
+  provider:
+    type: jsonb
   updated_at:
     type: datetime
     required: true
@@ -2673,6 +2677,8 @@ entities:
     type: boolean
     required: true
     default: false
+  provider:
+    type: jsonb
   reminder_submissive:
     type: boolean
     required: true
@@ -3693,6 +3699,8 @@ incoming_payments:
   payer_id:
     type: integer
     references: entity
+  provider:
+    type: jsonb
   providers:
     type: jsonb
   receipt:
@@ -4049,6 +4057,8 @@ intervention_parameters:
     type: string
   allowed_harvest_factor:
     type: string
+  applications_frequency:
+    type: string
   assembly_id:
     type: integer
     references: product
@@ -4080,6 +4090,10 @@ intervention_parameters:
     required: true
   identification_number:
     type: string
+  imputation_ratio:
+    type: decimal
+    precision: 19
+    scale: 4
   intervention_id:
     type: integer
     references: intervention
@@ -4121,6 +4135,8 @@ intervention_parameters:
     type: decimal
     precision: 19
     scale: 4
+  reference_data:
+    type: jsonb
   reference_name:
     type: string
     required: true
@@ -4141,6 +4157,9 @@ intervention_parameters:
     references: user
   usage_id:
     type: string
+  using_live_data:
+    type: boolean
+    default: true
   variant_id:
     type: integer
     references: variant
@@ -4786,6 +4805,8 @@ journals:
   nature:
     type: string
     required: true
+  provider:
+    type: jsonb
   updated_at:
     type: datetime
     required: true
@@ -6741,6 +6762,8 @@ product_nature_categories:
   product_account_id:
     type: integer
     references: account
+  provider:
+    type: jsonb
   purchasable:
     type: boolean
     required: true
@@ -6960,6 +6983,8 @@ product_nature_variants:
     type: integer
   picture_updated_at:
     type: datetime
+  provider:
+    type: jsonb
   providers:
     type: jsonb
   reference_name:
@@ -7043,6 +7068,8 @@ product_natures:
   population_counting:
     type: string
     required: true
+  provider:
+    type: jsonb
   reference_name:
     type: string
   subscribing:
@@ -8257,6 +8284,8 @@ sale_natures:
   payment_mode_id:
     type: integer
     references: incoming_payment_mode
+  provider:
+    type: jsonb
   sales_conditions:
     type: text
   updated_at:
@@ -8369,6 +8398,8 @@ sales:
     precision: 19
     scale: 4
     required: true
+  provider:
+    type: jsonb
   providers:
     type: jsonb
   quantity_gap_on_invoice_journal_entry_id:
