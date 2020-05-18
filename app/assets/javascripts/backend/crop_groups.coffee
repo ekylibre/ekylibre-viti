@@ -63,6 +63,12 @@
         $(input).attr('data-selector', productsUnrollUrl + scope_name )
   }
 
+  $(document).ready ->
+    if $('.edit_crop_group').length > 0
+      form.handleRadioButonsState()
+      form.updateCropTypes()
+      form.updateCropScopes()
+
   $(document).on "change", "input[type=radio][name='crop_group[target]']", () ->
     form.updateCropTypes()
     form.updateCropScopes()
