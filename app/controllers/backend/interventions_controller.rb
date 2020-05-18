@@ -229,10 +229,11 @@ module Backend
         options[param] = params[param]
       end
       if params[:crop_group_ids] && params[:procedure_name]
+        crop_ids = params[:crop_group_ids].split(',')
         procedure = Procedo::Procedure.find(params[:procedure_name])
         target_parameter = procedure.parameters_of_type(:target, true).first if procedure.present?
-        type = target_parameter.name == :cultivation ? %w[Plant LandParcel] : target_parameter.name.to_s.classify if target_parameter.present?
-        targets = CropGroup.available_crops(params[:crop_group_ids].split(','), type)
+        type_camelized = target_parameter.name == :cultivation ? %w[Plant LandParcel] : target_parameter.name.to_s.camelize if target_parameter.present?
+        targets = CropGroup.available_crops(crop_ids, type_camelized)
         if targets.any?
           options[:targets_attributes] = targets.map { |target| { reference_name: target_parameter.name, product_id: target.id, working_zone: target.initial_shape } }
         end
@@ -241,6 +242,11 @@ module Backend
           group_name = target_parameter.group.name
           options[:group_parameters_attributes] = options.delete(:targets_attributes)
                                                          .map{ |target| { reference_name: group_name, targets_attributes: [target] } }
+        end
+        type = target_parameter.name == :cultivation ? %w[plant land_parcel] : target_parameter.name.to_s if target_parameter.present?
+        labels = CropGroup.collection_labels(crop_ids, type)
+        if labels.any?
+          options[:labellings_attributes] = labels.map { |label| { label_id: label.id } }
         end
       end
 
