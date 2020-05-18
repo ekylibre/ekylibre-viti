@@ -235,7 +235,7 @@ module Backend
         type_camelized = target_parameter.name == :cultivation ? %w[Plant LandParcel] : target_parameter.name.to_s.camelize if target_parameter.present?
         targets = CropGroup.available_crops(crop_ids, type_camelized)
         if targets.any?
-          options[:targets_attributes] = targets.map { |target| { reference_name: target_parameter.name, product_id: target.id, working_zone: target.initial_shape } }
+          options[:targets_attributes] = targets.map { |target| { reference_name: target_parameter.name, product_id: target.id, working_zone: target.shape } }
         end
 
         if target_parameter.group.name != :root_
