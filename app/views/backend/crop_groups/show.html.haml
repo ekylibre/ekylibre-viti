@@ -9,6 +9,10 @@
       %span.title= :total_area.tl
       %span.value
         = resource.total_area
+    .med-info.important
+      %span.title= :use.tl
+      = labels_info(resource.labels)
+
 = cobbles do |c|
 
   - c.cobble(:map) do
