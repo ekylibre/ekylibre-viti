@@ -1,5 +1,5 @@
 class CropGroup < Ekylibre::Record::Base
-  enumerize :target, in: %i[land_parcel plant], predicates: true, default: :plant
+  enumerize :target, in: %i[plant land_parcel], predicates: true, default: :plant
 
   has_many :labellings, class_name: 'CropGroupLabelling', dependent: :destroy
   has_many :items, class_name: 'CropGroupItem', dependent: :nullify
@@ -12,7 +12,8 @@ class CropGroup < Ekylibre::Record::Base
   accepts_nested_attributes_for :labellings, allow_destroy: true
   accepts_nested_attributes_for :items, allow_destroy: true
 
-  scope :available_crops, ->(ids, type = %w[Plant LandParcel]) { where(id: ids).collect { |crop_group| crop_group.crops.where(type: type).availables(at: (Time.zone.now - 1.hour)) }.flatten }
+  scope :available_crops, ->(ids, type = %w[Plant LandParcel]) { where(id: ids).collect { |crop_group| crop_group.crops.where(type: type).availables(at: (Time.zone.now - 1.hour)) }.flatten.uniq }
+  scope :collection_labels, ->(ids, type = %w[plant land_parcel]) { where(id: ids, target: type).collect(&:labels).flatten.uniq }
 
   def crops
     Crop.all.joins(:crop_group_items)
