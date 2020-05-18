@@ -1,5 +1,5 @@
 class CropGroup < Ekylibre::Record::Base
-  enumerize :target, in: %i[land_parcel plant], predicates: true, default: :plant
+  enumerize :target, in: %i[plant land_parcel], predicates: true, default: :plant
 
   has_many :labellings, class_name: 'CropGroupLabelling', dependent: :destroy
   has_many :items, class_name: 'CropGroupItem', dependent: :nullify
