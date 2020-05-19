@@ -35,12 +35,8 @@ module Backend
 
             last_intervention = interventions.order(started_at: :desc).first
             if last_intervention
-              # TODO add a method in has_geometry to query (ST_Distance)
-              # the distance between all analysis geolocation and a shape
-              # and select the analysis nearest the shape
-
               # get the analysis with cumulated_rainfall near support shape at max 5 km from intervention stopped at and now
-              rainfall_geo_analyses = Analysis.with_indicator(ind.name).geolocation_near(support.support_shape, 5000).between(last_intervention.stopped_at, Time.now)
+              rainfall_geo_analyses = Analysis.with_indicator(ind.name).geolocation_nearest_of_and_within(support.support_shape, 5000).between(last_intervention.stopped_at, Time.now)
             end
 
             next unless rainfall_geo_analyses.any?
