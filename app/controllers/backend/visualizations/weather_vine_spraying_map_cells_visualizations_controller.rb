@@ -23,8 +23,9 @@ module Backend
 
             # get all real interventions of vine protections during campaign
             interventions = support.interventions.real.of_category(:vine_protection)
-
-            next unless support.support_shape && interventions.any?
+            
+            support_shape = support.support_shape
+            next unless support_shape && interventions.any?
             popup_content = []
 
             # for support
@@ -36,7 +37,7 @@ module Backend
             last_intervention = interventions.order(started_at: :desc).first
             if last_intervention
               # get the analysis with cumulated_rainfall near support shape at max 5 km from intervention stopped at and now
-              rainfall_geo_analyses = Analysis.with_indicator(ind.name).geolocation_nearest_of_and_within(support.support_shape, 5000).between(last_intervention.stopped_at, Time.now)
+              rainfall_geo_analyses = Analysis.with_indicator(ind.name).geolocation_nearest_of_and_within(support_shape, 5000).between(last_intervention.stopped_at, Time.now)
             end
 
             next unless rainfall_geo_analyses.any?
@@ -76,14 +77,9 @@ module Backend
             final_items = AnalysisItem.where(indicator_name: ind.name, analysis_id: filtered_a.pluck(:id))
 
             # compute distance between sensor and intervention shape
-            ## support
-            lat = support.support_shape.centroid.first
-            lon = support.support_shape.centroid.last
-            point_support = factory.point(lat, lon)
-            ## sensor
-            point_analysis = factory.point(filtered_a.first.geolocation.latitude, filtered_a.first.geolocation.longitude)
-            distance_value = point_support.distance(point_analysis).round(2)
-            distance = Measure.new(distance_value, :meter)
+            sensor_position = filtered_a.first.geolocation
+            shape = Charta.new_geometry(support_shape.to_rgeo.simplify(0))
+            distance = Measure.new(shape.distance(sensor_position), :meter)
 
             next unless final_items.any?
             cumulated_rainfall = final_items.map{|f| f.value }.compact.sum
@@ -96,7 +92,7 @@ module Backend
 
             item = {
               name: support.name,
-              shape: support.support_shape,
+              shape: support_shape,
               shape_color: support.activity.color,
               cumulated_rainfall: cumulated_rainfall.to_f,
               popup: { header: true, content: popup_content }
