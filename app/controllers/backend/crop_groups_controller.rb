@@ -4,7 +4,7 @@ class Backend::CropGroupsController < Backend::BaseController
   before_action :kujaku_options, only: %i[index]
 
   def kujaku_options
-    @labels = CropGroup.all.collect(&:labels).flatten
+    @labels = CropGroup.all.collect(&:labels).flatten.uniq
   end
 
   def self.crop_groups_conditions
