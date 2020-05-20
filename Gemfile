@@ -91,7 +91,7 @@ gem 'timecop'
 
 # Manipulate map data
 # gem 'charta', '~> 0.1.14'
-gem 'charta', gitlab: 'ekylibre/charta', branch: 'master'
+gem 'charta', gitlab: 'ekylibre/charta', branch: 'feature/distance'
 
 # active_list alternative
 gem 'font-awesome-sass', '~> 5.8.1'
