@@ -129,7 +129,7 @@ module Ekylibre
             scope col + '_nearest_of_and_within', lambda { |shape, max_distance_in_meter = 5000|
               c = ::Charta.new_geometry(shape).buffer(max_distance_in_meter)
               ewkt = ::Charta.new_geometry(c).to_ewkt
-              where( col + ' IN (?)', select(:geolocation)
+              where( col + ' IN (?)', select(col)
                                       .where('ST_Intersects(' + col + ', ST_GeomFromEWKT(ST_MakeValid(?)))', ewkt)
                                       .order('ST_Distance(' + col + ', ST_Centroid(\'' + ewkt + '\')) ASC')
                                       .limit(1))
