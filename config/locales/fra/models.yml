@@ -676,6 +676,7 @@ fra:
       catalog_item: "Prix"
       contract: "Contrat"
       contract_item: "Élément du contrat"
+      crop_group: "Groupement de parcellaire"
       crumb: "Miette"
       cultivable_zone: "Zone cultivable"
       custom_field: "Champ complémentaire"

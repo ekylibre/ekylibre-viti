@@ -295,6 +295,7 @@ eng:
       catalog_item: "Catalog price"
       contract: "Contract"
       contract_item: "Contract item"
+      crop_group: "Crop group"
       crumb: "Crumb"
       cultivable_zone: "Cultivable zone"
       custom_field: "Custom field"

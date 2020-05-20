@@ -192,6 +192,11 @@ eng:
     backend/crumbs:
       # convert: "Convert crumb: %{name}"
       index: "Crumbs"
+    backend/crop_groups:
+      edit: "Edit crop group: %{name}"
+      index: "Crop groups"
+      new: "New crop group"
+      show: "Crop group: %{name}"
     backend/cultivable_zones:
       edit: "Edit cultivable zone: %{name}"
       index: "Cultivable zones"
@@ -1308,6 +1313,12 @@ eng:
         n_2_3_leaf: "N+2 (3rd leaf)"
         n_4_5_leaf: "N+4 (5th leaf)"
   labels:
+    use: "use"
+    land_parcel_plant: "Land parcel/plant"
+    land_parcels_plants: "Land parcels/plants"
+    add_crop: "Add crop"
+    add_use: "Add use"
+    total_area: "Total area"
     cvi_converted: "Land parcels have been successfully converted from your CVI. To edit them, please use the production module."
     warning_could_not_use_ift: "Warning, if production nature is not setted, treatment frequency index won't be calculated."
     start_state_of_production: "Start state of production (year N)"
