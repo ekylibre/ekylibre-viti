@@ -22,4 +22,25 @@ class CviCultivableZone < Ekylibre::Record::Base
       cvi_land_parcels.pluck(:planting_campaign).include?("") ||
       cvi_land_parcels.pluck(:planting_campaign).include?(nil))
   end
+
+  def update_shape!
+    shape = CviLandParcel.select('st_astext(
+                                    ST_Simplify(
+                                      ST_UNION(
+                                        ARRAY_AGG(
+                                          array[
+                                            ST_MakeValid(cvi_land_parcels.shape),
+                                            ST_MakeValid(cvi_cultivable_zones.shape)
+                                          ]
+                                        )
+                                      ), 0.000000001
+                                    )
+                                  ) AS shape').joins(:cvi_cultivable_zone).find_by(cvi_cultivable_zone_id: id).shape
+    calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
+    update!(shape: shape.to_rgeo, calculated_area: calculated_area)
+  end
+
+  def complete!
+    update!(land_parcels_status: :completed)
+  end
 end

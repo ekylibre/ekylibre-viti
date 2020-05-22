@@ -52,4 +52,11 @@ class CviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
     resource.update(shape: shape)
     assert_in_delta Measure.new(shape.area, :square_meter).convert(:hectare).value, resource.reload.calculated_area_value, delta = 0.00001
   end
+
+  it 'update cvi_cultivable_zone shape if shape change' do
+    resource = create(:cvi_land_parcel)
+    shape = FFaker::Shape.multipolygon
+    resource.update(shape: shape)
+    assert_in_delta Measure.new(shape.area, :square_meter).convert(:hectare).value, resource.reload.cvi_cultivable_zone.calculated_area_value, delta = 0.00001
+  end
 end
