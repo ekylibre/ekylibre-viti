@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<nomenclatures xmlns="http://www.ekylibre.org/XML/2013/nomenclatures" version="20200205094010">
+<nomenclatures xmlns="http://www.ekylibre.org/XML/2013/nomenclatures" version="20200522090534">
   <nomenclature name="abilities" translateable="true">
     <properties>
       <property name="parameters" type="choice_list" choices="variety, issue_nature"/>
@@ -2340,6 +2340,7 @@
       <item name="urea_concentration" datatype="measure" unit="milligram_per_liter"/>
       <item name="usage_duration" datatype="measure" unit="hour"/>
       <item name="vine_pruning_system" datatype="choice" choices="vine_pruning_systems"/>
+      <item name="vine_stock_bud_charge" datatype="integer"/>
       <item name="volume_area_density" datatype="measure" unit="liter_per_square_meter"/>
       <item name="volume_density" datatype="measure" unit="centiliter_per_hectoliter"/>
       <item name="volume_flow" datatype="measure" unit="cubic_meter_per_hour"/>
@@ -2350,7 +2351,6 @@
       <item name="width" datatype="measure" unit="meter"/>
       <item name="wind_direction" datatype="measure" unit="degree" sampling_temporal_mode="instant"/>
       <item name="wind_speed" datatype="measure" unit="kilometer_per_hour" sampling_temporal_mode="instant"/>
-      <item name="vine_stock_bud_charge" datatype="integer"/>
       <item name="witness" datatype="string"/>
       <item name="working_lifespan" datatype="measure" unit="hour"/>
       <item name="zinc_concentration" datatype="measure" unit="parts_per_million"/>
@@ -2751,8 +2751,8 @@
       <item name="finishing_rerun"/>
       <item name="fireproofing"/>
       <item name="first_lifting"/>
-      <item name="food_preparation"/>
       <item name="folding"/>
+      <item name="food_preparation"/>
       <item name="forest_grinding"/>
       <item name="frost_protection"/>
       <item name="fuel_up"/>
@@ -2823,8 +2823,8 @@
       <item name="rain_protection"/>
       <item name="residue_destruction"/>
       <item name="ridging"/>
-      <item name="rodenticide"/>
       <item name="rodent_protection"/>
+      <item name="rodenticide"/>
       <item name="second_lifting"/>
       <item name="seedbed_preparing"/>
       <item name="semen_collecting"/>
@@ -2844,8 +2844,8 @@
       <item name="swathing"/>
       <item name="talpicide"/>
       <item name="temperature_improvement"/>
-      <item name="topping"/>
       <item name="topkilling"/>
+      <item name="topping"/>
       <item name="tractor_troubleshooting"/>
       <item name="transportation"/>
       <item name="trimming"/>
@@ -3948,7 +3948,7 @@
       <item name="vibrocultivator" nature="seedbed_preparator" frozen_indicators_values="" unit_name="equipment" type="equipment"/>
       <item name="vine_and_ochard_tractor" nature="tractor" type="equipment"/>
       <item name="vine_grape_berry" nature="grape" derivative_of="vitis_vinifera" frozen_indicators_values="net_mass: 1.00kilogram, net_volume: 1.00liter" unit_name="kilogram" type="article"/>
-      <item name="vine_grape_crop" nature="wine_crop" variety="vitis_vinifera" frozen_indicators_values="net_surface_area: 1.00hectare" unit_name="plant" type="crop"/>
+      <item name="vine_grape_crop" nature="wine_crop" variety="vitis_vinifera" frozen_indicators_values="net_surface_area: 1.00hectare" unit_name="hectare" type="crop"/>
       <item name="vine_grape_juice" nature="grape_juice" derivative_of="grape" frozen_indicators_values="net_mass: 100.00 kilogram, net_volume: 100.00liter" unit_name="hectoliter" type="article"/>
       <item name="vine_grape_must" nature="fermented_grape_juice" derivative_of="grape" frozen_indicators_values="net_mass: 100.00 kilogram, net_volume: 100.00liter" unit_name="hectoliter" type="article"/>
       <item name="vine_lifter_lv" nature="vine_lifter" type="equipment"/>
@@ -4302,7 +4302,7 @@
       <item name="trailer" category="equipment" variety="trailed_equipment" population_counting="unitary" abilities="store_fluid, store(grain), store(grass), store(raw_matter), store(silage), move" variable_indicators="geolocation" frozen_indicators="nominal_storable_net_volume, nominal_storable_net_mass" nature="equipment"/>
       <item name="training_course" category="service" variety="service" population_counting="decimal" variable_indicators="" frozen_indicators="usage_duration" nature="fee_and_service"/>
       <item name="trimmer" category="equipment" variety="trailed_equipment" population_counting="unitary" abilities="cut" frozen_indicators="application_width, theoretical_working_speed" variable_indicators="geolocation" nature="equipment"/>
-      <item name="truck" category="equipmenvine_grape_cropt" variety="handling_equipment" population_counting="unitary" abilities="move, tow(matter), consume(oil), consume(fuel)" variable_indicators="net_surface_area, motor_power, geolocation, fuel_consumption, hour_counter" frozen_indicators="" linkage_points="rear" nature="equipment"/>
+      <item name="truck" category="equipment" variety="handling_equipment" population_counting="unitary" abilities="move, tow(matter), consume(oil), consume(fuel)" variable_indicators="net_surface_area, motor_power, geolocation, fuel_consumption, hour_counter" frozen_indicators="" linkage_points="rear" nature="equipment"/>
       <item name="turnip" category="vegetable" variety="vegetable" derivative_of="brassica_rapa_rapa" population_counting="decimal" abilities="feed(animal)" variable_indicators="" frozen_indicators="net_mass" nature="article"/>
       <item name="uncover" category="equipment" variety="trailed_equipment" population_counting="unitary" abilities="uncover(plant)" frozen_indicators="application_width, theoretical_working_speed" variable_indicators="geolocation" nature="equipment"/>
       <item name="user_support" category="service" variety="service" population_counting="decimal" variable_indicators="" frozen_indicators="usage_duration" nature="fee_and_service"/>
