@@ -27,7 +27,7 @@ class CviLandParcel < Ekylibre::Record::Base
   validates :activity_id, presence: true, on: :update
 
   after_save :prepare_to_update_cvi_cultivable_zone, on: :update
-  after_commit :update_cvi_cultivable_zone!, on: :update, if: :shape_previously_changed
+  after_commit :update_cvi_cultivable_zone!, on: :update
 
   def updated?
     updated_at != created_at
@@ -48,12 +48,12 @@ class CviLandParcel < Ekylibre::Record::Base
   end
 
   def update_cvi_cultivable_zone!
-    cvi_cultivable_zone.update_shape!
+    if @shape_previously_changed
+      cvi_cultivable_zone.update_shape!
+    end
   end
 
   def prepare_to_update_cvi_cultivable_zone
-    @shape_previously_changed = self.shape_changed?
+    @shape_previously_changed = shape_changed?
   end
-
-  attr_reader :shape_previously_changed
 end

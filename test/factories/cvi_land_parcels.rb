@@ -17,6 +17,7 @@ FactoryBot.define do
     cvi_cultivable_zone
     with_location
     with_cvi_cadastral_plant
+    with_activity
 
     trait :old_splitted do
       shape {'POLYGON ((-0.2532838 45.77936779560541, -0.252766 45.78065979560589, -0.25263 45.78060929560586, -0.2531422999999999 45.77933279560539, -0.2532838 45.77936779560541))'}
