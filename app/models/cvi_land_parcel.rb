@@ -26,7 +26,8 @@ class CviLandParcel < Ekylibre::Record::Base
   validates_presence_of :name, :inter_row_distance_value, :inter_vine_plant_distance_value, :vine_variety_id
   validates :activity_id, presence: true, on: :update
 
-  after_commit :update_cvi_cultivable_zone!, on: :update, if: :shape_previously_changed?
+  after_save :prepare_to_update_cvi_cultivable_zone, on: :update
+  after_commit :update_cvi_cultivable_zone!, on: :update, if: :shape_previously_changed
 
   def updated?
     updated_at != created_at
@@ -49,4 +50,10 @@ class CviLandParcel < Ekylibre::Record::Base
   def update_cvi_cultivable_zone!
     cvi_cultivable_zone.update_shape!
   end
+
+  def prepare_to_update_cvi_cultivable_zone
+    @shape_previously_changed = self.shape_changed?
+  end
+
+  attr_reader :shape_previously_changed
 end
