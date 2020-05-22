@@ -25,6 +25,7 @@
 #
 #  allowed_entry_factor     :interval
 #  allowed_harvest_factor   :interval
+#  applications_frequency   :interval
 #  assembly_id              :integer
 #  batch_number             :string
 #  component_id             :integer
@@ -36,6 +37,7 @@
 #  group_id                 :integer
 #  id                       :integer          not null, primary key
 #  identification_number    :string
+#  imputation_ratio         :decimal(19, 4)
 #  intervention_id          :integer          not null
 #  lock_version             :integer          default(0), not null
 #  new_container_id         :integer
@@ -50,12 +52,14 @@
 #  quantity_population      :decimal(19, 4)
 #  quantity_unit_name       :string
 #  quantity_value           :decimal(19, 4)
+#  reference_data           :jsonb            default("{}")
 #  reference_name           :string           not null
 #  type                     :string
 #  unit_pretax_stock_amount :decimal(19, 4)   default(0.0), not null
 #  updated_at               :datetime         not null
 #  updater_id               :integer
 #  usage_id                 :string
+#  using_live_data          :boolean          default(TRUE)
 #  variant_id               :integer
 #  variety                  :string
 #  working_zone             :geometry({:srid=>4326, :type=>"multi_polygon"})
@@ -75,8 +79,20 @@ class InterventionInput < InterventionProductParameter
   scope :of_component, ->(component) { where(component: component.self_and_parents) }
   scope :of_maaids, ->(*maaids) { joins(:variant).where('product_nature_variants.france_maaid IN (?)', maaids)}
 
+  before_validation(on: :create) do
+    if self.product.present? && (phyto = self.product.phytosanitary_product).present? && using_live_data
+      self.allowed_entry_factor = phyto.in_field_reentry_delay
+    end
+    if self.usage.present? && using_live_data
+      self.allowed_harvest_factor = self.usage.pre_harvest_delay
+      self.applications_frequency = self.usage.applications_frequency
+    end
+  end
+
   before_validation do
     self.variant = product.variant if product
+    assign_reference_data if product && usage && using_live_data
+    true
   end
 
   before_validation(on: :create) do 
@@ -231,4 +247,35 @@ class InterventionInput < InterventionProductParameter
       return InterventionParameter::AmountComputation.quantity(:catalog, options)
     end
   end
+
+  def non_treatment_area
+    if reference_data['usage'].present?
+      reference_data['usage']['untreated_buffer_aquatic']
+    elsif usage.present?
+      usage.untreated_buffer_aquatic
+    else
+      nil
+    end
+  end
+
+  private
+
+    def assign_reference_data
+      assign_usage_reference_data
+      assign_product_reference_data
+      self.reference_data['updated_on'] = Date.today
+      self.using_live_data = false
+    end
+
+    def assign_usage_reference_data
+      self.reference_data['usage'] = usage.attributes.slice(*InterventionParameter::LoggedPhytosanitaryUsage::ATTRIBUTES.map(&:to_s))
+      self.reference_data['usage']['in_field_reentry_delay'] = usage.product[:in_field_reentry_delay]
+      self.reference_data['usage']['france_maaid'] = usage.france_maaid
+    end
+
+    def assign_product_reference_data
+      return unless phyto = product.phytosanitary_product
+
+      self.reference_data['product'] = phyto.attributes.slice(*InterventionParameter::LoggedPhytosanitaryProduct::ATTRIBUTES.map(&:to_s))
+    end
 end

@@ -134,6 +134,8 @@
               if update
                 console.log "Updates ##{subprefix} with: ", value
                 element.val(value)
+                element.next('input.flatpickr-input').val(moment(value).format('DD-MM-YYYY HH:mm')) if element.hasClass('flatpickr-input')
+                element.trigger('intervention-field:value-updated')
 
     unserializeList: (form, list, prefix = '', updater_id) ->
       for id, attributes of list
@@ -511,27 +513,6 @@
       data: { intervention_id: intervention_id }
       dataType: 'script'
       success: (data) =>
-
-  # Add value to unroll of product in intervention form
-  $(document).on 'selector:menu-opened', '#intervention-form .nested-product-parameter .selector-search', (event) =>
-    unless $(event.target).parents('.control-group').hasClass('intervention_targets_product')
-      items = $(event.target).parents('.controls').find('.item')
-      type = $(event.target).parents('.parameter-type').data('type')
-      date = $('.intervention-started-at').val()
-      items_id = $(items).map(->
-        $(this).attr 'data-item-id'
-      ).get()
-      $.ajax
-        url: '/backend/products/available_time_or_quantity'
-        data: { items: items_id, date: date }
-        success: (data) =>
-          if data.products_duration
-            items.each (index) ->
-              $(this).find('.time-part').remove()
-              product_id = parseInt($(this).attr('data-item-id'))
-              product = data.products_duration.find (e) ->
-                e.product_id == product_id
-              $(this).append "<strong class='time-part'>(#{product.quantity || 0})</strong>"
 
   $(document).on 'shown.bs.modal', '#compare-planned-with-realised', (event) ->
 
@@ -919,10 +900,13 @@
             duplicateModal = new ekylibre.modal('#duplicate-modal')
             duplicateModal.getModal().modal 'show'
 
-    $(document).on 'change', '.nested-fields.working-period input', ->
+    $(document).on 'change intervention-field:value-updated', '.nested-fields.working-period input', ->
       updateHarvestDelayWarnings()
 
     $(document).on 'selector:change', ".nested-targets .intervention_targets_product", ->
+      updateHarvestDelayWarnings()
+
+    $(document).on 'cocoon:after-remove', '.nested-working_periods', ->
       updateHarvestDelayWarnings()
 
   queryDelayWarningsForPeriod = ($periodElement, $parcelSelectors) =>

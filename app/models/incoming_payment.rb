@@ -45,6 +45,7 @@
 #  number                :string
 #  paid_at               :datetime
 #  payer_id              :integer
+#  provider              :jsonb
 #  providers             :jsonb
 #  receipt               :text
 #  received              :boolean          default(TRUE), not null
@@ -60,6 +61,7 @@ class IncomingPayment < Ekylibre::Record::Base
   include Attachable
   include PeriodicCalculable
   include Customizable
+  include Providable
   attr_readonly :payer_id
   attr_readonly :amount, :account_number, :bank, :bank_check_number, :mode_id, if: proc { deposit && deposit.locked? }
   refers_to :currency

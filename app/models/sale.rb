@@ -59,6 +59,7 @@
 #  payment_at                               :datetime
 #  payment_delay                            :string           not null
 #  pretax_amount                            :decimal(19, 4)   default(0.0), not null
+#  provider                                 :jsonb
 #  providers                                :jsonb
 #  quantity_gap_on_invoice_journal_entry_id :integer
 #  reference_number                         :string
@@ -75,6 +76,7 @@ require 'benchmark'
 class Sale < Ekylibre::Record::Base
   include Attachable
   include Customizable
+  include Providable
   attr_readonly :currency
   refers_to :currency
   belongs_to :affair

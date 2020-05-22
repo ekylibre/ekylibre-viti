@@ -43,6 +43,7 @@
 #  number                              :string           not null
 #  pictogram                           :string
 #  product_account_id                  :integer
+#  provider                            :jsonb
 #  purchasable                         :boolean          default(FALSE), not null
 #  reductible                          :boolean          default(FALSE), not null
 #  reference_name                      :string
@@ -59,6 +60,7 @@ class ProductNatureCategory < Ekylibre::Record::Base
   include Autocastable
   include Customizable
   include Importable
+  include Providable
 
   # Be careful with the fact that it depends directly on the nomenclature definition
   enumerize :pictogram, in: Nomen::ProductNatureCategory.pictogram.choices
