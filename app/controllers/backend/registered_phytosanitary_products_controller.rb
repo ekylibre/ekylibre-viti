@@ -12,24 +12,21 @@ module Backend
           if prods_usages.empty?
             render json: {}
           else
-            dose_computation = RegisteredPhytosanitaryUsageDoseComputation.new
-
-            validator = ::Interventions::Phytosanitary::ValidatorCollectionValidator.new(
-              ::Interventions::Phytosanitary::MixCategoryCodeValidator.new,
-              ::Interventions::Phytosanitary::AquaticBufferValidator.new,
-              ::Interventions::Phytosanitary::ProductStateValidator.new,
-              ::Interventions::Phytosanitary::OrganicMentionsValidator.new(targets: infos.targets),
-              ::Interventions::Phytosanitary::DoseValidationValidator.new(targets_and_shape: infos.targets_and_shape, dose_computation: dose_computation)
+            validator = ::Interventions::Phytosanitary::ValidatorCollectionValidator.build(
+              infos.targets_and_shape,
+              intervention_to_ignore: infos.intervention,
+              intervention_started_at: infos.intervention_started_at,
+              intervention_stopped_at: infos.intervention_stopped_at
             )
             result = validator.validate(prods_usages)
 
             products_infos = prods_usages.map do |pu|
-              messages = result.product_messages(pu.product)
-              check_conditions = messages.empty? && pu.usage&.usage_conditions
+              messages = result.product_grouped_messages(pu.product)
+              check_conditions = result.product_messages(pu.product).empty? && pu.usage&.usage_conditions
 
               [pu.product.id, {
                 state: result.product_vote(pu.product),
-                allowed_mentions: fetch_allowed_mentions(pu.product),
+                allowed_mentions: fetch_allowed_mentions(pu.phyto),
                 messages: messages,
                 check_conditions: check_conditions
               }]
@@ -43,9 +40,7 @@ module Backend
 
     private
 
-      def fetch_allowed_mentions(product)
-        phyto = product.variant.phytosanitary_product
-
+      def fetch_allowed_mentions(phyto)
         if phyto.present? && phyto.allowed_mentions.present?
           phyto.allowed_mentions.keys.map { |m| m.parameterize.dasherize }
         else

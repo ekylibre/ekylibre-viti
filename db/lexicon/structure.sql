@@ -478,7 +478,7 @@ CREATE TABLE lexicon.registered_phytosanitary_usages (
     pre_harvest_delay interval,
     pre_harvest_delay_bbch integer,
     applications_count integer,
-    applications_frequency integer,
+    applications_frequency interval,
     development_stage_min integer,
     development_stage_max integer,
     usage_conditions character varying,
@@ -907,22 +907,6 @@ ALTER TABLE ONLY lexicon.troncon_hydrographique_2972 ALTER COLUMN gid SET DEFAUL
 
 ALTER TABLE ONLY lexicon.cadastral_land_parcel_zones
     ADD CONSTRAINT cadastral_land_parcel_zones_pkey PRIMARY KEY (id);
-
-
---
--- Name: detail_hydrographique_2975 detail_hydrographique_2975_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
---
-
-ALTER TABLE ONLY lexicon.detail_hydrographique_2975
-    ADD CONSTRAINT detail_hydrographique_2975_pkey PRIMARY KEY (gid);
-
-
---
--- Name: detail_hydrographique_4471 detail_hydrographique_4471_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
---
-
-ALTER TABLE ONLY lexicon.detail_hydrographique_4471
-    ADD CONSTRAINT detail_hydrographique_4471_pkey PRIMARY KEY (gid);
 
 
 --
@@ -1422,10 +1406,31 @@ CREATE INDEX registered_enterprises_name ON lexicon.registered_enterprises USING
 
 
 --
+-- Name: registered_hydro_items_lines; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_hydro_items_lines ON lexicon.registered_hydro_items USING gist (lines);
+
+
+--
 -- Name: registered_hydro_items_nature; Type: INDEX; Schema: lexicon; Owner: -
 --
 
 CREATE INDEX registered_hydro_items_nature ON lexicon.registered_hydro_items USING btree (nature);
+
+
+--
+-- Name: registered_hydro_items_point; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_hydro_items_point ON lexicon.registered_hydro_items USING gist (point);
+
+
+--
+-- Name: registered_hydro_items_shape; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_hydro_items_shape ON lexicon.registered_hydro_items USING gist (shape);
 
 
 --

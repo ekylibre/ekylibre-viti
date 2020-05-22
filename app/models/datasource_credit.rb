@@ -5,7 +5,8 @@
 # Ekylibre - Simple agricultural ERP
 # Copyright (C) 2008-2009 Brice Texier, Thibaud Merigon
 # Copyright (C) 2010-2012 Brice Texier
-# Copyright (C) 2012-2019 Brice Texier, David Joulin
+# Copyright (C) 2012-2014 Brice Texier, David Joulin
+# Copyright (C) 2015-2020 Ekylibre SAS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -20,21 +21,16 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
-# == Table: master_equipment_natures
+# == Table: datasource_credits
 #
-#  id                          :integer          not null, primary key
-#  main_frozen_indicator_name  :string
-#  main_frozen_indicator_unit  :string
-#  name                        :jsonb
-#  nature                      :string           not null
-#  other_frozen_indicator_name :string
+#  datasource  :string
+#  licence     :string
+#  licence_url :string
+#  name        :string
+#  provider    :string
+#  updated_at  :datetime
+#  url         :string
 #
-class MasterEquipmentNature < ActiveRecord::Base
+class DatasourceCredit < ActiveRecord::Base
   include Lexiconable
-  has_many :categories, class_name: 'MasterEquipmentCost',
-                        foreign_key: :equipment_nature_id,
-                        dependent: :restrict_with_exception
-  has_many :flows, class_name: 'MasterEquipmentFlow',
-                   foreign_key: :equipment_nature_id,
-                   dependent: :restrict_with_exception
 end
