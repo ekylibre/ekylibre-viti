@@ -747,6 +747,7 @@ fra:
         turnip_crops: "Navets" #?
         vetch_crops: "Vesce" #?
         vine_wine: "Vignes & vin" #?
+        vine_farming: "Production viticole"
         vines: "Vignes" #?
         walnut_orchards: "Noyers" #?
         watermelon_crops: "Pastèques" #?
