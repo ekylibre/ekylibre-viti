@@ -13,6 +13,8 @@ class CviCultivableZone < Ekylibre::Record::Base
 
   enumerize :land_parcels_status, in: %i[not_started started not_created created completed], predicates: true
 
+  after_save :set_calculated_area, on: %i[create update], if: :shape_changed?
+
   def has_cvi_land_parcels?
     cvi_land_parcels.any?
   end
@@ -24,20 +26,30 @@ class CviCultivableZone < Ekylibre::Record::Base
   end
 
   def update_shape!
-    shape = CviLandParcel.select('st_astext(
-                                    ST_Simplify(
-                                      ST_UNION(
-                                        ARRAY_AGG(
-                                          array[
-                                            ST_MakeValid(cvi_land_parcels.shape),
-                                            ST_MakeValid(cvi_cultivable_zones.shape)
-                                          ]
-                                        )
-                                      ), 0.000000001
-                                    )
-                                  ) AS shape').joins(:cvi_cultivable_zone).find_by(cvi_cultivable_zone_id: id).shape
-    calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
-    update!(shape: shape.to_rgeo, calculated_area: calculated_area)
+    update!(shape: shape.to_rgeo)
+  end
+  
+  def shape=(value = shape)
+    new_shape = if has_cvi_land_parcels?
+                  CviLandParcel.select("st_astext(
+                                          ST_Simplify(
+                                            ST_UNION(
+                                              ARRAY_AGG(
+                                                array[
+                                                  ST_MakeValid(cvi_land_parcels.shape),
+                                                  ST_MakeValid(
+                                                    ST_GeomFromText(\'#{value.as_text}\')
+                                                  )
+                                                ]
+                                              )
+                                            ), 0.000000001
+                                          )
+                                        ) AS shape").joins(:cvi_cultivable_zone).find_by(cvi_cultivable_zone_id: id).shape.to_rgeo
+                else
+                  value
+                end
+
+    super(new_shape)
   end
 
   def complete!
