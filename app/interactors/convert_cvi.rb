@@ -46,6 +46,7 @@ class ConvertCvi < ApplicationInteractor
                               else
                                 activity.productions.new(cultivable_zone: cultivable_zone, support_shape: cvi_land_parcel.shape)
                               end
+        
         activity_production.update!(
           support_nature: :headland_cultivation,
           usage: :fruit,
