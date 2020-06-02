@@ -21,8 +21,8 @@ class ConvertCvi < ApplicationInteractor
           context.fail!(error: :missing_activity_on_cvi_land_parcel)
         end
 
-        if activity_open_from < Campaign.at.first.harvest_year
-          (activity_open_from..(Campaign.at.first.harvest_year + 1)).to_a.each do |harvest_year|
+        if activity_open_from < Campaign.of(Time.zone.now.year).harvest_year
+          (activity_open_from..(Campaign.of(Time.zone.now.year).harvest_year + 1)).to_a.each do |harvest_year|
             activity.budgets.find_or_create_by!(campaign: Campaign.of(harvest_year))
           end
         else 
