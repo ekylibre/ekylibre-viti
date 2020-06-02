@@ -4,7 +4,7 @@ module Backend
 
     def self.cvi_land_parcels_conditions
       code = ''
-      code = search_conditions(formatted_cvi_land_parcels: %i[name state localities communes planting_campaign designation_of_origin_name vine_variety_name rootstocks]) + " ||= []\n"
+      code = search_conditions(formatted_cvi_land_parcels: %i[name state localities communes planting_campaign designation_of_origin_name vine_variety_name rootstock]) + " ||= []\n"
 
       code << "c[0] << ' AND #{FormattedCviLandParcel.table_name}.cvi_cultivable_zone_id = ?'\n"
       code << "c << params[:id].to_i\n"
