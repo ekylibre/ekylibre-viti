@@ -26,10 +26,9 @@ module Procedo
         def usage_id=(value)
           @usage = RegisteredPhytosanitaryUsage.find(value)
 
-          if @usage.present?
-            self.allowed_harvest_factor = @usage.pre_harvest_delay
-            self.allowed_entry_factor = @usage.product.in_field_reentry_delay
-          end
+          self.allowed_harvest_factor = @usage.pre_harvest_delay
+          self.allowed_entry_factor = @usage.product.in_field_reentry_delay
+
         end
 
         def allowed_harvest_factor=(value)

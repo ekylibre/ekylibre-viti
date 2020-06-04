@@ -22,7 +22,7 @@ module Backend
 
     manage_restfully except: %i[edit update], population_counting: :decimal, active: true
 
-    importable_from_nomenclature :product_natures
+    importable_from_lexicon :variant_natures
 
     unroll
 
@@ -81,12 +81,9 @@ module Backend
 
     def compatible_varieties
       product_nature = ProductNature.find_by(id: params[:id])
-      if product_nature.nil?
-        render json: { message: 'Not found' }, status: :not_found
-      else
-        varieties = Nomen::Variety.find(product_nature.variety).self_and_children
-        render json: { data: varieties.map { |variety| {name: variety.name, human_name: variety.human_name }} }
-      end
+      return if product_nature.nil?
+      varieties = Nomen::Variety.find(product_nature.variety).self_and_children
+      render json: { data: varieties.map { |variety| {name: variety.name, human_name: variety.human_name }} }
     end
   end
 end

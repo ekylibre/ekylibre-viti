@@ -45,7 +45,6 @@
 #  number                :string
 #  paid_at               :datetime
 #  payer_id              :integer
-#  provider              :jsonb
 #  providers             :jsonb
 #  receipt               :text
 #  received              :boolean          default(TRUE), not null

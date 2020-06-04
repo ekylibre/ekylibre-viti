@@ -24,7 +24,7 @@
 # == Table: registered_phytosanitary_usages
 #
 #  applications_count         :integer
-#  applications_frequency     :interval
+#  applications_frequency     :integer
 #  crop                       :jsonb
 #  crop_label_fra             :string
 #  decision_date              :date

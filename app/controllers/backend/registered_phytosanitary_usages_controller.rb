@@ -7,8 +7,6 @@ module Backend
 
     def filter_usages
       return render json: { disable: :maaid_not_provided.tl, clear: true } unless (variant = Product.find(params[:filter_id]).variant) && (variant.imported_from == "Lexicon")
-      return render json: { disable: :phytosanitary_product_does_not_exists.tl, clear: true } unless RegisteredPhytosanitaryProduct.find_by_reference_name(variant.reference_name)
-
       registered_pp = RegisteredPhytosanitaryProduct.find_by_reference_name(variant.reference_name)
       retrieved_ids = params[:retrieved_ids].uniq.reject(&:blank?)
       scopes = { of_product: registered_pp.france_maaid }
@@ -27,56 +25,42 @@ module Backend
     end
 
     def get_usage_infos
-      targets_data = params.fetch(:targets_data, {})
-      intervention = Intervention.find_by_id params[:intervention_id]
-      input = InterventionInput.find_by_id params[:input_id]
-      inspector = ::Interventions::Phytosanitary::ParametersInspector.new
-
-      modified = inspector.relevant_parameters_modified?(live_data: params[:live_data].to_boolean,
-                                                         intervention: intervention,
-                                                         targets_ids: targets_data.map { |_k, v| v[:id].to_i },
-                                                         inputs_data: [{ input: input, product_id: params[:product_id].to_i, usage_id: params[:id] }])
-
-      usage = fetch_usage(modified, input)
+      usage_id = params[:id]
+      usage = RegisteredPhytosanitaryUsage.find(usage_id)
       usage_dataset = compute_dataset(usage)
-      usage_application = compute_usage_application(usage, targets_data, params[:intervention_id])
+      allowed_factors = compute_allowed_factors(usage)
+      usage_application = compute_usage_application(usage, params[:targets_data], params[:intervention_id])
       authorizations = compute_authorization(usage_application, :usage_application)
 
-      render json: { usage_infos: usage_dataset, usage_application: usage_application, authorizations: authorizations, modified: modified }
+      render json: { usage_infos: usage_dataset, usage_application: usage_application, allowed_factors: allowed_factors, authorizations: authorizations }
     end
 
     def dose_validations
-      targets_data = params.fetch(:targets_data, {})
-      intervention = Intervention.find_by_id params[:intervention_id]
-      input = InterventionInput.find_by_id params[:input_id]
-      inspector = ::Interventions::Phytosanitary::ParametersInspector.new
+      id = params[:id]
+      product_id = params[:product_id]
+      quantity = params[:quantity]
+      dimension = params[:dimension]
+      targets_data = params[:targets_data]
 
-      modified = inspector.relevant_parameters_modified?(live_data: params[:live_data].to_boolean,
-                                                         intervention: intervention,
-                                                         targets_ids: targets_data.map { |_k, v| v[:id].to_i },
-                                                         inputs_data: [{ input: input, product_id: params[:product_id].to_i, usage_id: params[:id] }])
+      usage = RegisteredPhytosanitaryUsage.find(id)
+      product = Product.find(product_id)
 
-      usage = fetch_usage(modified, input)
-      product = Product.find(params[:product_id])
       service = RegisteredPhytosanitaryUsageDoseComputation.new
-      dose_validation = service.validate_dose(usage, product, params[:quantity].to_f, params[:dimension], targets_data)
+
+      dose_validation = service.validate_dose(usage, product, quantity.to_f, dimension, targets_data)
       authorizations = compute_authorization(dose_validation, :dose_validation)
 
-      render json: { dose_validation: dose_validation, authorizations: authorizations, modified: modified }
+      render(json: { dose_validation: dose_validation, authorizations: authorizations })
     end
 
     private
 
-      def fetch_usage(modified, input)
-        if !modified && input.reference_data['usage'].present?
-          InterventionParameter::LoggedPhytosanitaryUsage.new(input.reference_data['usage'])
-        else
-          RegisteredPhytosanitaryUsage.find(params[:id])
-        end
+      def compute_allowed_factors(usage)
+        { "allowed-entry" => usage.product.in_field_reentry_delay, "allowed-harvest" => usage.pre_harvest_delay }
       end
 
       def compute_dataset(usage)
-        state_label = t("enumerize.registered_phytosanitary_usage.state.#{usage.state}")
+        state_label = t("enumerize.registered_phytosanitary_product.state.#{usage.state}")
         {
           state: usage.decision_date ? "#{state_label} (#{usage.decision_date.l})" : state_label,
           maximum_dose: usage.dose_quantity ? "#{usage.dose_quantity} #{usage.dose_unit_name}" : nil,
@@ -85,19 +69,19 @@ module Backend
           applications_count: usage.applications_count,
           untreated_buffer_arthropod: usage.untreated_buffer_arthropod ? "#{usage.untreated_buffer_arthropod} m" : nil,
           pre_harvest_delay: usage.pre_harvest_delay ? "#{usage.pre_harvest_delay.in_full(:day)} j" : nil,
-          development_stage: usage.decorated_development_stage_min,
+          development_stage: usage.decorate.development_stage_min,
           untreated_buffer_plants: usage.untreated_buffer_plants ? "#{usage.untreated_buffer_plants} m" : nil,
           usage_conditions: usage.usage_conditions ? usage.usage_conditions.gsub('//', '<br/>').html_safe : nil
         }
       end
 
       def compute_usage_application(usage, targets_data, intervention_id)
-        return { none: '' } if targets_data.blank?
+        return { none: ''} unless targets_data
 
-        maaid = usage.france_maaid
+        maaid = usage.product.france_maaid
 
         applications_on_targets = targets_data.values.map do |target_info|
-          interventions = Product.find(target_info[:id]).activity_production.interventions.of_nature_using_phytosanitary.with_input_of_maaids(maaid)
+          interventions = Product.find(target_info[:id]).activity_production.interventions.of_nature(:spraying).with_input_of_maaids(maaid)
           interventions = interventions.where.not(id: intervention_id) if intervention_id.present?
           interventions.map do |intervention|
             intervention.targets.map(&:working_zone).select { |zone| Charta.new_geometry(target_info[:shape]).intersects?(zone) }.count

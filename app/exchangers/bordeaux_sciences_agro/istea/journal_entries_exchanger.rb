@@ -48,7 +48,7 @@ module BordeauxSciencesAgro
             valid = false
           end
 
-          w.info "#{line_number} - #{valid}".green
+          puts "#{line_number} - #{valid}".green
 
         end
         valid

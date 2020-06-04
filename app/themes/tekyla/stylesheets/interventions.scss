@@ -600,11 +600,12 @@ $preview-modal-height: 80vh;
     border-radius: 3px;
   }
 
+  #product-authorization-message {
+    color: #f44336;
+  }
 }
 
-#product-authorization-message, #usage-authorization-message {
-  color: #f44336;
-}
+
 
 .usage-infos-container {
   display: none;
@@ -688,10 +689,4 @@ $preview-modal-height: 80vh;
   .input-authorization__text {
     margin-right: 35px;
   }
-}
-
-.authorization-disclaimer {
-  margin: round($fs-normal/4) $spacing;
-  padding: round($fs-normal/4) 0;
-  font-style: italic;
 }

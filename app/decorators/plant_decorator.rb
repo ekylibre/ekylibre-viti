@@ -24,13 +24,15 @@ class PlantDecorator < ProductDecorator
   end
 
   def cultivated_hectare_costs
-    costs = costs_by_area(global_costs, object.net_surface_area.to_d)
+    costs = global_costs
+    divider_costs(costs, object.net_surface_area.to_d)
+    total_costs(costs)
 
-    with_total_costs(costs)
+    costs
   end
 
   def human_cultivated_hectare_costs
-    humanize_costs(cultivated_hectare_costs)
+    human_costs(cultivated_hectare_costs)
   end
 
   def working_hectare_costs
@@ -41,7 +43,7 @@ class PlantDecorator < ProductDecorator
   end
 
   def human_working_hectare_costs
-    humanize_costs(working_hectare_costs)
+    human_costs(working_hectare_costs)
   end
 
   ####################################
@@ -273,63 +275,24 @@ class PlantDecorator < ProductDecorator
     InterventionDecorator.decorate_collection(object.interventions)
   end
 
-  # @deprecated
   def sum_costs(plant_costs, costs)
     plant_costs.each { |key, _value| plant_costs[key] = plant_costs[key] + costs[key] }
   end
 
-  # @deprecated
   def human_costs(costs)
-    costs.each do |key, _value|
-      costs[key] = begin
-                     costs[key].to_i
-                   rescue FloatDomainError => e
-                     :error.tl
-                     ElasticAPM.report(e)
-                   end
-    end
+    costs.each { |key, _value| costs[key] = costs[key].to_i }
   end
 
-  # @param [Hash{Symbol => Numeric}] costs
-  # @return [Hash{Symbol => Numeric}]
-  def humanize_costs(costs)
-    costs.transform_values do |value|
-      begin
-        value.to_i
-      rescue FloatDomainError => e
-        ElasticAPM.report(e)
-
-        :error.tl
-      end
-    end
-  end
-
-  # @deprecated
   def multiply_costs(costs, multiplier)
     costs.each { |key, value| costs[key] = value * multiplier }
   end
 
-  # @deprecated
   def divider_costs(costs, divider)
     return costs if divider.zero?
 
     costs.each { |key, value| costs[key] = value / divider }
   end
 
-  # @param [Hash{Symbol => Numeric}] costs
-  # @param [Numeric] area
-  # @return [Hash{Symbol => Numeric}]
-  def costs_by_area(costs, area)
-    costs.transform_values { |v| v / area }
-  end
-
-  # @param [Hash{Symbol => Numeric}] costs
-  # @return [Hash{Symbol => Numeric}]
-  def with_total_costs(costs)
-    { **costs, total: costs.except(:total).values.sum }
-  end
-
-  # @deprecated
   def total_costs(costs)
     costs = costs.except!(:total) if costs.key?(:total)
 

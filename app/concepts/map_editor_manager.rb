@@ -2,13 +2,11 @@ class MapEditorManager
   class << self
     LAYERS = {
       land_parcels: {
-        label: [:land_parcels],
         name: :land_parcels,
         serie: :land_parcels_serie,
         type: :simple
       },
       plants: {
-        label: [:plants],
         name: :plants,
         serie: :plants_serie,
         reference: 'variety',
@@ -16,13 +14,7 @@ class MapEditorManager
         fillOpacity: 0.7,
         type: :categories
       }
-    }
-
-    RegisteredPhytosanitaryUsage::UNTREATED_BUFFER_AQUATIC_VALUES.each do |n|
-      LAYERS[:"aquatic_nta_#{n}"] = { label: [:aquatic_nta, distance: n], name: :"aquatic_nta_#{n}", serie: :"aquatic_nta_#{n}_serie", type: :optional, bounds_buffer: true }
-    end
-
-    LAYERS.freeze
+    }.freeze
 
     def shapes(options = {})
       options[:layers] ||= []
@@ -32,13 +24,16 @@ class MapEditorManager
       mapeditor[:show][:series] ||= {}
       mapeditor[:show][:layers] ||= []
 
-      options[:layers].map(&:to_sym).each do |layer|
-        next unless LAYERS.keys.include? layer
+      if options[:bounding_box].present?
+      end
 
-        layer_serie = "#{layer}_serie"
-        layer_label = LAYERS[layer][:label]
+      options[:layers].each do |layer|
+        sym_layer = layer.to_sym
+        next unless LAYERS.keys.include? sym_layer
+
+        layer_serie = "#{sym_layer}_serie"
         mapeditor[:show][:series][layer_serie] = send(layer_serie, options)
-        mapeditor[:show][:layers] << LAYERS[layer].merge(label: layer_label.first.send(:tl, layer_label.second))
+        mapeditor[:show][:layers] << LAYERS[sym_layer].merge(label: sym_layer.tl)
       end
       mapeditor
     end
@@ -69,24 +64,6 @@ class MapEditorManager
 
       collection = Charta.new_geometry("GEOMETRYCOLLECTION(#{shapes.join(',')})")
       collection.to_json_feature_collection(properties)
-    end
-
-    def aquatic_nta_serie(distance, options)
-      return Charta::GeometryCollection.empty.to_json_feature_collection if options[:bounding_box].blank?
-
-      hydro_items = RegisteredHydroItem.in_bounding_box(options[:bounding_box]).map do |item|
-        [item.geometry.buffer(distance).to_text, { name: item.name, nature: item.nature }]
-      end
-
-      shapes = hydro_items.collect(&:first)
-      properties = hydro_items.collect(&:second)
-
-      collection = Charta.new_geometry("GEOMETRYCOLLECTION(#{shapes.join(',')})")
-      collection.to_json_feature_collection(properties)
-    end
-
-    RegisteredPhytosanitaryUsage::UNTREATED_BUFFER_AQUATIC_VALUES.each do |n|
-      define_method(:"aquatic_nta_#{n}_serie") { |options = {}| aquatic_nta_serie(n, options) }
     end
   end
 end

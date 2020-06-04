@@ -41,7 +41,6 @@
 #  picture_file_name         :string
 #  picture_file_size         :integer
 #  picture_updated_at        :datetime
-#  provider                  :jsonb
 #  providers                 :jsonb
 #  reference_name            :string
 #  specie_variety            :string
@@ -60,7 +59,6 @@ class ProductNatureVariant < Ekylibre::Record::Base
   include Autocastable
   include Customizable
   include Importable
-  include Providable
 
   attr_readonly :number
   refers_to :variety

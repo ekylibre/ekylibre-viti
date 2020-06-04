@@ -2819,6 +2819,7 @@ CREATE TABLE public.incoming_payments (
     lock_version integer DEFAULT 0 NOT NULL,
     custom_fields jsonb,
     codes jsonb,
+    providers jsonb,
     provider jsonb
 );
 
@@ -3086,6 +3087,7 @@ CREATE TABLE public.sales (
     undelivered_invoice_journal_entry_id integer,
     quantity_gap_on_invoice_journal_entry_id integer,
     client_reference character varying,
+    providers jsonb,
     provider jsonb
 );
 
@@ -20214,8 +20216,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200415160201');
 INSERT INTO schema_migrations (version) VALUES ('20200415162701');
 
 INSERT INTO schema_migrations (version) VALUES ('20200415163115');
-
-INSERT INTO schema_migrations (version) VALUES ('20200422084439');
 
 INSERT INTO schema_migrations (version) VALUES ('20200428162128');
 

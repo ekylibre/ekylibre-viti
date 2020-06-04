@@ -69,7 +69,7 @@ class Intervention < Ekylibre::Record::Base
 
   attr_readonly :procedure_name, :production_id, :currency
   refers_to :currency
-  enumerize :procedure_name, in: Procedo.procedure_names, i18n_scope: ['procedures'], predicates: true
+  enumerize :procedure_name, in: Procedo.procedure_names, i18n_scope: ['procedures']
   enumerize :nature, in: %i[request record], default: :record, predicates: true
   enumerize :state, in: %i[in_progress done validated rejected], default: :done, predicates: true
   belongs_to :event, dependent: :destroy, inverse_of: :intervention
@@ -148,16 +148,11 @@ class Intervention < Ekylibre::Record::Base
   }
 
   scope :of_nature, ->(reference_name) { where(procedure_name: reference_name) }
-  scope :of_nature_using_phytosanitary, -> { where(procedure_name: %i[spraying all_in_one_sowing sowing_with_spraying]) }
-
   scope :of_category, lambda { |category|
     where(procedure_name: Procedo::Procedure.of_category(category).map(&:name))
   }
   scope :of_campaign, lambda { |campaign|
     where(id: HABTM_Campaigns.select(:intervention_id).where(campaign: campaign))
-  }
-  scope :of_campaigns, ->(*campaigns) {
-    where(id: HABTM_Campaigns.select(:intervention_id).where(campaign: campaigns))
   }
   scope :of_current_campaigns, -> { of_campaign(Campaign.current) }
   scope :of_activity_production, lambda { |production|
@@ -993,10 +988,6 @@ class Intervention < Ekylibre::Record::Base
       parameter_attributes = { product_id: parameter.product_id.to_s, reference_name: parameter.reference_name }
     end
     parameter_attributes
-  end
-
-  def max_non_treatment_area
-    inputs.map(&:non_treatment_area).compact.max
   end
 
   class << self

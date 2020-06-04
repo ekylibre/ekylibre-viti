@@ -4,18 +4,14 @@ module Printers
     class << self
       # TODO move this elsewhere when refactoring the Document Management System
       def build_key(started_on:, stopped_on:, states:, journal:)
-        states = deprecated_filter(states, :states)
-
         filters = [journal.name, started_on, stopped_on]
-        filters << states.sort.join('-') if states
+        filters << states.select { |k, v| v == '1' }.keys.sort.join('-') if states
         filters.reject(&:blank?).join(' - ')
       end
     end
 
     def initialize(*_args, journal:, states:, period:, started_on:, stopped_on:, template:, **_options)
       super(template: template)
-      states = self.class.deprecated_filter(states, :states)
-
       @journal = journal
       @states = states
       @period = period
@@ -42,7 +38,7 @@ module Printers
       ledger = []
 
       if @states&.any?
-        a = @states.map { |state| "'#{state}'" }.join(', ')
+        a = @states.select { |_k, v| v.to_i == 1 }.map { |pair| "'#{pair.first}'" }.join(', ')
         states_array = "state IN (#{a})"
       else
         states_array = '1=1'
@@ -116,9 +112,9 @@ module Printers
 
       if @states&.any?
         content = []
-        content << :draft.tl if @states.include?('draft')
-        content << :confirmed.tl if @states.include?('confirmed')
-        content << :closed.tl if @states.include?('closed')
+        content << :draft.tl if @states.include?('draft') && @states['draft'].to_i == 1
+        content << :confirmed.tl if @states.include?('confirmed') && @states['confirmed'].to_i == 1
+        content << :closed.tl if @states.include?('closed') && @states['closed'].to_i == 1
         data_filters << :journal_entries_states.tl + ' : ' + content.to_sentence
       end
 

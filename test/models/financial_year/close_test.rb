@@ -26,9 +26,7 @@ module FinancialYearTest
         result_journal: Journal.find_by(nature: :result, currency: f.currency) ||
           Journal.create_one!(:result, f.currency)
       }
-
-      closer = FinancialYearClose.for_year(f, user: User.first, close_on: nil, **options)
-      close_result = closer.execute
+      close_result = f.close(User.first, nil, options)
       assert close_result, "Financial year #{f.code} should be closed (#{f.errors.messages.values.join ', '})"
 
       assert f.prior_to_closure_archive.present?

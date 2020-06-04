@@ -41,14 +41,12 @@
 #  payment_delay           :string           not null
 #  payment_mode_complement :text
 #  payment_mode_id         :integer
-#  provider                :jsonb
 #  sales_conditions        :text
 #  updated_at              :datetime         not null
 #  updater_id              :integer
 #
 
 class SaleNature < Ekylibre::Record::Base
-  include Providable
   enumerize :payment_delay, in: ['1 week', '30 days', '30 days, end of month', '60 days', '60 days, end of month']
   refers_to :currency
   belongs_to :catalog

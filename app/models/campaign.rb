@@ -56,11 +56,7 @@ class Campaign < Ekylibre::Record::Base
   has_many :cvi_statements
 
   scope :current, -> { where(closed: false).reorder(:harvest_year) }
-  scope :at, ->(searched_at = Time.zone.now) {
-    ActiveSupport::Deprecation.warn "Campaign#at is deprecated, use Campaign#on instead"
-    where(harvest_year: searched_at.year)
-  }
-  scope :on, ->(searched_on) { find_by(harvest_year: searched_on.year) }
+  scope :at, ->(searched_at = Time.zone.now) { where(harvest_year: searched_at.year) }
   scope :of_activity_production, lambda { |activity_production|
     where('id IN (SELECT campaign_id FROM activity_productions_campaigns WHERE activity_production_id = ?)', activity_production.id)
   }

@@ -84,28 +84,14 @@ module Ekylibre
             code << "  end\n"
             code << "end\n"
 
-            code << <<-RUBY
-              def can_be_dealt_with?(affair)
-                valid_affair_class?(affair) && !invalid_currency?(affair)
-              end
-
-              private def valid_affair_class?(affair)
-                affair.is_a? #{class_name}
-              end
-
-              private def invalid_currency?(affair)
-                self.currency != affair.currency
-              end
-            RUBY
-
             # Refresh after each save
             code << "def deal_with!(affair, dones = [])\n"
-            code << "  unless valid_affair_class?(affair)\n"
+            code << "  unless affair.is_a?(#{class_name})\n"
             code << "    raise \"\#{affair.class.name} (ID=\#{affair.id}) cannot be merged in #{class_name}\"\n"
             code << "  end\n"
             code << "  return self if self.#{foreign_key} == affair.id\n"
             code << "  dones << self\n"
-            code << "  if invalid_currency?(affair)\n"
+            code << "  if affair.currency != self.currency\n"
             code << "    raise ArgumentError, \"The currency (\#{self.currency}) is different of the affair currency(\#{affair.currency})\"\n"
             code << "  end\n"
             code << "  Ekylibre::Record::Base.transaction do\n"
@@ -250,12 +236,6 @@ module Ekylibre
               code << "  return [{amount: self.deal_mode_amount(mode)}]\n"
               code << "end\n"
             end
-
-            code << <<-RUBY
-              def self.affairable?
-                true
-              end
-            RUBY
 
             # code.split("\n").each_with_index{|x, i| puts((i+1).to_s.rjust(4).white + ": " + x.blue)}
 

@@ -2,30 +2,19 @@ module Interventions
   module Phytosanitary
     module Models
       class ProductApplicationResult
-        # @var [Hash{Product => Array<Models::ProductApplicationVote>}] votes
         attr_reader :votes
 
         def initialize(votes = {})
           @votes = votes
         end
 
-        # @param [Product] product
-        # @return [Array<String>]
         def product_messages(product)
-          product_grouped_messages(product).values.flatten
-        end
-
-        # @param [Product] product
-        # @return [Hash{Symbol => Array<String>}]
-        def product_grouped_messages(product)
           @votes
             .fetch(product, [])
-            .group_by(&:field)
-            .transform_values { |v| v.map(&:message).compact }
+            .map(&:message)
+            .compact
         end
 
-        # @param [Product] product
-        # @return [Symbol]
         def product_vote(product)
           @votes
             .fetch(product, [])
@@ -33,7 +22,7 @@ module Interventions
         end
 
         # @param [Array<Result>] others
-        # @return [ProductApplicationResult]
+        # @return [Result]
         def merge_all(*others)
           others.reduce(self) { |acc, other| acc.merge(other) }
         end
@@ -46,9 +35,8 @@ module Interventions
 
         # @param [Product] product
         # @param [String] message
-        # @option [Symbol, nil] on
-        def vote_forbidden(product, message = nil, on: nil)
-          add_vote(product, status: :forbidden, message: message, on: on)
+        def vote_forbidden(product, message = nil)
+          add_vote(product, status: :forbidden, message: message)
         end
 
         # @param [Product] product
@@ -59,9 +47,8 @@ module Interventions
         # @param [Product] product
         # @option [Symbol] status
         # @option [String] message
-        # @option [Symbol, nil] on
-        def add_vote(product, status:, message: nil, on: nil)
-          vote = Models::ProductApplicationVote.new(status, message, on || :product)
+        def add_vote(product, status:, message: nil)
+          vote = Models::ProductApplicationVote.new(status, message)
 
           if votes.key?(product)
             votes[product] << vote
