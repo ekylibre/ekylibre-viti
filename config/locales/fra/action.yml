@@ -1668,9 +1668,9 @@ fra:
     current_stocks_by_variety: "État des stocks"
     currently_subscribed_to: "Actuellement abonné à"
     custom_fields: "Champs personnalisés"
-    cvi_cadastral_plants: "Cultures cadastrales CVI"
-    cvi_cadastral_plants_map: "Cultures cadastrales CVI"
-    cvi_land_parcels: "Parcelles"
+    cvi_cadastral_plants: "Parcelles cadastrales CVI"
+    cvi_cadastral_plants_map: "Parcelles cadastrales CVI"
+    cvi_land_parcels: "Parcelles culturales"
     cvi_land_parcels_planting_campaign_invalid: "Au moins une parcelle ne contient pas d’année de plantation (champ vide), ou la valeur définie est incorrecte (ex. 9999). Veuillez modifier la ou les parcelles concernées puis cliquer sur Terminer."
     cvi_cultivable_zones: "Zones Cultivables"
     daily_nitrogen_production: "Excretion d’azote journalière" #?
