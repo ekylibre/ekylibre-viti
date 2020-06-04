@@ -63,6 +63,7 @@
 #  picture_updated_at           :datetime
 #  proposer_id                  :integer
 #  prospect                     :boolean          default(FALSE), not null
+#  provider                     :jsonb
 #  reminder_submissive          :boolean          default(FALSE), not null
 #  responsible_id               :integer
 #  siret_number                 :string
@@ -86,6 +87,7 @@ class Entity < Ekylibre::Record::Base
   include Commentable
   include Versionable
   include Customizable
+  include Providable
   attr_accessor :password_confirmation, :old_password
   refers_to :currency
   refers_to :language
