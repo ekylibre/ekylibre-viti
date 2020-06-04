@@ -44,6 +44,7 @@
 #  picture_file_size         :integer
 #  picture_updated_at        :datetime
 #  population_counting       :string           not null
+#  provider                  :jsonb
 #  reference_name            :string
 #  subscribing               :boolean          default(FALSE), not null
 #  subscription_days_count   :integer          default(0), not null
@@ -61,6 +62,7 @@ class ProductNature < Ekylibre::Record::Base
   include Autocastable
   include Customizable
   include Importable
+  include Providable
 
   VARIETIES_NATURES = {
                         animal: %w[animal animal_group],

@@ -130,6 +130,7 @@
       @element.val('')
       @valueField.val('')
       @element.trigger('selector:change')
+      @element.trigger('selector:clear')
 
     # Check that current selection is valid
     # If autoselect, autoselect first record if empty
@@ -271,6 +272,9 @@
             parameters.name = selected.data("new-item")
           E.dialog.open @element.data("selector-new-item"),
             data: parameters
+            defaultReturn: (frame, data, status, request) ->
+              frame.html $.parseHTML(request.responseText).filter((e) => !(e.tagName == 'H1' && e.id == 'title'))
+              frame.dialog("option", "position", {my: "center", at: "center", of: window})
             returns:
               success: (frame, data, status, request) =>
                 @_set(request.getResponseHeader("X-Saved-Record-Id"), true)
@@ -415,13 +419,17 @@
       url = $filteredUnroll.data('filters-url')
       values = @._retrieveValues($filteredUnroll, $filteringUnroll)
 
-      $.getJSON url, _.merge(values, filter_id: filterId), (data) =>
-        $filteredUnroll.attr('disabled', false)
-        $filteredUnroll.closest($filteringUnroll.data('parent')).find($filteredUnroll.data('msg-container')).text('') if $filteredUnroll.data('msg-container')
-        @._handleScope($filteredUnroll, data.scope_url) if data.scope_url
-        @._handleNew($filteredUnroll, data.new_url) if data.new_url
-        @._handleClear($filteredUnroll, data.clear)
-        @._handleDisable($filteredUnroll, $filteringUnroll, data.disable) if data.disable
+      $.getJSON(url, _.merge(values, filter_id: filterId))
+        .done (data) =>
+          $filteredUnroll.attr('disabled', false)
+          $filteredUnroll.closest($filteringUnroll.data('parent')).find($filteredUnroll.data('msg-container')).text('') if $filteredUnroll.data('msg-container')
+          @._handleScope($filteredUnroll, data.scope_url) if data.scope_url
+          @._handleNew($filteredUnroll, data.new_url) if data.new_url
+          @._handleClear($filteredUnroll, data.clear)
+          @._handleDisable($filteredUnroll, $filteringUnroll, data.disable) if data.disable
+        .fail (e) =>
+          @._handleDisable($filteredUnroll, $filteringUnroll, "Server error")
+          console.error('Error while trying to filter an unroll', e)
 
     _handleScope: ($filteredUnroll, scope_url) ->
       $filteredUnroll.data('selector', scope_url)

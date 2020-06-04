@@ -59,6 +59,7 @@
 #  payment_at                               :datetime
 #  payment_delay                            :string           not null
 #  pretax_amount                            :decimal(19, 4)   default(0.0), not null
+#  provider                                 :jsonb
 #  providers                                :jsonb
 #  quantity_gap_on_invoice_journal_entry_id :integer
 #  reference_number                         :string
@@ -75,6 +76,7 @@ require 'benchmark'
 class Sale < Ekylibre::Record::Base
   include Attachable
   include Customizable
+  include Providable
   attr_readonly :currency
   refers_to :currency
   belongs_to :affair
@@ -246,7 +248,9 @@ class Sale < Ekylibre::Record::Base
 
   # This callback bookkeeps the sale depending on its state
   bookkeep do |b|
-    b.journal_entry(self.nature.journal, reference_number: number, printed_on: invoiced_on, if: (invoice? && items.any?)) do |entry|
+    # take reference_number (external ref) if exist else take number (internal ref)
+    r_number = (reference_number.blank? ? number : reference_number)
+    b.journal_entry(self.nature.journal, reference_number: r_number, printed_on: invoiced_on, if: (invoice? && items.any?)) do |entry|
       label = tc(:bookkeep, resource: state_label, number: number, client: client.full_name, products: (description.blank? ? items.pluck(:label).to_sentence : description.gsub(/\r?\n/, ' / ')), sale: initial_number)
       # TODO: Uncommented this once we handle debt correctly and account 462 has been added to nomenclature
       # if items.all? { |item| item.fixed_asset_id }

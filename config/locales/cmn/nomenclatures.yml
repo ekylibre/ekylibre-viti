@@ -703,6 +703,7 @@ cmn:
         senescence: "衰老"
       name: "动物的生活状态"
     cation_exchange_capacity_analysis_methods:
+      
       name: "阳离子交换量分析方法"
     certification_labels:
       items:
@@ -1806,7 +1807,8 @@ cmn:
         precision: "精确"
         symbol: "符号"
     delivery_modes:
-      
+      choices:
+        
       items:
         delivered_at_place: "在交货地点"
         delivered_at_terminal: "在终端交付"
