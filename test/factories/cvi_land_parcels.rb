@@ -12,8 +12,8 @@ FactoryBot.define do
     rootstock_id { MasterVineVariety.where(category_name: 'Porte-greffe').order('RANDOM()').first.id }
     state { %i[planted removed_with_authorization].sample }
     shape { FFaker::Shape.multipolygon.simplify(0.05) }
-    planting_campaign { FFaker::Time.between(10.years.ago, Time.zone.today).year.to_s }
-    land_modification_date { Time.zone.today - rand(10_000) }
+    planting_campaign { FFaker::Time.between(10.years.ago, 5.years.ago).year.to_s }
+    land_modification_date { Time.zone.today }
     cvi_cultivable_zone
     with_location
     with_cvi_cadastral_plant
