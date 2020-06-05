@@ -79,6 +79,10 @@ class Analysis < Ekylibre::Record::Base
     where(sampled_at: started_at..stopped_at)
   }
 
+  scope :with_indicator, lambda { |indicator|
+    where(id: AnalysisItem.where(indicator_name: indicator).select(:analysis_id))
+  }
+
   before_validation do
     self.sampled_at ||= Time.zone.now
   end

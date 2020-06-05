@@ -28,8 +28,8 @@ GIT
 
 GIT
   remote: https://gitlab.com/ekylibre/charta.git
-  revision: 02083a5bfe61a5c6802cf68766d52bf1214a8f74
-  branch: rails-4
+  revision: 37fd9fc098c28b32a20b8446a0579f9e1946d633
+  branch: feature/distance-from-centroid
   specs:
     charta (0.1.16)
       json (>= 1.8.0)

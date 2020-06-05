@@ -90,7 +90,8 @@ gem 'rake', '~>12.0'
 gem 'timecop'
 
 # Manipulate map data
-gem 'charta', gitlab: 'ekylibre/charta', branch: 'rails-4'
+# gem 'charta', '~> 0.1.14'
+gem 'charta', gitlab: 'ekylibre/charta', branch: 'feature/distance-from-centroid'
 
 # active_list alternative
 gem 'font-awesome-sass', '~> 5.8.1'
