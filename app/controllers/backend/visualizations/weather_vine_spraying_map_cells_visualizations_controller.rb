@@ -9,11 +9,7 @@ module Backend
         sensor_data = []
         ind = Nomen::Indicator[:cumulated_rainfall]
         unit = Nomen::Unit.find(ind.unit)
-        factory = RGeo::Geographic.simple_mercator_factory()
-
-        visualization_face = params[:visualization]
         activity_production_ids = params[:activity_production_ids]
-        campaign = params[:campaign]
 
         activity_productions = ActivityProduction.where(id: activity_production_ids)
 
@@ -55,12 +51,8 @@ module Backend
               popup_lines << { label: item.human_indicator_name, content: item.value.l }
             end
 
-            bottom_line = ''
-            bottom_line << "<span>#{view_context.link_to(:see_more_details.tl, sensor.partner_url)}</span>" if sensor.partner_url.present?
-            bottom_line << "<i class='icon icon-battery-alert' style='color: red;'></i>" if sensor.alert_on? 'battery_life'
-            bottom_line << "<i class='icon icon-portable-wifi-off' style='color: red;'></i>" if sensor.alert_on? 'lost_connection'
-            popup_lines << ("<div style='display: flex; justify-content: space-between'>" + bottom_line + '</div>').html_safe
-            header_content = "<span class='sensor-name'>#{sensor.name}</span>#{view_context.lights(sensor.alert_status)}".html_safe
+            popup_lines << render_to_string(partial: 'popup', locals: { sensor: sensor })
+            header_content = view_context.content_tag(:span, sensor.name, class: 'sensor-name') + view_context.lights(sensor.alert_status)
             s_items = {
               sensor_id: sensor.id,
               name: sensor.name,
@@ -72,8 +64,6 @@ module Backend
             sensor_data << s_items
 
             filtered_a = rainfall_geo_analyses.where(sensor_id: ref_sensor_id).reorder(:analysed_at)
-            start = filtered_a.first.analysed_at
-            stop = filtered_a.last.analysed_at
             final_items = AnalysisItem.where(indicator_name: ind.name, analysis_id: filtered_a.pluck(:id))
 
             # compute distance between sensor and intervention shape
@@ -106,7 +96,7 @@ module Backend
               v.point_group :sensors, :sensor_data
             end
             v.serie :main, data
-            v.choropleth :cumulated_rainfall, :main, label: ind.human_name, unit: unit.symbol, stop_color: "#002AFF"
+            v.choropleth :cumulated_rainfall, :main, label: ind.human_name, unit: unit.symbol, stop_color: '#002AFF'
           end
 
         end
