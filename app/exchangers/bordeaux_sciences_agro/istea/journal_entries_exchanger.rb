@@ -48,7 +48,7 @@ module BordeauxSciencesAgro
             valid = false
           end
 
-          puts "#{line_number} - #{valid}".green
+          w.info "#{line_number} - #{valid}".green
 
         end
         valid
@@ -86,7 +86,7 @@ module BordeauxSciencesAgro
             entries[number] = {
               printed_on: r.printed_on,
               journal: journal,
-              number: line_number,
+              number: r.journal_name,
               currency: journal.currency,
               items_attributes: {}
             }
