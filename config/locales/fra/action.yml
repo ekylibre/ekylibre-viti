@@ -73,6 +73,8 @@ fra:
     backend/bank_reconciliation/items:
       index: "Pointer le relevé %{cash} n°%{number} (du %{started_on} au %{stopped_on})"
       reconciliate: "Relevés de la trésorerie %{cash} (du %{started_on} au %{stopped_on})"
+    backend/bank_statement_items:
+      show: "Ligne de relevé de compte : %{name}"
     backend/bank_statements:
       edit: "Modifier le relevé N°%{number}"
       edit_interval: "Périodes des relevés bancaires a rapprocher"
@@ -1104,7 +1106,6 @@ fra:
         error: "Erreur\_!" #?
       messages: #?
         unvalid_cvi_cadastral_plant: "Au moins une référence de parcelle cadastrale n'a pas été reconnue. Veuillez corriger ou supprimer la/les référence(s) identifiée(s) en rouge." #?
-      zoomGuidance: "Niveau de zoom insuffisant"
       zoomInTitle: "Zoomer"
       zoomOutTitle: "Dézoomer"
     intervention:
@@ -1122,6 +1123,9 @@ fra:
         manage_land_parcels: "Gérer le parcellaire"
         edit: "Modifier"
         not_defined: "A définir"
+      zoomGuidance: "Niveau de zoom insuffisant"
+      zoomInTitle: "Zoomer"
+      zoomOutTitle: "Dézoomer"
   labels:
     use: "Usage"
     land_parcel_plant: "Parcelle/culture"
@@ -1760,6 +1764,7 @@ fra:
     display_accounts: "Affichage des comptes"
     display_help: "Afficher l’aide" #?
     display_n_1: "Afficher N-1"
+    display_vat_details : "Afficher les détails de TVA"
     distribute_unaffected_products: "Distribuer les produits non affectés"
     distributions: "Répartitions"
     district_x: "%{name} (%{code})" #?

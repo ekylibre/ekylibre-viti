@@ -100,8 +100,8 @@ eng:
       index: "Reconciliate bank statement %{cash} %{number} (from %{started_on} to %{stopped_on})"
       reconciliate: "Bank statements of %{cash} (from %{started_on} to %{stopped_on})"
     backend/bank_statement_items:
-      # new: "New bank statement item"
-      # show: "Bank statement item: %{name}"
+      new: "New bank statement item"
+      show: "Bank statement item : %{name}"
     backend/bank_statements:
       edit: "Edit bank statement %{number}"
       edit_interval: "Bank statements periods to reconciliate"
@@ -1444,7 +1444,6 @@ eng:
       error: "Error!"
     messages:
       unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
-      zoomGuidance: "Insufficient zoom level"
       zoomInTitle: "Zoom in"
       zoomOutTitle: "Zoom out"
     active_list:
@@ -1462,6 +1461,9 @@ eng:
         n_3_4_leaf: "N+3 (2nd leaf)"
         n_2_3_leaf: "N+2 (3rd leaf)"
         n_4_5_leaf: "N+4 (5th leaf)"
+      zoomGuidance: "Insufficient zoom level"
+      zoomInTitle: "Zoom in"
+      zoomOutTitle: "Zoom out"
   labels:
     use: "use"
     land_parcel_plant: "Land parcel/plant"
@@ -1651,12 +1653,8 @@ eng:
     are_you_sure_you_want_to_delete: "Are you sure you want to delete this record?"
     are_you_sure_you_want_to_invoice: "Are you sure you want to invoice?"
     are_you_sure_you_want_to_send_mails: "Are you sure you want to send emails?"
-    are_you_sure_you_want_to_reset_cvi_conversion: "Are you sure you want to reset current CVI conversion?"
-    area: "Area"
+    area: "Area" #?
     articles: "Articles"
-    asset_exists: "Asset exists"
-    assets: "Assets"
-    assets_gaps: "Assets gaps"
     associate_debts: "Associate debts"
     associate_locked_debts: "Associate locked debts"
     associate_receivables: "Associate receivables"
@@ -1706,8 +1704,8 @@ eng:
     by_account_fixed_assets: "Fixed assets by account on %{to}"
     by_year: "By year"
     cadastral_references: "associated cadastral ref." #?
+    calculate: "Calculate" #?
     calculated_area: "calculated area" #?
-    calculate: "Calculate"
     calculated_hours: "Calculated hours"
     calculators: "Calculators"
     calendar: "Calendar"
@@ -1942,8 +1940,8 @@ eng:
     reset_cvi_cutlivable_zone_body: "<b>Warning  !</b><br>You are about to reset a cultivable zone and its associated land parcels.<br> All changes made until now will be lost. <br><br>Are you sure you want to reset this cultivable zone ?"
     delete_cvi_cadastral_plant_header: "Delete CVI cadastral plant"
     delete_cvi_cadastral_plant_body: "<b>Warning  !</b><br>You are about to delete a CVI cadastral plant.<br>To recreate it, you will have to reimport all you CVI.  <br><br>Are you sure you want to delete this CVI cadastral plant ?"
-    delete_only_record: "Or only delete the selected intervention(s) and display the request associate ?"
-    delete_request: "Delete also the request associate to the selected intervention(s)"
+    delete_only_record: "Or only delete the selected intervention(s) and display the request associate ?" #?
+    delete_request: "Delete also the request associate to the selected intervention(s)" #?
     delete_selected_interventions: "Delete the selected interventions"
     delete_x_entries:
       one: "Delete %{count} entry"
@@ -1981,6 +1979,7 @@ eng:
     display: "Display"
     display_accounts: "Display accounts"
     display_n_1: "Display N-1"
+    display_vat_details : "Display VAT details"
     distribute_unaffected_products: "Distribute unaffected products"
     distributions: "Distributions"
     divide: "Divide"
@@ -2189,10 +2188,10 @@ eng:
     from_current_year: "From"
     to_next_year: "To"
     production_campaign_period: "Production campaign period"
-    from_to_date: "from %{from} to %{to}"
+    from_to_date: "from %{from} to %{to}" #?
     fruit_yield: "Fruit yield"
-    full_name: "Full name"
     fullscreen: "Fullscreen"
+    full_name: "Full name"
     function: "Function"
     fungi: "Fungi"
     future_events: "Future events"
@@ -2214,8 +2213,8 @@ eng:
     geolocation: "Geolocation"
     global_costs: "Global costs"
     global_preferences: "Global preferences"
+    go: "Go" #?
     go_back: "Back"
-    go: "Go"
     go_back_to_financial_year_details: "Go back to financial year details"
     gradings: "Gradings"
     grain_yield: "Grain yield"
@@ -2566,7 +2565,7 @@ eng:
     or: "Or"
     # order: "Order"
     order_again: "Order again" #?
-    organic_matter_concentration: "Organic matter concentration"
+    organic_matter_concentration: "Organic matter concentration" #?
     original_component: "original"
     other_expenses: "Other expenses"
     other_financial_debts: "Other financial debts"
@@ -2647,7 +2646,7 @@ eng:
     plant_medicines: "Plant medicines"
     plantation_density: "Plantation density" #?
     planted: "Planted" #?
-    plants: "Crops"
+    plants: "Crops" #?
     please_provide_a_valid_maaid_to_display_this_article_properties: "Please provide a valid AMM number to display this article's properties"
     please_reach_out_for_the_person_in_charge_of_the_closure: "Please reach out for the person in charge of the closure outside of the software to get your documents."
     please_wait: "Please wait…"
@@ -2772,7 +2771,7 @@ eng:
     regroup: "Group"
     split: "Split"
     draw_the_cutting_line: "Draw the cutting line"
-    rejected: "Rejected"
+    rejected: "Rejected" #?
     relationship: "Relationship"
     relationship_of_entity: "%{relationship} of %{entity}"
     relationship_of_entity_as_inverse_post: "%{relationship} of %{entity} (%{inverse_post})"
@@ -2843,7 +2842,7 @@ eng:
     seed_and_plants: "Seed and plants"
     select_a_journal: "Select a journal"
     select_closure_date: "Choose closing date"
-    select_columns: "Select columns"
+    select_columns: "Select columns" #??
     select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     select_date: "Select date"
     select_date_generation: "Limit date for generation"
@@ -3113,7 +3112,8 @@ eng:
     view: "View"
     view_map_when_creating_an_intervention: "View map when creating an intervention"
     # vine_yield: "Vine yield"
-    wages: "Wages"
+    vintage_or_production_campaign: "Vintage or production campaign"
+    wages: "Wages" #?
     warning_date_not_in_period: "Warning: The date entered is not on the current exercise."
     water_lakes: "Water lakes"
     water_rivers: "Water rivers"
@@ -3451,6 +3451,9 @@ eng:
       record_has_been_correctly_removed: "The record has been removed successfully"
       cvi_conversion_has_been_correctly_reseted: "CVI conversion has been reseted successfully."
       record_has_been_imported: "Record has been imported"
+      record_not_found: "Record not found" #?
+      record_x_created: "%{record} %{name} created" #?
+      record_x_updated: "%{record} %{name} updated" #?
       record_x_updated_f: "%{record} %{name} updated" #?
       record_x_updated_f: "%{record} %{name} updated" #?
       can_not_group_cvi_land_parcels: "CVI land parcels can't be grouped, because vine variety, designation of origin, inter vine plant distance, inter row distance, state or activity is different. Please check these values before retrying."
@@ -3458,10 +3461,6 @@ eng:
       can_not_split_grouped: "CVI land parcels can't be splited, because it's already composed of multiple land parcels. Please select another land parcel"
       grouped: "%{name_pluralized} have been grouped."
       cvi_land_parcels_splitted: "Land parcels have been splitted."
-      # record_is_not_valid: "Record is not valid"
-      record_not_found: "Record not found"
-      record_x_created: "%{record} %{name} created"
-      record_x_updated: "%{record} %{name} updated"
       sale_is_not_duplicatable: "Sale is not duplicatable"
       # saved_but_couldnt_letter_x_and_y: "Saved but couldnt letter x and y"
       select_entry_items_to_mark_together: "Select entry items to mark together"
@@ -3673,6 +3672,7 @@ eng:
       print: "Print"
       print_land_parcel_register: "Print land parcel register"
       print_worker_register: "Print worker register"
+      print_land_parcel_register: "Print land parcel register"
       # progress: "Progress"
       propose: "Propose"
       propose_and_invoice: "Propose and invoice"

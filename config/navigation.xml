@@ -2492,6 +2492,13 @@
         <page to="backend/land_parcels#list_interventions"/>
         <page to="backend/land_parcels#list_plants"/>
       </item>
+      <item name="outgoing_payment_lists">
+        <page to="backend/outgoing_payment_lists#archive_report"/>
+        <page to="backend/outgoing_payment_lists#find_open_document_template"/>
+        <page to="backend/outgoing_payment_lists#generate_document"/>
+        <page to="backend/outgoing_payment_lists#generate_report"/>
+        <page to="backend/outgoing_payment_lists#generate_report_file"/>
+      </item>
       <item name="outgoing_payment_modes">
         <page to="backend/outgoing_payment_modes#sepa"/>
       </item>

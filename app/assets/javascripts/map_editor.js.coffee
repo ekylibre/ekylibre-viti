@@ -188,7 +188,7 @@
       @ghostLayerLabelCluster = Leaflet.ghostLabelCluster(type: 'hidden')
       @ghostLayerLabelCluster.addTo @map
 
-      @layersScheduler = L.layersScheduler()
+      @layersScheduler = Leaflet.layersScheduler()
       @layersScheduler.addTo @map
 
       this.map.on "draw:created", (e) =>
@@ -659,14 +659,14 @@
       this
 
     _buildLegendContainer: ->
-      @controls.legend = new L.control(position: "bottomright")
+      @controls.legend = new Leaflet.control(position: "bottomright")
 
       @controls.legend.onAdd = (map) =>
-        L.DomUtil.create('div', 'leaflet-legend-control')
+        Leaflet.DomUtil.create('div', 'leaflet-legend-control')
 
       @map.addControl @controls.legend
 
-      L.DomUtil.addClass(@controls.legend.getContainer(), 'leaflet-hidden-control')
+      Leaflet.DomUtil.addClass(@controls.legend.getContainer(), 'leaflet-hidden-control')
 
     _bindOverlays: ->
       @map.on "overlayadd", (event) =>
@@ -697,7 +697,7 @@
         layerGroup.renderedLayer = renderedLayer
 
         @controls.legend.getContainer().innerHTML += renderedLayer.buildLegend()
-        L.DomUtil.removeClass(@controls.legend.getContainer(), 'leaflet-hidden-control')
+        Leaflet.DomUtil.removeClass(@controls.legend.getContainer(), 'leaflet-hidden-control')
 
         if @seriesReferencesLayers[layer.label]? && layer.type != 'optional'
           @map.removeLayer(@seriesReferencesLayers[layer.label])
@@ -982,7 +982,7 @@
             @ghostLabelCluster.removeLayer target: { label: layer.label } unless layer.label is undefined
           @ghostLabelCluster.refresh()
 
-        selector = @layerSelector || new L.Control.Layers()
+        selector = @layerSelector || new Leaflet.Control.Layers()
 
         if @ghost? and @ghost.getLayers().length
           selector.addOverlay(@ghost, @options.overlaySelector.ghostLayer)
