@@ -5,15 +5,15 @@ class ConvertCviTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
     let(:cvi_statement) { create(:cvi_statement, :with_one_cvi_cultivable_zone_ready_to_convert) }
     let(:cvi_land_parcel) { cvi_statement.cvi_land_parcels.first }
 
-    it 'create a new activity production with correct attributes' do 
+    it 'create a new activity production with correct attributes' do
       ConvertCvi.call(cvi_statement_id: cvi_statement.id)
       activity = cvi_land_parcel.activity
       created_activity_production = ActivityProduction.last
-      assert_equal 'headland_cultivation' , created_activity_production.support_nature
-      assert_equal 'fruit' , created_activity_production.usage
-      assert_equal Campaign.of(cvi_land_parcel.planting_campaign) , created_activity_production.planting_campaign
-      assert_equal 'headland_cultivation' , created_activity_production.support_nature
-      assert_equal Hash['cvi_land_parcel_id', cvi_land_parcel.id ] , created_activity_production.providers
+      assert_equal 'headland_cultivation', created_activity_production.support_nature
+      assert_equal 'fruit', created_activity_production.usage
+      assert_equal Campaign.of(cvi_land_parcel.planting_campaign.to_i - 1), created_activity_production.planting_campaign
+      assert_equal 'headland_cultivation', created_activity_production.support_nature
+      assert_equal Hash['cvi_land_parcel_id', cvi_land_parcel.id], created_activity_production.providers
       assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i + activity.start_state_of_production.keys.first.to_i, activity.production_started_on.month, activity.production_started_on.day),
                    created_activity_production.started_on
       assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i, activity.production_stopped_on.month, activity.production_stopped_on.day), 
@@ -35,7 +35,6 @@ class ConvertCviTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
         assert_difference 'ActivityProduction.count', 0 do
           ConvertCvi.call(cvi_statement_id: cvi_statement.id)
         end
-        
       end
     end
     
