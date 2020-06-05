@@ -3,6 +3,7 @@ module Api
     # Interventions API permits to access interventions
     class InterventionsController < Api::V1::BaseController
       READING_PARAMS = %i[tools targets].freeze
+
       def index
         nature = params[:nature] || 'record'
         @interventions = Intervention
@@ -33,14 +34,14 @@ module Api
           @interventions = @interventions.joins(<<-SQL).where(<<-CONDITIONS, user.worker.id).group('interventions.id')
             LEFT JOIN interventions record_interventions_interventions ON record_interventions_interventions.request_intervention_id = interventions.id
             LEFT JOIN intervention_participations ON record_interventions_interventions.id = intervention_participations.intervention_id
-            LEFT JOIN products AS workers_or_tools_included ON intervention_participations.product_id = workers_or_tools_included.id AND workers_or_tools_included.type = 'Worker' 
+            LEFT JOIN products AS workers_or_tools_included ON intervention_participations.product_id = workers_or_tools_included.id AND workers_or_tools_included.type = 'Worker'
           SQL
 
             (record_interventions_interventions.state IS NULL
             OR record_interventions_interventions.state = 'in_progress')
             AND (workers_or_tools_included.id IS NULL
             OR (workers_or_tools_included.id = ? AND intervention_participations.state = 'in_progress'))
-         CONDITIONS
+          CONDITIONS
 
           if params[:with_interventions]
             if params[:with_interventions] == 'true'
@@ -72,7 +73,7 @@ module Api
           intervention = interactor.intervention
           render json: { id: intervention.id }, status: :created
         else
-          render json: { errors: interactor.error }, status: :bad_request
+          render json: { errors: interactor.error.try(:message) }, status: :bad_request
         end
       end
 

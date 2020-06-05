@@ -54,6 +54,7 @@
 - cvi_land_parcel
 - cvi_statement
 - dashboard
+- datasource_credit
 - debt_transfer
 - delivery
 - delivery_tool

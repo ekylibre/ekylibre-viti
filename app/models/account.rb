@@ -38,6 +38,7 @@
 #  name                      :string           not null
 #  nature                    :string
 #  number                    :string           not null
+#  provider                  :jsonb
 #  reconcilable              :boolean          default(FALSE), not null
 #  updated_at                :datetime         not null
 #  updater_id                :integer
@@ -46,6 +47,7 @@
 
 class Account < Ekylibre::Record::Base
   include Customizable
+  include Providable
   CENTRALIZING_NATURES = %i[client supplier employee].freeze
 
   @@references = []
@@ -250,44 +252,44 @@ class Account < Ekylibre::Record::Base
 
   class << self
     # Trim account number following preferences
-      def normalize(number)
-        number = number.to_s
-        account_number_length = Preference[:account_number_digits]
-        if number.size > account_number_length
-          number[0...account_number_length]
-        elsif number.size < account_number_length
-          number.ljust(account_number_length, "0")
-        else
-          number
-        end
+    def normalize(number)
+      number = number.to_s
+      account_number_length = Preference[:account_number_digits]
+      if number.size > account_number_length
+        number[0...account_number_length]
+      elsif number.size < account_number_length
+        number.ljust(account_number_length, "0")
+      else
+        number
+      end
+    end
+
+    def centalizing_account_prefix_for(nature)
+      natures = CENTRALIZING_NATURES
+      nature = nature.to_sym
+      unless natures.include?(nature)
+        raise ArgumentError, "Unknown nature #{nature.inspect} (#{natures.to_sentence} are accepted)"
       end
 
-      def centalizing_account_prefix_for(nature)
-        natures = CENTRALIZING_NATURES
-        nature = nature.to_sym
-        unless natures.include?(nature)
-          raise ArgumentError, "Unknown nature #{nature.inspect} (#{natures.to_sentence} are accepted)"
-        end
+      account_nomen = nature.to_s.pluralize
+      account_nomen = :staff_due_remunerations if nature == :employee
 
-        account_nomen = nature.to_s.pluralize
-        account_nomen = :staff_due_remunerations if nature == :employee
-
-        prefix = Preference[:"#{nature}_account_radix"]
-        if prefix.blank?
-          prefix = Nomen::Account.find(account_nomen).send(Account.accounting_system)
-        end
-
-        prefix
+      prefix = Preference[:"#{nature}_account_radix"]
+      if prefix.blank?
+        prefix = Nomen::Account.find(account_nomen).send(Account.accounting_system)
       end
 
-      def generate_employee_account_number_for(entity_id)
-        prefix = centalizing_account_prefix_for(:employee)
-        suffix_length = Preference[:account_number_digits] - prefix.length
+      prefix
+    end
 
-        suffix = entity_id.to_s.rjust(suffix_length, '0')
+    def generate_employee_account_number_for(entity_id)
+      prefix = centalizing_account_prefix_for(:employee)
+      suffix_length = Preference[:account_number_digits] - prefix.length
 
-        "#{prefix}#{suffix}"
-      end
+      suffix = entity_id.to_s.rjust(suffix_length, '0')
+
+      "#{prefix}#{suffix}"
+    end
 
     # Create an account with its number (and name)
     def find_or_create_by_number(*args)
@@ -390,6 +392,7 @@ class Account < Ekylibre::Record::Base
       end
       conditions
     end
+
     alias find_with_regexp regexp_condition
 
     # Find all account matching with the regexp in a String
@@ -434,6 +437,7 @@ class Account < Ekylibre::Record::Base
       end
       account
     end
+
     alias import_from_nomenclature find_or_import_from_nomenclature
 
     def generate_auxiliary_account_number(usage)
@@ -463,13 +467,13 @@ class Account < Ekylibre::Record::Base
       @systems.fetch(current_tenant, system)
     end
 
-  # FIXME: This is an aberration of internationalization.
+    # FIXME: This is an aberration of internationalization.
     def french_accounting_system?
       %w[fr_pcg82 fr_pcga].include?(accounting_system)
     end
 
-  # Returns the name of the used accounting system
-  # It takes the information in preferences
+    # Returns the name of the used accounting system
+    # It takes the information in preferences
     def accounting_system=(name)
       unless (item = Nomen::AccountingSystem[name])
         raise ArgumentError, "The accounting system #{name.inspect} is unknown."
@@ -515,6 +519,7 @@ class Account < Ekylibre::Record::Base
     # Example : 1-3 41 43
     def clean_range_condition(range, _table_name = nil)
       expression = ''
+
       if range.present?
         valid_expr = /^\d(\d(\d[0-9A-Z]*)?)?$/
         for expr in range.split(/[^0-9A-Z\-\*]+/)
@@ -527,30 +532,15 @@ class Account < Ekylibre::Record::Base
           end
         end
       end
+
       expression.strip
     end
 
-    # Build an SQL condition to restrein accounts to some ranges
+    # Build an SQL condition to restrict accounts to some ranges
     # Example : 1-3 41 43
+    # @deprecated
     def range_condition(range, table_name = nil)
-      conditions = []
-      if range.blank?
-        return connection.quoted_true
-      else
-        range = clean_range_condition(range)
-        table = table_name || Account.table_name
-        for expr in range.split(/\s+/)
-          if expr =~ /\-/
-            start, finish = expr.split(/\-+/)[0..1]
-            max = [start.length, finish.length].max
-            conditions << "SUBSTR(#{table}.number, 1, #{max}) BETWEEN #{connection.quote(start.ljust(max, '0'))} AND #{connection.quote(finish.ljust(max, 'Z'))}"
-          else
-            conditions << "#{table}.number LIKE #{connection.quote(expr + '%%')}"
-          end
-        end
-      end
-      return false if conditions.empty?
-      '(' + conditions.join(' OR ') + ')'
+      condition_builder.range_condition(range, table_name: table_name || self.table_name)
     end
 
     # Returns list of reconcilable prefixes defined in preferences
@@ -564,6 +554,14 @@ class Account < Ekylibre::Record::Base
     def reconcilable_regexp
       Regexp.new("^(#{reconcilable_prefixes.join('|')})")
     end
+
+    private
+
+      # @deprecated
+      def condition_builder
+        ActiveSupport::Deprecation.warn 'Account condition methods are deprecated, use Accountancy::ConditionBuilder::* instead'
+        Accountancy::ConditionBuilder::AccountConditionBuilder.new(connection: connection)
+      end
   end
 
   # Returns list of usages as an array of usage items from the nomenclature
@@ -615,11 +613,19 @@ class Account < Ekylibre::Record::Base
   def mark(item_ids, letter = nil)
     conditions = ['id IN (?) AND (letter IS NULL OR LENGTH(TRIM(letter)) <= 0 OR (letter SIMILAR TO ?))', item_ids, '[A-z]*\*?']
     items = journal_entry_items.where(conditions)
-    return nil unless item_ids.size > 1 && items.count == item_ids.size &&
-                      items.collect { |l| l.debit - l.credit }.sum.to_f.zero?
-    letter ||= new_letter
-    journal_entry_items.where(conditions).update_all(letter: letter)
-    letter
+    return nil unless item_ids.size > 1 && items.count == item_ids.size && items.collect { |l| l.debit - l.credit }.sum.to_f.zero?
+
+    Account.transaction do
+      letter ||= new_letter
+      items = journal_entry_items.where(conditions)
+      items.update_all(letter: letter)
+
+      # Merge affairs if all entry items selected belong to one AND same affair third
+      resources = items.map(&:entry).map(&:resource)
+      attempt_panier_local_resources_merge!(resources)
+
+      letter
+    end
   end
 
   # Mark entry items with the given +letter+, even when the items are not balanced together.
@@ -806,29 +812,20 @@ class Account < Ekylibre::Record::Base
     end
   end
 
-  # this method generate a dataset for one account
-  def account_statement_reporting(options = {}, non_letter)
-    report = HashWithIndifferentAccess.new
-    report[:items] = []
-    items = if non_letter == 'true'
-      journal_entry_items.where("letter LIKE ? OR letter IS ?", "%*%", nil)
-    else
-      journal_entry_items
-    end
-    items.order(:printed_on).includes(entry: [:sales, :purchases]).find_each do |item|
-      i = HashWithIndifferentAccess.new
-      i[:account_number] = number
-      i[:name] = name
-      i[:printed_on] = item.printed_on.l(format: '%d/%m/%Y')
-      i[:journal_entry_items_number] = item.entry_number
-      i[:sales_code] = item.entry.sales.pluck(:codes).first&.values&.join(', ') if item.entry.sales.present?
-      i[:purchase_reference_number] = item.entry.purchases.pluck(:reference_number).join(', ') if item.entry.purchases.present?
-      i[:letter] = item.letter
-      i[:real_debit] = item.real_debit
-      i[:real_credit] = item.real_credit
-      report[:items] << i
-    end
-    report
-  end
+  private
 
+    # @param [Array<Ekylibre::Record::Base, nil>] resources
+    # @return [void]
+    def attempt_panier_local_resources_merge!(resources)
+      if resources.all?(&:present?) && resources.all? { |r| r.class.respond_to? :affairable? } && # Resources are present and affairable
+        resources.all? { |r| r.is_a?(Providable) && r.provider_vendor == "panier_local" } && # Only merge resources from panier_local
+        resources.map(&:deal_third).uniq.count == 1 # And with the same third
+
+        first, *rest = resources
+
+        if rest.all? { |resource| first.can_be_dealt_with? resource.affair }
+          rest.each { |resource| first.deal_with! resource.affair }
+        end
+      end
+    end
 end

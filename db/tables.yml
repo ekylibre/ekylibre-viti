@@ -2340,102 +2340,6 @@ deposits:
   updater_id:
     type: integer
     references: user
-detail_hydrographique_2975:
-  date_app:
-    type: date
-  date_conf:
-    type: date
-  date_creat:
-    type: string
-    limit: 19
-  date_maj:
-    type: string
-    limit: 19
-  etat:
-    type: string
-    limit: 15
-  geom:
-    type: geometry
-    limit:
-      srid: 2975
-      type: st_point
-  gid:
-    type: integer
-    required: true
-  id:
-    type: string
-    limit: 24
-  id_source:
-    type: string
-    limit: 254
-  importance:
-    type: string
-    limit: 1
-  nat_detail:
-    type: string
-    limit: 18
-  nature:
-    type: string
-    limit: 15
-  prec_plani:
-    type: float
-  source:
-    type: string
-    limit: 127
-  statut_top:
-    type: string
-    limit: 10
-  toponyme:
-    type: string
-    limit: 127
-detail_hydrographique_4471:
-  date_app:
-    type: date
-  date_conf:
-    type: date
-  date_creat:
-    type: string
-    limit: 19
-  date_maj:
-    type: string
-    limit: 19
-  etat:
-    type: string
-    limit: 15
-  geom:
-    type: geometry
-    limit:
-      srid: 4471
-      type: st_point
-  gid:
-    type: integer
-    required: true
-  id:
-    type: string
-    limit: 24
-  id_source:
-    type: string
-    limit: 254
-  importance:
-    type: string
-    limit: 1
-  nat_detail:
-    type: string
-    limit: 18
-  nature:
-    type: string
-    limit: 15
-  prec_plani:
-    type: float
-  source:
-    type: string
-    limit: 127
-  statut_top:
-    type: string
-    limit: 10
-  toponyme:
-    type: string
-    limit: 127
 districts:
   code:
     type: string
@@ -3700,8 +3604,6 @@ incoming_payments:
     type: integer
     references: entity
   provider:
-    type: jsonb
-  providers:
     type: jsonb
   receipt:
     type: text
@@ -7951,7 +7853,7 @@ registered_phytosanitary_usages:
   applications_count:
     type: integer
   applications_frequency:
-    type: integer
+    type: string
   crop:
     type: jsonb
   crop_label_fra:
@@ -8400,8 +8302,6 @@ sales:
     required: true
   provider:
     type: jsonb
-  providers:
-    type: jsonb
   quantity_gap_on_invoice_journal_entry_id:
     type: integer
     references: journal_entry
@@ -8668,94 +8568,6 @@ supervisions:
     references: user
   view_parameters:
     type: json
-surface_hydrographique_5490:
-  code_hydro:
-    type: string
-    limit: 19
-  code_pays:
-    type: string
-    limit: 8
-  comment:
-    type: string
-    limit: 80
-  date_app:
-    type: date
-  date_conf:
-    type: date
-  date_creat:
-    type: string
-    limit: 19
-  date_maj:
-    type: string
-    limit: 19
-  etat:
-    type: string
-    limit: 15
-  geom:
-    type: geometry
-    limit:
-      srid: 5490
-      type: multi_polygon
-      has_z: true
-      has_m: true
-  gid:
-    type: integer
-    required: true
-  id:
-    type: string
-    limit: 24
-  id_c_eau:
-    type: string
-    limit: 80
-  id_ent_tr:
-    type: string
-    limit: 24
-  id_p_eau:
-    type: string
-    limit: 80
-  id_source:
-    type: string
-    limit: 254
-  nature:
-    type: string
-    limit: 27
-  nom_c_eau:
-    type: string
-    limit: 120
-  nom_ent_tr:
-    type: string
-    limit: 120
-  nom_p_eau:
-    type: string
-    limit: 120
-  origine:
-    type: string
-    limit: 24
-  persistanc:
-    type: string
-    limit: 12
-  pos_sol:
-    type: string
-    limit: 2
-  prec_alti:
-    type: float
-  prec_plani:
-    type: float
-  salinite:
-    type: string
-    limit: 3
-  source:
-    type: string
-    limit: 127
-  src_alti:
-    type: string
-    limit: 41
-  src_coord:
-    type: string
-    limit: 31
-  statut:
-    type: string
-    limit: 7
 synchronization_operations:
   created_at:
     type: datetime
@@ -9313,127 +9125,6 @@ trackings:
     type: string
   usage_limit_on:
     type: date
-troncon_hydrographique_2972:
-  bras:
-    type: string
-    limit: 10
-  cla_ordre:
-    type: string
-    limit: 32
-  code_carth:
-    type: string
-    limit: 8
-  code_hydro:
-    type: string
-    limit: 19
-  code_pays:
-    type: string
-    limit: 8
-  comment:
-    type: string
-    limit: 80
-  date_app:
-    type: date
-  date_conf:
-    type: date
-  date_creat:
-    type: string
-    limit: 19
-  date_maj:
-    type: string
-    limit: 19
-  delimit:
-    type: string
-    limit: 3
-  etat:
-    type: string
-    limit: 15
-  fictif:
-    type: string
-    limit: 3
-  fosse:
-    type: string
-    limit: 3
-  geom:
-    type: geometry
-    limit:
-      srid: 2972
-      type: multi_line_string
-      has_z: true
-      has_m: true
-  gid:
-    type: integer
-    required: true
-  id:
-    type: string
-    limit: 24
-  id_c_eau:
-    type: string
-    limit: 80
-  id_ent_tr:
-    type: string
-    limit: 24
-  id_s_hydro:
-    type: string
-    limit: 80
-  id_source:
-    type: string
-    limit: 254
-  largeur:
-    type: string
-    limit: 26
-  nature:
-    type: string
-    limit: 27
-  navigabl:
-    type: string
-    limit: 3
-  nom_c_eau:
-    type: string
-    limit: 120
-  nom_ent_tr:
-    type: string
-    limit: 120
-  num_ordre:
-    type: string
-    limit: 2
-  origine:
-    type: string
-    limit: 24
-  per_ordre:
-    type: string
-    limit: 32
-  persistanc:
-    type: string
-    limit: 12
-  pos_sol:
-    type: string
-    limit: 8
-  prec_alti:
-    type: float
-  prec_plani:
-    type: float
-  res_coulan:
-    type: string
-    limit: 3
-  salinite:
-    type: string
-    limit: 3
-  sens_ecoul:
-    type: string
-    limit: 12
-  source:
-    type: string
-    limit: 127
-  src_alti:
-    type: string
-    limit: 41
-  src_coord:
-    type: string
-    limit: 31
-  statut:
-    type: string
-    limit: 7
 user_roles:
   accesses:
     type: text

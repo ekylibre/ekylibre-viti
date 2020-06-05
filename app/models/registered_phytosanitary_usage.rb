@@ -24,7 +24,7 @@
 # == Table: registered_phytosanitary_usages
 #
 #  applications_count         :integer
-#  applications_frequency     :integer
+#  applications_frequency     :interval
 #  crop                       :jsonb
 #  crop_label_fra             :string
 #  decision_date              :date
@@ -56,12 +56,15 @@ class RegisteredPhytosanitaryUsage < ActiveRecord::Base
   extend Enumerize
   include HasInterval
   include Lexiconable
+  include Dimensionable
   include ScopeIntrospection
+
+  UNTREATED_BUFFER_AQUATIC_VALUES = [5, 20, 30, 50, 100]
 
   belongs_to :product, class_name: 'RegisteredPhytosanitaryProduct'
 
   enumerize :state, in: %w[authorized provisional withdrawn], predicates: true
-  has_interval :pre_harvest_delay
+  has_interval :pre_harvest_delay, :applications_frequency
 
   scope :of_product, -> (*ids) { where(product_id: ids) }
 
@@ -80,7 +83,7 @@ class RegisteredPhytosanitaryUsage < ActiveRecord::Base
   scope :of_specie, ->(specie) { where(specie: specie.to_s) }
   scope :with_conditions, -> { where.not(usage_conditions: nil) }
 
-  delegate :decorated_reentry_delay, to: :product
+  delegate :in_field_reentry_delay, :france_maaid, :decorated_reentry_delay, to: :product
 
   %i[dose_quantity development_stage_min usage_conditions pre_harvest_delay].each do |col|
     define_method "decorated_#{col}" do
@@ -114,13 +117,5 @@ class RegisteredPhytosanitaryUsage < ActiveRecord::Base
     else
       :stop
     end
-  end
-
-  def of_dimension?(dimension)
-    dose_unit.present? && Nomen::Unit.find(dose_unit).dimension == dimension.to_sym
-  end
-
-  def among_dimensions?(*dimensions)
-    dimensions.any? { |dimension| of_dimension?(dimension) }
   end
 end
