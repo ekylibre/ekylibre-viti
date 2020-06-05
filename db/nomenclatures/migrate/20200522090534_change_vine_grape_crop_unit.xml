@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<migration name="change vine grape crop unit">
+  <item-change item="product_nature_variants#vine_grape_crop" unit_name="hectare" />
+</migration>
