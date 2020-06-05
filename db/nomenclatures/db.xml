@@ -3073,7 +3073,7 @@
       <item name="discount_and_reduction" charge_account="discount_and_reductions_expenses" product_account="discount_and_reductions_revenues" purchasable="true" saleable="true" pictogram="gift" type="fee_and_service"/>
       <item name="duty_and_taxe" charge_account="government_tax_expenses" purchasable="true" pictogram="legal" type="fee_and_service"/>
       <item name="egg" charge_account="raw_material_expenses" product_account="animal_derivatives_revenues" stock_account="animal_derivative_stock" purchasable="true" saleable="true" storable="true" pictogram="drop" stock_movement_account="products_inventory_variations" type="article"/>
-      <item name="electricity" charge_account="electricity_expenses" purchasable="true" pictogram="bolt" type="fee_and_service"/>
+      <item name="electricity" charge_account="unstorable_expenses" purchasable="true" pictogram="bolt" type="fee_and_service"/>
       <item name="electronic_equipment" fixed_asset_account="office_equipment_assets" fixed_asset_allocation_account="office_equipment_asset_depreciations" fixed_asset_expenses_account="equipment_depreciations_inputations_expenses" depreciation_percentage="33.0" charge_account="materials_expenses" product_account="merchandising_revenues" stock_account="other_materials_stock" purchasable="true" saleable="true" depreciable="true" storable="true" pictogram="laptop" stock_movement_account="other_supply_stocks_variation" asset_fixable="true" type="equipment"/>
       <item name="equipment" fixed_asset_account="equipment_assets" fixed_asset_allocation_account="equipment_asset_depreciations" fixed_asset_expenses_account="equipment_depreciations_inputations_expenses" depreciation_percentage="15.0" charge_account="equipment_maintenance_expenses" product_account="sales_assets_revenues" purchasable="true" saleable="true" depreciable="true" pictogram="tractor" asset_fixable="true" type="equipment"/>
       <item name="equipment_fleet" pictogram="tractor"/>
@@ -3136,7 +3136,7 @@
       <item name="rent" charge_account="rent_expenses" product_account="services_revenues" purchasable="true" saleable="true" pictogram="money" type="fee_and_service"/>
       <item name="rent_hosting_service" charge_account="rent_expenses" purchasable="true" pictogram="subscription" type="fee_and_service"/>
       <item name="representation" charge_account="advertising_expenses" purchasable="true" pictogram="cc" type="fee_and_service"/>
-      <item name="running_water" charge_account="water_expenses" purchasable="true" pictogram="drop" type="article"/>
+      <item name="running_water" charge_account="unstorable_expenses" purchasable="true" pictogram="drop" type="article"/>
       <item name="salary_social_contribution" charge_account="salary_social_contribution_expenses" purchasable="true" pictogram="user" type="fee_and_service"/>
       <item name="seed" charge_account="seed_expenses" product_account="plant_derivatives_revenues" stock_account="seed_stock" purchasable="true" saleable="true" storable="true" pictogram="matter" stock_movement_account="seed_stocks_variation" type="article"/>
       <item name="service" product_account="services_revenues" saleable="true" pictogram="user" type="fee_and_service"/>
@@ -3687,7 +3687,7 @@
       <item name="mechanical_blade_intercep_tv" nature="weeder" type="equipment"/>
       <item name="mechanical_plow_lv" nature="plow" type="equipment"/>
       <item name="mechanical_plow_tv" nature="plow" type="equipment"/>
-      <item name="merlot_noir_so4_vine_seedling" nature="usual_vine_seedling" derivative_of="vitis_vinifera_merlot_noir" frozen_indicators_values="woodstock_variety: vitis_cinerea_x_vitis_riparia_SO4" type="article" sub_type="seed_and_plant"/>
+      <item name="merlot_noir_so4_vine_seedling" nature="usual_vine_seedling" derivative_of="vitis" frozen_indicators_values="rootstock_variety: vitis" type="article" sub_type="seed_and_plant"/>
       <item name="merveille_hazelnut" nature="hazelnut" derivative_of="corylus_avellana_merveille" frozen_indicators_values="net_mass: 1.00kilogram" unit_name="kilogram" type="article"/>
       <item name="milk_tank" nature="milk_tank" frozen_indicators_values="" unit_name="equipment" type="equipment"/>
       <item name="milk_taxe" nature="animal_product_taxe" type="fee_and_service"/>
@@ -3870,7 +3870,7 @@
       <item name="so2_liquid_p10" nature="so2_solution" frozen_indicators_values="net_volume: 1.00liter, net_mass: 1.00kilogram, sulfur_dioxide_concentration: 10percent" unit_name="liter" type="article"/>
       <item name="so2_solid_2g" nature="so2_solution" frozen_indicators_values="net_mass: 2.00gram, sulfur_dioxide_concentration: 100percent" unit_name="2g_pill" type="article"/>
       <item name="so2_solid_5g" nature="so2_solution" frozen_indicators_values="net_mass: 5.00gram, sulfur_dioxide_concentration: 100percent" unit_name="5g_pill" type="article"/>
-      <item name="so4_vine_seedling" nature="usual_vine_seedling" frozen_indicators_values="woodstock_variety: vitis_cinerea_x_vitis_riparia_SO4" type="article" sub_type="seed_and_plant"/>
+      <item name="so4_vine_seedling" nature="usual_vine_seedling" frozen_indicators_values="rootstock_variety: vitis" type="article" sub_type="seed_and_plant"/>
       <item name="soil_loosener" nature="soil_loosener" frozen_indicators_values="" unit_name="equipment" type="equipment"/>
       <item name="sorghum_crop" nature="crop" variety="sorghum" frozen_indicators_values="net_surface_area: 1.00hectare" unit_name="hectare" type="crop"/>
       <item name="sorghum_seed_25" nature="seed" derivative_of="sorghum" frozen_indicators_values="net_mass: 25.00kilogram, thousand_grains_mass: 42gram" unit_name="25kg_bag" type="article" sub_type="seed_and_plant"/>
@@ -3947,8 +3947,8 @@
       <item name="veal_meat" nature="beef_meat" derivative_of="bos_taurus" frozen_indicators_values="net_volume: 1.00liter, net_mass: 1.00kilogram" unit_name="kilogram" type="article"/>
       <item name="vibrocultivator" nature="seedbed_preparator" frozen_indicators_values="" unit_name="equipment" type="equipment"/>
       <item name="vine_and_ochard_tractor" nature="tractor" type="equipment"/>
-      <item name="vine_grape_berry" nature="grape" derivative_of="vitis_vinifera" frozen_indicators_values="net_mass: 1.00kilogram, net_volume: 1.00liter" unit_name="kilogram" type="article"/>
-      <item name="vine_grape_crop" nature="wine_crop" variety="vitis_vinifera" frozen_indicators_values="net_surface_area: 1.00hectare" unit_name="hectare" type="crop"/>
+      <item name="vine_grape_berry" nature="grape" derivative_of="vitis" frozen_indicators_values="net_mass: 1.00kilogram, net_volume: 1.00liter" unit_name="kilogram" type="article"/>
+      <item name="vine_grape_crop" nature="vine_crop" variety="vitis" frozen_indicators_values="net_surface_area: 1.00hectare" unit_name="hectare" type="crop"/>
       <item name="vine_grape_juice" nature="grape_juice" derivative_of="grape" frozen_indicators_values="net_mass: 100.00 kilogram, net_volume: 100.00liter" unit_name="hectoliter" type="article"/>
       <item name="vine_grape_must" nature="fermented_grape_juice" derivative_of="grape" frozen_indicators_values="net_mass: 100.00 kilogram, net_volume: 100.00liter" unit_name="hectoliter" type="article"/>
       <item name="vine_lifter_lv" nature="vine_lifter" type="equipment"/>
@@ -4441,7 +4441,10 @@
   </nomenclature>
   <nomenclature name="production_systems" translateable="true">
     <items>
+      <item name="biodynamic_agriculture"/>
+      <item name="conservation_agriculture"/>
       <item name="extensive_farming"/>
+      <item name="integrated_agriculture"/>
       <item name="intensive_farming"/>
       <item name="organic_farming"/>
       <item name="permaculture"/>

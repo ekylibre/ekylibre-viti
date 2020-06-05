@@ -2328,8 +2328,8 @@ CREATE TABLE public.cvi_land_parcels (
     updated_at timestamp without time zone NOT NULL,
     planting_campaign character varying,
     land_modification_date date,
-    rootstock_id character varying,
-    activity_id integer
+    activity_id integer,
+    rootstock_id character varying
 );
 
 
@@ -20214,6 +20214,10 @@ INSERT INTO schema_migrations (version) VALUES ('20200415160201');
 INSERT INTO schema_migrations (version) VALUES ('20200415162701');
 
 INSERT INTO schema_migrations (version) VALUES ('20200415163115');
+
+INSERT INTO schema_migrations (version) VALUES ('20200417183101');
+
+INSERT INTO schema_migrations (version) VALUES ('20200419152901');
 
 INSERT INTO schema_migrations (version) VALUES ('20200422084439');
 

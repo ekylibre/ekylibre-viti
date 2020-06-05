@@ -436,7 +436,7 @@
       for layer in @options.layers
         @_addLayer(layer, overlays)
 
-      @controls.layerSelector = new L.Control.Layers(baseLayers, overlays, @options.controlDefaults.layerSelector)
+      @controls.layerSelector = new Leaflet.Control.Layers(baseLayers, overlays, @options.controlDefaults.layerSelector)
       @map.addControl @controls.layerSelector
 
     _addLayer: (layer, overlays) ->
@@ -454,7 +454,7 @@
         layerGroup = renderedLayer.buildLayerGroup(this, options)
         console.log("#{layer.name} layer rendered", layerGroup)
         # Add layer overlay
-        overlayLayer = L.layerGroup(layerGroup)
+        overlayLayer = Leaflet.layerGroup(layerGroup)
         overlayLayer.name = layer.name
         @layers.push layer
         layer.overlay = overlays[layer.label] = overlayLayer
@@ -471,7 +471,7 @@
         # Add legend
         legend = @controls.legendControl.getContainer()
         legend.innerHTML += renderedLayer.buildLegend()
-        L.DomUtil.removeClass(legend, 'leaflet-hidden-control')
+        Leaflet.DomUtil.removeClass(legend, 'leaflet-hidden-control')
       else
         console.warn "Cannot add layer #{layer.type}"
 

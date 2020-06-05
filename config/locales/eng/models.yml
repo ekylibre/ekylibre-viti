@@ -251,6 +251,9 @@ eng:
     errors:
       messages:
         <<: *error_messages
+      models:
+        product_nature_variant:
+          cannot_change_maaid_number_if_it_has_already_been_set: "The MAAID number already refers to a phytosanitary product and thus cannot be changed"
     models:
       account: "Account"
       account_balance: "Account balance"
@@ -742,8 +745,8 @@ eng:
     commissioned_incoming_payment_modes: "Commissioned incoming payment modes"
     commune: "Commune"
     communes: "Communes"
-    company_creation_date: "Company creation date"
-    company_name: "Company name"
+    company_creation_date: "Company creation date" #?
+    company_name: "Company name" #?
     # complete_name: "Complete name"
     component: "Component"
     components: "Components"
@@ -824,6 +827,7 @@ eng:
     # cvi_number: "Cvi number"
     cvi_statement: "Cvi statement"
     # cvi_statements: "Cvi statements"
+    daily_charges: "Daily charges" #?
     daily_charges: "Daily charges"
     daily_nitrogen_production: "Daily nitrogen production"
     dashboards: "Dashboards"
@@ -1038,7 +1042,7 @@ eng:
     formats: "Formats"
     # formatted_calculated_area: "Formatted calculated area"
     # formatted_declared_area: "Formatted declared area"
-    forward_journal: "Carrying forward journal"
+    forward_journal: "Carrying forward journal" #?
     # fr_sign: "Fr sign"
     # fr_validated: "Fr validated"
     france_maaid: "France Market Authorization Access Number"
@@ -1304,6 +1308,7 @@ eng:
     main: "Main"
     main_account: "Main account"
     main_activity: "Main activity"
+    main_client_or_supplier_account: "Main third account link"
     main_crop_code: "Main crop code"
     main_crop_commercialisation: "Main crop commercialisation"
     main_crop_precision: "Main crop precision"
@@ -1523,6 +1528,7 @@ eng:
     product: "Product"
     product_account: "Product account"
     product_enjoyment: "Product enjoyment"
+    product_enjoyments: "Product enjoyments" #?
     # product_human_name: "Product human name"
     # product_human_name_fra: "Product human name fra"
     product_identification_number: "Identification number"
@@ -1654,7 +1660,6 @@ eng:
     reflected_at: "Reflected at"
     reflection_nodes: "Reflection nodes"
     reflections: "Reflections"
-    # registered_postal_zone: "Registered postal zone"
     regularizations: "Regularizations"
     remain_owner: "Remain owner"
     remaining_amount: "Remaining amount"
@@ -1963,7 +1968,6 @@ eng:
     useful_items: "Useful items"
     user: "User"
     users: "Users"
-    # utility: "Utility"
     using_live_data: "Using live data"
     uuid: "UUID"
     validated_at: "Validated at"

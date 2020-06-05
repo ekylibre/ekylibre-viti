@@ -38,18 +38,17 @@ Ekylibre::Tenant.switch 'test_without_fixtures' do
   puts "Cleaning tenant: #{'test_without_fixtures'.green}".yellow
   DatabaseCleaner.clean_with :truncation, except: ['spatial_ref_sys', 
                                                    'registered_legal_positions',
+                                                   'master_vine_varieties',
+                                                   'registered_protected_designation_of_origins',
+                                                   'cadastral_land_parcel_zones',
+                                                   'registered_postal_zones',
                                                    "registered_phytosanitary_products", 
                                                    "registered_phytosanitary_risks", 
                                                    "registered_phytosanitary_usages",
                                                    "registered_phytosanitary_cropsets",
                                                    "variant_natures", 
                                                    "variant_categories",
-                                                   "variants",
-                                                   "registered_hydro_items",
-                                                   'master_vine_varieties',
-                                                   'registered_protected_designation_of_origins',
-                                                   'cadastral_land_parcel_zones',
-                                                   'registered_postal_zones',]
+                                                    "variants"]
 end
 
 DatabaseCleaner.strategy = :transaction
