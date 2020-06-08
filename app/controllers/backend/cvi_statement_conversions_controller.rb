@@ -38,7 +38,7 @@ module Backend
 
     def convert
       cvi_statement = CviStatement.find(params[:id])
-      result = ConvertCvi.call(cvi_statement_id: cvi_statement.id)
+      result = ConvertCvi::Base.call(cvi_statement_id: cvi_statement.id)
       if result.success?
         cvi_statement.update(state: :converted)
         notify(:cvi_converted.tl)
