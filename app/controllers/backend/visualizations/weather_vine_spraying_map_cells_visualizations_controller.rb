@@ -19,7 +19,7 @@ module Backend
 
             # get all real interventions of vine protections during campaign
             interventions = support.interventions.real.of_category(:vine_protection)
-            
+
             support_shape = support.support_shape
             next unless support_shape && interventions.any?
             popup_content = []
@@ -33,7 +33,11 @@ module Backend
             last_intervention = interventions.order(started_at: :desc).first
             if last_intervention
               # get the analysis with cumulated_rainfall near support shape at max 5 km from intervention stopped at and now
-              rainfall_geo_analyses = Analysis.with_indicator(ind.name).geolocation_nearest_of_and_within(support_shape, 5000).between(last_intervention.stopped_at, Time.now)
+              rainfall_geo_analyses = Analysis.with_indicator(ind.name)
+                                              .geolocation_near(support_shape, 5000)
+                                              .where(sensor_id: Sensor.nearest_of_and_within(support_shape, 5000).pluck(:id))
+                                              .between(last_intervention.stopped_at, Time.now)
+                                              .select('DISTINCT ON (analyses.sampled_at) *')
             end
 
             next unless rainfall_geo_analyses.any?
@@ -63,11 +67,10 @@ module Backend
             }
             sensor_data << s_items
 
-            filtered_a = rainfall_geo_analyses.where(sensor_id: ref_sensor_id).reorder(:analysed_at)
-            final_items = AnalysisItem.where(indicator_name: ind.name, analysis_id: filtered_a.pluck(:id))
+            final_items = AnalysisItem.where(indicator_name: ind.name, analysis_id: rainfall_geo_analyses.collect(&:id))
 
             # compute distance between sensor and intervention shape
-            sensor_position = filtered_a.first.geolocation
+            sensor_position = rainfall_geo_analyses.take.geolocation
             shape = Charta.new_geometry(support_shape.to_rgeo.simplify(0))
             distance = Measure.new(shape.distance(sensor_position), :meter)
 

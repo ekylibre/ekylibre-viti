@@ -29,6 +29,8 @@ module Backend
     #   :variant_id
     def self.analyses_conditions
       code = search_conditions(entities: [:full_name], analyses: %i[reference_number number]) + " ||= []\n"
+      code << "  c[0] << \" AND \#{Entity.table_name}.nature != ?\"\n"
+      code << "  c << 'sensor_analysis'\n"
       code << "  if params[:sampler_id].to_i > 0\n"
       code << "    c[0] << \" AND \#{Entity.table_name}.id = ?\"\n"
       code << "    c << params[:sampler_id].to_i\n"
