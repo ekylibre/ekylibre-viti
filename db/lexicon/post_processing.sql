@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION area_formatted(area numeric) RETURNS VARCHAR(50) AS
     ar_area_num = TRUNC(area - ha_area_num, 2);
     ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
 
-    ha_area = to_char(ha_area_num , 'FM00');
+    ha_area = to_char(ha_area_num , '999');
     ar_area = to_char(ar_area_num * 100, 'FM00');
     ca_area = to_char(ca_area_num * 10000, 'FM00');
 
@@ -69,32 +69,32 @@ DROP VIEW IF EXISTS formatted_cvi_cultivable_zones;
 
 CREATE OR REPLACE VIEW formatted_cvi_cultivable_zones AS
 
-SELECT name, 
-	id,
-	string_agg(DISTINCT cadastral_ref,', ') AS cadastral_references,
-	communes,
-	cvi_statement_id,
-	formatted_calculated_area,
-	formatted_declared_area,
+SELECT ccz.name, 
+	ccz.id,
+	string_agg(
+		DISTINCT(
+			CASE 
+				WHEN land_parcel_number IS NULL THEN section || work_number
+				ELSE section || work_number ||'-' || land_parcel_number  
+			END
+			),', '
+		) AS cadastral_references,
+	INITCAP(string_agg(DISTINCT city_name,', ' ORDER BY city_name)) AS communes,
+	ccz.cvi_statement_id,
+	area_formatted(ccz.calculated_area_value) AS formatted_calculated_area,
+	area_formatted(ccz.declared_area_value) AS formatted_declared_area,
+	area_formatted(COALESCE(clp.calculated_area_value,ccz.declared_area_value)) AS cvi_land_parcels_calculated_area,
 	land_parcels_status
-FROM 
-	(SELECT name,
-		INITCAP(string_agg(DISTINCT city_name,', ' ORDER BY city_name)) AS communes,
-		cvi_cultivable_zones.id AS id,
-		CASE 
-			WHEN land_parcel_number IS NULL THEN section || work_number
-			ELSE section || work_number ||'-' || land_parcel_number  
-		END AS cadastral_ref,
-		area_formatted(calculated_area_value) AS formatted_calculated_area,
-		area_formatted(declared_area_value) AS formatted_declared_area,
-		land_parcels_status,
-		cvi_cultivable_zones.cvi_statement_id AS cvi_statement_id
-	FROM cvi_cultivable_zones
-	LEFT JOIN locations as locations ON cvi_cultivable_zones.id = locations.localizable_id AND locations.localizable_type = 'CviCultivableZone'
-	LEFT JOIN cvi_cadastral_plants ON cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id
-	LEFT JOIN lexicon.registered_postal_zones ON locations.registered_postal_zone_id = registered_postal_zones.id
-	GROUP BY cvi_cultivable_zones.id, name, cadastral_ref) AS subq
-GROUP BY id, name, communes, cvi_statement_id,formatted_calculated_area,formatted_declared_area,land_parcels_status;
+FROM cvi_cultivable_zones ccz
+JOIN ( SELECT cvi_cultivable_zone_id, SUM(cvi_land_parcels.calculated_area_value) as calculated_area_value
+       FROM cvi_land_parcels
+       GROUP BY cvi_land_parcels.cvi_cultivable_zone_id
+     ) AS clp
+ON ccz.id = clp.cvi_cultivable_zone_id 
+LEFT JOIN locations as locations ON ccz.id = locations.localizable_id AND locations.localizable_type = 'CviCultivableZone'
+LEFT JOIN cvi_cadastral_plants ccp ON ccz.id = ccp.cvi_cultivable_zone_id
+LEFT JOIN lexicon.registered_postal_zones ON locations.registered_postal_zone_id = registered_postal_zones.id
+GROUP BY ccz.id, ccz.name, clp.calculated_area_value;
 
 DROP VIEW IF EXISTS formatted_cvi_land_parcels;
 
