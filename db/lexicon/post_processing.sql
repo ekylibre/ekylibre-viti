@@ -83,10 +83,10 @@ SELECT ccz.name,
 	ccz.cvi_statement_id,
 	area_formatted(ccz.calculated_area_value) AS formatted_calculated_area,
 	area_formatted(ccz.declared_area_value) AS formatted_declared_area,
-	area_formatted(COALESCE(clp.calculated_area_value,ccz.declared_area_value)) AS cvi_land_parcels_calculated_area,
+	area_formatted(COALESCE(clp.calculated_area_value, ccz.calculated_area_value)) AS cvi_land_parcels_calculated_area,
 	land_parcels_status
 FROM cvi_cultivable_zones ccz
-JOIN ( SELECT cvi_cultivable_zone_id, SUM(cvi_land_parcels.calculated_area_value) as calculated_area_value
+LEFT JOIN ( SELECT cvi_cultivable_zone_id, SUM(cvi_land_parcels.calculated_area_value) as calculated_area_value
        FROM cvi_land_parcels
        GROUP BY cvi_land_parcels.cvi_cultivable_zone_id
      ) AS clp
