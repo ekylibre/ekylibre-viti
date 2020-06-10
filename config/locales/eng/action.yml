@@ -1922,6 +1922,9 @@ eng:
     decision_making: "Decision-making"
     deduction_from_distribution: "4423 - Deductions and levies on distributions"
     declared_area: "declared area" #?
+    cvi_land_parcels_calculated_area: "Land parcels calculated area"
+    cvi_land_parcels_declared_area: "Land parcels declared area"
+    surface: "Surface"
     default_letter_conclusion: "Please accept, Dear Madam, Dear Sir, the assurances of my highest consideration."
     default_letter_function_title: "Dear madam, dear sir"
     default_letter_introduction: "Following our conversation, I give you the elements of the estimate."
