@@ -20,7 +20,7 @@ module ConvertCvi
       assert_equal Campaign.of(cvi_land_parcel.planting_campaign), created_activity_production.planting_campaign
       assert_equal 'headland_cultivation', created_activity_production.support_nature
       assert_equal Hash['cvi_land_parcel_id', cvi_land_parcel.id], created_activity_production.providers
-      assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i, activity.production_started_on.month, activity.production_started_on.day),
+      assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i - 1, activity.production_started_on.month, activity.production_started_on.day),
                     created_activity_production.started_on
       assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i, activity.production_stopped_on.month, activity.production_stopped_on.day),
                     created_activity_production.stopped_on
