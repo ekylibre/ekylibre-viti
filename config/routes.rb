@@ -1155,7 +1155,7 @@ Rails.application.routes.draw do
 
     resources :registered_phytosanitary_products, only: [], concerns: :unroll do
       collection do
-        get :get_products_infos
+        post :get_products_infos
       end
     end
 
@@ -1165,8 +1165,8 @@ Rails.application.routes.draw do
       end
 
       member do
-        get :get_usage_infos
-        get :dose_validations
+        post :get_usage_infos
+        post :dose_validations
       end
     end
 
