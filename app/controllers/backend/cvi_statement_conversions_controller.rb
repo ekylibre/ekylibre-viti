@@ -10,8 +10,9 @@ module Backend
       t.column :name
       t.column :communes, label: :communes
       t.column :cadastral_references, label: :cadastral_references
-      t.column :formatted_declared_area, label: :declared_area
-      t.column :formatted_calculated_area, label: :calculated_area
+      t.column :formatted_calculated_area, label: :surface
+      t.column :formatted_declared_area, label: :cvi_land_parcels_declared_area
+      t.column :cvi_land_parcels_calculated_area, label: :cvi_land_parcels_calculated_area
       t.column :land_parcels_status
       t.action :generate_cvi_land_parcels, unless: :has_cvi_land_parcels?, url: { controller: 'cvi_cultivable_zones' }
       t.action :edit_cvi_land_parcels, if: :has_cvi_land_parcels?, url: { controller: 'cvi_cultivable_zones' }
@@ -38,7 +39,7 @@ module Backend
 
     def convert
       cvi_statement = CviStatement.find(params[:id])
-      result = ConvertCvi.call(cvi_statement_id: cvi_statement.id)
+      result = ConvertCvi::Base.call(cvi_statement_id: cvi_statement.id)
       if result.success?
         cvi_statement.update(state: :converted)
         notify(:cvi_converted.tl)

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <procedures xmlns="http://www.ekylibre.org/XML/2013/procedures">
-  <procedure name="vine_leaves_fertilzing_with_spraying" categories="vine_fertilizing" actions="fertilization" optional-actions="biostimulation, organic_fertilization, mineral_fertilization, micronutrient_fertilization, herbicide, fungicide, insecticide, growth_regulator, biostimulation, molluscicide, nematicide, acaricide, bactericide, game_repellent, virucide" position="20">
+  <procedure name="vine_leaves_fertilizing_with_spraying" categories="vine_fertilizing, vine_protection" actions="fertilization" optional-actions="biostimulation, organic_fertilization, mineral_fertilization, micronutrient_fertilization, herbicide, fungicide, insecticide, growth_regulator, biostimulation, molluscicide, nematicide, acaricide, bactericide, game_repellent, virucide" position="20">
     <parameters>
       <target name="cultivation" filter="is plant and has indicator shape">
         <attribute name="working_zone" default-value="PRODUCT.shape" if="PRODUCT?"/>

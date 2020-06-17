@@ -90,6 +90,7 @@ gem 'rake', '~>12.0'
 gem 'timecop'
 
 # Manipulate map data
+# gem 'charta', '~> 0.1.14'
 gem 'charta', gitlab: 'ekylibre/charta', branch: 'rails-4'
 
 # active_list alternative

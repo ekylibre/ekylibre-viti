@@ -4,7 +4,7 @@ module Backend
 
     def self.cvi_land_parcels_conditions
       code = ''
-      code = search_conditions(formatted_cvi_land_parcels: %i[name state localities communes planting_campaign designation_of_origin_name vine_variety_name rootstocks]) + " ||= []\n"
+      code = search_conditions(formatted_cvi_land_parcels: %i[name state localities communes planting_campaign designation_of_origin_name vine_variety_name rootstock]) + " ||= []\n"
 
       code << "c[0] << ' AND #{FormattedCviLandParcel.table_name}.cvi_cultivable_zone_id = ?'\n"
       code << "c << params[:id].to_i\n"
@@ -117,20 +117,8 @@ module Backend
     def confirm_cvi_land_parcels
       cvi_cultivable_zone = CviCultivableZone.find(params[:id])
       if cvi_cultivable_zone.land_parcels_valid?
-        shape = CviLandParcel.select('st_astext(
-                                        ST_Simplify(
-                                          ST_UNION(
-                                            ARRAY_AGG(
-                                              array[
-                                                ST_MakeValid(cvi_land_parcels.shape),
-                                                ST_MakeValid(cvi_cultivable_zones.shape)
-                                              ]
-                                              )
-                                            ), 0.000000001
-                                          )
-                                        ) AS shape').joins(:cvi_cultivable_zone).find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id).shape
-        calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
-        cvi_cultivable_zone.update(shape: shape.to_rgeo, calculated_area: calculated_area, land_parcels_status: :completed)
+        cvi_cultivable_zone.update_shape!
+        cvi_cultivable_zone.complete!
         redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
       else 
         notify_error(:cvi_land_parcels_planting_campaign_invalid.tl)

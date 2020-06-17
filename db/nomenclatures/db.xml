@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<nomenclatures xmlns="http://www.ekylibre.org/XML/2013/nomenclatures" version="20200421123503">
+<nomenclatures xmlns="http://www.ekylibre.org/XML/2013/nomenclatures" version="20200522090534">
   <nomenclature name="abilities" translateable="true">
     <properties>
       <property name="parameters" type="choice_list" choices="variety, issue_nature"/>
@@ -3948,7 +3948,7 @@
       <item name="vibrocultivator" nature="seedbed_preparator" frozen_indicators_values="" unit_name="equipment" type="equipment"/>
       <item name="vine_and_ochard_tractor" nature="tractor" type="equipment"/>
       <item name="vine_grape_berry" nature="grape" derivative_of="vitis" frozen_indicators_values="net_mass: 1.00kilogram, net_volume: 1.00liter" unit_name="kilogram" type="article"/>
-      <item name="vine_grape_crop" nature="vine_crop" variety="vitis" frozen_indicators_values="net_surface_area: 1.00hectare" unit_name="plant" type="crop"/>
+      <item name="vine_grape_crop" nature="vine_crop" variety="vitis" frozen_indicators_values="net_surface_area: 1.00hectare" unit_name="hectare" type="crop"/>
       <item name="vine_grape_juice" nature="grape_juice" derivative_of="grape" frozen_indicators_values="net_mass: 100.00 kilogram, net_volume: 100.00liter" unit_name="hectoliter" type="article"/>
       <item name="vine_grape_must" nature="fermented_grape_juice" derivative_of="grape" frozen_indicators_values="net_mass: 100.00 kilogram, net_volume: 100.00liter" unit_name="hectoliter" type="article"/>
       <item name="vine_lifter_lv" nature="vine_lifter" type="equipment"/>
@@ -4302,7 +4302,7 @@
       <item name="trailer" category="equipment" variety="trailed_equipment" population_counting="unitary" abilities="store_fluid, store(grain), store(grass), store(raw_matter), store(silage), move" variable_indicators="geolocation" frozen_indicators="nominal_storable_net_volume, nominal_storable_net_mass" nature="equipment"/>
       <item name="training_course" category="service" variety="service" population_counting="decimal" variable_indicators="" frozen_indicators="usage_duration" nature="fee_and_service"/>
       <item name="trimmer" category="equipment" variety="trailed_equipment" population_counting="unitary" abilities="cut" frozen_indicators="application_width, theoretical_working_speed" variable_indicators="geolocation" nature="equipment"/>
-      <item name="truck" category="equipmenvine_grape_cropt" variety="handling_equipment" population_counting="unitary" abilities="move, tow(matter), consume(oil), consume(fuel)" variable_indicators="net_surface_area, motor_power, geolocation, fuel_consumption, hour_counter" frozen_indicators="" linkage_points="rear" nature="equipment"/>
+      <item name="truck" category="equipment" variety="handling_equipment" population_counting="unitary" abilities="move, tow(matter), consume(oil), consume(fuel)" variable_indicators="net_surface_area, motor_power, geolocation, fuel_consumption, hour_counter" frozen_indicators="" linkage_points="rear" nature="equipment"/>
       <item name="turnip" category="vegetable" variety="vegetable" derivative_of="brassica_rapa_rapa" population_counting="decimal" abilities="feed(animal)" variable_indicators="" frozen_indicators="net_mass" nature="article"/>
       <item name="uncover" category="equipment" variety="trailed_equipment" population_counting="unitary" abilities="uncover(plant)" frozen_indicators="application_width, theoretical_working_speed" variable_indicators="geolocation" nature="equipment"/>
       <item name="user_support" category="service" variety="service" population_counting="decimal" variable_indicators="" frozen_indicators="usage_duration" nature="fee_and_service"/>

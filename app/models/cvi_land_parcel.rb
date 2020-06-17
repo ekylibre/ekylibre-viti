@@ -26,6 +26,9 @@ class CviLandParcel < Ekylibre::Record::Base
   validates_presence_of :name, :inter_row_distance_value, :inter_vine_plant_distance_value, :vine_variety_id
   validates :activity_id, presence: true, on: :update
 
+  after_save :prepare_to_update_cvi_cultivable_zone, on: :update
+  after_commit :update_cvi_cultivable_zone!, on: :update
+
   def updated?
     updated_at != created_at
   end
@@ -42,5 +45,15 @@ class CviLandParcel < Ekylibre::Record::Base
 
   def regrouped?
     cvi_cadastral_plants.length > 1
+  end
+
+  def update_cvi_cultivable_zone!
+    if @shape_previously_changed
+      cvi_cultivable_zone.update_shape!
+    end
+  end
+
+  def prepare_to_update_cvi_cultivable_zone
+    @shape_previously_changed = shape_changed?
   end
 end

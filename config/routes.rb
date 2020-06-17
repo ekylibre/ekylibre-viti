@@ -206,6 +206,7 @@ Rails.application.routes.draw do
       resource :unbalanced_clients_cell, only: :show, concerns: :list
       resource :unbalanced_suppliers_cell, only: :show, concerns: :list
       resource :weather_cell, only: :show
+      resource :weather_vine_spraying_map_cell, only: :show
       resource :working_sets_stocks_cell, only: :show
     end
 
@@ -465,7 +466,7 @@ Rails.application.routes.draw do
     end
 
     resources :cvi_land_parcels, only: %i[edit update] do
-      member do 
+      member do
         get :pre_split
         post :split
       end
@@ -486,7 +487,7 @@ Rails.application.routes.draw do
 
     resources :registered_protected_designation_of_origins, concerns: %i[unroll]
     resources :master_vine_varieties, concerns: %i[unroll] do
-      collection do 
+      collection do
         get :unroll_vine_varieties
         get :unroll_rootstocks
       end
@@ -865,7 +866,7 @@ Rails.application.routes.draw do
 
     resources :map_editor_shapes, only: :index
 
-    resources :master_production_natures, only: [:show], concerns: %i[unroll] 
+    resources :master_production_natures, only: [:show], concerns: %i[unroll]
 
     resources :registered_postal_zones, only: [], concerns: %i[unroll]
 
@@ -1352,6 +1353,7 @@ Rails.application.routes.draw do
       resource :map_cells_visualizations, only: :show
       resource :land_parcels_visualizations, only: :show
       resource :resources_visualizations, only: :show
+      resource :weather_vine_spraying_map_cells_visualizations, only: :show
       resource :non_treatment_areas_visualizations, only: :show
     end
 

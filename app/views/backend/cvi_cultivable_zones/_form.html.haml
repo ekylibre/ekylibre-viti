@@ -1,7 +1,7 @@
 = ekylibre_form_for(resource, remote: true) do |f|  
   = field_set( tl(:edit) + ' ' + resource.name ) do
     = f.input :name
-    = f.input :area, label: :calculated_area.tl, input_html: {value: resource.calculated_area.to_s(:ha_a_ca)}, disabled: true
+    = f.input :area, label: :surface.tl, input_html: {value: resource.calculated_area.to_s(:ha_a_ca)}, disabled: true
     = f.hidden_field :shape
   - f.add(:submit, :update.tl, data: {disable_with: :please_wait.tl}, class: 'primary')
   - f.add(:link, :cancel.tl, "#", class: 'btn', data: { "cancel-list-map-form": "", id: params[:id]} )
