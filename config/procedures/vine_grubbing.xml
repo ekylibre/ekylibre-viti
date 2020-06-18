@@ -2,7 +2,7 @@
 <procedures xmlns="http://www.ekylibre.org/XML/2013/procedures">
   <procedure name="vine_grubbing" categories="vine_planting" actions="residue_destruction, organic_matter_burying" optional-actions="organic_fertilization" position="30">
     <parameters>
-      <target name="cultivation" filter="is vitis and has indicator shape">
+      <target name="plant" filter="is vitis and has indicator shape">
         <attribute name="working_zone" default-value="PRODUCT.shape" if="PRODUCT?"/>
         <attribute name="killable"/>
       </target>
