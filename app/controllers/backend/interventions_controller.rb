@@ -232,21 +232,23 @@ module Backend
         crop_group_ids = params[:crop_group_ids].split(',')
         procedure = Procedo::Procedure.find(params[:procedure_name])
         target_parameter = procedure.parameters_of_type(:target, true).first if procedure.present?
-        target_filter = target_parameter.filter
-        targets = CropGroup.available_crops(crop_group_ids, target_filter)
-        if targets.any?
-          options[:targets_attributes] = targets.map { |target| { reference_name: target_parameter.name, product_id: target.id, working_zone: target.shape } }
-        end
+        if target_parameter.present?
+          target_filter = target_parameter.filter
+          targets = CropGroup.available_crops(crop_group_ids, target_filter)
+          if targets.any?
+            options[:targets_attributes] = targets.map { |target| { reference_name: target_parameter.name, product_id: target.id, working_zone: target.shape } }
+          end
 
-        if target_parameter.group.name != :root_
-          group_name = target_parameter.group.name
-          options[:group_parameters_attributes] = options.delete(:targets_attributes)
-                                                         .map{ |target| { reference_name: group_name, targets_attributes: [target] } }
-        end
-        type = target_parameter.name == :cultivation ? %w[plant land_parcel] : target_parameter.name.to_s if target_parameter.present?
-        labels = CropGroup.collection_labels(crop_group_ids, type)
-        if labels.any?
-          options[:labellings_attributes] = labels.map { |label| { label_id: label.id } }
+          if target_parameter.group.name != :root_
+            group_name = target_parameter.group.name
+            options[:group_parameters_attributes] = options.delete(:targets_attributes)
+                                                            .map{ |target| { reference_name: group_name, targets_attributes: [target] } }
+          end
+          type = target_parameter.name == :cultivation ? %w[plant land_parcel] : target_parameter.name.to_s if target_parameter.present?
+          labels = CropGroup.collection_labels(crop_group_ids, type)
+          if labels.any?
+            options[:labellings_attributes] = labels.map { |label| { label_id: label.id } }
+          end
         end
       end
 
