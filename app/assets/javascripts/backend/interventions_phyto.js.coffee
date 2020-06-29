@@ -5,7 +5,7 @@
       $('.nested-plant_medicine').each -> that._clear($(this))
       values = @._retrieveValues()
 
-      $.ajax(url: '/backend/registered_phytosanitary_products/get_products_infos', data: values, method: 'POST')
+      $.ajax(url: '/backend/registered_phytosanitary_products/get_products_infos',dataType: "json", data: values, method: 'POST')
        .done( (data) =>
           for id, infos of data
             $productField = $(".selector-value[value='#{id}']").closest('.nested-plant_medicine')
@@ -84,7 +84,7 @@
       return unless usageId
       values = @._retrieveValues($productField)
 
-      $.ajax(url: "/backend/registered_phytosanitary_usages/#{usageId}/get_usage_infos", data: values, method: 'POST')
+      $.ajax(url: "/backend/registered_phytosanitary_usages/#{usageId}/get_usage_infos", dataType: "json", data: values, method: 'POST')
         .done( (data) =>
           @._displayInfos($productField, data.usage_infos)
           @._displayApplication($input, data.usage_application)
@@ -142,7 +142,7 @@
       values = @._retrieveValues($quantityInput, $productField)
       return unless values.product_id && values.quantity && values.dimension && values.targets_data
 
-      $.ajax(url: "/backend/registered_phytosanitary_usages/#{usageId}/dose_validations", data: values, method: 'POST')
+      $.ajax(url: "/backend/registered_phytosanitary_usages/#{usageId}/dose_validations", dataType: "json", data: values, method: 'POST')
         .done( (data) =>
           @._displayDose($quantityInput, data)
           usageMainInfos.displayAuthorizationDisclaimer($productField, data.modified)
