@@ -9,3 +9,4 @@
 [submodule "weenat"]
 	path = plugins/weenat
 	url = git@gitlab.com:ekylibre/ekylibre-weenat.git
+	branch = debug/jobs
