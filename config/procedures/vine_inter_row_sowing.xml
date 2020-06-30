@@ -2,7 +2,7 @@
 <procedures xmlns="http://www.ekylibre.org/XML/2013/procedures">
   <procedure name="vine_inter_row_sowing" categories="vine_soil_working_and_maintenance" actions="sowing" position="70">
     <parameters>
-        <target name="cultivation" filter="is vitis and has indicator shape">
+        <target name="plant" filter="is vitis and has indicator shape">
           <attribute name="working_zone" default-value="PRODUCT.shape" if="PRODUCT?"/>
         </target>
         <input name="seeds" filter="is seed and derives from plant and can grow" cardinality="*">

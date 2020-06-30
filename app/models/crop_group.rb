@@ -12,7 +12,7 @@ class CropGroup < Ekylibre::Record::Base
   accepts_nested_attributes_for :labellings, allow_destroy: true
   accepts_nested_attributes_for :items, allow_destroy: true
 
-  scope :available_crops, ->(ids, type = %w[Plant LandParcel]) { where(id: ids).collect { |crop_group| crop_group.crops.where(type: type).availables(at: (Time.zone.now - 1.hour)) }.flatten.uniq }
+  scope :available_crops, ->(ids, expression) { Product.joins(:crop_groups).where('crop_groups.id IN (?) ', ids).of_expression(expression).availables(at: (Time.zone.now - 1.hour)).uniq }
   scope :collection_labels, ->(ids, type = %w[plant land_parcel]) { where(id: ids, target: type).collect(&:labels).flatten.uniq }
 
   def crops
