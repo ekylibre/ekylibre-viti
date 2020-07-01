@@ -12,9 +12,9 @@
                    backward="POPULATION * PRODUCT..net_mass(kilogram)"
                    forward="VALUE / PRODUCT..net_mass(kilogram)"/>
           <handler indicator="mass_area_density" unit="kilogram_per_hectare"
-                   if="PRODUCT..net_mass? and sum_working_zone_areas(cultivation) != 0"
-                   backward="(POPULATION * PRODUCT..net_mass(kilogram)) / sum_working_zone_areas(cultivation, :hectare)"
-                   forward="(VALUE * sum_working_zone_areas(cultivation, :hectare)) / PRODUCT..net_mass(kilogram)"/>
+                   if="PRODUCT..net_mass? and sum_working_zone_areas(plant) != 0"
+                   backward="(POPULATION * PRODUCT..net_mass(kilogram)) / sum_working_zone_areas(plant, :hectare)"
+                   forward="(VALUE * sum_working_zone_areas(plant, :hectare)) / PRODUCT..net_mass(kilogram)"/>
         </input>
       <doer name="driver"  filter="can drive(equipment) and can move" cardinality="*"/>
       <tool name="tractor" filter="can tow(equipment) and can move" cardinality="*"/>
