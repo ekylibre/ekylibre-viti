@@ -121,7 +121,7 @@ fra:
         work_number: "Numéro de la parcelle cadastrale"
         inter_row_distance: "Inter-rang"
         inter_vine_plant_distance: "Inter-pied"
-        land_parcel_id: "Ref. cadastrale id"
+        land_parcel_id: "Réf. cadastrale id"
         rootstock_number: "Porte-greffe"
         state: "État"
       cvi_statement:
@@ -178,9 +178,9 @@ fra:
         depreciable_amount: "Valeur nette comptable (VNC)" #?
       formatted_cvi_cadastral_plant: #?
         area_formatted: "Superficie déclarée" #?
-        cadastral_reference: "Ref. cadastrale" #?
+        cadastral_reference: "Réf. cadastrale" #?
         commune: "Commune" #?
-        land_parcel_id: "Ref. cadastrale id" #?
+        land_parcel_id: "Réf. cadastrale id" #?
         state: "Etat" #?
       incoming_payment: #?
         to_bank_at: "À encaisser le" #?
