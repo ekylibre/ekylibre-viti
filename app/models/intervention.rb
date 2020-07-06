@@ -999,6 +999,10 @@ class Intervention < Ekylibre::Record::Base
     inputs.map(&:non_treatment_area).compact.max
   end
 
+  def using_phytosanitary?
+    %w[spraying all_in_one_sowing sowing_with_spraying vine_spraying_without_fertilizing vine_leaves_fertilizing_with_spraying].include?(procedure_name)
+  end
+
   class << self
     def used_procedures
       select(:procedure_name).distinct.pluck(:procedure_name).map do |name|

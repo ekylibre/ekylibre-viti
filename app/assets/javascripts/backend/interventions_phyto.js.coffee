@@ -38,7 +38,7 @@
       $productField.find('#product-authorization-message').html('')
 
     _retrieveValues: () ->
-      targetsData = Array.from(document.querySelectorAll('.nested-land_parcel, .nested-cultivation'))
+      targetsData = $('[data-phytosanitary-target]').toArray()
         .filter((el) => !el.classList.contains('removed-nested-fields'))
         .map (element) =>
           id: $(element).find("[data-selector-id='intervention_target_product_id']").next('.selector-value').val()
@@ -124,7 +124,7 @@
       inputId = $productField.find('#intervention_parameter_id').val()
       productId = $productField.find("[data-selector-id='intervention_input_product_id']").first().selector('value')
       liveData = $productField.find('.intervention_inputs_using_live_data input').val()
-      $plantInputs = $('.nested-cultivation').filter -> $(this).find("[data-selector-id='intervention_target_product_id']").first().selector('value')
+      $plantInputs = $('[data-phytosanitary-target]').filter -> $(this).find("[data-selector-id='intervention_target_product_id']").first().selector('value')
       targetsData = $plantInputs.map ->
         {
           id: $(this).find("[data-selector-id='intervention_target_product_id']").first().selector('value'),
@@ -165,7 +165,7 @@
       liveData = $productField.find('.intervention_inputs_using_live_data input').val()
       quantity = $input.val()
       dimension = $input.parent().find('select option:selected').val()
-      targetsData = $('.nested-cultivation').map ->
+      targetsData = $('[data-phytosanitary-target]').map ->
         {
           id: $(this).find("[data-selector-id='intervention_target_product_id']").first().selector('value'),
           shape: $(this).find('[data-map-editor]').val()
