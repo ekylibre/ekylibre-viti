@@ -167,7 +167,7 @@ fra:
     backend/cvi_statement_conversions:
       show: "Convertir CVI en parcellaire"
     backend/cvi_cultivable_zones:
-      show: "Zone cultivable: %{name}"
+      show: "Zone cultivable : %{name}"
     backend/cvi_land_parcels:
       edit_multiple:  "Modifier la séléction"
       update_multiple:  "Modifier la séléction"
@@ -175,7 +175,7 @@ fra:
       edit: "Modifier le Casier Viticole Informatisé (CVI)\_: %{id}"
       index: "Casier Viticole Informatisé"
       new: "Nouveau Casier Viticole Informatisé (CVI)"
-      show: "Casier Viticole informatisé (CVI) \_: %{id}"
+      show: "Casier Viticole informatisé (CVI)\_: %{id}"
     backend/dashboards:
       accountancy: "Tableau de bord comptable"
       edit: "Modifier le tableau de bord\_: %{name}"
@@ -1140,7 +1140,7 @@ fra:
     major: "majoritaire"
     percentage: "Répartition"
     planting_campaign: "Campagne de plantation"
-    cadastral_reference: "Ref. cadastrale"
+    cadastral_reference: "Réf. cadastrale"
     vine_area: "Superficie encépagée"
     vine_variety_name: "Cépage"
     vine_certification: "Appellation / AOP / IGP"
@@ -1429,7 +1429,7 @@ fra:
     buildings_map: "Carte des bâtiments" #?
     by_account_fixed_assets: "État de immobilisations par compte au %{to}"
     by_year: "Par an"
-    cadastral_references: "Ref. cadastrale(s) associée(s)"
+    cadastral_references: "Réf. cadastrale(s) associée(s)"
     calculate: "Calculer"
     calculated_area: "Superficie calculée"
     calculated_hours: "Horaires calculées"
@@ -1668,9 +1668,9 @@ fra:
     current_stocks_by_variety: "État des stocks"
     currently_subscribed_to: "Actuellement abonné à"
     custom_fields: "Champs personnalisés"
-    cvi_cadastral_plants: "Cultures cadastrales CVI"
-    cvi_cadastral_plants_map: "Cultures cadastrales CVI"
-    cvi_land_parcels: "Parcelles"
+    cvi_cadastral_plants: "Parcelles cadastrales CVI"
+    cvi_cadastral_plants_map: "Parcelles cadastrales CVI"
+    cvi_land_parcels: "Parcelles culturales"
     cvi_land_parcels_planting_campaign_invalid: "Au moins une parcelle ne contient pas d’année de plantation (champ vide), ou la valeur définie est incorrecte (ex. 9999). Veuillez modifier la ou les parcelles concernées puis cliquer sur Terminer."
     cvi_cultivable_zones: "Zones Cultivables"
     daily_nitrogen_production: "Excretion d’azote journalière" #?
@@ -1715,7 +1715,7 @@ fra:
     delay: "Délai"
     delete: "Supprimer"
     convert_cvi_header: "Convertir CVI en parcellaire"
-    convert_cvi_body: "<b>Information importante !</b><br><br>En cliquant sur ‘Convertir’, les parcelles culturales que vous avez définies vont être automatiquement converties en productions de vigne (=cultures avec tournière).<br><br>Si vous souhaitez modifier les informations associées à ces productions (nom, contours, tournières) par la suite,vous devrez le faire depuis le module “Production”.<br><br>Pour cela :<br>- vous devrez sélectionner la ou les activités concernées depuis le module Production>Activités (les productions de vigne créées seront listées en bas de chaque activité) <br>- vous pourrez ensuite cliquer sur la production, puis “Modifier” pour éditer les contours ou créer les tournières sur vos parcelles culturales<br><br><b>Note: l’ajout de tournières sur une production devra être effectué avant toute intervention sur la culture</b>"
+    convert_cvi_body: "<b>Information importante !</b><br><br>En cliquant sur \"Convertir\", les parcelles culturales que vous avez définies vont être automatiquement converties en productions viticoles (cultures avec tournières).<br><br>Si vous souhaitez modifier les informations associées à ces productions (nom, contours, tournières) par la suite, vous devrez le faire depuis le module \"Production\".<br><br>Pour cela :<br><ul><li>vous devrez sélectionner la ou les activités concernées depuis le module Production > Activités (les productions de vigne créées seront listées en bas de chaque activité)</li> <br><li>vous pourrez ensuite cliquer sur la production, puis sur \"Modifier\" pour éditer les contours ou créer les tournières sur vos parcelles culturales</li></ul><br><b>Note : l’ajout de tournières sur une production devra être effectué avant toute intervention sur la culture.</b>"
     delete_cvi_cultivable_zone_header: "Supprimer la Zone Cultivable"
     delete_cvi_cultivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
     reset_cvi_cutlivable_zone_header: "Réinitialiser le parcellaire d'une Zone cultivable"

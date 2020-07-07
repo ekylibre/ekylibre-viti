@@ -119,11 +119,11 @@ fra:
         area: "Superficie déclarée"
         cadastral_reference: "référence cadastrale"
         work_number: "Numéro de la parcelle cadastrale"
-        inter_row_distance: "Inter rang"
-        inter_vine_plant_distance: "Inter pied"
-        land_parcel_id: "Ref. cadastrale id"
+        inter_row_distance: "Inter-rang"
+        inter_vine_plant_distance: "Inter-pied"
+        land_parcel_id: "Réf. cadastrale id"
         rootstock_number: "Porte-greffe"
-        state: "Etat"
+        state: "État"
       cvi_statement:
         cadastral_plant_count: "Nombre de cultures cadastrales"
         cadastral_sub_plant_count: "Nombre de sous-cultures cadastrales"
@@ -178,9 +178,9 @@ fra:
         depreciable_amount: "Valeur nette comptable (VNC)" #?
       formatted_cvi_cadastral_plant: #?
         area_formatted: "Superficie déclarée" #?
-        cadastral_reference: "Ref. cadastrale" #?
+        cadastral_reference: "Réf. cadastrale" #?
         commune: "Commune" #?
-        land_parcel_id: "Ref. cadastrale id" #?
+        land_parcel_id: "Réf. cadastrale id" #?
         state: "Etat" #?
       incoming_payment: #?
         to_bank_at: "À encaisser le" #?
@@ -685,7 +685,7 @@ fra:
       cultivable_zone: "Zone cultivable"
       custom_field: "Champ complémentaire"
       custom_field_choice: "Choix de champ complémentaire"
-      cvi_cadastral_plant: "CVI cadastral plant"
+      cvi_cadastral_plant: "Parcelle cadastrale CVI"
       cvi_statement: "Casier Viticole Informatisé"
       cvi_cultivable_zone:
         one: "Zone cultivable"
@@ -874,8 +874,8 @@ fra:
       zone: "Zone"
   attributes:
     designation_of_origin_name: "Produit" #?
-    inter_row_distance_value: "Inter rang (cm)" #?
-    inter_vine_plant_distance_value: "Inter pied (cm)" #?
+    inter_row_distance_value: "Inter-rang (cm)" #?
+    inter_vine_plant_distance_value: "Inter-pied (cm)" #?
     rootstock: "Porte-greffe" #?
     rootstocks: "Porte-greffe(s)"
     vine_variety_name: "Cépage" #?
@@ -1183,7 +1183,7 @@ fra:
     custom_fields_columns: "Champs personnalisés colonnes"
     customized: "Enregistrement personnalisé" #?
     customized_type: "Type d’enregistrement personnalisé"
-    cvi_cadastral_plants: "Cultures cadastrales CVI"
+    cvi_cadastral_plants: "Parcelles cadastrales CVI"
     # cvi_statement: "Cvi statement"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "Excrétion d’azote journalière"
