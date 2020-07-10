@@ -7,11 +7,11 @@ require "ekylibre_ekyviti/version"
 Gem::Specification.new do |s|
   s.name        = "ekylibre_ekyviti"
   s.version     = EkylibreEkyviti::VERSION
-  s.authors     = [""]
+  s.authors     = ["Thibaut Gorioux"]
   s.email       = ["tgorioux@ekylibre.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of EkylibreEkyviti."
-  s.description = "TODO: Description of EkylibreEkyviti."
+  # s.homepage    = "TODO"
+  s.summary     = "Ekylibre plugin for viticutlure"
+  s.description = "Ekylibre plugin for viticutlure"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
