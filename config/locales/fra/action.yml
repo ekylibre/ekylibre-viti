@@ -577,6 +577,7 @@ fra:
       pick: "Importer une catégorie de produits"
       show: "Catégorie de produit\_: %{name}"
     backend/product_nature_variants:
+      create: "Nouvelle variante de produit"
       edit: "Modifier la variante de produit\_: %{name}"
       index: "Variantes de produits"
       new: "Nouvelle variante de produit"
@@ -669,7 +670,7 @@ fra:
       edit: "Modifier le rôle\_: %{name}"
       index: "Rôles"
       new: "Nouveau rôle"
-      pick: "Piocher un rôle\_"
+      pick: "Importer un rôle\_"
       show: "Rôle\_: %{name}"
     backend/sale_credits:
       new: "Passage en avoir de la facture %{number}"
@@ -976,7 +977,7 @@ fra:
       nature:
         add_two_hours: "Ajouter 2h dans le cas d'une application en milieu fermé"
         harvest: "Récolte :"
-        reentry: "Réentrée :"
+        reentry: "Ré-entrée :"
     leaflet:
       cut:
         panel:
@@ -1126,6 +1127,8 @@ fra:
       zoomGuidance: "Niveau de zoom insuffisant"
       zoomInTitle: "Zoomer"
       zoomOutTitle: "Dézoomer"
+    unroll:
+      server_error: "Erreur serveur"
   labels:
     use: "Usage"
     land_parcel_plant: "Parcelle/culture"
@@ -1199,6 +1202,7 @@ fra:
     activity: "Activité"
     activity_production: "Production"
     activity_productions: "Productions"
+    accumulated_stock: "Cumul des stocks de %{name}"
     add: "Ajouter"
     add_a_repayment: "Ajouter une échéance"
     add_a_worker: "Ajouter un équipier"
@@ -1345,6 +1349,7 @@ fra:
     applications_count_bigger_than_max: "Nombre d'application(s) maximum dépassé" #?
     applications_count_equal_to_max: "Nombre d'application(s) maximum atteint après cette intervention" #?
     applications_count_less_than_max: "Nombre d'application(s) inférieur au maximum" #?
+    applications_frequency: "Intervalle entre applications"
     applications_interval_not_respected: "Intervalle entre application non respecté"
     apply: "Appliquer" #?
     aquatic_nta: "ZNT aquatique (%{distance} m)"
@@ -1778,6 +1783,7 @@ fra:
     document: "Document joint"
     document_natures: "Types de documents"
     document_templates: "Modèles de documents"
+    document_type: "Type de document"
     documentation: "Documentation"
     doer_cost: "Coût de main d’œuvre"
     doers: "Opérateurs" #?
@@ -1827,6 +1833,7 @@ fra:
     employee_informations: "Informations sociales"
     employee_involvement: "Participation des salariés aux résultats (VII)"
     employee_name: "Employé" #?
+    empty_shape: "La forme du support ne peut pas être vide"
     end: "au"
     entities: "Tiers"
     entities_advance_charges: "Charges constatées d'avance"
@@ -2028,6 +2035,7 @@ fra:
     gain_and_loss_fixed_assets: "État des plus et moins-values au %{to}"
     genealogy: "Généalogie"
     general: "Informations générales"
+    general_account_number_length_automatically_truncated: "La longueur des numéros de compte comptables généraux est automatiquement ajustée selon la préférence de la société (%{length} caractères)."
     general_fixed_assets: "État des immobilisations au %{to}"
     general_informations: "Informations générales"
     general_ledger: "Grand livre"
@@ -2366,6 +2374,9 @@ fra:
     movements: "Mouvements"
     moves: "Mouvements de stocks" #?
     n: "Non"
+    n_1_guidance_1: "La balance N-1 n'apparaît que si la période sélectionnée ne comporte qu'un seul exercice comptable."
+    n_1_guidance_2: "Lorsque la période est inférieure à la durée d'un exercice complet, la balance N-1 apparaissant porte néanmoins sur l'intégralité de l'exercice comptable précédent."
+    n_1_trial_balance_display: "Affichage de la période N-1 de la balance comptable"
     name: "Nom"
     nature: "Type"
     nature_changed: "Le type des animaux a changé"
@@ -2743,8 +2754,8 @@ fra:
     rain: "Pluviométrie" #?
     raw_income: "Résultat d’exploitation"
     raw_margin: "Marge brute" #?
-    re_entry_delay: "RÉENTRÉE"
-    re_entry_interval: "Délai de réentrée"
+    re_entry_delay: "RÉ-ENTRÉE"
+    re_entry_interval: "Délai de ré-entrée"
     reading_tasks: "Relevés d’indicateur"
     readings: "Relevés d’indicateur"
     ready: "Prêt(e)"
@@ -2904,7 +2915,9 @@ fra:
     see_more_details: "Voir plus de détails"
     see_outgoing_parcels: "Voir les colis sortants"
     see_purchases: "Voir les achats"
+    see_receptions: "Voir les réceptions"
     see_sales: "Voir les ventes"
+    see_shipments: "Voir les expéditions"
     see_tax_declarations: "Voir les déclarations de TVA"
     see_the_accounts: "Voir les comptes"
     see_the_day_book: "Voir le brouillard"
@@ -3524,7 +3537,10 @@ fra:
       success: "Bien joué\_!"
       warning: "Attention\_!"
     messages:
-      access_denied: "Vous n’avez pas le droit d’accéder à cette page. %{reason} (%{url})"
+      access_denied: "Vous n’avez pas le droit d’accéder à cette page."
+      accounts_cannot_be_truncated_to_preference:
+        one: "Le compte comptable %{accounts} ne peut être tronqué à la préférence comptable sélectionnée (%{preference} caractères). Seul le zéro peut être automatiquement supprimé. Veuillez modifier ce compte comptable si vous souhaitez ajuster la préférence de la société à %{preference} caractères"
+        other: "Les comptes comptables 1010020001, 1010020002, 1010020003 ne peuvent être tronqués à la préférence comptable sélectionnée (%{preference} caractères). Seul le zéro peut être automatiquement supprimé. Veuillez modifier ces comptes comptables si vous souhaitez ajuster la préférence de la société à %{preference} caractères"
       accountant_notified: "Le comptable a bien été notifié"
       accountant_without_email: "Merci de renseigner l’email du comptable"
       # aggeratio_not_found: "The export requested was not found"
@@ -3862,7 +3878,7 @@ fra:
       select: "Selectionner"
       sell: "Passer en vente"
       set: "Définir" #?
-      ship: "Expédier"
+      ship: "Livraison"
       show: "Afficher"
       show_export_preview: "Afficher un aperçu du document (peut augmenter le temps de chargement)"
       sort: "Trier"

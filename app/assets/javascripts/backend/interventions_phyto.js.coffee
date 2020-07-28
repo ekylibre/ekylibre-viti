@@ -1,4 +1,17 @@
 ((E, $) ->
+  retrieveTargetsData = () =>
+    $('[data-phytosanitary-target]').toArray()
+         .filter((el) => !el.classList.contains('removed-nested-fields'))
+         .map (element) =>
+           id: $(element).find("[data-selector-id='intervention_target_product_id']").next('.selector-value').val()
+           shape: $(element).find('[data-map-editor]').val()
+
+  retrieveMaxStoppedAt = () =>
+    stoppedAtDates = $(".intervention-stopped-at[type='hidden']").map ->
+      if $(this).val() then new Date($(this).val()) else null
+
+    moment(_.max(_.compact(stoppedAtDates)))
+
   productsInfos =
     display: () ->
       that = this
@@ -38,11 +51,7 @@
       $productField.find('#product-authorization-message').html('')
 
     _retrieveValues: () ->
-      targetsData = $('[data-phytosanitary-target]').toArray()
-        .filter((el) => !el.classList.contains('removed-nested-fields'))
-        .map (element) =>
-          id: $(element).find("[data-selector-id='intervention_target_product_id']").next('.selector-value').val()
-          shape: $(element).find('[data-map-editor]').val()
+      targetsData = retrieveTargetsData()
 
       productsData = Array.from(document.querySelectorAll(".nested-plant_medicine"))
         .filter((el) => !el.classList.contains('removed-nested-fields'))
@@ -56,11 +65,6 @@
 
       interventionId = $('input#intervention_id').val()
 
-      stoppedAtDates = $(".intervention-stopped-at[type='hidden']").map ->
-        if $(this).val() then new Date($(this).val()) else null
-
-      maxStoppedAt = _.max(_.compact(stoppedAtDates))
-
       startedAtDates = $(".intervention-started-at[type='hidden']").map ->
         if $(this).val() then new Date($(this).val()) else null
 
@@ -71,10 +75,9 @@
         targets_data: _.reject(targetsData, (data) -> data.id == '' ),
         intervention_id: interventionId,
         intervention_started_at: moment(minStartedAt).format()
-        intervention_stopped_at: moment(maxStoppedAt).format()
+        intervention_stopped_at: retrieveMaxStoppedAt().format()
       }
 
-      { products_data: productsData, targets_data: targetsData }
 
   usageMainInfos =
     display: ($input, $productField) ->
@@ -124,14 +127,11 @@
       inputId = $productField.find('#intervention_parameter_id').val()
       productId = $productField.find("[data-selector-id='intervention_input_product_id']").first().selector('value')
       liveData = $productField.find('.intervention_inputs_using_live_data input').val()
-      $plantInputs = $('[data-phytosanitary-target]').filter -> $(this).find("[data-selector-id='intervention_target_product_id']").first().selector('value')
-      targetsData = $plantInputs.map ->
-        {
-          id: $(this).find("[data-selector-id='intervention_target_product_id']").first().selector('value'),
-          shape: $(this).find('[data-map-editor]').val()
-        }
+      $plantInputs = $('.nested-cultivation').filter -> $(this).find("[data-selector-id='intervention_target_product_id']").first().selector('value')
+      targetsData = retrieveTargetsData()
+      stopped_at = retrieveMaxStoppedAt().format()
 
-      { product_id: productId, targets_data: targetsData.toArray(), intervention_id: interventionId, input_id: inputId, live_data: liveData }
+      { product_id: productId, targets_data: targetsData, intervention_id: interventionId, input_id: inputId, live_data: liveData, intervention_stopped_at: stopped_at }
 
 
   usageDoseInfos =
@@ -165,13 +165,9 @@
       liveData = $productField.find('.intervention_inputs_using_live_data input').val()
       quantity = $input.val()
       dimension = $input.parent().find('select option:selected').val()
-      targetsData = $('[data-phytosanitary-target]').map ->
-        {
-          id: $(this).find("[data-selector-id='intervention_target_product_id']").first().selector('value'),
-          shape: $(this).find('[data-map-editor]').val()
-        }
+      targetsData = retrieveTargetsData()
 
-      { product_id: productId, quantity: quantity, dimension: dimension, targets_data: targetsData.toArray(), intervention_id: interventionId, input_id: inputId, live_data: liveData }
+      { product_id: productId, quantity: quantity, dimension: dimension, targets_data: targetsData, intervention_id: interventionId, input_id: inputId, live_data: liveData }
 
 
   sprayingMap =

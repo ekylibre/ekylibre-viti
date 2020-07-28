@@ -51,6 +51,7 @@ module Backend
       code << " c[0] << ' AND #{Plant.table_name}.variety = ?'\n"
       code << " c << params[:variety]\n"
       code << "end\n"
+
       code << "if params[:area].present?\n"
       code << " interval = params[:area].split(',')\n"
       code << " c[0] << ' AND (SELECT (ST_Area(ST_Transform(ST_GeomFromEWKB(#{Plant.table_name}.initial_shape),2154))) BETWEEN ? AND ?)'\n"
@@ -69,6 +70,7 @@ module Backend
       t.column :work_name, through: :container, url: true
       t.column :net_surface_area, datatype: :measure
       t.status
+      t.column :human_status, label: :state, hidden: true
       t.column :born_at
       t.column :dead_at
     end

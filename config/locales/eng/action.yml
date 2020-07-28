@@ -697,6 +697,7 @@ eng:
     backend/product_nature_variant_components:
       # autocomplete: "Autocomplete product nature variant component: %{name}"
     backend/product_nature_variants:
+      create: "New product variant"
       # detail: "Detail product nature variant: %{name}"
       edit: "Edit product variant: %{name}"
       # incorporate: "Incorporate product nature variant: %{name}"
@@ -808,7 +809,7 @@ eng:
       # incorporate: "Incorporate role: %{name}"
       index: "Roles"
       new: "New role"
-      pick: "Pick role: %{name}"
+      pick: "Import a role"
       show: "Role: %{name}"
     backend/sale_affairs:
       # attach: "Attach sale affair: %{name}"
@@ -1464,6 +1465,8 @@ eng:
       zoomGuidance: "Insufficient zoom level"
       zoomInTitle: "Zoom in"
       zoomOutTitle: "Zoom out"
+    unroll:
+      server_error: "Server error"
   labels:
     use: "use"
     land_parcel_plant: "Land parcel/plant"
@@ -1509,6 +1512,7 @@ eng:
     activity: "Activity"
     activity_production: "Activity production"
     activity_productions: "Activity productions"
+    accumulated_stock: "Accumulated stock of %{name}"
     add: "Add"
     add_a_repayment: "Add a loan repayment"
     add_a_worker: "Add a worker"
@@ -1637,6 +1641,7 @@ eng:
     # applications_count_bigger_than_max: "Applications count bigger than max"
     # applications_count_equal_to_max: "Applications count equal to max"
     # applications_count_less_than_max: "Applications count less than max"
+    applications_frequency: "Applications frequency"
     applications_interval_not_respected: "Applications interval non respected"
     aquatic_nta: "Aquatic non-treatment area (%{distance} m)"
     archive_post_closure: "Post closure archive"
@@ -1653,8 +1658,11 @@ eng:
     are_you_sure_you_want_to_delete: "Are you sure you want to delete this record?"
     are_you_sure_you_want_to_invoice: "Are you sure you want to invoice?"
     are_you_sure_you_want_to_send_mails: "Are you sure you want to send emails?"
-    area: "Area" #?
+    area: "Area"
     articles: "Articles"
+    asset_exists: "Asset exists"
+    assets: "Assets"
+    assets_gaps: "Assets gaps"
     associate_debts: "Associate debts"
     associate_locked_debts: "Associate locked debts"
     associate_receivables: "Associate receivables"
@@ -1704,7 +1712,7 @@ eng:
     by_account_fixed_assets: "Fixed assets by account on %{to}"
     by_year: "By year"
     cadastral_references: "associated cadastral ref." #?
-    calculate: "Calculate" #?
+    calculate: "Calculate"
     calculated_area: "calculated area" #?
     calculated_hours: "Calculated hours"
     calculators: "Calculators"
@@ -1810,6 +1818,7 @@ eng:
     confirmation_update_historical_plans: "Confirmation update historical plans"
     # confirmed: "Confirmed"
     connect: "Connect"
+    contains: "Contains" #?
     consult_the_day_book:
       one: "Consult the day book (%{count} entry)"
       other: "Consult the day book (%{count} entries)"
@@ -1943,8 +1952,8 @@ eng:
     reset_cvi_cutlivable_zone_body: "<b>Warning  !</b><br>You are about to reset a cultivable zone and its associated land parcels.<br> All changes made until now will be lost. <br><br>Are you sure you want to reset this cultivable zone ?"
     delete_cvi_cadastral_plant_header: "Delete CVI cadastral plant"
     delete_cvi_cadastral_plant_body: "<b>Warning  !</b><br>You are about to delete a CVI cadastral plant.<br>To recreate it, you will have to reimport all you CVI.  <br><br>Are you sure you want to delete this CVI cadastral plant ?"
-    delete_only_record: "Or only delete the selected intervention(s) and display the request associate ?" #?
-    delete_request: "Delete also the request associate to the selected intervention(s)" #?
+    delete_only_record: "Or only delete the selected intervention(s) and display the request associate ?"
+    delete_request: "Delete also the request associate to the selected intervention(s)"
     delete_selected_interventions: "Delete the selected interventions"
     delete_x_entries:
       one: "Delete %{count} entry"
@@ -1992,6 +2001,7 @@ eng:
     document: "Document"
     document_natures: "Document types"
     document_templates: "Document templates"
+    document_type: "Document type"
     documentation: "Documentation"
     doer_cost: "Doer cost"
     done: "Done"
@@ -2036,6 +2046,7 @@ eng:
     employee_and_wages: "Employee and wages"
     employee_informations: "Employee informations"
     employee_involvement: "Employee involvement in results (VII)"
+    empty_shape: "Support shape can't be empty"
     end: "to"
     entities: "Entities"
     entities_advance_charges: "entities_advance_charges"
@@ -2191,8 +2202,7 @@ eng:
     from_current_year: "From"
     to_next_year: "To"
     production_campaign_period: "Production campaign period"
-    from_to_date: "from %{from} to %{to}" #?
-    fruit_yield: "Fruit yield"
+    full_name: "Full name"
     fullscreen: "Fullscreen"
     full_name: "Full name"
     function: "Function"
@@ -2208,6 +2218,7 @@ eng:
     general_ledger: "General ledger"
     general_total: "General total"
     generate: "Generate"
+    general_account_number_length_automatically_truncated: "The general accounts number length is automatically adjusted based on the configuration of the company (%{length} characters)."
     generate_documents_post_closure: "Generating mandatory documents post closure"
     generate_documents_prior_to_closure: "Generating mandatory documents prior to closure"
     generate_last_journal_entry: "Generate last journal entry"
@@ -2216,7 +2227,7 @@ eng:
     geolocation: "Geolocation"
     global_costs: "Global costs"
     global_preferences: "Global preferences"
-    go: "Go" #?
+    go: "Go"
     go_back: "Back"
     go_back_to_financial_year_details: "Go back to financial year details"
     gradings: "Gradings"
@@ -2461,6 +2472,9 @@ eng:
     move_animal: "Move animals"
     movements: "Movements"
     n: "No"
+    n_1_guidance_1: "Trial balance for previous year only appears if the selected period belongs to a single financial year."
+    n_1_guidance_2: "If the selected period is shorter than the financial year, the trial balance for previous year displayed still refers to the whole previous financial year."
+    n_1_trial_balance_display: "Trial balance display for previous year"
     name: "Name"
     nature: "Type"
     nature_changed: "Le type des animaux a changé"
@@ -2567,8 +2581,8 @@ eng:
     options: "Options"
     or: "Or"
     # order: "Order"
-    order_again: "Order again" #?
-    organic_matter_concentration: "Organic matter concentration" #?
+    organic_matter_concentration: "Organic matter concentration"
+    # organic_usage: "Organic usage"
     original_component: "original"
     other_expenses: "Other expenses"
     other_financial_debts: "Other financial debts"
@@ -2647,9 +2661,9 @@ eng:
     plant_counting: "Counting"
     plant_countings: "Countings"
     plant_medicines: "Plant medicines"
-    plantation_density: "Plantation density" #?
-    planted: "Planted" #?
-    plants: "Crops" #?
+    plantation_density: "Plantation density"
+    planted: "Planted"
+    plants: "Crops"
     please_provide_a_valid_maaid_to_display_this_article_properties: "Please provide a valid AMM number to display this article's properties"
     please_reach_out_for_the_person_in_charge_of_the_closure: "Please reach out for the person in charge of the closure outside of the software to get your documents."
     please_wait: "Please wait…"
@@ -2774,7 +2788,7 @@ eng:
     regroup: "Group"
     split: "Split"
     draw_the_cutting_line: "Draw the cutting line"
-    rejected: "Rejected" #?
+    rejected: "Rejected"
     relationship: "Relationship"
     relationship_of_entity: "%{relationship} of %{entity}"
     relationship_of_entity_as_inverse_post: "%{relationship} of %{entity} (%{inverse_post})"
@@ -2836,7 +2850,9 @@ eng:
     see_more_details: "See more details"
     see_outgoing_parcels: "See the outgoing parcels"
     see_purchases: "See the purchases"
+    see_receptions: "See the receptions"
     see_sales: "See the sales"
+    see_shipments: "See the shipments"
     see_tax_declarations: "See tax declarations"
     see_the_accounts: "See the accounts"
     see_the_day_book: "See the day book"
@@ -2845,7 +2861,7 @@ eng:
     seed_and_plants: "Seed and plants"
     select_a_journal: "Select a journal"
     select_closure_date: "Choose closing date"
-    select_columns: "Select columns" #??
+    select_columns: "Select columns"
     select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     select_date: "Select date"
     select_date_generation: "Limit date for generation"
@@ -3116,7 +3132,7 @@ eng:
     view_map_when_creating_an_intervention: "View map when creating an intervention"
     # vine_yield: "Vine yield"
     vintage_or_production_campaign: "Vintage or production campaign"
-    wages: "Wages" #?
+    wages: "Wages"
     warning_date_not_in_period: "Warning: The date entered is not on the current exercise."
     water_lakes: "Water lakes"
     water_rivers: "Water rivers"
@@ -3334,7 +3350,10 @@ eng:
       success: "Success!"
       warning: "Warning!"
     messages:
-      access_denied: "Access denied. %{reason} (%{url})"
+      access_denied: "Access denied."
+      accounts_cannot_be_truncated_to_preference:
+        one: "The account %{accounts} cannot be truncated to the selected preference (%{preference} characters). Only zero can be automatically removed. Please update this account if you want to change the company preference to %{preference} characters."
+        other: "The accounts %{æccounts} cannot be truncated to the selected preference (%{preference} characters). Only zero can be automatically removed. Please update these accounts if you want to change the company preference to %{preference} characters."
       accountant_notified: "The accountant has been notified"
       accountant_without_email: "Please set the accountant email"
       aggeratio_not_found: "The export requested was not found"
@@ -3456,9 +3475,9 @@ eng:
       record_has_been_correctly_removed: "The record has been removed successfully"
       cvi_conversion_has_been_correctly_reseted: "CVI conversion has been reseted successfully."
       record_has_been_imported: "Record has been imported"
-      record_not_found: "Record not found" #?
-      record_x_created: "%{record} %{name} created" #?
-      record_x_updated: "%{record} %{name} updated" #?
+      record_not_found: "Record not found"
+      record_x_created: "%{record} %{name} created"
+      record_x_updated: "%{record} %{name} updated"
       record_x_updated_f: "%{record} %{name} updated" #?
       record_x_updated_f: "%{record} %{name} updated" #?
       can_not_group_cvi_land_parcels: "CVI land parcels can't be grouped, because vine variety, designation of origin, inter vine plant distance, inter row distance, state or activity is different. Please check these values before retrying."
@@ -3713,7 +3732,7 @@ eng:
       select: "Select"
       sell: "Turn into sale"
       # sepa: "Sepa"
-      ship: "Ship"
+      ship: "Shipping"
       show: "Show"
       show_export_preview: "View a preview of the document (may increase loading time)"
       sort: "Sort"
