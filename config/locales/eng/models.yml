@@ -11,6 +11,7 @@ eng:
       confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
       currency_does_not_match: "The currency of the %{attribute} is different from %{currency}"
       empty: "%{attribute} can't be empty"
+      empty_shape: "The shape of %{attribute} cannot be empty"
       end_of_month: "%{attribute} should be at the end of the month"
       equal_to: "%{attribute} must be equal to %{count}"
       even: "%{attribute} must be even"
@@ -30,6 +31,7 @@ eng:
       invalid_date: "%{attribute} is not a valid date"
       invalid_datetime: "%{attribute} is not a valid datetime"
       invalid_population_for_unitary_product: "The equipment %{name} cannot have a population of %{population} as it is supposed to be unique."
+      invalid_shape: "The geographic shape for %{attribute} is invalid"
       invalid_time: "%{attribute} is not a valid time"
       invalid_token: "%{attribute} is invalid. Invalid token %{error}. Expected tokens are %{accepted}."
       is: "%{attribute} must be a %{thing}"
@@ -252,8 +254,12 @@ eng:
       messages:
         <<: *error_messages
       models:
-        product_nature_variant:
-          cannot_change_maaid_number_if_it_has_already_been_set: "The MAAID number already refers to a phytosanitary product and thus cannot be changed"
+        account:
+          attributes:
+            number:
+              truncation_error:
+                one: "Unable to change the length of %{value} to match the configuration (%{standard_length} characters), the last character can't be removed."
+                other: "Unable to change the length of %{value} to match the configuration (%{standard_length} characters), the last %{count} characters can't be removed."
     models:
       account: "Account"
       account_balance: "Account balance"
@@ -745,8 +751,8 @@ eng:
     commissioned_incoming_payment_modes: "Commissioned incoming payment modes"
     commune: "Commune"
     communes: "Communes"
-    company_creation_date: "Company creation date" #?
-    company_name: "Company name" #?
+    company_creation_date: "Company creation date"
+    company_name: "Company name"
     # complete_name: "Complete name"
     component: "Component"
     components: "Components"
@@ -827,7 +833,6 @@ eng:
     # cvi_number: "Cvi number"
     cvi_statement: "Cvi statement"
     # cvi_statements: "Cvi statements"
-    daily_charges: "Daily charges" #?
     daily_charges: "Daily charges"
     daily_nitrogen_production: "Daily nitrogen production"
     dashboards: "Dashboards"
@@ -960,7 +965,6 @@ eng:
     equipment: "Equipment"
     equipment_nature: "Equipment nature"
     estimate_reception_date: "Estimate reception date"
-    # eu_sign: "Eu sign"
     # eu_product_code: "Eu product code"
     euid: "EUID"
     event: "Event"
@@ -1042,9 +1046,7 @@ eng:
     formats: "Formats"
     # formatted_calculated_area: "Formatted calculated area"
     # formatted_declared_area: "Formatted declared area"
-    forward_journal: "Carrying forward journal" #?
-    # fr_sign: "Fr sign"
-    # fr_validated: "Fr validated"
+    forward_journal: "Carrying forward journal"
     france_maaid: "France Market Authorization Access Number"
     frequency: "Frequency"
     frozen_indicators_list: "Frozen indicators list"
@@ -1528,7 +1530,7 @@ eng:
     product: "Product"
     product_account: "Product account"
     product_enjoyment: "Product enjoyment"
-    product_enjoyments: "Product enjoyments" #?
+    product_enjoyments: "Product enjoyments"
     # product_human_name: "Product human name"
     # product_human_name_fra: "Product human name fra"
     product_identification_number: "Identification number"

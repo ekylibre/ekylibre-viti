@@ -32,7 +32,7 @@ gem 'apartment', '~> 2.2.1'
 gem 'apartment-sidekiq'
 
 # Ruby syntax extensions
-gem 'possibly', gitlab: 'ekylibre/eky-possibly', branch: :prod
+gem 'possibly', gitlab: 'ekylibre/eky-possibly', tag: 'v3.1.1'
 
 # Code manipulation
 gem 'charlock_holmes'
@@ -80,9 +80,6 @@ gem 'formize', '~> 2.1.0'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
-# gem 'rails-api'
 
 gem 'rake', '~>12.0'
 
@@ -101,6 +98,7 @@ gem 'wice_grid' # , github: "leikind/wice_grid", branch: "rails3"
 # Background jobs
 gem 'sidekiq', '~> 4.0'
 gem 'sidekiq-cron', '~> 0.6'
+gem 'rufus-scheduler', '~> 3.4.0'
 gem 'sidekiq-unique-jobs', '~> 4.0'
 
 # Decorator pattern
@@ -181,6 +179,11 @@ gem 'beardley-groovy', '>= 2.0.1'
 gem 'beardley-open_sans', '>= 0.0.2'
 gem 'beardley-xml', '>= 1.1.2'
 
+# IRB (already require by other gem but some sependencies seems to be missing in ruby 2.6.x ...
+gem 'irb'
+gem 'fiddle'
+gem 'dl'
+
 # Import/Export
 gem 'ekylibre-ofx-parser'
 gem 'rgeo-geojson'
@@ -229,6 +232,8 @@ gem 'cartography', git: 'https://gitlab.com/ekylibre/cartography.git', branch: '
 #gem 'cartography', path: '../cartography'
 gem 'gpgme'
 
+gem 'semantic'
+
 group :production do
   # Use unicorn as the app server
   gem 'unicorn'
@@ -265,6 +270,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'pry',  '~> 0.12.0'
   gem 'pry-byebug'
   # gem 'pry-inline'
   gem 'pry-rails'
@@ -278,6 +284,8 @@ group :development, :test do
 
   # Exception message tips
   gem 'did_you_mean', '~> 0.9', platforms: [:ruby_22]
+
+  gem 'yard'
 end
 
 group :test do

@@ -250,7 +250,7 @@ class Sale < Ekylibre::Record::Base
   bookkeep do |b|
     # take reference_number (external ref) if exist else take number (internal ref)
     r_number = (reference_number.blank? ? number : reference_number)
-    b.journal_entry(self.nature.journal, reference_number: r_number, printed_on: invoiced_on, if: (invoice? && items.any?)) do |entry|
+    b.journal_entry(self.nature.journal, reference_number: r_number, printed_on: invoiced_on, if: ((invoice? || order?) && items.any?)) do |entry|
       label = tc(:bookkeep, resource: state_label, number: number, client: client.full_name, products: (description.blank? ? items.pluck(:label).to_sentence : description.gsub(/\r?\n/, ' / ')), sale: initial_number)
       # TODO: Uncommented this once we handle debt correctly and account 462 has been added to nomenclature
       # if items.all? { |item| item.fixed_asset_id }
@@ -474,7 +474,32 @@ class Sale < Ekylibre::Record::Base
 
   # Prints human name of current state
   def state_label
-    self.class.state_machine.state(state.to_sym).human_name
+    translation_key = 
+    if invoice?
+      if self.affair.closed?  
+        "invoiced_and_paid_sale"
+      elsif self.affair.credit.zero?
+        "unpaid_invoice"
+      else
+        "incoming_payment_different_from_the_amount_of_the_invoice"
+      end
+    elsif aborted?
+      "aborted"
+    elsif order?
+     "order"
+    elsif (draft? && DateTime.now > self.expired_at) || (estimate? && DateTime.now > self.expired_at)
+      "expired_quote"
+    elsif draft?
+      "draft_quote"
+    elsif estimate?
+      "estimate"
+    elsif refused? 
+      "refused_quote"
+    else
+      "INVALID STATE"
+    end
+
+    I18n.t("tooltips.models.sale.#{translation_key}")
   end
 
   # Returns true if there is some products to deliver
@@ -580,7 +605,14 @@ class Sale < Ekylibre::Record::Base
 
   # Returns status of affair if invoiced else "stop"
   def status
-    return affair.status if invoice? && affair
-    :stop
+    if invoice? && affair
+      affair.status
+    else
+      :stop
+    end
+  end
+
+  def human_status
+    state_label
   end
 end

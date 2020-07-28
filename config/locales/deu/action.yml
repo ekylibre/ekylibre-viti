@@ -1355,8 +1355,6 @@ deu:
     current_stocks_by_variety: "Aktuelle Bestände durch Vielfalt"
     currently_subscribed_to: "Derzeit abonniert"
     custom_fields: "Benutzerdefinierte Felder"
-    # cvi_cadastral_plants: "Cvi cadastral plants"
-    # cvi_cadastral_plants_map: "Cvi cadastral plants"
     # database_version: "Database Version"
     # date_range: "%{from} to %{to}"
     # dated_cash: "%{cash}: %{on}"

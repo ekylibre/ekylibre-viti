@@ -66,6 +66,7 @@ class Intervention < Ekylibre::Record::Base
   include Providable
 
   PLANNED_REALISED_ACCEPTED_GAP = { intervention_doer: 1.2, intervention_tool: 1.2, intervention_input: 1.2 }.freeze
+  PHYTO_PROCEDURE_NAMES = %w[spraying all_in_one_sowing sowing_with_spraying vine_spraying_without_fertilizing vine_leaves_fertilizing_with_spraying].freeze
 
   attr_readonly :procedure_name, :production_id, :currency
   refers_to :currency
@@ -148,7 +149,7 @@ class Intervention < Ekylibre::Record::Base
   }
 
   scope :of_nature, ->(reference_name) { where(procedure_name: reference_name) }
-  scope :of_nature_using_phytosanitary, -> { where(procedure_name: %i[spraying all_in_one_sowing sowing_with_spraying]) }
+  scope :of_nature_using_phytosanitary, -> { where(procedure_name: PHYTO_PROCEDURE_NAMES) }
 
   scope :of_category, lambda { |category|
     where(procedure_name: Procedo::Procedure.of_category(category).map(&:name))
@@ -819,9 +820,29 @@ class Intervention < Ekylibre::Record::Base
   end
 
   def status
+    return :caution if in_progress? || request?
     return :go if done? || validated?
-    return :caution if in_progress?
     return :stop if rejected?
+  end
+
+  def human_status
+    state_label
+  end
+
+  # Prints human name of current state
+  def state_label
+    translation_key =
+    if request?
+      "request"
+    elsif in_progress?
+      "in_progress"
+    elsif done? || validated?
+      "done"
+    else
+      "rejected"
+    end
+
+    I18n.t("tooltips.models.intervention.#{translation_key}")
   end
 
   def runnable?
@@ -997,6 +1018,10 @@ class Intervention < Ekylibre::Record::Base
 
   def max_non_treatment_area
     inputs.map(&:non_treatment_area).compact.max
+  end
+
+  def using_phytosanitary?
+    PHYTO_PROCEDURE_NAMES.include?(procedure_name)
   end
 
   class << self

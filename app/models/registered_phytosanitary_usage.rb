@@ -63,7 +63,7 @@ class RegisteredPhytosanitaryUsage < ActiveRecord::Base
 
   belongs_to :product, class_name: 'RegisteredPhytosanitaryProduct'
 
-  enumerize :state, in: %w[authorized provisional withdrawn], predicates: true
+  enumerize :state, in: %w[authorized provisional withdrawn provisional], predicates: true
   has_interval :pre_harvest_delay, :applications_frequency
 
   scope :of_product, -> (*ids) { where(product_id: ids) }
@@ -104,7 +104,7 @@ class RegisteredPhytosanitaryUsage < ActiveRecord::Base
   end
 
   def decorated_applications_frequency
-    decorate.value_in_days(:applications_frequency)
+    decorate.applications_frequency
   end
 
   def status
@@ -117,5 +117,9 @@ class RegisteredPhytosanitaryUsage < ActiveRecord::Base
     else
       :stop
     end
+  end
+
+  def human_status
+    I18n.t("tooltips.models.registered_phytosanitary_usage.#{status}")
   end
 end

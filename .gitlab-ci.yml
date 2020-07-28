@@ -2,12 +2,17 @@ stages:
   - build
   - test
   - review
+  - doc
+  - deploy
 
 variables:
-  TEST_IMAGE: ${CI_REGISTRY_IMAGE}/test:$CI_COMMIT_REF_SLUG
-  TEST_LATEST: ${CI_REGISTRY_IMAGE}/test:latest
+  TEST_IMAGE: ${CI_REGISTRY_IMAGE}/test_2_3:$CI_COMMIT_REF_SLUG
+  TEST_LATEST: ${CI_REGISTRY_IMAGE}/test_2_3:latest
+  TEST_IMAGE_2_6: ${CI_REGISTRY_IMAGE}/test_2_6:$CI_COMMIT_REF_SLUG
+  TEST_LATEST_2_6: ${CI_REGISTRY_IMAGE}/test_2_6:latest
   REVIEW_HOST: ${CI_BUILD_REF_SLUG}.ci.ekylibre.dev
   KUBE_NAMESPACE: eky-test-deploy
+
 #  PROD_RAILS: ${CI_REGISTRY_IMAGE}/ekylibre-rails:$CI_COMMIT_REF_SLUG
 #  PROD_RAILS_LATEST: ${CI_REGISTRY_IMAGE}/ekylibre-rails:latest
 #  PROD_WEB: ${CI_REGISTRY_IMAGE}/ekylibre-web:$CI_COMMIT_REF_SLUG
@@ -17,7 +22,7 @@ variables:
 #########################################
 #                 BUILD                 #
 #########################################
-build_test:
+build_test_2_3:
   image: registry.gitlab.com/ekylibre/docker-base-images/tools/deploy:1
   stage: build
   interruptible: true
@@ -28,7 +33,19 @@ build_test:
   before_script:
     - echo "${CI_BUILD_TOKEN}" | docker login --username $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
   script:
-    - /exec ruby /build.rb -v -r $CI_COMMIT_REF_SLUG -b $CI_REGISTRY_IMAGE -f docker/test/Dockerfile -i test
+    - /exec ruby /build.rb -v -r $CI_COMMIT_REF_SLUG -b $CI_REGISTRY_IMAGE -f docker/test/Dockerfile -i test_2_3
+
+build_test_2_6:
+  image: registry.gitlab.com/ekylibre/docker-base-images/tools/deploy:1
+  stage: build
+  except:
+    - tags
+  services:
+    - docker:18-dind
+  before_script:
+    - echo "${CI_BUILD_TOKEN}" | docker login --username $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  script:
+    - /exec ruby /build.rb -v -r $CI_COMMIT_REF_SLUG -b $CI_REGISTRY_IMAGE -f docker/test/Dockerfile_2_6 -i test_2_6
 
 build_ci:
   image: registry.gitlab.com/ekylibre/docker-base-images/tools/deploy:1
@@ -101,12 +118,47 @@ review_stop:
     - helm tiller run "$KUBE_NAMESPACE" -- helm delete --purge ci-eky-${CI_COMMIT_REF_SLUG}
   when: manual
 
+doc_build:
+  image: registry.gitlab.com/ekylibre/docker-base-images/tools/deploy:1
+  stage: doc
+  only:
+    - tags
+  dependencies:
+    - build_test_2_3
+  services:
+    - docker:18-dind
+  before_script:
+    - echo "${CI_BUILD_TOKEN}" | docker login --username $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+  script:
+    - /exec ruby /build.rb -v -a TEST_IMAGE -r $CI_COMMIT_REF_SLUG -b $CI_REGISTRY_IMAGE -f docker/doc/Dockerfile -i doc
+
+deploy_doc:
+  image: registry.gitlab.com/ekylibre/helm-charts/ci-tool:master
+  stage: deploy
+  dependencies:
+    - doc_build
+  only:
+    - tags
+  when: manual
+  variables:
+    GIT_STRATEGY: none
+    KUBE_DOC_NAMESPACE: ekylibre-doc
+  script:
+    - helm --kube-context ekylibre-doc tiller run "$KUBE_DOC_NAMESPACE" --
+      helm upgrade
+      --install
+      --namespace "$KUBE_DOC_NAMESPACE"
+      --set doc.component=ekylibre
+      --set doc.version=latest
+      --set image.repository=registry.gitlab.com/ekylibre/eky/doc
+      --set image.tag=${CI_COMMIT_REF_SLUG}
+      ekylibre-latest
+      /apps/doc
 
 #########################################
 #               TEMPLATES               #
 #########################################
 .test_tpl: &test_task
-  image: $TEST_IMAGE
   stage: test
   variables: &test_task_variables
     # POSTGRES VARIABLES
@@ -119,8 +171,6 @@ review_stop:
   services:
     - mdillon/postgis:9.6-alpine
     - redis:5.0-alpine
-  dependencies:
-    - build_test
   except:
     - tags
   tags:
@@ -129,10 +179,111 @@ review_stop:
     - env
     - bash /app/test/ci/run_tests ${TASK}
 
-test_models:
-  stage: test
-  script: "RAILS_ENV=test bundle exec rake test:models"
+.test_tpl_2_3: &test_task_2_3
+  <<: *test_task
+  image: $TEST_IMAGE
+  dependencies:
+    - build_test_2_3
 
+.test_tpl_2_6: &test_task_2_6
+  <<: *test_task
+  image: $TEST_IMAGE_2_6
+  dependencies:
+    - build_test_2_6
+
+
+#########################################
+#                 TESTS                 #
+#########################################
+test_concepts:
+  <<: *test_task_2_3
+  variables:
+    <<: *test_task_variables
+    TASK: test:concepts
 test_controllers:
-  stage: test
-  script: "RAILS_ENV=test bundle exec rake test:controllers"
+  <<: *test_task_2_3
+  variables:
+    <<: *test_task_variables
+    TASK: test:controllers
+test_exchangers:
+  <<: *test_task_2_3
+  variables:
+    <<: *test_task_variables
+    TASK: test:exchangers
+test_helpers:
+  <<: *test_task_2_3
+  variables:
+    <<: *test_task_variables
+    TASK: test:helpers
+test_jobs:
+  <<: *test_task_2_3
+  variables:
+    <<: *test_task_variables
+    TASK: test:jobs
+test_lib:
+  <<: *test_task_2_3
+  variables:
+    <<: *test_task_variables
+    TASK: test:lib
+test_models:
+  <<: *test_task_2_3
+  variables:
+    <<: *test_task_variables
+    TASK: test:models
+test_services:
+  <<: *test_task_2_3
+  variables:
+    <<: *test_task_variables
+    TASK: test:services
+test_validators:
+  <<: *test_task_2_3
+  variables:
+    <<: *test_task_variables
+    TASK: test:validators
+
+
+test_concepts_2_6:
+  <<: *test_task_2_6
+  variables:
+    <<: *test_task_variables
+    TASK: test:concepts
+test_controllers_2_6:
+  <<: *test_task_2_6
+  variables:
+    <<: *test_task_variables
+    TASK: test:controllers
+test_exchangers_2_6:
+  <<: *test_task_2_6
+  variables:
+    <<: *test_task_variables
+    TASK: test:exchangers
+test_helpers_2_6:
+  <<: *test_task_2_6
+  variables:
+    <<: *test_task_variables
+    TASK: test:helpers
+test_jobs_2_6:
+  <<: *test_task_2_6
+  variables:
+    <<: *test_task_variables
+    TASK: test:jobs
+test_lib_2_6:
+  <<: *test_task_2_6
+  variables:
+    <<: *test_task_variables
+    TASK: test:lib
+test_models_2_6:
+  <<: *test_task_2_6
+  variables:
+    <<: *test_task_variables
+    TASK: test:models
+test_services_2_6:
+  <<: *test_task_2_6
+  variables:
+    <<: *test_task_variables
+    TASK: test:services
+test_validators_2_6:
+  <<: *test_task_2_6
+  variables:
+    <<: *test_task_variables
+    TASK: test:validators

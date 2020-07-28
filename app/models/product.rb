@@ -155,6 +155,7 @@ class Product < Ekylibre::Record::Base
   has_one :container, through: :current_localization
   has_many :groups, through: :current_memberships
   has_many :crop_group_items, foreign_key: :crop_id
+  has_many :crop_groups, through: :crop_group_items
   # FIXME: These reflections are meaningless. Will be removed soon or later.
   has_one :incoming_parcel_item, -> { with_nature(:incoming) }, class_name: 'ReceptionItem', foreign_key: :product_id, inverse_of: :product
   has_one :outgoing_parcel_item, -> { with_nature(:outgoing) }, class_name: 'ShipmentItem', foreign_key: :product_id, inverse_of: :product
@@ -178,6 +179,8 @@ class Product < Ekylibre::Record::Base
   scope :members_of, lambda { |group, viewed_at|
     where(id: ProductMembership.select(:member_id).where(group_id: group.id, nature: 'interior').at(viewed_at))
   }
+
+  scope :of_variant_active, -> { where(variant: ProductNatureVariant.active) }
 
   scope :members_of_place, ->(place, viewed_at) { contained_by(place, viewed_at) }
   scope :contained_by, lambda { |container, viewed_at = Time.zone.now|
@@ -427,10 +430,8 @@ class Product < Ekylibre::Record::Base
 
       build_new_phase unless product_phases.any?
     end
-  end
 
-  after_commit do
-    if nature.population_counting_unitary? && population.zero?
+    if self.persisted? && nature.population_counting_unitary? && population.zero?
       m = movements.build(delta: 1, started_at: Time.now)
       m.save!
     end
@@ -570,6 +571,8 @@ class Product < Ekylibre::Record::Base
   # Try to find the best name for the new products
   def choose_default_name
     return if name.present?
+    ActiveSupport::Deprecation.warn "Product#choose_default_name is deprecated."
+
     if variant
       if last = variant.products.reorder(id: :desc).first
         self.name = last.name

@@ -2,7 +2,7 @@
 <procedures xmlns="http://www.ekylibre.org/XML/2013/procedures">
   <procedure name="vine_spraying_without_fertilizing" categories="vine_protection" optional-actions="herbicide, fungicide, insecticide, growth_regulator, biostimulation, molluscicide, nematicide, acaricide, bactericide, game_repellent, virucide" position="10">
     <parameters>
-      <target name="cultivation" filter="is plant and has indicator shape">
+      <target name="plant" filter="is plant and has indicator shape">
         <attribute name="working_zone" default-value="PRODUCT.shape" if="PRODUCT?"/>
       </target>
       <input name="plant_medicine" filter="is preparation and can care(plant)" display-status="miscibility" >
@@ -16,13 +16,13 @@
                  backward="POPULATION * PRODUCT..net_volume(liter)"
                  forward="VALUE / PRODUCT..net_volume(liter)"/>
         <handler indicator="mass_area_density" unit="kilogram_per_hectare"
-                 if="(sum_working_zone_areas(cultivation) != 0) and PRODUCT..net_mass? and (usage_unit_name_include(PRODUCT, 'kilogram') == 1)"
-                 backward="(POPULATION * PRODUCT..net_mass(kilogram)) / sum_working_zone_areas(cultivation, :hectare)"
-                 forward="(VALUE * sum_working_zone_areas(cultivation, :hectare)) / PRODUCT..net_mass(kilogram)"/>
+                 if="(sum_working_zone_areas(plant) != 0) and PRODUCT..net_mass? and (usage_unit_name_include(PRODUCT, 'kilogram') == 1)"
+                 backward="(POPULATION * PRODUCT..net_mass(kilogram)) / sum_working_zone_areas(plant, :hectare)"
+                 forward="(VALUE * sum_working_zone_areas(plant, :hectare)) / PRODUCT..net_mass(kilogram)"/>
         <handler indicator="volume_area_density" unit="liter_per_hectare"
-                 if="PRODUCT..net_volume? and sum_working_zone_areas(cultivation) != 0 and (usage_unit_name_include(PRODUCT, 'liter') == 1)"
-                 backward="(POPULATION * PRODUCT..net_volume(liter)) / sum_working_zone_areas(cultivation, :hectare)"
-                 forward="(VALUE * sum_working_zone_areas(cultivation, :hectare)) / PRODUCT..net_volume(liter)"/>
+                 if="PRODUCT..net_volume? and sum_working_zone_areas(plant) != 0 and (usage_unit_name_include(PRODUCT, 'liter') == 1)"
+                 backward="(POPULATION * PRODUCT..net_volume(liter)) / sum_working_zone_areas(plant, :hectare)"
+                 forward="(VALUE * sum_working_zone_areas(plant, :hectare)) / PRODUCT..net_volume(liter)"/>
         <attribute name="usage_id" />
         <attribute name="allowed_entry_factor" />
         <attribute name="allowed_harvest_factor" />

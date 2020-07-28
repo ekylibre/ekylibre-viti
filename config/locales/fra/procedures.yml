@@ -376,6 +376,7 @@ fra:
     harvest_helping: "Aide à la récolte" #?
     harvest_transportation: "Transport de récolte"
     harvesting: "Récolte"
+    harvesting_with_plant_or_land_parcel: "Récolte (culture ou parcelle)"
     hazelnuts_harvest: "Récolte de noisettes" #?
     hazelnuts_transport: "Transport de noisettes" #?
     herd_feeding: "Alimentation d'un troupeau"
@@ -467,11 +468,11 @@ fra:
     vine_harvest: "Vendange" #?
     vine_inter_row_grinding: "Broyage inter-rang"
     vine_inter_row_hill_removing: "Déchaussage"
-    vine_inter_row_hilling: "Chaussage/rechaussage"
+    vine_inter_row_hilling: "Chaussage | Rechaussage"
     vine_inter_row_sowing: "Semis inter-rang"
     vine_inter_row_weeding: "Désherbage inter-rang" #?
     vine_layering: "Marcottage"
-    vine_leaves_fertilizing_with_spraying: "Fertilisation foliaire"
+    vine_leaves_fertilizing_with_spraying: "Fertilisation foliaire | Pulvérisation"
     vine_leaves_removing: "Effeuillage"
     vine_lifting: "Relevage"
     vine_planting: "Plantation"
@@ -484,7 +485,7 @@ fra:
     vine_shoot_grinding: "Broyage des sarments"
     vine_sleeves_net_protecting: "Pose de manchons/filets de protection"
     vine_soil_fertilizing: "Épandage engrais | Amendement"
-    vine_spraying_without_fertilizing: "Pulvérisation sans fertilisation"
+    vine_spraying_without_fertilizing: "Pulvérisation (sans fertilisation)"
     vine_trimming: "Écimage | Rognage"
     vine_trunk_cleaning_debudding: "Épamprage | Ébourgeonnage"
     vine_uncompacting: "Décompactage"
