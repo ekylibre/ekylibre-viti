@@ -92,11 +92,11 @@ class ProductNatureVariant < Ekylibre::Record::Base
 
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
   validates :active, inclusion: { in: [true, false] }
-  validates :france_maaid, :gtin, :name, :picture_content_type, :picture_file_name, :reference_name, :specie_variety, :work_number, length: { maximum: 500 }, allow_blank: true
+  validates :france_maaid, :gtin, :picture_content_type, :picture_file_name, :reference_name, :specie_variety, :work_number, length: { maximum: 500 }, allow_blank: true
+  validates :name, :unit_name, presence: true, length: { maximum: 500 }
   validates :number, presence: true, uniqueness: true, length: { maximum: 500 }
   validates :picture_file_size, numericality: { only_integer: true, greater_than: -2_147_483_649, less_than: 2_147_483_648 }, allow_blank: true
   validates :picture_updated_at, timeliness: { on_or_after: -> { Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.now + 50.years } }, allow_blank: true
-  validates :unit_name, presence: true, length: { maximum: 500 }
   validates :category, :nature, :variety, presence: true
   # ]VALIDATORS]
   validates :number, length: { allow_nil: true, maximum: 60 }
@@ -116,6 +116,7 @@ class ProductNatureVariant < Ekylibre::Record::Base
   accepts_nested_attributes_for :catalog_items, reject_if: :all_blank, allow_destroy: true
   validates_associated :components
 
+  scope :active, -> { where(active: true) }
   scope :availables, -> { where(nature_id: ProductNature.availables).order(:name) }
   scope :saleables, -> { joins(:category).merge(ProductNatureCategory.saleables) }
   scope :purchaseables, -> { joins(:category).merge(ProductNatureCategory.purchaseables) }
@@ -179,29 +180,35 @@ class ProductNatureVariant < Ekylibre::Record::Base
   end
 
   before_validation do # on: :create
-    if nature
+    if nature.present?
       self.nature_name ||= nature.name
       # self.variable_indicators ||= self.nature.indicators
       self.name ||= self.nature_name
       self.variety ||= nature.variety
+
       if derivative_of.blank? && nature.derivative_of
         self.derivative_of ||= nature.derivative_of
       end
+
       if category && storable?
         self.stock_account ||= create_unique_account(:stock)
         self.stock_movement_account ||= create_unique_account(:stock_movement)
       end
-      self.type ||= category.article_type || nature.variant_type
+    end
+
+    if nature.present? && category.present?
+      self.type = category.article_type || nature.variant_type
     end
   end
 
   validate do
-    if nature
+    if nature.present?
       nv = Nomen::Variety.find(nature_variety)
       unless nv >= self.variety
         logger.debug "#{nature_variety}#{Nomen::Variety.all(nature_variety)} not include #{self.variety.inspect}"
         errors.add(:variety, :is, thing: nv.human_name)
       end
+
       if Nomen::Variety.find(nature_derivative_of)
         if self.derivative_of
           unless Nomen::Variety.find(nature_derivative_of) >= self.derivative_of
@@ -212,12 +219,14 @@ class ProductNatureVariant < Ekylibre::Record::Base
         end
       end
     end
-    if variety && products.any?
+
+    if variety.present? && products.any?
       if products.detect { |p| Nomen::Variety.find(p.variety) > variety }
         errors.add(:variety, :invalid)
       end
     end
-    if derivative_of && products.any?
+
+    if derivative_of.present? && products.any?
       if products.detect { |p| p.derivative_of? && Nomen::Variety.find(p.derivative_of) > derivative_of }
         errors.add(:derivative_of, :invalid)
       end
@@ -517,6 +526,12 @@ class ProductNatureVariant < Ekylibre::Record::Base
     end
   end
 
+  def human_status
+    return unless status
+    I18n.t("tooltips.models.product_nature_variant.#{status}")
+  end
+
+
   class << self
     # Returns some nomenclature items are available to be imported, e.g. not
     # already imported
@@ -673,7 +688,6 @@ class ProductNatureVariant < Ekylibre::Record::Base
 
     def import_phyto_from_lexicon(reference_name)
       item = RegisteredPhytosanitaryProduct.find_by_reference_name(reference_name)
-
       unless variant = ProductNatureVariant.find_by_reference_name(reference_name)
         category = ProductNatureCategory.import_from_lexicon(:plant_medicine)
         nature = ProductNature.import_from_lexicon(:plant_medicine)

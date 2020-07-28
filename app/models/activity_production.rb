@@ -95,6 +95,9 @@ class ActivityProduction < Ekylibre::Record::Base
   validates :support_nature, presence: { if: :vine_farming? }
   validates :campaign, :stopped_on, presence: { if: :annual? }
   validates :started_on, presence: true
+  validates :support, presence: true
+  validates_associated :support
+
   # validates_numericality_of :size_value, greater_than: 0
   # validates_presence_of :size_unit, if: :size_value?
 

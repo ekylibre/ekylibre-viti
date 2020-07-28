@@ -14,6 +14,7 @@ fra:
         contains_blank_page: "%{attribute} contient une page vide" #?
         currency_does_not_match: "La devise de «\_%{attribute}\_» ne correspond pas celle attendue\_: %{currency}"
         empty: "%{attribute} ne peut pas être vide"
+        empty_shape: "La forme de %{attribute} ne peut être vide"
         # end_of_month: "%{attribute} should be at the end of the month"
         entry_has_been_already_validated: "La pièce a été validée et ne peut plus être modifiée" #?
         equal_to: "%{attribute} doit être égal à %{count}"
@@ -34,6 +35,7 @@ fra:
         invalid_date: "Veuillez saisir une date au format jj-mm-aaaa ou jj/mm/aaaa"
         invalid_datetime: "%{attribute} est invalide"
         # invalid_population_for_unitary_product: "The equipment %{name} cannot have a population of %{population} as it is supposed to be unique."
+        invalid_shape: "La forme géographique n'est pas valide pour %{attribute}"
         invalid_siret: "%{value} n'est pas un numéro de SIRET valide" #?
         invalid_syntax: "%{attribute} comporte des erreurs de syntaxe : %{errors}" #?
         invalid_time: "%{attribute} est invalide"
@@ -335,7 +337,7 @@ fra:
         active_compounds: "Substance(s) active(s)"
         firm_name: "Fabricant" #?
         france_maaid: "N° AMM"
-        in_field_reentry_delay: "Délai de réentrée" #?
+        in_field_reentry_delay: "Délai de ré-entrée" #?
         licence_number: "N° Permis"
         name: "Nom usuel" #?
         operator_protection_mentions: "Protection de l'opérateur"
@@ -487,6 +489,9 @@ fra:
               centralizing_number: "Le numéro ne peut pas commencer par '401' ou '411' qui sont réservés pour les comptes auxiliaires" #?
               incorrect_length: "Le numéro n'a pas la bonne longueur (%{number_length} caractères)" #?
               radical_class: "Le numéro ne peut pas correspondre à une classe radicale" #?
+              truncation_error:
+                one: "Impossible d'ajuster la longueur de %{value} pour correspondre à la configuration (%{standard_length} caractères), le dernier caractère ne peut être supprimé."
+                other: "Impossible d'ajuster la longueur de %{value} pour correspondre à la configuration (%{standard_length} caractères), les %{count} derniers caractères ne peuvent être supprimés."
               unauthorized: "Ce numéro ne peut pas correspondre à une classe radicale." #?
         activity: #?
           checked_off_with_inspections: "Des agréages sont déjà présents pour cette activité" #?
@@ -879,7 +884,7 @@ fra:
     rootstock: "Porte-greffe" #?
     rootstocks: "Porte-greffe(s)"
     vine_variety_name: "Cépage" #?
-    abilities: "Compétences" #?
+    abilities: "Compétences"
     abilities_list: "Liste des compétences"
     absolute_credit: "Crédit (absolu)"
     absolute_currency: "Monnaie (absolu)"

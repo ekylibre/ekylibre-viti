@@ -53,5 +53,24 @@ module Backend
       t.column :born_at
       t.column :dead_at
     end
+
+    def show
+      super
+
+      if @activity_production.present?
+        harvest_advisor = ::Interventions::Phytosanitary::PhytoHarvestAdvisor.new
+        @reentry_possible = harvest_advisor.reentry_possible?(@activity_production.support, Time.zone.now)
+      end
+    end
+
+    def create
+      begin
+        super
+
+      rescue ActiveRecord::RecordInvalid
+        notify_error_now(:empty_shape.tl)
+        render :new
+      end
+    end
   end
 end

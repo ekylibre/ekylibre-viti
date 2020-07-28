@@ -4,6 +4,8 @@ module Backend
   class RegisteredPhytosanitaryUsagesControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
 
     setup do
+      create :campaign, harvest_year: 2018
+
       @land_parcel = create :lemon_land_parcel, born_at: DateTime.new(2018, 1, 1)
       @product = create :phytosanitary_product, variant: ProductNatureVariant.find_by_reference_name('2000087_copless')
       @usage = RegisteredPhytosanitaryUsage.find('20191211165323116925')
@@ -22,7 +24,7 @@ module Backend
       post :get_usage_infos, id: @usage.id, targets_data: { '0' => { id: @land_parcel.id, shape: @land_parcel.shape.to_json_feature_collection.to_json } }
       json = JSON.parse(response.body)
 
-      assert json['usage_application'].has_key?('go')
+      assert_includes json['usage_application'].keys, 'go'
     end
 
     test 'get_usage_infos warns the user when selecting a usage if its maximum amount of applications has been reached' do
@@ -31,7 +33,7 @@ module Backend
       post :get_usage_infos, id: @usage.id, targets_data: { '0' => { id: @land_parcel.id, shape: @land_parcel.shape.to_json_feature_collection.to_json } }
       json = JSON.parse(response.body)
 
-      assert json['usage_application'].has_key?('caution')
+      assert_includes json['usage_application'].keys, 'caution'
     end
 
     test 'get_usage_infos warns the user when selecting a usage if its maximum amount of applications has been exceeded' do
@@ -40,7 +42,7 @@ module Backend
       post :get_usage_infos, id: @usage.id, targets_data: { '0' => { id: @land_parcel.id, shape: @land_parcel.shape.to_json_feature_collection.to_json } }
       json = JSON.parse(response.body)
 
-      assert json['usage_application'].has_key?('stop')
+      assert_includes json['usage_application'].keys, 'stop'
     end
 
     test 'get_usage_infos does not take into consideration the intervention being edited when computing a usage amount of applications' do
@@ -51,7 +53,7 @@ module Backend
                             targets_data: { '0' => { id: @land_parcel.id, shape: @land_parcel.shape.to_json_feature_collection.to_json } }
       json = JSON.parse(response.body)
 
-      assert json['usage_application'].has_key?('caution')
+      assert_includes json['usage_application'].keys, 'caution'
     end
 
     cases = [%w[allows inferior 3.2 go], %w[warns equal 3.3 caution], %w[forbids superior 3.4 stop]]
@@ -64,7 +66,7 @@ module Backend
                                targets_data: { '0' => { id: @land_parcel.id, shape: @land_parcel.shape.to_json_feature_collection.to_json } }
         json = JSON.parse(response.body)
 
-        assert json['dose_validation'].has_key?(status)
+        assert_includes json['dose_validation'].keys, status
       end
     end
 
@@ -82,7 +84,7 @@ module Backend
                                  targets_data: { '0' => { id: @land_parcel.id, shape: @land_parcel.shape.to_json_feature_collection.to_json } }
           json = JSON.parse(response.body)
 
-          assert json['dose_validation'].has_key?(status)
+          assert_includes json['dose_validation'].keys, status
         end
       end
     end
@@ -136,7 +138,7 @@ module Backend
       json = JSON.parse(response.body)
 
       refute json['modified']
-      assert json['dose_validation'].has_key?('go')
+      assert_includes json['dose_validation'].keys, 'go'
 
       input.reference_data['usage']['dose_quantity'] = dose_max - 0.02
       input.save!
@@ -151,7 +153,7 @@ module Backend
       json = JSON.parse(response.body)
 
       refute json['modified']
-      assert json['dose_validation'].has_key?('stop')
+      assert_includes json['dose_validation'].keys, 'stop'
     end
 
     private
