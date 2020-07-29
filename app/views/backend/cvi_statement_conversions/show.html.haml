@@ -1,0 +1,14 @@
+= modal(id: "modal", class:'vertical-center', size: :medium) do
+  .modal-header
+  .modal-body
+  .modal-footer
+
+= cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
+                             class: 'map-fullwidth map-halfheight') do |c|
+  - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
+  - c.simple :cvi_cultivable_zones, :main, index: true, async_url: backend_cvi_cultivable_zones_url(id: params[:id])
+
+= cobbles do |c|
+  - c.cobble(:cvi_cultivable_zones) do
+    = cobble_list(:cvi_cultivable_zones)
+= render partial: 'buttons'
