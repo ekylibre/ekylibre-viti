@@ -54,6 +54,12 @@ GIT
       nokogiri (>= 1.5.0)
       rubyzip (~> 1.2.0)
 
+PATH
+  remote: ../ekylibre_ekyviti
+  specs:
+    ekylibre_ekyviti (0.0.1)
+      rails (~> 4.2.11.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -693,6 +699,7 @@ DEPENDENCIES
   did_you_mean (~> 0.9)
   draper
   ekylibre-ofx-parser
+  ekylibre_ekyviti!
   elastic-apm
   enumerize
   exception_notification
