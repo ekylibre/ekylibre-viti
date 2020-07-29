@@ -1,0 +1,5 @@
+- all_activities_setted = cvi_cultivable_zone.cvi_land_parcels.all?{ |cvi_land_parcel| cvi_land_parcel.activity_id.present? }
+.btn-container
+  %div
+    = link_to :complete.tl, confirm_cvi_land_parcels_backend_cvi_cultivable_zone_path(cvi_cultivable_zone),class: [('disabled' unless all_activities_setted),"btn btn-primary"]
+    = link_to :go_back.tl, backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement), class:"btn btn-default"

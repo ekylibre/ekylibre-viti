@@ -1,0 +1,8 @@
+.modal-header.colored-background
+  %span.modal-title.h4= :convert_cvi_header.tl
+.modal-body
+  .modal-introduction
+    = :convert_cvi_body.tl.html_safe
+.modal-footer
+  = link_to :convert.tl, convert_backend_cvi_statement_conversion_path(cvi_statement_id), class: 'btn btn-primary', method: :post
+  = link_to :cancel.tl, '#', class: 'btn btn-default',data: { dismiss: 'modal' }

@@ -1,0 +1,10 @@
+= ekylibre_form_for(@cvi_land_parcel,url: split_backend_cvi_land_parcel_path, method: :post, remote: true) do |f|
+  = field_set( tl(:split) + ' ' + resource.name, class:"multi-columns") do
+    .instructions
+      %h3= :draw_the_cutting_line.tl
+      =image_tag("map/instructions/#{I18n.locale.to_s}/cut-guide.svg", class: 'cut-image-guide')
+    = f.hidden_field :id
+    = f.hidden_field :vine_variety_id
+  - f.add(:submit, :valid.tl, data: {disable_with: :please_wait.tl}, class: 'primary')
+  - f.add(:link, :cancel.tl, "#", class: 'btn', data: { "cancel-list-map-split-form": "", id: params[:id] } )
+  = f.actions

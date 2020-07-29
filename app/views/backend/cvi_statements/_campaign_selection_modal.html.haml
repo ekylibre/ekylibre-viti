@@ -1,0 +1,19 @@
+= modal(id: "campaign-selection",class:"vertical-center", size: :large) do
+  = form_tag(backend_cvi_statement_conversions_path(id: @cvi_statement.id), method: :post) do
+    .modal-header.colored-background
+      %span.modal-title.h4= :convert_cvi_into_land_parcels.tl
+    .modal-body
+      .modal-introduction
+        = :select_cvi_campaign_intro.tl.html_safe
+        %br
+        = label_tag :vintage_or_production_campaign.tl
+        - current_year = Time.current.year
+        = number_field_tag 'campaign',cvi_statement.campaign&.name || current_year,in: 1900..(current_year+1)
+        %span
+          (
+          = :wine_production.tl
+          %span#wine-production-period
+          )
+    .modal-footer
+      = link_to :cancel.tl, '#', class: 'btn btn-default',data: { dismiss: 'modal' }
+      = submit_tag :confirm.tl, class: 'btn btn-primary'
