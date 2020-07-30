@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     get :unroll, on: :collection
   end
 
-  namespace :backend do 
+  namespace :backend do
     resources :cvi_statements, concerns: %i[list] do
       member do
         patch :update_campaign
@@ -57,6 +57,13 @@ Rails.application.routes.draw do
     resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' } do
       member do
         get :delete_modal
+      end
+    end
+
+    resources :incoming_harvests, concerns: :list do
+      member do
+        get :list_plants
+        get :list_storages
       end
     end
   end

@@ -1,0 +1,23 @@
+- main_toolbar do |t|
+  = t.edit resource
+  - if resource.analysis
+    = link_to :edit_analysis.tl, { controller: :analyses, action: :edit, analysis_id: resource.analysis_id } , { class: 'btn btn-default icn btn-edit'}
+
+= main_informations attachment: true do
+  = infos do
+    .med-info.important
+      %span.title= :incoming_harvest_quantity.tl
+      %span.value= "#{resource.quantity_value} #{Nomen::Unit.find(resource.quantity_unit).symbol}"
+
+  = attributes_list(resource) do |l|
+    - l.attribute :number
+    - l.attribute :ticket_number
+    - l.attribute :received_at
+    - l.attribute :analysis, url: true
+
+= cobbles do |c|
+  - c.cobble(:plants, title: :harvested_plants.tl) do
+    = cobble_list(:plants)
+
+  - c.cobble(:storages, title: :winery_destination.tl) do
+    = cobble_list(:storages)
