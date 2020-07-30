@@ -2065,6 +2065,7 @@ fra:
     guides: "Référentiels" #?
     harvested_area: "Surface récoltée"
     harvested_at: "Récolté le"
+    harvested_plants: "Cultures récoltées"
     health_h3: "Santé H3"
     healthy: "Phase du bioprocessus de maladie d’un animal" #?
     help: "Aide"
@@ -3115,6 +3116,7 @@ fra:
     total_amount: "Montant total HT"
     total_amount_with_taxes: "Total TTC"
     total_amount_without_taxes: "Total HT"
+    total_area_in_hectare: "Superficie totale (ha)"
     total_bacteria_concentration: "Dénombrement des germes totaux" #?
     total_cost: "Coût total"
     total_cost_per_working_unit: "Coût total par unité d’œuvre" #?
@@ -3280,6 +3282,7 @@ fra:
       resized: "Mode «\_Tout à l’écran\_»" #?
     vintage_or_production_campaign: "millésime ou campagne de production"
     virtual_quantity: "Quantité virtuelle" #?
+    volume_in_winery: "Volume de moût apporté en cuverie (hl)"
     wages: "Rémunérations"
     warning_date_not_in_period: "Attention : La date saisie n'est pas sur l'exercice en cours."
     warning_if_no_activites_choose: "Si aucune activité n’est sélectionnée, le modèle d'intervention sera disponible pour toutes les activités." #?
@@ -3296,6 +3299,7 @@ fra:
     wind_speed: "Vitesse du vent"
     wine_production: "production viticole"
     wine_tanks: "Cuverie" #?
+    winery_destination: "Destination en cuverie"
     with_fixed_assets_depreciations: "Inclure les amortissements des immobilisations"
     with_prints: "Inclure les impressions (factures, commandes…)" #?
     worked_on: "Travaillé le" #?

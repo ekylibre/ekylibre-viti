@@ -131,6 +131,16 @@ eng:
       fixed_asset_depreciation:
         accounted: "Accounted"
         asset_amount: "Accountable value"
+      incoming_harvest:
+        ticket_number: "Ticket"
+        quantity_value: "Quantity"
+        quantity_unit: "Unit"
+      incoming_harvest_plant:
+        harvest_percentage_received: "% harvested"
+        net_harvest_area: "Area harvested (ha)"
+        plant: "Plant"
+      incoming_harvest_storage:
+        storage: "Equipment"
       intervention_working_period:
         started_at:
           one: "Started at is inferior than expected"

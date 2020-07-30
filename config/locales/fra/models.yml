@@ -182,6 +182,16 @@ fra:
         commune: "Commune" #?
         land_parcel_id: "Réf. cadastrale id" #?
         state: "Etat" #?
+      incoming_harvest:
+        ticket_number: "Ticket"
+        quantity_value: "Quantité"
+        quantity_unit: "Unité"
+      incoming_harvest_plant:
+        harvest_percentage_received: "% récolté"
+        net_harvest_area: "Superficie récoltée (ha)"
+        plant: "Culture"
+      incoming_harvest_storage:
+        storage: "Equipment"
       incoming_payment: #?
         to_bank_at: "À encaisser le" #?
       inspection: #?

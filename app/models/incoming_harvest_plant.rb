@@ -33,6 +33,10 @@ class IncomingHarvestPlant < Ekylibre::Record::Base
   # before link campaign depends on received_at
 
   def net_harvest_area
-    ((harvest_percentage_received / 100) * plant.net_surface_area).to_d
+    Measure.new((harvest_percentage_received / 100) * plant.net_surface_area.to_f, :hectare)
+  end
+
+  def displayed_harvest_percentage
+    "#{harvest_percentage_received.round}%"
   end
 end

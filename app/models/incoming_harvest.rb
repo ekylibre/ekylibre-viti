@@ -38,6 +38,7 @@ class IncomingHarvest < Ekylibre::Record::Base
   # ]VALIDATORS]
   composed_of :quantity, class_name: 'Measure', mapping: [%w[quantity_value to_d], %w[quantity_unit unit]]
   acts_as_numbered :number, readonly: false
+  refers_to :quantity_unit, class_name: 'Unit'
   serialize :additional_informations, HashSerializer
   # before link campaign depends on received_at
   before_validation do

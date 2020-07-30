@@ -32,5 +32,5 @@ class IncomingHarvestStorage < Ekylibre::Record::Base
   # ]VALIDATORS]
   # before link campaign depends on received_at
   composed_of :quantity, class_name: 'Measure', mapping: [%w[quantity_value to_d], %w[quantity_unit unit]]
-  
+  refers_to :quantity_unit, class_name: 'Unit'
 end
