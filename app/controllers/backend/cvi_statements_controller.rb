@@ -1,5 +1,5 @@
 module Backend
-  class CviStatementsController < Backend::BaseController
+  class CviStatementsController < Backend::CviBaseController
     manage_restfully
 
     def self.cvi_statements_conditions
