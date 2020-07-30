@@ -3870,6 +3870,158 @@ ALTER SEQUENCE public.imports_id_seq OWNED BY public.imports.id;
 
 
 --
+-- Name: incoming_harvest_inputs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.incoming_harvest_inputs (
+    id integer NOT NULL,
+    incoming_harvest_id integer NOT NULL,
+    input_id integer NOT NULL,
+    quantity_value numeric(19,4) NOT NULL,
+    quantity_unit character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    creator_id integer,
+    updater_id integer,
+    lock_version integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: incoming_harvest_inputs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.incoming_harvest_inputs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: incoming_harvest_inputs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.incoming_harvest_inputs_id_seq OWNED BY public.incoming_harvest_inputs.id;
+
+
+--
+-- Name: incoming_harvest_plants; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.incoming_harvest_plants (
+    id integer NOT NULL,
+    incoming_harvest_id integer NOT NULL,
+    plant_id integer NOT NULL,
+    harvest_percentage_received numeric(19,4) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    creator_id integer,
+    updater_id integer,
+    lock_version integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: incoming_harvest_plants_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.incoming_harvest_plants_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: incoming_harvest_plants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.incoming_harvest_plants_id_seq OWNED BY public.incoming_harvest_plants.id;
+
+
+--
+-- Name: incoming_harvest_storages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.incoming_harvest_storages (
+    id integer NOT NULL,
+    incoming_harvest_id integer NOT NULL,
+    storage_id integer NOT NULL,
+    quantity_value numeric(19,4) NOT NULL,
+    quantity_unit character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    creator_id integer,
+    updater_id integer,
+    lock_version integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: incoming_harvest_storages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.incoming_harvest_storages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: incoming_harvest_storages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.incoming_harvest_storages_id_seq OWNED BY public.incoming_harvest_storages.id;
+
+
+--
+-- Name: incoming_harvests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.incoming_harvests (
+    id integer NOT NULL,
+    number character varying,
+    ticket_number character varying,
+    description text,
+    campaign_id integer NOT NULL,
+    analysis_id integer,
+    received_at timestamp without time zone NOT NULL,
+    quantity_value numeric(19,4) NOT NULL,
+    quantity_unit character varying NOT NULL,
+    additional_informations jsonb DEFAULT '{}'::jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    creator_id integer,
+    updater_id integer,
+    lock_version integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: incoming_harvests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.incoming_harvests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: incoming_harvests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.incoming_harvests_id_seq OWNED BY public.incoming_harvests.id;
+
+
+--
 -- Name: incoming_payment_modes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -8254,6 +8406,34 @@ ALTER TABLE ONLY public.imports ALTER COLUMN id SET DEFAULT nextval('public.impo
 
 
 --
+-- Name: incoming_harvest_inputs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvest_inputs ALTER COLUMN id SET DEFAULT nextval('public.incoming_harvest_inputs_id_seq'::regclass);
+
+
+--
+-- Name: incoming_harvest_plants id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvest_plants ALTER COLUMN id SET DEFAULT nextval('public.incoming_harvest_plants_id_seq'::regclass);
+
+
+--
+-- Name: incoming_harvest_storages id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvest_storages ALTER COLUMN id SET DEFAULT nextval('public.incoming_harvest_storages_id_seq'::regclass);
+
+
+--
+-- Name: incoming_harvests id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvests ALTER COLUMN id SET DEFAULT nextval('public.incoming_harvests_id_seq'::regclass);
+
+
+--
 -- Name: incoming_payment_modes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -9492,6 +9672,38 @@ ALTER TABLE ONLY public.identifiers
 
 ALTER TABLE ONLY public.imports
     ADD CONSTRAINT imports_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: incoming_harvest_inputs incoming_harvest_inputs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvest_inputs
+    ADD CONSTRAINT incoming_harvest_inputs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: incoming_harvest_plants incoming_harvest_plants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvest_plants
+    ADD CONSTRAINT incoming_harvest_plants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: incoming_harvest_storages incoming_harvest_storages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvest_storages
+    ADD CONSTRAINT incoming_harvest_storages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: incoming_harvests incoming_harvests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvests
+    ADD CONSTRAINT incoming_harvests_pkey PRIMARY KEY (id);
 
 
 --
@@ -13283,6 +13495,188 @@ CREATE INDEX index_imports_on_updated_at ON public.imports USING btree (updated_
 --
 
 CREATE INDEX index_imports_on_updater_id ON public.imports USING btree (updater_id);
+
+
+--
+-- Name: index_incoming_harvest_inputs_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_inputs_on_created_at ON public.incoming_harvest_inputs USING btree (created_at);
+
+
+--
+-- Name: index_incoming_harvest_inputs_on_creator_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_inputs_on_creator_id ON public.incoming_harvest_inputs USING btree (creator_id);
+
+
+--
+-- Name: index_incoming_harvest_inputs_on_incoming_harvest_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_inputs_on_incoming_harvest_id ON public.incoming_harvest_inputs USING btree (incoming_harvest_id);
+
+
+--
+-- Name: index_incoming_harvest_inputs_on_input_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_inputs_on_input_id ON public.incoming_harvest_inputs USING btree (input_id);
+
+
+--
+-- Name: index_incoming_harvest_inputs_on_updated_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_inputs_on_updated_at ON public.incoming_harvest_inputs USING btree (updated_at);
+
+
+--
+-- Name: index_incoming_harvest_inputs_on_updater_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_inputs_on_updater_id ON public.incoming_harvest_inputs USING btree (updater_id);
+
+
+--
+-- Name: index_incoming_harvest_plants_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_plants_on_created_at ON public.incoming_harvest_plants USING btree (created_at);
+
+
+--
+-- Name: index_incoming_harvest_plants_on_creator_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_plants_on_creator_id ON public.incoming_harvest_plants USING btree (creator_id);
+
+
+--
+-- Name: index_incoming_harvest_plants_on_incoming_harvest_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_plants_on_incoming_harvest_id ON public.incoming_harvest_plants USING btree (incoming_harvest_id);
+
+
+--
+-- Name: index_incoming_harvest_plants_on_plant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_plants_on_plant_id ON public.incoming_harvest_plants USING btree (plant_id);
+
+
+--
+-- Name: index_incoming_harvest_plants_on_updated_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_plants_on_updated_at ON public.incoming_harvest_plants USING btree (updated_at);
+
+
+--
+-- Name: index_incoming_harvest_plants_on_updater_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_plants_on_updater_id ON public.incoming_harvest_plants USING btree (updater_id);
+
+
+--
+-- Name: index_incoming_harvest_storages_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_storages_on_created_at ON public.incoming_harvest_storages USING btree (created_at);
+
+
+--
+-- Name: index_incoming_harvest_storages_on_creator_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_storages_on_creator_id ON public.incoming_harvest_storages USING btree (creator_id);
+
+
+--
+-- Name: index_incoming_harvest_storages_on_incoming_harvest_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_storages_on_incoming_harvest_id ON public.incoming_harvest_storages USING btree (incoming_harvest_id);
+
+
+--
+-- Name: index_incoming_harvest_storages_on_storage_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_storages_on_storage_id ON public.incoming_harvest_storages USING btree (storage_id);
+
+
+--
+-- Name: index_incoming_harvest_storages_on_updated_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_storages_on_updated_at ON public.incoming_harvest_storages USING btree (updated_at);
+
+
+--
+-- Name: index_incoming_harvest_storages_on_updater_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvest_storages_on_updater_id ON public.incoming_harvest_storages USING btree (updater_id);
+
+
+--
+-- Name: index_incoming_harvests_on_analysis_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvests_on_analysis_id ON public.incoming_harvests USING btree (analysis_id);
+
+
+--
+-- Name: index_incoming_harvests_on_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvests_on_campaign_id ON public.incoming_harvests USING btree (campaign_id);
+
+
+--
+-- Name: index_incoming_harvests_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvests_on_created_at ON public.incoming_harvests USING btree (created_at);
+
+
+--
+-- Name: index_incoming_harvests_on_creator_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvests_on_creator_id ON public.incoming_harvests USING btree (creator_id);
+
+
+--
+-- Name: index_incoming_harvests_on_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvests_on_number ON public.incoming_harvests USING btree (number);
+
+
+--
+-- Name: index_incoming_harvests_on_ticket_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvests_on_ticket_number ON public.incoming_harvests USING btree (ticket_number);
+
+
+--
+-- Name: index_incoming_harvests_on_updated_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvests_on_updated_at ON public.incoming_harvests USING btree (updated_at);
+
+
+--
+-- Name: index_incoming_harvests_on_updater_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incoming_harvests_on_updater_id ON public.incoming_harvests USING btree (updater_id);
 
 
 --
@@ -18757,6 +19151,14 @@ ALTER TABLE ONLY public.cvi_cadastral_plant_cvi_land_parcels
 
 
 --
+-- Name: incoming_harvests fk_rails_10884b32e0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvests
+    ADD CONSTRAINT fk_rails_10884b32e0 FOREIGN KEY (campaign_id) REFERENCES public.campaigns(id);
+
+
+--
 -- Name: parcel_items fk_rails_10aa40af5e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -18842,6 +19244,14 @@ ALTER TABLE ONLY public.parcel_items
 
 ALTER TABLE ONLY public.crumbs
     ADD CONSTRAINT fk_rails_434e943648 FOREIGN KEY (intervention_participation_id) REFERENCES public.intervention_participations(id);
+
+
+--
+-- Name: incoming_harvest_inputs fk_rails_4ba0624d55; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvest_inputs
+    ADD CONSTRAINT fk_rails_4ba0624d55 FOREIGN KEY (incoming_harvest_id) REFERENCES public.incoming_harvests(id);
 
 
 --
@@ -19117,6 +19527,22 @@ ALTER TABLE ONLY public.regularizations
 
 
 --
+-- Name: incoming_harvest_storages fk_rails_daff0b6d0c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvest_storages
+    ADD CONSTRAINT fk_rails_daff0b6d0c FOREIGN KEY (incoming_harvest_id) REFERENCES public.incoming_harvests(id);
+
+
+--
+-- Name: incoming_harvest_plants fk_rails_e2e8a6aba3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvest_plants
+    ADD CONSTRAINT fk_rails_e2e8a6aba3 FOREIGN KEY (incoming_harvest_id) REFERENCES public.incoming_harvests(id);
+
+
+--
 -- Name: payslips fk_rails_e319c31e6b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -19130,6 +19556,14 @@ ALTER TABLE ONLY public.payslips
 
 ALTER TABLE ONLY public.intervention_participations
     ADD CONSTRAINT fk_rails_e81467e70f FOREIGN KEY (product_id) REFERENCES public.products(id);
+
+
+--
+-- Name: incoming_harvests fk_rails_eb0e85e775; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.incoming_harvests
+    ADD CONSTRAINT fk_rails_eb0e85e775 FOREIGN KEY (analysis_id) REFERENCES public.analyses(id);
 
 
 --
@@ -20049,4 +20483,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200428162128');
 INSERT INTO schema_migrations (version) VALUES ('20200428162212');
 
 INSERT INTO schema_migrations (version) VALUES ('20200428162256');
+
+INSERT INTO schema_migrations (version) VALUES ('20200730114601');
 
