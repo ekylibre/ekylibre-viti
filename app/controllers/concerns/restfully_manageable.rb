@@ -94,8 +94,9 @@ module RestfullyManageable
         while parents.last.superclass < ActionController::Base
           parents << parents.last.superclass
         end
+        gems = Gem::Specification.all.map(&:gem_dir).map{ |gem_dir| Pathname.new(gem_dir).join('app', 'views', "{#{parents.map(&:controller_path).join(',')}}") }
         lookup = Rails.root.join('app', 'views', "{#{parents.map(&:controller_path).join(',')}}")
-        if Dir.glob(lookup.join('show.*')).any?
+        if Dir.glob([lookup.join('show.*')] + gems).any?
           if options[:subclass_inheritance]
             code << "  if @#{record_name}.type and @#{record_name}.type != '#{model_name}' && !request.xhr?\n"
             code << "    redirect_to controller: @#{record_name}.type.tableize, action: :show, id: @#{record_name}.id, format: params[:format]\n"
