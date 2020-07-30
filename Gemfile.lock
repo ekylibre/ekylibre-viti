@@ -58,6 +58,9 @@ PATH
   remote: ../ekylibre_ekyviti
   specs:
     ekylibre_ekyviti (0.0.1)
+      capistrano-git-with-submodules (~> 2.0)
+      capistrano-nvm
+      capistrano-rails
       rails (~> 4.2.11.1)
 
 GEM
