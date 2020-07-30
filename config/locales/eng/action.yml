@@ -416,6 +416,10 @@ eng:
       run: "Run import"
       show: "Import: %{nature}"
       # template_file: "Template file import: %{name}"
+    backend/incoming_harvests:
+      edit: "Edit incoming harvest\_: %{number}"
+      index: "Incoming harvests"
+      show: "Incoming harvest\_: %{number}"
     backend/incoming_payment_modes:
       edit: "Edit incoming payment mode: %{name}"
       index: "Incoming payment modes"
@@ -2024,6 +2028,7 @@ eng:
     duration_in_hours_and_minutes: "%{hours}h %{minutes}min"
     during: "During"
     edit: "Edit"
+    edit_analysis: "Edit analysis"
     edit_budget: "Edit budget"
     # edit_cadastral_ref: "Edit cadastral ref"
     edition_date: "Edition date"
@@ -2261,6 +2266,7 @@ eng:
     include_blank: "Include blank"
     including_vat: "incl. VAT"
     income_statement: "Income Statement"
+    incoming_harvest_quantity: "Incoming harvest quantity"
     incoming_parcels: "Incoming parcels"
     incoming_payment: "Incoming payment"
     incoming_payments: "Incoming payments"

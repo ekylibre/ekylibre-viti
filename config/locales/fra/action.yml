@@ -326,6 +326,10 @@ fra:
       new: "Nouvel import"
       run: "Exécuter l’import\_: %{name}"
       show: "Import\_: %{name}"
+    backend/incoming_harvests:
+      edit: "Modifier la réception de vendange\_: %{number}"
+      index: "Réceptions de vendange"
+      show: "Réception de vendange\_: %{number}"
     backend/incoming_parcel_items: #?
       new: "Nouvel élément" #?
     backend/incoming_parcels: #?
@@ -1814,6 +1818,7 @@ fra:
     during: "Pendant"
     earns: "Gains" #?
     edit: "Modifier"
+    edit_analysis: "Modifier l'analyse"
     edit_budget: "Modifier le budget"
     edition_date: "Date d'édition"
     ekylibre: "www.ekylibre.org"
@@ -2097,6 +2102,7 @@ fra:
     including_vat: "TTC"
     income_statement: "Compte de résultat"
     incoming: "Entrant" #?
+    incoming_harvest_quantity: "Quantité de vendange"
     incoming_parcels: "Colis entrants"
     incoming_payment: "Encaissement"
     incoming_payment_conditions: "Conditions d’encaissement" #?
