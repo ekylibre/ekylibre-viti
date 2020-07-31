@@ -1,0 +1,50 @@
+tr.not_started {
+  td.c8{
+    font-weight: bolder;
+    color: #c91c07;
+  }
+}
+
+tr.started {
+  td.c8{
+    font-weight: bolder;
+    color: rgb(243, 77, 0);
+  }
+}
+
+tr.activity-undefined{
+  td.c14{
+    font-weight: bolder;
+    color: #c91c07;
+  }
+}
+
+tr.completed {
+  td.c8{
+    font-weight: bolder;
+    color: #7BA651;
+  }
+}
+
+.btn-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center ;
+  margin-bottom: 50px;
+}
+
+.disabled-row {
+  pointer-events: none;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+  opacity: 0.80;
+  td{
+    background-color: #ededed;
+  }
+}
+
+.disabled-link {
+  pointer-events: none;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+  opacity: 0.80;
+  background-color: #ededed;
+}

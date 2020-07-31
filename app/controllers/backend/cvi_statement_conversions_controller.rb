@@ -1,5 +1,5 @@
 module Backend
-  class CviStatementConversionsController < Backend::BaseController
+  class CviStatementConversionsController < Backend::CviBaseController
     manage_restfully only: %i[show], model_name: 'CviStatement'
 
     before_action :cvi_cultivable_zones_exist?, only: :show
