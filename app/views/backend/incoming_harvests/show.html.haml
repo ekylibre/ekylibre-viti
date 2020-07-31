@@ -1,13 +1,20 @@
+- analysis = resource.analysis
+- tavp_item = analysis.items.find_by(indicator_name: :estimated_harvest_alcoholic_volumetric_concentration)
+
 - main_toolbar do |t|
   = t.edit resource
-  - if resource.analysis
-    = link_to :edit_analysis.tl, { controller: :analyses, action: :edit, analysis_id: resource.analysis_id } , { class: 'btn btn-default icn btn-edit'}
+  - if analysis
+    = link_to :edit_analysis.tl, { controller: :analyses, action: :edit, id: analysis.id } , { class: 'btn btn-default icn btn-edit'}
 
 = main_informations attachment: true do
   = infos do
     .med-info.important
       %span.title= :incoming_harvest_quantity.tl
-      %span.value= "#{resource.quantity_value} #{Nomen::Unit.find(resource.quantity_unit).symbol}"
+      %span.value= resource.quantity.localize
+    - if tavp_item
+      .med-info.important
+        %span.title= Nomen::Indicator.find(:estimated_harvest_alcoholic_volumetric_concentration).human_name
+        %span.value= tavp_item.value.localize
 
   = attributes_list(resource) do |l|
     - l.attribute :number
@@ -21,3 +28,12 @@
 
   - c.cobble(:storages, title: :winery_destination.tl) do
     = cobble_list(:storages)
+
+  - if analysis
+    - c.cobble(:analysis) do
+      / TODO: Dirty, would need to spend more time to have a proper behavior handled by attributes_list helper
+      .attributes-list
+        - analysis.items.each do |item|
+          %dl
+            %dt= Nomen::Indicator.find(item.indicator_name).human_name
+            %dd= attribute_item(item, :value).last
