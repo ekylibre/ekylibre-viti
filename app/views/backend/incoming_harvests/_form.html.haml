@@ -1,0 +1,20 @@
+= field_set do
+  = f.input :ticket_number
+  = f.input :received_at
+  = f.input :quantity, wrapper: :append do
+    = f.input :quantity_value, wrapper: :simplest
+    = f.input :quantity_unit, collection: %i[kilogram hectoliter].map { |u| [Nomen::Unit.find(u).human_name, u] }, include_blank: false, wrapper: :simplest
+
+= field_set :harvested_plants do
+  .nested-association
+    = f.simple_fields_for(:plants, f.object.plants) do |d|
+      = render '/backend/incoming_harvests/plant_fields', f: d
+    .links
+      = link_to_add_association :add_plant.tl, f, :plants, partial: '/backend/incoming_harvests/plant_fields', class: 'nested-add'
+
+= field_set :winery_destination do
+  .nested-association
+    = f.simple_fields_for(:storages, f.object.storages) do |d|
+      = render '/backend/incoming_harvests/storage_fields', f: d
+    .links
+      = link_to_add_association :add_tank.tl, f, :storages, partial: '/backend/incoming_harvests/storage_fields', class: 'nested-add'
