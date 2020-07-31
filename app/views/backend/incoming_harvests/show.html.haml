@@ -1,5 +1,5 @@
 - analysis = resource.analysis
-- tavp_item = analysis.items.find_by(indicator_name: :estimated_harvest_alcoholic_volumetric_concentration)
+- tavp_item = analysis&.items&.find_by(indicator_name: :estimated_harvest_alcoholic_volumetric_concentration)
 
 - main_toolbar do |t|
   = t.edit resource
@@ -37,3 +37,15 @@
           %dl
             %dt= Nomen::Indicator.find(item.indicator_name).human_name
             %dd= attribute_item(item, :value).last
+
+  - unless resource.additional_informations.empty?
+    - c.cobble(:additional_informations) do
+      = attributes_list(resource, stamps: false) do |l|
+        - l.attribute :pressing_schedule
+        - l.attribute :pressing_started_at
+        - l.custom IncomingHarvest.human_attribute_name(:sedimentation_duration), resource.sedimentation_duration ? "#{resource.sedimentation_duration} min" : ''
+        - l.attribute :vehicle_trailer
+        - l.custom IncomingHarvest.human_attribute_name(:harvest_transportation_duration), resource.harvest_transportation_duration ? "#{resource.harvest_transportation_duration} min" : ''
+        - l.custom IncomingHarvest.human_attribute_name(:last_load), resource.last_load ? { true: :y.tl, false: :n.tl }[resource.last_load.to_sym] : ''
+        - l.custom IncomingHarvest.human_attribute_name(:harvest_nature), resource.harvest_nature ? resource.harvest_nature.tl : ''
+        - l.attribute :harvest_dock
