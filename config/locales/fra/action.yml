@@ -1290,6 +1290,7 @@ fra:
     add_x: "Ajouter «\_%{x}\_»"
     add_x_html: "Ajouter «\_%{x}\_»" #?
     added_value: "Valeur ajoutée"
+    additional_informations: "Informations supplémentaires"
     address: "Adresse" #?
     advance_charges: "Charges constatées d’avance"
     advance_giveables: "Avances et acomptes versés"
@@ -2322,6 +2323,7 @@ fra:
     mandates_new_fields: "Vous devez saisir au moins une valeur dans l’un des champs de modification" #?
     mandatory_provisions: "Provisions réglementées"
     manual: "Manuel"
+    manual_f: "Manuelle"
     manual_period: "du %{start} au %{finish}"
     manure_management_plan_chart: "Visualisation des apports azotés"
     map: "Carte"
@@ -2342,6 +2344,7 @@ fra:
     maximum_dose: "Dose max"
     measure_options: "Indicateur de type mesure" #?
     meat_withdrawal_period: "Période d’attente avant remise en vente de viande" #?
+    mechanical: "Mécanique"
     medical_informations: "Informations médicales" #?
     medicines: "Remèdes" #?
     meeting: "Rencontre" #?
