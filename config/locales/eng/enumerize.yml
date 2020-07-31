@@ -164,28 +164,6 @@ eng:
         # odt: "Odt"
         # xml: "Xml"
     entity:
-      legal_position_code:
-        # ASSO: "Asso"
-        # COOP: "Coop"
-        # CUMA: "Cuma"
-        # EARL: "Earl"
-        # EI: "Ei"
-        # EIRL: "Eirl"
-        # EURL: "Eurl"
-        # GAEC: "Gaec"
-        # GFA: "Gfa"
-        # GIE: "Gie"
-        # SA: "Sa"
-        # SARL: "Sarl"
-        # SAS: "Sas"
-        # SASU: "Sasu"
-        # SCA: "Sca"
-        # SCEA: "Scea"
-        # SCI: "Sci"
-        # SCS: "Scs"
-        # SEP: "Sep"
-        # SICA: "Sica"
-        # SNC: "Snc"
       nature:
         contact: "Contact"
         organization: "Organization"
@@ -647,10 +625,12 @@ eng:
       state:
         authorized: "Authorized"
         inherited: "Inherited"
+        # provisional: "Provisional"
         withdrawn: "Withdrawn"
     registered_phytosanitary_usage:
       state:
         authorized: "Authorized"
+        provisional: "Provisional"
         provisional: "Provisional"
         withdrawn: "Withdrawn"
     sale:
@@ -701,6 +681,7 @@ eng:
         entities: "Thirds"
         fixed_assets: "Fixed assets"
         gaps: "Gaps"
+        # incoming_harvests: "Incoming harvests"
         incoming_payments: "Incoming payments"
         inspections: "Inspections"
         interventions: "Interventions"

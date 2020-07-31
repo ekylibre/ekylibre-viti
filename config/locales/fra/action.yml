@@ -74,6 +74,7 @@ fra:
       index: "Pointer le relevé %{cash} n°%{number} (du %{started_on} au %{stopped_on})"
       reconciliate: "Relevés de la trésorerie %{cash} (du %{started_on} au %{stopped_on})"
     backend/bank_statement_items:
+      # new: "New bank statement item"
       show: "Ligne de relevé de compte : %{name}"
     backend/bank_statements:
       edit: "Modifier le relevé N°%{number}"
@@ -901,6 +902,7 @@ fra:
       confirmation_period_expired: "doit être confirmé sous %{period}, refaites une nouvelle demande s’il vous plait"
       # currency_does_not_match: "The currency of the %{attribute} is different from %{currency}"
       # empty: "%{attribute} can't be empty"
+      # empty_shape: "The shape of %{attribute} cannot be empty"
       # end_of_month: "%{attribute} should be at the end of the month"
       # equal_to: "%{attribute} must be equal to %{count}"
       # even: "%{attribute} must be even"
@@ -921,6 +923,7 @@ fra:
       # invalid_date: "%{attribute} is not a valid date"
       # invalid_datetime: "%{attribute} is not a valid datetime"
       invalid_population_for_unitary_product: "L'équipement %{name} ne peut avoir une population de %{population} car il est unique."
+      # invalid_shape: "The geographic shape is invalid"
       # invalid_time: "%{attribute} is not a valid time"
       # invalid_token: "%{attribute} is invalid. Invalid token %{error}. Expected tokens are %{accepted}."
       # is: "%{attribute} must be a %{thing}"
@@ -1150,6 +1153,7 @@ fra:
     vine_certification: "Appellation / AOP / IGP"
     vine_plants_interval: "Inter-pied"
     vine_rows_interval: "Inter-rang"
+    a_cultivable_zone: "Une zone cultivable"
     abilities: "Compétences" #?
     accepted: "Acceptée"
     accepted_for_paiment: "Acceptée pour paiement"
@@ -1189,6 +1193,7 @@ fra:
     accounts_starting_with: "Comptes commençant par"
     accounts_to_change: "Plan de comptes à changer"
     accounts_to_load: "Plan de comptes à charger"
+    accumulated_stock: "Cumul des stocks de %{name}"
     action_duration: "Durée de l'action"
     activate_entry_autocompletion: "Autocompléter l’écriture"
     active: "Actif"
@@ -1506,6 +1511,7 @@ fra:
     childrens: "Enfants" #?
     choices: "Choix"
     choose_a_type_of_product: "Choisissez un type de produit"
+    choose_an_activity: "Choisir une activité"
     choose_creation_mode: "Choisissez un mode de création"
     choose_delete_interventions_options: "Vous souhaitez :"
     choose_mail_column: "Veuillez choisir la colonne à utiliser pour le mailing"
@@ -1581,7 +1587,7 @@ fra:
     contact_support_to_delete_production: "Pour supprimer cette production, veuillez contacter le support par chat."
     contained_products: "Produits contenus"
     container: "Emplacement"
-    contains: "Contient" #?
+    contains: "Contient"
     content_products: "Produits contenus" #?
     contextual_help: "Aide contextuelle" #?
     convert: "Convertir"
@@ -1773,7 +1779,7 @@ fra:
     display_accounts: "Affichage des comptes"
     display_help: "Afficher l’aide" #?
     display_n_1: "Afficher N-1"
-    display_vat_details : "Afficher les détails de TVA"
+    display_vat_details: "Afficher les détails de TVA"
     distribute_unaffected_products: "Distribuer les produits non affectés"
     distributions: "Répartitions"
     district_x: "%{name} (%{code})" #?
@@ -2467,6 +2473,7 @@ fra:
     no_right_defined_for_this_part_of_the_application: "Aucun droit défini pour cette partie de l’application (%{controller}#%{action})"
     no_right_defined_for_this_part_of_the_application_and_this_user: "Aucun droit défini pour cette partie de l’application et l’utilisateur"
     no_sale_to_link_to_this_fixed_asset: "Aucune vente existante ne peut être rattachée à cette immobilisation."
+    # no_saved_salary: "No saved salary"
     no_tracking: "Aucun lot" #?
     no_transfers: "Aucun transfert à réaliser" #?
     nominal_storable_easement_area: "Surface de stockage au sol"
@@ -2605,7 +2612,7 @@ fra:
     phosphorus_concentration_per_hectare: "Teneur en phosphore par hectare" #?
     physical_h2: "Physique H2"
     phyto_data: "Données phytosanitaires"
-    phytosanitary_product_does_not_exists:  "Le numéro d’AMM de votre produit est inconnu : corrigez-le pour bénéficier des vérifications réglementaires"
+    phytosanitary_product_does_not_exists: "Le numéro d’AMM de votre produit est inconnu : corrigez-le pour bénéficier des vérifications réglementaires"
     picture: "Photo"
     placeholder: "Espace réservé"
     places: "Lieux"
@@ -2753,8 +2760,10 @@ fra:
     rain: "Pluviométrie" #?
     raw_income: "Résultat d’exploitation"
     raw_margin: "Marge brute" #?
-    re_entry_delay: "RÉENTRÉE"
-    re_entry_interval: "Délai de réentrée"
+    raw_matters: "Matières premières et approvisionnements" #?
+    raw_matters_total: "Matières premières et approvisionnements" #?
+    re_entry_delay: "RÉ-ENTRÉE"
+    re_entry_interval: "Délai de ré-entrée"
     reading_tasks: "Relevés d’indicateur"
     readings: "Relevés d’indicateur"
     ready: "Prêt(e)"
@@ -2895,6 +2904,7 @@ fra:
     save: "Enregistrer"
     save_and_go_to_x: "Enregistrer et passer à «\_%{x}\_»" #?
     save_in_draft: "Sauvegarder dans le brouillard"
+    save_salary: "Enregistrer un salaire"
     saved_but_couldnt_letter_x_and_y: "Les %{trade}/%{payment} ont été enregistrés mais n’ont pas pu être lettrés."
     scheduled: "Échéance"
     scrapped_on: "Mise au rebut le"
@@ -2987,6 +2997,7 @@ fra:
     source: "Source de données"
     sowable: "Semable" #?
     sowed_at: "Semé le" #?
+    spray_volume: "Volume de bouillie"
     spraying_map: "Carte de pulvérisation" #?
     standard: "Standard" #?
     standard_vat: "TVA Standard"
@@ -3013,10 +3024,17 @@ fra:
     stocks: "Stocks"
     stocks_by_calibrations: "Stock en terre par calibre" #?
     stocks_end_products: "Produits finis"
+    stocks_end_products_total: "Produits finis" #?
     stocks_in_ground: "Stock en terre" #?
+    stocks_middle_products: "Produits intermédiaires" #?
+    stocks_middle_products_total: "Produits intermédiaires" #?
     stocks_others_products: "Autres produits"
     stocks_preferences: "Gestion des stocks" #?
     stocks_supply: "Approvisionnements et marchandises"
+    stocks_supply_products: "En-cours de production de biens" #?
+    stocks_supply_products_total: "En-cours de production de biens" #?
+    stocks_supply_services: "En-cours de production de services" #?
+    stocks_supply_services_total: "En-cours de production de services" #?
     stocks_total: "Stocks" #?
     stocks_total_products: "Produits finis" #?
     stop: "Jusqu’au"
@@ -3184,6 +3202,7 @@ fra:
       shipped: "Expédié" #?
       waiting: "En attente" #?
     treatment: "Traitement" #?
+    treatment_type: "Type de traitement" #?
     trimester: "Trimestre"
     true: "Vrai" #?
     type_of_structure: "Type de structure"
@@ -3538,9 +3557,12 @@ fra:
       success: "Bien joué\_!"
       warning: "Attention\_!"
     messages:
-      access_denied: "Vous n’avez pas le droit d’accéder à cette page. %{reason} (%{url})"
+      access_denied: "Vous n’avez pas le droit d’accéder à cette page."
       accountant_notified: "Le comptable a bien été notifié"
       accountant_without_email: "Merci de renseigner l’email du comptable"
+      accounts_cannot_be_truncated_to_preference:
+        one: "Le compte comptable %{accounts} ne peut être tronqué à la préférence comptable sélectionnée (%{preference} caractères). Seul le zéro peut être automatiquement supprimé. Veuillez modifier ce compte comptable si vous souhaitez ajuster la préférence de la société à %{preference} caractères"
+        other: "Les comptes comptables %{accounts} ne peuvent être tronqués à la préférence comptable sélectionnée (%{preference} caractères). Seul le zéro peut être automatiquement supprimé. Veuillez modifier ces comptes comptables si vous souhaitez ajuster la préférence de la société à %{preference} caractères"
       # aggeratio_not_found: "The export requested was not found"
       all_fixed_assets_must_be_depreciable: "Tous les immobilisations doivent être amortissables"
       all_parcels_must_be_invoiceable_and_of_same_nature_and_third: "Tous les colis doivent être facturables de la même nature et au même tiers"
@@ -3549,6 +3571,7 @@ fra:
       all_tax_declarations_have_already_existing: "Toutes les déclarations de TVA existent déjà"
       an_error_was_raised_during_import: "Une erreur est survenue durant l'import."
       bad_file: "Le fichier ne semble pas correspondre." #?
+      before_add_a_land_parcel_add_a_x_html: "Avant d’ajouter une parcelle, vous devez d’abord ajouter\_: %{x}" #?
       bookkeeping_is_finished: "La bascule en comptabilité est finie."
       bookkeeping_works_only_with: "La bascule en comptabilité ne peut se faire actuellement que pour\_: %{list}."
       cannot_add_bank_statement_item: "Vous ne pouvez pas ajouter de nouvelle ligne parce que vous n’avez pas de relevé bancaire ce jour-là."
