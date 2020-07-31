@@ -10,11 +10,11 @@
   = infos do
     .med-info.important
       %span.title= :incoming_harvest_quantity.tl
-      %span.value= resource.quantity.localize
+      %span.value= resource.quantity.round_l
     - if tavp_item
       .med-info.important
         %span.title= Nomen::Indicator.find(:estimated_harvest_alcoholic_volumetric_concentration).human_name
-        %span.value= tavp_item.value.localize
+        %span.value= tavp_item.value.round_l
 
   = attributes_list(resource) do |l|
     - l.attribute :number

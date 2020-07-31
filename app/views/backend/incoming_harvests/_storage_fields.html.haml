@@ -1,4 +1,4 @@
 .nested-fields
-  = f.referenced_association :storage, label: :tank.tl
+  = f.referenced_association :storage, source: { scope: { of_variety: :tank }  }, label: :tank.tl
   = f.input :quantity_value, label: :must_volume.tl
   = link_to_remove_nested_association(:storages, f)

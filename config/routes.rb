@@ -66,5 +66,11 @@ Rails.application.routes.draw do
         get :list_storages
       end
     end
+
+    resources :incoming_harvest_plants, only: [] do
+      collection do
+        get :net_harvest_area
+      end
+    end
   end
 end

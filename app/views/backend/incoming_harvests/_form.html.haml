@@ -1,7 +1,7 @@
 = field_set do
-  = f.input :ticket_number
-  = f.input :received_at
-  = f.input :quantity, wrapper: :append do
+  = f.input :ticket_number, label: :reception_ticket.tl
+  = f.input :received_at, label: :reception_date_label.tl
+  = f.input :quantity, label: :received_quantity.tl, wrapper: :append do
     = f.input :quantity_value, wrapper: :simplest
     = f.input :quantity_unit, collection: %i[kilogram hectoliter].map { |u| [Nomen::Unit.find(u).human_name, u] }, include_blank: false, wrapper: :simplest
 
