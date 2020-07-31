@@ -1254,6 +1254,7 @@ fra:
     add_payslip: "Ajouter un salaire"
     add_payslip_payment: "Ajouter un paiement de salaire"
     add_phone: "Ajouter un n° de téléphone"
+    add_plant: "Ajouter une culture"
     add_plant_density_abacus: "Ajouter une table de référence de densité de semis"
     add_point: "Ajouter un point"
     add_polygon: "Ajouter un polygone"
@@ -1276,6 +1277,7 @@ fra:
     add_subscription_for_sale_line: "Ajouter un abonnement pour la ligne N°%{position}"
     add_support: "Ajouter un support de production"
     add_tactic: "Ajouter un itinéraire technique"
+    add_tank: "Ajouter une cuve"
     add_tool: "Ajouter un outil"
     add_two_hours_reentry_delay: "Ajouter 2h dans le cas d'une application en milieu fermé"
     add_website: "Ajouter un site web"
@@ -2372,6 +2374,7 @@ fra:
     moved_at: "Fait le" #?
     movements: "Mouvements"
     moves: "Mouvements de stocks" #?
+    must_volume: "Volume moût (hl)"
     n: "Non"
     name: "Nom"
     nature: "Type"
@@ -3051,6 +3054,7 @@ fra:
     supports_chart: "Graphique des supports" #?
     switch_accounting_plan: "Changer de plan de comptes"
     synthesis: "Synthèses"
+    tank: "Cuve"
     target: "Cible"
     target_name: "Nom de la cible" #?
     target_zone: "Zone cible" #?

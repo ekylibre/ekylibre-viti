@@ -136,7 +136,7 @@ eng:
         quantity_value: "Quantity"
         quantity_unit: "Unit"
       incoming_harvest_plant:
-        harvest_percentage_received: "% harvested"
+        harvest_percentage_received: "Area harvested (%)"
         net_harvest_area: "Area harvested (ha)"
         plant: "Plant"
       incoming_harvest_storage:

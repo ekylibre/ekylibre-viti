@@ -187,7 +187,7 @@ fra:
         quantity_value: "Quantité"
         quantity_unit: "Unité"
       incoming_harvest_plant:
-        harvest_percentage_received: "% récolté"
+        harvest_percentage_received: "Superficie récoltée (%)"
         net_harvest_area: "Superficie récoltée (ha)"
         plant: "Culture"
       incoming_harvest_storage:
