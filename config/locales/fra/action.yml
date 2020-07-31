@@ -2781,10 +2781,12 @@ fra:
     recent_historic: "Historique récent" #?
     reception: "Réception"
     reception_date: "Date de réception : %{date}" #?
+    reception_date_label: "Date de réception"
     reception_incident: "Réception en incident"
     reception_items: "Articles réceptionnés"
     reception_number: "N° du bon de réception"
     reception_number_with_reference: "N° du bon de réception : %{reference_number}" #?
+    reception_ticket: "Ticket de réception"
     receptions: "Réceptions"
     reconcile: "Rapprochée"
     reconciliate_with_purchases_orders: "Rapprocher avec une ou des commandes"
