@@ -38,11 +38,14 @@ class IncomingHarvest < Ekylibre::Record::Base
   # ]VALIDATORS]
   composed_of :quantity, class_name: 'Measure', mapping: [%w[quantity_value to_d], %w[quantity_unit unit]]
   acts_as_numbered :number, readonly: false
+
   refers_to :quantity_unit, class_name: 'Unit'
-  serialize :additional_informations, HashSerializer
 
   accepts_nested_attributes_for :plants
   accepts_nested_attributes_for :storages
+
+  serialize :additional_informations, HashSerializer
+  store_accessor :additional_informations, :pressing_schedule, :pressing_started_at, :sedimentation_duration, :vehicle_trailer, :harvest_transportation_duration, :last_load, :harvest_nature, :harvest_dock
 
   # before link campaign depends on received_at
   before_validation do
