@@ -1,5 +1,9 @@
 module EkylibreEkyviti
   class Engine < ::Rails::Engine
+    config.after_initialize do
+      ::Backend::BaseController.prepend_view_path EkylibreEkyviti::Engine.root.join('app/views')
+    end
+
     initializer :themes do |app|
       app.config.themes += %w[bordeaux cognac]
     end
