@@ -9,9 +9,9 @@ module EkylibreEkyviti
 
     def initialize
       @plugin_navigation_tree = Ekylibre::Navigation::Tree
-                                    .load_file(plugin_navigation_file_path,
-                                               :navigation,
-                                               %i[part group item])
+                                .load_file(plugin_navigation_file_path,
+                                           :navigation,
+                                           %i[part group item])
     end
 
     def build_new_tree

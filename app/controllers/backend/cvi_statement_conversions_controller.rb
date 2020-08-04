@@ -6,7 +6,7 @@ module Backend
 
     list(:cvi_cultivable_zones, selectable: true, model: :formatted_cvi_cultivable_zones, conditions: { cvi_statement_id: 'params[:id]'.c }, line_class: 'RECORD.land_parcels_status'.c) do |t|
       t.action :edit, url: { controller: 'cvi_cultivable_zones', action: 'edit', remote: true }
-      t.action :delete_modal, url: { controller: 'cvi_cultivable_zones', action: 'delete_modal', remote: true },  icon_name: 'delete'
+      t.action :delete_modal, url: { controller: 'cvi_cultivable_zones', action: 'delete_modal', remote: true }, icon_name: 'delete'
       t.column :name
       t.column :communes, label: :communes
       t.column :cadastral_references, label: :cadastral_references

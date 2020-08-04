@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module EkylibreEkyviti
   class DevInstallGenerator < Rails::Generators::Base
     source_root File.expand_path('templates', __dir__)

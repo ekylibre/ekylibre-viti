@@ -1,5 +1,3 @@
-# coding: utf-8
-
 module Map
   module BaseHelper
     def map_config(options = {})

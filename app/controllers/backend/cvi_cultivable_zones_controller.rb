@@ -120,7 +120,7 @@ module Backend
         cvi_cultivable_zone.update_shape!
         cvi_cultivable_zone.complete!
         redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
-      else 
+      else
         notify_error(:cvi_land_parcels_planting_campaign_invalid.tl)
         redirect_to action: 'show', id: cvi_cultivable_zone.id
       end
@@ -154,7 +154,7 @@ module Backend
 
     def permitted_params
       params.require(:cvi_cultivable_zone).permit(:name, :shape)
-        .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
+            .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
     end
   end
 end

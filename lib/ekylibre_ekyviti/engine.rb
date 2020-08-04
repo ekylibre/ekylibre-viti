@@ -13,7 +13,7 @@ module EkylibreEkyviti
     end
 
     initializer :extend_lexicon do |_app|
-      ::Lexicon.send(:include,EkylibreEkyviti::Lexicon)
+      ::Lexicon.include EkylibreEkyviti::Lexicon
     end
   end
 end

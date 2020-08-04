@@ -66,7 +66,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' } do
+    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { format: 'js' } do
       member do
         get :delete_modal
       end
