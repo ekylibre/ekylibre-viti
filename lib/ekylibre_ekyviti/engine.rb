@@ -12,5 +12,8 @@ module EkylibreEkyviti
       EkylibreEkyviti::ExtNavigation.add_navigation_xml_to_existing_tree
     end
 
+    initializer :extend_lexicon do |_app|
+      ::Lexicon.send(:include,EkylibreEkyviti::Lexicon)
+    end
   end
 end
