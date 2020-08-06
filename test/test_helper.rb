@@ -19,3 +19,5 @@
 #   ActionDispatch::IntegrationTest.fixture_path = ActiveSupport::TestCase.fixture_path
 #   ActiveSupport::TestCase.fixtures :all
 # end
+
+EkylibreEkyviti::Lexicon.execute_post_processing

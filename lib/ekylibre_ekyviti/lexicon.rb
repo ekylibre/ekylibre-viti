@@ -1,8 +1,7 @@
 module EkylibreEkyviti
   module Lexicon
-    extend ActiveSupport::Concern
+    class << self
 
-    class_methods do
       def execute_post_processing
         return unless post_processing_script.exist?
 
