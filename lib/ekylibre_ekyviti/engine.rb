@@ -15,5 +15,9 @@ module EkylibreEkyviti
     initializer :extend_lexicon do |_app|
       ::Lexicon.include EkylibreEkyviti::Lexicon
     end
+
+    initializer :i18n do |app|
+      app.config.i18n.load_path += Dir[EkylibreEkyviti::Engine.root.join('config', 'locales', '**', '*.yml')]
+    end
   end
 end
