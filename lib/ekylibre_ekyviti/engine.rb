@@ -23,5 +23,9 @@ module EkylibreEkyviti
     initializer :i18n do |app|
       app.config.i18n.load_path += Dir[EkylibreEkyviti::Engine.root.join('config', 'locales', '**', '*.yml')]
     end
+
+    initializer :extend_controllers do |_app|
+      ::Backend::ActivitiesController.include Backend::ActivitiesControllerExt
+    end
   end
 end
