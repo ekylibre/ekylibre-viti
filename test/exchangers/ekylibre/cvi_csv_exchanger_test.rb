@@ -1,9 +1,10 @@
 require 'test_helper'
+require_relative '../../test_helper'
 
 module Ekylibre
   class CviCsvExchangerTest < ActiveExchanger::TestCase
     setup do
-      @path = fixture_files_path.join('imports', 'ekylibre', 'cvi.csv')
+      @path = EkylibreEkyviti::Engine.root.join('test', 'fixture-files','imports', 'ekylibre','cvi.csv')
       @data = CSV.parse(File.read(@path), {headers: true}).map(&:to_h)
     end
 

@@ -1,9 +1,10 @@
 require 'test_helper'
+require_relative '../../test_helper'
 
 module Ekylibre
   class CviJsonExchangerTest < ActiveExchanger::TestCase
     setup do
-      @path = fixture_files_path.join('imports', 'ekylibre', 'cvi.json')
+      @path = EkylibreEkyviti::Engine.root.join('test', 'fixture-files','imports', 'ekylibre','cvi.json')
       @data = JSON.parse(File.read(@path))
     end
 
