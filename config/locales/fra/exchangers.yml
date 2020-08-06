@@ -1,0 +1,4 @@
+fra:
+  exchangers:
+    ekylibre_cvi_csv: "Casier viticole informatisé (CSV)"
+    ekylibre_cvi_json: "Casier viticole informatisé (JSON)"
