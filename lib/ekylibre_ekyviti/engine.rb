@@ -1,5 +1,9 @@
 module EkylibreEkyviti
   class Engine < ::Rails::Engine
+    config.after_initialize do
+      ::Backend::BaseController.prepend_view_path EkylibreEkyviti::Engine.root.join('app/views')
+    end
+
     initializer :themes do |app|
       app.config.themes += %w[bordeaux cognac]
     end
@@ -18,6 +22,10 @@ module EkylibreEkyviti
 
     initializer :i18n do |app|
       app.config.i18n.load_path += Dir[EkylibreEkyviti::Engine.root.join('config', 'locales', '**', '*.yml')]
+    end
+
+    initializer :extend_controllers do |_app|
+      ::Backend::ActivitiesController.include Backend::ActivitiesControllerExt
     end
   end
 end
