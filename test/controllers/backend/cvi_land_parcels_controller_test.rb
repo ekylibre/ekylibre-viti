@@ -1,4 +1,6 @@
 require 'test_helper'
+require_relative '../../test_helper'
+
 
 module Backend
   class CviLandParcelsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures

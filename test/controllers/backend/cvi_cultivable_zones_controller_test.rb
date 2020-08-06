@@ -1,4 +1,6 @@
 require 'test_helper'
+require_relative '../../test_helper'
+
 module Backend
   class CviCultivableZonesControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
     test_restfully_all_actions except: %i[show update delete_modal generate_cvi_land_parcels edit_cvi_land_parcels confirm_cvi_land_parcels index group reset reset_modal]
