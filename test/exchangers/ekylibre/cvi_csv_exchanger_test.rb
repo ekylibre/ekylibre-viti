@@ -4,8 +4,8 @@ require_relative '../../test_helper'
 module Ekylibre
   class CviCsvExchangerTest < ActiveExchanger::TestCase
     setup do
-      @path = EkylibreEkyviti::Engine.root.join('test', 'fixture-files','imports', 'ekylibre','cvi.csv')
-      @data = CSV.parse(File.read(@path), {headers: true}).map(&:to_h)
+      @path = EkylibreEkyviti::Engine.root.join('test', 'fixture-files', 'imports', 'ekylibre', 'cvi.csv')
+      @data = CSV.parse(File.read(@path), { headers: true }).map(&:to_h)
     end
 
     should 'create the right number of CVI statement' do
@@ -25,7 +25,7 @@ module Ekylibre
     should 'calculate the right total area' do
       Ekylibre::CviCsvExchanger.build(@path).run
       cvi_statement = CviStatement.last
-      cvi_cadastral_plants  = CviCadastralPlant.where(cvi_statement_id: cvi_statement.id)
+      cvi_cadastral_plants = CviCadastralPlant.where(cvi_statement_id: cvi_statement.id)
       cvi_cadastral_plants_total_area = cvi_cadastral_plants.map { |e| e.state == :planted ? e.area.to_f : 0 }.sum
       assert_equal cvi_statement.total_area.to_f, cvi_cadastral_plants_total_area
     end

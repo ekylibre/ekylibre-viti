@@ -25,7 +25,7 @@ module Backend
 
     describe('#update') do
       let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone) }
-      let(:params) { attributes_for(:cvi_cultivable_zone,name: 'new_name')}
+      let(:params) { attributes_for(:cvi_cultivable_zone, name: 'new_name') }
 
       it 'updates record' do
         xhr :put, :update, id: cvi_cultivable_zone.id, cvi_cultivable_zone: params

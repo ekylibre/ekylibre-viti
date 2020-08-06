@@ -1,5 +1,5 @@
 module Ekylibre
-  module CviComputation 
+  module CviComputation
     HEADER_CONVERSION = {
       'CVI_ID' => :cvi_number,
       'Date_Extraction' => :extraction_date,
@@ -23,7 +23,7 @@ module Ekylibre
       'Ecart_Rang' => :inter_row_distance,
       'Etat' => :state,
       'Mode_Faire_Valoir' => :type_of_occupancy,
-      'Date_Modification_Fonciere' => :land_modification_date 
+      'Date_Modification_Fonciere' => :land_modification_date
     }.freeze
 
     STATES = {
@@ -79,7 +79,7 @@ module Ekylibre
                                 designation_of_origins.first
                               end
 
-      vine_variety = MasterVineVariety.find_by(specie_name: h_cvi_statement[:grape_variety], category_name: ['Cépage','Hybride'])
+      vine_variety = MasterVineVariety.find_by(specie_name: h_cvi_statement[:grape_variety], category_name: ['Cépage', 'Hybride'])
       unless vine_variety
         message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_vine_variety', value: h_cvi_statement[:grape_variety])
         w.error message
@@ -109,25 +109,26 @@ module Ekylibre
       cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
       CviCadastralPlant.create!(
         h_cvi_statement.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }
-          .merge(cvi_statement_id: cvi_statement.id, 
-                 land_parcel_id: cadastral_land_parcel_zone.try('id'), 
-                 designation_of_origin_id: designation_of_origin.try('id'), 
-                 land_parcel_number: h_cvi_statement[:land_parcel_number] && h_cvi_statement[:land_parcel_number].rjust(2,"0"),
-                 vine_variety_id: vine_variety.id, 
-                 rootstock_id: rootstock.try('id'), 
+          .merge(cvi_statement_id: cvi_statement.id,
+                 land_parcel_id: cadastral_land_parcel_zone.try('id'),
+                 designation_of_origin_id: designation_of_origin.try('id'),
+                 land_parcel_number: h_cvi_statement[:land_parcel_number] && h_cvi_statement[:land_parcel_number].rjust(2, "0"),
+                 vine_variety_id: vine_variety.id,
+                 rootstock_id: rootstock.try('id'),
                  area: h_cvi_statement[:area],
-                 location: Location.create(registered_postal_zone_id: registered_postal_zone.id, locality: h_cvi_statement[:locality])
-          )
+                 location: Location.create(registered_postal_zone_id: registered_postal_zone.id, locality: h_cvi_statement[:locality]))
       )
     end
 
     def import_cvi_statements(h_cvi_statement)
       cvi_statement = CviStatement.find_by(cvi_number: h_cvi_statement[:cvi_number])
-      return  CviStatement.create!(
-        h_cvi_statement.to_h
-          .select { |key, _| CVI_STATEMENT_KEYS.include? key }
-          .merge(cadastral_sub_plant_count: 1, cadastral_plant_count: 1, total_area: h_cvi_statement[:area])
-      ) unless cvi_statement
+      unless cvi_statement
+        return CviStatement.create!(
+          h_cvi_statement.to_h
+            .select { |key, _| CVI_STATEMENT_KEYS.include? key }
+            .merge(cadastral_sub_plant_count: 1, cadastral_plant_count: 1, total_area: h_cvi_statement[:area])
+        )
+      end
       total_area = cvi_statement.total_area
       total_area += h_cvi_statement[:area] if h_cvi_statement[:state] == :planted
       cadastral_sub_plant_count = cvi_statement.cadastral_sub_plant_count + 1
@@ -141,7 +142,7 @@ module Ekylibre
 
     def convert_types(h_cvi_statement)
       %i[extraction_date land_modification_date].each do |key|
-        h_cvi_statement[key] = Date.soft_parse(h_cvi_statement[key]) unless h_cvi_statement[key].blank?
+        h_cvi_statement[key] = Date.soft_parse(h_cvi_statement[key]) if h_cvi_statement[key].present?
       end
 
       %i[inter_vine_plant_distance inter_row_distance].each do |header|
@@ -150,9 +151,9 @@ module Ekylibre
 
       %i[ha_area ar_area ca_area].each do |key|
         h_cvi_statement[key] = if h_cvi_statement[key]
-                                h_cvi_statement[key].to_i
-                              else
-                                0
+                                 h_cvi_statement[key].to_i
+                               else
+                                 0
                               end
       end
     end

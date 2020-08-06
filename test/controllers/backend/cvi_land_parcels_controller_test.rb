@@ -1,7 +1,6 @@
 require 'test_helper'
 require_relative '../../test_helper'
 
-
 module Backend
   class CviLandParcelsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
     test_restfully_all_actions except: %i[edit_multiple update_multiple index update group split pre_split index new_vine_activity_params]
@@ -9,7 +8,7 @@ module Backend
     describe('#index') do
       let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_land_parcels) }
 
-      it 'return the right number of cvi_land_parcel' do 
+      it 'return the right number of cvi_land_parcel' do
         get :index, id: cvi_cultivable_zone.id
         assert_equal cvi_cultivable_zone.cvi_land_parcels.count, JSON.parse(response.body).count
       end

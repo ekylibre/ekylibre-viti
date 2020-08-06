@@ -1,7 +1,6 @@
 module EkylibreEkyviti
   module Lexicon
     class << self
-
       def execute_post_processing
         return unless post_processing_script.exist?
 

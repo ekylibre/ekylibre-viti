@@ -1,9 +1,8 @@
 require 'test_helper'
 
 class GenerateCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
+  ATTRIBUTES = %w[commune locality planting_campaign designation_of_origin_id vine_variety_id inter_vine_plant_distance_value inter_row_distance_value inter_vine_plant_distance_unit inter_row_distance_unit state rootstock_id].freeze
 
-  ATTRIBUTES = %w[commune locality planting_campaign designation_of_origin_id vine_variety_id inter_vine_plant_distance_value inter_row_distance_value inter_vine_plant_distance_unit inter_row_distance_unit state rootstock_id].freeze  
-  
   describe("GenerateCviLandParcels.call") do
     let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_cadastral_plants) }
 

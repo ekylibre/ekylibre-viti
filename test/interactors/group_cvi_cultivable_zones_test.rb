@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class GroupCviCultivableZonesTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
-
   describe('GroupCviCultivableZonesTest.call') do
     describe('cvi_cultivable_zones are not groupable') do
       let(:cvi_cultivable_zones) { create_list(:cvi_cultivable_zone, 2) }

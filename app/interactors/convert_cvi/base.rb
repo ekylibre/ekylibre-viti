@@ -17,12 +17,12 @@ module ConvertCvi
 
     private
 
-      attr_reader :cvi_statement, :activity_open_from
+    attr_reader :cvi_statement, :activity_open_from
 
-      def check_activities
-        return unless cvi_statement.cvi_land_parcels.pluck(:activity_id).include?(nil)
+    def check_activities
+      return unless cvi_statement.cvi_land_parcels.pluck(:activity_id).include?(nil)
 
-        context.fail!(error: :missing_activity_on_cvi_land_parcel)
-      end
+      context.fail!(error: :missing_activity_on_cvi_land_parcel)
+    end
   end
 end

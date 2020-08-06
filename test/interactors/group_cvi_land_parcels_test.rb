@@ -11,7 +11,7 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
         GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
         assert_equal cvi_land_parcels, CviLandParcel.find(cvi_land_parcels.collect(&:id))
       end
-      
+
       it "return an error message with different attributes" do
         result = GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
         assert :can_not_group_cvi_land_parcels, result.error
@@ -26,7 +26,7 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
         GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
         assert_equal cvi_land_parcels, CviLandParcel.find(cvi_land_parcels.collect(&:id))
       end
-      
+
       it "return an error message" do
         result = GroupCviLandParcels.call(cvi_land_parcels: cvi_land_parcels)
         assert result.error.include?('intersection')
@@ -62,7 +62,7 @@ class GroupCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithFixt
         cvi_land_parcel = CviLandParcel.last
         main_cvi_cadastral_plant = cvi_land_parcel.cvi_cadastral_plants.order(:area_value).last
         assert_equal main_cvi_cadastral_plant.planting_campaign, cvi_land_parcel.planting_campaign
-        assert_equal main_cvi_cadastral_plant.rootstock_id , cvi_land_parcel.rootstock_id
+        assert_equal main_cvi_cadastral_plant.rootstock_id, cvi_land_parcel.rootstock_id
       end
 
       it 'destroy grouped cvi_land_parcels' do

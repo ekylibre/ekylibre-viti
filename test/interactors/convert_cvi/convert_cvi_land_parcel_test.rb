@@ -21,9 +21,9 @@ module ConvertCvi
       assert_equal 'headland_cultivation', created_activity_production.support_nature
       assert_equal Hash['cvi_land_parcel_id', cvi_land_parcel.id], created_activity_production.providers
       assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i - 1, activity.production_started_on.month, activity.production_started_on.day),
-                    created_activity_production.started_on
+                   created_activity_production.started_on
       assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i, activity.production_stopped_on.month, activity.production_stopped_on.day),
-                    created_activity_production.stopped_on
+                   created_activity_production.stopped_on
     end
 
     test 'open_activity for all campaign from the planting campaign to the next campaign' do

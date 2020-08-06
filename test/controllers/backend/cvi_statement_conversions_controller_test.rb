@@ -1,7 +1,6 @@
 require 'test_helper'
 require_relative '../../test_helper'
 
-
 module Backend
   class CviStatementConversionsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
     test_restfully_all_actions class_name: 'CviStatement', except: %i[show create reset convert_modal convert]
@@ -19,13 +18,13 @@ module Backend
     end
 
     test '#show raise error if conversion doesn\'t exist' do
-      assert_raises(ActiveRecord::RecordNotFound) do 
+      assert_raises(ActiveRecord::RecordNotFound) do
         get :show, id: @cvi_statement.id
       end
     end
 
     test '#show respond with success' do
-      get :show, id: @valid_cvi_statement, locale: @locale 
+      get :show, id: @valid_cvi_statement, locale: @locale
       assert_response :success
       assert_not_nil assigns(:cvi_statement)
     end
@@ -35,7 +34,7 @@ module Backend
       assert_equal @campaign, @cvi_statement.reload.campaign
     end
 
-    test '#create redirect to #show' do 
+    test '#create redirect to #show' do
       post :create, id: @cvi_statement.id, campaign: @campaign.name
       assert_redirected_to backend_cvi_statement_conversion_path(@cvi_statement)
     end

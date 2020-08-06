@@ -52,11 +52,11 @@ module ConvertCvi
         usage: :fruit,
         planting_campaign: planting_campaign,
         started_on: Date.new(cvi_land_parcel.planting_campaign.to_i - 1,
-                              activity.production_started_on.month,
-                              activity.production_started_on.day),
+                             activity.production_started_on.month,
+                             activity.production_started_on.day),
         stopped_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i,
-                              activity.production_stopped_on.month,
-                              activity.production_stopped_on.day),
+                             activity.production_stopped_on.month,
+                             activity.production_stopped_on.day),
         providers: { 'cvi_land_parcel_id' => cvi_land_parcel.id }
       )
     end
@@ -77,7 +77,7 @@ module ConvertCvi
       index = " n° #{plant_with_same_name + 1}" if plant_with_same_name.positive?
 
       variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
-      start_at = Time.new(cvi_land_parcel.planting_campaign.to_i, 1, 1)
+      start_at = Time.zone.local(cvi_land_parcel.planting_campaign.to_i, 1, 1)
       vine_variety = cvi_land_parcel.vine_variety
       certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra if cvi_land_parcel.designation_of_origin
       plant = Plant.create!(variant_id: variant.id,
@@ -100,6 +100,6 @@ module ConvertCvi
 
     private
 
-      attr_accessor :activity, :context, :cvi_land_parcel,:activity_production, :activity_open_from, :planting_campaign, :cultivable_zone
+    attr_accessor :activity, :context, :cvi_land_parcel, :activity_production, :activity_open_from, :planting_campaign, :cultivable_zone
   end
 end

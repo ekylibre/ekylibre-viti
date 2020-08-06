@@ -17,8 +17,8 @@ class GroupCviLandParcels < ApplicationInteractor
     @new_shape = CviLandParcel.select('St_AStext(ST_Buffer(ST_Union(ARRAY_AGG(ST_Buffer(shape,0.000001,\'join=mitre\'))),-0.000001,\'join=mitre\')) AS shape').where(id: context.cvi_land_parcels.collect(&:id))[0].shape.to_rgeo.simplify(0.05)
     geometry_type = @new_shape.geometry_type
     unless geometry_type == RGeo::Feature::Polygon
-      context.fail!(error: ::I18n.t(:can_not_group_no_intersection, 
-                                    name_pluralized: CviLandParcel.model_name.human.pluralize.downcase, 
+      context.fail!(error: ::I18n.t(:can_not_group_no_intersection,
+                                    name_pluralized: CviLandParcel.model_name.human.pluralize.downcase,
                                     scope: [:notifications, :messages]))
     end
     attributes_with_differente_values = ATTRIBUTES.map do |a|
@@ -51,19 +51,19 @@ class GroupCviLandParcels < ApplicationInteractor
   def set_main_rootstock
     rootstocks_percentages = context.new_cvi_land_parcel.cvi_cadastral_plant_cvi_land_parcels.map do |ccp_clp|
       { rootstock_id: ccp_clp.cvi_cadastral_plant.rootstock_id, percentage: ccp_clp.percentage }
-    end.group_by{ |x| x[:rootstock_id]}.map do |key,value| 
-      { rootstock_id: key, percentage: value.inject(0) {|sum,hash| sum + hash[:percentage]}}
+    end.group_by{ |x| x[:rootstock_id] }.map do |key, value|
+      { rootstock_id: key, percentage: value.inject(0) { |sum, hash| sum + hash[:percentage] } }
     end
-    context.new_cvi_land_parcel.update_attribute('rootstock_id', rootstocks_percentages.max { |a, b| a[:percentage] <=> b[:percentage]}[:rootstock_id])
+    context.new_cvi_land_parcel.update_attribute('rootstock_id', rootstocks_percentages.max { |a, b| a[:percentage] <=> b[:percentage] }[:rootstock_id])
   end
 
   def set_main_campaign
     rootstocks_percentages = context.new_cvi_land_parcel.cvi_cadastral_plant_cvi_land_parcels.map do |ccp_clp|
       { campaign: ccp_clp.cvi_cadastral_plant.planting_campaign, percentage: ccp_clp.percentage }
-    end.group_by{ |x| x[:campaign]}.map do |key,value| 
-      { campaign: key, percentage: value.inject(0) {|sum,hash| sum + hash[:percentage]}}
+    end.group_by{ |x| x[:campaign] }.map do |key, value|
+      { campaign: key, percentage: value.inject(0) { |sum, hash| sum + hash[:percentage] } }
     end
-    context.new_cvi_land_parcel.update_attribute( 'planting_campaign', rootstocks_percentages.max { |a, b| a[:percentage] <=> b[:percentage]}[:campaign])
+    context.new_cvi_land_parcel.update_attribute( 'planting_campaign', rootstocks_percentages.max { |a, b| a[:percentage] <=> b[:percentage] }[:campaign])
   end
 
   def create_associated_locations
