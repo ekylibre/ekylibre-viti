@@ -66,3 +66,4 @@
             = link_to(destroy_user_session_path, :method => :delete, class: :signout) do
               %i
               = Authentication::SessionsController.human_action_name(:destroy)
+  %duke{data: {current_account: current_user.email, current_tenant: Ekylibre::Tenant.current} }

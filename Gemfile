@@ -215,6 +215,9 @@ gem 'twitter-typeahead-rails'
 # Iconic font
 gem 'agric', '~> 4.1'
 
+# Duke String Matching
+gem 'fuzzy-string-match', require: "fuzzystringmatch"
+
 # Web services
 gem 'mechanize'
 gem 'rest-client', require: false
