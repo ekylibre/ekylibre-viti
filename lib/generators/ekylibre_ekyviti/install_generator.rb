@@ -17,5 +17,9 @@ module EkylibreEkyviti
     def update_i18n_js
       rake('i18n:js:export')
     end
+
+    def generate_sql_vues
+      rake('lexicon:post_processing')
+    end
   end
 end
