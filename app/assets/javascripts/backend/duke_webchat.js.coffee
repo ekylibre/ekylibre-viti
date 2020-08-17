@@ -1,15 +1,18 @@
 $(document).behave "load", "duke[data-current-account]", ->
   account = $(this).data('current-account')
   tenant = $(this).data('current-tenant')
+  watson_integration = $(this).data('watson-integration')
+  watson_region = $(this).data('watson-region')
+  watson_service = $(this).data('watson-service')
   # Function that sets the tenant as a watson context element
   preSendhandler = (event) ->
     event.data.context.skills['main skill'].user_defined.tenant = tenant
     return
 
   window.watsonAssistantChatOptions =
-    integrationID: '83d060b5-1f82-4dff-9d3b-8692d6aa8c03'
-    region: 'eu-gb'
-    serviceInstanceID: 'b70a176e-5c5a-4df1-a352-712aa192231d'
+    integrationID: watson_integration
+    region: watson_region
+    serviceInstanceID: watson_service
     onLoad: (instance) ->
       instance.render()
       instance.on
