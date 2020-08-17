@@ -24,7 +24,7 @@ module Duke
             level, saved_hash, list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, saved_hash, list)
           end
           Equipment.all.where("variety='tank'").each do |tank|
-            level, saved_hash, list = compare_elements(combo, tank[:name], index, level, tank[:name], destination, saved_hash, list)
+            level, saved_hash, list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, saved_hash, list)
           end
           # If we recognized something, we append it to the correct list and we remove what matched from the user_input
           unless saved_hash.nil?
@@ -187,7 +187,7 @@ module Duke
           list = nil
           # Iterating through varieties
           Equipment.all.where("variety='tank'").each do |tank|
-            level, saved_hash, list = compare_elements(combo, tank[:name], index, level, tank[:name], destination, saved_hash, list)
+            level, saved_hash, list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, saved_hash, list)
           end
           # If we recognized something, we append it to the correct list and we remove what matched from the user_input
           unless saved_hash.nil?
@@ -305,22 +305,24 @@ module Duke
         if parsed[:parameters]['quantity']['unit'] == "tonne"
           parsed[:parameters]['quantity']['rate'] *= 1000
         end
+
+        analysis = Analysis.create!({
+         nature: "vine_harvesting_analysis",
+         analysed_at: Time.zone.parse(intervention_date),
+         sampled_at: Time.zone.parse(intervention_date),
+         items_attributes: create_analysis_attributes(parsed)}
+        )
+
         incomingHarvest = IncomingHarvest.create!({
           received_at: Time.zone.parse(intervention_date),
           storages_attributes: storages_attributes,
           quantity_value: parsed[:parameters]['quantity']['rate'].to_s,
           quantity_unit: ("kilogram" if ["kg","tonne"].include?(parsed[:parameters]['quantity']['unit' ])) || "hectoliter",
+          analysis: analysis,
           plants_attributes: targets_attributes,
           pressing_schedule: (parsed[:parameters]['pressing']['program'] if !parsed[:parameters]['pressing'].nil?) || "",
           pressing_started_at: (parsed[:parameters]['pressing']['hour'] if !parsed[:parameters]['pressing'].nil?) || ""})
 
-        analysis = Analysis.create!({
-         nature: "vine_harvesting_analysis",
-         number: incomingHarvest['id'].to_s,
-         analysed_at: Time.zone.parse(intervention_date),
-         sampled_at: Time.zone.parse(intervention_date),
-         items_attributes: create_analysis_attributes(parsed)}
-        )
         return {"link" => "\\backend\\incoming_harvests\\"+incomingHarvest['id'].to_s}
       end
     end
