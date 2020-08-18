@@ -80,7 +80,109 @@ module Duke
       # When there's no match, it should return : - previous_distance , previous_best_hash, previous_list_to_append
       assert_equal(DukeParsing.compare_elements("blatte trop", "Bouleytreau", [1,2,3], 0.90, "item-id", target_list, nil, nil),
                   [0.90, nil, nil],
-                  "Matching between a combo & an item did not return correctly")
+                  "Not matching elements did not return correctly when comparing")
+    end
+
+    test 'concatenate two parameters arrays' do
+      old = {"tav"=>"12.3", "temperature"=>"18", "quantity"=>{"rate"=>200, "unit"=>"kg"}, "ph"=>"12", "nitrogen"=>"12.5", "sanitarystate"=>nil, "malic"=>nil, "h2so4"=>"4", "operatorymode"=>"manual", "pressing"=>nil}
+      new = {"tav"=>"14.5", "quantity"=>nil, "temperature"=>nil, "ph"=>nil, "nitrogen"=>nil, "sanitarystate"=>"sain botrytis ", "malic"=>"12", "h2so4"=>nil, "operatorymode"=>nil, "pressing"=>nil}
+      assert_equal(DukeParsing.concatenate_analysis(old, new),
+                                                   {"tav"=>"14.5",
+                                                    "quantity"=>{"rate"=>200, "unit"=>"kg"},
+                                                    "temperature"=>"18",
+                                                    "ph"=>"12",
+                                                    "nitrogen"=>"12.5",
+                                                    "sanitarystate"=>"sain botrytis ",
+                                                    "malic"=>"12",
+                                                    "h2so4"=>"4",
+                                                    "operatorymode"=>"manual",
+                                                    "pressing"=>nil},
+                                                    "Can't concatenate two analysis")
+    end
+
+    test 'regex extraction' do
+      assert_equal(DukeParsing.extract_quantity("120 kg", {})[1]['quantity'],
+                                               {"rate" => 120, "unit" => "kg"},
+                                                "Basic Quantity regex failed")
+      assert_equal(DukeParsing.extract_quantity("12,4 hectos", {})[1]['quantity'],
+                                               {"rate" => 12.4, "unit" => "hl"},
+                                                "Coma Quantity regex failed")
+      assert_equal(DukeParsing.extract_quantity("3.8 tonnes", {})[1]['quantity'],
+                                               {"rate" => 3.8, "unit" => "tonne"},
+                                                "Dot Quantity regex failed")
+      assert_equal(DukeParsing.extract_conflicting_degrees("température de 17,4 degrés", {})[1]['temperature'],
+                                                            "17.4",
+                                                           "Conflicting degrees regex failed")
+      assert_equal(DukeParsing.extract_conflicting_degrees("degré d'alcool de 12,4 degrés", {})[1]['tav'],
+                                                           "12.4",
+                                                           "Conflicting degrees regex failed")
+      assert_equal(DukeParsing.extract_tav("12,3 de tavp", {})[1]['tav'],
+                                           "12.3",
+                                           "TAVP regex failed")
+      assert_equal(DukeParsing.extract_tav("12,5 degrés d'alcool", {})[1]['tav'],
+                                           "12.5",
+                                           "TAVP regex failed")
+      assert_equal(DukeParsing.extract_temp("18 °", {})[1]['temperature'],
+                                            "18",
+                                            "Temperature regex failed")
+      assert_equal(DukeParsing.extract_temp("19 degrés", {})[1]['temperature'],
+                                            "19",
+                                            "TAVP regex failed")
+      assert_equal(DukeParsing.extract_ph("péage de 3,7", {})[1]['ph'],
+                                          "3.7",
+                                          "pH regex failed")
+      assert_equal(DukeParsing.extract_ph("3.9 de ph", {})[1]['ph'],
+                                          "3.9",
+                                          "pH regex failed")
+      assert_equal(DukeParsing.extract_nitrogen("12,4 milligrammes de sel d'ammonium", {})[1]['nitrogen'],
+                                                "12.4",
+                                                "nitrogen regex failed")
+      assert_equal(DukeParsing.extract_nitrogen("azote était égal à 42", {})[1]['nitrogen'],
+                                                "42",
+                                                "nitrogen regex failed")
+      assert_equal(DukeParsing.extract_sanitarystate("sain et botrytis", {})[1]['sanitarystate'],
+                                                     "sain botrytis ",
+                                                     "SanitaryState regex failed")
+      assert_equal(DukeParsing.extrat_h2SO4("8,2 grammes par litre d'acide", {})[1]['h2so4'],
+                                            "8.2",
+                                            "H2So4 regex failed")
+      assert_equal(DukeParsing.extrat_h2SO4("acidité égale à 3 grammes", {})[1]['h2so4'],
+                                            "3",
+                                            "H2So4 regex failed")
+      assert_equal(DukeParsing.extract_malic("12.5 grammes d'acide malique", {})[1]['malic'],
+                                             "12.5",
+                                             "Malic regex failed")
+      assert_equal(DukeParsing.extract_malic("Acide malique à 3,5", {})[1]['malic'],
+                                             "3.5",
+                                             "Malic regex failed")
+      assert_equal(DukeParsing.extract_operatoryMode("Récolte manuelle", {})[1]['operatorymode'],
+                                                     "manuel",
+                                                     "OperatoryMode regex failed")
+      assert_equal(DukeParsing.extract_duration_fr("Pendant 45 minutes")[0],
+                                                   45,
+                                                   "Did not match work duration correctly")
+      assert_equal(DukeParsing.extract_duration_fr("Travail de 2 heures")[0],
+                                                   120,
+                                                   "Did not match work duration correctly")
+      assert_equal(DukeParsing.extract_duration_fr("Travail de 3h40")[0],
+                                                   220,
+                                                   "Did not match work duration correctly")
+      yes = Date.yesterday
+      assert_equal(DukeParsing.extract_date_fr("hier à 13h54")[0],
+                                               DateTime.new(yes.year, yes.month, yes.day, 13, 54, 0, "+02:00"),
+                                               "Did not match work duration correctly")
+      assert_equal(DukeParsing.extract_date_fr("Le 14 juillet au matin")[0],
+                                               DateTime.new(yes.year, 7, 14, 10, 0, 0, "+02:00"),
+                                               "Did not match work duration correctly")
+    end
+    test 'plant area extraction' do
+      assert_equal(DukeParsing.extract_plant_area("50% de bernessard", [{:key=>85, :name=>"Bernessard", :indexes=>[2], :distance=>1}]),
+                                                  [{:key=>85, :name=>"Bernessard", :indexes=>[2], :distance=>1, :area=>50}],
+                                                  "Could not find percentage of a plant")
+
+      assert_equal(DukeParsing.extract_plant_area("Sur Bernessard", [{:key=>85, :name=>"Bernessard", :indexes=>[1], :distance=>1}]),
+                                                  [{:key=>85, :name=>"Bernessard", :indexes=>[1], :distance=>1, :area=>100}],
+                                                  "Does not attribute 100% of a plant when not specified")
     end
   end
 end

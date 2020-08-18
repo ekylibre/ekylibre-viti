@@ -312,7 +312,7 @@ module Duke
 
     def extract_tav(content, parameters)
       # Extracting tav data
-      tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +((degré|°|%) *(de *|en *)?(d\'|de|en) *(alcool)|(de|en|du) *(tav(p)?|avp|t svp|t avait))'
+      tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +((degré(s)?|°|%) *(de *|en *)?(d\'|de|en) *(alcool)|(de|en|du) *(tav(p)?|avp|t svp|t avait))'
       tav = content.match(tav_regex)
       if not parameters.key?('tav')
         if tav
@@ -342,7 +342,7 @@ module Duke
 
     def extract_ph(content, parameters)
       # Extracting ph data
-      ph_regex = '(\d{1,2}|\d{1,2}\.\d{1,2}) +(de +)?(ph|péage)'
+      ph_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +(de +)?(ph|péage)'
       second_ph_regex = '((ph|péage) *(est|était)? *(égal *(a|à)? *|= ?|de +|à +)?)(\d{1,2}(\.|,)\d{1,2}|\d{1,2})'
       ph = content.match(ph_regex)
       if ph
@@ -360,16 +360,16 @@ module Duke
 
     def extract_nitrogen(content, parameters)
       # Extracting nitrogen data
-      nitrogen_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(mg|milligramme)?.?(par ml|\/ml|par millilitre)? ?+(d\'|de|en)? ?+(azote|sel d\'ammonium|substance(s)? azotée)'
-      second_nitrogen_regex = '((azote|sel d\'ammonium|substance azotée) *(est|était)? *(égal +|= ?|de +|à +)?)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
+      nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par ml|\/ml|par millilitre)? ?+(d\'|de|en)? ?+(azote|sel d\'ammonium|substance(s)? azotée)'
+      second_nitrogen_regex = '((azote|sel d\'ammonium|substance azotée) *(est|était)? *(égal +|= ?|de +)?(à)? *)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       nitrogen = content.match(nitrogen_regex)
       if nitrogen
         content[nitrogen[0]] = ""
-        parameters['nitrogen'] = nitrogen[1] # nitrogen is the first capturing group
+        parameters['nitrogen'] = nitrogen[1].gsub(',','.') # nitrogen is the first capturing group
       elsif content.match(second_nitrogen_regex)
         nitrogen = content.match(second_nitrogen_regex)
         content[nitrogen[0]] = ""
-        parameters['nitrogen'] = nitrogen[5] # nitrogen is the third capturing group
+        parameters['nitrogen'] = nitrogen[6].gsub(',','.') # nitrogen is the third capturing group
       else
         parameters['nitrogen'] = nil
       end
@@ -378,32 +378,30 @@ module Duke
 
     def extract_sanitarystate(content, parameters)
       # Extracting sanitary state data
-      sanitarystate = {}
+      sanitarystate = ""
+      if content.include? "sain " || content.include?("sein")
+        sanitarystate += "sain "
+      end
       if content.include?("botrytis") || content.include?("beau titre is")
-        sanitarystate['botrytis'] = true
-      else
-        sanitarystate['botrytis'] = false
+        sanitarystate += "botrytis "
       end
       if content.include?("oidium") || content.include?("oïdium")
         content["dium"] = ""
-        sanitarystate['oïdium'] = true
-      else
-        sanitarystate['oïdium'] = false
+        sanitarystate += "oïdium "
       end
       if content.include? "pourriture"
         content["pourriture"] = ""
-        sanitarystate['acidity'] = true
-      else
-        sanitarystate['acidity'] = false
+        sanitarystate += "pourriture "
       end
-      parameters['sanitarystate'] = sanitarystate
+      state = sanitarystate if sanitarystate != "" || nil
+      parameters['sanitarystate'] = state
       return content, parameters
     end
 
     def extrat_h2SO4(content, parameters)
       # Extracting H2SO4 data
-      h2so4_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(g|gramme)?.?(par l|\/l|par litre)? ?+(d\'|de|en)? ?+(acidité|acide|h2so4)'
-      second_h2so4_regex = '((acide|acidité|h2so4) *(est|était)? *(égal +|= ?|de +|à +)?)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
+      h2so4_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(g|gramme)?.? *(par l|\/l|par litre)? ?+(d\'|de|en)? ?+(acidité|acide|h2so4)'
+      second_h2so4_regex = '(acide|acidité|h2so4) *(est|était)? *(égal.? *(a|à)?|=|de|à|a)? *(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       h2so4 = content.match(h2so4_regex)
       if h2so4
         content[h2so4[0]] = ""
@@ -420,7 +418,7 @@ module Duke
 
     def extract_malic(content, parameters)
       # Extracting malic acid data
-      malic_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) *(g|gramme)?.?(par l|\/l|par litre)? *(d\'|de|en)? *(acide?) *(malique|malic)'
+      malic_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) *(g|gramme)?.?(par l|\/l|par litre)? *(d\'|de|en)? *(acide?) *(malique|malic)'
       second_malic_regex = '((acide *)?(malic|malique) *(est|était)? *(égal +|= ?|de +|à +)?)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       malic = content.match(malic_regex)
       if malic
@@ -440,48 +438,12 @@ module Duke
       # Extracting operatorymode data
       if content.include?('manuel')
         content['manuel'] = ""
-        parameters['operatorymode'] = "manual"
+        parameters['operatorymode'] = "manuel"
       elsif content.include?('mécanique')
         content['mécanique'] == ""
-        parameters['operatorymode'] = "mecanic"
+        parameters['operatorymode'] = "mecanique"
       else
         parameters['operatorymode'] = nil
-      end
-      return content, parameters
-    end
-
-    def extract_tSO2(content, parameters)
-      # Extracting TSO2 data
-      tso2_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(g|gramme)?.?(par hl|\/hl|par hecto *(litre?))? ?+(d\'|de|en)? ?+(souffre|(t)?so2|dioxyde de souffre|anhydride sulfureux)'
-      second_tso2_regex = '(souffre|(t)?so2|dioxyde de souffre|anhydride sulfureux) *(est|était)? *(égal +|= ?|de +|à +)?(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
-      tso2 = content.match(tso2_regex)
-      if tso2
-        content[tso2[0]] = ""
-        parameters['tso2'] = tso2[1] # tso2 is the first capturing group
-      elsif content.match(second_tso2_regex)
-        tso2 = content.match(second_tso2_regex)
-        content[tso2[0]] = ""
-        parameters['tso2'] = tso2[5] # tso2 is the third capturing group
-      else
-        parameters['tso2'] = nil
-      end
-      return content, parameters
-    end
-
-    def extract_carbonicIce(content, parameters)
-      # Extracting carbonic ice data
-      carbonicice_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(kg|kilo(gramme)?)?.?(par hl|\/hl|par hecto *(litre?))? ?+(d\'|de|en)? ?+(glace carbonique|neige carbonique|glace sèche|co2)'
-      second_carbonicice_regex = '(co2|neige carbonique|glace sèche|glace carbonique) *(est|était)? *(égal +|= ?|de +|à +)?(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
-      carbonicice = content.match(carbonicice_regex)
-      if carbonicice
-        content[carbonicice[0]] = ""
-        parameters['carbonicice'] = carbonicice[1] # carbonicice is the first capturing group
-      elsif content.match(second_carbonicice_regex)
-        carbonicice = content.match(second_carbonicice_regex)
-        content[carbonicice[0]] = ""
-        parameters['carbonicice'] = carbonicice[4] # carbonicice is the third capturing group
-      else
-        parameters['carbonicice'] = nil
       end
       return content, parameters
     end
@@ -495,7 +457,7 @@ module Duke
     def extract_plant_area(content, crops)
       # For each found target
       crops.each do |target|
-        # Find the string that matched
+        # Find the string that matched, ie "Jeunes Plants" when index is [3,4]
         indexes = target[:indexes]
         recon_target = ""
         indexes.each do |index|
@@ -510,7 +472,7 @@ module Duke
         first_area = content.match(first_area_regex)
         if first_area
           # If we found a percentage, append it as the area value
-          target[:area] = first_area[1]
+          target[:area] = first_area[1].to_i
         elsif content.match(second_area_regex)
           # If we found an area, convert it in percentage of Total area and append it
           second_area = content.match(second_area_regex)
@@ -532,11 +494,10 @@ module Duke
       return crops
     end
 
-    # Utils functions, that can be used in multiple functionalities
+    # Utils functions, that could be used in multiple functionalities
 
     def find_missing_parameters(parsed)
       # Find what we should ask the user next for an harvest reception
-      required_params = ["tav"] # This shouldn't been hardcoded
       if parsed[:targets].to_a.empty?
         return "ask_plant", nil, nil
       end
@@ -551,10 +512,8 @@ module Duke
         sentence, optional = create_destination_quantity_sentence(parsed)
         return "ask_destination_quantity", sentence, optional
       end
-      required_params.each do |mandatory_param|
-        if parsed[:parameters][mandatory_param].nil?
-          return "ask_"+mandatory_param.to_s, nil, nil
-        end
+      if parsed[:parameters]["tav"].nil?
+        return "ask_tav", nil, nil
       end
       return "save", create_reception_sentence(parsed)
     end
@@ -569,13 +528,6 @@ module Duke
         elsif value.nil?
           if not parameters[key].nil?
             final_parameters[key] = parameters[key]
-          end
-        end
-      end
-      final_parameters['sanitarystate'].each do |key, value|
-        if not value
-          if parameters['sanitarystate'][key]
-            final_parameters['sanitarystate'][key] = true
           end
         end
       end
