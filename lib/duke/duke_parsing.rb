@@ -157,7 +157,7 @@ module Duke
             "3"=>{"_destroy"=>"false", "indicator_name"=>"assimilated_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['nitrogen'], "measure_value_unit"=>"milligram_per_liter"},
             "4"=>{"_destroy"=>"false", "indicator_name"=>"total_acid_concentration", "measure_value_value"=>parsed[:parameters]['h2so4'], "measure_value_unit"=>"gram_per_liter"},
             "5"=>{"_destroy"=>"false", "indicator_name"=>"malic_acid_concentration", "measure_value_value"=>parsed[:parameters]['malic'], "measure_value_unit"=>"gram_per_liter"},
-            "6"=>{"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=>parsed[:parameters]['sanitarystate'].to_s}}
+            "6"=>{"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> (parsed[:parameters]['sanitarystate'] if !parsed[:parameters]['sanitarystate'].nil?) || "Rien à signaler" }}
     end
     # Extracting functions, regex / including
 
