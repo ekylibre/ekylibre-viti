@@ -1,15 +1,13 @@
 module Duke
   class DukeParsing
-
     @@fuzzloader = FuzzyStringMatch::JaroWinkler.create( :pure )
-    I18n.locale = :fra
 
     # All functions that are creating sentences for Duke to respond
 
     def create_intervention_sentence(params)
       # Create validation sentence for InterventionSkill
-      sentence_pool = ["Voulez vous enregistrer une intervention ", "Validez vous la saisie d'une intervention ", "Confirmez vous l'enregistrement d'une intervention "]
-      sentence = sentence_pool[rand(0...sentence_pool.length())]
+      I18n.locale = :fra
+      sentence = I18n.t("duke.interventions.save_intervention_#{rand(0...3)}")
       sentence += "#{Procedo::Procedure.find(params[:procedure]).human_name}"
       sentence += "#{speak_inputs(params[:inputs])}#{speak_tool(params[:equipments])}#{speak_crop_groups(params[:crop_groups])}#{speak_workers(params[:workers])}"
       return sentence
@@ -17,8 +15,8 @@ module Duke
 
     def create_reception_sentence(params)
       # Create validation sentence for HarvestReceptionSkill
-      sentence_pool = ["Validez vous la réception de vendanges suivante :", "Voulez vous saisir la réception de vendanges suivante :"]
-      sentence = sentence_pool[rand(0...sentence_pool.length())]
+      I18n.locale = :fra
+      sentence = I18n.t("duke.harvest_reception.save_harvest_reception_#{rand(0...2)}")
       sentence+= "<br>&#8226 Culture(s) : "
       params[:targets].each do |target|
         sentence += target[:area].to_s+"% "+target[:name]+", "
@@ -59,8 +57,8 @@ module Duke
     def create_destination_quantity_sentence(params)
       # Function that create sentence to ask for quantity in a specific destination
       # Return the sentence, and the index of the destination inside params[:destination] as an optional value
-      sentence_pool = ["Combien d'hectolitres de vendanges sont allés dans la ", "Combien d'hectolitres ont été transférés vers la "]
-      sentence = sentence_pool[rand(0...sentence_pool.length())]
+      I18n.locale = :fra
+      sentence = I18n.t("duke.harvest_reception.how_much_to_#{rand(0...2)}")
       params[:destination].each_with_index do |cuve, index|
         if not cuve.key?("quantity")
           sentence += cuve[:name]
