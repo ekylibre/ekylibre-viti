@@ -34,12 +34,12 @@ module Duke
     end
 
     test '(not)? adding a recognized element to its list' do
+      target_list = [{:key=>4, :name=>"Jeunes plants", :indexes=>[3, 4], :distance=>0.97}]
       saved_hash_no_index = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[3, 4, 5, 6], :distance=>0.95}
       saved_hash_yes_index = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[3, 4, 5, 6], :distance=>0.98}
       saved_hash_no_other_list = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[10, 11], :distance=>0.98}
       saved_hash_yes_other_list = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[7, 8], :distance=>0.99}
       saved_hash_yes = {:key=>6, :name=>"Plantations nouvelles 2019", :indexes=>[5, 6], :distance=>0.95}
-      target_list = [{:key=>4, :name=>"Jeunes plants", :indexes=>[3, 4], :distance=>0.97}]
       all_lists = [[{:key=>8, :name=>"Massey-Fergusson 140", :indexes=>[7, 8], :distance=>0.92}],
                    [{:key=>74, :name=>"Frédéric", :indexes=>[10], :distance=>1.0}],
                    [],
@@ -183,6 +183,10 @@ module Duke
       assert_equal(DukeParsing.extract_plant_area("Sur Bernessard", [{:key=>85, :name=>"Bernessard", :indexes=>[1], :distance=>1}]),
                                                   [{:key=>85, :name=>"Bernessard", :indexes=>[1], :distance=>1, :area=>100}],
                                                   "Does not attribute 100% of a plant when not specified")
+      # should try to find total area of inexistant target & raise NoMethodError
+      assert_raises NoMethodError do
+        DukeParsing.extract_plant_area("Sur 1 hectare de Bernessard", [{:key=>123456789, :name=>"Bernessard", :indexes=>[4], :distance=>1}])
+      end
     end
   end
 end

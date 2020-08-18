@@ -21,18 +21,18 @@ module Duke
           saved_hash = nil
           list = nil
           # Iterating through workers : Search for full name and first name only
-          Worker.all.each do |worker|
+          Worker.availables(at: intervention_date).each do |worker|
             level, saved_hash, list = compare_elements(combo, worker[:name], index, level, worker[:id], workers, saved_hash, list)
             level, saved_hash, list = compare_elements(combo, worker[:name].split[0], index, level, worker[:id], workers, saved_hash, list)
           end
           # Iterating through equipments
-          Equipment.all.each do |eq|
+          Equipment.availables(at: intervention_date).each do |eq|
             level, saved_hash, list = compare_elements(combo, eq[:name], index, level, eq[:id], equipments, saved_hash, list)
           end
           # Iterating through inputs if the procedure type includes inputs
           unless Procedo::Procedure.find(procedure).parameters_of_type(:input).empty?
             #TODO: Find nature_id of the current procedure
-            Matter.all.where("nature_id=45").each do |input|
+            Matter.availables(at: intervention_date).where("nature_id=45").each do |input|
               level, saved_hash, list = compare_elements(combo, input[:name], index, level, input[:id], inputs, saved_hash, list)
             end
           end
@@ -75,19 +75,19 @@ module Duke
           saved_hash = nil
           list = nil
           # Iterating through equipments
-          Worker.all.each do |worker|
+          Worker.availables(at: intervention_date).each do |worker|
             level, saved_hash, list = compare_elements(combo, worker[:name], index, level, worker[:id], new_workers, saved_hash, list)
             level, saved_hash, list = compare_elements(combo, worker[:name].split[0], index, level, worker[:id], new_workers, saved_hash, list)
           end
           unless Procedo::Procedure.find(procedure).parameters_of_type(:input).empty?
-            Matter.all.where("nature_id=45").each do |input|
+            Matter.availables(at: intervention_date).where("nature_id=45").each do |input|
               level, saved_hash, list = compare_elements(combo, input[:name], index, level, input[:id], new_inputs, saved_hash, list)
             end
           end
           CropGroup.all.each do |cropg|
             level, saved_hash, list = compare_elements(combo, cropg[:name], index, level, cropg[:id], new_crop_groups, saved_hash, list)
           end
-          Equipment.all.each do |eq|
+          Equipment.availables(at: intervention_date).each do |eq|
             level, saved_hash, list = compare_elements(combo, eq[:name], index, level, eq[:id], new_equipments, saved_hash, list)
           end
           # If we recognized something, and there's no interferences, we append it to the correct list

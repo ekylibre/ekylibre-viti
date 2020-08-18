@@ -19,11 +19,11 @@ module Duke
           saved_hash = nil
           list = nil
           # Iterating through varieties
-          Plant.all.each do |pl|
+          Plant.availables(at: intervention_date).each do |pl|
             level, saved_hash, list = compare_elements(combo, pl['specie_variety']['specie_variety_name'], index, level, pl['specie_variety']['specie_variety_name'], species, saved_hash, list)
             level, saved_hash, list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, saved_hash, list)
           end
-          Equipment.all.where("variety='tank'").each do |tank|
+          Equipment.availables(at: intervention_date).where("variety='tank'").each do |tank|
             level, saved_hash, list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, saved_hash, list)
           end
           # If we recognized something, we append it to the correct list and we remove what matched from the user_input
@@ -155,7 +155,7 @@ module Duke
           saved_hash = nil
           list = nil
           # Iterating through varieties
-          Plant.all.uniq.each do |pl|
+          Plant.availables(at: parsed[:intervention_date]).uniq.each do |pl|
             level, saved_hash, list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, saved_hash, list)
           end
           # If we recognized something, we append it to the correct list and we remove what matched from the user_input
@@ -186,7 +186,7 @@ module Duke
           saved_hash = nil
           list = nil
           # Iterating through varieties
-          Equipment.all.where("variety='tank'").each do |tank|
+          Equipment.availables(at: parsed[:intervention_date]).where("variety='tank'").each do |tank|
             level, saved_hash, list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, saved_hash, list)
           end
           # If we recognized something, we append it to the correct list and we remove what matched from the user_input
@@ -212,6 +212,8 @@ module Duke
         # Finding when it happened and how long it lasted, + getting cleaned user_input
         duration, user_input = extract_duration_fr(params[:user_input].downcase)
         intervention_date, user_input = extract_date_fr(user_input)
+        new_date = choose_date(params[:parsed][:intervention_date], intervention_date)
+        new_duration = choose_duration(params[:parsed][:duration], duration)
         # Create all combos of 1 to 4 words from the inputs , with their indexes, to use for matching
         user_inputs_combos = self.create_words_combo(user_input)
         # Iterate through all user's combo of words (with their indexes)
@@ -221,11 +223,11 @@ module Duke
           saved_hash = nil
           list = nil
           # Iterating through varieties
-          Plant.all.each do |pl|
+          Plant.availables(at: new_date).each do |pl|
             level, saved_hash, list = compare_elements(combo, pl['specie_variety']['specie_variety_name'], index, level, pl['specie_variety']['specie_variety_name'], new_species, saved_hash, list)
             level, saved_hash, list = compare_elements(combo, pl[:name], index, level, pl[:id], new_targets, saved_hash, list)
           end
-          Equipment.all.where("variety='tank'").each do |tank|
+          Equipment.availables(at: new_date).where("variety='tank'").each do |tank|
             level, saved_hash, list = compare_elements(combo, tank[:name], index, level, tank[:name], new_destination, saved_hash, list)
           end
           # If we recognized something, we append it to the correct list and we remove what matched from the user_input
@@ -238,8 +240,8 @@ module Duke
                   :species =>  uniq_conc(new_species,params[:parsed][:species].to_a),
                   :destination => uniq_conc(new_destination, params[:parsed][:destination].to_a),
                   :parameters => params[:parsed][:parameters],
-                  :duration => choose_duration(params[:parsed][:duration], duration),
-                  :intervention_date => choose_date(params[:parsed][:intervention_date], intervention_date),
+                  :duration => new_duration,
+                  :intervention_date => new_date,
                   :user_input => params[:parsed][:user_input] << ' - (Autre) ' << params[:user_input]}
         # Find if crucials parameters haven't been given, to ask again to the user
         what_next, sentence, optional = find_missing_parameters(parsed)
