@@ -1,12 +1,14 @@
 $(document).behave "load", "duke[data-current-account]", ->
   account = $(this).data('current-account')
   tenant = $(this).data('current-tenant')
+  language = $(this).data('current-language')
   watson_integration = $(this).data('watson-integration')
   watson_region = $(this).data('watson-region')
   watson_service = $(this).data('watson-service')
   # Function that sets the tenant as a watson context element
   preSendhandler = (event) ->
     event.data.context.skills['main skill'].user_defined.tenant = tenant
+    event.data.context.skills['main skill'].user_defined.language = language
     return
 
   window.watsonAssistantChatOptions =
