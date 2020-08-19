@@ -4,7 +4,7 @@ module Duke
 
     # All functions that are creating sentences for Duke to respond
 
-    def create_intervention_sentence(params)
+    def speak_intervention(params)
       # Create validation sentence for InterventionSkill
       I18n.locale = :fra
       sentence = I18n.t("duke.interventions.save_intervention_#{rand(0...3)}")
@@ -13,7 +13,7 @@ module Duke
       return sentence
     end
 
-    def create_reception_sentence(params)
+    def speak_harvest_reception(params)
       # Create validation sentence for HarvestReceptionSkill
       I18n.locale = :fra
       sentence = I18n.t("duke.harvest_reception.save_harvest_reception_#{rand(0...2)}")
@@ -54,9 +54,9 @@ module Duke
       return sentence
     end
 
-    def create_destination_quantity_sentence(params)
+    def speak_destination_hl(params)
       # Function that create sentence to ask for quantity in a specific destination
-      # Return the sentence, and the index of the destination inside params[:destination] as an optional value
+      # Return the sentence, and the index of the destination inside params[:destination] to transfer as an optional value to IBM
       I18n.locale = :fra
       sentence = I18n.t("duke.harvest_reception.how_much_to_#{rand(0...2)}")
       params[:destination].each_with_index do |cuve, index|
@@ -167,16 +167,16 @@ module Duke
         regex = '\d+\s(\w*minute\w*|mins)'
         regex2 = '(de|pendant|durée) *(\d)\s?(heures|h|heure)\s?(\d\d)'
         regex3 = '(de|pendant|durée) *(\d)\s?(h\b|h\s|heure)'
-        if content.include? "1 quart d'heure"
-          content["1 quart d'heure"] = ""
-          return 15, content.strip.gsub(/\s+/, " ")
-        end
         if content.include? "trois quarts d'heure"
-          content["3 quart d'heure"] = ""
+          content["trois quart d'heure"] = ""
           return 45, content.strip.gsub(/\s+/, " ")
         end
-        if content.include? "1 demi heure"
-          content["1 demi heure"] = ""
+        if content.include? "quart d'heure"
+          content["quart d'heure"] = ""
+          return 15, content.strip.gsub(/\s+/, " ")
+        end
+        if content.include? "demi heure"
+          content["demi heure"] = ""
           return 30, content.strip.gsub(/\s+/, " ")
         end
         min_time = content.match(regex)
@@ -312,7 +312,7 @@ module Duke
       # Extracting tav data
       tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +((degré(s)?|°|%) *(de *|en *)?(d\'|de|en) *(alcool)|(de|en|du) *(tav(p)?|avp|t svp|t avait))'
       tav = content.match(tav_regex)
-      if not parameters.key?('tav')
+      unless parameters.key?('tav')
         if tav
           content[tav[0]] = ""
           parameters['tav'] = tav[1].gsub(',','.') # rate is the first capturing group
@@ -327,7 +327,7 @@ module Duke
       # Extracting temperature data
       temp_regex = '(\d{1,2}|\d{1,2}\.\d{1,2}) +(degré|°)'
       temp = content.match(temp_regex)
-      if not parameters.key?('temperature')
+      unless parameters.key?('temperature')
         if temp
           content[temp[0]] = ""
           parameters['temperature'] = temp[1].gsub(',','.') # temperature is the first capturing group
@@ -453,6 +453,7 @@ module Duke
     end
 
     def extract_plant_area(content, crops)
+      # new crops = crops.map => + key :area
       # For each found target
       crops.each do |target|
         # Find the string that matched, ie "Jeunes Plants" when index is [3,4]
@@ -468,21 +469,21 @@ module Duke
         first_area_regex = /(\d{1,2}) *(%|pour( )?cent(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
         second_area_regex = /(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) *((hect)?are(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
         first_area = content.match(first_area_regex)
+        second_area = content.match(second_area_regex)
+        # If we found a percentage, append it as the area value
         if first_area
-          # If we found a percentage, append it as the area value
           target[:area] = first_area[1].to_i
-        elsif content.match(second_area_regex)
-          # If we found an area, convert it in percentage of Total area and append it
-          second_area = content.match(second_area_regex)
+        # If we found an area, convert it in percentage of Total area and append it
+        elsif second_area
           area = second_area[1].gsub(',','.').to_f
-          if !second_area[3].match(/hect/)
-            area = area.to_f/100
+          unless second_area[3].match(/hect/)
+            area = area/100
           end
-          whole_area = Plant.where("id=#{target[:key]}")[0][:reading_cache][:net_surface_area].to_f
-          if (100*area/whole_area).to_i <= 100
-            target[:area] = (100*area/whole_area).to_i
-          else
-            target[:area] = 100
+          target[:area] = 100
+          whole_area = Plant.find_by(id: target[:key])&.net_surface_area&.to_f
+          area_pct = (100*area/whole_area).to_i
+          if !whole_area.zero? && (area_pct <= 100)
+            target[:area] = area_pct
           end
         else
           # Otherwise area = 100%
@@ -507,24 +508,23 @@ module Duke
       end
       # If we have more that one destination, and no quantity specified for at least one, ask for it
       if parsed[:destination].to_a.length > 1 and parsed[:destination].any? {|dest| !dest.key?("quantity")}
-        sentence, optional = create_destination_quantity_sentence(parsed)
+        sentence, optional = speak_destination_hl(parsed)
         return "ask_destination_quantity", sentence, optional
       end
       if parsed[:parameters]["tav"].nil?
         return "ask_tav", nil, nil
       end
-      return "save", create_reception_sentence(parsed)
+      return "save", speak_harvest_reception(parsed)
     end
 
     def concatenate_analysis(parameters, new_parameters)
-      # For harvesing receptions, concatenate previous found parameters and new one created for the occasion
-      final_parameters = new_parameters
-      # Final parameter is the new one, on which we append the quantity value, and all values that were but are not anymore
-      final_parameters.each do |key, value|
+      # For harvesing receptions, concatenate previous found parameters and new one given by the user
+      final_parameters =  new_parameters.dup.map(&:dup).to_h
+      new_parameters.each do |key, value|
         if key == "quantiy"
           final_parameters[key] = parameters[key]
         elsif value.nil?
-          if not parameters[key].nil?
+          unless parameters[key].nil?
             final_parameters[key] = parameters[key]
           end
         end
@@ -550,8 +550,8 @@ module Duke
     end
 
     def choose_date(date1, date2)
-      # Select a date between two, to find if there's one in those which was manually inputed by the user
-      # Date.now is the default value, so if the value returned is more than 15 away from now, we select it
+      #Select a date between two, to find if there's one in those which was manually inputed by the user
+      #Date.now is the default value, so if the value returned is more than 15 away from now, we select it
       if (date1.to_datetime - DateTime.now).abs >= 0.010
         return date1
       else
@@ -560,8 +560,8 @@ module Duke
     end
 
     def choose_duration(duration1, duration2)
-      # Select a duration between two, to find if there's one in those which was manually inputed by the user
-      # Default duration is 60, so select the first one if differents, otherwise the second
+      #Select a duration between two, to find if there's one in those which was manually inputed by the user
+      #Default duration is 60, so select the first one if differents, otherwise the second
       if duration1 != 60
         return duration1
       else
@@ -580,25 +580,22 @@ module Duke
     end
 
     def add_to_recognize_final(saved_hash, list, all_lists)
-      # Function that adds elements to a list of recognized items only if no other elements uses the same words to match
-      # or if this word has a lower fuzzmatch, #all_lists are all the lists where no overlapping entites can be found
-      # If no element inside any of the lists has the same words used to match an element
-      if not all_lists.any? {|list1| list1.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty?}}
-        # Then check for eventual duplicates in the list & append if clear
-        bln_append, list = key_duplicate_append?(list, saved_hash)
-        if bln_append
+      #Function that adds elements to a list of recognized items only if no other elements uses the same words to match or if this word has a lower fuzzmatch
+      #If no element inside any of the lists has the same words used to match an element (overlapping indexes)
+      if not all_lists.any? {|aList| aList.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty?}}
+        hasDuplicate, list = key_duplicate?(list, saved_hash)
+        unless hasDuplicate
           list.push(saved_hash)
         end
       # Else if one or multiple elements uses the same words -> if the distance is greater for this hash -> Remove other ones and add this one
-      elsif not all_lists.any? {|list1| list1.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty? and recon_element[:distance] >= saved_hash[:distance]}}
-        # Check for duplicates in the list, if clear : -> remove values from all lists whith indexes overlapping and add to our list
-        bln_append, list = key_duplicate_append?(list, saved_hash)
-        if bln_append
-          all_lists.each do |list1| list1.each do |recon_element|
-            if  !(recon_element[:indexes] & saved_hash[:indexes]).empty?
-              list1.delete(recon_element)
-            end
-          end
+      elsif not all_lists.any? {|aList| aList.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty? and recon_element[:distance] >= saved_hash[:distance]}}
+        # Check for duplicates in the list, if clear : -> remove value from any list with indexes overlapping and add current match to our list
+        hasDuplicate, list = key_duplicate?(list, saved_hash)
+        unless hasDuplicate
+          list_where_removing = all_lists.find{ |aList| aList.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty?}}
+          unless list_where_removing.nil?
+            item_to_remove = list_where_removing.find {|hash|!(hash[:indexes] & saved_hash[:indexes]).empty?}
+            list_where_removing.delete(item_to_remove)
           end
           list.push(saved_hash)
         end
@@ -606,28 +603,15 @@ module Duke
       return list
     end
 
-
     def create_words_combo(user_input)
-      # Creating all combos of 1 - 4 words following each other to match with entities
-      # Working but could be done in a more elegant way !!
-      user_inputs_combos = {}
-      user_input_words = user_input.split()
-      for combo_length in 1..4
-        (1..user_input_words.length()).to_a.combination(combo_length).to_a.each do |combo|
-          # Only act if the words are following each other
-          if combo[-1] - combo[0] <= combo_length - 1
-            array_string_to_append = []
-            array_indexes = []
-            # Create the new string & append it yo all the combos
-            combo.each do |combo_index|
-              array_indexes.push(combo_index -1)
-              array_string_to_append.push(user_input_words[combo_index - 1])
-            end
-            user_inputs_combos[array_indexes] = array_string_to_append.join(" ")
-          end
+      # "Je suis ton " becomes { [0] => "Je", [0,1] => "Je suis", [0,1,2] => "Je suis ton", [1] => "suis", [1,2] => "suis ton", [2] => "ton"}
+      good_combos = {}
+      (0..user_input.split().length).to_a.combination(2).to_a.each do |index_combo|
+        if index_combo[0] + 4 >= index_combo[1]
+          good_combos[(index_combo[0]..index_combo[1]-1).to_a] = user_input.split()[index_combo[0]..index_combo[1]-1].join(" ")
         end
       end
-      return user_inputs_combos
+      return good_combos
     end
 
     def compare_elements(string1, string2, indexes, level, key, append_list, saved_hash, rec_list)
@@ -650,33 +634,27 @@ module Duke
 
     def uniq_conc(array1, array2)
       # Concatenate two "recognized items" arrays, by making sure there's not 2 values with the same key
+      new_array = array1.dup.map(&:dup)
       array2.each do |hash|
-        boolean, array1 = key_duplicate_append?(array1, hash)
-        if (boolean)
-          array1.push(hash)
+        hasDuplicate, new_array = key_duplicate?(new_array, hash)
+        unless hasDuplicate
+          new_array.push(hash)
         end
       end
-      return array1
+      return new_array
     end
 
-    def key_duplicate_append?(list, saved_hash)
-      # Function that checks if we can append saved_hash to list
-      # If there's already an element with the same key, it checks for the distance
-      # It responds true, or false + the cleaned list on which we can append if true
+    def key_duplicate?(list, saved_hash)
+      # Is there a duplicate in the list ? + List we want to keep using. List Mutation allows us to persist modification
+      # -> No Duplicate : no + current list, Duplicate -> Distance(+/-)=No/Yes + Current list (with/without duplicate)
       if not list.any? {|recon_element| recon_element[:key] == saved_hash[:key]}
+        return false, list
+      elsif not list.any? {|recon_element| recon_element[:key] == saved_hash[:key] and saved_hash[:distance] >= recon_element[:distance] }
         return true, list
       else
-        list.each do |recon_element|
-          # Otherwise, the recognized_element with the same key : => if greatest distance, we dont append, or we remove it and append the new one
-          if recon_element[:key] == saved_hash[:key]
-            if recon_element[:distance] >= saved_hash[:distance]
-              return false, list
-            else
-              list.delete(recon_element)
-              return true, list
-            end
-          end
-        end
+        item_to_remove = list.find {|hash| hash[:key] == saved_hash[:key]}
+        list.delete(item_to_remove)
+        return false, list
       end
     end
   end

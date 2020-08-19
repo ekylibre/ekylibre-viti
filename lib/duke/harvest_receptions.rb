@@ -14,21 +14,21 @@ module Duke
         user_inputs_combos = self.create_words_combo(user_input)
         # Iterate through all user's combo of words (with their indexes)
         user_inputs_combos.each do |index, combo|
-          # Define minimum matching level, initialize saved_hash and recognized list to None
+          # Define minimum matching level, initialize matching_element and recognized matching_list to None
           level = 0.90
-          saved_hash = nil
-          list = nil
+          matching_element = nil
+          matching_list = nil
           # Iterating through varieties
           Plant.availables(at: intervention_date).each do |pl|
-            level, saved_hash, list = compare_elements(combo, pl['specie_variety']['specie_variety_name'], index, level, pl['specie_variety']['specie_variety_name'], species, saved_hash, list)
-            level, saved_hash, list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, pl['specie_variety']['specie_variety_name'], index, level, pl['specie_variety']['specie_variety_name'], species, matching_element, matching_list)
+            level, matching_element, matching_list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, matching_element, matching_list)
           end
           Equipment.availables(at: intervention_date).where("variety='tank'").each do |tank|
-            level, saved_hash, list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, matching_element, matching_list)
           end
-          # If we recognized something, we append it to the correct list and we remove what matched from the user_input
-          unless saved_hash.nil?
-            list = add_to_recognize_final(saved_hash, list, [targets, species, destination])
+          # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
+          unless matching_element.nil?
+            matching_list = add_to_recognize_final(matching_element, matching_list, [targets, species, destination])
           end
         end
         targets = extract_plant_area(user_input, targets)
@@ -150,17 +150,17 @@ module Duke
         user_inputs_combos = self.create_words_combo(params[:user_input].downcase)
         # Iterate through all user's combo of words (with their indexes)
         user_inputs_combos.each do |index, combo|
-          # Define minimum matching level, initialize saved_hash and recognized list to None
+          # Define minimum matching level, initialize matching_element and recognized matching_list to None
           level = 0.90
-          saved_hash = nil
-          list = nil
+          matching_element = nil
+          matching_list = nil
           # Iterating through varieties
           Plant.availables(at: parsed[:intervention_date]).uniq.each do |pl|
-            level, saved_hash, list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, matching_element, matching_list)
           end
-          # If we recognized something, we append it to the correct list and we remove what matched from the user_input
-          unless saved_hash.nil?
-            list = add_to_recognize_final(saved_hash, list, [targets])
+          # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
+          unless matching_element.nil?
+            matching_list = add_to_recognize_final(matching_element, matching_list, [targets])
           end
         end
         targets = extract_plant_area(params[:user_input].downcase, targets)
@@ -181,17 +181,17 @@ module Duke
         user_inputs_combos = self.create_words_combo(params[:user_input].downcase)
         # Iterate through all user's combo of words (with their indexes)
         user_inputs_combos.each do |index, combo|
-          # Define minimum matching level, initialize saved_hash and recognized list to None
+          # Define minimum matching level, initialize matching_element and recognized matching_list to None
           level = 0.90
-          saved_hash = nil
-          list = nil
+          matching_element = nil
+          matching_list = nil
           # Iterating through varieties
           Equipment.availables(at: parsed[:intervention_date]).where("variety='tank'").each do |tank|
-            level, saved_hash, list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, matching_element, matching_list)
           end
-          # If we recognized something, we append it to the correct list and we remove what matched from the user_input
-          unless saved_hash.nil?
-            list = add_to_recognize_final(saved_hash, list, [destination])
+          # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
+          unless matching_element.nil?
+            matching_list = add_to_recognize_final(matching_element, matching_list, [destination])
           end
         end
         parsed[:destination] = destination
@@ -218,21 +218,21 @@ module Duke
         user_inputs_combos = self.create_words_combo(user_input)
         # Iterate through all user's combo of words (with their indexes)
         user_inputs_combos.each do |index, combo|
-          # Define minimum matching level, initialize saved_hash and recognized list to None
+          # Define minimum matching level, initialize matching_element and recognized matching_list to None
           level = 0.90
-          saved_hash = nil
-          list = nil
+          matching_element = nil
+          matching_list = nil
           # Iterating through varieties
           Plant.availables(at: new_date).each do |pl|
-            level, saved_hash, list = compare_elements(combo, pl['specie_variety']['specie_variety_name'], index, level, pl['specie_variety']['specie_variety_name'], new_species, saved_hash, list)
-            level, saved_hash, list = compare_elements(combo, pl[:name], index, level, pl[:id], new_targets, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, pl['specie_variety']['specie_variety_name'], index, level, pl['specie_variety']['specie_variety_name'], new_species, matching_element, matching_list)
+            level, matching_element, matching_list = compare_elements(combo, pl[:name], index, level, pl[:id], new_targets, matching_element, matching_list)
           end
           Equipment.availables(at: new_date).where("variety='tank'").each do |tank|
-            level, saved_hash, list = compare_elements(combo, tank[:name], index, level, tank[:name], new_destination, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, tank[:name], index, level, tank[:name], new_destination, matching_element, matching_list)
           end
-          # If we recognized something, we append it to the correct list and we remove what matched from the user_input
-          unless saved_hash.nil?
-            list = add_to_recognize_final(saved_hash, list, [new_targets, new_species, new_destination])
+          # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
+          unless matching_element.nil?
+            matching_list = add_to_recognize_final(matching_element, matching_list, [new_targets, new_species, new_destination])
           end
         end
         new_targets = extract_plant_area(user_input.downcase, new_targets)
