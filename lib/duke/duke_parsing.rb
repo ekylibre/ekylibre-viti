@@ -26,28 +26,28 @@ module Duke
       sentence+= "<br>&#8226 Destination : "
       params[:destination].each do |destination|
         sentence+= destination[:name]
-        if destination.key?('quantity')
-          sentence+= ' ('+destination[:quantity].to_s+' hl)'
-        end
-        sentence+=', '
+        sentence+= ' ('+destination[:quantity].to_s+' hl), ' if destination.key?('quantity')
       end
       sentence+= "<br>&#8226 TAVP : "+params[:parameters]['tav'].to_s+" % vol"
-      if !params[:parameters]['temperature'].nil?
-        sentence+= "<br>&#8226 Température : "+params[:parameters]['temperature']+ "°C"
+      unless params[:parameters]['temperature'].nil?
+        sentence+= "<br>&#8226 Température : "+params[:parameters]['temperature']+ " °C"
       end
-      if !params[:parameters]['h2so4'].nil?
-        sentence+= "<br>&#8226 H2SO4 : "+params[:parameters]['h2so4']
+      unless params[:parameters]['h2so4'].nil?
+        sentence+= "<br>&#8226 H2SO4 : "+params[:parameters]['h2so4']+" g/L"
       end
-      if !params[:parameters]['ph'].nil?
+      unless params[:parameters]['malic'].nil?
+        sentence+= "<br>&#8226 Acide Malique : "+params[:parameters]['malic']+" g/L"
+      end
+      unless params[:parameters]['ph'].nil?
         sentence+= "<br>&#8226 pH : "+params[:parameters]['ph']
       end
-      if !params[:parameters]['nitrogen'].nil?
-        sentence+= "<br>&#8226 Azote : "+params[:parameters]['nitrogen']
+      unless params[:parameters]['nitrogen'].nil?
+        sentence+= "<br>&#8226 Azote : "+params[:parameters]['nitrogen']+ " mg/mL"
       end
-      if !params[:parameters]['operatorymode'].nil?
+      unless params[:parameters]['operatorymode'].nil?
         sentence+= "<br>&#8226 Mode Opératoire : "+params[:parameters]['operatorymode']
       end
-      if !params[:parameters]['pressing'].nil?
+      unless params[:parameters]['pressing'].nil?
         sentence+= "<br>&#8226 Pressurage spécifié"
       end
       # speaking inputs
@@ -55,12 +55,12 @@ module Duke
     end
 
     def speak_destination_hl(params)
-      # Function that create sentence to ask for quantity in a specific destination
+      # Creates "How much hectoliters in Cuve 1 ?"
       # Return the sentence, and the index of the destination inside params[:destination] to transfer as an optional value to IBM
       I18n.locale = :fra
       sentence = I18n.t("duke.harvest_reception.how_much_to_#{rand(0...2)}")
       params[:destination].each_with_index do |cuve, index|
-        if not cuve.key?("quantity")
+        unless cuve.key?("quantity")
           sentence += cuve[:name]
           return sentence, index
         end
@@ -151,13 +151,14 @@ module Duke
     end
 
     def create_analysis_attributes(parsed)
-     return{"0"=>{"_destroy"=>"false", "indicator_name"=>"estimated_harvest_alcoholic_volumetric_concentration", "measure_value_value"=> parsed[:parameters]['tav'], "measure_value_unit"=>"volume_percent"},
-            "1"=>{"_destroy"=>"false", "indicator_name"=>"potential_hydrogen", "decimal_value"=> (parsed[:parameters]['ph'] if !parsed[:parameters]['ph'].nil?) || "0.0"},
-            "2"=>{"_destroy"=>"false", "indicator_name"=>"temperature", "measure_value_value"=> parsed[:parameters]['temperature'], "measure_value_unit"=>"celsius"},
-            "3"=>{"_destroy"=>"false", "indicator_name"=>"assimilated_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['nitrogen'], "measure_value_unit"=>"milligram_per_liter"},
-            "4"=>{"_destroy"=>"false", "indicator_name"=>"total_acid_concentration", "measure_value_value"=>parsed[:parameters]['h2so4'], "measure_value_unit"=>"gram_per_liter"},
-            "5"=>{"_destroy"=>"false", "indicator_name"=>"malic_acid_concentration", "measure_value_value"=>parsed[:parameters]['malic'], "measure_value_unit"=>"gram_per_liter"},
-            "6"=>{"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> (parsed[:parameters]['sanitarystate'] if !parsed[:parameters]['sanitarystate'].nil?) || "Rien à signaler" }}
+      attributes =    {"0"=>{"_destroy"=>"false", "indicator_name"=>"estimated_harvest_alcoholic_volumetric_concentration", "measure_value_value"=> parsed[:parameters]['tav'], "measure_value_unit"=>"volume_percent"}}
+      attributes[1] = {"_destroy"=>"false", "indicator_name"=>"potential_hydrogen", "decimal_value"=> parsed[:parameters]['ph'] } unless parsed[:parameters]['ph'].nil?
+      attributes[2] = {"_destroy"=>"false", "indicator_name"=>"temperature", "measure_value_value"=> parsed[:parameters]['temperature'], "measure_value_unit"=>"celsius"} unless parsed[:parameters]['temperature'].nil?
+      attributes[3] = {"_destroy"=>"false", "indicator_name"=>"assimilated_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['nitrogen'], "measure_value_unit"=>"milligram_per_liter"} unless parsed[:parameters]['nitrogen'].nil?
+      attributes[4] = {"_destroy"=>"false", "indicator_name"=>"total_acid_concentration", "measure_value_value"=>parsed[:parameters]['h2so4'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['h2so4'].nil?
+      attributes[5] = {"_destroy"=>"false", "indicator_name"=>"malic_acid_concentration", "measure_value_value"=>parsed[:parameters]['malic'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['malic'].nil?
+      attributes[6] ={"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> parsed[:parameters]['sanitarystate']} unless parsed[:parameters]['sanitarystate'].nil?
+      return attributes
     end
     # Extracting functions, regex / including
 
@@ -211,21 +212,18 @@ module Duke
       now = DateTime.now
       month_hash = {"janvier" => 1, "février" => 2, "fevrier" => 2, "mars" => 3, "avril" => 4, "mai" => 5, "juin" => 6, "juillet" => 7, "août" => 8, "aout" => 8, "septembre" => 9, "octobre" => 10, "novembre" => 11, "décembre" => 12, "decembre" => 12 }
       full_date_regex = '(\d|\d{2})\s(janvier|février|fevrier|mars|avril|mai|juin|juillet|aout|août|septembre|octobre|novembre|décembre|decembre)(\s\d{4}|\s\b)'
+      time, content = extract_hour(content)
       # Search for keywords
       if content.include? "avant-hier"
         content["avant-hier"] = ""
         d = Date.yesterday.prev_day
-        time, content = extract_hour(content)
       elsif content.include? "hier"
         content["hier"] = ""
         d = Date.yesterday
-        time, content = extract_hour(content)
       elsif content.include? "demain"
         content["demain"] = ""
         d = Date.tomorrow
-        time, content = extract_hour(content)
       else
-        time, content = extract_hour(content)
         # Then search for full date
         full_date = content.match(full_date_regex)
         if full_date
@@ -343,13 +341,13 @@ module Duke
       ph_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +(de +)?(ph|péage)'
       second_ph_regex = '((ph|péage) *(est|était)? *(égal *(a|à)? *|= ?|de +|à +)?)(\d{1,2}(\.|,)\d{1,2}|\d{1,2})'
       ph = content.match(ph_regex)
+      second_ph = content.match(second_ph_regex)
       if ph
         content[ph[0]] = ""
         parameters['ph'] = ph[1].gsub(',','.') # ph is the first capturing group
-      elsif content.match(second_ph_regex)
-        ph = content.match(second_ph_regex)
-        content[ph[0]] = ""
-        parameters['ph'] = ph[6].gsub(',','.') # ph is the third capturing group
+      elsif second_ph
+        content[second_ph[0]] = ""
+        parameters['ph'] = second_ph[6].gsub(',','.') # ph is the third capturing group
       else
         parameters['ph'] = nil
       end
@@ -361,13 +359,13 @@ module Duke
       nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par ml|\/ml|par millilitre)? ?+(d\'|de|en)? ?+(azote|sel d\'ammonium|substance(s)? azotée)'
       second_nitrogen_regex = '((azote|sel d\'ammonium|substance azotée) *(est|était)? *(égal +|= ?|de +)?(à)? *)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       nitrogen = content.match(nitrogen_regex)
+      second_nitrogen = content.match(second_nitrogen_regex)
       if nitrogen
         content[nitrogen[0]] = ""
         parameters['nitrogen'] = nitrogen[1].gsub(',','.') # nitrogen is the first capturing group
-      elsif content.match(second_nitrogen_regex)
-        nitrogen = content.match(second_nitrogen_regex)
-        content[nitrogen[0]] = ""
-        parameters['nitrogen'] = nitrogen[6].gsub(',','.') # nitrogen is the third capturing group
+      elsif second_nitrogen
+        content[second_nitrogen[0]] = ""
+        parameters['nitrogen'] = second_nitrogen[6].gsub(',','.') # nitrogen is the third capturing group
       else
         parameters['nitrogen'] = nil
       end
@@ -401,13 +399,13 @@ module Duke
       h2so4_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(g|gramme)?.? *(par l|\/l|par litre)? ?+(d\'|de|en)? ?+(acidité|acide|h2so4)'
       second_h2so4_regex = '(acide|acidité|h2so4) *(est|était)? *(égal.? *(a|à)?|=|de|à|a)? *(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       h2so4 = content.match(h2so4_regex)
+      second_h2so4 = content.match(second_h2so4_regex)
       if h2so4
         content[h2so4[0]] = ""
         parameters['h2so4'] = h2so4[1].gsub(',','.') # h2so4 is the first capturing group
-      elsif content.match(second_h2so4_regex)
-        h2so4 = content.match(second_h2so4_regex)
-        content[h2so4[0]] = ""
-        parameters['h2so4'] = h2so4[5].gsub(',','.') # h2so4 is the third capturing group
+      elsif second_h2so4
+        content[second_h2so4[0]] = ""
+        parameters['h2so4'] = second_h2so4[5].gsub(',','.') # h2so4 is the third capturing group
       else
         parameters['h2so4'] = nil
       end
@@ -419,13 +417,13 @@ module Duke
       malic_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) *(g|gramme)?.?(par l|\/l|par litre)? *(d\'|de|en)? *(acide?) *(malique|malic)'
       second_malic_regex = '((acide *)?(malic|malique) *(est|était)? *(égal +|= ?|de +|à +)?)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       malic = content.match(malic_regex)
+      second_malic = content.match(second_malic_regex)
       if malic
         content[malic[0]] = ""
         parameters['malic'] = malic[1].gsub(',','.') # malic is the first capturing group
-      elsif content.match(second_malic_regex)
-        malic = content.match(second_malic_regex)
-        content[malic[0]] = ""
-        parameters['malic'] = malic[6].gsub(',','.') # malic is the third capturing group
+      elsif second_malic
+        content[second_malic[0]] = ""
+        parameters['malic'] = second_malic[6].gsub(',','.') # malic is the third capturing group
       else
         parameters['malic'] = nil
       end
@@ -453,19 +451,9 @@ module Duke
     end
 
     def extract_plant_area(content, crops)
-      # new crops = crops.map => + key :area
-      # For each found target
       crops.each do |target|
-        # Find the string that matched, ie "Jeunes Plants" when index is [3,4]
-        indexes = target[:indexes]
-        recon_target = ""
-        indexes.each do |index|
-          recon_target+= content.split[index]
-          if not index == indexes[-1]
-            recon_target+=" "
-          end
-        end
-        # Then look for a match of % of target, or (Area) of target
+        # Find the string that matched, ie "Jeunes Plants" when index is [3,4], then look for it in regex
+        recon_target = content.split()[target[:indexes][0]..target[:indexes][-1]].join(" ")
         first_area_regex = /(\d{1,2}) *(%|pour( )?cent(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
         second_area_regex = /(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) *((hect)?are(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
         first_area = content.match(first_area_regex)
@@ -475,18 +463,18 @@ module Duke
           target[:area] = first_area[1].to_i
         # If we found an area, convert it in percentage of Total area and append it
         elsif second_area
-          area = second_area[1].gsub(',','.').to_f
-          unless second_area[3].match(/hect/)
-            area = area/100
-          end
           target[:area] = 100
+          if second_area[3].match(/hect/)
+            area = second_area[1].gsub(',','.').to_f
+          else
+            area = second_area[1].gsub(',','.').to_f/100
+          end
           whole_area = Plant.find_by(id: target[:key])&.net_surface_area&.to_f
-          area_pct = (100*area/whole_area).to_i
-          if !whole_area.zero? && (area_pct <= 100)
-            target[:area] = area_pct
+          unless whole_area.zero?
+            target[:area] = [(100*area/whole_area).to_i, 100].min
           end
         else
-          # Otherwise area = 100%
+          # Otherwise Area = 100%
           target[:area] = 100
         end
       end
