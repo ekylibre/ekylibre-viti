@@ -1,5 +1,0 @@
-const form = "<tr class='edit-form'><td colspan='15'><%= j render(template:'/backend/cvi_land_parcels/split_form') %></td></tr>";
-ekylibre.map.addControl('shape_cut');
-ekylibre.map._cartography.controls.get('shape_cut').getControl()._handler.activate(<%=params[:id]%>);
-ekylibre.list.addForm(form,<%=params[:id]%>)
-ekylibre.cviLandParcels.list.disable()

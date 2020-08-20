@@ -1,4 +1,15 @@
 GIT
+  remote: git@gitlab.com:ekylibre-integration/ekylibre_ekyviti.git
+  revision: 3cafed6cf4bc4d84613720ff129b5f8642704daa
+  branch: feature/vine-harvest
+  specs:
+    ekylibre_ekyviti (0.0.1)
+      capistrano-git-with-submodules (~> 2.0)
+      capistrano-nvm
+      capistrano-rails
+      rails (~> 4.2.11.1)
+
+GIT
   remote: https://github.com/ekylibre/piwik-ruby-tracking.git
   revision: 993ae476b9d8f9b9abf01259f2d8a0fa11cf6251
   specs:
@@ -702,6 +713,7 @@ DEPENDENCIES
   dl
   draper
   ekylibre-ofx-parser
+  ekylibre_ekyviti!
   elastic-apm
   enumerize
   exception_notification

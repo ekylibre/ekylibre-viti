@@ -184,6 +184,24 @@ fra:
         commune: "Commune" #?
         land_parcel_id: "Réf. cadastrale id" #?
         state: "Etat" #?
+      incoming_harvest:
+        harvest_dock: "Quai de réception de la vendange"
+        harvest_nature: "Type de vendange"
+        harvest_transportation_duration: "Durée de transport"
+        last_load: "Dernier chargement"
+        pressing_schedule: "Programme de pressurage"
+        pressing_started_at: "Heure de démarrage du pressurage"
+        quantity_unit: "Unité"
+        quantity_value: "Quantité"
+        sedimentation_duration: "Temps de décantation"
+        ticket_number: "Ticket"
+        vehicle_trailer: "Id. du véhicule de transport"
+      incoming_harvest_plant:
+        harvest_percentage_received: "Superficie récoltée (%)"
+        net_harvest_area: "Superficie récoltée (ha)"
+        plant: "Culture"
+      incoming_harvest_storage:
+        storage: "Equipment"
       incoming_payment: #?
         to_bank_at: "À encaisser le" #?
       inspection: #?
@@ -417,6 +435,7 @@ fra:
         contains_blank_page: "%{attribute} contient une page vide" #?
         currency_does_not_match: "La devise de «\_%{attribute}\_» ne correspond pas celle attendue\_: %{currency}"
         empty: "%{attribute} ne peut pas être vide"
+        # empty_shape: "The shape of %{attribute} cannot be empty"
         # end_of_month: "%{attribute} should be at the end of the month"
         entry_has_been_already_validated: "La pièce a été validée et ne peut plus être modifiée" #?
         equal_to: "%{attribute} doit être égal à %{count}"
@@ -437,6 +456,7 @@ fra:
         invalid_date: "Veuillez saisir une date au format jj-mm-aaaa ou jj/mm/aaaa"
         invalid_datetime: "%{attribute} est invalide"
         # invalid_population_for_unitary_product: "The equipment %{name} cannot have a population of %{population} as it is supposed to be unique."
+        invalid_shape: "La forme géographique n'est pas valide"
         invalid_siret: "%{value} n'est pas un numéro de SIRET valide" #?
         invalid_syntax: "%{attribute} comporte des erreurs de syntaxe : %{errors}" #?
         invalid_time: "%{attribute} est invalide"
@@ -1477,6 +1497,7 @@ fra:
     # in_field_reentry_delay: "In field reentry delay"
     in_preparation_at: "En préparation le"
     included: "Incluse"
+    # incoming_harvest: "Incoming harvest"
     incoming_parcel_item: "Élement de colis à réceptionner"
     incoming_parcel_items: "Élements de colis à réceptionner" #?
     incoming_parcels: "Colis à réceptionner"
@@ -2149,6 +2170,7 @@ fra:
     special_imputation_asset_account: "Compte d'imputation spéciale"
     specie: "Espèce"
     specie_variety_name: "Variété / Cépage"
+    # spray_volume: "Spray volume"
     sql_type: "Type SQL"
     ssl: "Ssl"
     start: "Début"
@@ -2376,6 +2398,7 @@ fra:
       contains_blank_page: "%{attribute} contient une page vide" #?
       currency_does_not_match: "La devise de «\_%{attribute}\_» ne correspond pas celle attendue\_: %{currency}"
       empty: "%{attribute} ne peut pas être vide"
+      # empty_shape: "The shape of %{attribute} cannot be empty"
       # end_of_month: "%{attribute} should be at the end of the month"
       entry_has_been_already_validated: "La pièce a été validée et ne peut plus être modifiée" #?
       equal_to: "%{attribute} doit être égal à %{count}"
@@ -2396,6 +2419,7 @@ fra:
       invalid_date: "Veuillez saisir une date au format jj-mm-aaaa ou jj/mm/aaaa"
       invalid_datetime: "%{attribute} est invalide"
       # invalid_population_for_unitary_product: "The equipment %{name} cannot have a population of %{population} as it is supposed to be unique."
+      # invalid_shape: "The geographic shape is invalid"
       invalid_siret: "%{value} n'est pas un numéro de SIRET valide" #?
       invalid_syntax: "%{attribute} comporte des erreurs de syntaxe : %{errors}" #?
       invalid_time: "%{attribute} est invalide"
