@@ -49,6 +49,7 @@ module Duke
       parsed = params[:parsed]
       parameter = params[:parameter]
       value = params[parameter]
+      match_to_float = params[:user_input].match(/#{value}(\.\d{1,2})/) unless value.nil?
       # Value is a number value returned by watson as a parameter
       if value.nil?
         # If we don't have a value, we search for an integer/float inside the user input
@@ -60,9 +61,8 @@ module Duke
           return {:asking_again => "cancel"}
         end
       # If we have a value, we should check if watson didn't return an integer instead of a float
-      elsif params[:user_input].match(/#{value}(\.\d{1,2})/)
-        new_value_matches = params[:user_input].match(/#{value}(\.\d{1,2})/)
-        value = new_value_matches[0]
+      elsif match_to_float
+        value = match_to_float[0]
       end
       # If we are parsing a quantity, we search for an unit inside the user input
       if parameter == "quantity"
@@ -90,13 +90,13 @@ module Duke
       content, new_params = extract_quantity(params[:user_input].downcase, new_params)
       content, new_params = extract_conflicting_degrees(content, new_params)
       content, new_params = extract_tav(content, new_params)
-      if !new_params['quantity'].nil?
+      unless new_params['quantity'].nil?
         parsed[:parameters]['quantity'] = new_params['quantity']
       end
-      if !new_params['tav'].nil?
+      unless new_params['tav'].nil?
         parsed[:parameters]['tav'] = new_params['tav']
       end
-      parsed[:user_input] = params[:parsed][:user_input] << ' - (Tavp) ' << params[:user_input]
+      parsed[:user_input] = params[:parsed][:user_input] << ' - ' << params[:user_input]
       what_next, sentence, optional = find_missing_parameters(parsed)
       if what_next == params[:current_asking]
         return {:asking_again => "cancel"}
@@ -110,7 +110,7 @@ module Duke
       intervention_date, user_input = extract_date_fr(user_input)
       parsed[:duration] = choose_duration(duration, parsed[:duration])
       parsed[:intervention_date] = choose_date(intervention_date, parsed[:intervention_date])
-      parsed[:user_input] = params[:parsed][:user_input] << ' - (Temporalité) ' << params[:user_input]
+      parsed[:user_input] = params[:parsed][:user_input] << ' - ' << params[:user_input]
       what_next, sentence, optional = find_missing_parameters(parsed)
       if what_next == params[:current_asking]
         return {:asking_again => "cancel"}
