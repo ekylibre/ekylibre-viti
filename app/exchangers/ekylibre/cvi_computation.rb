@@ -48,6 +48,7 @@ module Ekylibre
             calculate_total_area(h_cvi_statement)
             format_insee_code(h_cvi_statement)
             format_work_number(h_cvi_statement)
+            format_planting_campaign(h_cvi_statement)
             convert_states(h_cvi_statement)
             convert_type_of_occupancy(h_cvi_statement)
             import_cvi_statements(h_cvi_statement)
@@ -154,7 +155,7 @@ module Ekylibre
                                  h_cvi_statement[key].to_i
                                else
                                  0
-                              end
+                               end
       end
     end
 
@@ -166,6 +167,12 @@ module Ekylibre
 
     def format_work_number(h_cvi_statement)
       h_cvi_statement[:work_number] = h_cvi_statement[:work_number].to_s.sub!(/^0*/, '')
+    end
+
+    def format_planting_campaign(h_cvi_statement)
+      return if h_cvi_statement[:planting_campaign].to_s != "9999" || h_cvi_statement[:planting_campaign].to_s != ''
+
+      h_cvi_statement[:planting_campaign] = nil
     end
 
     def convert_states(h_cvi_statement)

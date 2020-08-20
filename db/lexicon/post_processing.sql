@@ -42,7 +42,7 @@ SELECT
 	INITCAP(vine_varieties.specie_name) AS vine_variety_name,
 	area_value,
 	area_formatted(area_value) AS area_formatted,
-	planting_campaign,
+	COALESCE(planting_campaign,'9999') planting_campaign,
 	cadastral_ref_updated,
 
 	CASE 
@@ -104,7 +104,7 @@ SELECT
 	cvi_land_parcels.name,
 	INITCAP(string_agg(DISTINCT city_name,', ' ORDER BY city_name)) AS communes,
 	INITCAP(string_agg(DISTINCT locality,', ' ORDER BY locality)) AS localities,
-	planting_campaign,
+	COALESCE(planting_campaign,'9999') planting_campaign,
 	
 	product_human_name_fra AS designation_of_origin_name,
 	vine_varieties.specie_name AS vine_variety_name,
