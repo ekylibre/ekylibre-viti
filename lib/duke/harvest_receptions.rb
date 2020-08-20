@@ -23,7 +23,7 @@ module Duke
             level, matching_element, matching_list = compare_elements(combo, pl['specie_variety']['specie_variety_name'], index, level, pl['specie_variety']['specie_variety_name'], species, matching_element, matching_list)
             level, matching_element, matching_list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, matching_element, matching_list)
           end
-          Equipment.availables(at: intervention_date).where("variety='tank'").each do |tank|
+          Matter.availables(at: intervention_date).where("variety='tank'").each do |tank|
             level, matching_element, matching_list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, matching_element, matching_list)
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
