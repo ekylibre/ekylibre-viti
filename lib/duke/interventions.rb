@@ -17,7 +17,7 @@ module Duke
         # Iterate through all user's combo of words (with their indexes)
         user_inputs_combos.each do |index, combo|
           # Define minimum matching level, initialize matching_element and matching_list to None
-          level = 0.90
+          level = 0.89
           matching_element = nil # A Hash containing :key, :name, :indexes, :distance,
           matching_list = nil  # A pointer, which will point to the list on which to add the matching element, if a match occurs, else points to nothing
           # Iterating through workers : Search for full name and first name only
@@ -42,7 +42,7 @@ module Duke
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [equipments,workers,inputs,crop_groups])
+            matching_list = add_to_recognize_final(matching_element, matching_list, [equipments,workers,inputs,crop_groups], user_input)
           end
         end
         add_input_rate(params[:user_input], inputs)
@@ -92,7 +92,7 @@ module Duke
           end
           # If we recognized something, and there's no interferences, we append it to the correct matching_list
           unless matching_element.nil?
-            add_to_recognize_final(matching_element, matching_list, [new_equipments,new_workers,new_inputs,new_crop_groups])
+            add_to_recognize_final(matching_element, matching_list, [new_equipments,new_workers,new_inputs,new_crop_groups], params[:user_input].downcase)
           end
         end
         add_input_rate(params[:user_input], new_inputs)

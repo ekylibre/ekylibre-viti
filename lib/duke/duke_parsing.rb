@@ -567,7 +567,7 @@ module Duke
       end
     end
 
-    def add_to_recognize_final(saved_hash, list, all_lists)
+    def add_to_recognize_final(saved_hash, list, all_lists, content)
       #Function that adds elements to a list of recognized items only if no other elements uses the same words to match or if this word has a lower fuzzmatch
       #If no element inside any of the lists has the same words used to match an element (overlapping indexes)
       if not all_lists.any? {|aList| aList.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty?}}
@@ -576,7 +576,7 @@ module Duke
           list.push(saved_hash)
         end
       # Else if one or multiple elements uses the same words -> if the distance is greater for this hash -> Remove other ones and add this one
-      elsif not all_lists.any? {|aList| aList.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty? and recon_element[:distance] >= saved_hash[:distance]}}
+    elsif not all_lists.any? {|aList| aList.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty? and !better_corrected_distance?(saved_hash, recon_element, content)}}
         # Check for duplicates in the list, if clear : -> remove value from any list with indexes overlapping and add current match to our list
         hasDuplicate, list = key_duplicate?(list, saved_hash)
         unless hasDuplicate
@@ -593,13 +593,13 @@ module Duke
 
     def create_words_combo(user_input)
       # "Je suis ton " becomes { [0] => "Je", [0,1] => "Je suis", [0,1,2] => "Je suis ton", [1] => "suis", [1,2] => "suis ton", [2] => "ton"}
-      good_combos = {}
+      words_combos = {}
       (0..user_input.split().length).to_a.combination(2).to_a.each do |index_combo|
         if index_combo[0] + 4 >= index_combo[1]
-          good_combos[(index_combo[0]..index_combo[1]-1).to_a] = user_input.split()[index_combo[0]..index_combo[1]-1].join(" ")
+          words_combos[(index_combo[0]..index_combo[1]-1).to_a] = user_input.split()[index_combo[0]..index_combo[1]-1].join(" ")
         end
       end
-      return good_combos
+      return words_combos
     end
 
     def compare_elements(string1, string2, indexes, level, key, append_list, saved_hash, rec_list)
@@ -609,6 +609,23 @@ module Duke
           return distance, { :key => key, :name => string2, :indexes => indexes , :distance => distance}, append_list
         end
         return level, saved_hash, rec_list
+    end
+
+    def better_corrected_distance?(a,b, content)
+      # When user says "Bouleytreau Verrier", should we match "Bouleytreau" or "Bouleytreau-Verrier" ? Correcting distance with length of item found
+      if a[:key] == b[:key]
+        return (true if a[:distance] >= b[:distance]) || false
+      else
+        len_a = content.split()[a[:indexes][0]..a[:indexes][-1]].join(" ").split("").length
+        len_b = content.split()[b[:indexes][0]..b[:indexes][-1]].join(" ").split("").length
+        aDist = a[:distance].to_f * Math.exp((len_a - len_b)/70.0)
+        aDist *= Math.exp(((len_b - b[:name].split("").length).abs()-(len_a -a[:name].split("").length).abs())/100.0)
+        if aDist > b[:distance]
+          return true
+        else
+          return false
+        end
+      end
     end
 
     def add_input_rate(content, recognized_inputs)

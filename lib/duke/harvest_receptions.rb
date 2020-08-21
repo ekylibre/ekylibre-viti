@@ -28,7 +28,7 @@ module Duke
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [targets, species, destination])
+            matching_list = add_to_recognize_final(matching_element, matching_list, [targets, species, destination], user_input)
           end
         end
         targets = extract_plant_area(user_input, targets)
@@ -160,7 +160,7 @@ module Duke
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [targets])
+            matching_list = add_to_recognize_final(matching_element, matching_list, [targets], params[:user_input].downcase)
           end
         end
         targets = extract_plant_area(params[:user_input].downcase, targets)
@@ -191,7 +191,7 @@ module Duke
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [destination])
+            matching_list = add_to_recognize_final(matching_element, matching_list, [destination], params[:user_input].downcase)
           end
         end
         parsed[:destination] = destination
@@ -232,7 +232,7 @@ module Duke
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [new_targets, new_species, new_destination])
+            matching_list = add_to_recognize_final(matching_element, matching_list, [new_targets, new_species, new_destination], user_input)
           end
         end
         new_targets = extract_plant_area(user_input.downcase, new_targets)
