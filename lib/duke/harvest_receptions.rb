@@ -264,6 +264,23 @@ module Duke
         return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
+    def handle_add_input(params)
+      new_parameters = params[:parsed][:parameters]
+      new_parameters['co2'] = extract_co2(params[:user_input].downcase)
+      new_parameters['so2'] = extract_SO2(params[:user_input].downcase)
+      parsed = {:targets =>  params[:parsed][:targets],
+                :species =>  params[:parsed][:species],
+                :destination => params[:parsed][:destination],
+                :parameters => new_parameters,
+                :duration => params[:parsed][:duration],
+                :intervention_date => params[:parsed][:intervention_date],
+                :user_input => params[:parsed][:user_input] << ' - (Analyse) ' << params[:user_input]}
+        # Find if crucials parameters haven't been given, to ask again to the user
+        what_next, sentence, optional = find_missing_parameters(parsed)
+        puts "voici les nouveaux parametres : #{new_parameters}"
+        return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
+    end
+
     def handle_add_pressing(params)
       new_parameters = params[:parsed][:parameters]
       pressing_date, user_input = extract_date_fr(params[:user_input])

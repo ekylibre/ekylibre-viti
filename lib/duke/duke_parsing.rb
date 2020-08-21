@@ -19,38 +19,43 @@ module Duke
       sentence = I18n.t("duke.harvest_reception.save_harvest_reception_#{rand(0...2)}")
       sentence+= "<br>&#8226 Culture(s) : "
       params[:targets].each do |target|
-        sentence += target[:area].to_s+"% "+target[:name]+", "
+        sentence += "#{target[:area].to_s}% #{target[:name]}, "
       end
-      sentence+= "<br>&#8226 Quantité : "+params[:parameters]['quantity']['rate'].to_s+" "+params[:parameters]['quantity']['unit']
-      sentence+= "<br>&#8226 Date : "+params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")
+      sentence+= "<br>&#8226 Quantité : #{params[:parameters]['quantity']['rate'].to_s} #{params[:parameters]['quantity']['unit']}"
+      sentence+= "<br>&#8226 Date : #{params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")}"
       sentence+= "<br>&#8226 Destination : "
       params[:destination].each do |destination|
         sentence+= destination[:name]
-        sentence+= ' ('+destination[:quantity].to_s+' hl), ' if destination.key?('quantity')
+        sentence+= " (#{destination[:quantity].to_s} hl), " if destination.key?('quantity')
       end
-      sentence+= "<br>&#8226 TAVP : "+params[:parameters]['tav'].to_s+" % vol"
+      sentence+= "<br>&#8226 TAVP : #{params[:parameters]['tav'].to_s} % vol"
       unless params[:parameters]['temperature'].nil?
-        sentence+= "<br>&#8226 Température : "+params[:parameters]['temperature']+ " °C"
+        sentence+= "<br>&#8226 Température : #{params[:parameters]['temperature']} °C"
       end
       unless params[:parameters]['h2so4'].nil?
-        sentence+= "<br>&#8226 H2SO4 : "+params[:parameters]['h2so4']+" g/L"
+        sentence+= "<br>&#8226 H2SO4 : #{params[:parameters]['h2so4']} g/L"
       end
       unless params[:parameters]['malic'].nil?
-        sentence+= "<br>&#8226 Acide Malique : "+params[:parameters]['malic']+" g/L"
+        sentence+= "<br>&#8226 Acide Malique : #{params[:parameters]['malic']} g/L"
       end
       unless params[:parameters]['ph'].nil?
-        sentence+= "<br>&#8226 pH : "+params[:parameters]['ph']
+        sentence+= "<br>&#8226 pH : #{params[:parameters]['ph']}"
       end
       unless params[:parameters]['nitrogen'].nil?
-        sentence+= "<br>&#8226 Azote : "+params[:parameters]['nitrogen']+ " mg/mL"
+        sentence+= "<br>&#8226 Azote : #{params[:parameters]['nitrogen']} mg/mL"
       end
       unless params[:parameters]['operatorymode'].nil?
-        sentence+= "<br>&#8226 Mode Opératoire : "+params[:parameters]['operatorymode']
+        sentence+= "<br>&#8226 Mode Opératoire : #{params[:parameters]['operatorymode']}"
       end
       unless params[:parameters]['pressing'].nil?
         sentence+= "<br>&#8226 Pressurage spécifié"
       end
-      # speaking inputs
+      unless params[:parameters]['so2'].nil?
+        sentence+= "<br>&#8226 Sulfites : #{params[:parameters]['so2']} g/hL"
+      end
+      unless params[:parameters]['co2'].nil?
+        sentence+= "<br>&#8226 Glace carbonique : #{params[:parameters]['so2']} kg/hL"
+      end
       return sentence
     end
 
@@ -450,6 +455,43 @@ module Duke
       return content, parameters
     end
 
+    def extract_inputs(content, parameters)
+      # inputs values can only be added by clicking on a button, and are empty by default
+      parameters['so2'] = nil
+      parameters['co2'] = nil
+      return content, parameters
+    end
+
+    def extract_SO2(content)
+      # Extracting TSO2 data
+      so2_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(g|gramme)?.?(par hl|\/hl|par hecto *(litre?))? ?+(d\'|de|en)? ?+(souffre|(t)?so2|dioxyde de souffre|anhydride sulfureux|sulfite|sulfate)'
+      second_so2_regex = '(souffre|(t)?so2|dioxyde de souffre|anhydride sulfureux|sulfite.?|sulfate.?) *(est|était)? *(égal +|= ?|de +|à +)?(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
+      so2 = content.match(so2_regex)
+      second_so2 = content.match(second_so2_regex)
+      if so2
+        return so2[1].gsub(',','.') # tso2 is the first capturing group
+      elsif second_so2
+        return second_so2[5].gsub(',','.') # tso2 is the third capturing group
+      else
+        return nil
+      end
+    end
+
+    def extract_co2(content)
+      # Extracting carbonic ice data
+      co2_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(kg|kilo(gramme)?)?.?(par hl|\/hl|par hecto *(litre?))? ?+(d\'|de|en)? ?+(glace carbonique|neige carbonique|glace sèche|co2)'
+      second_co2_regex = '(co2|neige carbonique|glace sèche|glace carbonique) *(est|était)? *(égal +|= ?|de +|à +)?(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
+      co2 = content.match(co2_regex)
+      second_co2 = content.match(second_co2_regex)
+      if co2
+        return co2[1].gsub(',','.') # co2 is the first capturing group
+      elsif second_co2
+        return second_co2[4].gsub(',','.') # co2 is the third capturing group
+      else
+        return nil
+      end
+    end
+
     def extract_plant_area(content, crops)
       crops.each do |target|
         # Find the string that matched, ie "Jeunes Plants" when index is [3,4], then look for it in regex
@@ -534,6 +576,7 @@ module Duke
       content, parameters = extrat_h2SO4(content, parameters)
       content, parameters = extract_operatoryMode(content, parameters)
       content, parameters = extract_pressing(content, parameters)
+      content, parameters = extract_inputs(content, parameters)
       return content, parameters
     end
 
