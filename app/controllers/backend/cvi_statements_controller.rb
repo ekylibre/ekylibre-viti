@@ -70,7 +70,7 @@ module Backend
       t.column :created_at
       t.column :declarant
       t.column :farm_name
-      t.column :total_area, datatype: :measure, label_method: :total_area_formatted
+      t.column :total_area, datatype: :measure, format_with_method: 'to_s(:ha_a_ca)'
       t.column :state
     end
 
