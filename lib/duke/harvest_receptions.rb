@@ -4,6 +4,7 @@ module Duke
     def handle_parse_sentence(params)
       Ekylibre::Tenant.switch params['tenant'] do
         targets = []
+        crop_groups = []
         species = []
         destination = []
         # Finding when it happened and how long it lasted, + getting cleaned user_input
@@ -23,16 +24,20 @@ module Duke
             level, matching_element, matching_list = compare_elements(combo, pl['specie_variety']['specie_variety_name'], index, level, pl['specie_variety']['specie_variety_name'], species, matching_element, matching_list)
             level, matching_element, matching_list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, matching_element, matching_list)
           end
+          CropGroup.all.where("target = 'plant'").each do |cropg|
+            level, matching_element, matching_list = compare_elements(combo, cropg[:name], index, level, cropg[:id], crop_groups, matching_element, matching_list)
+          end
           Matter.availables(at: intervention_date).where("variety='tank'").each do |tank|
             level, matching_element, matching_list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, matching_element, matching_list)
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [targets, species, destination], user_input)
+            matching_list = add_to_recognize_final(matching_element, matching_list, [targets, species, destination, crop_groups], user_input)
           end
         end
-        targets = extract_plant_area(user_input, targets)
+        targets, crop_groups = extract_plant_area(user_input, targets, crop_groups)
         parsed = {:targets => targets,
+                  :crop_groups => crop_groups,
                   :species => species,
                   :destination => destination,
                   :parameters => parameters,
@@ -147,6 +152,7 @@ module Duke
       parsed = params[:parsed]
       Ekylibre::Tenant.switch params['tenant'] do
         targets = []
+        crop_groups = []
         user_inputs_combos = self.create_words_combo(params[:user_input].downcase)
         # Iterate through all user's combo of words (with their indexes)
         user_inputs_combos.each do |index, combo|
@@ -158,13 +164,17 @@ module Duke
           Plant.availables(at: parsed[:intervention_date]).uniq.each do |pl|
             level, matching_element, matching_list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, matching_element, matching_list)
           end
+          CropGroup.all.where("target = 'plant'").each do |cropg|
+            level, matching_element, matching_list = compare_elements(combo, cropg[:name], index, level, cropg[:id], crop_groups, matching_element, matching_list)
+          end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [targets], params[:user_input].downcase)
+            matching_list = add_to_recognize_final(matching_element, matching_list, [targets, crop_groups], params[:user_input].downcase)
           end
         end
-        targets = extract_plant_area(params[:user_input].downcase, targets)
+        targets, crop_groups = extract_plant_area(params[:user_input].downcase, targets, crop_groups)
         parsed[:targets] = targets
+        parsed[:crop_groups] = crop_groups
       end
       parsed[:user_input] += ' - (Cibles) ' << params[:user_input]
       what_next, sentence, optional = find_missing_parameters(parsed)
@@ -207,6 +217,7 @@ module Duke
     def handle_add_other(params)
       Ekylibre::Tenant.switch params['tenant'] do
         new_targets = []
+        new_crop_groups = []
         new_species = []
         new_destination = [] # Cellar Press
         # Finding when it happened and how long it lasted, + getting cleaned user_input
@@ -227,16 +238,20 @@ module Duke
             level, matching_element, matching_list = compare_elements(combo, pl['specie_variety']['specie_variety_name'], index, level, pl['specie_variety']['specie_variety_name'], new_species, matching_element, matching_list)
             level, matching_element, matching_list = compare_elements(combo, pl[:name], index, level, pl[:id], new_targets, matching_element, matching_list)
           end
+          CropGroup.all.where("target = 'plant'").each do |cropg|
+            level, matching_element, matching_list = compare_elements(combo, cropg[:name], index, level, cropg[:id], new_crop_groups, matching_element, matching_list)
+          end
           Equipment.availables(at: new_date).where("variety='tank'").each do |tank|
             level, matching_element, matching_list = compare_elements(combo, tank[:name], index, level, tank[:name], new_destination, matching_element, matching_list)
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [new_targets, new_species, new_destination], user_input)
+            matching_list = add_to_recognize_final(matching_element, matching_list, [new_targets, new_species, new_destination, new_crop_groups], user_input)
           end
         end
-        new_targets = extract_plant_area(user_input.downcase, new_targets)
+        new_targets, new_crop_groups = extract_plant_area(user_input.downcase, new_targets, new_crop_groups)
         parsed = {:targets =>  uniq_conc(new_targets,params[:parsed][:targets].to_a),
+                  :crop_groups => uniq_conq(new_crop_groups, params[:parsed][:crop_groups].to_a),
                   :species =>  uniq_conc(new_species,params[:parsed][:species].to_a),
                   :destination => uniq_conc(new_destination, params[:parsed][:destination].to_a),
                   :parameters => params[:parsed][:parameters],
@@ -252,49 +267,33 @@ module Duke
     def handle_add_analysis(params)
       user_input, new_parameters = extract_reception_parameters(params[:user_input])
       new_parameters = concatenate_analysis(params[:parsed][:parameters], new_parameters)
-      parsed = {:targets =>  params[:parsed][:targets],
-                :species =>  params[:parsed][:species],
-                :destination => params[:parsed][:destination],
-                :parameters => new_parameters,
-                :duration => params[:parsed][:duration],
-                :intervention_date => params[:parsed][:intervention_date],
-                :user_input => params[:parsed][:user_input] << ' - (Analyse) ' << params[:user_input]}
-        # Find if crucials parameters haven't been given, to ask again to the user
-        what_next, sentence, optional = find_missing_parameters(parsed)
-        return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
+      params[:parsed][:parameters] = new_parameters
+      params[:parsed][:user_input] += " - (Analyse) #{params[:user_input]}"
+      # Find if crucials parameters haven't been given, to ask again to the user
+      what_next, sentence, optional = find_missing_parameters(parsed)
+      return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
     def handle_add_input(params)
       new_parameters = params[:parsed][:parameters]
       new_parameters['co2'] = extract_co2(params[:user_input].downcase)
       new_parameters['so2'] = extract_SO2(params[:user_input].downcase)
-      parsed = {:targets =>  params[:parsed][:targets],
-                :species =>  params[:parsed][:species],
-                :destination => params[:parsed][:destination],
-                :parameters => new_parameters,
-                :duration => params[:parsed][:duration],
-                :intervention_date => params[:parsed][:intervention_date],
-                :user_input => params[:parsed][:user_input] << ' - (Analyse) ' << params[:user_input]}
+      params[:parsed][:parameters] = new_parameters
+      params[:parsed][:user_input] += " - (Intrant) params[:user_input]"
         # Find if crucials parameters haven't been given, to ask again to the user
         what_next, sentence, optional = find_missing_parameters(parsed)
-        puts "voici les nouveaux parametres : #{new_parameters}"
-        return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
+        return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
     def handle_add_pressing(params)
       new_parameters = params[:parsed][:parameters]
       pressing_date, user_input = extract_date_fr(params[:user_input])
       new_parameters['pressing'] = {'hour' => pressing_date, 'program' => user_input}
-      parsed = {:targets =>  params[:parsed][:targets],
-                :species =>  params[:parsed][:species],
-                :destination => params[:parsed][:destination],
-                :parameters => new_parameters,
-                :duration => params[:parsed][:duration],
-                :intervention_date => params[:parsed][:intervention_date],
-                :user_input => params[:parsed][:user_input] << ' - (Pressurage) ' << params[:user_input]}
-        # Find if crucials parameters haven't been given, to ask again to the user
-        what_next, sentence, optional = find_missing_parameters(parsed)
-        return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
+      params[:parsed][:parameters] = new_parameters
+      params[:parsed][:user_input] += " - (Pressurage) params[:user_input]"
+      # Find if crucials parameters haven't been given, to ask again to the user
+      what_next, sentence, optional = find_missing_parameters(parsed)
+      return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
     def handle_save_harvest_reception(params)
@@ -312,10 +311,15 @@ module Duke
             storages_attributes[index] = {"storage_id"=> cuve[:key], "quantity_value"=>cuve[:quantity], "quantity_unit" => "hectoliter"}
           end
         end
-        # Checking recognized targets
+        # Checking recognized targets & crop_groups
         targets_attributes = {}
         parsed[:targets].to_a.each_with_index do |target, index|
-            targets_attributes[index] = {"plant_id" => target[:key], "harvest_percentage_received" => target[:area].to_s}
+          targets_attributes[index] = {"plant_id" => target[:key], "harvest_percentage_received" => target[:area].to_s}
+        end
+        parsed[:crop_groups].to_a.each do |cropgroup, index|
+          CropGroup.available_crops(cropgroup[:key], "is plant").each do |crop, index2|
+              targets_attributes["#{index}#{index2}"] = {"plant_id" => crop[:id], "harvest_percentage_received" => cropgroup[:area].to_s}
+          end
         end
         # Checking secondary parameters
         duration = params[:parsed][:duration].to_i

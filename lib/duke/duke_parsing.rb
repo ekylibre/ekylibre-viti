@@ -17,9 +17,17 @@ module Duke
       # Create validation sentence for HarvestReceptionSkill
       I18n.locale = :fra
       sentence = I18n.t("duke.harvest_reception.save_harvest_reception_#{rand(0...2)}")
-      sentence+= "<br>&#8226 Culture(s) : "
-      params[:targets].each do |target|
-        sentence += "#{target[:area].to_s}% #{target[:name]}, "
+      unless params[:target].to_a.empty?
+        sentence+= "<br>&#8226 Culture(s) : "
+        params[:targets].each do |target|
+          sentence += "#{target[:area].to_s}% #{target[:name]}, "
+        end
+      end
+      unless params[:crop_groups].to_a.empty?
+        sentence+= "<br>&#8226 Groupement(s) : "
+        params[:crop_groups].each do |crop_group|
+          sentence += "#{crop_group[:area].to_s}% #{crop_group[:name]}, "
+        end
       end
       sentence+= "<br>&#8226 Quantité : #{params[:parameters]['quantity']['rate'].to_s} #{params[:parameters]['quantity']['unit']}"
       sentence+= "<br>&#8226 Date : #{params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")}"
@@ -492,42 +500,44 @@ module Duke
       end
     end
 
-    def extract_plant_area(content, crops)
-      crops.each do |target|
-        # Find the string that matched, ie "Jeunes Plants" when index is [3,4], then look for it in regex
-        recon_target = content.split()[target[:indexes][0]..target[:indexes][-1]].join(" ")
-        first_area_regex = /(\d{1,2}) *(%|pour( )?cent(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
-        second_area_regex = /(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) *((hect)?are(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
-        first_area = content.match(first_area_regex)
-        second_area = content.match(second_area_regex)
-        # If we found a percentage, append it as the area value
-        if first_area
-          target[:area] = first_area[1].to_i
-        # If we found an area, convert it in percentage of Total area and append it
-        elsif second_area
-          target[:area] = 100
-          if second_area[3].match(/hect/)
-            area = second_area[1].gsub(',','.').to_f
+    def extract_plant_area(content, targets, crop_groups)
+      [targets, crop_groups].each do |crops|
+        crops.each do |target|
+          # Find the string that matched, ie "Jeunes Plants" when index is [3,4], then look for it in regex
+          recon_target = content.split()[target[:indexes][0]..target[:indexes][-1]].join(" ")
+          first_area_regex = /(\d{1,2}) *(%|pour( )?cent(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
+          second_area_regex = /(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) *((hect)?are(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
+          first_area = content.match(first_area_regex)
+          second_area = content.match(second_area_regex)
+          # If we found a percentage, append it as the area value
+          if first_area
+            target[:area] = first_area[1].to_i
+          # If we found an area, convert it in percentage of Total area and append it
+          elsif second_area && !Plant.find_by(id: target[:key]).nil?
+            target[:area] = 100
+            if second_area[3].match(/hect/)
+              area = second_area[1].gsub(',','.').to_f
+            else
+              area = second_area[1].gsub(',','.').to_f/100
+            end
+            whole_area = Plant.find_by(id: target[:key])&.net_surface_area&.to_f
+            unless whole_area.zero?
+              target[:area] = [(100*area/whole_area).to_i, 100].min
+            end
           else
-            area = second_area[1].gsub(',','.').to_f/100
+            # Otherwise Area = 100%
+            target[:area] = 100
           end
-          whole_area = Plant.find_by(id: target[:key])&.net_surface_area&.to_f
-          unless whole_area.zero?
-            target[:area] = [(100*area/whole_area).to_i, 100].min
-          end
-        else
-          # Otherwise Area = 100%
-          target[:area] = 100
         end
       end
-      return crops
+      return targets, crop_groups
     end
 
     # Utils functions, that could be used in multiple functionalities
 
     def find_missing_parameters(parsed)
       # Find what we should ask the user next for an harvest reception
-      if parsed[:targets].to_a.empty?
+      if parsed[:targets].to_a.empty? && parsed[:crop_groups].to_a.empty?
         return "ask_plant", nil, nil
       end
       if parsed[:parameters]['quantity'].nil?
