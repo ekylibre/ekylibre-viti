@@ -113,6 +113,21 @@ cmn:
         datetime: "日期和时间"
         decimal: "十进制"
         text: "文本"
+    cvi_cadastral_plant:
+      state:
+        # planted: "Planted"
+        # removed_with_authorization: "Removed with authorization"
+      type_of_occupancy:
+        # owner: "Owner"
+        # tenant_farming: "Tenant farming"
+    cvi_cultivable_zone:
+      land_parcels_status:
+        # created: "Created"
+        # not_created: "Not created"
+    cvi_statement:
+      state:
+        # converted: "Converted"
+        # to_convert: "To convert"
     debt_transfer:
       nature:
         purchase_regularization: "购买正规化"

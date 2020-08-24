@@ -57,12 +57,6 @@ private/*
 /public/assets
 /public/system/*
 
-# Ignore plugins
-/plugins
-/plugins-*
-/plugins/*
-!/plugins/.keep
-
 # Ignore local database config
 /config/database.yml
 /config/api.yml
@@ -107,3 +101,7 @@ Procfile.*
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+.solargraph.yml
+package-lock.json
+/lib/tasks/around_clean.rake
+/db/lexicon/backup

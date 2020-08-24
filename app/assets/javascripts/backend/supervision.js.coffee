@@ -43,9 +43,9 @@
     map = $('#map .map')
     if point
        map.find('.crumb.hover').each ->
-        L.DomUtil.removeClass(this, 'hover')
+        Leaflet.DomUtil.removeClass(this, 'hover')
       console.log map.find(".crumb-t#{point.x}")
-      L.DomUtil.addClass(map.find(".crumb-t#{point.x}")[0], 'hover')
+      Leaflet.DomUtil.addClass(map.find(".crumb-t#{point.x}")[0], 'hover')
       console.log map.find(".crumb-t#{point.x}")
 
 

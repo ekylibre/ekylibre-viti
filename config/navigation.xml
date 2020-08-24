@@ -1099,6 +1099,16 @@
         <page to="backend/plants#update_many"/>
         <page to="backend/visualizations/plants_visualizations#show"/>
       </item>
+       <item name="crop_groups">
+        <page to="backend/crop_groups#index"/>
+        <page to="backend/crop_groups#show"/>
+        <page to="backend/crop_groups#create"/>
+        <page to="backend/crop_groups#destroy"/>
+        <page to="backend/crop_groups#edit"/>
+        <page to="backend/crop_groups#first_run_or_backend"/>
+        <page to="backend/crop_groups#new"/>
+        <page to="backend/crop_groups#update"/>
+      </item>
     </group>
     <group name="animal_management" icon="cow">
       <item name="animals">
@@ -1355,6 +1365,12 @@
         <page to="backend/cap_land_parcels#new"/>
         <page to="backend/cap_land_parcels#show"/>
         <page to="backend/cap_land_parcels#update"/>
+      </item>
+      <item name="cvi_statements">
+        <page to="backend/cvi_statements#index"/>
+        <page to="backend/cvi_statements#show"/>
+        <page to="backend/cvi_statement_conversions#show"/>
+        <page to="backend/cvi_cultivable_zones#show"/>
       </item>
     </group>
     <group name="exchange">
@@ -2369,6 +2385,32 @@
         <page to="backend/accounts#filter_select_collection"/>
         <page to="backend/accounts#reconciliable_list"/>
       </item>
+      <item name="cadastral_land_parcel_zones">
+        <page to="backend/cadastral_land_parcel_zones#index"/>
+      </item>
+      <item name="cvi_cadastral_plants">
+        <page to="backend/cvi_cadastral_plants#index"/>
+        <page to="backend/cvi_cadastral_plants#destroy"/>
+        <page to="backend/cvi_cadastral_plants#edit"/>
+        <page to="backend/cvi_cadastral_plants#update"/>
+      </item>
+      <item name="cvi_statement_conversions">
+        <page to="backend/cvi_statement_conversions#show"/>
+      </item>
+      <item name="cvi_statements">
+        <page to="backend/cvi_statements#create"/>
+        <page to="backend/cvi_statements#destroy"/>
+        <page to="backend/cvi_statements#edit"/>
+        <page to="backend/cvi_statements#list"/>
+        <page to="backend/cvi_statements#list_cvi_cadastral_plants"/>
+        <page to="backend/cvi_statements#list_cvi_cadastral_plants_map"/>
+        <page to="backend/cvi_statements#new"/>
+        <page to="backend/cvi_statements#update"/>
+        <page to="backend/cvi_statements#update_campaign"/>
+      </item>
+      <item name="imports">
+        <page to="backend/imports#template_file"/>
+      </item>
       <item name="cash_variations_cells">
         <page to="backend/cells/cash_variations_cells#area_highcharts"/>
         <page to="backend/cells/cash_variations_cells#area_range_highcharts"/>
@@ -2429,6 +2471,9 @@
         <page to="backend/general_ledgers#mask_draft_items"/>
         <page to="backend/general_ledgers#mask_lettered_items"/>
       </item>
+      <item name="imports">
+        <page to="backend/imports#template_file"/>
+      </item>
       <item name="interventions">
         <page to="backend/interventions#compare_realised_with_planned"/>
         <page to="backend/interventions#create_duplicate_intervention"/>
@@ -2444,6 +2489,13 @@
       <item name="land_parcels">
         <page to="backend/land_parcels#list_interventions"/>
         <page to="backend/land_parcels#list_plants"/>
+      </item>
+      <item name="outgoing_payment_lists">
+        <page to="backend/outgoing_payment_lists#archive_report"/>
+        <page to="backend/outgoing_payment_lists#find_open_document_template"/>
+        <page to="backend/outgoing_payment_lists#generate_document"/>
+        <page to="backend/outgoing_payment_lists#generate_report"/>
+        <page to="backend/outgoing_payment_lists#generate_report_file"/>
       </item>
       <item name="outgoing_payment_modes">
         <page to="backend/outgoing_payment_modes#sepa"/>
@@ -2462,6 +2514,9 @@
       </item>
       <item name="purchases">
         <page to="backend/purchases#show"/>
+      </item>
+      <item name="registered_postal_zones">
+        <page to="backend/registered_postal_zones#unroll"/>
       </item>
       <item name="registered_phytosanitary_products">
         <page to="backend/registered_phytosanitary_products#get_products_infos"/>

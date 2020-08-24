@@ -142,6 +142,13 @@ cmn:
       new: "新的自定义字段"
       # show: "Custom field: %{name}"
       sort: "排序自定义字段选择"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
+    backend/cvi_statements:
+      # edit: "Edit CVI statement: %{id}"
+      # index: "CVI statements"
+      # new: "New CVI statement"
+      # show: "CVI statement: %{id}"
     backend/dashboards:
       accountancy: "会计仪表板"
       # edit: "Edit dashboard: %{name}"
@@ -822,15 +829,25 @@ cmn:
         # harvest: "Harvest:"
         # reentry: "Reentry:"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "单击并拖动绘制圆。"
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "点击地图放置标记。"
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "点击继续画形状。"
               end: "点击第一点，收这个形状。"
@@ -847,6 +864,9 @@ cmn:
           simpleshape:
             tooltip:
               end: "释放鼠标完成绘制。"
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "取消"
@@ -857,6 +877,9 @@ cmn:
             polygon: "绘制多边形"
             polyline: "绘制折线"
             rectangle: "画一个矩形"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "删除最后一个点"
             title: "删除最后绘制点"
@@ -869,6 +892,8 @@ cmn:
           remove:
             tooltip:
               text: "点击一个功能删除"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -883,9 +908,50 @@ cmn:
             remove: "删除图层。"
             removeDisabled: "没有图层删除。"
       fullscreenTitle: "全屏"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center"
       importerButtonTitle: "进口"
-      zoomInTitle: "放大"
-      zoomOutTitle: "缩小"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "放大" #?
+      zoomOutTitle: "缩小" #?
+    levels:
+      # error: "Error!"
+    messages:
+      # unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -1107,7 +1173,9 @@ cmn:
     # building_zones: "Building zones"
     # by_account_fixed_assets: "Fixed assets by account on %{to}"
     by_year: "通过一年"
+    # cadastral_references: "associated cadastral ref."
     calculate: "计算"
+    # calculated_area: "calculated area"
     calculated_hours: "计算小时数"
     calculators: "计算器"
     calendar: "日历"
@@ -1194,6 +1262,7 @@ cmn:
     # comment: "Comment"
     # commercial_margin: "Commercial margin"
     commission: "佣金"
+    # communes: "commune(s)"
     company: "社会"
     # compare_planned_and_realised: "Compare planned and done"
     completed: "完成"
@@ -1203,6 +1272,7 @@ cmn:
       special-subscriber: "特殊用户"
     # conducted: "Conducted"
     configure: "配置"
+    # confirm: "Confirm"
     # confirmation: "Confirmation"
     # confirmation_update_historical_plans: "Confirmation update historical plans"
     connect: "接"
@@ -1219,6 +1289,7 @@ cmn:
     container: "容器"
     convert_balance_into_loss: "转换成平衡损失"
     convert_balance_into_profit: "转换成平衡利润"
+    # convert_cvi: "Convert into land parcels"
     convert_into_contact: "转换成触点"
     convert_into_organization: "转换成组织"
     convert_to_cultivable_zone: "转换成可耕种区"
@@ -1284,6 +1355,8 @@ cmn:
     current_stocks_by_variety: "目前的库存按品种"
     currently_subscribed_to: "目前订阅"
     custom_fields: "自定义字段"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_cadastral_plants_map: "Cvi cadastral plants"
     # database_version: "Database Version"
     # date_range: "%{from} to %{to}"
     # dated_cash: "%{cash}: %{on}"
@@ -1301,6 +1374,7 @@ cmn:
     # debts_other_financial_debts: "debts_other_financial_debts"
     # debts_others_loans: "debts_others_loans"
     decision_making: "做决定"
+    # declared_area: "declared area"
     # deduction_from_distribution: "4423 - Deductions and levies on distributions"
     default_letter_conclusion: "请接受，尊敬的女士，尊敬的先生，致以最崇高的敬意。"
     default_letter_function_title: "尊敬的女士，亲爱的先生"
@@ -1916,6 +1990,7 @@ cmn:
     operations: "操作"
     options: "选项"
     or: "要么"
+    # order_again: "Order again"
     organic_matter_concentration: "有机物浓度"
     original_component: "原版的"
     other_debts: "其他债务" #?
@@ -1996,6 +2071,7 @@ cmn:
     # plant_countings: "Countings"
     # plant_medicines: "Plant medicines"
     plantation_density: "种植密度"
+    # planted: "Planted"
     plants: "植物"
     # please_provide_a_valid_maaid_to_display_this_article_properties: "Please provide a valid AMM number to display this article's properties"
     # please_reach_out_for_the_person_in_charge_of_the_closure: "Please reach out for the person in charge of the closure outside of the software to get your documents."
@@ -2128,6 +2204,7 @@ cmn:
     remove: "清除"
     remove_item: "除去项目"
     remove_subscription: "删除订阅"
+    # removed_with_authorization: "Removed with authorization"
     renewed: "更新"
     repayment_period: "还款期"
     repayments: "偿还"
@@ -2191,6 +2268,7 @@ cmn:
     select_a_journal: "选择日记"
     select_closure_date: "选择截止日期"
     select_columns: "选择列"
+    # select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     select_date: "选择日期"
     select_date_generation: "限制日期为代"
     select_file_to_upload: "选择要上传的文件"
@@ -2452,6 +2530,7 @@ cmn:
     # vegetable_yield: "Vegetable yield"
     view: "视图"
     view_map_when_creating_an_intervention: "创建干预时查看地图"
+    # vintage_or_production_campaign: "Vintage or production campaign"
     wages: "工资"
     # warning_date_not_in_period: "Warning: The date entered is not on the current exercise."
     # water_lakes: "Water lakes"
@@ -2462,6 +2541,7 @@ cmn:
     website: "网站"
     # wice_grid_columns: "Columns"
     wind_speed: "风速"
+    # wine_production: "wine production"
     with_fixed_assets_depreciations: "拥有固定资产折旧"
     # worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"
     # worker_natures: "Workers"
@@ -2860,6 +2940,7 @@ cmn:
       convert: "兑换"
       correct: "正确"
       create: "创建"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "递减" #?
       destroy: "破坏"
       detach: "分离"

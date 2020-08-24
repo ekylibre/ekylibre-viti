@@ -41,6 +41,21 @@ fra:
     ekylibre_crumbs: "Miettes ‒ Ekylibre" #?
     ekylibre_cultivable_zones: "Zones cultivables (SHP/ZIP) ‒ Ekylibre"
     ekylibre_cultivable_zones_json: "Zones cultivables (JSON) ‒ Ekylibre"
+    ekylibre_cvi:
+      errors:
+        cvi_statement_already_exist: "Attention: un CVI a déjà été importé. Pour faire un nouvel import, veuillez supprimer au préalable le CVI déjà importé."
+        invalid_siret: "le numéro de SIRET %{value} est invalide"
+        unknown_cadastral_land_parcel: "Le cadastre %{value} n'a pas été trouvé."
+        unknown_column_name: "Le nom de colonne %{column_name} est incorrecte"
+        unknown_designation_of_origin: "Le produit revendiqué '%{value}' n'a pas été trouvé"
+        unknown_rootstock: "Le porte-greffe %{value} n'a pas été trouvé"
+        unknown_state: "L'état %{state} n'existe pas"
+        unknown_type_of_occupancy: "Le mode de faire valoir %{type_of_occupancy} n'existe pas"
+        unknown_vine_variety: "Le cépage %{value} n'a pas été trouvé"
+        unknown_insee_number: "Le code insee %{value} n'a pas été trouvé"
+        wrong_file_extension: "L'extension du fichier: %{file_extension} est invalide, %{required_file_exension} requis"
+    ekylibre_cvi_csv: "Casier viticole informatisé (CSV)"
+    ekylibre_cvi_json: "Casier viticole informatisé (JSON)"
     ekylibre_entities: "Tiers ‒ Ekylibre"
     ekylibre_equipments: "Équipements ‒ Ekylibre"
     ekylibre_equipments_json: "Équipements (JSON) ‒ Ekylibre"

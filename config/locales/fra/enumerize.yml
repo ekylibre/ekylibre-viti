@@ -34,6 +34,7 @@ fra:
         border: "Bordure"
         buffer: "Zone tampon"
         cultivation: "Culture"
+        headland_cultivation: "Culture avec tournières"
         fallow_land: "Jachère"
         none: "Aucun"
     activity_tactic:
@@ -99,6 +100,10 @@ fra:
         sale: "Vente"
         stock: "Stock"
         travel_cost: "Déplacement"
+    crop_group:
+      target:
+        land_parcel: Parcelle
+        plant: Culture
     crumb:
       nature:
         hard_start: "Dur début"
@@ -117,6 +122,35 @@ fra:
         datetime: "Date et heure"
         decimal: "Chiffre (décimal)"
         text: "Texte"
+    cvi_cadastral_plant:
+      state:
+        planted: "Plantées"
+        removed_with_authorization: "Arrachées avec autorisation"
+      type_of_occupancy:
+        # owner: "Owner"
+        # tenant_farming: "Tenant farming"
+    formatted_cvi_land_parcel:
+      state:
+        planted: "Plantées"
+        removed_with_authorization: "Arrachées avec autorisation"
+    cvi_land_parcel:
+      state:
+        planted: "Plantées"
+        removed_with_authorization: "Arrachées avec autorisation"
+    cvi_cultivable_zone:
+      land_parcels_status:
+        not_started: "Non commencé"
+        started: "En cours"
+        completed: "Terminé"
+    formatted_cvi_cultivable_zone:
+      land_parcels_status:
+        not_started: "Non commencé"
+        started: "En cours"
+        completed: "Terminé"
+    cvi_statement:
+      state:
+        converted: "Parcellaire converti"
+        to_convert: "Parcellaire à convertir"
     debt_transfer:
       nature:
         purchase_regularization: "Régularisation d'achat"
@@ -184,6 +218,10 @@ fra:
         monthly: "Mensuelle"
         quarterly: "Trimestrielle"
         yearly: "Annuelle"
+    formatted_cvi_cadastral_plant: #?
+      state: #?
+        planted: "Plantées" #?
+        removed_with_authorization: "Arrachées avec autorisation" #?
     gap:
       direction:
         loss: "Perte"

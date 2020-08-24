@@ -1,10 +1,10 @@
 # The scheduler allows to render a layerGroup at a specified level (compared to others).
 # It "schedules" the layerGroup i.e. it replays layerGroup's rendering to the right time.
-L.LayersScheduler = L.Class.extend
+Leaflet.LayersScheduler = Leaflet.Class.extend
 
   # flow is an array of layerGroup ids
   initialize: (flow = [], options = {}) ->
-    L.Util.setOptions @, options
+    Leaflet.Util.setOptions @, options
     @flow = flow
 
 
@@ -41,15 +41,15 @@ L.LayersScheduler = L.Class.extend
       #redraw all ?
 
 # factory
-L.layersScheduler = (flow = [], options = {}) ->
-  new L.LayersScheduler(flow, options)
+Leaflet.layersScheduler = (flow = [], options = {}) ->
+  new Leaflet.LayersScheduler(flow, options)
 
 
-L.LayerGroup.include
+Leaflet.LayerGroup.include
   bringBefore: (node) ->
     @invoke 'bringBefore', node
 
-L.Path.include
+Leaflet.Path.include
   bringBefore: (node) ->
     root = @_map._pathRoot
     path = @_container

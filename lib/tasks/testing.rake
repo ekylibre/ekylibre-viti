@@ -4,6 +4,7 @@ namespace :test do
     :controllers,
     :exchangers,
     :helpers,
+    :interactors,
     :jobs,
     :lib,
     :models,

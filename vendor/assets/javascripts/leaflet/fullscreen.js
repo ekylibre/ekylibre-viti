@@ -1,6 +1,6 @@
 (function() {
 
-L.Control.FullScreen = L.Control.extend({
+Leaflet.Control.FullScreen = Leaflet.Control.extend({
 	options: {
 		position: 'topleft',
 		title: 'Full Screen',
@@ -13,7 +13,7 @@ L.Control.FullScreen = L.Control.extend({
 		if (map.zoomControl && !this.options.forceSeparateButton) {
 			container = map.zoomControl._container;
 		} else {
-			container = L.DomUtil.create('div', 'leaflet-bar');
+			container = Leaflet.DomUtil.create('div', 'leaflet-bar');
 		}
 
 		this._createButton(this.options.title, className, container, this.toogleFullScreen, map);
@@ -22,23 +22,23 @@ L.Control.FullScreen = L.Control.extend({
 	},
 
 	_createButton: function (title, className, container, fn, context) {
-		var link = L.DomUtil.create('a', className, container);
+		var link = Leaflet.DomUtil.create('a', className, container);
 		link.href = '#';
 		link.title = title;
 
-		L.DomEvent
-			.addListener(link, 'click', L.DomEvent.stopPropagation)
-			.addListener(link, 'click', L.DomEvent.preventDefault)
+		Leaflet.DomEvent
+			.addListener(link, 'click', Leaflet.DomEvent.stopPropagation)
+			.addListener(link, 'click', Leaflet.DomEvent.preventDefault)
 			.addListener(link, 'click', fn, context);
 
-		L.DomEvent
-			.addListener(container, fullScreenApi.fullScreenEventName, L.DomEvent.stopPropagation)
-			.addListener(container, fullScreenApi.fullScreenEventName, L.DomEvent.preventDefault)
+		Leaflet.DomEvent
+			.addListener(container, fullScreenApi.fullScreenEventName, Leaflet.DomEvent.stopPropagation)
+			.addListener(container, fullScreenApi.fullScreenEventName, Leaflet.DomEvent.preventDefault)
 			.addListener(container, fullScreenApi.fullScreenEventName, this._handleEscKey, context);
 
-		L.DomEvent
-			.addListener(document, fullScreenApi.fullScreenEventName, L.DomEvent.stopPropagation)
-			.addListener(document, fullScreenApi.fullScreenEventName, L.DomEvent.preventDefault)
+		Leaflet.DomEvent
+			.addListener(document, fullScreenApi.fullScreenEventName, Leaflet.DomEvent.stopPropagation)
+			.addListener(document, fullScreenApi.fullScreenEventName, Leaflet.DomEvent.preventDefault)
 			.addListener(document, fullScreenApi.fullScreenEventName, this._handleEscKey, context);
 
 		return link;
@@ -51,7 +51,7 @@ L.Control.FullScreen = L.Control.extend({
 			if (fullScreenApi.supportsFullScreen) {
 				fullScreenApi.cancelFullScreen(container);
 			} else {
-				L.DomUtil.removeClass(container, 'leaflet-pseudo-fullscreen');
+				Leaflet.DomUtil.removeClass(container, 'leaflet-pseudo-fullscreen');
 			}
 			this.invalidateSize();
 			this.fire('exitFullscreen');
@@ -62,7 +62,7 @@ L.Control.FullScreen = L.Control.extend({
 			if (fullScreenApi.supportsFullScreen) {
 				fullScreenApi.requestFullScreen(container);
 			} else {
-				L.DomUtil.addClass(container, 'leaflet-pseudo-fullscreen');
+				Leaflet.DomUtil.addClass(container, 'leaflet-pseudo-fullscreen');
 			}
 			this.invalidateSize();
 			this.fire('enterFullscreen');
@@ -79,15 +79,15 @@ L.Control.FullScreen = L.Control.extend({
 	}
 });
 
-L.Map.addInitHook(function () {
+Leaflet.Map.addInitHook(function () {
 	if (this.options.fullscreenControl) {
-		this.fullscreenControl = L.control.fullscreen(this.options.fullscreenControlOptions);
+		this.fullscreenControl = Leaflet.control.fullscreen(this.options.fullscreenControlOptions);
 		this.addControl(this.fullscreenControl);
 	}
 });
 
-L.control.fullscreen = function (options) {
-	return new L.Control.FullScreen(options);
+Leaflet.control.fullscreen = function (options) {
+	return new Leaflet.Control.FullScreen(options);
 };
 
 /*

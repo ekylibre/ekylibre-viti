@@ -1,9 +1,9 @@
 /*
- * L.Icon.SensorDefault is the blue marker icon with white 'wi-fi' symbol used
+ * Leaflet.Icon.SensorDefault is the blue marker icon with white 'wi-fi' symbol used
  * by default for sensor positions. It behaves like DefaultIcon on all other accounts.
  */
 
-L.Icon.SensorDefault = L.Icon.Default.extend({
+Leaflet.Icon.SensorDefault = Leaflet.Icon.Default.extend({
   _getIconUrl: function (name) {
     var key = name + 'Url';
 
@@ -11,11 +11,11 @@ L.Icon.SensorDefault = L.Icon.Default.extend({
       return this.options[key];
     }
 
-    if (L.Browser.retina && name === 'icon') {
+    if (Leaflet.Browser.retina && name === 'icon') {
       name += '-2x';
     }
 
-    if (L.Browser.retina && name === 'icon') {
+    if (Leaflet.Browser.retina && name === 'icon') {
       return "<%= asset_path('map/marker/sensor-2x.png') %>";
     }
     if (name === 'shadow') {

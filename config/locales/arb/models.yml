@@ -161,6 +161,27 @@ arb:
         entity_id: "ملف" #?
         string_value: "قيمة النص" #?
         updater_id: "تحديث" #?
+      cvi_cadastral_plant:
+        # area: "Area"
+        # cadastral_reference: "Cadastral reference"
+        # commune: "Commune"
+        # designation_of_origin_name: "Protected designation of origin"
+        # inter_row_distance: "Inter row distance"
+        # inter_vine_plant_distance: "Inter vine plant distance"
+        # land_parcel_id: "Cadastral reference id"
+        # locality: "locality"
+        # rootstock_number: "Rootstock"
+        # state: "State"
+        # vine_variety_name: "Variety of vine"
+      cvi_statement:
+        # cadastral_plant_count: "Cadastral plant count"
+        # cadastral_sub_plant_count: "Cadastral sub plant count"
+        # created_at: "Date of import"
+        # cvi_number: "Cvi number"
+        # extraction_date: "Extraction date"
+        # farm_name: "Wine estate"
+        # state: "State"
+        # total_area: "Total area"
       delay: #?
         active: "صالحة للاستخدام" #?
         sale_natures: "نوع البيع" #?
@@ -865,6 +886,10 @@ arb:
           less_than: "%{field} اقل من (%{minimum} كحد ادنى)" #?
           required: "%{field} يجب ان يكون معرف" #?
           too_long: "%{field} طويل جدا (%{length} الاحرف)" #?
+        cvi_cadastral_plant:
+          attributes:
+            land_parcel:
+              # cannot_find_land_parcel: "could not find matching cadastral land parcel zone"
         deposit: #?
           must_be_a_bank_account: "%{field} يجب ان يكون حساب مصرفي وليس بصندوق نقدي" #?
         entity: #?
@@ -998,6 +1023,8 @@ arb:
       custom_field: "الحقول التكميلية"
       custom_field_choice: "اختيار الحقل التكميلي"
       custom_field_datum: "بيانات الملف التكميلية" #?
+      # cvi_cadastral_plant: "CVI cadastral plant"
+      # cvi_statement: "CVI statement"
       dashboard: "لوحة القيادة"
       debt_transfer: "نقل الديون"
       delay: "التأجيل" #?
@@ -1293,6 +1320,7 @@ arb:
     area_measure: "المساحة" #?
     area_unit: "وحدة المساحة" #?
     area_unit_id: "وحدة مساحة" #?
+    # area_value: "Area value"
     arguments: "الحجج"
     arrived_at: "وصل يوم" #?
     assembly: "جمعية"
@@ -1447,6 +1475,7 @@ arb:
     commission_percent: "نسبة العمولة" #?
     commission_percentage: "نسبة العمولة"
     commissioned_incoming_payment_modes: "بتكليف وسائل الدفع واردة"
+    # commune: "Commune"
     company: "الشركة" #?
     # company_creation_date: "Company creation date"
     company_id: "شركة" #?
@@ -1536,6 +1565,8 @@ arb:
     custom_fields: "الحقول الاضافية"
     custom_fields_columns: "الحقول المخصصة الأعمدة"
     customized_type: "نوع مرغوب"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_statement: "Cvi statement"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "إنتاج النيتروجين اليومي"
     dashboards: "لوحات"
@@ -1610,6 +1641,7 @@ arb:
     derivative_of: "مشتق من"
     derivatives_list: "قائمة المشتقات"
     description: "الوصف"
+    # designation_of_origin_name: "Designation of origin name"
     dest_contact: "عنوان التسليم" #?
     dest_contact_id: "عنوان التسليم" #?
     detail_payments: "المدفوعات التفاصيل"
@@ -1650,6 +1682,7 @@ arb:
     duration: "المدة"
     ean13: "Ean13" #?
     economic_situation: "الوضع الاقتصادي"
+    # edit_cadastral_ref: "Edit cdastral reference"
     email: "عنوان البريد الالكتروني"
     emails: "رسائل البريد الإلكتروني"
     embedded: "المضمنة"
@@ -1889,6 +1922,7 @@ arb:
     initialization_vectors: "ناقلات التهيئة"
     initiated_on: "بدأت يوم"
     inputs: "المدخلات"
+    # insee_number: "Insee number"
     inspection: "تفتيش"
     inspection_calibration_natures: "طبائع معايرة التفتيش"
     inspection_calibration_scales: "جداول المعايرة التفتيش"
@@ -1900,6 +1934,8 @@ arb:
     insurance_repayment_method: "التأمين طريقة السداد"
     integer_value: "قيمة العدد الصحيح"
     integration_name: "اسم التكامل"
+    # inter_row_distance_value: "Inter row distance value"
+    # inter_vine_plant_distance_value: "Inter vine plant distance value"
     interest_amount: "مبلغ الفائدة"
     interest_percentage: "نسبة الفائدة"
     intermediate_cultivation_residue_mineralization: "زراعة المتوسطة بقايا تمعدن"
@@ -1977,6 +2013,7 @@ arb:
     labels: "تسميات"
     land_parcel_number: "عدد قطعة أرض"
     land_parcels: "الكتل"
+    # land_parcels_status: "Land parcels status"
     language: "اللغة"
     last_analysis: "التحليل الأخير"
     last_bank_statement: "(((LAST_BANK_STATEMENT)))"
@@ -2028,6 +2065,7 @@ arb:
     local_count: "عدد السكان المحليين"
     local_credit: "الائتمان"
     local_debit: "الدين المحلي"
+    # locality: "Locality"
     localizations: "تعريب"
     lock_version: "الاصدار"
     locked: "مقفل"
@@ -2134,6 +2172,7 @@ arb:
     net_mass_value: "صافي القيمة الجماعية"
     net_mass_yield: "العائد الصافي الشامل"
     net_service: "خدمة صافي"
+    # net_surface_area: "Net surface area"
     new_container: "حاويات جديدة"
     new_group: "مجموعة جديدة"
     new_name: "اسم جديد"
@@ -2507,6 +2546,7 @@ arb:
     root_model_name: "جذر"
     root_node: "عقدة الجذر"
     root_parameters: "المعلمات الجذر"
+    # rootstock: "Rootstock"
     rows_count_value: "عد الصفوف"
     sale: "طلب البيع"
     sale_credit: "الائتمان بيع"
@@ -2548,6 +2588,7 @@ arb:
     second_building_id: "موقع تخزين الوصول" #?
     second_move_id: "الحركة الثانية" #?
     second_producer: "منتج الثاني" #?
+    # section: "Section"
     seeding_density_unit: "وحدة كثافة بذر"
     seeding_density_value: "كثافة بذر"
     selected: "مختار"
@@ -2723,6 +2764,7 @@ arb:
     tool_id: "اداة" #?
     tools: "الادوات"
     tools_list: "معدات" #?
+    # total_area: "Total area"
     total_cost: "التكلفة الإجمالية"
     total_doer_cost: "مجموع تكلفة د"
     total_input_cost: "إجمالي تكلفة المدخلات"
@@ -2749,6 +2791,7 @@ arb:
     trouble_description: "وصف المتاعب"
     trouble_encountered: "مشكلة واجهتها"
     type: "النوع"
+    # type_of_occupancy: "Type of occupancy"
     # uid: "UID"
     unconfirmed_email: "البريد الإلكتروني غير مؤكد"
     undelivered_invoice_journal_entry: "دخول فاتورة غير المسلمة"

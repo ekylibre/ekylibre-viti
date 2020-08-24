@@ -1,0 +1,12 @@
+= ekylibre_form_for(resource, remote: true) do |f|  
+  = field_set(:edit_cadastral_ref) do
+    %span.help-inline
+      = f.object.errors.full_messages_for(:land_parcel).join if f.object.errors.count == 1 && f.object.errors.has_key?(:land_parcel)
+    = f.simple_fields_for :location do |ff|
+      = ff.referenced_association :registered_postal_zone, new: false, label: CviCadastralPlant.human_attribute_name(:commune)
+      = ff.input :locality
+    = f.input :section
+    = f.input :work_number, label: CviCadastralPlant.human_attribute_name(:work_number)
+  - f.add(:submit, :update.tl, data: {disable_with: :please_wait.tl}, class: 'primary')
+  - f.add(:link, :cancel.tl, "#", class: 'btn', data: {"cancel-list-form": ""} )
+  = f.actions

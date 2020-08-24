@@ -457,11 +457,27 @@ module Backend
     def date_range(start_attribute_name = :started_on, stop_attribute_name = :stopped_on, *args)
       options = args.extract_options!
       attribute_name = args.shift || options[:name] || :period
+      start_label = args.shift || options[:start_label] || :from
+      stop_label = args.shift || options[:stop_label] || :to
       input(attribute_name, options.merge(wrapper: :append)) do
-        @template.content_tag(:span, :from.tl, class: 'add-on') +
-          input(start_attribute_name, wrapper: :simplest) +
-          @template.content_tag(:span, :to.tl, class: 'add-on') +
-          input(stop_attribute_name, wrapper: :simplest)
+        @template.content_tag(:span, start_label.tl, class: 'add-on') +
+          input(start_attribute_name, options.merge(wrapper: :simplest)) +
+          @template.content_tag(:span, stop_label.tl, class: 'add-on') +
+          input(stop_attribute_name, options.merge(wrapper: :simplest))
+      end
+    end
+
+    def production_cycle_range(*args)
+      options = args.extract_options!
+      input(:production_campaign_period, options.merge(label: :production_campaign_period.tl, wrapper: :append)) do
+        @template.content_tag(:span, :from_current_year.tl, class: 'add-on') +
+          input(:production_started_on, options.merge(wrapper: :simplest)) +
+          @template.content_tag(:span, :year_long.tl, class: 'add-on') +
+          input(:production_campaign, collection: [['N-1', :at_cycle_end], ['N', :at_cycle_start]], wrapper: :simplest, selected: object.production_campaign || :at_cycle_start) +
+          @template.content_tag(:span,  :to_next_year.tl, class: 'add-on') +
+          input(:production_stopped_on, options.merge(wrapper: :simplest)) +
+          @template.content_tag(:span, :year_long.tl, class: 'add-on') +
+          @template.content_tag(:span, 'N', class: 'add-on')
       end
     end
 

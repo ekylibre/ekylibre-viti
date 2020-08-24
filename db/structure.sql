@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.18
--- Dumped by pg_dump version 12.3 (Ubuntu 12.3-1.pgdg16.04+1)
+-- Dumped from database version 9.6.16
+-- Dumped by pg_dump version 9.6.16
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -17,6 +17,13 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: lexicon; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA lexicon;
+
+
+--
 -- Name: postgis; Type: SCHEMA; Schema: -; Owner: -
 --
 
@@ -24,17 +31,46 @@ CREATE SCHEMA postgis;
 
 
 --
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
+-- Name: deny_changes(); Type: FUNCTION; Schema: lexicon; Owner: -
 --
 
-CREATE SCHEMA public;
+CREATE FUNCTION lexicon.deny_changes() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    RAISE EXCEPTION '% denied on % (master data)', TG_OP, TG_RELNAME;
+  END;
+$$;
 
 
 --
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
+-- Name: area_formatted(numeric); Type: FUNCTION; Schema: public; Owner: -
 --
 
-COMMENT ON SCHEMA public IS 'standard public schema';
+CREATE FUNCTION public.area_formatted(area numeric) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+    DECLARE
+    ha_area_num  NUMERIC;
+    ar_area_num  NUMERIC;
+    ca_area_num  NUMERIC;
+    ha_area  VARCHAR(50);
+    ar_area  VARCHAR(50);
+    ca_area  VARCHAR(50);
+    result VARCHAR(50);
+    BEGIN
+    ha_area_num = TRUNC(area, 0);
+    ar_area_num = TRUNC(area - ha_area_num, 2);
+    ca_area_num = TRUNC(area - ha_area_num - ar_area_num, 4);
+
+    ha_area = to_char(ha_area_num , '999');
+    ar_area = to_char(ar_area_num * 100, 'FM00');
+    ca_area = to_char(ca_area_num * 10000, 'FM00');
+
+    result = CONCAT(ha_area,' ha ', ar_area,' a ',ca_area, ' ca');
+    RETURN result;
+    END;
+    $$;
 
 
 --
@@ -203,6 +239,684 @@ $$;
 
 SET default_tablespace = '';
 
+SET default_with_oids = false;
+
+--
+-- Name: master_vine_varieties; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.master_vine_varieties (
+    id character varying NOT NULL,
+    specie_name character varying NOT NULL,
+    specie_long_name character varying,
+    category_name character varying NOT NULL,
+    fr_validated character varying,
+    utility character varying,
+    color character varying,
+    customs_code character varying
+);
+
+
+--
+-- Name: registered_postal_zones; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE TABLE lexicon.registered_postal_zones (
+    id character varying NOT NULL,
+    country character varying NOT NULL,
+    code character varying NOT NULL,
+    city_name character varying NOT NULL,
+    postal_code character varying NOT NULL,
+    city_delivery_name character varying,
+    city_delivery_detail character varying,
+    city_centroid postgis.geometry(Point,4326)
+);
+
+
+--
+-- Name: registered_protected_designation_of_origins; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_protected_designation_of_origins (
+    id integer NOT NULL,
+    ida integer NOT NULL,
+    geographic_area character varying,
+    fr_sign character varying,
+    eu_sign character varying,
+    product_human_name jsonb,
+    product_human_name_fra character varying,
+    reference_number character varying
+);
+
+
+--
+-- Name: cadastral_land_parcel_zones; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.cadastral_land_parcel_zones (
+    id character varying NOT NULL,
+    section character varying,
+    work_number character varying,
+    net_surface_area integer,
+    shape postgis.geometry(MultiPolygon,4326) NOT NULL,
+    centroid postgis.geometry(Point,4326)
+);
+
+
+--
+-- Name: datasource_credits; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE TABLE lexicon.datasource_credits (
+    datasource character varying,
+    name character varying,
+    url character varying,
+    provider character varying,
+    licence character varying,
+    licence_url character varying,
+    updated_at timestamp with time zone
+);
+
+
+--
+-- Name: eu_market_prices; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.eu_market_prices (
+    id character varying NOT NULL,
+    category character varying,
+    sector_code character varying,
+    product_code character varying,
+    product_label character varying,
+    product_description character varying,
+    unit_value integer,
+    unit_name character varying,
+    country character varying,
+    price numeric(8,2),
+    start_date date
+);
+
+
+--
+-- Name: intervention_model_items; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.intervention_model_items (
+    id character varying NOT NULL,
+    procedure_item_reference character varying NOT NULL,
+    article_reference character varying,
+    indicator_name character varying,
+    indicator_value numeric(19,4),
+    indicator_unit character varying,
+    intervention_model_id character varying
+);
+
+
+--
+-- Name: intervention_models; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.intervention_models (
+    id character varying NOT NULL,
+    name jsonb,
+    category_name jsonb,
+    number character varying,
+    procedure_reference character varying NOT NULL,
+    working_flow numeric(19,4),
+    working_flow_unit character varying
+);
+
+
+--
+-- Name: master_production_natures; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.master_production_natures (
+    id integer NOT NULL,
+    specie character varying NOT NULL,
+    human_name jsonb,
+    human_name_fra character varying NOT NULL,
+    started_on date NOT NULL,
+    stopped_on date NOT NULL,
+    agroedi_crop_code character varying,
+    season character varying,
+    pfi_crop_code character varying,
+    cap_2017_crop_code character varying,
+    cap_2018_crop_code character varying,
+    cap_2019_crop_code character varying,
+    cap_2020_crop_code character varying,
+    start_state_of_production jsonb,
+    life_duration numeric(5,2)
+);
+
+
+--
+-- Name: master_production_outputs; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.master_production_outputs (
+    production_nature_id integer NOT NULL,
+    production_system_name character varying NOT NULL,
+    name character varying NOT NULL,
+    average_yield numeric(19,4),
+    main boolean DEFAULT false NOT NULL,
+    analysis_items character varying[]
+);
+
+
+--
+-- Name: phenological_stages; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE TABLE lexicon.phenological_stages (
+    id integer NOT NULL,
+    bbch character varying,
+    biaggiolini character varying,
+    eichhorn_lorenz character varying,
+    chasselas_date date,
+    label jsonb,
+    description jsonb
+);
+
+
+--
+-- Name: registered_agroedi_codes; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_agroedi_codes (
+    id integer NOT NULL,
+    repository_id integer NOT NULL,
+    reference_id integer NOT NULL,
+    reference_code character varying,
+    reference_label character varying,
+    ekylibre_scope character varying,
+    ekylibre_value character varying
+);
+
+
+--
+-- Name: registered_building_zones; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_building_zones (
+    nature character varying,
+    shape postgis.geometry(MultiPolygon,4326) NOT NULL,
+    centroid postgis.geometry(Point,4326)
+);
+
+
+--
+-- Name: registered_chart_of_accounts; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_chart_of_accounts (
+    id character varying NOT NULL,
+    account_number character varying NOT NULL,
+    chart_id character varying NOT NULL,
+    reference_name character varying,
+    previous_reference_name character varying,
+    name jsonb
+);
+
+
+--
+-- Name: registered_crop_zones; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_crop_zones (
+    id character varying NOT NULL,
+    city_name character varying,
+    shape postgis.geometry(Polygon,4326) NOT NULL,
+    centroid postgis.geometry(Point,4326)
+);
+
+
+--
+-- Name: registered_enterprises; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_enterprises (
+    establishment_number character varying NOT NULL,
+    french_main_activity_code character varying NOT NULL,
+    name character varying,
+    address character varying,
+    postal_code character varying,
+    city character varying,
+    country character varying
+);
+
+
+--
+-- Name: registered_hydro_items; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_hydro_items (
+    id character varying NOT NULL,
+    name jsonb,
+    nature character varying,
+    point postgis.geometry(Point,4326),
+    shape postgis.geometry(MultiPolygonZM,4326),
+    lines postgis.geometry(MultiLineStringZM,4326)
+);
+
+
+--
+-- Name: registered_legal_positions; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_legal_positions (
+    id integer NOT NULL,
+    name jsonb,
+    nature character varying NOT NULL,
+    country character varying NOT NULL,
+    code character varying NOT NULL,
+    insee_code character varying NOT NULL,
+    fiscal_positions text[]
+);
+
+
+--
+-- Name: registered_pfi_crops; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_pfi_crops (
+    id integer NOT NULL,
+    reference_label_fra character varying
+);
+
+
+--
+-- Name: registered_pfi_doses; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_pfi_doses (
+    france_maaid integer NOT NULL,
+    pesticide_name character varying,
+    harvest_year integer NOT NULL,
+    active integer NOT NULL,
+    crop_id integer NOT NULL,
+    target_id integer,
+    functions character varying,
+    dose_unity character varying,
+    dose_quantity numeric(19,4)
+);
+
+
+--
+-- Name: registered_pfi_segments; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_pfi_segments (
+    id character varying NOT NULL,
+    label_fra character varying,
+    description character varying
+);
+
+
+--
+-- Name: registered_pfi_targets; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_pfi_targets (
+    id integer NOT NULL,
+    reference_label_fra character varying
+);
+
+
+--
+-- Name: registered_pfi_treatment_types; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_pfi_treatment_types (
+    id character varying NOT NULL,
+    label_fra character varying
+);
+
+
+--
+-- Name: registered_phytosanitary_cropsets; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE TABLE lexicon.registered_phytosanitary_cropsets (
+    id character varying NOT NULL,
+    name character varying NOT NULL,
+    label jsonb,
+    crop_names text[],
+    crop_labels jsonb,
+    record_checksum integer
+);
+
+
+--
+-- Name: registered_phytosanitary_products; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_phytosanitary_products (
+    id integer NOT NULL,
+    reference_name character varying NOT NULL,
+    name character varying NOT NULL,
+    other_names text[],
+    natures text[],
+    active_compounds text[],
+    france_maaid character varying NOT NULL,
+    mix_category_codes integer[],
+    in_field_reentry_delay interval,
+    state character varying NOT NULL,
+    started_on date,
+    stopped_on date,
+    allowed_mentions jsonb,
+    restricted_mentions character varying,
+    operator_protection_mentions text,
+    firm_name character varying,
+    product_type character varying,
+    record_checksum integer
+);
+
+
+--
+-- Name: registered_phytosanitary_risks; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_phytosanitary_risks (
+    product_id integer NOT NULL,
+    risk_code character varying NOT NULL,
+    risk_phrase character varying NOT NULL,
+    record_checksum integer
+);
+
+
+--
+-- Name: registered_phytosanitary_symbols; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_phytosanitary_symbols (
+    id character varying NOT NULL,
+    symbol_name character varying
+);
+
+
+--
+-- Name: registered_phytosanitary_target_name_to_pfi_targets; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_phytosanitary_target_name_to_pfi_targets (
+    ephy_name character varying NOT NULL,
+    pfi_id integer,
+    pfi_name character varying,
+    default_pfi_treatment_type_id character varying
+);
+
+
+--
+-- Name: registered_phytosanitary_usages; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_phytosanitary_usages (
+    id character varying NOT NULL,
+    lib_court integer,
+    product_id integer NOT NULL,
+    ephy_usage_phrase character varying NOT NULL,
+    crop jsonb,
+    crop_label_fra character varying,
+    species text[],
+    target_name jsonb,
+    target_name_label_fra character varying,
+    description jsonb,
+    treatment jsonb,
+    dose_quantity numeric(19,4),
+    dose_unit character varying,
+    dose_unit_name character varying,
+    dose_unit_factor real,
+    pre_harvest_delay interval,
+    pre_harvest_delay_bbch integer,
+    applications_count integer,
+    applications_frequency interval,
+    development_stage_min integer,
+    development_stage_max integer,
+    usage_conditions character varying,
+    untreated_buffer_aquatic integer,
+    untreated_buffer_arthropod integer,
+    untreated_buffer_plants integer,
+    decision_date date,
+    state character varying NOT NULL,
+    record_checksum integer
+);
+
+
+--
+-- Name: registered_seeds; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.registered_seeds (
+    number integer NOT NULL,
+    specie character varying NOT NULL,
+    name jsonb,
+    complete_name jsonb
+);
+
+
+--
+-- Name: technical_workflow_procedure_items; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.technical_workflow_procedure_items (
+    id character varying NOT NULL,
+    actor_reference character varying,
+    procedure_item_reference character varying,
+    article_reference character varying,
+    quantity numeric(19,4),
+    unit character varying,
+    procedure_reference character varying NOT NULL,
+    technical_workflow_procedure_id character varying NOT NULL
+);
+
+
+--
+-- Name: technical_workflow_procedures; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.technical_workflow_procedures (
+    id character varying NOT NULL,
+    "position" integer NOT NULL,
+    name jsonb NOT NULL,
+    repetition integer,
+    frequency character varying,
+    period character varying,
+    bbch_stage character varying,
+    procedure_reference character varying NOT NULL,
+    technical_workflow_id character varying NOT NULL
+);
+
+
+--
+-- Name: technical_workflow_sequences; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.technical_workflow_sequences (
+    id character varying NOT NULL,
+    technical_workflow_sequence_id character varying NOT NULL,
+    name jsonb NOT NULL,
+    family character varying,
+    specie character varying,
+    production_system character varying,
+    year_start integer,
+    year_stop integer,
+    technical_workflow_id character varying NOT NULL
+);
+
+
+--
+-- Name: technical_workflows; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.technical_workflows (
+    id character varying NOT NULL,
+    name jsonb NOT NULL,
+    family character varying,
+    specie character varying,
+    production_system character varying,
+    start_day integer,
+    start_month integer,
+    unit character varying,
+    life_state character varying,
+    life_cycle character varying
+);
+
+
+--
+-- Name: user_roles; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE TABLE lexicon.user_roles (
+    id integer NOT NULL,
+    reference_name character varying,
+    name jsonb,
+    label_fra character varying,
+    accesses text[]
+);
+
+
+--
+-- Name: variant_categories; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.variant_categories (
+    id integer NOT NULL,
+    reference_name character varying NOT NULL,
+    name jsonb,
+    label_fra character varying NOT NULL,
+    nature character varying NOT NULL,
+    fixed_asset_account character varying,
+    fixed_asset_allocation_account character varying,
+    fixed_asset_expenses_account character varying,
+    depreciation_percentage integer,
+    purchase_account character varying,
+    sale_account character varying,
+    stock_account character varying,
+    stock_movement_account character varying,
+    purchasable boolean,
+    saleable boolean,
+    depreciable boolean,
+    storable boolean,
+    default_vat_rate numeric(5,2),
+    payment_frequency_value integer,
+    payment_frequency_unit character varying
+);
+
+
+--
+-- Name: variant_doer_contracts; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.variant_doer_contracts (
+    id character varying NOT NULL,
+    reference_name character varying NOT NULL,
+    name jsonb,
+    duration character varying,
+    weekly_working_time character varying,
+    gross_hourly_wage numeric(19,4),
+    net_hourly_wage numeric(19,4),
+    coefficient_total_cost numeric(19,4),
+    variant_id character varying
+);
+
+
+--
+-- Name: variant_natures; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.variant_natures (
+    id integer NOT NULL,
+    reference_name character varying NOT NULL,
+    name jsonb,
+    label_fra character varying NOT NULL,
+    nature character varying,
+    population_counting character varying NOT NULL,
+    indicators text[],
+    abilities text[],
+    variety character varying,
+    derivative_of character varying
+);
+
+
+--
+-- Name: variant_prices; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.variant_prices (
+    id character varying NOT NULL,
+    reference_name character varying NOT NULL,
+    reference_article_name character varying NOT NULL,
+    unit_pretax_amount numeric(19,4) NOT NULL,
+    currency character varying NOT NULL,
+    reference_packaging_name character varying NOT NULL,
+    started_on date NOT NULL,
+    variant_id character varying,
+    packaging_id character varying,
+    usage character varying NOT NULL,
+    main_indicator character varying,
+    main_indicator_unit character varying,
+    main_indicator_minimal_value numeric(19,4),
+    main_indicator_maximal_value numeric(19,4),
+    working_flow_value numeric(19,4),
+    working_flow_unit character varying,
+    threshold_min_value numeric(19,4),
+    threshold_max_value numeric(19,4)
+);
+
+
+--
+-- Name: variant_units; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.variant_units (
+    id character varying NOT NULL,
+    class_name character varying NOT NULL,
+    reference_name character varying NOT NULL,
+    name jsonb,
+    capacity numeric(25,10),
+    capacity_unit character varying,
+    dimension character varying,
+    symbol character varying,
+    a numeric(25,10),
+    d numeric(25,10),
+    b numeric(25,10),
+    unit_id character varying
+);
+
+
+--
+-- Name: variants; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE UNLOGGED TABLE lexicon.variants (
+    id character varying NOT NULL,
+    class_name character varying,
+    reference_name character varying NOT NULL,
+    name jsonb,
+    label_fra character varying NOT NULL,
+    category character varying,
+    nature character varying,
+    sub_nature character varying,
+    default_unit character varying,
+    target_specie character varying,
+    specie character varying,
+    eu_product_code character varying,
+    indicators jsonb,
+    variant_category_id integer,
+    variant_nature_id integer
+);
+
+
+--
+-- Name: version; Type: TABLE; Schema: lexicon; Owner: -
+--
+
+CREATE TABLE lexicon.version (
+    version character varying
+);
+
+
 --
 -- Name: account_balances; Type: TABLE; Schema: public; Owner: -
 --
@@ -331,7 +1045,11 @@ CREATE TABLE public.activities (
     use_seasons boolean DEFAULT false,
     use_tactics boolean DEFAULT false,
     codes jsonb,
-    production_nature_id integer
+    production_nature_id integer,
+    production_started_on date,
+    production_stopped_on date,
+    start_state_of_production jsonb,
+    life_duration integer
 );
 
 
@@ -381,7 +1099,10 @@ CREATE TABLE public.activity_productions (
     campaign_id integer,
     custom_fields jsonb,
     season_id integer,
-    tactic_id integer
+    tactic_id integer,
+    providers jsonb DEFAULT '{}'::jsonb,
+    headland_shape postgis.geometry(Geometry,4326),
+    planting_campaign_id integer
 );
 
 
@@ -484,7 +1205,8 @@ CREATE TABLE public.intervention_parameters (
     imputation_ratio numeric(19,4),
     reference_data jsonb DEFAULT '{}'::jsonb,
     using_live_data boolean DEFAULT true,
-    applications_frequency interval
+    applications_frequency interval,
+    specie_variety jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -596,7 +1318,10 @@ CREATE TABLE public.products (
     originator_id integer,
     codes jsonb,
     reading_cache jsonb DEFAULT '{}'::jsonb,
-    activity_production_id integer
+    activity_production_id integer,
+    providers jsonb DEFAULT '{}'::jsonb,
+    type_of_occupancy character varying,
+    specie_variety jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -1892,6 +2617,103 @@ ALTER SEQUENCE public.contracts_id_seq OWNED BY public.contracts.id;
 
 
 --
+-- Name: crop_group_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.crop_group_items (
+    id integer NOT NULL,
+    crop_group_id integer,
+    crop_id integer,
+    crop_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crop_group_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.crop_group_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crop_group_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.crop_group_items_id_seq OWNED BY public.crop_group_items.id;
+
+
+--
+-- Name: crop_group_labellings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.crop_group_labellings (
+    id integer NOT NULL,
+    crop_group_id integer,
+    label_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crop_group_labellings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.crop_group_labellings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crop_group_labellings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.crop_group_labellings_id_seq OWNED BY public.crop_group_labellings.id;
+
+
+--
+-- Name: crop_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.crop_groups (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    target character varying DEFAULT 'plant'::character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crop_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.crop_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crop_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.crop_groups_id_seq OWNED BY public.crop_groups.id;
+
+
+--
 -- Name: crumbs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2056,6 +2878,216 @@ CREATE SEQUENCE public.custom_fields_id_seq
 --
 
 ALTER SEQUENCE public.custom_fields_id_seq OWNED BY public.custom_fields.id;
+
+
+--
+-- Name: cvi_cadastral_plant_cvi_land_parcels; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_cadastral_plant_cvi_land_parcels (
+    id integer NOT NULL,
+    percentage numeric DEFAULT 1.0,
+    cvi_land_parcel_id integer,
+    cvi_cadastral_plant_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cvi_cadastral_plant_cvi_land_parcels_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_cadastral_plant_cvi_land_parcels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_cadastral_plant_cvi_land_parcels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_cadastral_plant_cvi_land_parcels_id_seq OWNED BY public.cvi_cadastral_plant_cvi_land_parcels.id;
+
+
+--
+-- Name: cvi_cadastral_plants; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_cadastral_plants (
+    id integer NOT NULL,
+    section character varying NOT NULL,
+    work_number character varying NOT NULL,
+    land_parcel_number character varying,
+    designation_of_origin_id integer,
+    vine_variety_id character varying,
+    area_value numeric(19,4),
+    area_unit character varying,
+    planting_campaign character varying,
+    rootstock_id character varying,
+    inter_vine_plant_distance_value numeric(19,4),
+    inter_vine_plant_distance_unit character varying,
+    inter_row_distance_value numeric(19,4),
+    inter_row_distance_unit character varying,
+    state character varying NOT NULL,
+    cvi_statement_id integer,
+    land_parcel_id character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    type_of_occupancy character varying,
+    cvi_cultivable_zone_id integer,
+    cadastral_ref_updated boolean DEFAULT false,
+    land_modification_date date
+);
+
+
+--
+-- Name: cvi_cadastral_plants_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_cadastral_plants_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_cadastral_plants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_cadastral_plants_id_seq OWNED BY public.cvi_cadastral_plants.id;
+
+
+--
+-- Name: cvi_cultivable_zones; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_cultivable_zones (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    declared_area_unit character varying,
+    declared_area_value numeric(19,4),
+    calculated_area_unit character varying,
+    calculated_area_value numeric(19,4),
+    land_parcels_status character varying DEFAULT 'not_started'::character varying,
+    shape postgis.geometry(Geometry,4326),
+    cvi_statement_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cvi_cultivable_zones_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_cultivable_zones_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_cultivable_zones_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_cultivable_zones_id_seq OWNED BY public.cvi_cultivable_zones.id;
+
+
+--
+-- Name: cvi_land_parcels; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_land_parcels (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    designation_of_origin_id integer,
+    vine_variety_id character varying,
+    calculated_area_unit character varying,
+    calculated_area_value numeric(19,5),
+    declared_area_unit character varying,
+    declared_area_value numeric(19,5),
+    shape postgis.geometry(Geometry,4326),
+    inter_vine_plant_distance_value numeric(19,4),
+    inter_vine_plant_distance_unit character varying,
+    inter_row_distance_value numeric(19,4),
+    inter_row_distance_unit character varying,
+    state character varying,
+    cvi_cultivable_zone_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    planting_campaign character varying,
+    land_modification_date date,
+    activity_id integer,
+    rootstock_id character varying
+);
+
+
+--
+-- Name: cvi_land_parcels_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_land_parcels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_land_parcels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_land_parcels_id_seq OWNED BY public.cvi_land_parcels.id;
+
+
+--
+-- Name: cvi_statements; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cvi_statements (
+    id integer NOT NULL,
+    cvi_number character varying NOT NULL,
+    extraction_date date NOT NULL,
+    siret_number character varying NOT NULL,
+    farm_name character varying NOT NULL,
+    declarant character varying NOT NULL,
+    total_area_value numeric(19,4),
+    total_area_unit character varying,
+    cadastral_plant_count integer DEFAULT 0,
+    cadastral_sub_plant_count integer DEFAULT 0,
+    state character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    campaign_id integer
+);
+
+
+--
+-- Name: cvi_statements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cvi_statements_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cvi_statements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cvi_statements_id_seq OWNED BY public.cvi_statements.id;
 
 
 --
@@ -3247,6 +4279,98 @@ ALTER SEQUENCE public.fixed_assets_id_seq OWNED BY public.fixed_assets.id;
 
 
 --
+-- Name: locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.locations (
+    id integer NOT NULL,
+    registered_postal_zone_id character varying,
+    locality character varying,
+    localizable_id integer,
+    localizable_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: formatted_cvi_cadastral_plants; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.formatted_cvi_cadastral_plants AS
+ SELECT cvi_cadastral_plants.id,
+    cvi_cadastral_plants.land_parcel_id,
+    locations.locality,
+    initcap((registered_postal_zones.city_name)::text) AS commune,
+        CASE
+            WHEN (cvi_cadastral_plants.land_parcel_number IS NULL) THEN concat(cvi_cadastral_plants.section, ' ', cvi_cadastral_plants.work_number)
+            ELSE concat(cvi_cadastral_plants.section, ' ', cvi_cadastral_plants.work_number, '-', cvi_cadastral_plants.land_parcel_number)
+        END AS cadastral_reference,
+    designation_of_origins.product_human_name_fra AS designation_of_origin_name,
+    initcap((vine_varieties.specie_name)::text) AS vine_variety_name,
+    cvi_cadastral_plants.area_value,
+    public.area_formatted(cvi_cadastral_plants.area_value) AS area_formatted,
+    cvi_cadastral_plants.planting_campaign,
+    cvi_cadastral_plants.cadastral_ref_updated,
+        CASE
+            WHEN (cvi_cadastral_plants.rootstock_id IS NULL) THEN NULL::text
+            ELSE initcap((rootstocks.specie_name)::text)
+        END AS rootstock,
+    (cvi_cadastral_plants.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
+    (cvi_cadastral_plants.inter_row_distance_value)::integer AS inter_row_distance_value,
+    cvi_cadastral_plants.state,
+    cvi_cadastral_plants.cvi_statement_id
+   FROM (((((public.cvi_cadastral_plants
+     LEFT JOIN public.locations ON (((cvi_cadastral_plants.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviCadastralPlant'::text))))
+     LEFT JOIN lexicon.registered_postal_zones ON (((locations.registered_postal_zone_id)::text = (registered_postal_zones.id)::text)))
+     LEFT JOIN lexicon.master_vine_varieties vine_varieties ON (((cvi_cadastral_plants.vine_variety_id)::text = (vine_varieties.id)::text)))
+     LEFT JOIN lexicon.master_vine_varieties rootstocks ON (((cvi_cadastral_plants.rootstock_id)::text = (rootstocks.id)::text)))
+     LEFT JOIN lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_cadastral_plants.designation_of_origin_id = designation_of_origins.id)));
+
+
+--
+-- Name: formatted_cvi_cultivable_zones; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.formatted_cvi_cultivable_zones AS
+SELECT
+    NULL::character varying AS name,
+    NULL::integer AS id,
+    NULL::text AS cadastral_references,
+    NULL::text AS communes,
+    NULL::integer AS cvi_statement_id,
+    NULL::character varying AS formatted_calculated_area,
+    NULL::character varying AS formatted_declared_area,
+    NULL::character varying AS cvi_land_parcels_calculated_area,
+    NULL::character varying AS land_parcels_status;
+
+
+--
+-- Name: formatted_cvi_land_parcels; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.formatted_cvi_land_parcels AS
+SELECT
+    NULL::integer AS id,
+    NULL::character varying AS name,
+    NULL::text AS communes,
+    NULL::text AS localities,
+    NULL::character varying AS planting_campaign,
+    NULL::character varying AS designation_of_origin_name,
+    NULL::character varying AS vine_variety_name,
+    NULL::text AS rootstock,
+    NULL::numeric(19,5) AS declared_area_value,
+    NULL::numeric(19,5) AS calculated_area_value,
+    NULL::character varying AS declared_area_formatted,
+    NULL::character varying AS calculated_area_formatted,
+    NULL::integer AS inter_vine_plant_distance_value,
+    NULL::integer AS inter_row_distance_value,
+    NULL::character varying AS state,
+    NULL::character varying AS activity_name,
+    NULL::integer AS cvi_cultivable_zone_id;
+
+
+--
 -- Name: gap_items; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4196,6 +5320,7 @@ CREATE TABLE public.journal_entries (
     reference_number character varying,
     continuous_number integer,
     validated_at timestamp without time zone,
+    providers jsonb,
     provider jsonb
 );
 
@@ -4317,6 +5442,40 @@ CREATE SEQUENCE public.labels_id_seq
 --
 
 ALTER SEQUENCE public.labels_id_seq OWNED BY public.labels.id;
+
+
+--
+-- Name: land_parcel_rootstocks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.land_parcel_rootstocks (
+    id integer NOT NULL,
+    percentage numeric DEFAULT 1.0,
+    rootstock_id character varying,
+    land_parcel_id integer,
+    land_parcel_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: land_parcel_rootstocks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.land_parcel_rootstocks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: land_parcel_rootstocks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.land_parcel_rootstocks_id_seq OWNED BY public.land_parcel_rootstocks.id;
 
 
 --
@@ -4552,6 +5711,25 @@ CREATE SEQUENCE public.loans_id_seq
 --
 
 ALTER SEQUENCE public.loans_id_seq OWNED BY public.loans.id;
+
+
+--
+-- Name: locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.locations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.locations_id_seq OWNED BY public.locations.id;
 
 
 --
@@ -7617,6 +8795,27 @@ ALTER TABLE ONLY public.contracts ALTER COLUMN id SET DEFAULT nextval('public.co
 
 
 --
+-- Name: crop_group_items id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_items ALTER COLUMN id SET DEFAULT nextval('public.crop_group_items_id_seq'::regclass);
+
+
+--
+-- Name: crop_group_labellings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings ALTER COLUMN id SET DEFAULT nextval('public.crop_group_labellings_id_seq'::regclass);
+
+
+--
+-- Name: crop_groups id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_groups ALTER COLUMN id SET DEFAULT nextval('public.crop_groups_id_seq'::regclass);
+
+
+--
 -- Name: crumbs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -7642,6 +8841,41 @@ ALTER TABLE ONLY public.custom_field_choices ALTER COLUMN id SET DEFAULT nextval
 --
 
 ALTER TABLE ONLY public.custom_fields ALTER COLUMN id SET DEFAULT nextval('public.custom_fields_id_seq'::regclass);
+
+
+--
+-- Name: cvi_cadastral_plant_cvi_land_parcels id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plant_cvi_land_parcels ALTER COLUMN id SET DEFAULT nextval('public.cvi_cadastral_plant_cvi_land_parcels_id_seq'::regclass);
+
+
+--
+-- Name: cvi_cadastral_plants id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants ALTER COLUMN id SET DEFAULT nextval('public.cvi_cadastral_plants_id_seq'::regclass);
+
+
+--
+-- Name: cvi_cultivable_zones id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cultivable_zones ALTER COLUMN id SET DEFAULT nextval('public.cvi_cultivable_zones_id_seq'::regclass);
+
+
+--
+-- Name: cvi_land_parcels id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_land_parcels ALTER COLUMN id SET DEFAULT nextval('public.cvi_land_parcels_id_seq'::regclass);
+
+
+--
+-- Name: cvi_statements id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_statements ALTER COLUMN id SET DEFAULT nextval('public.cvi_statements_id_seq'::regclass);
 
 
 --
@@ -7967,6 +9201,13 @@ ALTER TABLE ONLY public.labels ALTER COLUMN id SET DEFAULT nextval('public.label
 
 
 --
+-- Name: land_parcel_rootstocks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.land_parcel_rootstocks ALTER COLUMN id SET DEFAULT nextval('public.land_parcel_rootstocks_id_seq'::regclass);
+
+
+--
 -- Name: listing_node_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -7999,6 +9240,13 @@ ALTER TABLE ONLY public.loan_repayments ALTER COLUMN id SET DEFAULT nextval('pub
 --
 
 ALTER TABLE ONLY public.loans ALTER COLUMN id SET DEFAULT nextval('public.loans_id_seq'::regclass);
+
+
+--
+-- Name: locations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.locations ALTER COLUMN id SET DEFAULT nextval('public.locations_id_seq'::regclass);
 
 
 --
@@ -8478,6 +9726,294 @@ ALTER TABLE ONLY public.wice_grid_serialized_queries ALTER COLUMN id SET DEFAULT
 
 
 --
+-- Name: cadastral_land_parcel_zones cadastral_land_parcel_zones_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.cadastral_land_parcel_zones
+    ADD CONSTRAINT cadastral_land_parcel_zones_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: eu_market_prices eu_market_prices_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.eu_market_prices
+    ADD CONSTRAINT eu_market_prices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: intervention_model_items intervention_model_items_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.intervention_model_items
+    ADD CONSTRAINT intervention_model_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: intervention_models intervention_models_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.intervention_models
+    ADD CONSTRAINT intervention_models_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: master_production_natures master_production_natures_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.master_production_natures
+    ADD CONSTRAINT master_production_natures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: master_production_outputs master_production_outputs_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.master_production_outputs
+    ADD CONSTRAINT master_production_outputs_pkey PRIMARY KEY (production_nature_id, production_system_name, name);
+
+
+--
+-- Name: phenological_stages phenological_stages_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.phenological_stages
+    ADD CONSTRAINT phenological_stages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_agroedi_codes registered_agroedi_codes_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_agroedi_codes
+    ADD CONSTRAINT registered_agroedi_codes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_chart_of_accounts registered_chart_of_accounts_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_chart_of_accounts
+    ADD CONSTRAINT registered_chart_of_accounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_enterprises registered_enterprises_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_enterprises
+    ADD CONSTRAINT registered_enterprises_pkey PRIMARY KEY (establishment_number);
+
+
+--
+-- Name: registered_hydro_items registered_hydro_items_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_hydro_items
+    ADD CONSTRAINT registered_hydro_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_legal_positions registered_legal_positions_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_legal_positions
+    ADD CONSTRAINT registered_legal_positions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_pfi_crops registered_pfi_crops_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_pfi_crops
+    ADD CONSTRAINT registered_pfi_crops_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_pfi_segments registered_pfi_segments_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_pfi_segments
+    ADD CONSTRAINT registered_pfi_segments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_pfi_targets registered_pfi_targets_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_pfi_targets
+    ADD CONSTRAINT registered_pfi_targets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_pfi_treatment_types registered_pfi_treatment_types_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_pfi_treatment_types
+    ADD CONSTRAINT registered_pfi_treatment_types_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_phytosanitary_cropsets registered_phytosanitary_cropsets_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_phytosanitary_cropsets
+    ADD CONSTRAINT registered_phytosanitary_cropsets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_phytosanitary_products registered_phytosanitary_products_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_phytosanitary_products
+    ADD CONSTRAINT registered_phytosanitary_products_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_phytosanitary_risks registered_phytosanitary_risks_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_phytosanitary_risks
+    ADD CONSTRAINT registered_phytosanitary_risks_pkey PRIMARY KEY (product_id, risk_code);
+
+
+--
+-- Name: registered_phytosanitary_symbols registered_phytosanitary_symbols_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_phytosanitary_symbols
+    ADD CONSTRAINT registered_phytosanitary_symbols_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_phytosanitary_target_name_to_pfi_targets registered_phytosanitary_target_name_to_pfi_targets_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_phytosanitary_target_name_to_pfi_targets
+    ADD CONSTRAINT registered_phytosanitary_target_name_to_pfi_targets_pkey PRIMARY KEY (ephy_name);
+
+
+--
+-- Name: registered_phytosanitary_usages registered_phytosanitary_usages_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_phytosanitary_usages
+    ADD CONSTRAINT registered_phytosanitary_usages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_postal_zones registered_postal_zones_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_postal_zones
+    ADD CONSTRAINT registered_postal_zones_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_protected_designation_of_origins registered_protected_designation_of_origins_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_protected_designation_of_origins
+    ADD CONSTRAINT registered_protected_designation_of_origins_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: registered_seeds registered_seeds_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.registered_seeds
+    ADD CONSTRAINT registered_seeds_pkey PRIMARY KEY (number);
+
+
+--
+-- Name: technical_workflow_procedure_items technical_workflow_procedure_items_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.technical_workflow_procedure_items
+    ADD CONSTRAINT technical_workflow_procedure_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: technical_workflow_procedures technical_workflow_procedures_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.technical_workflow_procedures
+    ADD CONSTRAINT technical_workflow_procedures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: technical_workflow_sequences technical_workflow_sequences_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.technical_workflow_sequences
+    ADD CONSTRAINT technical_workflow_sequences_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: technical_workflows technical_workflows_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.technical_workflows
+    ADD CONSTRAINT technical_workflows_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_roles user_roles_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.user_roles
+    ADD CONSTRAINT user_roles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: variant_categories variant_categories_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.variant_categories
+    ADD CONSTRAINT variant_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: variant_doer_contracts variant_doer_contracts_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.variant_doer_contracts
+    ADD CONSTRAINT variant_doer_contracts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: variant_natures variant_natures_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.variant_natures
+    ADD CONSTRAINT variant_natures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: variant_prices variant_prices_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.variant_prices
+    ADD CONSTRAINT variant_prices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: variant_units variant_units_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.variant_units
+    ADD CONSTRAINT variant_units_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: variants variants_pkey; Type: CONSTRAINT; Schema: lexicon; Owner: -
+--
+
+ALTER TABLE ONLY lexicon.variants
+    ADD CONSTRAINT variants_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: account_balances account_balances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8750,6 +10286,30 @@ ALTER TABLE ONLY public.contracts
 
 
 --
+-- Name: crop_group_items crop_group_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_items
+    ADD CONSTRAINT crop_group_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crop_group_labellings crop_group_labellings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings
+    ADD CONSTRAINT crop_group_labellings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crop_groups crop_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_groups
+    ADD CONSTRAINT crop_groups_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: crumbs crumbs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8779,6 +10339,46 @@ ALTER TABLE ONLY public.custom_field_choices
 
 ALTER TABLE ONLY public.custom_fields
     ADD CONSTRAINT custom_fields_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_cadastral_plant_cvi_land_parcels cvi_cadastral_plant_cvi_land_parcels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plant_cvi_land_parcels
+    ADD CONSTRAINT cvi_cadastral_plant_cvi_land_parcels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_cadastral_plants cvi_cadastral_plants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants
+    ADD CONSTRAINT cvi_cadastral_plants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_cultivable_zones cvi_cultivable_zones_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cultivable_zones
+    ADD CONSTRAINT cvi_cultivable_zones_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_land_parcels cvi_land_parcels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_land_parcels
+    ADD CONSTRAINT cvi_land_parcels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cvi_statements cvi_statements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_statements
+    ADD CONSTRAINT cvi_statements_pkey PRIMARY KEY (id);
 
 
 --
@@ -9150,6 +10750,14 @@ ALTER TABLE ONLY public.labels
 
 
 --
+-- Name: land_parcel_rootstocks land_parcel_rootstocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.land_parcel_rootstocks
+    ADD CONSTRAINT land_parcel_rootstocks_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: listing_node_items listing_node_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -9187,6 +10795,14 @@ ALTER TABLE ONLY public.loan_repayments
 
 ALTER TABLE ONLY public.loans
     ADD CONSTRAINT loans_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
 
 
 --
@@ -9734,6 +11350,552 @@ ALTER TABLE ONLY public.wice_grid_serialized_queries
 
 
 --
+-- Name: cadastral_land_parcel_zones_centroid; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX cadastral_land_parcel_zones_centroid ON lexicon.cadastral_land_parcel_zones USING gist (centroid);
+
+
+--
+-- Name: cadastral_land_parcel_zones_shape; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX cadastral_land_parcel_zones_shape ON lexicon.cadastral_land_parcel_zones USING gist (shape);
+
+
+--
+-- Name: eu_market_prices_category; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX eu_market_prices_category ON lexicon.eu_market_prices USING btree (category);
+
+
+--
+-- Name: eu_market_prices_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX eu_market_prices_id ON lexicon.eu_market_prices USING btree (id);
+
+
+--
+-- Name: eu_market_prices_product_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX eu_market_prices_product_code ON lexicon.eu_market_prices USING btree (product_code);
+
+
+--
+-- Name: eu_market_prices_sector_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX eu_market_prices_sector_code ON lexicon.eu_market_prices USING btree (sector_code);
+
+
+--
+-- Name: intervention_model_items_article_reference; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX intervention_model_items_article_reference ON lexicon.intervention_model_items USING btree (article_reference);
+
+
+--
+-- Name: intervention_model_items_intervention_model_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX intervention_model_items_intervention_model_id ON lexicon.intervention_model_items USING btree (intervention_model_id);
+
+
+--
+-- Name: intervention_model_items_procedure_item_reference; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX intervention_model_items_procedure_item_reference ON lexicon.intervention_model_items USING btree (procedure_item_reference);
+
+
+--
+-- Name: intervention_models_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX intervention_models_name ON lexicon.intervention_models USING btree (name);
+
+
+--
+-- Name: intervention_models_procedure_reference; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX intervention_models_procedure_reference ON lexicon.intervention_models USING btree (procedure_reference);
+
+
+--
+-- Name: master_production_natures_agroedi_crop_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_natures_agroedi_crop_code ON lexicon.master_production_natures USING btree (agroedi_crop_code);
+
+
+--
+-- Name: master_production_natures_cap_2017_crop_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_natures_cap_2017_crop_code ON lexicon.master_production_natures USING btree (cap_2017_crop_code);
+
+
+--
+-- Name: master_production_natures_cap_2018_crop_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_natures_cap_2018_crop_code ON lexicon.master_production_natures USING btree (cap_2018_crop_code);
+
+
+--
+-- Name: master_production_natures_cap_2019_crop_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_natures_cap_2019_crop_code ON lexicon.master_production_natures USING btree (cap_2019_crop_code);
+
+
+--
+-- Name: master_production_natures_cap_2020_crop_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_natures_cap_2020_crop_code ON lexicon.master_production_natures USING btree (cap_2020_crop_code);
+
+
+--
+-- Name: master_production_natures_human_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_natures_human_name ON lexicon.master_production_natures USING btree (human_name);
+
+
+--
+-- Name: master_production_natures_human_name_fra; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_natures_human_name_fra ON lexicon.master_production_natures USING btree (human_name_fra);
+
+
+--
+-- Name: master_production_natures_pfi_crop_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_natures_pfi_crop_code ON lexicon.master_production_natures USING btree (pfi_crop_code);
+
+
+--
+-- Name: master_production_natures_specie; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_natures_specie ON lexicon.master_production_natures USING btree (specie);
+
+
+--
+-- Name: master_production_outputs_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_outputs_name ON lexicon.master_production_outputs USING btree (name);
+
+
+--
+-- Name: master_production_outputs_nature_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_outputs_nature_id ON lexicon.master_production_outputs USING btree (production_nature_id);
+
+
+--
+-- Name: master_production_outputs_system_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_production_outputs_system_name ON lexicon.master_production_outputs USING btree (production_system_name);
+
+
+--
+-- Name: master_vine_varieties_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX master_vine_varieties_id ON lexicon.master_vine_varieties USING btree (id);
+
+
+--
+-- Name: registered_agroedi_codes_reference_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_agroedi_codes_reference_code ON lexicon.registered_agroedi_codes USING btree (reference_code);
+
+
+--
+-- Name: registered_building_zones_centroid; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_building_zones_centroid ON lexicon.registered_building_zones USING gist (centroid);
+
+
+--
+-- Name: registered_building_zones_shape; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_building_zones_shape ON lexicon.registered_building_zones USING gist (shape);
+
+
+--
+-- Name: registered_chart_of_accounts_account_number; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_chart_of_accounts_account_number ON lexicon.registered_chart_of_accounts USING btree (account_number);
+
+
+--
+-- Name: registered_crop_zones_centroid; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_crop_zones_centroid ON lexicon.registered_crop_zones USING gist (centroid);
+
+
+--
+-- Name: registered_crop_zones_id_idx; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_crop_zones_id_idx ON lexicon.registered_crop_zones USING btree (id);
+
+
+--
+-- Name: registered_crop_zones_shape; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_crop_zones_shape ON lexicon.registered_crop_zones USING gist (shape);
+
+
+--
+-- Name: registered_enterprises_french_main_activity_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_enterprises_french_main_activity_code ON lexicon.registered_enterprises USING btree (french_main_activity_code);
+
+
+--
+-- Name: registered_enterprises_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_enterprises_name ON lexicon.registered_enterprises USING btree (name);
+
+
+--
+-- Name: registered_hydro_items_lines; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_hydro_items_lines ON lexicon.registered_hydro_items USING gist (lines);
+
+
+--
+-- Name: registered_hydro_items_nature; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_hydro_items_nature ON lexicon.registered_hydro_items USING btree (nature);
+
+
+--
+-- Name: registered_hydro_items_point; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_hydro_items_point ON lexicon.registered_hydro_items USING gist (point);
+
+
+--
+-- Name: registered_hydro_items_shape; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_hydro_items_shape ON lexicon.registered_hydro_items USING gist (shape);
+
+
+--
+-- Name: registered_pfi_doses_crop_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_pfi_doses_crop_id ON lexicon.registered_pfi_doses USING btree (crop_id);
+
+
+--
+-- Name: registered_pfi_doses_france_maaid; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_pfi_doses_france_maaid ON lexicon.registered_pfi_doses USING btree (france_maaid);
+
+
+--
+-- Name: registered_pfi_doses_harvest_year; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_pfi_doses_harvest_year ON lexicon.registered_pfi_doses USING btree (harvest_year);
+
+
+--
+-- Name: registered_phytosanitary_cropsets_crop_names; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_cropsets_crop_names ON lexicon.registered_phytosanitary_cropsets USING btree (crop_names);
+
+
+--
+-- Name: registered_phytosanitary_products_firm_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_products_firm_name ON lexicon.registered_phytosanitary_products USING btree (firm_name);
+
+
+--
+-- Name: registered_phytosanitary_products_france_maaid; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_products_france_maaid ON lexicon.registered_phytosanitary_products USING btree (france_maaid);
+
+
+--
+-- Name: registered_phytosanitary_products_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_products_name ON lexicon.registered_phytosanitary_products USING btree (name);
+
+
+--
+-- Name: registered_phytosanitary_products_natures; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_products_natures ON lexicon.registered_phytosanitary_products USING btree (natures);
+
+
+--
+-- Name: registered_phytosanitary_products_reference_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_products_reference_name ON lexicon.registered_phytosanitary_products USING btree (reference_name);
+
+
+--
+-- Name: registered_phytosanitary_risks_product_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_risks_product_id ON lexicon.registered_phytosanitary_risks USING btree (product_id);
+
+
+--
+-- Name: registered_phytosanitary_symbols_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_symbols_id ON lexicon.registered_phytosanitary_symbols USING btree (id);
+
+
+--
+-- Name: registered_phytosanitary_symbols_symbol_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_symbols_symbol_name ON lexicon.registered_phytosanitary_symbols USING btree (symbol_name);
+
+
+--
+-- Name: registered_phytosanitary_target_name_to_pfi_targets_ephy_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_target_name_to_pfi_targets_ephy_name ON lexicon.registered_phytosanitary_target_name_to_pfi_targets USING btree (ephy_name);
+
+
+--
+-- Name: registered_phytosanitary_usages_product_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_usages_product_id ON lexicon.registered_phytosanitary_usages USING btree (product_id);
+
+
+--
+-- Name: registered_phytosanitary_usages_species; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_phytosanitary_usages_species ON lexicon.registered_phytosanitary_usages USING btree (species);
+
+
+--
+-- Name: registered_postal_zones_centroid; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_postal_zones_centroid ON lexicon.registered_postal_zones USING gist (city_centroid);
+
+
+--
+-- Name: registered_postal_zones_city_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_postal_zones_city_name ON lexicon.registered_postal_zones USING btree (city_name);
+
+
+--
+-- Name: registered_postal_zones_country; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_postal_zones_country ON lexicon.registered_postal_zones USING btree (country);
+
+
+--
+-- Name: registered_postal_zones_postal_code; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_postal_zones_postal_code ON lexicon.registered_postal_zones USING btree (postal_code);
+
+
+--
+-- Name: registered_seeds_specie; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX registered_seeds_specie ON lexicon.registered_seeds USING btree (specie);
+
+
+--
+-- Name: technical_workflow_procedure_items_procedure_reference; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX technical_workflow_procedure_items_procedure_reference ON lexicon.technical_workflow_procedure_items USING btree (procedure_reference);
+
+
+--
+-- Name: technical_workflow_procedure_items_technical_workflow_pro_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX technical_workflow_procedure_items_technical_workflow_pro_id ON lexicon.technical_workflow_procedure_items USING btree (technical_workflow_procedure_id);
+
+
+--
+-- Name: technical_workflow_sequences_family; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX technical_workflow_sequences_family ON lexicon.technical_workflow_sequences USING btree (family);
+
+
+--
+-- Name: technical_workflow_sequences_specie; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX technical_workflow_sequences_specie ON lexicon.technical_workflow_sequences USING btree (specie);
+
+
+--
+-- Name: technical_workflow_sequences_technical_workflow_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX technical_workflow_sequences_technical_workflow_id ON lexicon.technical_workflow_sequences USING btree (technical_workflow_id);
+
+
+--
+-- Name: technical_workflow_sequences_technical_workflow_sequence_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX technical_workflow_sequences_technical_workflow_sequence_id ON lexicon.technical_workflow_sequences USING btree (technical_workflow_sequence_id);
+
+
+--
+-- Name: technical_workflows_procedures_procedure_reference; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX technical_workflows_procedures_procedure_reference ON lexicon.technical_workflow_procedures USING btree (procedure_reference);
+
+
+--
+-- Name: technical_workflows_procedures_technical_workflow_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX technical_workflows_procedures_technical_workflow_id ON lexicon.technical_workflow_procedures USING btree (technical_workflow_id);
+
+
+--
+-- Name: variant_categories_reference_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variant_categories_reference_name ON lexicon.variant_categories USING btree (reference_name);
+
+
+--
+-- Name: variant_natures_reference_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variant_natures_reference_name ON lexicon.variant_natures USING btree (reference_name);
+
+
+--
+-- Name: variant_natures_variety; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variant_natures_variety ON lexicon.variant_natures USING btree (variety);
+
+
+--
+-- Name: variant_prices_reference_article_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variant_prices_reference_article_name ON lexicon.variant_prices USING btree (reference_article_name);
+
+
+--
+-- Name: variant_prices_reference_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variant_prices_reference_name ON lexicon.variant_prices USING btree (reference_name);
+
+
+--
+-- Name: variant_prices_reference_packaging_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variant_prices_reference_packaging_name ON lexicon.variant_prices USING btree (reference_packaging_name);
+
+
+--
+-- Name: variant_units_reference_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variant_units_reference_name ON lexicon.variant_units USING btree (reference_name);
+
+
+--
+-- Name: variant_units_unit_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variant_units_unit_id ON lexicon.variant_units USING btree (unit_id);
+
+
+--
+-- Name: variants_category; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variants_category ON lexicon.variants USING btree (category);
+
+
+--
+-- Name: variants_nature; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variants_nature ON lexicon.variants USING btree (nature);
+
+
+--
+-- Name: variants_reference_name; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variants_reference_name ON lexicon.variants USING btree (reference_name);
+
+
+--
+-- Name: variants_variant_category_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variants_variant_category_id ON lexicon.variants USING btree (variant_category_id);
+
+
+--
+-- Name: variants_variant_nature_id; Type: INDEX; Schema: lexicon; Owner: -
+--
+
+CREATE INDEX variants_variant_nature_id ON lexicon.variants USING btree (variant_nature_id);
+
+
+--
 -- Name: account_provider_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -10151,6 +12313,13 @@ CREATE INDEX index_activity_productions_on_creator_id ON public.activity_product
 --
 
 CREATE INDEX index_activity_productions_on_cultivable_zone_id ON public.activity_productions USING btree (cultivable_zone_id);
+
+
+--
+-- Name: index_activity_productions_on_planting_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_activity_productions_on_planting_campaign_id ON public.activity_productions USING btree (planting_campaign_id);
 
 
 --
@@ -11274,6 +13443,34 @@ CREATE INDEX index_contracts_on_updater_id ON public.contracts USING btree (upda
 
 
 --
+-- Name: index_crop_group_items_on_crop_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_items_on_crop_group_id ON public.crop_group_items USING btree (crop_group_id);
+
+
+--
+-- Name: index_crop_group_items_on_crop_type_and_crop_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_items_on_crop_type_and_crop_id ON public.crop_group_items USING btree (crop_type, crop_id);
+
+
+--
+-- Name: index_crop_group_labellings_on_crop_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_labellings_on_crop_group_id ON public.crop_group_labellings USING btree (crop_group_id);
+
+
+--
+-- Name: index_crop_group_labellings_on_label_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crop_group_labellings_on_label_id ON public.crop_group_labellings USING btree (label_id);
+
+
+--
 -- Name: index_crumbs_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -11439,6 +13636,48 @@ CREATE INDEX index_custom_fields_on_updated_at ON public.custom_fields USING btr
 --
 
 CREATE INDEX index_custom_fields_on_updater_id ON public.custom_fields USING btree (updater_id);
+
+
+--
+-- Name: index_cvi_cadastral_plants_on_cvi_cultivable_zone_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_cadastral_plants_on_cvi_cultivable_zone_id ON public.cvi_cadastral_plants USING btree (cvi_cultivable_zone_id);
+
+
+--
+-- Name: index_cvi_cadastral_plants_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_cadastral_plants_on_cvi_statement_id ON public.cvi_cadastral_plants USING btree (cvi_statement_id);
+
+
+--
+-- Name: index_cvi_cultivable_zones_on_cvi_statement_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_cultivable_zones_on_cvi_statement_id ON public.cvi_cultivable_zones USING btree (cvi_statement_id);
+
+
+--
+-- Name: index_cvi_land_parcels_on_activity_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_land_parcels_on_activity_id ON public.cvi_land_parcels USING btree (activity_id);
+
+
+--
+-- Name: index_cvi_land_parcels_on_cvi_cultivable_zone_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_land_parcels_on_cvi_cultivable_zone_id ON public.cvi_land_parcels USING btree (cvi_cultivable_zone_id);
+
+
+--
+-- Name: index_cvi_statements_on_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cvi_statements_on_campaign_id ON public.cvi_statements USING btree (campaign_id);
 
 
 --
@@ -14102,6 +16341,13 @@ CREATE INDEX index_loans_on_updater_id ON public.loans USING btree (updater_id);
 
 
 --
+-- Name: index_locations_on_registered_postal_zone_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_locations_on_registered_postal_zone_id ON public.locations USING btree (registered_postal_zone_id);
+
+
+--
 -- Name: index_manure_management_plan_zones_on_activity_production_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -14386,6 +16632,20 @@ CREATE INDEX index_observations_on_updated_at ON public.observations USING btree
 --
 
 CREATE INDEX index_observations_on_updater_id ON public.observations USING btree (updater_id);
+
+
+--
+-- Name: index_on_cvi_cadastral_plant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_on_cvi_cadastral_plant_id ON public.cvi_cadastral_plant_cvi_land_parcels USING btree (cvi_cadastral_plant_id);
+
+
+--
+-- Name: index_on_cvi_land_parcel_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_on_cvi_land_parcel_id ON public.cvi_cadastral_plant_cvi_land_parcels USING btree (cvi_land_parcel_id);
 
 
 --
@@ -18045,6 +20305,70 @@ CREATE OR REPLACE VIEW public.product_populations AS
 
 
 --
+-- Name: formatted_cvi_cultivable_zones _RETURN; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE OR REPLACE VIEW public.formatted_cvi_cultivable_zones AS
+ SELECT ccz.name,
+    ccz.id,
+    string_agg(DISTINCT
+        CASE
+            WHEN (ccp.land_parcel_number IS NULL) THEN ((ccp.section)::text || (ccp.work_number)::text)
+            ELSE ((((ccp.section)::text || (ccp.work_number)::text) || '-'::text) || (ccp.land_parcel_number)::text)
+        END, ', '::text) AS cadastral_references,
+    initcap(string_agg(DISTINCT (registered_postal_zones.city_name)::text, ', '::text ORDER BY (registered_postal_zones.city_name)::text)) AS communes,
+    ccz.cvi_statement_id,
+    public.area_formatted(ccz.calculated_area_value) AS formatted_calculated_area,
+    public.area_formatted(ccz.declared_area_value) AS formatted_declared_area,
+    public.area_formatted(COALESCE(clp.calculated_area_value, ccz.calculated_area_value)) AS cvi_land_parcels_calculated_area,
+    ccz.land_parcels_status
+   FROM ((((public.cvi_cultivable_zones ccz
+     LEFT JOIN ( SELECT cvi_land_parcels.cvi_cultivable_zone_id,
+            sum(cvi_land_parcels.calculated_area_value) AS calculated_area_value
+           FROM public.cvi_land_parcels
+          GROUP BY cvi_land_parcels.cvi_cultivable_zone_id) clp ON ((ccz.id = clp.cvi_cultivable_zone_id)))
+     LEFT JOIN public.locations locations ON (((ccz.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviCultivableZone'::text))))
+     LEFT JOIN public.cvi_cadastral_plants ccp ON ((ccz.id = ccp.cvi_cultivable_zone_id)))
+     LEFT JOIN lexicon.registered_postal_zones ON (((locations.registered_postal_zone_id)::text = (registered_postal_zones.id)::text)))
+  GROUP BY ccz.id, ccz.name, clp.calculated_area_value;
+
+
+--
+-- Name: formatted_cvi_land_parcels _RETURN; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE OR REPLACE VIEW public.formatted_cvi_land_parcels AS
+ SELECT cvi_land_parcels.id,
+    cvi_land_parcels.name,
+    initcap(string_agg(DISTINCT (registered_postal_zones.city_name)::text, ', '::text ORDER BY (registered_postal_zones.city_name)::text)) AS communes,
+    initcap(string_agg(DISTINCT (locations.locality)::text, ', '::text ORDER BY (locations.locality)::text)) AS localities,
+    cvi_land_parcels.planting_campaign,
+    designation_of_origins.product_human_name_fra AS designation_of_origin_name,
+    vine_varieties.specie_name AS vine_variety_name,
+    initcap((rootstocks.specie_name)::text) AS rootstock,
+    cvi_land_parcels.declared_area_value,
+    cvi_land_parcels.calculated_area_value,
+    public.area_formatted(cvi_land_parcels.declared_area_value) AS declared_area_formatted,
+    public.area_formatted(cvi_land_parcels.calculated_area_value) AS calculated_area_formatted,
+    (cvi_land_parcels.inter_vine_plant_distance_value)::integer AS inter_vine_plant_distance_value,
+    (cvi_land_parcels.inter_row_distance_value)::integer AS inter_row_distance_value,
+    cvi_land_parcels.state,
+        CASE
+            WHEN (activities.name IS NULL) THEN 'not_defined'::character varying
+            ELSE activities.name
+        END AS activity_name,
+    cvi_land_parcels.cvi_cultivable_zone_id
+   FROM ((((((public.cvi_land_parcels
+     LEFT JOIN public.locations locations ON (((cvi_land_parcels.id = locations.localizable_id) AND ((locations.localizable_type)::text = 'CviLandParcel'::text))))
+     LEFT JOIN public.activities ON ((cvi_land_parcels.activity_id = activities.id)))
+     LEFT JOIN lexicon.master_vine_varieties rootstocks ON (((cvi_land_parcels.rootstock_id)::text = (rootstocks.id)::text)))
+     LEFT JOIN lexicon.registered_postal_zones ON (((locations.registered_postal_zone_id)::text = (registered_postal_zones.id)::text)))
+     LEFT JOIN lexicon.master_vine_varieties vine_varieties ON (((cvi_land_parcels.vine_variety_id)::text = (vine_varieties.id)::text)))
+     LEFT JOIN lexicon.registered_protected_designation_of_origins designation_of_origins ON ((cvi_land_parcels.designation_of_origin_id = designation_of_origins.id)))
+  GROUP BY cvi_land_parcels.id, designation_of_origins.product_human_name_fra, vine_varieties.specie_name, (initcap((rootstocks.specie_name)::text)), activities.name;
+
+
+--
 -- Name: activities_campaigns delete_activities_campaigns; Type: RULE; Schema: public; Owner: -
 --
 
@@ -18090,6 +20414,293 @@ CREATE RULE delete_campaigns_interventions AS
 
 CREATE RULE delete_product_populations AS
     ON DELETE TO public.product_populations DO INSTEAD NOTHING;
+
+
+--
+-- Name: cadastral_land_parcel_zones deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.cadastral_land_parcel_zones FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: datasource_credits deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.datasource_credits FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: eu_market_prices deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.eu_market_prices FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: intervention_model_items deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.intervention_model_items FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: intervention_models deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.intervention_models FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: master_production_natures deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.master_production_natures FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: master_production_outputs deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.master_production_outputs FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: master_vine_varieties deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.master_vine_varieties FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: phenological_stages deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.phenological_stages FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_agroedi_codes deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_agroedi_codes FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_building_zones deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_building_zones FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_chart_of_accounts deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_chart_of_accounts FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_crop_zones deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_crop_zones FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_enterprises deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_enterprises FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_hydro_items deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_hydro_items FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_legal_positions deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_legal_positions FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_pfi_crops deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_crops FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_pfi_doses deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_doses FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_pfi_segments deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_segments FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_pfi_targets deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_targets FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_pfi_treatment_types deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_treatment_types FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_phytosanitary_cropsets deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_phytosanitary_cropsets FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_phytosanitary_products deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_phytosanitary_products FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_phytosanitary_risks deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_phytosanitary_risks FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_phytosanitary_symbols deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_phytosanitary_symbols FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_phytosanitary_target_name_to_pfi_targets deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_phytosanitary_target_name_to_pfi_targets FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_phytosanitary_usages deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_phytosanitary_usages FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_postal_zones deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_postal_zones FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_protected_designation_of_origins deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_protected_designation_of_origins FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_seeds deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_seeds FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: technical_workflow_procedure_items deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflow_procedure_items FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: technical_workflow_procedures deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflow_procedures FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: technical_workflow_sequences deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflow_sequences FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: technical_workflows deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflows FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: user_roles deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.user_roles FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: variant_categories deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variant_categories FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: variant_doer_contracts deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variant_doer_contracts FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: variant_natures deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variant_natures FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: variant_prices deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variant_prices FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: variant_units deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variant_units FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: variants deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variants FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
@@ -18150,6 +20761,22 @@ ALTER TABLE ONLY public.payslips
 
 
 --
+-- Name: crop_group_labellings fk_rails_07865fc029; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings
+    ADD CONSTRAINT fk_rails_07865fc029 FOREIGN KEY (label_id) REFERENCES public.labels(id);
+
+
+--
+-- Name: cvi_cadastral_plant_cvi_land_parcels fk_rails_0e970be37a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plant_cvi_land_parcels
+    ADD CONSTRAINT fk_rails_0e970be37a FOREIGN KEY (cvi_land_parcel_id) REFERENCES public.cvi_land_parcels(id);
+
+
+--
 -- Name: parcel_items fk_rails_10aa40af5e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -18190,11 +20817,27 @@ ALTER TABLE ONLY public.outgoing_payments
 
 
 --
+-- Name: cvi_statements fk_rails_2b0908cb44; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_statements
+    ADD CONSTRAINT fk_rails_2b0908cb44 FOREIGN KEY (campaign_id) REFERENCES public.campaigns(id);
+
+
+--
 -- Name: journal_entry_items fk_rails_3143e6e260; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.journal_entry_items
     ADD CONSTRAINT fk_rails_3143e6e260 FOREIGN KEY (variant_id) REFERENCES public.product_nature_variants(id);
+
+
+--
+-- Name: crop_group_labellings fk_rails_36924e7b4a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_labellings
+    ADD CONSTRAINT fk_rails_36924e7b4a FOREIGN KEY (crop_group_id) REFERENCES public.crop_groups(id);
 
 
 --
@@ -18230,6 +20873,14 @@ ALTER TABLE ONLY public.journal_entries
 
 
 --
+-- Name: cvi_cadastral_plants fk_rails_5a05077b24; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants
+    ADD CONSTRAINT fk_rails_5a05077b24 FOREIGN KEY (cvi_statement_id) REFERENCES public.cvi_statements(id);
+
+
+--
 -- Name: tax_declaration_item_parts fk_rails_5be0cd019c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -18254,6 +20905,14 @@ ALTER TABLE ONLY public.purchase_items
 
 
 --
+-- Name: cvi_cadastral_plants fk_rails_65b7099078; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plants
+    ADD CONSTRAINT fk_rails_65b7099078 FOREIGN KEY (cvi_cultivable_zone_id) REFERENCES public.cvi_cultivable_zones(id);
+
+
+--
 -- Name: payslip_natures fk_rails_6835dfa420; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -18267,6 +20926,14 @@ ALTER TABLE ONLY public.payslip_natures
 
 ALTER TABLE ONLY public.parcel_items
     ADD CONSTRAINT fk_rails_7010820bb4 FOREIGN KEY (purchase_order_item_id) REFERENCES public.purchase_items(id);
+
+
+--
+-- Name: cvi_land_parcels fk_rails_71a1e59459; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_land_parcels
+    ADD CONSTRAINT fk_rails_71a1e59459 FOREIGN KEY (activity_id) REFERENCES public.activities(id);
 
 
 --
@@ -18286,11 +20953,27 @@ ALTER TABLE ONLY public.alert_phases
 
 
 --
+-- Name: cvi_cultivable_zones fk_rails_7b06059434; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cultivable_zones
+    ADD CONSTRAINT fk_rails_7b06059434 FOREIGN KEY (cvi_statement_id) REFERENCES public.cvi_statements(id);
+
+
+--
 -- Name: regularizations fk_rails_8043b7d279; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.regularizations
     ADD CONSTRAINT fk_rails_8043b7d279 FOREIGN KEY (affair_id) REFERENCES public.affairs(id);
+
+
+--
+-- Name: crop_group_items fk_rails_819f6e41b9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crop_group_items
+    ADD CONSTRAINT fk_rails_819f6e41b9 FOREIGN KEY (crop_group_id) REFERENCES public.crop_groups(id);
 
 
 --
@@ -18318,6 +21001,14 @@ ALTER TABLE ONLY public.intervention_working_periods
 
 
 --
+-- Name: cvi_land_parcels fk_rails_8fb9a09c07; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_land_parcels
+    ADD CONSTRAINT fk_rails_8fb9a09c07 FOREIGN KEY (cvi_cultivable_zone_id) REFERENCES public.cvi_cultivable_zones(id);
+
+
+--
 -- Name: intervention_participations fk_rails_930f08f448; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -18331,6 +21022,14 @@ ALTER TABLE ONLY public.intervention_participations
 
 ALTER TABLE ONLY public.parcel_items
     ADD CONSTRAINT fk_rails_995fb20943 FOREIGN KEY (activity_budget_id) REFERENCES public.activity_budgets(id);
+
+
+--
+-- Name: cvi_cadastral_plant_cvi_land_parcels fk_rails_9a5a14882f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cvi_cadastral_plant_cvi_land_parcels
+    ADD CONSTRAINT fk_rails_9a5a14882f FOREIGN KEY (cvi_cadastral_plant_id) REFERENCES public.cvi_cadastral_plants(id);
 
 
 --
@@ -19257,7 +21956,13 @@ INSERT INTO schema_migrations (version) VALUES ('20190808152235');
 
 INSERT INTO schema_migrations (version) VALUES ('20190911153350');
 
+INSERT INTO schema_migrations (version) VALUES ('20190912144103');
+
 INSERT INTO schema_migrations (version) VALUES ('20190916124521');
+
+INSERT INTO schema_migrations (version) VALUES ('20190917120742');
+
+INSERT INTO schema_migrations (version) VALUES ('20190917120743');
 
 INSERT INTO schema_migrations (version) VALUES ('20190929224101');
 
@@ -19269,11 +21974,39 @@ INSERT INTO schema_migrations (version) VALUES ('20191010151901');
 
 INSERT INTO schema_migrations (version) VALUES ('20191011155512');
 
+INSERT INTO schema_migrations (version) VALUES ('20191023172248');
+
+INSERT INTO schema_migrations (version) VALUES ('20191025074617');
+
+INSERT INTO schema_migrations (version) VALUES ('20191025074824');
+
 INSERT INTO schema_migrations (version) VALUES ('20191101162901');
+
+INSERT INTO schema_migrations (version) VALUES ('20191104152901');
 
 INSERT INTO schema_migrations (version) VALUES ('20191126103235');
 
+INSERT INTO schema_migrations (version) VALUES ('20191127162609');
+
+INSERT INTO schema_migrations (version) VALUES ('20191204160657');
+
+INSERT INTO schema_migrations (version) VALUES ('20191205085059');
+
+INSERT INTO schema_migrations (version) VALUES ('20191205123841');
+
+INSERT INTO schema_migrations (version) VALUES ('20191206080450');
+
+INSERT INTO schema_migrations (version) VALUES ('20191206102525');
+
+INSERT INTO schema_migrations (version) VALUES ('20191223092535');
+
 INSERT INTO schema_migrations (version) VALUES ('20200107092243');
+
+INSERT INTO schema_migrations (version) VALUES ('20200108090053');
+
+INSERT INTO schema_migrations (version) VALUES ('20200110142108');
+
+INSERT INTO schema_migrations (version) VALUES ('20200115164203');
 
 INSERT INTO schema_migrations (version) VALUES ('20200122100513');
 
@@ -19281,15 +22014,47 @@ INSERT INTO schema_migrations (version) VALUES ('20200128133347');
 
 INSERT INTO schema_migrations (version) VALUES ('20200213102154');
 
+INSERT INTO schema_migrations (version) VALUES ('20200225093814');
+
 INSERT INTO schema_migrations (version) VALUES ('20200312163243');
 
 INSERT INTO schema_migrations (version) VALUES ('20200312163701');
+
+INSERT INTO schema_migrations (version) VALUES ('20200313161422');
+
+INSERT INTO schema_migrations (version) VALUES ('20200316151202');
 
 INSERT INTO schema_migrations (version) VALUES ('20200317155452');
 
 INSERT INTO schema_migrations (version) VALUES ('20200317163950');
 
+INSERT INTO schema_migrations (version) VALUES ('20200317174840');
+
+INSERT INTO schema_migrations (version) VALUES ('20200320154251');
+
+INSERT INTO schema_migrations (version) VALUES ('20200324010101');
+
 INSERT INTO schema_migrations (version) VALUES ('20200330133607');
+
+INSERT INTO schema_migrations (version) VALUES ('20200403091907');
+
+INSERT INTO schema_migrations (version) VALUES ('20200403123414');
+
+INSERT INTO schema_migrations (version) VALUES ('20200406105101');
+
+INSERT INTO schema_migrations (version) VALUES ('20200407075511');
+
+INSERT INTO schema_migrations (version) VALUES ('20200407090249');
+
+INSERT INTO schema_migrations (version) VALUES ('20200407172801');
+
+INSERT INTO schema_migrations (version) VALUES ('20200409094501');
+
+INSERT INTO schema_migrations (version) VALUES ('20200410183701');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415160201');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415162701');
 
 INSERT INTO schema_migrations (version) VALUES ('20200415163115');
 
@@ -19300,6 +22065,12 @@ INSERT INTO schema_migrations (version) VALUES ('20200419152901');
 INSERT INTO schema_migrations (version) VALUES ('20200422084439');
 
 INSERT INTO schema_migrations (version) VALUES ('20200428152738');
+
+INSERT INTO schema_migrations (version) VALUES ('20200428162128');
+
+INSERT INTO schema_migrations (version) VALUES ('20200428162212');
+
+INSERT INTO schema_migrations (version) VALUES ('20200428162256');
 
 INSERT INTO schema_migrations (version) VALUES ('20200505114024');
 
@@ -19312,4 +22083,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200515092158');
 INSERT INTO schema_migrations (version) VALUES ('20200611090747');
 
 INSERT INTO schema_migrations (version) VALUES ('20200622101923');
+
+INSERT INTO schema_migrations (version) VALUES ('20200820094522');
+
+INSERT INTO schema_migrations (version) VALUES ('20200820095810');
 

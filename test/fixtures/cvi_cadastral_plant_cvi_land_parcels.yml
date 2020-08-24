@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  percentage: 9.99
+  cvi_land_parcel_id: 
+  cvi_cadastral_plant_id: 
+
+two:
+  percentage: 9.99
+  cvi_land_parcel_id: 
+  cvi_cadastral_plant_id: 

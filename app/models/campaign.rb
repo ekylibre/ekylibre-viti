@@ -42,7 +42,7 @@ class Campaign < Ekylibre::Record::Base
 
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
   validates :closed, inclusion: { in: [true, false] }
-  validates :closed_at, timeliness: { on_or_after: -> { Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.now + 50.years } }, allow_blank: true
+  validates :closed_at, timeliness: { on_or_after: -> { Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.now + 100.years } }, allow_blank: true
   validates :description, length: { maximum: 500_000 }, allow_blank: true
   validates :harvest_year, numericality: { only_integer: true, greater_than: -2_147_483_649, less_than: 2_147_483_648 }, allow_blank: true
   validates :name, presence: true, length: { maximum: 500 }
@@ -53,6 +53,7 @@ class Campaign < Ekylibre::Record::Base
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :interventions
   has_and_belongs_to_many :activity_productions
+  has_many :cvi_statements
 
   scope :current, -> { where(closed: false).reorder(:harvest_year) }
   scope :at, ->(searched_at = Time.zone.now) {

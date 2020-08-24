@@ -180,7 +180,7 @@
       $.extend(true, @options, @element.data("visualization"))
       @mapElement = $("<div>", class: "map").appendTo(@element)
 
-      @map = L.map(@mapElement[0], @options.map)
+      @map = Leaflet.map(@mapElement[0], @options.map)
       @layers = []
 
       if @options.map.setDefaultBackground
@@ -191,7 +191,7 @@
         opts['subdomains'] = @options.backgrounds.subdomains if @options.backgrounds.subdomains?
         opts['tms'] = true if @options.backgrounds.tms
 
-        backgroundLayer = L.tileLayer(@options.backgrounds.url, opts)
+        backgroundLayer = Leaflet.tileLayer(@options.backgrounds.url, opts)
         backgroundLayer.addTo @map
 
       if @options.map.setDefaultOverlay
@@ -203,13 +203,13 @@
         opts['opacity'] = (@options.overlays.opacity / 100).toFixed(1) if @options.overlays.opacity? and !isNaN(@options.overlays.opacity)
         opts['tms'] = true if @options.overlays.tms
 
-        OverlayLayer = L.tileLayer(@options.overlays.url, opts)
+        OverlayLayer = Leaflet.tileLayer(@options.overlays.url, opts)
         OverlayLayer.addTo @map
 
-      @ghostLabelCluster = L.ghostLabelCluster(type: 'number', innerClassName: 'leaflet-ghost-label-collapsed')
+      @ghostLabelCluster = Leaflet.ghostLabelCluster(type: 'number', innerClassName: 'leaflet-ghost-label-collapsed')
       @ghostLabelCluster.addTo @map
 
-      @layersScheduler = L.layersScheduler()
+      @layersScheduler = Leaflet.layersScheduler()
       @layersScheduler.addTo @map
 
       this._resize()
@@ -229,18 +229,18 @@
         dataType: 'json'
         url: @options.asyncUrl
         beforeSend: () =>
-          @dynamic_loading = new L.Control(position: "bottomleft")
+          @dynamic_loading = new Leaflet.Control(position: "bottomleft")
           @dynamic_loading.onAdd = (map) =>
-            L.DomUtil.create('div', 'leaflet-dynamic loading')
+            Leaflet.DomUtil.create('div', 'leaflet-dynamic loading')
           @map.addControl @dynamic_loading
         success: (data) =>
           $.extend(true, @options, data)
           @_refreshControls()
           @optionalDataLoading()
         error: () =>
-          dynamic_error = new L.Control(position: "bottomleft")
+          dynamic_error = new Leaflet.Control(position: "bottomleft")
           dynamic_error.onAdd = (map) =>
-            L.DomUtil.create('div', 'leaflet-dynamic error')
+            Leaflet.DomUtil.create('div', 'leaflet-dynamic error')
           @map.addControl dynamic_error
         complete: () =>
           @map.removeControl @dynamic_loading
@@ -371,7 +371,7 @@
 
     _addFullscreenControl: (options) ->
       options = $.extend true, {}, @options.controlDefaults.fullscreen, options
-      @controls.fullscreen = new L.Control.FullScreen options
+      @controls.fullscreen = new Leaflet.Control.FullScreen options
       @map.addControl @controls.fullscreen
       @map.on "enterFullscreen", (e) =>
         @map.scrollWheelZoom.enable();
@@ -382,7 +382,7 @@
 
     _addGeocoderControl: (options) ->
       options = $.extend true, {}, @options.controlDefaults.geocoder, options
-      @controls.geocoder = new L.Control.OSMGeocoder options
+      @controls.geocoder = new Leaflet.Control.OSMGeocoder options
       @map.addControl @controls.geocoder
 
     _addLayerSelectorControl: (options) ->
@@ -398,7 +398,7 @@
           opts['subdomains'] = layer.subdomains if layer.subdomains?
           opts['tms'] = true if layer.tms
 
-          backgroundLayer = L.tileLayer(layer.url, opts)
+          backgroundLayer = Leaflet.tileLayer(layer.url, opts)
           baseLayers[layer.name] = backgroundLayer
           @map.addLayer(backgroundLayer) if layer.byDefault
       else
@@ -407,7 +407,7 @@
 
         baseLayers = {}
         for layer, index in backgrounds
-          backgroundLayer = L.tileLayer.provider(layer)
+          backgroundLayer = Leaflet.tileLayer.provider(layer)
           baseLayers[layer] = backgroundLayer
           @map.addLayer(backgroundLayer) if index == 0
         @map.fitWorld( { maxZoom: @options.view.maxZoom } )
@@ -421,14 +421,14 @@
         opts['opacity'] = (layer.opacity / 100).toFixed(1) if layer.opacity? and !isNaN(layer.opacity)
         opts['tms'] = true if layer.tms
 
-        overlays[layer.name] = L.tileLayer(layer.url, opts)
+        overlays[layer.name] = Leaflet.tileLayer(layer.url, opts)
 
-      @controls.legendControl = new L.control(position: "bottomright")
+      @controls.legendControl = new Leaflet.control(position: "bottomright")
       @controls.legendControl.onAdd = (map) ->
-        L.DomUtil.create('div', 'leaflet-legend-control')
+        Leaflet.DomUtil.create('div', 'leaflet-legend-control')
       @map.addControl @controls.legendControl
 
-      L.DomUtil.addClass(@controls.legendControl.getContainer(), 'leaflet-hidden-control')
+      Leaflet.DomUtil.addClass(@controls.legendControl.getContainer(), 'leaflet-hidden-control')
 
       $('.leaflet-legend-control').on 'click', () ->
         $(this).find('#legend-activity').toggleClass('minified')
@@ -436,7 +436,7 @@
       for layer in @options.layers
         @_addLayer(layer, overlays)
 
-      @controls.layerSelector = new L.Control.Layers(baseLayers, overlays, @options.controlDefaults.layerSelector)
+      @controls.layerSelector = new Leaflet.Control.Layers(baseLayers, overlays, @options.controlDefaults.layerSelector)
       @map.addControl @controls.layerSelector
 
     _addLayer: (layer, overlays) ->
@@ -454,7 +454,7 @@
         layerGroup = renderedLayer.buildLayerGroup(this, options)
         console.log("#{layer.name} layer rendered", layerGroup)
         # Add layer overlay
-        overlayLayer = L.layerGroup(layerGroup)
+        overlayLayer = Leaflet.layerGroup(layerGroup)
         overlayLayer.name = layer.name
         @layers.push layer
         layer.overlay = overlays[layer.label] = overlayLayer
@@ -463,7 +463,7 @@
         console.log("#{layer.name} layer added")
         unless layer.type == 'optional'
           try
-            group = new L.featureGroup(layerGroup)
+            group = new Leaflet.featureGroup(layerGroup)
             bounds = group.getBounds()
             @map.fitBounds(bounds)
             if bounds.getNorthEast().equals bounds.getSouthWest()
@@ -471,7 +471,7 @@
         # Add legend
         legend = @controls.legendControl.getContainer()
         legend.innerHTML += renderedLayer.buildLegend()
-        L.DomUtil.removeClass(legend, 'leaflet-hidden-control')
+        Leaflet.DomUtil.removeClass(legend, 'leaflet-hidden-control')
       else
         console.warn "Cannot add layer #{layer.type}"
 
@@ -479,12 +479,12 @@
 
     _addScaleControl: (options) ->
       options = $.extend true, {}, @options.controlDefaults.scale, options
-      @controls.scale = new L.Control.Scale options
+      @controls.scale = new Leaflet.Control.Scale options
       @map.addControl @controls.scale
 
     _addZoomControl: (options) ->
       options = $.extend true, {}, @options.controlDefaults.zoom, options
-      @controls.zoom = new L.Control.Zoom options
+      @controls.zoom = new Leaflet.Control.Zoom options
       @map.addControl @controls.zoom
 
 
@@ -566,7 +566,7 @@
       $(Object.keys(data)).each (index, sensorId) ->
         marker = (marker for marker in markers when marker.sensorId == parseInt(sensorId))[0]
         shadow = (shadow for shadow in shadows when shadow.markerSensorId == parseInt(sensorId))[0]
-        newPos = new L.LatLng(data[sensorId].coordinates[1], data[sensorId].coordinates[0])
+        newPos = new Leaflet.LatLng(data[sensorId].coordinates[1], data[sensorId].coordinates[0])
         if marker? && shadow?
           unless marker.getLatLng().equals(newPos)
             marker.setLatLng(newPos)

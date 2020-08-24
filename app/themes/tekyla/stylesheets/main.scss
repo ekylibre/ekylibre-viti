@@ -990,6 +990,8 @@ form.search {
     }
     dd {
       @include margin-left($attribute-label-width);
+      overflow: hidden;
+      text-overflow: ellipsis;
       .checkbox-true, .checkbox-false {
         display: inline;
         vertical-align: middle;
@@ -2791,6 +2793,10 @@ a[data-annotate] {
 .map-fullwidth{
   width: 100%;
   height: 100%;
+}
+
+.map-halfheight{
+  height: 50vh;
 }
 
 .label-important {

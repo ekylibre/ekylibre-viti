@@ -91,7 +91,7 @@ gem 'charta', gitlab: 'ekylibre/charta', branch: 'rails-4'
 gem 'geocoder'
 
 # active_list alternative
-gem 'font-awesome-sass'
+gem 'font-awesome-sass', '~> 5.8.1'
 gem 'kaminari', '~> 0.16.0'
 gem 'wice_grid' # , github: "leikind/wice_grid", branch: "rails3"
 
@@ -106,11 +106,18 @@ gem 'draper'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# Use Capistrano for deployment
+gem 'capistrano-rails', group: :development
+gem 'capistrano-git-with-submodules', '~> 2.0', group: :development
+gem 'capistrano-nvm', require: false, group: :development
+
 # Exception management
 gem 'exception_notification'
 
 # Views helpers
+# gem 'active_list', path: '../active_list'
 gem 'active_list', gitlab: 'ekylibre/active_list', branch: 'master'
+
 gem 'haml'
 gem 'simple_calendar', '~> 2.3.0'
 
@@ -194,6 +201,9 @@ gem 'ffaker', '>= 2.0.0'
 # Reading RSS feeds
 gem 'feedjira', require: false
 
+# Encapsulate application's business logic.
+gem 'interactor-rails'
+
 # Adds colors in terminal
 gem 'colored' # , require: false
 
@@ -215,6 +225,10 @@ gem 'luhn'
 # For interval selector
 gem 'bootstrap-slider-rails'
 
+# Using git until we have a proper release system for cartography
+#gem 'cartography', github: 'ekylibre/cartography'
+gem 'cartography', git: 'https://gitlab.com/ekylibre/cartography.git', branch: 'ekyviti'
+#gem 'cartography', path: '../cartography'
 gem 'gpgme'
 
 gem 'semantic'
@@ -239,7 +253,8 @@ group :development do
 
   # Code metrics
   gem 'rails_best_practices', require: false
-  gem 'rubocop', '~> 0.49.1', require: false
+  gem 'rubocop', '~> 0.70', require: false
+  gem 'rubocop-rails'
 
   # Webservers
   gem 'thin'
@@ -280,9 +295,10 @@ group :test do
 
   gem 'minitest-reporters'
   gem 'ruby-terminfo'
-
   gem 'factory_bot', '< 5'
 
+  gem 'shoulda', '~> 3.5.0'
+  gem 'shoulda-matchers', '~> 2.0'
   gem 'pdf-reader'
 end
 

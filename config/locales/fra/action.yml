@@ -150,6 +150,11 @@ fra:
       show: "Contrat %{number}"
     backend/crumbs:
       index: "Miettes"
+    backend/crop_groups:
+      edit: "Modifier le groupement de parcellaire\_: %{name}"
+      index: "Groupements de parcellaire"
+      new: "Nouveau groupement de parcellaire"
+      show: "Groupement de parcellaire\_: %{name}"
     backend/cultivable_zones:
       edit: "Modifier la zone cultivable\_: %{name}"
       index: "Zones cultivables"
@@ -161,6 +166,18 @@ fra:
       new: "Nouveau champ personnalisé"
       show: "Champ personnalisé\_: %{name}"
       sort: "Trier les choix du champ personnalisé"
+    backend/cvi_statement_conversions:
+      show: "Convertir CVI en parcellaire"
+    backend/cvi_cultivable_zones:
+      show: "Zone cultivable : %{name}"
+    backend/cvi_land_parcels:
+      edit_multiple:  "Modifier la séléction"
+      update_multiple:  "Modifier la séléction"
+    backend/cvi_statements:
+      edit: "Modifier le Casier Viticole Informatisé (CVI)\_: %{id}"
+      index: "Casier Viticole Informatisé"
+      new: "Nouveau Casier Viticole Informatisé (CVI)"
+      show: "Casier Viticole informatisé (CVI)\_: %{id}"
     backend/dashboards:
       accountancy: "Tableau de bord comptable"
       edit: "Modifier le tableau de bord\_: %{name}"
@@ -945,6 +962,17 @@ fra:
         one: "%{count} erreur a empêché l’enregistrement (%{model})"
         other: "%{count} erreurs ont empêché l’enregistrement (%{model})"
   front-end:
+    templates:
+      form:
+        land_parcel: "Parcelle"
+        name: "Nom"
+        vine_variety_name: "Cépage"
+        calculated_area: "Superficie calculée"
+        required: "Obligatoire"
+      actions:
+        regroup: "Regrouper"
+        split: "Dissocier"
+        edit: "Modifier"
     bank_reconciliation:
       remove: "Effacer"
     intervention:
@@ -956,15 +984,25 @@ fra:
       create_modal:
         title: "Choisir une activité"
     leaflet:
+      cut:
+        panel:
+          coordinatesProperty: "Coordonnées"
+          surfacesProperty: "Surfaces"
+          title: "Découpe de parcelles"
       draw:
         handlers:
           circle:
             tooltip:
               start: "Cliquez et déplacez pour dessiner un cercle."
+          circlemarker:
+            tooltip:
+              start: "Cliquez et déplacez pour dessiner un marqueur circulaire."
           marker:
             tooltip:
               start: "Cliquez sur la carte pour placer un marqueur."
           polygon:
+            errors:
+              overlapping: "Vous ne pouvez dessiner une parcelle par dessus une parcelle déjà existante."
             tooltip:
               cont: "Cliquez pour continuer à dessiner une forme."
               end: "Cliquez sur le dernier point pour fermer cette forme."
@@ -981,19 +1019,22 @@ fra:
           simpleshape:
             tooltip:
               end: "Relachez la souris pour finir de dessiner."
+        panel:
+          coordinatesProperty: "Coordonnées"
+          title: "Création de parcelles"
         toolbar:
           actions:
             text: "Annuler"
-            title: "Annulez le dessin"
+            title: "Annuler le dessin"
           buttons:
             circle: "Dessiner un cercle"
             marker: "Dessiner un marqueur"
-            polygon: "Dessiner un polygone"
+            polygon: "Dessiner une parcelle"
             polyline: "Dessiner une polyligne"
             rectangle: "Dessiner un rectangle"
-          finish: #?
-            text: "Terminer" #?
-            title: "Terminer le dessin" #?
+          finish:
+            text: "Terminer"
+            title: "Terminer le dessin"
           undo:
             text: "Supprimer le dernier point"
             title: "Supprimer le dernier point déssiné"
@@ -1006,6 +1047,8 @@ fra:
           remove:
             tooltip:
               text: "Cliquez sur l’objet à enlever"
+        panel:
+          title: "Edition de parcelles"
         toolbar:
           actions:
             cancel:
@@ -1016,17 +1059,101 @@ fra:
               title: "Sauvegardez les changements"
           buttons:
             edit: "Editer les couches"
-            editDisabled: "Pas de couches à éditer"
+            editDisabled: "Pas de parcelles à éditer"
             remove: "Supprimer les couches"
             removeDisabled: "Pas de couches à supprimer"
       fullscreenTitle: "Plein écran"
+      home:
+        toolbar:
+          buttons:
+            home: "Centrer"
       importerButtonTitle: "Importer"
+      locking:
+        from_date_html: "à partir du {{from}}<br>({{production}})"
+        from_to_date_html: "du {{from}} au {{to}}<br>({{production}})"
+        label_html: "<p class='title'>Indisponible</p><p>{{content}}</p>"
+        to_date_html: "jusqu'au {{to}}<br>({{production}})"
+      merge:
+        panel:
+          title: "Fusion de parcelles"
+      snap:
+        panel:
+          surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              subtext: "Annuler les changements"
+              text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              text: "Annuler"
+              title: "Annuler les changements"
+            save:
+              text: "Sauver"
+              title: "Sauver les changements"
+            title: "Annuler les changements" #?
+          buttons:
+            cutPolyline: "Découper une parcelle"
+      zoom:
+        zoomInTitle: "Zoomer"
+        zoomOutTitle: "Dézoomer"
+    labels:
+      cadastral_land_parcel_zones: 'Parcelles cadastrales'
+    levels:
+      # error: "Error!"
+    messages:
+    notifications: #?
+      levels: #?
+        error: "Erreur\_!" #?
+      messages: #?
+        unvalid_cvi_cadastral_plant: "Au moins une référence de parcelle cadastrale n'a pas été reconnue. Veuillez corriger ou supprimer la/les référence(s) identifiée(s) en rouge." #?
+      zoomInTitle: "Zoomer"
+      zoomOutTitle: "Dézoomer"
+    intervention:
+      nature:
+        harvest: "Récolte :"
+        reentry: "Réentrée :"
+        add_two_hours: "Ajouter 2h dans le cas d'une application en milieu fermé"
+    production:
+      start_state_of_production:
+        n_3_4_leaf: "N+3 (4ème feuille)"
+        n_2_3_leaf: "N+2 (3ème feuille)"
+        n_4_5_leaf: "N+4 (5ème feuille"
+    active_list:
+      labels:
+        manage_land_parcels: "Gérer le parcellaire"
+        edit: "Modifier"
+        not_defined: "A définir"
       zoomGuidance: "Niveau de zoom insuffisant"
       zoomInTitle: "Zoomer"
       zoomOutTitle: "Dézoomer"
     unroll:
       server_error: "Erreur serveur"
   labels:
+    use: "Usage"
+    land_parcel_plant: "Parcelle/culture"
+    land_parcels_plants: "Parcelles/cultures"
+    add_crop: "Ajouter une parcelle/culture"
+    add_use: "Ajouter un usage"
+    total_area: "Superficie totale"
+    cvi_converted: "Votre parcellaire a bien été converti à partir de votre CVI. Pour le modifier, veuillez vous rendre dans le module Production."
+    warning_could_not_use_ift: "Attention, si la production de référence n'est pas renseignée, les IFT ne pourront pas être calculés."
+    start_state_of_production: "1ère année de production (plantation année N)"
+    rootstock: "Porte-greffe"
+    major: "majoritaire"
+    percentage: "Répartition"
+    planting_campaign: "Campagne de plantation"
+    cadastral_reference: "Réf. cadastrale"
+    vine_area: "Superficie encépagée"
+    vine_variety_name: "Cépage"
+    vine_certification: "Appellation / AOP / IGP"
+    vine_plants_interval: "Inter-pied"
+    vine_rows_interval: "Inter-rang"
     abilities: "Compétences" #?
     accepted: "Acceptée"
     accepted_for_paiment: "Acceptée pour paiement"
@@ -1077,7 +1204,7 @@ fra:
     active_sum: "Total actifs" #?
     active_totals: "Total général"
     activities: "Activités"
-    activity: "Activités"
+    activity: "Activité"
     activity_production: "Production"
     activity_productions: "Productions"
     accumulated_stock: "Cumul des stocks de %{name}"
@@ -1250,6 +1377,7 @@ fra:
     are_you_sure_you_want_to_delete: "Êtes-vous sûr(e) de vouloir supprimer cet enregistrement\_?"
     are_you_sure_you_want_to_invoice: "Êtes-vous sûr(e) de vouloir facturer\_?"
     are_you_sure_you_want_to_send_mails: "Êtes-vous sûr(e) de vouloir envoyer les mails\_?"
+    are_you_sure_you_want_to_reset_cvi_conversion: "Êtes-vous sûr(e) de vouloir réinitialiser la conversion du parcellaire\_?"
     area: "Zone"
     area_measure: "Superficie" #?
     articles: "Articles"
@@ -1318,7 +1446,9 @@ fra:
     buildings_map: "Carte des bâtiments" #?
     by_account_fixed_assets: "État de immobilisations par compte au %{to}"
     by_year: "Par an"
+    cadastral_references: "Réf. cadastrale(s) associée(s)"
     calculate: "Calculer"
+    calculated_area: "Superficie calculée"
     calculated_hours: "Horaires calculées"
     calculators: "Calculateurs"
     calendar: "Calendrier"
@@ -1426,6 +1556,7 @@ fra:
     comment: "Commentaire"
     commercial_margin: "Marge commerciale"
     commission: "Commission"
+    communes: "Commune(s)"
     company: "Société"
     compare_planned_and_realised: "Comparer avec les interventions planifiées"
     complement_sort: "Trier les choix par nom" #?
@@ -1442,6 +1573,8 @@ fra:
       special-subscriber: "Filtre Abonné"
     conducted: "Réalisée"
     configure: "Configurer"
+    confirm: "Confirmer"
+    confirm_cvi_land_parcels: "Confirmer les parcelles"
     confirmation: "Confirmation"
     confirmation_update_historical_plans: "Voulez-vous appliquer ces modifications sur l'historique des noms de parcelles ?"
     confirmed: "Confirmées" #?
@@ -1463,8 +1596,13 @@ fra:
     contains: "Contient" #?
     content_products: "Produits contenus" #?
     contextual_help: "Aide contextuelle" #?
+    convert: "Convertir"
     convert_balance_into_loss: "Passer le solde en perte"
     convert_balance_into_profit: "Passer le solde en profit"
+    convert_cvi: "Convertir en parcellaire"
+    convert_cvi_into_land_parcels: "Convertir le CVI en parcellaire"
+    resume_cvi_conversion: "Reprendre la conversion en cours"
+    reset_cvi_conversion: "Réinitialiser la conversion du parcellaire"
     convert_into_contact: "Convertir en contact"
     convert_into_organization: "Convertir en organisation"
     convert_to_cultivable_zone: "Convertir en zone cultivable"
@@ -1499,6 +1637,7 @@ fra:
     counts: "Totaux"
     counts_by_nature: "Nombre de pièces à comptabiliser par type"
     create: "Créer"
+    complete: "Terminer"
     create_a_sale: "Créer une vente"
     create_and_continue: "Créer et saisir suivant"
     create_journal: "— Créer le journal —"
@@ -1547,6 +1686,11 @@ fra:
     current_stocks_by_variety: "État des stocks"
     currently_subscribed_to: "Actuellement abonné à"
     custom_fields: "Champs personnalisés"
+    cvi_cadastral_plants: "Parcelles cadastrales CVI"
+    cvi_cadastral_plants_map: "Parcelles cadastrales CVI"
+    cvi_land_parcels: "Parcelles culturales"
+    cvi_land_parcels_planting_campaign_invalid: "Au moins une parcelle ne contient pas d’année de plantation (champ vide), ou la valeur définie est incorrecte (ex. 9999). Veuillez modifier la ou les parcelles concernées puis cliquer sur Terminer."
+    cvi_cultivable_zones: "Zones Cultivables"
     daily_nitrogen_production: "Excretion d’azote journalière" #?
     data_to_export: "Données à exporter" #?
     data_to_extract: "Données à extraire" #?
@@ -1574,6 +1718,10 @@ fra:
     decimal_case: "Options pour un décimal" #?
     decision_making: "Décision"
     deduction_from_distribution: "4423 - Retenues et prélevements sur les distributions"
+    declared_area: "Superficie déclarée"
+    cvi_land_parcels_calculated_area: "Parcellaire calculé"
+    cvi_land_parcels_declared_area: "Parcellaire déclaré"
+    surface: "Superficie"
     default_letter_conclusion: "Veuillez agréer, Chère Madame, Cher Monsieur, l’expression de mes salutations distinguées."
     default_letter_function_title: "Chère Madame, Cher Monsieur"
     default_letter_introduction: "Suite à notre conversation, je vous communique les éléments du devis."
@@ -1584,6 +1732,14 @@ fra:
     deformity_percentage_evolution: "Evolution des malformations"
     delay: "Délai"
     delete: "Supprimer"
+    convert_cvi_header: "Convertir CVI en parcellaire"
+    convert_cvi_body: "<b>Information importante !</b><br><br>En cliquant sur \"Convertir\", les parcelles culturales que vous avez définies vont être automatiquement converties en productions viticoles (cultures avec tournières).<br><br>Si vous souhaitez modifier les informations associées à ces productions (nom, contours, tournières) par la suite, vous devrez le faire depuis le module \"Production\".<br><br>Pour cela :<br><ul><li>vous devrez sélectionner la ou les activités concernées depuis le module Production > Activités (les productions de vigne créées seront listées en bas de chaque activité)</li> <br><li>vous pourrez ensuite cliquer sur la production, puis sur \"Modifier\" pour éditer les contours ou créer les tournières sur vos parcelles culturales</li></ul><br><b>Note : l’ajout de tournières sur une production devra être effectué avant toute intervention sur la culture.</b>"
+    delete_cvi_cultivable_zone_header: "Supprimer la Zone Cultivable"
+    delete_cvi_cultivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
+    reset_cvi_cutlivable_zone_header: "Réinitialiser le parcellaire d'une Zone cultivable"
+    reset_cvi_cutlivable_zone_body: "<b>Attention !</b><br>Vous allez réinitialiser le parcellaire de cette Zone cultivable. Si vous confirmez, toutes les modifications déjà enregistrées seront perdues.<br><br>Souhaitez-vous confirmer cette réinitialisation?"
+    delete_cvi_cadastral_plant_header: "Supprimer une parcelle cadastrale de votre CVI"
+    delete_cvi_cadastral_plant_body: "<b>Attention !</b><br>Vous allez supprimer une parcelle cadastrale de votre CVI.Pour la rajouter ou la modifier, vous devrez ré-importer la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette parcelle de votre CVI ?"
     delete_only_record: #? String expected ("Or only delete the selected intervention(s) and display the request associate ?")
       one: "Ou supprimer uniquement l’intervention" #?
       other: "Ou supprimer uniquement les interventions" #?
@@ -1657,6 +1813,7 @@ fra:
     down_to_level: "Détailler jusqu’au niveau" #?
     download: "Télécharger"
     download_archive: "Télécharger l'archive (ZIP)"
+    download_cvi_template_file: "Télécharger un modèle de CVI"
     download_firefox: "Télécharger Mozilla Firefox…" #?
     download_template_file: "Télécharger un fichier modèle"
     downpayment: "Acompte"
@@ -1879,6 +2036,9 @@ fra:
     forecast_harvest_week: "Semaine de récolte"
     france_maaid: "N° AMM" #?
     from: "À partir du"
+    from_current_year: "À partir du"
+    to_next_year: "Au"
+    production_campaign_period: "Campagne annuelle de production"
     from_to_date: "du %{from} au %{to}"
     fruit_yield: "Rendement fruit"
     full_name: "Client"
@@ -1910,6 +2070,7 @@ fra:
     global_costs: "Coût global"
     global_preferences: "Préférences générales"
     go: "Valider"
+    go_back: "Retour"
     go_back_to_financial_year_details: "Retourner aux détails de l'exercice comptable"
     gradings: "Agréages"
     grain_yield: "Rendement grain"
@@ -2377,6 +2538,7 @@ fra:
     options: "Options"
     or: "Ou"
     order: "Commande" #?
+    # order_again: "Order again"
     order_amount_with_taxes: "Montant de la commande" #?
     order_print: "Imprimer la commande" #?
     organic_matter_concentration: "Teneur en matière organique"
@@ -2481,6 +2643,7 @@ fra:
     plant_medicines: "Produits phytosanitaires"
     plant_productions: "Productions végétales" #?
     plantation_density: "Densité de plantation"
+    planted: "Plantées"
     plants: "Plantes"
     please_provide_a_valid_maaid_to_display_this_article_properties: "Veuillez renseigner un numéro d'AMM valide afin d'afficher toutes les caractéristiques de cet article"
     please_reach_out_for_the_person_in_charge_of_the_closure: "Il faudra vous rapprocher de la personne qui a effectué la clôture en dehors du logiciel pour récupérer vos documents de fin d’exercice."
@@ -2545,7 +2708,7 @@ fra:
     production_cost: "Coût de production"
     production_costs: "Coûts de production"
     production_distribution: "Répartition de la production"
-    production_nature: "Type de production"
+    production_nature: "Production de référence"
     production_others_charges: "Autres charges"
     production_purchases: "Achats d'approvisionnements"
     production_support: "Support de production"
@@ -2608,6 +2771,7 @@ fra:
     quit_financial_year_closure_preparation: "Quitter le mode préparatoire sur %{code}"
     radical_class_accounts_dont_have_entries: "Les comptes de classes radicales ne comportent pas d'écritures."
     radical_class_accounts_have_entries: "Les comptes de classes radicales comportent des écritures."
+    rain: "Pluviométrie" #?
     raw_income: "Résultat d’exploitation"
     raw_margin: "Marge brute" #?
     raw_matters: "Matières premières et approvisionnements"
@@ -2638,7 +2802,9 @@ fra:
     reconciliate_with_receptions: "Rapprocher avec une ou des réceptions"
     record: "Enregistrement"
     record_cannot_be_saved: "L'enregistrement n'a pas pu être sauvegardé."
+    records_cannot_be_saved: "Les enregistrements n'ont pas pu être sauvegardés."
     record_has_been_correctly_removed: "L’enregistrement a été supprimé correctement." #?
+    cvi_conversion_has_been_correctly_reseted: "La conversion du CVI a été réinitialisée correctement."
     record_has_not_been_removed: "L’enregistrement n’a pu être supprimé." #?
     record_maintenance: "Enregistrer une maintenance"
     reevaluation_gaps: "Écart de réévaluation"
@@ -2651,6 +2817,9 @@ fra:
     register_intervention_request: "Enregistrer la demande d’intervention"
     regressive_options: "Options de l'amortissement dégressif"
     regulated_reserves: "1064 - Réserves réglementées"
+    regroup: "Regrouper"
+    split: "Dissocier"
+    draw_the_cutting_line: "Dessinez le trait de découpe"
     rejected: "Refusé"
     related_people: "En lien avec" #?
     relationship: "Tiers"
@@ -2665,6 +2834,7 @@ fra:
     remove_subscription: "Supprimer l’abonnement"
     remove_treatment: "Supprimer un traitement" #?
     remove_watching: "Supprimer un produit de référence" #?
+    removed_with_authorization: "Arrachées avec autorisation"
     renewed: "Renouvellés"
     reopen: "Déclôturer" #?
     reopen_journal: "Déclôturer le journal" #?
@@ -2784,6 +2954,7 @@ fra:
     select_building: "Sélectionnez un lieu de stockage" #?
     select_closure_date: "Choisissez la date de clôture"
     select_columns: "Cochez les colonnes que vous voulez voir apparaitre dans le tableau."
+    select_cvi_campaign_intro: "<p class='h4'>Les parcelles cadastrales de votre CVI vont être converties en parcellaire pour une campagne de production viticole.</p><p class='h4'>Veuillez choisir le 1er millésime à partir duquel vous souhaitez créer votre parcellaire et les productions associées:</p>"
     select_date: "Entrez une date"
     select_date_generation: "Date limite d’intégration"
     select_document: "Sélectionnez un document" #?
@@ -3152,6 +3323,7 @@ fra:
     view_modes: #?
       printable: "Mode «\_Imprimable\_»" #?
       resized: "Mode «\_Tout à l’écran\_»" #?
+    vintage_or_production_campaign: "millésime ou campagne de production"
     virtual_quantity: "Quantité virtuelle" #?
     wages: "Rémunérations"
     warning_date_not_in_period: "Attention : La date saisie n'est pas sur l'exercice en cours."
@@ -3162,10 +3334,12 @@ fra:
     waters: "Eaux"
     wear: "Usure" #?
     weather: "Météo"
+    weather_vine_spraying_map: "Cumul de pluie depuis la dernière intervention de pulvérisation"
     website: "Site web"
     week: "Semaine" #?
     wice_grid_columns: "Colonnes"
     wind_speed: "Vitesse du vent"
+    wine_production: "production viticole"
     wine_tanks: "Cuverie" #?
     with_fixed_assets_depreciations: "Inclure les amortissements des immobilisations"
     with_prints: "Inclure les impressions (factures, commandes…)" #?
@@ -3379,7 +3553,8 @@ fra:
       one: "%{count} an"
       other: "%{count} ans"
     y: "Oui" #?
-    year: "Année"
+    year: "an"
+    year_long: "Année"
     year_end: "Fin d'exercice"
     year_start: "Début d'exercice"
     yearly: "Annuelle" #?
@@ -3540,6 +3715,7 @@ fra:
       no_template_journal_by_id: "Pas de modèle journal" #?
       no_unconfirmed_stock_transfers: "Aucun transfert de stocks non-confirmé" #?
       no_unvalidated_operations: "Aucun travail à réaliser" #?
+      no_vine_production_or_spraying_interventions_defined_for_current_campaign: "Aucune production viticole avec une intervention de pulvérisation et/ou de fertilisation foliaire n'existe sur la campagne"
       password_successfully_changed: "Votre mot de passe a été mis à jour avec succès" #?
       please_contact_support_for_further_information: "%{message} Veuillez contacter le support pour plus d'informations."
       previouos_financial_year_is_not_closed: "L’exercice précédent n’a pas été clôturé."
@@ -3561,6 +3737,13 @@ fra:
       record_x_created: "%{record} %{name} créé(e)"
       record_x_planned: "%{record} %{name} planifiée" #?
       record_x_updated: "%{record} %{name} mise à jour"
+      record_x_updated_f: "La %{record} %{name} a été mise à jour"
+      records_x_updated_f: "Les %{record} %{name} ont été mises à jour"
+      can_not_group_cvi_land_parcels: "Les parcelles ne peuvent pas être regroupées car le cépage, le produit, la densité, l'activité ou l’état diffère. Veuillez vérifier les valeurs avant de regrouper les parcelles."
+      can_not_group_no_intersection: "Les %{name_pluralized} n’ont pas pu être regroupées. Si vous souhaitez les regrouper, éditez l’une des deux %{name_pluralized} de façon à ce que leurs contours aient au moins un point d’intersection."
+      can_not_split_grouped: "La parcelle ne peut pas être dissociée car elle provient déjà du regroupement de plusieurs parcelles. Veuillez choisir une autre parcelle ou réinitialiser la Zone cultivable."
+      grouped: "Les %{name_pluralized} ont été regroupées."
+      cvi_land_parcels_splitted:  "La parcelle a été dissociée."
       restoration_finished: "La restauration de la sauvegarde s’est terminée (en %{value} secondes)." #?
       sale_already_invoiced: "La vente a déjà été facturée: vous ne pouvez pas définir de livraison" #?
       sale_cannot_be_updated: "Le devis n’est plus modifiable." #?
@@ -3658,7 +3841,10 @@ fra:
       convert: "Convertir"
       correct: "Corriger"
       create: "Créer"
+      generate_cvi_land_parcels: "Commencer"
+      edit_cvi_land_parcels: "Reprendre"
       decrement: "Décrementer" #?
+      delete_modal: "Supprimer"
       destroy: "Supprimer"
       detach: "Détacher"
       detail: "Détail"
@@ -3725,7 +3911,7 @@ fra:
       renew: "Renouveler"
       reopen: "Réouvrir"
       repay: "Rembourser"
-      reset: "Ré-initialiser"
+      reset: "Réinitialiser"
       retrieve: "Relever"
       run: "Exécuter"
       scrap: "Mettre au rebut"

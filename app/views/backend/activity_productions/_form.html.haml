@@ -15,7 +15,7 @@
   = f.date_range
   - if f.object.use_seasons?
     = f.association :season, as: :radio_buttons, collection: activity.seasons
-  - if activity.plant_farming?
+  - if activity.plant_farming? || activity.vine_farming?
     -# Vegetal cropsra
     = f.input :support_nature, as: :radio_buttons
     - f.object.usage ||= :grain

@@ -25,6 +25,20 @@ ita:
     ekylibre_crumbs: "Ekylibre Briciole" #?
     ekylibre_cultivable_zones: "zone coltivabili Ekylibre"
     ekylibre_cultivable_zones_json: "Ekylibre zone coltivabili JSON"
+    ekylibre_cvi:
+      errors:
+        # cvi_statement_already_exist: "A CVI as been already imported. To run a new import, please delete first the CVI."
+        # invalid_siret: "SIRET number %{value} is invalid"
+        # unknown_cadastral_land_parcel: "Unknown cadastral land parcel zone %{value}"
+        # unknown_column_name: "Unknown column name %{column_name}"
+        # unknown_designation_of_origin: "Unknown protected designation of origin for %{value}"
+        # unknown_rootstock: "Unknown rootstock for %{value}"
+        # unknown_state: "Unknown state %{state}"
+        # unknown_type_of_occupancy: "Unknown type_of_occupancy %{type_of_occupancy}"
+        # unknown_vine_variety: "Unknown vine variety for %{value}"
+        # wrong_file_extension: "Wrong file extension %{file_extension}, required %{required_file_exension}"
+    # ekylibre_cvi_csv: "Computerised Vineyard Register (CSV)"
+    # ekylibre_cvi_json: "Computerised Vineyard Register (JSON)"
     ekylibre_entities: "Entità Ekylibre"
     ekylibre_equipments: "attrezzature Ekylibre"
     ekylibre_equipments_json: "Ekylibre attrezzature JSON"

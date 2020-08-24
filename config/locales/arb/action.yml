@@ -162,6 +162,13 @@ arb:
       new: "انشاء حقل مخصص"
       show: "الحقل المخصص : %{name}"
       sort: "خيارات فرز الحقول المخصصة"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
+    backend/cvi_statements:
+      # edit: "Edit CVI statement: %{id}"
+      # index: "CVI statements"
+      # new: "New CVI statement"
+      # show: "CVI statement: %{id}"
     backend/dashboards:
       accountancy: "المحاسبة لوحة القيادة"
       # edit: "Edit dashboard: %{name}"
@@ -1057,15 +1064,25 @@ arb:
         # harvest: "Harvest:"
         # reentry: "Reentry:"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "انقر واسحب لرسم دائرة."
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "انقر الخريطة لوضع علامة."
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "انقر لمتابعة رسم الشكل."
               end: "انقر النقطة الأولى لإغلاق هذا الشكل."
@@ -1082,6 +1099,9 @@ arb:
           simpleshape:
             tooltip:
               end: "الماوس الإصدار لإنهاء الرسم."
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "إلغاء"
@@ -1092,6 +1112,9 @@ arb:
             polygon: "رسم مضلع"
             polyline: "رسم شكل متعدد الخطوط"
             rectangle: "رسم مستطيل"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "حذف النقطة الأخيرة"
             title: "حذف النقطة الأخيرة رسمها"
@@ -1104,6 +1127,8 @@ arb:
           remove:
             tooltip:
               text: "انقر على ميزة لإزالة"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -1118,9 +1143,50 @@ arb:
             remove: "حذف طبقات."
             removeDisabled: "لا طبقات حذف."
       fullscreenTitle: "تكبير الشاشة"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center"
       importerButtonTitle: "استيراد"
-      zoomInTitle: "تكبير"
-      zoomOutTitle: "تصغير"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "تكبير" #?
+      zoomOutTitle: "تصغير" #?
+    levels:
+      # error: "Error!"
+    messages:
+      # unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -1400,7 +1466,9 @@ arb:
     # building_zones: "Building zones"
     # by_account_fixed_assets: "Fixed assets by account on %{to}"
     by_year: "وبحلول العام"
+    # cadastral_references: "associated cadastral ref."
     calculate: "حساب"
+    # calculated_area: "calculated area"
     calculated_hours: "الساعات المحسوبة"
     calculators: "الآلات الحاسبة"
     calendar: "تقويم"
@@ -1497,6 +1565,7 @@ arb:
     # comment: "Comment"
     # commercial_margin: "Commercial margin"
     commission: "عمولة"
+    # communes: "commune(s)"
     company: "المجتمع"
     # compare_planned_and_realised: "Compare planned and done"
     completed: "منجز"
@@ -1507,6 +1576,7 @@ arb:
       special-subscriber: "تصفية وفق الاشتراك"
     # conducted: "Conducted"
     configure: "تكوين"
+    # confirm: "Confirm"
     # confirmation: "Confirmation"
     # confirmation_update_historical_plans: "Confirmation update historical plans"
     confirmed: "تأكيد" #?
@@ -1528,6 +1598,7 @@ arb:
     container: "وعاء"
     convert_balance_into_loss: "تحويل الرصيد إلى فقدان"
     convert_balance_into_profit: "تحويل الرصيد إلى أرباح"
+    # convert_cvi: "Convert into land parcels"
     convert_into_contact: "تحويل إلى الاتصال"
     convert_into_organization: "تحويل إلى منظمة"
     convert_to_cultivable_zone: "تحويل إلى منطقة صالحة للزراعة"
@@ -1603,6 +1674,8 @@ arb:
     custom_field_sort: "تفريزة الخيارات حسب الاسم" #?
     custom_field_update: "تعديل الحقل المخصص" #?
     custom_fields: "الحقول المخصصة"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_cadastral_plants_map: "Cvi cadastral plants"
     data_to_export: "تصدير البيانات" #?
     data_to_extract: "استخراج البيانات" #?
     # database_version: "Database Version"
@@ -1623,6 +1696,7 @@ arb:
     # debts_others_loans: "debts_others_loans"
     decimal_case: "خيارات للكسر العشري" #?
     decision_making: "اتخاذ القرار"
+    # declared_area: "declared area"
     # deduction_from_distribution: "4423 - Deductions and levies on distributions"
     default_letter_conclusion: "وتفضلوا، سيدتي، سيدي العزيز، بقبول أسمى عبارات التقدير."
     default_letter_function_title: "سيدتي، سيدي العزيز"
@@ -1712,6 +1786,7 @@ arb:
     down_to_level: "نزولا الى مستوى" #?
     # download: "Download"
     # download_archive: "Download archive (ZIP)"
+    # download_cvi_template_file: "Download CVR template file"
     download_firefox: "تحميل موزيلا فاير فوكس" #?
     # download_template_file: "Download template file"
     downpayment: "شروط العربون"
@@ -2408,6 +2483,7 @@ arb:
     operations: "عمليات"
     options: "خيارات"
     or: "أو"
+    # order_again: "Order again"
     order_amount_with_taxes: "قيمة الطلب مع الضرائب" #?
     order_print: "طباعة الطلب" #?
     organic_matter_concentration: "تركيز المواد العضوية"
@@ -2514,6 +2590,7 @@ arb:
     plant_countings: "فرزان"
     # plant_medicines: "Plant medicines"
     plantation_density: "كثافة المزارع"
+    # planted: "Planted"
     plants: "النباتات"
     # please_provide_a_valid_maaid_to_display_this_article_properties: "Please provide a valid AMM number to display this article's properties"
     # please_reach_out_for_the_person_in_charge_of_the_closure: "Please reach out for the person in charge of the closure outside of the software to get your documents."
@@ -2673,6 +2750,7 @@ arb:
     remove: "إزالة"
     remove_item: "إزالة بند"
     remove_subscription: "إزالة الاشتراك"
+    # removed_with_authorization: "Removed with authorization"
     renewed: "متجدد"
     reopen: "فتح الدفتر اليومي" #?
     repayment_period: "فترة السداد"
@@ -2784,6 +2862,7 @@ arb:
     select_building: "اختر مكان التخزين" #?
     select_closure_date: "اختيار تاريخ الاغلاق"
     select_columns: "ضع علامة على العمود الذي ترغب باظهاره في الجدول"
+    # select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     select_date: "ادخل تاريخ"
     select_date_generation: "تاريخ نهاية الدمج"
     select_existing_payment: "ختيار الدفعة الموجودة" #?
@@ -3101,6 +3180,7 @@ arb:
     # vegetable_yield: "Vegetable yield"
     view: "معاينة"
     view_map_when_creating_an_intervention: "عرض الخريطة عند إنشاء التدخل"
+    # vintage_or_production_campaign: "Vintage or production campaign"
     virtual_quantity: "الكمية العملية" #?
     wages: "أجور"
     waiting: "أ€ التسدسد لاحقا" #?
@@ -3113,6 +3193,7 @@ arb:
     website: "موقع الكتروني"
     # wice_grid_columns: "Columns"
     wind_speed: "سرعة الرياح"
+    # wine_production: "wine production"
     with_fixed_assets_depreciations: "مع انخفاض قيمة الأصول الثابتة"
     with_prints: "(وتشمل الطباعة (الفواتير والاوامر" #?
     # worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"
@@ -3637,6 +3718,7 @@ arb:
       convert: "تحول"
       correct: "صحيح"
       create: "خلق"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "إنقاص" #?
       destroy: "هدم"
       detach: "فصل"

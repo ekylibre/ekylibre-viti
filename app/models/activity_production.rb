@@ -54,7 +54,7 @@ class ActivityProduction < Ekylibre::Record::Base
   include Attachable
   include Customizable
 
-  enumerize :support_nature, in: %i[cultivation fallow_land buffer border none animal_group], default: :cultivation
+  enumerize :support_nature, in: %i[headland_cultivation cultivation fallow_land buffer border none animal_group], default: :cultivation
   refers_to :usage, class_name: 'ProductionUsage'
   refers_to :size_indicator, class_name: 'Indicator'
   refers_to :size_unit, class_name: 'Unit'
@@ -74,8 +74,9 @@ class ActivityProduction < Ekylibre::Record::Base
 
   has_and_belongs_to_many :interventions
   has_and_belongs_to_many :campaigns
+  belongs_to :planting_campaign, class_name: 'Campaign'
 
-  has_geometry :support_shape, type: :multi_polygon
+  has_geometry :support_shape, :headland_shape, type: :multi_polygon
   composed_of :size, class_name: 'Measure', mapping: [%w[size_value to_d], %w[size_unit_name unit]]
 
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
@@ -83,14 +84,15 @@ class ActivityProduction < Ekylibre::Record::Base
   validates :rank_number, presence: true, numericality: { only_integer: true, greater_than: -2_147_483_649, less_than: 2_147_483_648 }
   validates :activity, :size_indicator_name, :support, :usage, presence: true
   validates :size_value, presence: true, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }
-  validates :started_on, timeliness: { on_or_after: -> { Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.today + 50.years }, type: :date }, allow_blank: true
+  validates :started_on, timeliness: { on_or_after: -> { Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.today + 100.years }, type: :date }, allow_blank: true
   validates :state, length: { maximum: 500 }, allow_blank: true
-  validates :stopped_on, timeliness: { on_or_after: ->(activity_production) { activity_production.started_on || Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.today + 50.years }, type: :date }, allow_blank: true
+  validates :stopped_on, timeliness: { on_or_after: ->(activity_production) { activity_production.started_on || Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.today + 100.years }, type: :date }, allow_blank: true
   # ]VALIDATORS]
   validates :rank_number, uniqueness: { scope: :activity_id }
   validates :started_on, presence: true
   # validates_presence_of :cultivable_zone, :support_nature, if: :plant_farming?
   validates :support_nature, presence: { if: :plant_farming? }
+  validates :support_nature, presence: { if: :vine_farming? }
   validates :campaign, :stopped_on, presence: { if: :annual? }
   validates :started_on, presence: true
   validates :support, presence: true
@@ -102,7 +104,7 @@ class ActivityProduction < Ekylibre::Record::Base
   delegate :name, :work_number, to: :support, prefix: true
   # delegate :shape, :shape_to_ewkt, :shape_svg, :net_surface_area, :shape_area, to: :support
   delegate :name, :size_indicator_name, :size_unit_name, to: :activity, prefix: true
-  delegate :animal_farming?, :plant_farming?, :tool_maintaining?,
+  delegate :animal_farming?, :plant_farming?, :tool_maintaining?, :vine_farming?,
            :at_cycle_start?, :at_cycle_end?, :use_seasons?, :use_tactics?,
            :with_cultivation, :cultivation_variety, :with_supports, :support_variety,
            :color, :annual?, :perennial?, to: :activity, allow_nil: true
@@ -177,7 +179,7 @@ class ActivityProduction < Ekylibre::Record::Base
       self.size_unit_name = activity_size_unit_name
       self.rank_number ||= (activity.productions.maximum(:rank_number) ? activity.productions.maximum(:rank_number) : 0) + 1
       if valid_period_for_support?
-        if plant_farming?
+        if plant_farming? || vine_farming?
           initialize_land_parcel_support!
         elsif animal_farming?
           initialize_animal_group_support!
@@ -192,6 +194,10 @@ class ActivityProduction < Ekylibre::Record::Base
   before_validation(on: :create) do
     self.state ||= :opened
     true
+  end
+
+  validate do
+    errors.add(:support_shape, :empty) if (plant_farming? || vine_farming?) && support_shape && support_shape.empty?
   end
 
   after_save do
@@ -228,16 +234,6 @@ class ActivityProduction < Ekylibre::Record::Base
     end.flatten.uniq
   end
 
-  def computed_support_name
-    list = []
-    list << cultivable_zone.name if cultivable_zone
-    list << campaign.name if campaign
-    list << activity.name
-    list << :rank.t(number: rank_number)
-    list.reverse! if 'i18n.dir'.t == 'rtl'
-    list.join(' ')
-  end
-
   # compile unique work_number for support
   # a : P_ for Parcel
   # b : First letter of activity cultivation variety (v for vitis_vinifera, t for triticum)
@@ -269,7 +265,7 @@ class ActivityProduction < Ekylibre::Record::Base
       return false if self.started_on < Time.new(1, 1, 1).in_time_zone
     end
     if self.stopped_on
-      return false if self.stopped_on >= Time.zone.now + 50.years
+      return false if self.stopped_on >= Time.zone.now + 100.years
     end
     if self.started_on && self.stopped_on
       return false if self.started_on > self.stopped_on
@@ -727,14 +723,16 @@ class ActivityProduction < Ekylibre::Record::Base
     interactor = NamingFormats::LandParcels::BuildActivityProductionNameInteractor
                  .call(activity_production: self)
 
-    return interactor.build_name if interactor.success?
-    if interactor.fail?
+    if interactor.success?
+      interactor.build_name
+    #interactor is not loaded before the rake first run task
+    else
       list = []
+      list << cultivable_zone.name if cultivable_zone && (plant_farming? || vine_farming?)
       list << activity.name
       list << campaign.harvest_year.to_s if activity.annual? && started_on
       # list << started_on.to_date.l(format: :month) if activity.annual? && started_on
-      list << cultivable_zone.name if cultivable_zone && plant_farming?
-      # list << :rank.t(number: rank_number)
+      list << :rank.t(number: rank_number)
       list = list.reverse! if 'i18n.dir'.t == 'rtl'
       list.join(' ')
     end

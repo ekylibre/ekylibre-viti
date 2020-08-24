@@ -84,7 +84,7 @@ class InterventionOutput < InterventionProductParameter
 
       output.name = new_name if !procedure.of_category?(:planting) && new_name.present?
       output.name = compute_output_planting_name if procedure.of_category?(:planting)
-
+      output.specie_variety_name = specie_variety_name if procedure.of_category?(:planting) && specie_variety_name.present?
       output.identification_number = identification_number if identification_number.present?
       # output.attributes = product_attributes
       reading = readings.find_by(indicator_name: :shape)

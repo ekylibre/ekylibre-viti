@@ -12,7 +12,7 @@
 @import "reset";
 @import "fonts";
 @import "print";
-@import 'bootstrap-sprockets';
+@import "bootstrap-sprockets";
 
 // Plugins
 @import "themes/tekyla/plugins";
@@ -44,6 +44,7 @@
 @import "interventions";
 @import "intervention_participations";
 @import "leaflet";
+@import "leaflet-2";
 @import "main";
 @import "map_layers";
 @import "modals";
@@ -70,3 +71,13 @@
 
 // Optimization
 @import "symbolic_icons";
+
+@import "cartography";
+@import "./leaflet/cartography_fix";
+
+@import "cvi_cadastral_plants_cobble";
+@import "cvi_cultivable_zones_cobble";
+@import "cvi_land_parcels";
+@import "ekyviti";
+
+

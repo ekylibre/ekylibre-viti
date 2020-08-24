@@ -62,6 +62,8 @@
 //= require leaflet/label
 //= require autosize
 //= require plugins
+//= require main.js
+//= require leaflet-cartography/label
 //= require_tree .
 //= require tour
 //= require bootstrap-slider
@@ -83,7 +85,7 @@ Turbolinks.enableTransitionCache();
 Turbolinks.enableProgressBar();
 
 $(document).ready(function() {
-  L.Icon.Default.imagePath = '/assets';
+  Leaflet.Icon.Default.imagePath = '/assets';
   $(".snippet-content > ul > li").click(function(e) {
     localStorage.scrollTop = $('.inner').scrollTop();
   });

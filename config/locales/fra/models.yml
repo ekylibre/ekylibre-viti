@@ -90,6 +90,9 @@ fra:
         net_margin: "Marge nette" #?
         parent: "Activité parente" #?
         work_unit: "Unité d’œuvre" #?
+        start_state_of_production: "1ère année de production"
+        life_duration: "Durée de vie après plantation"
+        production_campaign_period: "Campagne annuelle de production"
       activity_budget:
         expenses_amount: "Montant des dépenses"
         revenues_amount: "Montant des recettes"
@@ -114,6 +117,27 @@ fra:
         enable_bookkeep_bank_item_details: "Comptabiliser le détail du relevé de compte" #?
       cashes:
         main_account: "Compte principal"
+      cvi_cadastral_plant:
+        area: "Superficie déclarée"
+        cadastral_reference: "référence cadastrale"
+        work_number: "Numéro de la parcelle cadastrale"
+        inter_row_distance: "Inter-rang"
+        inter_vine_plant_distance: "Inter-pied"
+        land_parcel_id: "Réf. cadastrale id"
+        rootstock_number: "Porte-greffe"
+        state: "État"
+      cvi_statement:
+        cadastral_plant_count: "Nombre de cultures cadastrales"
+        cadastral_sub_plant_count: "Nombre de sous-cultures cadastrales"
+        created_at: "Date d'import"
+        cvi_number: "N° de CVI"
+        extraction_date: "Date d'extraction"
+        farm_name: "Nom du domaine"
+        state: "Statut"
+        total_area: "Superficie encépagée déclarée"
+      cvi_land_parcel:
+        activity_id: Activité
+        land_modification_date: "Date d’arrachage"
       document:
         filename: "Fichier"
       document_archive: #?
@@ -154,6 +178,12 @@ fra:
         accounted: "Comptabilisé"
         asset_amount: "Valeur comptable"
         depreciable_amount: "Valeur nette comptable (VNC)" #?
+      formatted_cvi_cadastral_plant: #?
+        area_formatted: "Superficie déclarée" #?
+        cadastral_reference: "Réf. cadastrale" #?
+        commune: "Commune" #?
+        land_parcel_id: "Réf. cadastrale id" #?
+        state: "Etat" #?
       incoming_payment: #?
         to_bank_at: "À encaisser le" #?
       inspection: #?
@@ -225,7 +255,8 @@ fra:
         born_at: "Planté/semé le"
         nature: "Nature de la culture" #?
         reproductor: "Multiplication" #?
-        variety: "Variété" #?
+        variety: "Espèce" #?
+        specie_variety_name: "Variété / Cépage" #?
       plant_counting:
         expected_plants_count: "Nombre de graines théorique" #?
         expected_seeding_density: "Densité théorique" #?
@@ -485,6 +516,10 @@ fra:
               financial_year_matching_this_date_is_in_closure_preparation: "L'exercice comptable correspondant à cette date est en préparation de clôture par un autre utilisateur" #?
               financial_year_not_found: "Il n'y a pas d'exercice comptable pour cette date" #?
               not_opened_financial_year: "Un exercice comptable ouvert est nécessaire" #?
+        cvi_cadastral_plant:
+          attributes:
+            land_parcel:
+              cannot_find_land_parcel: "Erreur : Aucune parcelle cadastrale n'a été trouvée"
         deposit: #?
           must_be_a_bank_account: "%{attribute} doit être un compte bancaire et non une caisse" #?
         entity: #?
@@ -656,10 +691,17 @@ fra:
       catalog_item: "Prix"
       contract: "Contrat"
       contract_item: "Élément du contrat"
+      crop_group: "Groupement de parcellaire"
       crumb: "Miette"
       cultivable_zone: "Zone cultivable"
       custom_field: "Champ complémentaire"
       custom_field_choice: "Choix de champ complémentaire"
+      cvi_cadastral_plant: "Parcelle cadastrale CVI"
+      cvi_statement: "Casier Viticole Informatisé"
+      cvi_cultivable_zone:
+        one: "Zone cultivable"
+        other: "Zones cultivables"
+      cvi_land_parcel: "Parcelle"
       dashboard: "Tableau de bord"
       debt_transfer: "Transfert de dettes"
       delivery: "Livraison"
@@ -842,6 +884,12 @@ fra:
       worker: "Équipier"
       zone: "Zone"
   attributes:
+    designation_of_origin_name: "Produit" #?
+    inter_row_distance_value: "Inter-rang (cm)" #?
+    inter_vine_plant_distance_value: "Inter-pied (cm)" #?
+    rootstock: "Porte-greffe" #?
+    rootstocks: "Porte-greffe(s)"
+    vine_variety_name: "Cépage" #?
     abilities: "Compétences"
     abilities_list: "Liste des compétences"
     absolute_credit: "Crédit (absolu)"
@@ -928,6 +976,7 @@ fra:
     archives_count: "Nombre d’archives" #?
     archiving: "Méthode d’archivage"
     # area: "Area"
+    # area_value: "Area value"
     # arguments: "Arguments"
     assembly: "Assemblée"
     asset_account: "Compte d’actifs"
@@ -1064,6 +1113,8 @@ fra:
     commission_base_amount: "Montant fixe de la commission"
     commission_percentage: "Pourcentage de commission"
     commissioned_incoming_payment_modes: "Modes d’encaissement avec commission"
+    commune: "Commune"
+    communes: "Commune(s)"
     company_creation_date: "Date de création de l'entreprise"
     company_name: "Nom de l'entreprise"
     component: "Composant"
@@ -1115,7 +1166,7 @@ fra:
     cultivable_zone: "Zone cultivable"
     cultivable_zones: "Zones cultivables"
     cultivation_variant: "Type de culture"
-    cultivation_variety: "Variété de la culture"
+    cultivation_variety: "Espèce de la culture"
     cumulated_absolute_credit: "Crédit absolu cumulé"
     cumulated_absolute_debit: "Débit absolu cumulé"
     cumulated_balance: "Balance cumulée"
@@ -1143,6 +1194,8 @@ fra:
     custom_fields_columns: "Champs personnalisés colonnes"
     customized: "Enregistrement personnalisé" #?
     customized_type: "Type d’enregistrement personnalisé"
+    cvi_cadastral_plants: "Parcelles cadastrales CVI"
+    # cvi_statement: "Cvi statement"
     # daily_charges: "Daily charges"
     daily_nitrogen_production: "Excrétion d’azote journalière"
     dashboards: "Tableaux de bord"
@@ -1160,7 +1213,7 @@ fra:
     debtor: "Debiteur"
     decimal: "Décimal" #?
     decimal_value: "Valeur décimale"
-    declarant: "Declarant"
+    declarant: "Déclarant"
     declared_at: "Déclarée le" #?
     deductible_pretax_amount: "Montant HT déductible"
     deductible_tax_amount: "Montant de la taxe déductible"
@@ -1237,6 +1290,7 @@ fra:
     due_on: "Due le"
     duration: "Durée"
     economic_situation: "Situation économique"
+    edit_cadastral_ref: "Éditer la référence cadastrale"
     email: "Courriel (e-mail)"
     emails: "Courriels (e-mails)"
     embedded: "Embarqué"
@@ -1547,6 +1601,7 @@ fra:
     labels: "Étiquettes"
     land_parcel_number: "Numéro de la parcelle PAC"
     land_parcels: "Parcelles"
+    land_parcels_status: "Statut parcellaire"
     language: "Langue"
     last_analysis: "Dernières analyses"
     last_archive: "Dernière archive" #?
@@ -1586,6 +1641,8 @@ fra:
     local_count: "Population"
     local_credit: "Crédit"
     local_debit: "Débit"
+    locality: "Lieu-dit"
+    localities: "Lieu-dit(s)"
     localizations: "Localisations"
     lock_version: "Version"
     locked: "Verrouillé"
@@ -1688,7 +1745,7 @@ fra:
     net_mass_value: "Masse nette"
     net_mass_yield: "Rendement net"
     net_service: "Service web"
-    net_surface_area: "Surface" #?
+    net_surface_area: "Surface"
     net_volume: "Volume net" #?
     new_container: "Nouvel emplacement"
     new_group: "Nouveau groupe"
@@ -1788,6 +1845,7 @@ fra:
     planned_depreciations: "Amortissements prévus"
     planned_on: "Prévu sur"
     plant: "Plante"
+    planting_campaign: "Année"
     plant_counting: "Comptage"
     plant_countings: "Comptages"
     plant_density_abaci: "Abaques de densité de plant"
@@ -2050,6 +2108,7 @@ fra:
     seasons: "Saisonnalités"
     second_producer: "Second producteur" #?
     second_producer_way: "Voie du second producteur" #?
+    # section: "Section"
     seeding_density_unit: "Unité de densité de semis"
     seeding_density_value: "Densité de semis"
     selected: "Sélectionné"
@@ -2094,8 +2153,8 @@ fra:
     # sowing_interval: "Sowing interval"
     spaced_iban: "IBAN"
     special_imputation_asset_account: "Compte d'imputation spéciale"
-    # specie: "Specie"
-    # specie_variety: "Specie variety"
+    specie: "Espèce"
+    specie_variety_name: "Variété / Cépage"
     sql_type: "Type SQL"
     ssl: "Ssl"
     start: "Début"
@@ -2220,6 +2279,7 @@ fra:
     trouble_description: "Description du problème"
     trouble_encountered: "Problème durant l'intervention"
     type: "Type"
+    # type_of_occupancy: "Type of occupancy"
     # uid: "UID"
     unconfirmed_email: "E-mail non confirmé"
     undelivered_invoice_journal_entry: "Écriture Facture non parvenue (FNP)"

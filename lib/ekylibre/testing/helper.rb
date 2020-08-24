@@ -67,7 +67,11 @@ module Ekylibre
                   "variant_natures",
                   "variant_categories",
                   "variants",
-                  "registered_hydro_items"
+                  "registered_hydro_items",
+                  'master_vine_varieties',
+                  'registered_protected_designation_of_origins',
+                  'cadastral_land_parcel_zones',
+                  'registered_postal_zones',
                 ]
               }
             )
@@ -105,6 +109,10 @@ module Ekylibre
           end
 
           puts '[  OK ] Lexicon loaded successfully'.green
+
+          Lexicon.execute_post_processing
+
+          puts '[  OK ] Lexicon post processing executed successfully'.green
         end
 
         def setup_factories

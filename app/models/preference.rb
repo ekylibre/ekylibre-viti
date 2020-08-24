@@ -192,6 +192,7 @@ class Preference < Ekylibre::Record::Base
   prefer :currency, :currency, :EUR
   prefer :map_measure_srs, :spatial_reference_system, Nomen::SpatialReferenceSystem.default
   prefer :create_activities_from_telepac, :boolean, false
+  prefer :create_cultivable_zones_with_islet_from_telepac, :boolean, true
   prefer :catalog_price_item_addition_if_blank, :boolean, true
   prefer :client_account_radix, :string, ''
   prefer :supplier_account_radix, :string, ''

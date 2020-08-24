@@ -50,7 +50,6 @@ module Ekylibre
         create_database_for!(name) if multi_database > 0
         add(name)
         Apartment::Tenant.create(name)
-        # byebug
       end
 
       def multi_database
@@ -123,7 +122,6 @@ module Ekylibre
       def add(name)
         list << name unless list.include?(name)
         write
-        # byebug
       end
 
       # Add a tenant in config without creating it
@@ -393,18 +391,15 @@ module Ekylibre
 
       def write
         file = config_file
-        # byebug
         semaphore.synchronize do
           FileUtils.mkdir_p(file.dirname)
 
-          # byebug
 
           temp = File.open(file, 'w')
           temp.write @list.to_yaml
           temp.flush
           temp.close
 
-          # byebug
           # File.write(config_file, @list.to_yaml)
         end
       end

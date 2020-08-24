@@ -20,7 +20,6 @@ module ReadingStorable
     validates :choice_value,   presence: { if: :indicator_datatype_choice? }
     validates :decimal_value,  presence: { if: :indicator_datatype_decimal? }
     validates :geometry_value, presence: { if: :indicator_datatype_geometry? }
-    validates :integer_value,  presence: { if: :indicator_datatype_integer? }
     validates :measure_value, :absolute_measure_value, presence: { if: :indicator_datatype_measure? }
     validates :multi_polygon_value, presence: { if: :indicator_datatype_multi_polygon? }
     validates :point_value,    presence: { if: :indicator_datatype_point? }

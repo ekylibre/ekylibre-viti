@@ -64,6 +64,7 @@
 #     - "backend/bank_statement_items#show"
 #     - "backend/beehives#reset"
 #     - "backend/beehives#update"
+#     - "backend/cadastral_land_parcel_zones#index"
 #     - "backend/calculators/grains_commercialization_threshold_simulators#show"
 #     - "backend/cells/accountancy_balance_cells#show"
 #     - "backend/cells/calendar_cells#show"
@@ -146,6 +147,10 @@
 #     - "backend/cobblers#update"
 #     - "backend/cobbles/production_cost_cobbles#show"
 #     - "backend/cobbles/stock_in_ground_cobbles#show"
+#     - "backend/cvi_statement_conversions#create"
+#     - "backend/cvi_statement_conversions#list_cvi_cultivable_zones"
+#     - "backend/cvi_statement_conversions#reset"
+#     - "backend/cvi_statement_conversions#show"
 #     - "backend/dashboards#accountancy"
 #     - "backend/dashboards#home"
 #     - "backend/dashboards#humans"
@@ -186,6 +191,7 @@
 #     - "backend/helps#index"
 #     - "backend/helps#show"
 #     - "backend/helps#toggle"
+#     - "backend/imports#template_file"
 #     - "backend/interventions#compare_realised_with_planned"
 #     - "backend/interventions#create_duplicate_intervention"
 #     - "backend/interventions#duplicate_interventions"
@@ -203,6 +209,8 @@
 #     - "backend/map_editor_shapes#index"
 #     - "backend/map_editors#upload"
 #     - "backend/master_production_natures#unroll"
+#     - "backend/master_vine_varieties#unroll_rootstocks"
+#     - "backend/master_vine_varieties#unroll_vine_varieties"
 #     - "backend/notifications#destroy"
 #     - "backend/notifications#index"
 #     - "backend/notifications#show"
@@ -218,6 +226,8 @@
 #     - "backend/product_nature_variants#unroll_saleables"
 #     - "backend/product_natures#compatible_varieties"
 #     - "backend/purchases#show"
+#     - "backend/registered_postal_zones#unroll"
+#     - "backend/registered_protected_designation_of_origins#unroll"
 #     - "backend/registered_phytosanitary_products#get_products_infos"
 #     - "backend/registered_phytosanitary_products#unroll"
 #     - "backend/registered_phytosanitary_usages#dose_validations"
@@ -1162,6 +1172,22 @@ contracts:
     - "backend/contracts#update"
     - "backend/contracts#win"
 
+crop_groups:
+  read:
+    actions:
+    - "backend/crop_groups#edit"
+    - "backend/crop_groups#index"
+    - "backend/crop_groups#list"
+    - "backend/crop_groups#new"
+    - "backend/crop_groups#show"
+  write:
+    dependencies:
+    - read-crop_groups
+    actions:
+    - "backend/crop_groups#create"
+    - "backend/crop_groups#destroy"
+    - "backend/crop_groups#update"
+    - "backend/crop_groups#duplicate"
 cultivable_zones:
   read:
     actions:
@@ -1204,6 +1230,69 @@ custom_fields:
     - "backend/custom_fields#sort"
     - "backend/custom_fields#up"
     - "backend/custom_fields#update"
+
+cvi_cadastral_plants:
+  read:
+    actions:
+    - "backend/cvi_cadastral_plants#delete_modal"
+    - "backend/cvi_cadastral_plants#edit"
+    - "backend/cvi_cadastral_plants#index"
+  write:
+    dependencies:
+    - read-cvi_cadastral_plants
+    actions:
+    - "backend/cvi_cadastral_plants#destroy"
+    - "backend/cvi_cadastral_plants#update"
+
+cvi_cultivable_zones:
+  read:
+    actions:
+    - "backend/cvi_cultivable_zones#delete_modal"
+    - "backend/cvi_cultivable_zones#edit"
+    - "backend/cvi_cultivable_zones#edit_cvi_land_parcels"
+    - "backend/cvi_cultivable_zones#index"
+    - "backend/cvi_cultivable_zones#list_cvi_land_parcels"
+    - "backend/cvi_cultivable_zones#show"
+  write:
+    dependencies:
+    - read-cvi_cultivable_zones
+    actions:
+    - "backend/cvi_cultivable_zones#confirm_cvi_land_parcels"
+    - "backend/cvi_cultivable_zones#destroy"
+    - "backend/cvi_cultivable_zones#generate_cvi_land_parcels"
+    - "backend/cvi_cultivable_zones#update"
+
+cvi_land_parcels:
+  read:
+    actions:
+    - "backend/cvi_land_parcels#edit"
+    - "backend/cvi_land_parcels#index"
+    - "backend/cvi_land_parcels#pre_split"
+  write:
+    dependencies:
+    - read-cvi_land_parcels
+    actions:
+    - "backend/cvi_land_parcels#group"
+    - "backend/cvi_land_parcels#split"
+    - "backend/cvi_land_parcels#update"
+
+cvi_statement_conversions:
+  read:
+    actions:
+    - "backend/cvi_statements#edit"
+    - "backend/cvi_statements#index"
+    - "backend/cvi_statements#list"
+    - "backend/cvi_statements#list_cvi_cadastral_plants"
+    - "backend/cvi_statements#list_cvi_cadastral_plants_map"
+    - "backend/cvi_statements#new"
+    - "backend/cvi_statements#show"
+  write:
+    dependencies:
+    - read-cvi_statement_conversions
+    actions:
+    - "backend/cvi_statements#create"
+    - "backend/cvi_statements#destroy"
+    - "backend/cvi_statements#update"
 
 deposits:
   read:

@@ -276,6 +276,7 @@ module Backend
           end
         end.join.html_safe
       end
+
       code.html_safe
     end
 

@@ -148,6 +148,8 @@ activities:
   id:
     type: integer
     required: true
+  life_duration:
+    type: integer
   lock_version:
     type: integer
     required: true
@@ -177,12 +179,18 @@ activities:
   production_nature_id:
     type: integer
     references: master_production_nature
+  production_started_on:
+    type: date
+  production_stopped_on:
+    type: date
   production_system_name:
     type: string
   size_indicator_name:
     type: string
   size_unit_name:
     type: string
+  start_state_of_production:
+    type: jsonb
   support_variety:
     type: string
   suspended:
@@ -449,6 +457,11 @@ activity_productions:
     references: cultivable_zone
   custom_fields:
     type: jsonb
+  headland_shape:
+    type: geometry
+    limit:
+      srid: 4326
+      type: geometry
   id:
     type: integer
     required: true
@@ -463,6 +476,11 @@ activity_productions:
     type: boolean
     required: true
     default: false
+  planting_campaign_id:
+    type: integer
+    references: campaign
+  providers:
+    type: jsonb
   rank_number:
     type: integer
     required: true
@@ -1656,6 +1674,56 @@ contracts:
   updater_id:
     type: integer
     references: user
+crop_group_items:
+  created_at:
+    type: datetime
+    required: true
+  crop_group_id:
+    type: integer
+    references: crop_group
+  crop_id:
+    type: integer
+    references: "~crop_type"
+  crop_type:
+    type: string
+  id:
+    type: integer
+    required: true
+  updated_at:
+    type: datetime
+    required: true
+crop_group_labellings:
+  created_at:
+    type: datetime
+    required: true
+  crop_group_id:
+    type: integer
+    references: crop_group
+  id:
+    type: integer
+    required: true
+  label_id:
+    type: integer
+    references: label
+  updated_at:
+    type: datetime
+    required: true
+crop_groups:
+  created_at:
+    type: datetime
+    required: true
+  id:
+    type: integer
+    required: true
+  name:
+    type: string
+    required: true
+  target:
+    type: string
+    default: plant
+  updated_at:
+    type: datetime
+    required: true
 crumbs:
   accuracy:
     type: decimal
@@ -1838,6 +1906,226 @@ custom_fields:
   updater_id:
     type: integer
     references: user
+cvi_cadastral_plant_cvi_land_parcels:
+  created_at:
+    type: datetime
+    required: true
+  cvi_cadastral_plant_id:
+    type: integer
+    references: cvi_cadastral_plant
+  cvi_land_parcel_id:
+    type: integer
+    references: cvi_land_parcel
+  id:
+    type: integer
+    required: true
+  percentage:
+    type: decimal
+  updated_at:
+    type: datetime
+    required: true
+cvi_cadastral_plants:
+  area_unit:
+    type: string
+  area_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  cadastral_ref_updated:
+    type: boolean
+    default: false
+  created_at:
+    type: datetime
+    required: true
+  cvi_cultivable_zone_id:
+    type: integer
+    references: cvi_cultivable_zone
+  cvi_statement_id:
+    type: integer
+    references: cvi_statement
+  designation_of_origin_id:
+    type: integer
+    references: registered_protected_designation_of_origin
+  id:
+    type: integer
+    required: true
+  inter_row_distance_unit:
+    type: string
+  inter_row_distance_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  inter_vine_plant_distance_unit:
+    type: string
+  inter_vine_plant_distance_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  land_modification_date:
+    type: date
+  land_parcel_id:
+    type: string
+  land_parcel_number:
+    type: string
+  planting_campaign:
+    type: string
+    required: true
+  rootstock_id:
+    type: string
+  section:
+    type: string
+    required: true
+  state:
+    type: string
+    required: true
+  type_of_occupancy:
+    type: string
+  updated_at:
+    type: datetime
+    required: true
+  vine_variety_id:
+    type: string
+  work_number:
+    type: string
+    required: true
+cvi_cultivable_zones:
+  calculated_area_unit:
+    type: string
+  calculated_area_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  created_at:
+    type: datetime
+    required: true
+  cvi_statement_id:
+    type: integer
+    references: cvi_statement
+  declared_area_unit:
+    type: string
+  declared_area_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  id:
+    type: integer
+    required: true
+  land_parcels_status:
+    type: string
+    default: not_started
+  name:
+    type: string
+    required: true
+  shape:
+    type: geometry
+    limit:
+      srid: 4326
+      type: geometry
+  updated_at:
+    type: datetime
+    required: true
+cvi_land_parcels:
+  activity_id:
+    type: integer
+    references: activity
+  calculated_area_unit:
+    type: string
+  calculated_area_value:
+    type: decimal
+    precision: 19
+    scale: 5
+  created_at:
+    type: datetime
+    required: true
+  cvi_cultivable_zone_id:
+    type: integer
+    references: cvi_cultivable_zone
+  declared_area_unit:
+    type: string
+  declared_area_value:
+    type: decimal
+    precision: 19
+    scale: 5
+  designation_of_origin_id:
+    type: integer
+    references: registered_protected_designation_of_origin
+  id:
+    type: integer
+    required: true
+  inter_row_distance_unit:
+    type: string
+  inter_row_distance_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  inter_vine_plant_distance_unit:
+    type: string
+  inter_vine_plant_distance_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  land_modification_date:
+    type: date
+  name:
+    type: string
+    required: true
+  planting_campaign:
+    type: string
+  rootstock_id:
+    type: string
+  shape:
+    type: geometry
+    limit:
+      srid: 4326
+      type: geometry
+  state:
+    type: string
+  updated_at:
+    type: datetime
+    required: true
+  vine_variety_id:
+    type: string
+cvi_statements:
+  cadastral_plant_count:
+    type: integer
+  cadastral_sub_plant_count:
+    type: integer
+  campaign_id:
+    type: integer
+    references: campaign
+  created_at:
+    type: datetime
+    required: true
+  cvi_number:
+    type: string
+    required: true
+  declarant:
+    type: string
+    required: true
+  extraction_date:
+    type: date
+    required: true
+  farm_name:
+    type: string
+    required: true
+  id:
+    type: integer
+    required: true
+  siret_number:
+    type: string
+    required: true
+  state:
+    type: string
+    required: true
+  total_area_unit:
+    type: string
+  total_area_value:
+    type: decimal
+    precision: 19
+    scale: 4
+  updated_at:
+    type: datetime
+    required: true
 dashboards:
   created_at:
     type: datetime
@@ -3754,6 +4042,8 @@ intervention_parameters:
   reference_name:
     type: string
     required: true
+  specie_variety:
+    type: jsonb
   type:
     type: string
   unit_pretax_stock_amount:
@@ -4170,6 +4460,8 @@ journal_entries:
   printed_on:
     type: date
     required: true
+  providers:
+    type: jsonb
   real_balance:
     type: decimal
     precision: 19
@@ -4468,6 +4760,25 @@ labels:
   updater_id:
     type: integer
     references: user
+land_parcel_rootstocks:
+  created_at:
+    type: datetime
+    required: true
+  id:
+    type: integer
+    required: true
+  land_parcel_id:
+    type: integer
+    references: "~land_parcel_type"
+  land_parcel_type:
+    type: string
+  percentage:
+    type: decimal
+  rootstock_id:
+    type: string
+  updated_at:
+    type: datetime
+    required: true
 listing_node_items:
   created_at:
     type: datetime
@@ -4770,6 +5081,25 @@ loans:
     references: user
   use_bank_guarantee:
     type: boolean
+locations:
+  created_at:
+    type: datetime
+    required: true
+  id:
+    type: integer
+    required: true
+  locality:
+    type: string
+  localizable_id:
+    type: integer
+    references: "~localizable_type"
+  localizable_type:
+    type: string
+  registered_postal_zone_id:
+    type: string
+  updated_at:
+    type: datetime
+    required: true
 manure_management_plan_zones:
   absorbed_nitrogen_at_opening:
     type: decimal
@@ -6977,7 +7307,11 @@ products:
     type: integer
   picture_updated_at:
     type: datetime
+  providers:
+    type: jsonb
   reading_cache:
+    type: jsonb
+  specie_variety:
     type: jsonb
   team_id:
     type: integer
@@ -6986,6 +7320,8 @@ products:
     type: integer
     references: tracking
   type:
+    type: string
+  type_of_occupancy:
     type: string
   updated_at:
     type: datetime
@@ -7279,11 +7615,13 @@ registered_agroedi_codes:
     type: string
   reference_id:
     type: integer
+    references: ''
     required: true
   reference_label:
     type: string
   repository_id:
     type: integer
+    references: ''
     required: true
 registered_building_zones:
   centroid:

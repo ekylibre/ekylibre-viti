@@ -38,7 +38,6 @@ module Interventions
       def initialize(*children)
         @children = children
       end
-
       # @param [Array<Models::ProductWithUsage>] products_usages
       # @return [Models::ProductApplicationResult]
       def validate(products_usages)

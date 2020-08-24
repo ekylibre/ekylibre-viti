@@ -1,9 +1,9 @@
 (function () {
 	'use strict';
 
-	L.TileLayer.Provider = L.TileLayer.extend({
+	Leaflet.TileLayer.Provider = Leaflet.TileLayer.extend({
 		initialize: function (arg, options) {
-			var providers = L.TileLayer.Provider.providers;
+			var providers = Leaflet.TileLayer.Provider.providers;
 
 			var parts = arg.split('.');
 
@@ -27,7 +27,7 @@
 				var variant = providers[providerName].variants[variantName];
 				provider = {
 					url: variant.url || provider.url,
-					options: L.Util.extend({}, provider.options, variant.options)
+					options: Leaflet.Util.extend({}, provider.options, variant.options)
 				};
 			} else if (typeof provider.url === 'function') {
 				provider.url = provider.url(parts.splice(1).join('.'));
@@ -48,8 +48,8 @@
 			provider.options.attribution = attributionReplacer(provider.options.attribution);
 
 			// Compute final options combining provider options with any user overrides
-			var layerOpts = L.Util.extend({}, provider.options, options);
-			L.TileLayer.prototype.initialize.call(this, provider.url, layerOpts);
+			var layerOpts = Leaflet.Util.extend({}, provider.options, options);
+			Leaflet.TileLayer.prototype.initialize.call(this, provider.url, layerOpts);
 		}
 	});
 
@@ -59,7 +59,7 @@
 	 */
 
 	//jshint maxlen:220
-	L.TileLayer.Provider.providers = {
+	Leaflet.TileLayer.Provider.providers = {
 		OpenStreetMap: {
 			url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 			options: {
@@ -415,11 +415,11 @@
 		}
 	};
 
-	L.tileLayer.provider = function (provider, options) {
-		return new L.TileLayer.Provider(provider, options);
+	Leaflet.tileLayer.provider = function (provider, options) {
+		return new Leaflet.TileLayer.Provider(provider, options);
 	};
 
-	L.Control.Layers.Provided = L.Control.Layers.extend({
+	Leaflet.Control.Layers.Provided = Leaflet.Control.Layers.extend({
 		initialize: function (base, overlay, options) {
 			var first;
 
@@ -436,10 +436,10 @@
 					while (i < len) {
 						if (typeof base[i] === 'string') {
 							if (i === 0) {
-								first = L.tileLayer.provider(base[0]);
+								first = Leaflet.tileLayer.provider(base[0]);
 								out[labelFormatter(base[i])] = first;
 							} else {
-								out[labelFormatter(base[i])] = L.tileLayer.provider(base[i]);
+								out[labelFormatter(base[i])] = Leaflet.tileLayer.provider(base[i]);
 							}
 						}
 						i++;
@@ -457,23 +457,23 @@
 
 					while (i < len) {
 						if (typeof base[i] === 'string') {
-							out[labelFormatter(overlay[i])] = L.tileLayer.provider(overlay[i]);
+							out[labelFormatter(overlay[i])] = Leaflet.tileLayer.provider(overlay[i]);
 						}
 						i++;
 					}
 					overlay = out;
 				}());
 			}
-			L.Control.Layers.prototype.initialize.call(this, base, overlay, options);
+			Leaflet.Control.Layers.prototype.initialize.call(this, base, overlay, options);
 		},
 		onAdd: function (map) {
 			this._first.addTo(map);
-			return L.Control.Layers.prototype.onAdd.call(this, map);
+			return Leaflet.Control.Layers.prototype.onAdd.call(this, map);
 		}
 	});
 
-	L.control.layers.provided = function (baseLayers, overlays, options) {
-		return new L.Control.Layers.Provided(baseLayers, overlays, options);
+	Leaflet.control.layers.provided = function (baseLayers, overlays, options) {
+		return new Leaflet.Control.Layers.Provided(baseLayers, overlays, options);
 	};
 }());
 

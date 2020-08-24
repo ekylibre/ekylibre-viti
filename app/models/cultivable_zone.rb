@@ -107,4 +107,26 @@ class CultivableZone < Ekylibre::Record::Base
   after_destroy do
     Ekylibre::Hook.publish(:cultivable_zone_destroy, cultivable_zone_id: id)
   end
+
+  def self.find_or_create_with_cvi_cz(cvi_cultivalbe_zone)
+    # check if cvi cz shape covered existing cz shape with 95 to 98% accuracy
+    cvi_cz_shape = cvi_cultivalbe_zone.shape
+    # check if cover at 95%
+    cvi_cz_inside_cultivable_zone = CultivableZone.shape_covering(cvi_cz_shape, 0.05)
+    unless cvi_cz_inside_cultivable_zone.any?
+      # check if match at 95%
+      cvi_cz_inside_cultivable_zone = CultivableZone.shape_matching(cvi_cz_shape, 0.05)
+    end
+    # select the first if one exist which cover, match or intersect
+    if cvi_cz_inside_cultivable_zone.any?
+      cvi_cz_inside_cultivable_zone.first
+    else
+      # or find or create it by name
+      CultivableZone.create_with(
+        name: cvi_cultivalbe_zone.name,
+        description: "Convert from CVI ID : #{cvi_cultivalbe_zone.cvi_statement_id}",
+        shape: cvi_cultivalbe_zone.shape
+      ).find_or_create_by(name: cvi_cultivalbe_zone.name)
+    end
+  end
 end

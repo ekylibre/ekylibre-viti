@@ -11,11 +11,11 @@ var L = window.L;/*
  * Leaflet.label assumes that you have already included the Leaflet library.
  */
 
-L.labelVersion = '0.2.2-dev';
+Leaflet.labelVersion = '0.2.2-dev';
 
-L.Label = (L.Layer ? L.Layer : L.Class).extend({
+Leaflet.Label = (Leaflet.Layer ? Leaflet.Layer : Leaflet.Class).extend({
 
-	includes: L.Mixin.Events,
+	includes: Leaflet.Mixin.Events,
 
 	options: {
 		className: '',
@@ -28,10 +28,10 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 	},
 
 	initialize: function (options, source) {
-		L.setOptions(this, options);
+		Leaflet.setOptions(this, options);
 
 		this._source = source;
-		this._animated = L.Browser.any3d && this.options.zoomAnimation;
+		this._animated = Leaflet.Browser.any3d && this.options.zoomAnimation;
 		this._isOpen = false;
 	},
 
@@ -39,7 +39,7 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 		this._map = map;
 
 		this._pane = this.options.pane ? map._panes[this.options.pane] :
-			this._source instanceof L.Marker ? map._panes.markerPane : map._panes.popupPane;
+			this._source instanceof Leaflet.Marker ? map._panes.markerPane : map._panes.popupPane;
 
 		if (!this._container) {
 			this._initLayout();
@@ -61,8 +61,8 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 			map.on('zoomanim', this._zoomAnimation, this);
 		}
 
-		if (L.Browser.touch && !this.options.noHide) {
-			L.DomEvent.on(this._container, 'click', this.close, this);
+		if (Leaflet.Browser.touch && !this.options.noHide) {
+			Leaflet.DomEvent.on(this._container, 'click', this.close, this);
 			map.on('click', this.close, this);
 		}
 	},
@@ -82,7 +82,7 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 	},
 
 	setLatLng: function (latlng) {
-		this._latlng = L.latLng(latlng);
+		this._latlng = Leaflet.latLng(latlng);
 		if (this._map) {
 			this._updatePosition();
 		}
@@ -103,8 +103,8 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 		var map = this._map;
 
 		if (map) {
-			if (L.Browser.touch && !this.options.noHide) {
-				L.DomEvent.off(this._container, 'click', this.close);
+			if (Leaflet.Browser.touch && !this.options.noHide) {
+				Leaflet.DomEvent.off(this._container, 'click', this.close);
 				map.off('click', this.close, this);
 			}
 
@@ -124,12 +124,12 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 		this.options.opacity = opacity;
 
 		if (this._container) {
-			L.DomUtil.setOpacity(this._container, opacity);
+			Leaflet.DomUtil.setOpacity(this._container, opacity);
 		}
 	},
 
 	_initLayout: function () {
-		this._container = L.DomUtil.create('div', 'leaflet-label ' + this.options.className + ' leaflet-zoom-animated');
+		this._container = Leaflet.DomUtil.create('div', 'leaflet-label ' + this.options.className + ' leaflet-zoom-animated');
 		this.updateZIndex(this._zIndex);
 	},
 
@@ -171,22 +171,22 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 			labelPoint = map.layerPointToContainerPoint(pos),
 			direction = this.options.direction,
 			labelWidth = this._labelWidth,
-			offset = L.point(this.options.offset);
+			offset = Leaflet.point(this.options.offset);
 
 		// position to the right (right or auto & needs to)
 		if (direction === 'right' || direction === 'auto' && labelPoint.x < centerPoint.x) {
-			L.DomUtil.addClass(container, 'leaflet-label-right');
-			L.DomUtil.removeClass(container, 'leaflet-label-left');
+			Leaflet.DomUtil.addClass(container, 'leaflet-label-right');
+			Leaflet.DomUtil.removeClass(container, 'leaflet-label-left');
 
 			pos = pos.add(offset);
 		} else { // position to the left
-			L.DomUtil.addClass(container, 'leaflet-label-left');
-			L.DomUtil.removeClass(container, 'leaflet-label-right');
+			Leaflet.DomUtil.addClass(container, 'leaflet-label-left');
+			Leaflet.DomUtil.removeClass(container, 'leaflet-label-right');
 
-			pos = pos.add(L.point(-offset.x - labelWidth, offset.y));
+			pos = pos.add(Leaflet.point(-offset.x - labelWidth, offset.y));
 		}
 
-		L.DomUtil.setPosition(container, pos);
+		Leaflet.DomUtil.setPosition(container, pos);
 	},
 
 	_zoomAnimation: function (opt) {
@@ -214,11 +214,11 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 		var container = this._container,
 			events = ['dblclick', 'mousedown', 'mouseover', 'mouseout', 'contextmenu'];
 
-		L.DomUtil.addClass(container, 'leaflet-clickable');
-		L.DomEvent.on(container, 'click', this._onMouseClick, this);
+		Leaflet.DomUtil.addClass(container, 'leaflet-clickable');
+		Leaflet.DomEvent.on(container, 'click', this._onMouseClick, this);
 
 		for (var i = 0; i < events.length; i++) {
-			L.DomEvent.on(container, events[i], this._fireMouseEvent, this);
+			Leaflet.DomEvent.on(container, events[i], this._fireMouseEvent, this);
 		}
 	},
 
@@ -228,17 +228,17 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 		var container = this._container,
 			events = ['dblclick', 'mousedown', 'mouseover', 'mouseout', 'contextmenu'];
 
-		L.DomUtil.removeClass(container, 'leaflet-clickable');
-		L.DomEvent.off(container, 'click', this._onMouseClick, this);
+		Leaflet.DomUtil.removeClass(container, 'leaflet-clickable');
+		Leaflet.DomEvent.off(container, 'click', this._onMouseClick, this);
 
 		for (var i = 0; i < events.length; i++) {
-			L.DomEvent.off(container, events[i], this._fireMouseEvent, this);
+			Leaflet.DomEvent.off(container, events[i], this._fireMouseEvent, this);
 		}
 	},
 
 	_onMouseClick: function (e) {
 		if (this.hasEventListeners(e.type)) {
-			L.DomEvent.stopPropagation(e);
+			Leaflet.DomEvent.stopPropagation(e);
 		}
 
 		this.fire(e.type, {
@@ -254,19 +254,19 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 		// TODO proper custom event propagation
 		// this line will always be called if marker is in a FeatureGroup
 		if (e.type === 'contextmenu' && this.hasEventListeners(e.type)) {
-			L.DomEvent.preventDefault(e);
+			Leaflet.DomEvent.preventDefault(e);
 		}
 		if (e.type !== 'mousedown') {
-			L.DomEvent.stopPropagation(e);
+			Leaflet.DomEvent.stopPropagation(e);
 		} else {
-			L.DomEvent.preventDefault(e);
+			Leaflet.DomEvent.preventDefault(e);
 		}
 	}
 });
 
 
-// This object is a mixin for L.Marker and L.CircleMarker. We declare it here as both need to include the contents.
-L.BaseMarkerMethods = {
+// This object is a mixin for Leaflet.Marker and Leaflet.CircleMarker. We declare it here as both need to include the contents.
+Leaflet.BaseMarkerMethods = {
 	showLabel: function () {
 		if (this.label && this._map) {
 			this.label.setLatLng(this._latlng);
@@ -301,15 +301,15 @@ L.BaseMarkerMethods = {
 
 	bindLabel: function (content, options) {
 		var labelAnchor = this.options.icon ? this.options.icon.options.labelAnchor : this.options.labelAnchor,
-			anchor = L.point(labelAnchor) || L.point(0, 0);
+			anchor = Leaflet.point(labelAnchor) || Leaflet.point(0, 0);
 
-		anchor = anchor.add(L.Label.prototype.options.offset);
+		anchor = anchor.add(Leaflet.Label.prototype.options.offset);
 
 		if (options && options.offset) {
 			anchor = anchor.add(options.offset);
 		}
 
-		options = L.Util.extend({offset: anchor}, options);
+		options = Leaflet.Util.extend({offset: anchor}, options);
 
 		this._labelNoHide = options.noHide;
 
@@ -326,7 +326,7 @@ L.BaseMarkerMethods = {
 			this._hasLabelHandlers = true;
 		}
 
-		this.label = new L.Label(options, this)
+		this.label = new Leaflet.Label(options, this)
 			.setContent(content);
 
 		return this;
@@ -375,7 +375,7 @@ L.BaseMarkerMethods = {
 			.on('mouseover', this.showLabel, this)
 			.on('mouseout', this.hideLabel, this);
 
-		if (L.Browser.touch) {
+		if (Leaflet.Browser.touch) {
 			this.on('click', this.showLabel, this);
 		}
 	},
@@ -385,7 +385,7 @@ L.BaseMarkerMethods = {
 			.off('mouseover', this.showLabel, this)
 			.off('mouseout', this.hideLabel, this);
 
-		if (L.Browser.touch) {
+		if (Leaflet.Browser.touch) {
 			this.off('click', this.showLabel, this);
 		}
 	},
@@ -396,19 +396,19 @@ L.BaseMarkerMethods = {
 };
 
 // Add in an option to icon that is used to set where the label anchor is
-L.Icon.Default.mergeOptions({
-	labelAnchor: new L.Point(9, -20)
+Leaflet.Icon.Default.mergeOptions({
+	labelAnchor: new Leaflet.Point(9, -20)
 });
 
 // Have to do this since Leaflet is loaded before this plugin and initializes
-// L.Marker.options.icon therefore missing our mixin above.
-L.Marker.mergeOptions({
-	icon: new L.Icon.Default()
+// Leaflet.Marker.options.icon therefore missing our mixin above.
+Leaflet.Marker.mergeOptions({
+	icon: new Leaflet.Icon.Default()
 });
 
-L.Marker.include(L.BaseMarkerMethods);
-L.Marker.include({
-	_originalUpdateZIndex: L.Marker.prototype._updateZIndex,
+Leaflet.Marker.include(Leaflet.BaseMarkerMethods);
+Leaflet.Marker.include({
+	_originalUpdateZIndex: Leaflet.Marker.prototype._updateZIndex,
 
 	_updateZIndex: function (offset) {
 		var zIndex = this._zIndex + offset;
@@ -420,7 +420,7 @@ L.Marker.include({
 		}
 	},
 
-	_originalSetOpacity: L.Marker.prototype.setOpacity,
+	_originalSetOpacity: Leaflet.Marker.prototype.setOpacity,
 
 	setOpacity: function (opacity, labelHasSemiTransparency) {
 		this.options.labelHasSemiTransparency = labelHasSemiTransparency;
@@ -428,7 +428,7 @@ L.Marker.include({
 		this._originalSetOpacity(opacity);
 	},
 
-	_originalUpdateOpacity: L.Marker.prototype._updateOpacity,
+	_originalUpdateOpacity: Leaflet.Marker.prototype._updateOpacity,
 
 	_updateOpacity: function () {
 		var absoluteOpacity = this.options.opacity === 0 ? 0 : 1;
@@ -440,7 +440,7 @@ L.Marker.include({
 		}
 	},
 
-	_originalSetLatLng: L.Marker.prototype.setLatLng,
+	_originalSetLatLng: Leaflet.Marker.prototype.setLatLng,
 
 	setLatLng: function (latlng) {
 		if (this.label && !this._labelNoHide) {
@@ -452,17 +452,17 @@ L.Marker.include({
 });
 
 // Add in an option to icon that is used to set where the label anchor is
-L.CircleMarker.mergeOptions({
-	labelAnchor: new L.Point(0, 0)
+Leaflet.CircleMarker.mergeOptions({
+	labelAnchor: new Leaflet.Point(0, 0)
 });
 
 
-L.CircleMarker.include(L.BaseMarkerMethods);
+Leaflet.CircleMarker.include(Leaflet.BaseMarkerMethods);
 
-L.Path.include({
+Leaflet.Path.include({
 	bindLabel: function (content, options) {
 		if (!this.label || this.label.options !== options) {
-			this.label = new L.Label(options, this);
+			this.label = new Leaflet.Label(options, this);
 		}
 
 		this.label.setContent(content);
@@ -473,7 +473,7 @@ L.Path.include({
 				.on('mousemove', this._moveLabel, this)
 				.on('mouseout remove', this._hideLabel, this);
 
-			if (L.Browser.touch) {
+			if (Leaflet.Browser.touch) {
 				this.on('click', this._showLabel, this);
 			}
 			this._showLabelAdded = true;
@@ -515,13 +515,13 @@ L.Path.include({
 	}
 });
 
-L.Map.include({
+Leaflet.Map.include({
 	showLabel: function (label) {
 		return this.addLayer(label);
 	}
 });
 
-L.FeatureGroup.include({
+Leaflet.FeatureGroup.include({
 	// TODO: remove this when AOP is supported in Leaflet, need this as we cannot put code in removeLayer()
 	clearLayers: function () {
 		this.unbindLabel();

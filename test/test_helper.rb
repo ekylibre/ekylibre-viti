@@ -1,10 +1,14 @@
 require 'minitest/mock'
 
+class ActiveSupport::TestCase
+  require 'enumerize/integrations/rspec'
+  extend Enumerize::Integrations::RSpec
+end
 ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-
+require "minitest/spec"
 require 'minitest/reporters'
 require 'database_cleaner'
 
@@ -68,6 +72,8 @@ class ActiveSupport::TestCase
   setup do
     reset_locale
   end
+
+  extend MiniTest::Spec::DSL
 end
 
 module ActionController
@@ -484,6 +490,20 @@ end
 def without_output(&block)
   main.stub :puts, Proc.new, &block
 end
+
+module FFaker
+  module Shape
+    extend self
+
+    SHAPES = File.readlines(Rails.root.join('test','fixture-files',"shapes")).freeze
+
+    def multipolygon
+      Charta.new_geometry(SHAPES.sample).to_rgeo
+    end
+  end
+end 
+
+require 'pdf_printer'
 
 module ImportTest
   class ImportTestDummyExchanger < ActiveExchanger::Base

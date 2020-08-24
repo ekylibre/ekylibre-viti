@@ -79,15 +79,15 @@ class visualization.Paths
     for crumb in @data
       if crumb.name != current_name
         lineStyle.color = current_color
-        lineLayer = new L.polyline(points, $.extend(true, {}, globalStyle, lineStyle))
+        lineLayer = new Leaflet.polyline(points, $.extend(true, {}, globalStyle, lineStyle))
         group.push(lineLayer)
         points = []
         current_name = crumb.name
         current_color = this.itemFor(crumb[@layer.reference]).fillColor
-      points.push(new L.geoJson(crumb.shape).getBounds().getCenter())
+      points.push(new Leaflet.geoJson(crumb.shape).getBounds().getCenter())
     if points.length > 0
       lineStyle.color = current_color
-      lineLayer = new L.polyline(points, $.extend(true, {}, globalStyle, lineStyle))
+      lineLayer = new Leaflet.polyline(points, $.extend(true, {}, globalStyle, lineStyle))
       group.push(lineLayer)
     # drawing circles
     for crumb in @data
@@ -96,7 +96,7 @@ class visualization.Paths
         crumbStyle.fillColor = "#000000"
       if crumb.nature == 'hard_stop'
         crumbStyle.fillColor = "#FFFFFF"
-      crumbLayer = new L.circleMarker(new L.geoJson(crumb.shape).getBounds().getCenter(), $.extend(true, {}, globalStyle, crumbStyle))
+      crumbLayer = new Leaflet.circleMarker(new Leaflet.geoJson(crumb.shape).getBounds().getCenter(), $.extend(true, {}, globalStyle, crumbStyle))
       widget._bindPopup(crumbLayer, crumb)
       group.push(crumbLayer)
     group

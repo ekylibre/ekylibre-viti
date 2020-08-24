@@ -13,19 +13,18 @@
 #
  ###
 
-L.GhostLabelCluster = L.LayerGroup.extend
-  __initialize: L.LayerGroup::initialize
-  __addLayer: L.LayerGroup::addLayer
-  __removeLayer: L.LayerGroup::removeLayer
-  __clearLayers: L.LayerGroup::clearLayers
+Leaflet.GhostLabelCluster = Leaflet.LayerGroup.extend
+  __initialize: Leaflet.LayerGroup::initialize
+  __addLayer: Leaflet.LayerGroup::addLayer
+  __removeLayer: Leaflet.LayerGroup::removeLayer
+  __clearLayers: Leaflet.LayerGroup::clearLayers
 
   initialize: (options) ->
-    L.setOptions @, options
+    Leaflet.setOptions @, options
     @_originalLayers =  []
     @_clusterIndex = []
     @_visibleLayers = {}
     @_cachedRelativeBoxes = []
-    @_margin = 0
     @__initialize.call @, options
     @_margin = options.margin or 0
     @_rbush = new RBush()
@@ -114,7 +113,7 @@ L.GhostLabelCluster = L.LayerGroup.extend
     else
       @__removeLayer.call @, layer
       # Layers which collided
-      latLngBounds = new L.LatLngBounds
+      latLngBounds = new Leaflet.LatLngBounds
       latLngBounds.extend layer.getLatLng()
 
       idsToCollapse = []
@@ -132,7 +131,7 @@ L.GhostLabelCluster = L.LayerGroup.extend
         latLngBounds.extend bounds unless bounds is undefined
 
 
-      collapsedLayer ||= new L.GhostLabel(className: className)
+      collapsedLayer ||= new Leaflet.GhostLabel(className: className)
 
       collapsedLayer.setLatLng latLngBounds.getCenter()
 
@@ -186,6 +185,6 @@ L.GhostLabelCluster = L.LayerGroup.extend
     return
 
 
-L.ghostLabelCluster  = (options) ->
-  new (L.GhostLabelCluster)(options or {})
+Leaflet.ghostLabelCluster  = (options) ->
+  new (Leaflet.GhostLabelCluster)(options or {})
 

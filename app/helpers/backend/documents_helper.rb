@@ -32,7 +32,6 @@ module Backend
                             end
             configuration[:id] ||= name.to_s.gsub(/\W+/, '_').gsub(/(^_|_$)/, '')
             value ||= params[name] || options[:default]
-
             fy = FinancialYear.current
             params[name] = value ||= :all
             # params[:period] = value ||= :all # (fy ? fy.started_on.to_s + "_" + fy.stopped_on.to_s : :all)

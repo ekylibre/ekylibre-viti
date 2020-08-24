@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  designation_of_origin_id: 1
+  vine_variety_id: MyString
+  calculated_area_unit: "hectare"
+  calculated_area_value: 9.99
+  declared_area_unit: "hectare"
+  declared_area_value: 9.99
+  shape: 
+  planting_campaign: MyString
+  inter_vine_plant_distance_value: 9.99
+  inter_vine_plant_distance_unit: MyString
+  inter_row_distance_value: 9.99
+  inter_row_distance_unit: MyString
+  state: MyString
+  cvi_cultivable_zone_id: 
+  land_modification_date: 2019-11-27
+
+two:
+  name: MyString
+  designation_of_origin_id: 1
+  vine_variety_id: MyString
+  calculated_area_unit: "hectare"
+  calculated_area_value: 9.99
+  declared_area_unit: "hectare"
+  declared_area_value: 9.99
+  shape: 
+  planting_campaign: MyString
+  inter_vine_plant_distance_value: 9.99
+  inter_vine_plant_distance_unit: MyString
+  inter_row_distance_value: 9.99
+  inter_row_distance_unit: MyString
+  state: MyString
+  cvi_cultivable_zone_id: 
+  land_modification_date: 2019-11-27

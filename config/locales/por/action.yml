@@ -147,6 +147,13 @@ por:
       new: "Novo campo customizado"
       show: "Campo customizado: %{name}"
       sort: "Ordenar campos customizados"
+    backend/cvi_statement_conversions:
+      # show: "Convert CVI into land parcels"
+    backend/cvi_statements:
+      # edit: "Edit CVI statement: %{id}"
+      # index: "CVI statements"
+      # new: "New CVI statement"
+      # show: "CVI statement: %{id}"
     backend/dashboards:
       accountancy: "Dashboard de contabilidade"
       edit: "Editar dashboard: %{name}"
@@ -827,15 +834,25 @@ por:
         # harvest: "Harvest:"
         # reentry: "Reentry:"
     leaflet:
+      cut:
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # surfacesProperty: "Surfaces"
+          # title: "Plot splitting"
       draw:
         handlers:
           circle:
             tooltip:
               start: "Clique e arraste para desenhar círculo."
+          circlemarker:
+            tooltip:
+              # start: "Click and drag to draw circlemarker."
           marker:
             tooltip:
               start: "Clique no mapa para colocar marcador."
           polygon:
+            errors:
+              # overlapping: "You can't draw a plot overlapping an existing plot"
             tooltip:
               cont: "Clique para continuar a desenhar a forma."
               end: "Clique primeiro ponto para fechar esta forma."
@@ -852,6 +869,9 @@ por:
           simpleshape:
             tooltip:
               end: "Rato de liberação para finalizar o desenho."
+        panel:
+          # coordinatesProperty: "Coordinates"
+          # title: "Plot creation"
         toolbar:
           actions:
             text: "Cancelar"
@@ -862,6 +882,9 @@ por:
             polygon: "Desenhar um polígono"
             polyline: "Desenhar um polígono"
             rectangle: "Desenhe um retângulo"
+          finish:
+            # text: "Finish"
+            # title: "Finish drawing"
           undo:
             text: "Excluir último ponto"
             title: "Excluir último ponto desenhado"
@@ -874,6 +897,8 @@ por:
           remove:
             tooltip:
               text: "Clique em um recurso para remover"
+        panel:
+          # title: "Plot editing"
         toolbar:
           actions:
             cancel:
@@ -888,9 +913,50 @@ por:
             remove: "Excluir camadas."
             removeDisabled: "Nenhuma camada excluir."
       fullscreenTitle: "Tela cheia"
+      home:
+        toolbar:
+          buttons:
+            # home: "Center"
       importerButtonTitle: "Importar"
-      zoomInTitle: "Mais Zoom"
-      zoomOutTitle: "Zoom out"
+      locking:
+        # from_date_html: "from {{from}}<br>({{production}})"
+        # from_to_date_html: "from {{from}} to {{to}}<br>({{production}})"
+        # label_html: "<p class='title'>Unavailable</p><p>{{content}}</p>"
+        # to_date_html: "until {{to}}<br>({{production}})"
+      merge:
+        panel:
+          # title: "Plot merging"
+      snap:
+        panel:
+          # surfaceProperty: "Surface"
+      split:
+        handlers:
+          cut:
+            tooltip:
+              # subtext: "Click cancel to undo changes"
+              # text: "Drag handles, or marker to edit feature"
+          remove:
+            tooltip:
+              # text: "Click on a feature to remove"
+        toolbar:
+          actions:
+            cancel:
+              # text: "Cancel"
+              # title: "Cancel splitting, discards all changes"
+            save:
+              # text: "Save"
+              # title: "Save changes"
+          buttons:
+            # cutPolyline: "Split a plot"
+      zoom:
+        # zoomInTitle: "Zoom in"
+        # zoomOutTitle: "Zoom out"
+      zoomInTitle: "Mais Zoom" #?
+      zoomOutTitle: "Zoom out" #?
+    levels:
+      # error: "Error!"
+    messages:
+      # unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
   labels:
     # accepted: "Accepted"
     # accepted_for_paiment: "Accepted for paiment"
@@ -1112,7 +1178,9 @@ por:
     # building_zones: "Building zones"
     # by_account_fixed_assets: "Fixed assets by account on %{to}"
     by_year: "Por ano"
+    # cadastral_references: "associated cadastral ref."
     calculate: "Calcular"
+    # calculated_area: "calculated area"
     calculated_hours: "Horas calculadas"
     calculators: "Calculadoras"
     calendar: "Calendário"
@@ -1199,6 +1267,7 @@ por:
     # comment: "Comment"
     # commercial_margin: "Commercial margin"
     commission: "Comissão"
+    # communes: "commune(s)"
     company: "Sociedade"
     # compare_planned_and_realised: "Compare planned and done"
     completed: "Concluído"
@@ -1208,6 +1277,7 @@ por:
       special-subscriber: "Especial assinante"
     # conducted: "Conducted"
     configure: "Configurar"
+    # confirm: "Confirm"
     # confirmation: "Confirmation"
     # confirmation_update_historical_plans: "Confirmation update historical plans"
     connect: "Conectar"
@@ -1224,6 +1294,7 @@ por:
     container: "Recipiente"
     convert_balance_into_loss: "Converter equilíbrio em perda de"
     convert_balance_into_profit: "Converter equilíbrio em lucro"
+    # convert_cvi: "Convert into land parcels"
     convert_into_contact: "Converter em contato"
     convert_into_organization: "Converter em organização"
     convert_to_cultivable_zone: "Converter para zona cultivável"
@@ -1289,6 +1360,8 @@ por:
     current_stocks_by_variety: "Estoques atuais de variedade"
     currently_subscribed_to: "Atualmente subscrito"
     custom_fields: "Os campos personalizados"
+    # cvi_cadastral_plants: "Cvi cadastral plants"
+    # cvi_cadastral_plants_map: "Cvi cadastral plants"
     # database_version: "Database Version"
     # date_range: "%{from} to %{to}"
     # dated_cash: "%{cash}: %{on}"
@@ -1306,6 +1379,7 @@ por:
     # debts_other_financial_debts: "debts_other_financial_debts"
     # debts_others_loans: "debts_others_loans"
     decision_making: "Tomando uma decisão"
+    # declared_area: "declared area"
     # deduction_from_distribution: "4423 - Deductions and levies on distributions"
     default_letter_conclusion: "Queira aceitar, Cara Senhora, Caro senhor, os protestos da minha mais elevada consideração."
     default_letter_function_title: "Cara Senhora, caro senhor"
@@ -1920,6 +1994,7 @@ por:
     operations: "Operações"
     options: "Opções"
     or: "Ou"
+    # order_again: "Order again"
     organic_matter_concentration: "Concentração de matéria orgânica"
     original_component: "Original"
     other_debts: "Outras dívidas" #?
@@ -2000,6 +2075,7 @@ por:
     plant_countings: "Contagens"
     # plant_medicines: "Plant medicines"
     plantation_density: "Densidade de plantação"
+    # planted: "Planted"
     plants: "Culturas"
     # please_provide_a_valid_maaid_to_display_this_article_properties: "Please provide a valid AMM number to display this article's properties"
     # please_reach_out_for_the_person_in_charge_of_the_closure: "Please reach out for the person in charge of the closure outside of the software to get your documents."
@@ -2132,6 +2208,7 @@ por:
     remove: "Remover"
     remove_item: "Remover item"
     remove_subscription: "Remover subscrição"
+    # removed_with_authorization: "Removed with authorization"
     renewed: "renovado"
     repayment_period: "Período de reembolso"
     repayments: "Reembolsos"
@@ -2195,6 +2272,7 @@ por:
     select_a_journal: "Selecionar uma revista"
     select_closure_date: "Escolha a data de fechamento"
     select_columns: "Selecionar colunas"
+    # select_cvi_campaign_intro: "<p class='h4'>Cadastral plants of the computerised vineyard register are going to be converted into land parcels and productions.</p><br><p class='h4'>Please select the asociated wine production campaign below:</p>"
     select_date: "Seleccionar data"
     select_date_generation: "Data limite para a geração de"
     select_file_to_upload: "Selecione o arquivo para carregar"
@@ -2456,6 +2534,7 @@ por:
     # vegetable_yield: "Vegetable yield"
     view: "Visão"
     view_map_when_creating_an_intervention: "Visualize o mapa ao criar uma intervenção"
+    # vintage_or_production_campaign: "Vintage or production campaign"
     wages: "Salário"
     # warning_date_not_in_period: "Warning: The date entered is not on the current exercise."
     # water_lakes: "Water lakes"
@@ -2466,6 +2545,7 @@ por:
     website: "Site"
     # wice_grid_columns: "Columns"
     wind_speed: "Velocidade do vento"
+    # wine_production: "wine production"
     with_fixed_assets_depreciations: "Com depreciações de ativos fixos"
     # worked_zone_not_corresponding: "The worked zone is not corresponding to the planned one"
     # worker_natures: "Workers"
@@ -2864,6 +2944,7 @@ por:
       convert: "Converter"
       correct: "Corrigir"
       create: "Crio"
+      # generate_cvi_land_parcels: "Create land parcels"
       decrement: "Diminuição" #?
       destroy: "Destruir"
       detach: "Separar"

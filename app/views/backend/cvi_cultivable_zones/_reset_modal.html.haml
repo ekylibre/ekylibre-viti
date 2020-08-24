@@ -1,0 +1,8 @@
+.modal-header.colored-background
+  %span.modal-title.h4= :reset_cvi_cutlivable_zone_header.tl
+.modal-body
+  .modal-introduction
+    = :reset_cvi_cutlivable_zone_body.tl.html_safe
+.modal-footer
+  = link_to :cancel.tl, '#', class: 'btn btn-default',data: { dismiss: 'modal' }
+  = link_to :confirm.tl, reset_backend_cvi_cultivable_zone_path(cvi_cultivable_zone_id), class: 'btn btn-primary', method: :post

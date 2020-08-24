@@ -45,7 +45,7 @@
     @layerTypes[name] = klass
 
   # allow to inject jquery objects and interpolate
-  L.Map.Modal.prototype.reloadContent = (content) ->
+  Leaflet.Map.Modal.prototype.reloadContent = (content) ->
     $(this._getInnerContentContainer()).find('.modal-body').empty()
     $(this._getInnerContentContainer()).find('.modal-body').append($(content))
     this.update()
@@ -167,7 +167,7 @@
 
       this.mapElement = $("<div>", class: "map #{this.options.customClass}")
         .insertAfter(this.element)
-      this.map = L.map(this.mapElement[0],
+      this.map = Leaflet.map(this.mapElement[0],
         zoomControl: false
         attributionControl: true
       )
@@ -182,13 +182,13 @@
 
       this.counter = 1
 
-      @ghostLabelCluster = L.ghostLabelCluster(type: 'number', innerClassName: 'leaflet-ghost-label-collapsed')
+      @ghostLabelCluster = Leaflet.ghostLabelCluster(type: 'number', innerClassName: 'leaflet-ghost-label-collapsed')
       @ghostLabelCluster.addTo @map
 
-      @ghostLayerLabelCluster = L.ghostLabelCluster(type: 'hidden')
+      @ghostLayerLabelCluster = Leaflet.ghostLabelCluster(type: 'hidden')
       @ghostLayerLabelCluster.addTo @map
 
-      @layersScheduler = L.layersScheduler()
+      @layersScheduler = Leaflet.layersScheduler()
       @layersScheduler.addTo @map
 
       this.map.on "draw:created", (e) =>
@@ -320,9 +320,9 @@
         dataType: 'json'
         url: @options.dynamic_series
         beforeSend: () =>
-          @dynamic_loading = new L.control(position: "bottomleft")
+          @dynamic_loading = new Leaflet.control(position: "bottomleft")
           @dynamic_loading.onAdd = (map) =>
-            L.DomUtil.create('div', 'leaflet-dynamic loading')
+            Leaflet.DomUtil.create('div', 'leaflet-dynamic loading')
 
           @map.addControl @dynamic_loading
         success: (data) =>
@@ -578,7 +578,7 @@
               opts['subdomains'] = layer.subdomains if layer.subdomains?
               opts['tms'] = true if layer.tms
 
-              backgroundLayer = L.tileLayer(layer.url, opts)
+              backgroundLayer = Leaflet.tileLayer(layer.url, opts)
               baseLayers[layer.name] = backgroundLayer
               @map.addLayer(backgroundLayer) if layer.byDefault
 
@@ -588,7 +588,7 @@
 
             baseLayers = {}
             for layer, index in back
-              backgroundLayer = L.tileLayer.provider(layer)
+              backgroundLayer = Leaflet.tileLayer.provider(layer)
               baseLayers[layer] = backgroundLayer
               @map.addLayer(backgroundLayer) if index == 0
             @map.fitWorld( { maxZoom: @options.maxZoom } )
@@ -606,10 +606,10 @@
               opts['tms'] = true if layer.tms
               console.log opts
 
-              overlayLayers[layer.name] =  L.tileLayer(layer.url, opts)
+              overlayLayers[layer.name] =  Leaflet.tileLayer(layer.url, opts)
 
 
-          @layerSelector = new L.Control.Layers(baseLayers, overlayLayers)
+          @layerSelector = new Leaflet.Control.Layers(baseLayers, overlayLayers)
           @map.addControl  @layerSelector
         else
           console.log "How to set background with #{this.options.back}?"
@@ -643,7 +643,7 @@
             @_addLayer(layer) for layer in _.reject(@options.show.layers, ['type', 'optional'])
 
           else
-            this.reference = L.geoJson(this.options.show, {
+            this.reference = Leaflet.geoJson(this.options.show, {
               onEachFeature: (feature, layer) =>
                 feature.properties ||= {}
                 #required for cap_land_parcel_clusters as names are set later
@@ -651,7 +651,7 @@
                   feature.properties.name = if feature.properties.id? then "#{this.options.defaultEditionFeaturePrefix}#{feature.properties.id}" else this.defaultLabel
             })
         else
-          this.reference = L.GeoJSON.geometryToLayer(this.options.show)
+          this.reference = Leaflet.GeoJSON.geometryToLayer(this.options.show)
 
         if this.reference?
           this.reference.setStyle this.options.showStyle
@@ -659,15 +659,15 @@
       this
 
     _buildLegendContainer: ->
-      @controls.legend = new L.control(position: "bottomright")
+      @controls.legend = new Leaflet.control(position: "bottomright")
 
       @controls.legend.onAdd = (map) =>
-        L.DomUtil.create('div', 'leaflet-legend-control')
+        Leaflet.DomUtil.create('div', 'leaflet-legend-control')
 
       @map.addControl @controls.legend
 
       unless @options.multiLevels?
-        L.DomUtil.addClass(@controls.legend.getContainer(), 'leaflet-hidden-control')
+        Leaflet.DomUtil.addClass(@controls.legend.getContainer(), 'leaflet-hidden-control')
 
     _bindOverlays: ->
       @map.on "overlayadd", (event) =>
@@ -698,7 +698,7 @@
         layerGroup.renderedLayer = renderedLayer
 
         @controls.legend.getContainer().innerHTML += renderedLayer.buildLegend()
-        L.DomUtil.removeClass(@controls.legend.getContainer(), 'leaflet-hidden-control')
+        Leaflet.DomUtil.removeClass(@controls.legend.getContainer(), 'leaflet-hidden-control')
 
         if @seriesReferencesLayers[layer.label]? && layer.type != 'optional'
           @map.removeLayer(@seriesReferencesLayers[layer.label])
@@ -711,15 +711,15 @@
         this.map.removeLayer this.ghost
       if this.options.ghost?
         if this.options.useFeatures
-          this.ghost = L.geoJson(this.options.ghost, {
+          this.ghost = Leaflet.geoJson(this.options.ghost, {
             onEachFeature: (feature, layer) =>
 
-              label = new L.GhostLabel(className: 'leaflet-ghost-label', toBack: true).setContent(feature.properties.name || feature.properties.id).toCentroidOfBounds(layer.getLatLngs())
+              label = new Leaflet.GhostLabel(className: 'leaflet-ghost-label', toBack: true).setContent(feature.properties.name || feature.properties.id).toCentroidOfBounds(layer.getLatLngs())
               @ghostLayerLabelCluster.bind label, layer
 
           })
         else
-          this.ghost = L.GeoJSON.geometryToLayer(this.options.ghost)
+          this.ghost = Leaflet.GeoJSON.geometryToLayer(this.options.ghost)
 
         this.ghost.setStyle this.options.ghostStyle
         this.ghost.addTo this.map
@@ -738,7 +738,7 @@
         feature.properties['level'] = 0 if this.options.multiLevels? and not feature.properties.level?
 
         unless this.options.withoutLabel
-          label = new L.GhostLabel(className: 'leaflet-ghost-label').setContent(feature.properties.name || feature.properties.id).toCentroidOfBounds(layer.getLatLngs())
+          label = new Leaflet.GhostLabel(className: 'leaflet-ghost-label').setContent(feature.properties.name || feature.properties.id).toCentroidOfBounds(layer.getLatLngs())
           @ghostLabelCluster.bind label, layer
 
 
@@ -764,7 +764,7 @@
         if this.options.useFeatures
 
           polys = []
-          this.edition = L.geoJson(this.options.edit, {
+          this.edition = Leaflet.geoJson(this.options.edit, {
             onEachFeature: (feature, layer) =>
               #nested function cause geojson doesn't seem to pass binding context
               @onEachFeature(feature, layer)
@@ -779,9 +779,9 @@
           })
           this.edition.addData(polys)
         else
-          this.edition = L.GeoJSON.geometryToLayer(this.options.edit)
+          this.edition = Leaflet.GeoJSON.geometryToLayer(this.options.edit)
       else
-        this.edition = L.geoJson(this.options.edit, {
+        this.edition = Leaflet.geoJson(this.options.edit, {
           onEachFeature: (feature, layer) =>
             #nested function cause geojson doesn't seem to pass binding context
             @onEachFeature(feature, layer)
@@ -846,7 +846,7 @@
       else if view is 'default'
         this._setDefaultView()
       else if view.center?
-        center = L.latLng(view.center[0], view.center[1])
+        center = Leaflet.latLng(view.center[0], view.center[1])
         if view.zoom?
           this.map.setView(center, view.zoom)
         else
@@ -870,22 +870,22 @@
         for name, control of this.controls
           this.map.removeControl(control) unless name == 'legend'
       unless this.options.controls.zoom is false
-        this.controls.zoom = new L.Control.Zoom(this.options.controls.zoom)
+        this.controls.zoom = new Leaflet.Control.Zoom(this.options.controls.zoom)
         this.map.addControl this.controls.zoom
       unless this.options.controls.fullscreen is false
-        this.controls.fullscreen = new L.Control.FullScreen(this.options.controls.fullscreen)
+        this.controls.fullscreen = new Leaflet.Control.FullScreen(this.options.controls.fullscreen)
         this.map.addControl this.controls.fullscreen
       if this.edition?
         unless this.options.controls.reactiveMeasure is false
-          this.controls.reactiveMeasureControl = new L.ReactiveMeasureControl(this.edition, this.options.controls.reactiveMeasure)
-        this.controls.draw = new L.Control.Draw($.extend(true, {}, this.options.controls.draw, {edit: {featureGroup: this.edition}}))
+          this.controls.reactiveMeasureControl = new Leaflet.ReactiveMeasureControl(this.edition, this.options.controls.reactiveMeasure)
+        this.controls.draw = new Leaflet.Control.Draw($.extend(true, {}, this.options.controls.draw, {edit: {featureGroup: this.edition}}))
         this.map.addControl this.controls.draw
       unless this.options.controls.scale is false
-        this.controls.scale = new L.Control.Scale(this.options.controls.scale)
+        this.controls.scale = new Leaflet.Control.Scale(this.options.controls.scale)
         this.map.addControl this.controls.scale
       unless this.options.controls.importers.gml is false and this.options.controls.importers.geojson is false and this.options.controls.importers.kml is false
 
-        this.controls.importers_ctrl = new L.Control.EasyButton "<i class='leaflet-importer-ctrl' title='#{this.options.controls.importers.buttonTitle}'></i>", (btn, map) =>
+        this.controls.importers_ctrl = new Leaflet.Control.EasyButton "<i class='leaflet-importer-ctrl' title='#{this.options.controls.importers.buttonTitle}'></i>", (btn, map) =>
           args =
             title: this.options.controls.importers.title
             onShow: (evt) =>
@@ -918,7 +918,7 @@
                     widget.edition.addData feature
                   catch
                     polys = []
-                    this.edition = L.geoJson(feature, {
+                    this.edition = Leaflet.geoJson(feature, {
                       onEachFeature: (feature, layer) =>
                         @onEachFeature(feature, layer)
 
@@ -985,7 +985,7 @@
             @ghostLabelCluster.removeLayer target: { label: layer.label } unless layer.label is undefined
           @ghostLabelCluster.refresh()
 
-        selector = @layerSelector || new L.Control.Layers()
+        selector = @layerSelector || new Leaflet.Control.Layers()
 
         if @ghost? and @ghost.getLayers().length
           selector.addOverlay(@ghost, @options.overlaySelector.ghostLayer)

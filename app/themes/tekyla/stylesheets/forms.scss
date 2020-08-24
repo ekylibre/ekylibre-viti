@@ -569,3 +569,24 @@ td.with-details {
     }
   }
 }
+
+.fieldset.multi-columns{
+  div.fieldset-fields{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  div.control-group{
+    min-width:500px;
+    .controls{
+      max-width: 68%;
+      margin-left: 32%;
+    }
+  }
+}
+
+[id^=edit_cvi_land_parcel] {
+  span { 
+    display:block
+  }
+}

@@ -206,6 +206,7 @@ Rails.application.routes.draw do
       resource :unbalanced_clients_cell, only: :show, concerns: :list
       resource :unbalanced_suppliers_cell, only: :show, concerns: :list
       resource :weather_cell, only: :show
+      resource :weather_vine_spraying_map_cell, only: :show
       resource :working_sets_stocks_cell, only: :show
     end
 
@@ -398,6 +399,14 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :crops, concerns: %i[unroll]
+
+    resources :crop_groups, concerns: %i[list unroll] do
+      member do
+        post :duplicate
+      end
+    end
+
     resources :crumbs, only: %i[index update destroy] do
       member do
         post :convert
@@ -425,6 +434,69 @@ Rails.application.routes.draw do
         post :down
       end
     end
+
+    resources :cvi_statements, concerns: %i[list] do
+      member do
+        patch :update_campaign
+        get :list_cvi_cadastral_plants
+        get :list_cvi_cadastral_plants_map
+        resources :cvi_cadastral_plants, only: %i[index]
+      end
+    end
+
+    resources :cvi_statement_conversions, concerns: %i[list], only: %i[show create] do
+      member do
+        get :convert_modal
+        get :list_cvi_cultivable_zones
+        get :reset
+        post :convert
+      end
+    end
+
+    resources :cvi_cultivable_zones do
+      member do
+        get :delete_modal
+        get :generate_cvi_land_parcels
+        get :confirm_cvi_land_parcels
+        get :edit_cvi_land_parcels
+        get :list_cvi_land_parcels
+        get :reset_modal
+        post :reset
+        resources :cvi_land_parcels, only: %i[index]
+      end
+      collection do
+        post :group
+      end
+    end
+
+    resources :cvi_land_parcels, only: %i[edit update] do
+      member do
+        get :pre_split
+        post :split
+      end
+      collection do
+        post :group
+        get :edit_multiple
+        put :update_multiple
+      end
+    end
+
+    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' } do
+      member do
+        get :delete_modal
+      end
+    end
+
+    resources :cadastral_land_parcel_zones, only: %i[index]
+
+    resources :registered_protected_designation_of_origins, concerns: %i[unroll]
+    resources :master_vine_varieties, concerns: %i[unroll] do
+      collection do
+        get :unroll_vine_varieties
+        get :unroll_rootstocks
+      end
+    end
+
 
     resources :deliveries, concerns: %i[list unroll] do
       member do
@@ -609,6 +681,9 @@ Rails.application.routes.draw do
     resources :identifiers, concerns: [:list]
 
     resources :imports, concerns: [:list] do
+      collection do
+        get :template_file
+      end
       member do
         post :abort
         post :run
@@ -797,7 +872,9 @@ Rails.application.routes.draw do
 
     resources :map_editor_shapes, only: :index
 
-    resources :master_production_natures, only: [], concerns: %i[unroll]
+    resources :master_production_natures, only: [:show], concerns: %i[unroll]
+
+    resources :registered_postal_zones, only: [], concerns: %i[unroll]
 
     resources :matters do
       concerns :products, :list
@@ -1282,6 +1359,7 @@ Rails.application.routes.draw do
       resource :map_cells_visualizations, only: :show
       resource :land_parcels_visualizations, only: :show
       resource :resources_visualizations, only: :show
+      resource :weather_vine_spraying_map_cells_visualizations, only: :show
       resource :non_treatment_areas_visualizations, only: :show
     end
 
@@ -1300,6 +1378,12 @@ Rails.application.routes.draw do
 
     resources :registrations, only: %i[index edit update destroy], concerns: [:list]
     resources :gaps, only: %i[index show destroy]
+
+    resources :varieties, only: [] do
+      collection do
+        get :selection
+      end
+    end
   end
 
   namespace :public do

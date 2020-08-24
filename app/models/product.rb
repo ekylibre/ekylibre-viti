@@ -154,6 +154,8 @@ class Product < Ekylibre::Record::Base
   has_many :current_memberships, -> { current }, class_name: 'ProductMembership', foreign_key: :member_id
   has_one :container, through: :current_localization
   has_many :groups, through: :current_memberships
+  has_many :crop_group_items, foreign_key: :crop_id
+  has_many :crop_groups, through: :crop_group_items
   # FIXME: These reflections are meaningless. Will be removed soon or later.
   has_one :incoming_parcel_item, -> { with_nature(:incoming) }, class_name: 'ReceptionItem', foreign_key: :product_id, inverse_of: :product
   has_one :outgoing_parcel_item, -> { with_nature(:outgoing) }, class_name: 'ShipmentItem', foreign_key: :product_id, inverse_of: :product
@@ -163,6 +165,11 @@ class Product < Ekylibre::Record::Base
   has_picture
   has_geometry :initial_shape, type: :multi_polygon
   has_geometry :initial_geolocation, type: :point
+
+  enumerize :type_of_occupancy, in: %i[owner rent sharecropper], predicates: true
+
+  serialize :specie_variety, HashSerializer
+  store_accessor :specie_variety, :specie_variety_name
 
   # find Product by work_numbers (work_numbers must be an Array)
   scope :of_work_numbers, lambda { |work_numbers|
@@ -291,6 +298,7 @@ class Product < Ekylibre::Record::Base
   scope :support, -> { joins(:nature).merge(ProductNature.support) }
   scope :storage, -> { of_expression('is building_division or can store(product) or can store_liquid or can store_fluid or can store_gaz') }
   scope :plants, -> { where(type: 'Plant') }
+  scope :land_parcels, -> { where(type: 'LandParcel') }
 
   scope :mine, -> { of_owner(:own) }
   scope :mine_or_undefined, ->(at = nil) {
@@ -310,7 +318,7 @@ class Product < Ekylibre::Record::Base
 
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
   validates :birth_date_completeness, :birth_farm_number, :country, :end_of_life_reason, :father_country, :father_identification_number, :father_variety, :filiation_status, :identification_number, :mother_country, :mother_identification_number, :mother_variety, :origin_country, :origin_identification_number, :picture_content_type, :picture_file_name, :work_number, length: { maximum: 500 }, allow_blank: true
-  validates :born_at, :dead_at, :first_calving_on, :initial_born_at, :initial_dead_at, :picture_updated_at, timeliness: { on_or_after: -> { Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.now + 50.years } }, allow_blank: true
+  validates :born_at, :dead_at, :first_calving_on, :initial_born_at, :initial_dead_at, :picture_updated_at, timeliness: { on_or_after: -> { Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.now + 100.years } }, allow_blank: true
   validates :description, length: { maximum: 500_000 }, allow_blank: true
   validates :initial_population, numericality: { greater_than: -1_000_000_000_000_000, less_than: 1_000_000_000_000_000 }, allow_blank: true
   validates :name, presence: true, length: { maximum: 500 }

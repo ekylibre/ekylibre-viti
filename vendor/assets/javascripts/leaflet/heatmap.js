@@ -4,7 +4,7 @@
  * Please attribute Ursudio in any production associated with this javascript plugin.
  */
 
-L.TileLayer.WebGLHeatMap = L.Class.extend({
+Leaflet.TileLayer.WebGLHeatMap = Leaflet.Class.extend({
 
   options: {
     size: 30000, // in meters
@@ -15,7 +15,7 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
 
   initialize: function (options) {
     this.data = [];
-    L.Util.setOptions(this, options);
+    Leaflet.Util.setOptions(this, options);
   },
 
   onAdd: function (map) {
@@ -24,7 +24,7 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
 	  var options = this.options;
 
 	  var c = document.createElement("canvas");
-	  c.id = 'webgl-leaflet-' + L.Util.stamp(this);
+	  c.id = 'webgl-leaflet-' + Leaflet.Util.stamp(this);
     c.width = mapsize.x;
     c.height = mapsize.y;
     c.style.opacity = options.opacity;
@@ -81,12 +81,12 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
 	  }
 	  var heatmap = this.WebGLHeatMap;
 	  heatmap.clear();
-	  L.DomUtil.setPosition(this.canvas, map.latLngToLayerPoint(map.getBounds().getNorthWest()));
+	  Leaflet.DomUtil.setPosition(this.canvas, map.latLngToLayerPoint(map.getBounds().getNorthWest()));
     var dataLen = this.data.length;
 	  if (dataLen) {
       for (var i = 0; i < dataLen; i++) {
 		    var dataVal = this.data[i],
-		        latlng = new L.LatLng(dataVal[0], dataVal[1]),
+		        latlng = new Leaflet.LatLng(dataVal[0], dataVal[1]),
 		        point = map.latLngToContainerPoint(latlng);
         heatmap.addPoint(
           Math.floor(point.x),
@@ -102,8 +102,8 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
   _scale: function (latlng) {
 	  // necessary to maintain accurately sized circles
 	  // to change scale to miles (for example), you will need to convert 40075017 (equatorial circumference of the Earth in metres) to miles
-    var lngRadius = (this.options.size / 40075017) * 360 / Math.cos(L.LatLng.DEG_TO_RAD * latlng.lat);
-	  var latlng2 = new L.LatLng(latlng.lat, latlng.lng - lngRadius);
+    var lngRadius = (this.options.size / 40075017) * 360 / Math.cos(Leaflet.LatLng.DEG_TO_RAD * latlng.lat);
+	  var latlng2 = new Leaflet.LatLng(latlng.lat, latlng.lng - lngRadius);
 	  var point = this.map.latLngToLayerPoint(latlng);
 	  var point2 = this.map.latLngToLayerPoint(latlng2);
 
@@ -137,6 +137,6 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
   }
 });
 
-L.TileLayer.webglheatmap = function (options) {
-  return new L.TileLayer.WebGLHeatMap(options);
+Leaflet.TileLayer.webglheatmap = function (options) {
+  return new Leaflet.TileLayer.WebGLHeatMap(options);
 };

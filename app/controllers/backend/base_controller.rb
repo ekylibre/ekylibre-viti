@@ -213,7 +213,7 @@ module Backend
     def set_theme
       # TODO: Dynamic theme choosing
       if current_user
-        if %w[margarita tekyla tekyla-sunrise].include?(params[:theme])
+        if %w[bordeaux cognac margarita tekyla tekyla-sunrise].include?(params[:theme])
           current_user.prefer!('theme', params[:theme])
         end
         @current_theme = current_user.preference('theme', 'tekyla').value

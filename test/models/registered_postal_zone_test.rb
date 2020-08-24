@@ -27,7 +27,7 @@
 #  city_delivery_detail :string
 #  city_delivery_name   :string
 #  city_name            :string           not null
-#  code                 :string           not null
+#  code                 :string           not null, primary key
 #  country              :string           not null
 #  id                   :string           not null, primary key
 #  postal_code          :string           not null

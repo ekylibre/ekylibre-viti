@@ -86,6 +86,56 @@
     .control-group {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: $default-gap * 2;
+    }
+
+    .merchandise {
+      @include flex-column(flex-start);
+      flex: 58%;
+
+      .control-group {
+        width: 100%;
+      }
+
+      .controls {
+        max-width: 86%;
+      }
+
+      .selector,
+      .selector-search {
+        width: 100%;
+      }
+
+      .reception_items_name:after {
+        color: #e32;
+        content: ' *';
+      }
+    }
+
+    &.service,
+    &.fees {
+
+      .merchandise {
+        flex: 70%;
+      }
+
+      .merchandise .reception_items_variant .controls {
+        width: 50%;
+      }
+
+      .item-quantifier {
+        flex: 58%;
+      }
+
+	  .item-quantifier .item-quantifier-population {
+	    margin-left: 33%;
+	  }
+
+	  .item-quantifier .control-label {
+        width: initial;
+      }
     }
   }
 

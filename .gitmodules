@@ -1,0 +1,12 @@
+[submodule "plugins/cap"]
+	path = plugins/cap
+	url = git@gitlab.com:ekylibre/ekylibre-cap.git
+  branch = ekyviti
+[submodule "plugins/hajimari"]
+	path = plugins/hajimari
+	url = git@gitlab.com:ekylibre/ekylibre-hajimari.git
+	branch = master
+[submodule "weenat"]
+	path = plugins/weenat
+	url = git@gitlab.com:ekylibre/ekylibre-weenat.git
+	branch = debug/jobs

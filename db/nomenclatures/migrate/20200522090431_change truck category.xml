@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<migration name="change truck category">
+  <item-change item="product_natures#truck" category="equipment"/>
+</migration>

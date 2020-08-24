@@ -43,15 +43,15 @@ class visualization.Path
   buildLayerGroup: (widget, globalStyle = {}) ->
     group = []
     for crumb in @data
-      crumbLayer = new L.circleMarker(new L.geoJson(crumb.shape).getBounds().getCenter(), $.extend(true, {}, globalStyle, @options, {className: "crumb crumb-#{crumb.name}"}))
+      crumbLayer = new Leaflet.circleMarker(new Leaflet.geoJson(crumb.shape).getBounds().getCenter(), $.extend(true, {}, globalStyle, @options, {className: "crumb crumb-#{crumb.name}"}))
       widget._bindPopup(crumbLayer, crumb)
       group.push(crumbLayer)
       previous_crumb = @data[@data.indexOf(crumb) - 1]
       if previous_crumb
         points = []
-        points.push(new L.geoJson(previous_crumb.shape).getBounds().getCenter())
-        points.push(new L.geoJson(crumb.shape).getBounds().getCenter())
-        crumbLayer = new L.polyline(points, $.extend(true, {}, globalStyle, @options))
+        points.push(new Leaflet.geoJson(previous_crumb.shape).getBounds().getCenter())
+        points.push(new Leaflet.geoJson(crumb.shape).getBounds().getCenter())
+        crumbLayer = new Leaflet.polyline(points, $.extend(true, {}, globalStyle, @options))
         group.push(crumbLayer)
     return group
 

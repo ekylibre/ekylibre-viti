@@ -5,7 +5,7 @@ class SetMissingValidatedAtAndContinuousNumbersOnJournalEntries < ActiveRecord::
         DISABLE TRIGGER compute_journal_entries_continuous_number_on_update;
 
       UPDATE journal_entries
-         SET validated_at = COALESCE(grouped_jeis.updated_at, NOW())
+        SET validated_at = COALESCE(grouped_jeis.updated_at, NOW())
         FROM (SELECT entry_id,
                      MAX(updated_at) AS updated_at
                 FROM journal_entry_items
