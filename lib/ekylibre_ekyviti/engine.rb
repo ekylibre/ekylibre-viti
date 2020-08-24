@@ -31,5 +31,9 @@ module EkylibreEkyviti
     initializer :restfully_manageable do |app|
       app.config.x.restfully_manageable.view_paths << EkylibreEkyviti::Engine.root.join('app', 'views')
     end
+
+    initializer :extend_measure do |_app|
+      ::Measure.prepend EkylibreEkyviti::MeasureExt
+    end
   end
 end
