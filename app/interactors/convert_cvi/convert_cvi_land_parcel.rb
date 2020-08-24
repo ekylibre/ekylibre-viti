@@ -6,7 +6,7 @@ module ConvertCvi
       @activity = cvi_land_parcel.activity
       @planting_campaign = Campaign.of(cvi_land_parcel.planting_campaign)
       # 1 Find or create a cultivable zone with cvi cultivable CultivableZone
-      @cultivable_zone = CultivableZone.find_or_create_with_cvi_cz(cvi_land_parcel.cvi_cultivable_zone)
+      @cultivable_zone = ConvertCviCultivableZone.call(cvi_land_parcel.cvi_cultivable_zone)
     end
 
     def self.call(cvi_land_parcel, activity_open_from)
