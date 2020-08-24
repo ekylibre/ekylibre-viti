@@ -173,8 +173,17 @@ module Duke
           end
         end
         targets, crop_groups = extract_plant_area(params[:user_input].downcase, targets, crop_groups)
-        parsed[:targets] = targets
-        parsed[:crop_groups] = crop_groups
+        # If there's no new Target/Crop_group, But a percentage, it's the new area % foreach previous target
+        if crop_groups.empty? and targets.empty?
+          pct_regex = params[:user_input].downcase.match(/(\d{1,2}) *(%|pour( )?cent(s)?)/)
+          if pct_regex
+            parsed[:crop_groups].to_a.each { |crop_group| crop_group[:area] = pct_regex[1]}
+            parsed[:targets].to_a.each { |target| target[:area] = pct_regex[1]}
+          end
+        else
+          parsed[:targets] = targets
+          parsed[:crop_groups] = crop_groups
+        end
       end
       parsed[:user_input] += ' - (Cibles) ' << params[:user_input]
       what_next, sentence, optional = find_missing_parameters(parsed)
