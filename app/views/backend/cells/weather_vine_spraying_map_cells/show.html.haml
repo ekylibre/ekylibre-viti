@@ -1,0 +1,9 @@
+- if @campaign && @activity_productions.any?
+  = visualization({async_url: backend_visualizations_weather_vine_spraying_map_cells_visualizations_path(@url_params)}, {}) do |v|
+    - v.control :zoom
+    - v.control :scale
+    - v.control :fullscreen
+    - v.control :layer_selector
+    - v.center @activity_productions.first.support_shape_centroid
+- else
+  .placeholding-message= :no_vine_production_or_spraying_interventions_defined_for_current_campaign.tn

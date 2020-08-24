@@ -71,5 +71,13 @@ Rails.application.routes.draw do
         get :delete_modal
       end
     end
+
+    namespace :cells do
+      resource :weather_vine_spraying_map_cell, only: :show
+    end
+
+    namespace :visualizations do
+      resource :weather_vine_spraying_map_cells_visualizations, only: :show
+    end
   end
 end

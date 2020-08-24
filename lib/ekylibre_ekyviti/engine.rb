@@ -35,5 +35,8 @@ module EkylibreEkyviti
     initializer :extend_measure do |_app|
       ::Measure.prepend EkylibreEkyviti::MeasureExt
     end
+    initializer :beehive do |app|
+      app.config.x.beehive.cell_controller_types << :weather_vine_spraying_map
+    end
   end
 end
