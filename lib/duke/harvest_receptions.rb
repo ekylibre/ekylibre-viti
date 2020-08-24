@@ -316,8 +316,8 @@ module Duke
         parsed[:targets].to_a.each_with_index do |target, index|
           targets_attributes[index] = {"plant_id" => target[:key], "harvest_percentage_received" => target[:area].to_s}
         end
-        parsed[:crop_groups].to_a.each do |cropgroup, index|
-          CropGroup.available_crops(cropgroup[:key], "is plant").each do |crop, index2|
+        parsed[:crop_groups].to_a.each_with_index do |cropgroup, index|
+          CropGroup.available_crops(cropgroup[:key], "is plant").each_with_index do |crop, index2|
               targets_attributes["#{index}#{index2}"] = {"plant_id" => crop[:id], "harvest_percentage_received" => cropgroup[:area].to_s}
           end
         end

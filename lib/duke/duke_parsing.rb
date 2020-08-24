@@ -17,7 +17,7 @@ module Duke
       # Create validation sentence for HarvestReceptionSkill
       I18n.locale = :fra
       sentence = I18n.t("duke.harvest_reception.save_harvest_reception_#{rand(0...2)}")
-      unless params[:target].to_a.empty?
+      unless params[:targets].to_a.empty?
         sentence+= "<br>&#8226 Culture(s) : "
         params[:targets].each do |target|
           sentence += "#{target[:area].to_s}% #{target[:name]}, "
