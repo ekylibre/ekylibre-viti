@@ -78,7 +78,7 @@ module Duke
         else
           unit = 'hl'
         end
-        parsed[:parameters][parameter] = {:rate => value.to_s.gsub(',','.'), :unit => unit }
+        parsed[:parameters][parameter] = {:rate => value.to_s.gsub(',','.').to_f, :unit => unit }
       else
         parsed[:parameters][parameter] = value.to_s.gsub(',','.')
       end
