@@ -1102,6 +1102,7 @@ fra:
       zoom:
         zoomInTitle: "Zoomer"
         zoomOutTitle: "Dézoomer"
+      zoomGuidance: "Niveau de zoom insuffisant"
     labels:
       cadastral_land_parcel_zones: 'Parcelles cadastrales'
     levels:
@@ -1129,9 +1130,6 @@ fra:
         manage_land_parcels: "Gérer le parcellaire"
         edit: "Modifier"
         not_defined: "A définir"
-      zoomGuidance: "Niveau de zoom insuffisant"
-      zoomInTitle: "Zoomer"
-      zoomOutTitle: "Dézoomer"
     unroll:
       server_error: "Erreur serveur"
   labels:

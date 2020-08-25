@@ -1442,9 +1442,9 @@ eng:
           buttons:
             cutPolyline: "Split a plot"
       zoom:
-        zoomGuidance: "Insufficient zoom level"
         zoomInTitle: "Zoom in"
         zoomOutTitle: "Zoom out"
+      zoomGuidance: "Insufficient zoom level"
     labels:
       cadastral_land_parcel_zones: 'Cadastral land parcels'
     levels:
@@ -1468,9 +1468,6 @@ eng:
         n_3_4_leaf: "N+3 (2nd leaf)"
         n_2_3_leaf: "N+2 (3rd leaf)"
         n_4_5_leaf: "N+4 (5th leaf)"
-      zoomGuidance: "Insufficient zoom level"
-      zoomInTitle: "Zoom in"
-      zoomOutTitle: "Zoom out"
     unroll:
       server_error: "Server error"
   labels:
