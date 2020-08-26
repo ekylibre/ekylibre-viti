@@ -44,6 +44,7 @@ module Duke
                   :duration => duration,
                   :intervention_date => intervention_date,
                   :user_input => params[:user_input]}
+        parsed[:ambiguities] = find_ambiguity(parsed, user_input)
         # Find if crucials parameters haven't been given, to ask again to the user
         what_next, sentence, optional = find_missing_parameters(parsed)
         return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
@@ -183,6 +184,7 @@ module Duke
         else
           parsed[:targets] = targets
           parsed[:crop_groups] = crop_groups
+          parsed[:ambiguities] = find_ambiguity({:targets => targets, :crop_groups => crop_groups}, params[:user_input])
         end
       end
       parsed[:user_input] += ' - (Cibles) ' << params[:user_input]
@@ -205,7 +207,7 @@ module Duke
           matching_element = nil
           matching_list = nil
           # Iterating through varieties
-          Equipment.availables(at: parsed[:intervention_date]).where("variety='tank'").each do |tank|
+          Matter.availables(at: parsed[:intervention_date]).where("variety='tank'").each do |tank|
             level, matching_element, matching_list = compare_elements(combo, tank[:name], index, level, tank[:id], destination, matching_element, matching_list)
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
@@ -214,6 +216,7 @@ module Duke
           end
         end
         parsed[:destination] = destination
+        parsed[:ambiguities] = find_ambiguity({:destination => destination}, params[:user_input])
       end
       parsed[:user_input] += ' (Destination) ' << params[:user_input]
       what_next, sentence, optional = find_missing_parameters(parsed)
@@ -250,8 +253,8 @@ module Duke
           CropGroup.all.where("target = 'plant'").each do |cropg|
             level, matching_element, matching_list = compare_elements(combo, cropg[:name], index, level, cropg[:id], new_crop_groups, matching_element, matching_list)
           end
-          Equipment.availables(at: new_date).where("variety='tank'").each do |tank|
-            level, matching_element, matching_list = compare_elements(combo, tank[:name], index, level, tank[:name], new_destination, matching_element, matching_list)
+          Matter.availables(at: new_date).where("variety='tank'").each do |tank|
+            level, matching_element, matching_list = compare_elements(combo, tank[:name], index, level, tank[:id], new_destination, matching_element, matching_list)
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
@@ -260,14 +263,42 @@ module Duke
         end
         new_targets, new_crop_groups = extract_plant_area(user_input.downcase, new_targets, new_crop_groups)
         parsed = {:targets =>  uniq_conc(new_targets,params[:parsed][:targets].to_a),
-                  :crop_groups => uniq_conq(new_crop_groups, params[:parsed][:crop_groups].to_a),
+                  :crop_groups => uniq_conc(new_crop_groups, params[:parsed][:crop_groups].to_a),
                   :species =>  uniq_conc(new_species,params[:parsed][:species].to_a),
                   :destination => uniq_conc(new_destination, params[:parsed][:destination].to_a),
                   :parameters => params[:parsed][:parameters],
                   :duration => new_duration,
                   :intervention_date => new_date,
                   :user_input => params[:parsed][:user_input] << ' - (Autre) ' << params[:user_input]}
+        parsed[:ambiguities] = find_ambiguity({:destination => new_destination, :crop_groups => new_crop_groups, :targets => new_targets}, params[:user_input])
         # Find if crucials parameters haven't been given, to ask again to the user
+        what_next, sentence, optional = find_missing_parameters(parsed)
+        return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
+      end
+    end
+
+    def handle_parse_disambiguation(params)
+      parsed = params[:parsed]
+      ambElement = params[:optional][-1]
+      ambType, ambArray = parsed.find { |key, value| value.is_a?(Array) and value.any? { |subhash| subhash[:name] == ambElement[:name]}}
+      ambHash = ambArray.find {|hash| hash[:name] == ambElement[:name]}
+      begin
+        chosen_one = eval(params[:user_input])
+        ambHash[:name] = chosen_one["name"]
+        ambHash[:key] = chosen_one["key"]
+      rescue
+        if params[:user_input] == "Tous"
+          params[:optional].each_with_index do |ambiguate, index|
+            unless index+1 == params[:optional].length
+              hashClone = ambHash.clone()
+              hashClone[:name] = ambiguate[:name]
+              hashClone[:key] = ambiguate[:key]
+              ambArray.push(hashClone)
+            end
+          end
+        end
+      ensure
+        parsed[:ambiguities].shift
         what_next, sentence, optional = find_missing_parameters(parsed)
         return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
       end

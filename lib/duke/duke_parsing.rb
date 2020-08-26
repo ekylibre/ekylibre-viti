@@ -537,6 +537,9 @@ module Duke
 
     def find_missing_parameters(parsed)
       # Find what we should ask the user next for an harvest reception
+      unless parsed[:ambiguities].to_a.empty?
+        return "ask_ambiguity", nil, parsed[:ambiguities][0]
+      end
       if parsed[:targets].to_a.empty? && parsed[:crop_groups].to_a.empty?
         return "ask_plant", nil, nil
       end
@@ -700,6 +703,56 @@ module Duke
         end
       end
       return new_array
+    end
+
+    def find_ambiguity(parsed, content)
+      ambiguities = []
+      parsed.each do |key, reco|
+        if key == :targets and !reco.empty?
+          reco.each do |aTarg|
+            ambig = []
+            aTarg_name = content.split()[aTarg[:indexes][0]..aTarg[:indexes][-1]].join(" ")
+            Plant.availables(at: parsed[:intervention_date]).each do |plant|
+              if aTarg[:key] != plant[:id] and (aTarg[:distance] - @@fuzzloader.getDistance(plant[:name].downcase, aTarg_name.downcase)).between?(0,0.02)
+                ambig.push({"key" => plant[:id].to_s, "name" => plant[:name]})
+              end
+            end
+            unless ambig.empty?
+              ambig.push({"key" => aTarg[:key].to_s, "name" => aTarg[:name]})
+              ambiguities.push(ambig)
+            end
+          end
+        elsif key == :destination and !reco.empty?
+          reco.each do |aDest|
+            ambig = []
+            aDest_name = content.split()[aDest[:indexes][0]..aDest[:indexes][-1]].join(" ")
+            Matter.availables(at: parsed[:intervention_date]).where("variety='tank'").each do |tank|
+              if aDest[:key] != tank[:id] and (aDest[:distance] - @@fuzzloader.getDistance(tank[:name].downcase, aDest_name.downcase)).between?(0,0.02)
+                ambig.push({"key" => tank[:id].to_s, "name" => tank[:name]})
+              end
+            end
+            unless ambig.empty?
+              ambig.push({"key" => aDest[:key].to_s, "name" => aDest[:name]})
+              ambiguities.push(ambig)
+            end
+          end
+        elsif key == :crop_groups and !reco.empty?
+          reco.each do |aCG|
+            ambig = []
+            aCG_name = content.split()[aCG[:indexes][0]..aCG[:indexes][-1]].join(" ")
+            CropGroup.all.where("target = 'plant'").each do |cropg|
+              if aCG[:key] != cropg[:id] and (aCG[:distance] - @@fuzzloader.getDistance(cropg[:name].downcase, aCG_name.downcase)).between?(0,0.02)
+                ambig.push({"key" => cropg[:id].to_s, "name" => cropg[:name]})
+              end
+            end
+            unless ambig.empty?
+              ambig.push({"key" => aCG[:key].to_s, "name" => aCG[:name]})
+              ambiguities.push(ambig)
+            end
+          end
+        end
+      end
+      return ambiguities
     end
 
     def key_duplicate?(list, saved_hash)
