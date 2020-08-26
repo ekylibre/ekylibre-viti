@@ -321,7 +321,7 @@ module Duke
 
     def extract_tav(content, parameters)
       # Extracting tav data
-      tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) ((degré(s)?|°|%)|(de|en|d\')? *(tavp|tav|(t)? *avp|(t)? *svp|t avait|thé avait|alcool))'
+      tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) ((degré(s)?|°|%)|(de|en|d\')? *(tavp|tav|(t)? *avp|(t)? *svp|t avait|thé avait|thé à l\'épée|alcool|(entea|mta) *vp))'
       tav = content.match(tav_regex)
       unless parameters.key?('tav')
         if tav
