@@ -311,7 +311,7 @@ module Duke
       params[:parsed][:parameters] = new_parameters
       params[:parsed][:user_input] += " - (Analyse) #{params[:user_input]}"
       # Find if crucials parameters haven't been given, to ask again to the user
-      what_next, sentence, optional = find_missing_parameters(parsed)
+      what_next, sentence, optional = find_missing_parameters(params[:parsed])
       return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
@@ -322,7 +322,7 @@ module Duke
       params[:parsed][:parameters] = new_parameters
       params[:parsed][:user_input] += " - (Intrant) params[:user_input]"
         # Find if crucials parameters haven't been given, to ask again to the user
-        what_next, sentence, optional = find_missing_parameters(parsed)
+        what_next, sentence, optional = find_missing_parameters(params[:parsed])
         return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
@@ -333,7 +333,7 @@ module Duke
       params[:parsed][:parameters] = new_parameters
       params[:parsed][:user_input] += " - (Pressurage) params[:user_input]"
       # Find if crucials parameters haven't been given, to ask again to the user
-      what_next, sentence, optional = find_missing_parameters(parsed)
+      what_next, sentence, optional = find_missing_parameters(params[:parsed])
       return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
