@@ -26,11 +26,11 @@ module Duke
       saved_hash_higher = {:key=>4, :name=>"Jeunes plants", :indexes=>[4, 5], :distance=>0.98}
       target_list = [{:key=>4, :name=>"Jeunes plants", :indexes=>[3, 4], :distance=>0.97}]
       # No duplicate, should return True & previous list
-      assert_equal(DukeParsing.key_duplicate_append?(target_list, saved_hash), [true, target_list], "Finds a duplicate when not present")
+      assert_equal(DukeParsing.key_duplicate?(target_list, saved_hash), [false, target_list], "Finds a duplicate when not present")
       # Duplicate with higher distance, should return False & previous list
-      assert_equal(DukeParsing.key_duplicate_append?(target_list, saved_hash_lower), [false, target_list], "Duplicate with higher distance not found")
+      assert_equal(DukeParsing.key_duplicate?(target_list, saved_hash_lower), [true, target_list], "Duplicate with higher distance not found")
       # Duplicate with lower distance, should return True & previous list without the duplicate
-      assert_equal(DukeParsing.key_duplicate_append?(target_list, saved_hash_higher), [true, []], "Duplicate with lower distance not found")
+      assert_equal(DukeParsing.key_duplicate?(target_list, saved_hash_higher), [false, []], "Duplicate with lower distance not found")
     end
 
     test '(not)? adding a recognized element to its list' do
@@ -183,10 +183,6 @@ module Duke
       assert_equal(DukeParsing.extract_plant_area("Sur Bernessard", [{:key=>85, :name=>"Bernessard", :indexes=>[1], :distance=>1}]),
                                                   [{:key=>85, :name=>"Bernessard", :indexes=>[1], :distance=>1, :area=>100}],
                                                   "Does not attribute 100% of a plant when not specified")
-      # should try to find total area of inexistant target & raise NoMethodError
-      assert_raises NoMethodError do
-        DukeParsing.extract_plant_area("Sur 1 hectare de Bernessard", [{:key=>123456789, :name=>"Bernessard", :indexes=>[4], :distance=>1}])
-      end
     end
   end
 end

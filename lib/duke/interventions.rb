@@ -16,33 +16,33 @@ module Duke
         user_inputs_combos = self.create_words_combo(user_input)
         # Iterate through all user's combo of words (with their indexes)
         user_inputs_combos.each do |index, combo|
-          # Define minimum matching level, initialize saved_hash and recognized list to None
-          level = 0.90
-          saved_hash = nil
-          list = nil
+          # Define minimum matching level, initialize matching_element and matching_list to None
+          level = 0.89
+          matching_element = nil # A Hash containing :key, :name, :indexes, :distance,
+          matching_list = nil  # A pointer, which will point to the list on which to add the matching element, if a match occurs, else points to nothing
           # Iterating through workers : Search for full name and first name only
           Worker.availables(at: intervention_date).each do |worker|
-            level, saved_hash, list = compare_elements(combo, worker[:name], index, level, worker[:id], workers, saved_hash, list)
-            level, saved_hash, list = compare_elements(combo, worker[:name].split[0], index, level, worker[:id], workers, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, worker[:name], index, level, worker[:id], workers, matching_element, matching_list)
+            level, matching_element, matching_list = compare_elements(combo, worker[:name].split[0], index, level, worker[:id], workers, matching_element, matching_list)
           end
           # Iterating through equipments
           Equipment.availables(at: intervention_date).each do |eq|
-            level, saved_hash, list = compare_elements(combo, eq[:name], index, level, eq[:id], equipments, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, eq[:name], index, level, eq[:id], equipments, matching_element, matching_list)
           end
           # Iterating through inputs if the procedure type includes inputs
           unless Procedo::Procedure.find(procedure).parameters_of_type(:input).empty?
             #TODO: Find nature_id of the current procedure
             Matter.availables(at: intervention_date).where("nature_id=45").each do |input|
-              level, saved_hash, list = compare_elements(combo, input[:name], index, level, input[:id], inputs, saved_hash, list)
+              level, matching_element, matching_list = compare_elements(combo, input[:name], index, level, input[:id], inputs, matching_element, matching_list)
             end
           end
           # Iterating through crop groups
           CropGroup.all.each do |cropg|
-            level, saved_hash, list = compare_elements(combo, cropg[:name], index, level, cropg[:id], crop_groups, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, cropg[:name], index, level, cropg[:id], crop_groups, matching_element, matching_list)
           end
-          # If we recognized something, we append it to the correct list and we remove what matched from the user_input
-          unless saved_hash.nil?
-            list = add_to_recognize_final(saved_hash, list, [equipments,workers,inputs,crop_groups])
+          # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
+          unless matching_element.nil?
+            matching_list = add_to_recognize_final(matching_element, matching_list, [equipments,workers,inputs,crop_groups], user_input)
           end
         end
         add_input_rate(params[:user_input], inputs)
@@ -56,7 +56,7 @@ module Duke
                   :user_input => params[:user_input]}
 
         return  { :parsed => parsed,
-                :sentence => create_intervention_sentence(parsed) }
+                :sentence => speak_intervention(parsed) }
       end
     end
 
@@ -70,29 +70,29 @@ module Duke
         # Loading FuzzyMatcher
         user_inputs_combos = create_words_combo(params[:user_input].downcase)
         user_inputs_combos.each do |index, combo|
-          # Define minimum matching level, initialize saved_hash and recognized list to None
+          # Define minimum matching level, initialize matching_element and recognized matching_list to None
           level = 0.90
-          saved_hash = nil
-          list = nil
+          matching_element = nil
+          matching_list = nil
           # Iterating through equipments
           Worker.availables(at: intervention_date).each do |worker|
-            level, saved_hash, list = compare_elements(combo, worker[:name], index, level, worker[:id], new_workers, saved_hash, list)
-            level, saved_hash, list = compare_elements(combo, worker[:name].split[0], index, level, worker[:id], new_workers, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, worker[:name], index, level, worker[:id], new_workers, matching_element, matching_list)
+            level, matching_element, matching_list = compare_elements(combo, worker[:name].split[0], index, level, worker[:id], new_workers, matching_element, matching_list)
           end
           unless Procedo::Procedure.find(procedure).parameters_of_type(:input).empty?
             Matter.availables(at: intervention_date).where("nature_id=45").each do |input|
-              level, saved_hash, list = compare_elements(combo, input[:name], index, level, input[:id], new_inputs, saved_hash, list)
+              level, matching_element, matching_list = compare_elements(combo, input[:name], index, level, input[:id], new_inputs, matching_element, matching_list)
             end
           end
           CropGroup.all.each do |cropg|
-            level, saved_hash, list = compare_elements(combo, cropg[:name], index, level, cropg[:id], new_crop_groups, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, cropg[:name], index, level, cropg[:id], new_crop_groups, matching_element, matching_list)
           end
           Equipment.availables(at: intervention_date).each do |eq|
-            level, saved_hash, list = compare_elements(combo, eq[:name], index, level, eq[:id], new_equipments, saved_hash, list)
+            level, matching_element, matching_list = compare_elements(combo, eq[:name], index, level, eq[:id], new_equipments, matching_element, matching_list)
           end
-          # If we recognized something, and there's no interferences, we append it to the correct list
-          unless saved_hash.nil?
-            add_to_recognize_final(saved_hash, list, [new_equipments,new_workers,new_inputs,new_crop_groups])
+          # If we recognized something, and there's no interferences, we append it to the correct matching_list
+          unless matching_element.nil?
+            add_to_recognize_final(matching_element, matching_list, [new_equipments,new_workers,new_inputs,new_crop_groups], params[:user_input].downcase)
           end
         end
         add_input_rate(params[:user_input], new_inputs)
@@ -105,7 +105,7 @@ module Duke
                   :intervention_date => params[:parsed][:intervention_date],
                   :user_input => params[:parsed][:user_input] << ' - ' << params[:user_input]}
 
-        return  {:sentence =>  create_intervention_sentence(parsed),
+        return  {:sentence =>  speak_intervention(parsed),
                  :parsed => parsed }
      end
     end

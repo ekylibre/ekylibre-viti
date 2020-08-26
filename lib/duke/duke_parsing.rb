@@ -4,7 +4,7 @@ module Duke
 
     # All functions that are creating sentences for Duke to respond
 
-    def create_intervention_sentence(params)
+    def speak_intervention(params)
       # Create validation sentence for InterventionSkill
       I18n.locale = :fra
       sentence = I18n.t("duke.interventions.save_intervention_#{rand(0...3)}")
@@ -13,54 +13,67 @@ module Duke
       return sentence
     end
 
-    def create_reception_sentence(params)
+    def speak_harvest_reception(params)
       # Create validation sentence for HarvestReceptionSkill
       I18n.locale = :fra
       sentence = I18n.t("duke.harvest_reception.save_harvest_reception_#{rand(0...2)}")
-      sentence+= "<br>&#8226 Culture(s) : "
-      params[:targets].each do |target|
-        sentence += target[:area].to_s+"% "+target[:name]+", "
+      unless params[:targets].to_a.empty?
+        sentence+= "<br>&#8226 Culture(s) : "
+        params[:targets].each do |target|
+          sentence += "#{target[:area].to_s}% #{target[:name]}, "
+        end
       end
-      sentence+= "<br>&#8226 Quantité : "+params[:parameters]['quantity']['rate'].to_s+" "+params[:parameters]['quantity']['unit']
-      sentence+= "<br>&#8226 Date : "+params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")
+      unless params[:crop_groups].to_a.empty?
+        sentence+= "<br>&#8226 Groupement(s) : "
+        params[:crop_groups].each do |crop_group|
+          sentence += "#{crop_group[:area].to_s}% #{crop_group[:name]}, "
+        end
+      end
+      sentence+= "<br>&#8226 Quantité : #{params[:parameters]['quantity']['rate'].to_s} #{params[:parameters]['quantity']['unit']}"
+      sentence+= "<br>&#8226 Date : #{params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")}"
       sentence+= "<br>&#8226 Destination : "
       params[:destination].each do |destination|
         sentence+= destination[:name]
-        if destination.key?('quantity')
-          sentence+= ' ('+destination[:quantity].to_s+' hl)'
-        end
-        sentence+=', '
+        sentence+= " (#{destination[:quantity].to_s} hl), " if destination.key?('quantity')
       end
-      sentence+= "<br>&#8226 TAVP : "+params[:parameters]['tav'].to_s+" % vol"
-      if !params[:parameters]['temperature'].nil?
-        sentence+= "<br>&#8226 Température : "+params[:parameters]['temperature']+ "°C"
+      sentence+= "<br>&#8226 TAVP : #{params[:parameters]['tav'].to_s} % vol"
+      unless params[:parameters]['temperature'].nil?
+        sentence+= "<br>&#8226 Température : #{params[:parameters]['temperature']} °C"
       end
-      if !params[:parameters]['h2so4'].nil?
-        sentence+= "<br>&#8226 H2SO4 : "+params[:parameters]['h2so4']
+      unless params[:parameters]['h2so4'].nil?
+        sentence+= "<br>&#8226 H2SO4 : #{params[:parameters]['h2so4']} g/L"
       end
-      if !params[:parameters]['ph'].nil?
-        sentence+= "<br>&#8226 pH : "+params[:parameters]['ph']
+      unless params[:parameters]['malic'].nil?
+        sentence+= "<br>&#8226 Acide Malique : #{params[:parameters]['malic']} g/L"
       end
-      if !params[:parameters]['nitrogen'].nil?
-        sentence+= "<br>&#8226 Azote : "+params[:parameters]['nitrogen']
+      unless params[:parameters]['ph'].nil?
+        sentence+= "<br>&#8226 pH : #{params[:parameters]['ph']}"
       end
-      if !params[:parameters]['operatorymode'].nil?
-        sentence+= "<br>&#8226 Mode Opératoire : "+params[:parameters]['operatorymode']
+      unless params[:parameters]['nitrogen'].nil?
+        sentence+= "<br>&#8226 Azote : #{params[:parameters]['nitrogen']} mg/mL"
       end
-      if !params[:parameters]['pressing'].nil?
+      unless params[:parameters]['operatorymode'].nil?
+        sentence+= "<br>&#8226 Mode Opératoire : #{params[:parameters]['operatorymode']}"
+      end
+      unless params[:parameters]['pressing'].nil?
         sentence+= "<br>&#8226 Pressurage spécifié"
       end
-      # speaking inputs
+      unless params[:parameters]['so2'].nil?
+        sentence+= "<br>&#8226 Sulfites : #{params[:parameters]['so2']} g/hL"
+      end
+      unless params[:parameters]['co2'].nil?
+        sentence+= "<br>&#8226 Glace carbonique : #{params[:parameters]['so2']} kg/hL"
+      end
       return sentence
     end
 
-    def create_destination_quantity_sentence(params)
-      # Function that create sentence to ask for quantity in a specific destination
-      # Return the sentence, and the index of the destination inside params[:destination] as an optional value
+    def speak_destination_hl(params)
+      # Creates "How much hectoliters in Cuve 1 ?"
+      # Return the sentence, and the index of the destination inside params[:destination] to transfer as an optional value to IBM
       I18n.locale = :fra
       sentence = I18n.t("duke.harvest_reception.how_much_to_#{rand(0...2)}")
       params[:destination].each_with_index do |cuve, index|
-        if not cuve.key?("quantity")
+        unless cuve.key?("quantity")
           sentence += cuve[:name]
           return sentence, index
         end
@@ -151,13 +164,14 @@ module Duke
     end
 
     def create_analysis_attributes(parsed)
-     return{"0"=>{"_destroy"=>"false", "indicator_name"=>"estimated_harvest_alcoholic_volumetric_concentration", "measure_value_value"=> parsed[:parameters]['tav'], "measure_value_unit"=>"volume_percent"},
-            "1"=>{"_destroy"=>"false", "indicator_name"=>"potential_hydrogen", "decimal_value"=> (parsed[:parameters]['ph'] if !parsed[:parameters]['ph'].nil?) || "0.0"},
-            "2"=>{"_destroy"=>"false", "indicator_name"=>"temperature", "measure_value_value"=> parsed[:parameters]['temperature'], "measure_value_unit"=>"celsius"},
-            "3"=>{"_destroy"=>"false", "indicator_name"=>"assimilated_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['nitrogen'], "measure_value_unit"=>"milligram_per_liter"},
-            "4"=>{"_destroy"=>"false", "indicator_name"=>"total_acid_concentration", "measure_value_value"=>parsed[:parameters]['h2so4'], "measure_value_unit"=>"gram_per_liter"},
-            "5"=>{"_destroy"=>"false", "indicator_name"=>"malic_acid_concentration", "measure_value_value"=>parsed[:parameters]['malic'], "measure_value_unit"=>"gram_per_liter"},
-            "6"=>{"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> (parsed[:parameters]['sanitarystate'] if !parsed[:parameters]['sanitarystate'].nil?) || "Rien à signaler" }}
+      attributes =    {"0"=>{"_destroy"=>"false", "indicator_name"=>"estimated_harvest_alcoholic_volumetric_concentration", "measure_value_value"=> parsed[:parameters]['tav'], "measure_value_unit"=>"volume_percent"}}
+      attributes[1] = {"_destroy"=>"false", "indicator_name"=>"potential_hydrogen", "decimal_value"=> parsed[:parameters]['ph'] } unless parsed[:parameters]['ph'].nil?
+      attributes[2] = {"_destroy"=>"false", "indicator_name"=>"temperature", "measure_value_value"=> parsed[:parameters]['temperature'], "measure_value_unit"=>"celsius"} unless parsed[:parameters]['temperature'].nil?
+      attributes[3] = {"_destroy"=>"false", "indicator_name"=>"assimilated_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['nitrogen'], "measure_value_unit"=>"milligram_per_liter"} unless parsed[:parameters]['nitrogen'].nil?
+      attributes[4] = {"_destroy"=>"false", "indicator_name"=>"total_acid_concentration", "measure_value_value"=>parsed[:parameters]['h2so4'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['h2so4'].nil?
+      attributes[5] = {"_destroy"=>"false", "indicator_name"=>"malic_acid_concentration", "measure_value_value"=>parsed[:parameters]['malic'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['malic'].nil?
+      attributes[6] ={"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> parsed[:parameters]['sanitarystate']} unless parsed[:parameters]['sanitarystate'].nil?
+      return attributes
     end
     # Extracting functions, regex / including
 
@@ -167,16 +181,16 @@ module Duke
         regex = '\d+\s(\w*minute\w*|mins)'
         regex2 = '(de|pendant|durée) *(\d)\s?(heures|h|heure)\s?(\d\d)'
         regex3 = '(de|pendant|durée) *(\d)\s?(h\b|h\s|heure)'
-        if content.include? "1 quart d'heure"
-          content["1 quart d'heure"] = ""
-          return 15, content.strip.gsub(/\s+/, " ")
-        end
         if content.include? "trois quarts d'heure"
-          content["3 quart d'heure"] = ""
+          content["trois quart d'heure"] = ""
           return 45, content.strip.gsub(/\s+/, " ")
         end
-        if content.include? "1 demi heure"
-          content["1 demi heure"] = ""
+        if content.include? "quart d'heure"
+          content["quart d'heure"] = ""
+          return 15, content.strip.gsub(/\s+/, " ")
+        end
+        if content.include? "demi heure"
+          content["demi heure"] = ""
           return 30, content.strip.gsub(/\s+/, " ")
         end
         min_time = content.match(regex)
@@ -211,21 +225,18 @@ module Duke
       now = DateTime.now
       month_hash = {"janvier" => 1, "février" => 2, "fevrier" => 2, "mars" => 3, "avril" => 4, "mai" => 5, "juin" => 6, "juillet" => 7, "août" => 8, "aout" => 8, "septembre" => 9, "octobre" => 10, "novembre" => 11, "décembre" => 12, "decembre" => 12 }
       full_date_regex = '(\d|\d{2})\s(janvier|février|fevrier|mars|avril|mai|juin|juillet|aout|août|septembre|octobre|novembre|décembre|decembre)(\s\d{4}|\s\b)'
+      time, content = extract_hour(content)
       # Search for keywords
       if content.include? "avant-hier"
         content["avant-hier"] = ""
         d = Date.yesterday.prev_day
-        time, content = extract_hour(content)
       elsif content.include? "hier"
         content["hier"] = ""
         d = Date.yesterday
-        time, content = extract_hour(content)
       elsif content.include? "demain"
         content["demain"] = ""
         d = Date.tomorrow
-        time, content = extract_hour(content)
       else
-        time, content = extract_hour(content)
         # Then search for full date
         full_date = content.match(full_date_regex)
         if full_date
@@ -312,7 +323,7 @@ module Duke
       # Extracting tav data
       tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +((degré(s)?|°|%) *(de *|en *)?(d\'|de|en) *(alcool)|(de|en|du) *(tav(p)?|avp|t svp|t avait))'
       tav = content.match(tav_regex)
-      if not parameters.key?('tav')
+      unless parameters.key?('tav')
         if tav
           content[tav[0]] = ""
           parameters['tav'] = tav[1].gsub(',','.') # rate is the first capturing group
@@ -327,7 +338,7 @@ module Duke
       # Extracting temperature data
       temp_regex = '(\d{1,2}|\d{1,2}\.\d{1,2}) +(degré|°)'
       temp = content.match(temp_regex)
-      if not parameters.key?('temperature')
+      unless parameters.key?('temperature')
         if temp
           content[temp[0]] = ""
           parameters['temperature'] = temp[1].gsub(',','.') # temperature is the first capturing group
@@ -343,13 +354,13 @@ module Duke
       ph_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +(de +)?(ph|péage)'
       second_ph_regex = '((ph|péage) *(est|était)? *(égal *(a|à)? *|= ?|de +|à +)?)(\d{1,2}(\.|,)\d{1,2}|\d{1,2})'
       ph = content.match(ph_regex)
+      second_ph = content.match(second_ph_regex)
       if ph
         content[ph[0]] = ""
         parameters['ph'] = ph[1].gsub(',','.') # ph is the first capturing group
-      elsif content.match(second_ph_regex)
-        ph = content.match(second_ph_regex)
-        content[ph[0]] = ""
-        parameters['ph'] = ph[6].gsub(',','.') # ph is the third capturing group
+      elsif second_ph
+        content[second_ph[0]] = ""
+        parameters['ph'] = second_ph[6].gsub(',','.') # ph is the third capturing group
       else
         parameters['ph'] = nil
       end
@@ -361,13 +372,13 @@ module Duke
       nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par ml|\/ml|par millilitre)? ?+(d\'|de|en)? ?+(azote|sel d\'ammonium|substance(s)? azotée)'
       second_nitrogen_regex = '((azote|sel d\'ammonium|substance azotée) *(est|était)? *(égal +|= ?|de +)?(à)? *)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       nitrogen = content.match(nitrogen_regex)
+      second_nitrogen = content.match(second_nitrogen_regex)
       if nitrogen
         content[nitrogen[0]] = ""
         parameters['nitrogen'] = nitrogen[1].gsub(',','.') # nitrogen is the first capturing group
-      elsif content.match(second_nitrogen_regex)
-        nitrogen = content.match(second_nitrogen_regex)
-        content[nitrogen[0]] = ""
-        parameters['nitrogen'] = nitrogen[6].gsub(',','.') # nitrogen is the third capturing group
+      elsif second_nitrogen
+        content[second_nitrogen[0]] = ""
+        parameters['nitrogen'] = second_nitrogen[6].gsub(',','.') # nitrogen is the third capturing group
       else
         parameters['nitrogen'] = nil
       end
@@ -401,13 +412,13 @@ module Duke
       h2so4_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(g|gramme)?.? *(par l|\/l|par litre)? ?+(d\'|de|en)? ?+(acidité|acide|h2so4)'
       second_h2so4_regex = '(acide|acidité|h2so4) *(est|était)? *(égal.? *(a|à)?|=|de|à|a)? *(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       h2so4 = content.match(h2so4_regex)
+      second_h2so4 = content.match(second_h2so4_regex)
       if h2so4
         content[h2so4[0]] = ""
         parameters['h2so4'] = h2so4[1].gsub(',','.') # h2so4 is the first capturing group
-      elsif content.match(second_h2so4_regex)
-        h2so4 = content.match(second_h2so4_regex)
-        content[h2so4[0]] = ""
-        parameters['h2so4'] = h2so4[5].gsub(',','.') # h2so4 is the third capturing group
+      elsif second_h2so4
+        content[second_h2so4[0]] = ""
+        parameters['h2so4'] = second_h2so4[5].gsub(',','.') # h2so4 is the third capturing group
       else
         parameters['h2so4'] = nil
       end
@@ -419,13 +430,13 @@ module Duke
       malic_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) *(g|gramme)?.?(par l|\/l|par litre)? *(d\'|de|en)? *(acide?) *(malique|malic)'
       second_malic_regex = '((acide *)?(malic|malique) *(est|était)? *(égal +|= ?|de +|à +)?)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       malic = content.match(malic_regex)
+      second_malic = content.match(second_malic_regex)
       if malic
         content[malic[0]] = ""
         parameters['malic'] = malic[1].gsub(',','.') # malic is the first capturing group
-      elsif content.match(second_malic_regex)
-        malic = content.match(second_malic_regex)
-        content[malic[0]] = ""
-        parameters['malic'] = malic[6].gsub(',','.') # malic is the third capturing group
+      elsif second_malic
+        content[second_malic[0]] = ""
+        parameters['malic'] = second_malic[6].gsub(',','.') # malic is the third capturing group
       else
         parameters['malic'] = nil
       end
@@ -452,51 +463,84 @@ module Duke
       return content, parameters
     end
 
-    def extract_plant_area(content, crops)
-      # For each found target
-      crops.each do |target|
-        # Find the string that matched, ie "Jeunes Plants" when index is [3,4]
-        indexes = target[:indexes]
-        recon_target = ""
-        indexes.each do |index|
-          recon_target+= content.split[index]
-          if not index == indexes[-1]
-            recon_target+=" "
-          end
-        end
-        # Then look for a match of % of target, or (Area) of target
-        first_area_regex = /(\d{1,2}) *(%|pour( )?cent(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
-        second_area_regex = /(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) *((hect)?are(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
-        first_area = content.match(first_area_regex)
-        if first_area
-          # If we found a percentage, append it as the area value
-          target[:area] = first_area[1].to_i
-        elsif content.match(second_area_regex)
-          # If we found an area, convert it in percentage of Total area and append it
+    def extract_inputs(content, parameters)
+      # inputs values can only be added by clicking on a button, and are empty by default
+      parameters['so2'] = nil
+      parameters['co2'] = nil
+      return content, parameters
+    end
+
+    def extract_SO2(content)
+      # Extracting TSO2 data
+      so2_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(g|gramme)?.?(par hl|\/hl|par hecto *(litre?))? ?+(d\'|de|en)? ?+(souffre|(t)?so2|dioxyde de souffre|anhydride sulfureux|sulfite|sulfate)'
+      second_so2_regex = '(souffre|(t)?so2|dioxyde de souffre|anhydride sulfureux|sulfite.?|sulfate.?) *(est|était)? *(égal +|= ?|de +|à +)?(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
+      so2 = content.match(so2_regex)
+      second_so2 = content.match(second_so2_regex)
+      if so2
+        return so2[1].gsub(',','.') # tso2 is the first capturing group
+      elsif second_so2
+        return second_so2[5].gsub(',','.') # tso2 is the third capturing group
+      else
+        return nil
+      end
+    end
+
+    def extract_co2(content)
+      # Extracting carbonic ice data
+      co2_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(kg|kilo(gramme)?)?.?(par hl|\/hl|par hecto *(litre?))? ?+(d\'|de|en)? ?+(glace carbonique|neige carbonique|glace sèche|co2)'
+      second_co2_regex = '(co2|neige carbonique|glace sèche|glace carbonique) *(est|était)? *(égal +|= ?|de +|à +)?(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
+      co2 = content.match(co2_regex)
+      second_co2 = content.match(second_co2_regex)
+      if co2
+        return co2[1].gsub(',','.') # co2 is the first capturing group
+      elsif second_co2
+        return second_co2[4].gsub(',','.') # co2 is the third capturing group
+      else
+        return nil
+      end
+    end
+
+    def extract_plant_area(content, targets, crop_groups)
+      [targets, crop_groups].each do |crops|
+        crops.each do |target|
+          # Find the string that matched, ie "Jeunes Plants" when index is [3,4], then look for it in regex
+          recon_target = content.split()[target[:indexes][0]..target[:indexes][-1]].join(" ")
+          first_area_regex = /(\d{1,2}) *(%|pour( )?cent(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
+          second_area_regex = /(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) *((hect)?are(s)?) *(de *(la|l\')?|du|des|sur|à|a|au)? #{recon_target}/
+          first_area = content.match(first_area_regex)
           second_area = content.match(second_area_regex)
-          area = second_area[1].gsub(',','.').to_f
-          if !second_area[3].match(/hect/)
-            area = area.to_f/100
-          end
-          whole_area = Plant.where("id=#{target[:key]}")[0][:reading_cache][:net_surface_area].to_f
-          if (100*area/whole_area).to_i <= 100
-            target[:area] = (100*area/whole_area).to_i
+          # If we found a percentage, append it as the area value
+          if first_area
+            target[:area] = first_area[1].to_i
+          # If we found an area, convert it in percentage of Total area and append it
+          elsif second_area && !Plant.find_by(id: target[:key]).nil?
+            target[:area] = 100
+            if second_area[3].match(/hect/)
+              area = second_area[1].gsub(',','.').to_f
+            else
+              area = second_area[1].gsub(',','.').to_f/100
+            end
+            whole_area = Plant.find_by(id: target[:key])&.net_surface_area&.to_f
+            unless whole_area.zero?
+              target[:area] = [(100*area/whole_area).to_i, 100].min
+            end
           else
+            # Otherwise Area = 100%
             target[:area] = 100
           end
-        else
-          # Otherwise area = 100%
-          target[:area] = 100
         end
       end
-      return crops
+      return targets, crop_groups
     end
 
     # Utils functions, that could be used in multiple functionalities
 
     def find_missing_parameters(parsed)
       # Find what we should ask the user next for an harvest reception
-      if parsed[:targets].to_a.empty?
+      unless parsed[:ambiguities].to_a.empty?
+        return "ask_ambiguity", nil, parsed[:ambiguities][0]
+      end
+      if parsed[:targets].to_a.empty? && parsed[:crop_groups].to_a.empty?
         return "ask_plant", nil, nil
       end
       if parsed[:parameters]['quantity'].nil?
@@ -507,24 +551,23 @@ module Duke
       end
       # If we have more that one destination, and no quantity specified for at least one, ask for it
       if parsed[:destination].to_a.length > 1 and parsed[:destination].any? {|dest| !dest.key?("quantity")}
-        sentence, optional = create_destination_quantity_sentence(parsed)
+        sentence, optional = speak_destination_hl(parsed)
         return "ask_destination_quantity", sentence, optional
       end
       if parsed[:parameters]["tav"].nil?
         return "ask_tav", nil, nil
       end
-      return "save", create_reception_sentence(parsed)
+      return "save", speak_harvest_reception(parsed)
     end
 
     def concatenate_analysis(parameters, new_parameters)
-      # For harvesing receptions, concatenate previous found parameters and new one created for the occasion
-      final_parameters = new_parameters
-      # Final parameter is the new one, on which we append the quantity value, and all values that were but are not anymore
-      final_parameters.each do |key, value|
+      # For harvesing receptions, concatenate previous found parameters and new one given by the user
+      final_parameters =  new_parameters.dup.map(&:dup).to_h
+      new_parameters.each do |key, value|
         if key == "quantiy"
           final_parameters[key] = parameters[key]
         elsif value.nil?
-          if not parameters[key].nil?
+          unless parameters[key].nil?
             final_parameters[key] = parameters[key]
           end
         end
@@ -546,12 +589,13 @@ module Duke
       content, parameters = extrat_h2SO4(content, parameters)
       content, parameters = extract_operatoryMode(content, parameters)
       content, parameters = extract_pressing(content, parameters)
+      content, parameters = extract_inputs(content, parameters)
       return content, parameters
     end
 
     def choose_date(date1, date2)
-      # Select a date between two, to find if there's one in those which was manually inputed by the user
-      # Date.now is the default value, so if the value returned is more than 15 away from now, we select it
+      #Select a date between two, to find if there's one in those which was manually inputed by the user
+      #Date.now is the default value, so if the value returned is more than 15 away from now, we select it
       if (date1.to_datetime - DateTime.now).abs >= 0.010
         return date1
       else
@@ -560,8 +604,8 @@ module Duke
     end
 
     def choose_duration(duration1, duration2)
-      # Select a duration between two, to find if there's one in those which was manually inputed by the user
-      # Default duration is 60, so select the first one if differents, otherwise the second
+      #Select a duration between two, to find if there's one in those which was manually inputed by the user
+      #Default duration is 60, so select the first one if differents, otherwise the second
       if duration1 != 60
         return duration1
       else
@@ -579,26 +623,23 @@ module Duke
       end
     end
 
-    def add_to_recognize_final(saved_hash, list, all_lists)
-      # Function that adds elements to a list of recognized items only if no other elements uses the same words to match
-      # or if this word has a lower fuzzmatch, #all_lists are all the lists where no overlapping entites can be found
-      # If no element inside any of the lists has the same words used to match an element
-      if not all_lists.any? {|list1| list1.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty?}}
-        # Then check for eventual duplicates in the list & append if clear
-        bln_append, list = key_duplicate_append?(list, saved_hash)
-        if bln_append
+    def add_to_recognize_final(saved_hash, list, all_lists, content)
+      #Function that adds elements to a list of recognized items only if no other elements uses the same words to match or if this word has a lower fuzzmatch
+      #If no element inside any of the lists has the same words used to match an element (overlapping indexes)
+      if not all_lists.any? {|aList| aList.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty?}}
+        hasDuplicate, list = key_duplicate?(list, saved_hash)
+        unless hasDuplicate
           list.push(saved_hash)
         end
       # Else if one or multiple elements uses the same words -> if the distance is greater for this hash -> Remove other ones and add this one
-      elsif not all_lists.any? {|list1| list1.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty? and recon_element[:distance] >= saved_hash[:distance]}}
-        # Check for duplicates in the list, if clear : -> remove values from all lists whith indexes overlapping and add to our list
-        bln_append, list = key_duplicate_append?(list, saved_hash)
-        if bln_append
-          all_lists.each do |list1| list1.each do |recon_element|
-            if  !(recon_element[:indexes] & saved_hash[:indexes]).empty?
-              list1.delete(recon_element)
-            end
-          end
+    elsif not all_lists.any? {|aList| aList.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty? and !better_corrected_distance?(saved_hash, recon_element, content)}}
+        # Check for duplicates in the list, if clear : -> remove value from any list with indexes overlapping and add current match to our list
+        hasDuplicate, list = key_duplicate?(list, saved_hash)
+        unless hasDuplicate
+          list_where_removing = all_lists.find{ |aList| aList.any? {|recon_element| !(recon_element[:indexes] & saved_hash[:indexes]).empty?}}
+          unless list_where_removing.nil?
+            item_to_remove = list_where_removing.find {|hash|!(hash[:indexes] & saved_hash[:indexes]).empty?}
+            list_where_removing.delete(item_to_remove)
           end
           list.push(saved_hash)
         end
@@ -606,28 +647,15 @@ module Duke
       return list
     end
 
-
     def create_words_combo(user_input)
-      # Creating all combos of 1 - 4 words following each other to match with entities
-      # Working but could be done in a more elegant way !!
-      user_inputs_combos = {}
-      user_input_words = user_input.split()
-      for combo_length in 1..4
-        (1..user_input_words.length()).to_a.combination(combo_length).to_a.each do |combo|
-          # Only act if the words are following each other
-          if combo[-1] - combo[0] <= combo_length - 1
-            array_string_to_append = []
-            array_indexes = []
-            # Create the new string & append it yo all the combos
-            combo.each do |combo_index|
-              array_indexes.push(combo_index -1)
-              array_string_to_append.push(user_input_words[combo_index - 1])
-            end
-            user_inputs_combos[array_indexes] = array_string_to_append.join(" ")
-          end
+      # "Je suis ton " becomes { [0] => "Je", [0,1] => "Je suis", [0,1,2] => "Je suis ton", [1] => "suis", [1,2] => "suis ton", [2] => "ton"}
+      words_combos = {}
+      (0..user_input.split().length).to_a.combination(2).to_a.each do |index_combo|
+        if index_combo[0] + 4 >= index_combo[1]
+          words_combos[(index_combo[0]..index_combo[1]-1).to_a] = user_input.split()[index_combo[0]..index_combo[1]-1].join(" ")
         end
       end
-      return user_inputs_combos
+      return words_combos
     end
 
     def compare_elements(string1, string2, indexes, level, key, append_list, saved_hash, rec_list)
@@ -637,6 +665,23 @@ module Duke
           return distance, { :key => key, :name => string2, :indexes => indexes , :distance => distance}, append_list
         end
         return level, saved_hash, rec_list
+    end
+
+    def better_corrected_distance?(a,b, content)
+      # When user says "Bouleytreau Verrier", should we match "Bouleytreau" or "Bouleytreau-Verrier" ? Correcting distance with length of item found
+      if a[:key] == b[:key]
+        return (true if a[:distance] >= b[:distance]) || false
+      else
+        len_a = content.split()[a[:indexes][0]..a[:indexes][-1]].join(" ").split("").length
+        len_b = content.split()[b[:indexes][0]..b[:indexes][-1]].join(" ").split("").length
+        aDist = a[:distance].to_f * Math.exp((len_a - len_b)/70.0)
+        aDist *= Math.exp(((len_b - b[:name].split("").length).abs()-(len_a -a[:name].split("").length).abs())/100.0)
+        if aDist > b[:distance]
+          return true
+        else
+          return false
+        end
+      end
     end
 
     def add_input_rate(content, recognized_inputs)
@@ -650,33 +695,77 @@ module Duke
 
     def uniq_conc(array1, array2)
       # Concatenate two "recognized items" arrays, by making sure there's not 2 values with the same key
+      new_array = array1.dup.map(&:dup)
       array2.each do |hash|
-        boolean, array1 = key_duplicate_append?(array1, hash)
-        if (boolean)
-          array1.push(hash)
+        hasDuplicate, new_array = key_duplicate?(new_array, hash)
+        unless hasDuplicate
+          new_array.push(hash)
         end
       end
-      return array1
+      return new_array
     end
 
-    def key_duplicate_append?(list, saved_hash)
-      # Function that checks if we can append saved_hash to list
-      # If there's already an element with the same key, it checks for the distance
-      # It responds true, or false + the cleaned list on which we can append if true
-      if not list.any? {|recon_element| recon_element[:key] == saved_hash[:key]}
-        return true, list
-      else
-        list.each do |recon_element|
-          # Otherwise, the recognized_element with the same key : => if greatest distance, we dont append, or we remove it and append the new one
-          if recon_element[:key] == saved_hash[:key]
-            if recon_element[:distance] >= saved_hash[:distance]
-              return false, list
-            else
-              list.delete(recon_element)
-              return true, list
+    def find_ambiguity(parsed, content)
+      ambiguities = []
+      parsed.each do |key, reco|
+        if key == :targets and !reco.empty?
+          reco.each do |aTarg|
+            ambig = []
+            aTarg_name = content.split()[aTarg[:indexes][0]..aTarg[:indexes][-1]].join(" ")
+            Plant.availables(at: parsed[:intervention_date]).each do |plant|
+              if aTarg[:key] != plant[:id] and (aTarg[:distance] - @@fuzzloader.getDistance(plant[:name].downcase, aTarg_name.downcase)).between?(0,0.02)
+                ambig.push({"key" => plant[:id].to_s, "name" => plant[:name]})
+              end
+            end
+            unless ambig.empty?
+              ambig.push({"key" => aTarg[:key].to_s, "name" => aTarg[:name]})
+              ambiguities.push(ambig)
+            end
+          end
+        elsif key == :destination and !reco.empty?
+          reco.each do |aDest|
+            ambig = []
+            aDest_name = content.split()[aDest[:indexes][0]..aDest[:indexes][-1]].join(" ")
+            Matter.availables(at: parsed[:intervention_date]).where("variety='tank'").each do |tank|
+              if aDest[:key] != tank[:id] and (aDest[:distance] - @@fuzzloader.getDistance(tank[:name].downcase, aDest_name.downcase)).between?(0,0.02)
+                ambig.push({"key" => tank[:id].to_s, "name" => tank[:name]})
+              end
+            end
+            unless ambig.empty?
+              ambig.push({"key" => aDest[:key].to_s, "name" => aDest[:name]})
+              ambiguities.push(ambig)
+            end
+          end
+        elsif key == :crop_groups and !reco.empty?
+          reco.each do |aCG|
+            ambig = []
+            aCG_name = content.split()[aCG[:indexes][0]..aCG[:indexes][-1]].join(" ")
+            CropGroup.all.where("target = 'plant'").each do |cropg|
+              if aCG[:key] != cropg[:id] and (aCG[:distance] - @@fuzzloader.getDistance(cropg[:name].downcase, aCG_name.downcase)).between?(0,0.02)
+                ambig.push({"key" => cropg[:id].to_s, "name" => cropg[:name]})
+              end
+            end
+            unless ambig.empty?
+              ambig.push({"key" => aCG[:key].to_s, "name" => aCG[:name]})
+              ambiguities.push(ambig)
             end
           end
         end
+      end
+      return ambiguities
+    end
+
+    def key_duplicate?(list, saved_hash)
+      # Is there a duplicate in the list ? + List we want to keep using. List Mutation allows us to persist modification
+      # -> No Duplicate : no + current list, Duplicate -> Distance(+/-)=No/Yes + Current list (with/without duplicate)
+      if not list.any? {|recon_element| recon_element[:key] == saved_hash[:key]}
+        return false, list
+      elsif not list.any? {|recon_element| recon_element[:key] == saved_hash[:key] and saved_hash[:distance] >= recon_element[:distance] }
+        return true, list
+      else
+        item_to_remove = list.find {|hash| hash[:key] == saved_hash[:key]}
+        list.delete(item_to_remove)
+        return false, list
       end
     end
   end
