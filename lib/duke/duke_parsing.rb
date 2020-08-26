@@ -170,7 +170,7 @@ module Duke
       attributes[3] = {"_destroy"=>"false", "indicator_name"=>"assimilated_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['nitrogen'], "measure_value_unit"=>"milligram_per_liter"} unless parsed[:parameters]['nitrogen'].nil?
       attributes[4] = {"_destroy"=>"false", "indicator_name"=>"total_acid_concentration", "measure_value_value"=>parsed[:parameters]['h2so4'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['h2so4'].nil?
       attributes[5] = {"_destroy"=>"false", "indicator_name"=>"malic_acid_concentration", "measure_value_value"=>parsed[:parameters]['malic'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['malic'].nil?
-      attributes[6] ={"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> parsed[:parameters]['sanitarystate']} unless parsed[:parameters]['sanitarystate'].nil?
+      attributes[6] = {"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> parsed[:parameters]['sanitarystate']} unless parsed[:parameters]['sanitarystate'].nil?
       return attributes
     end
     # Extracting functions, regex / including
@@ -321,7 +321,7 @@ module Duke
 
     def extract_tav(content, parameters)
       # Extracting tav data
-      tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +((degré(s)?|°|%) *(de *|en *)?(d\'|de|en) *(alcool)|(de|en|du) *(tav(p)?|avp|t svp|t avait))'
+      tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) ((degré(s)?|°|%)|(de|en|d\')? *(tavp|tav|(t)? *avp|(t)? *svp|t avait|thé avait|alcool))'
       tav = content.match(tav_regex)
       unless parameters.key?('tav')
         if tav
@@ -336,7 +336,7 @@ module Duke
 
     def extract_temp(content, parameters)
       # Extracting temperature data
-      temp_regex = '(\d{1,2}|\d{1,2}\.\d{1,2}) +(degré|°)'
+      temp_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +(degré|°)'
       temp = content.match(temp_regex)
       unless parameters.key?('temperature')
         if temp
@@ -369,8 +369,8 @@ module Duke
 
     def extract_nitrogen(content, parameters)
       # Extracting nitrogen data
-      nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par ml|\/ml|par millilitre)? ?+(d\'|de|en)? ?+(azote|sel d\'ammonium|substance(s)? azotée)'
-      second_nitrogen_regex = '((azote|sel d\'ammonium|substance azotée) *(est|était)? *(égal +|= ?|de +)?(à)? *)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
+      nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par ml|\/ml|par millilitre)? ?+(d\'|de|en)? ?+(azote *(assimilable)?|sel d\'ammonium|substance(s)? azotée)'
+      second_nitrogen_regex = '((azote *(assimilable)?|sel d\'ammonium|substance azotée) *(est|était)? *(égal +|= ?|de +)?(à)? *)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       nitrogen = content.match(nitrogen_regex)
       second_nitrogen = content.match(second_nitrogen_regex)
       if nitrogen
