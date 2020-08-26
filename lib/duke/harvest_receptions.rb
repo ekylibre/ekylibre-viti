@@ -262,15 +262,16 @@ module Duke
           end
         end
         new_targets, new_crop_groups = extract_plant_area(user_input.downcase, new_targets, new_crop_groups)
+        ambiguities = find_ambiguity({:destination => new_destination, :crop_groups => new_crop_groups, :targets => new_targets}, params[:user_input])
         parsed = {:targets =>  uniq_conc(new_targets,params[:parsed][:targets].to_a),
                   :crop_groups => uniq_conc(new_crop_groups, params[:parsed][:crop_groups].to_a),
                   :species =>  uniq_conc(new_species,params[:parsed][:species].to_a),
                   :destination => uniq_conc(new_destination, params[:parsed][:destination].to_a),
+                  :ambiguities => ambiguities,
                   :parameters => params[:parsed][:parameters],
                   :duration => new_duration,
                   :intervention_date => new_date,
                   :user_input => params[:parsed][:user_input] << ' - (Autre) ' << params[:user_input]}
-        parsed[:ambiguities] = find_ambiguity({:destination => new_destination, :crop_groups => new_crop_groups, :targets => new_targets}, params[:user_input])
         # Find if crucials parameters haven't been given, to ask again to the user
         what_next, sentence, optional = find_missing_parameters(parsed)
         return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
@@ -291,8 +292,8 @@ module Duke
           params[:optional].each_with_index do |ambiguate, index|
             unless index+1 == params[:optional].length
               hashClone = ambHash.clone()
-              hashClone[:name] = ambiguate[:name]
-              hashClone[:key] = ambiguate[:key]
+              hashClone[:name] = ambiguate[:name].to_s
+              hashClone[:key] = ambiguate[:key].to_s
               ambArray.push(hashClone)
             end
           end
