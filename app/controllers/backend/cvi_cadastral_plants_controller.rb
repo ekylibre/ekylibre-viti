@@ -13,6 +13,9 @@ module Backend
       return unless @cvi_cadastral_plant = find_and_check(:cvi_cadastral_plant)
 
       @cvi_cadastral_plant.attributes = permitted_params
+      @cvi_cadastral_plant.land_parcel = CadastralLandParcelZone.find_with(RegisteredPostalZone.find(permitted_params[:location_attributes][:registered_postal_zone_id])&.code ,
+                                                                                                     permitted_params[:section],
+                                                                                                     permitted_params[:work_number]).first
       if @cvi_cadastral_plant.save
         notify_success(:record_x_updated_f, record: @cvi_cadastral_plant.human_attribute_name(:cadastral_reference), name: @cvi_cadastral_plant.send(:cadastral_reference))
       else
