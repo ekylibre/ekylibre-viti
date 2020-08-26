@@ -75,7 +75,7 @@ module Duke
         if params[:user_input].match('(?i)(kg|kilo)')
           unit = 'kg'
         elsif params[:user_input].match('(?i)\d *t\b|tonne')
-          unit = 'tonne'
+          unit = 't'
         else
           unit = 'hl'
         end
@@ -366,7 +366,7 @@ module Duke
         duration = params[:parsed][:duration].to_i
         intervention_date = params[:parsed][:intervention_date]
         # If unit is "ton" multiply quantity by 1000
-        if parsed[:parameters]['quantity']['unit'] == "tonne"
+        if parsed[:parameters]['quantity']['unit'] == "t"
           parsed[:parameters]['quantity']['rate'] *= 1000
         end
 
@@ -381,7 +381,7 @@ module Duke
           received_at: Time.zone.parse(intervention_date),
           storages_attributes: storages_attributes,
           quantity_value: parsed[:parameters]['quantity']['rate'].to_s,
-          quantity_unit: ("kilogram" if ["kg","tonne"].include?(parsed[:parameters]['quantity']['unit' ])) || "hectoliter",
+          quantity_unit: ("kilogram" if ["kg","t"].include?(parsed[:parameters]['quantity']['unit' ])) || "hectoliter",
           analysis: analysis,
           plants_attributes: targets_attributes,
           pressing_schedule: (parsed[:parameters]['pressing']['program'] if !parsed[:parameters]['pressing'].nil?) || "",

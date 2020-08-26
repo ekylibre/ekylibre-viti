@@ -284,16 +284,16 @@ module Duke
 
     def extract_quantity(content, parameters)
       # Extracting quantity data
-      quantity_regex = '(\d{1,5}(\.|,)\d{1,2}|\d{1,5}) *(kilo|kg|hecto|hl|t\b|tonne)'
+      quantity_regex = '(\d{1,5}(\.|,)\d{1,2}|\d{1,5}) *(kilo|kg|hecto|expo|texto|hl|t\b|tonne)'
       quantity = content.match(quantity_regex)
       if quantity
         content[quantity[0]] = ""
         if quantity[3].match('(kilo|kg)')
           unit = "kg"
-        elsif quantity[3].match('(hecto|hl)')
+        elsif quantity[3].match('(hecto|hl|texto|expo)')
           unit = "hl"
         else
-          unit = "tonne"
+          unit = "t"
         end
         parameters['quantity'] = {"rate" => quantity[1].gsub(',','.').to_f, "unit" => unit} # rate is the first capturing group
       else
@@ -378,7 +378,7 @@ module Duke
         parameters['nitrogen'] = nitrogen[1].gsub(',','.') # nitrogen is the first capturing group
       elsif second_nitrogen
         content[second_nitrogen[0]] = ""
-        parameters['nitrogen'] = second_nitrogen[6].gsub(',','.') # nitrogen is the third capturing group
+        parameters['nitrogen'] = second_nitrogen[7].gsub(',','.') # nitrogen is the seventh capturing group
       else
         parameters['nitrogen'] = nil
       end
