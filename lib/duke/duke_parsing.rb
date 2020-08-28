@@ -76,17 +76,25 @@ module Duke
       unless params[:parameters]['nitrogen'].nil?
         sentence+= "<br>&#8226 Azote : #{params[:parameters]['nitrogen']} mg/mL"
       end
-      unless params[:parameters]['operatorymode'].nil?
-        sentence+= "<br>&#8226 Mode Opératoire : #{params[:parameters]['operatorymode']}"
-      end
       unless params[:parameters]['pressing'].nil?
         sentence+= "<br>&#8226 Pressurage spécifié"
       end
-      unless params[:parameters]['so2'].nil?
-        sentence+= "<br>&#8226 Sulfites : #{params[:parameters]['so2']} g/hL"
-      end
-      unless params[:parameters]['co2'].nil?
-        sentence+= "<br>&#8226 Glace carbonique : #{params[:parameters]['so2']} kg/hL"
+      unless params[:parameters]['complementary'].nil?
+        if params[:parameters]['complementary'].key?('ComplementaryDecantation')
+          sentence+= "<br>&#8226 Temps de décantation : #{params[:parameters]['complementary']['ComplementaryDecantation'].delete("^0-9")} mins"
+        end
+        if params[:parameters]['complementary'].key?('ComplementaryTrailer')
+          sentence+= "<br>&#8226 Transporteur : #{params[:parameters]['complementary']['ComplementaryTrailer']}"
+        end
+        if params[:parameters]['complementary'].key?('ComplementaryTime')
+          sentence+= "<br>&#8226 Durée de transport : #{params[:parameters]['complementary']['ComplementaryTime'].delete("^0-9")} mins"
+        end
+        if params[:parameters]['complementary'].key?('ComplementaryDock')
+          sentence+= "<br>&#8226 Quai de réception : #{params[:parameters]['complementary']['ComplementaryDock']}"
+        end
+        if params[:parameters]['complementary'].key?('ComplementaryNature')
+          sentence+= "<br>&#8226 Nature des vendanges : #{I18n.t('labels.'+params[:parameters]['complementary']['ComplementaryNature'])}"
+        end
       end
       return sentence
     end
@@ -104,89 +112,6 @@ module Duke
       end
     end
 
-    def speak_species(reco_species)
-      # Function that helps speak species in interventionSkill
-      if reco_species.nil?
-        return ""
-      elsif reco_species.length() == 0
-        return ""
-      elsif reco_species.length() == 1
-        return " de variété "+reco_species[0]['name']
-      elsif reco_species.length() == 2
-        return " de variété "+reco_species[0][:name]+" et "+reco_species[1][:name]
-      elsif reco_species.length() == 3
-        return " de variété "+reco_species[0][:name]+", "+reco_species[1][:name]+" et "+reco_species[2][:name]
-      else
-        return " avec "+ reco_species.length().to_s+" variétés"
-      end
-    end
-
-
-    def speak_tool(reco_equipment)
-      # Function that helps speak tools in interventionSkill
-      if reco_equipment.length() == 0
-        return ""
-      elsif reco_equipment.length() == 1
-        return " avec l'outil "+reco_equipment[0][:name]
-      elsif reco_equipment.length() == 2
-        return " avec les outils "+reco_equipment[0][:name]+" et "+reco_equipment[1][:name]
-      elsif reco_equipment.length() == 3
-        return " avec les outils "+reco_equipment[0][:name]+", "+reco_equipment[1][:name]+" et "+reco_equipment[2][:name]
-      else
-        return " avec "+ reco_equipment.length().to_s+" outils"
-      end
-    end
-
-
-    def speak_crop_groups(reco_crop_groups)
-      # Function that helps speak crop_groups in interventionSkill
-      if reco_crop_groups.length() == 0
-        return ""
-      elsif reco_crop_groups.length() == 1
-        return " sur "+reco_crop_groups[0][:name]
-      elsif reco_crop_groups.length() == 2
-        return " sur "+reco_crop_groups[0][:name]+" et "+reco_crop_groups[1][:name]
-      elsif reco_crop_groups.length() == 3
-        return " sur "+reco_crop_groups[0][:name]+", "+reco_crop_groups[1][:name]+" et "+reco_crop_groups[2][:name]
-      else
-        return " sur "+ reco_crop_groups.length().to_s+" regroupements de parcelles"
-      end
-    end
-
-
-    def speak_workers(reco_workers)
-      # Function that helps speak workers in interventionSkill
-      if reco_workers.nil?
-        return ""
-      elsif reco_workers.length() == 0
-        return ""
-      elsif reco_workers.length() == 1
-        return " par "+reco_workers[0][:name]
-      elsif reco_workers.length() == 2
-        return " par "+reco_workers[0][:name]+" et "+reco_workers[1][:name]
-      elsif reco_workers.length() == 3
-        return " par "+reco_workers[0][:name]+", "+reco_workers[1][:name]+" et "+reco_workers[2][:name]
-      else
-        return " par "+ reco_workers.length().to_s+" travailleurs"
-      end
-    end
-
-
-    def speak_inputs(reco_inputs)
-      # Function that helps speak inputs in interventionSkill
-      if reco_inputs.length() == 0
-        return ""
-      elsif reco_inputs.length() == 1
-        return " de "+reco_inputs[0][:input][:name]
-      elsif reco_inputs.length() == 2
-        return " de "+reco_inputs[0][:input][:name]+" et de "+reco_inputs[1][:input][:name]
-      elsif reco_inputs.length() == 3
-        return " de "+reco_inputs[0][:input][:name]+", de "+reco_inputs[1][:input][:name]+" et de"+reco_inputs[2][:input][:name]
-      else
-        return " de "+ reco_inputs.length().to_s+" intrants"
-      end
-    end
-
     def create_analysis_attributes(parsed)
       attributes =    {"0"=>{"_destroy"=>"false", "indicator_name"=>"estimated_harvest_alcoholic_volumetric_concentration", "measure_value_value"=> parsed[:parameters]['tav'], "measure_value_unit"=>"volume_percent"}}
       attributes[1] = {"_destroy"=>"false", "indicator_name"=>"potential_hydrogen", "decimal_value"=> parsed[:parameters]['ph'] } unless parsed[:parameters]['ph'].nil?
@@ -196,6 +121,35 @@ module Duke
       attributes[5] = {"_destroy"=>"false", "indicator_name"=>"malic_acid_concentration", "measure_value_value"=>parsed[:parameters]['malic'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['malic'].nil?
       attributes[6] = {"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> parsed[:parameters]['sanitarystate']} unless parsed[:parameters]['sanitarystate'].nil?
       return attributes
+    end
+
+    def create_incoming_harvest_attr(dic, parsed)
+      I18n.locale = :fra
+      if !parsed[:parameters]['pressing'].nil?
+        dic[:pressing_schedule] = parsed[:parameters]['pressing']['program']
+        dic[:pressing_started_at] = parsed[:parameters]['pressing']['hour']
+      end
+      if !parsed[:parameters]['operatorymode'].nil?
+        dic[:harvest_nature] = parsed[:parameters]['operatorymode']
+      end
+      if !parsed[:parameters]['complementary'].nil?
+        if parsed[:parameters]['complementary'].key?('ComplementaryDecantation')
+          dic[:sedimentation_duration] = parsed[:parameters]['complementary']['ComplementaryDecantation'].delete("^0-9")
+        end
+        if parsed[:parameters]['complementary'].key?('ComplementaryTrailer')
+          dic[:vehicle_trailer] = parsed[:parameters]['complementary']['ComplementaryTrailer']
+        end
+        if parsed[:parameters]['complementary'].key?('ComplementaryTime')
+          dic[:harvest_transportation_duration] = parsed[:parameters]['complementary']['ComplementaryTime'].delete("^0-9")
+        end
+        if parsed[:parameters]['complementary'].key?('ComplementaryDock')
+          dic[:harvest_dock] = parsed[:parameters]['complementary']['ComplementaryDock']
+        end
+        if parsed[:parameters]['complementary'].key?('ComplementaryNature')
+          dic[:harvest_nature] = parsed[:parameters]['complementary']['ComplementaryNature']
+        end
+      end
+      return dic
     end
     # Extracting functions, regex / including
 
@@ -471,10 +425,10 @@ module Duke
       # Extracting operatorymode data
       if content.include?('manuel')
         content['manuel'] = ""
-        parameters['operatorymode'] = "manuel"
+        parameters['operatorymode'] = "manual_f"
       elsif content.include?('mécanique')
         content['mécanique'] == ""
-        parameters['operatorymode'] = "mecanique"
+        parameters['operatorymode'] = "mechanical"
       else
         parameters['operatorymode'] = nil
       end
@@ -487,41 +441,10 @@ module Duke
       return content, parameters
     end
 
-    def extract_inputs(content, parameters)
-      # inputs values can only be added by clicking on a button, and are empty by default
-      parameters['so2'] = nil
-      parameters['co2'] = nil
+    def extract_complementary(content, parameters)
+      # pressing values can only be added by clicking on a button, and are empty by default
+      parameters['complementary'] = nil
       return content, parameters
-    end
-
-    def extract_SO2(content)
-      # Extracting TSO2 data
-      so2_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(g|gramme)?.?(par hl|\/hl|par hecto *(litre?))? ?+(d\'|de|en)? ?+(souffre|(t)?so2|dioxyde de souffre|anhydride sulfureux|sulfite|sulfate)'
-      second_so2_regex = '(souffre|(t)?so2|dioxyde de souffre|anhydride sulfureux|sulfite.?|sulfate.?) *(est|était)? *(égal +|= ?|de +|à +)?(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
-      so2 = content.match(so2_regex)
-      second_so2 = content.match(second_so2_regex)
-      if so2
-        return so2[1].gsub(',','.') # tso2 is the first capturing group
-      elsif second_so2
-        return second_so2[5].gsub(',','.') # tso2 is the third capturing group
-      else
-        return nil
-      end
-    end
-
-    def extract_co2(content)
-      # Extracting carbonic ice data
-      co2_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(kg|kilo(gramme)?)?.?(par hl|\/hl|par hecto *(litre?))? ?+(d\'|de|en)? ?+(glace carbonique|neige carbonique|glace sèche|co2)'
-      second_co2_regex = '(co2|neige carbonique|glace sèche|glace carbonique) *(est|était)? *(égal +|= ?|de +|à +)?(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
-      co2 = content.match(co2_regex)
-      second_co2 = content.match(second_co2_regex)
-      if co2
-        return co2[1].gsub(',','.') # co2 is the first capturing group
-      elsif second_co2
-        return second_co2[4].gsub(',','.') # co2 is the third capturing group
-      else
-        return nil
-      end
     end
 
     def extract_plant_area(content, targets, crop_groups)
@@ -613,7 +536,7 @@ module Duke
       content, parameters = extrat_h2SO4(content, parameters)
       content, parameters = extract_operatoryMode(content, parameters)
       content, parameters = extract_pressing(content, parameters)
-      content, parameters = extract_inputs(content, parameters)
+      content, parameters = extract_complementary(content, parameters)
       return content, parameters
     end
 

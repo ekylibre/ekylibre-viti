@@ -315,23 +315,26 @@ module Duke
       return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
-    def handle_add_input(params)
-      new_parameters = params[:parsed][:parameters]
-      new_parameters['co2'] = extract_co2(params[:user_input].downcase)
-      new_parameters['so2'] = extract_SO2(params[:user_input].downcase)
-      params[:parsed][:parameters] = new_parameters
-      params[:parsed][:user_input] += " - (Intrant) params[:user_input]"
-        # Find if crucials parameters haven't been given, to ask again to the user
-        what_next, sentence, optional = find_missing_parameters(params[:parsed])
-        return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}
-    end
-
     def handle_add_pressing(params)
       new_parameters = params[:parsed][:parameters]
       pressing_date, user_input = extract_date_fr(params[:user_input])
       new_parameters['pressing'] = {'hour' => pressing_date, 'program' => user_input}
       params[:parsed][:parameters] = new_parameters
       params[:parsed][:user_input] += " - (Pressurage) params[:user_input]"
+      # Find if crucials parameters haven't been given, to ask again to the user
+      what_next, sentence, optional = find_missing_parameters(params[:parsed])
+      return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}
+    end
+
+    def handle_add_complementary(params)
+      if !params[:parsed][:parameters][:complementary].nil?
+        complementary = params[:parsed][:parameters][:complementary]
+      else
+        complementary = {}
+      end
+      complementary[params[:parameter]] = params[:user_input]
+      params[:parsed][:parameters][:complementary] = complementary
+      params[:parsed][:user_input] += " - (Complémentaire) #{params[:user_input]}"
       # Find if crucials parameters haven't been given, to ask again to the user
       what_next, sentence, optional = find_missing_parameters(params[:parsed])
       return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}
@@ -377,16 +380,16 @@ module Duke
          items_attributes: create_analysis_attributes(parsed)}
         )
 
-        incomingHarvest = IncomingHarvest.create!({
+        harvest_dic = {
           received_at: Time.zone.parse(intervention_date),
           storages_attributes: storages_attributes,
           quantity_value: parsed[:parameters]['quantity']['rate'].to_s,
           quantity_unit: ("kilogram" if ["kg","t"].include?(parsed[:parameters]['quantity']['unit' ])) || "hectoliter",
           analysis: analysis,
-          plants_attributes: targets_attributes,
-          pressing_schedule: (parsed[:parameters]['pressing']['program'] if !parsed[:parameters]['pressing'].nil?) || "",
-          pressing_started_at: (parsed[:parameters]['pressing']['hour'] if !parsed[:parameters]['pressing'].nil?) || ""})
+          plants_attributes: targets_attributes}
 
+        incoming_harvest_dic = create_incoming_harvest_attr(harvest_dic, parsed)
+        incomingHarvest = IncomingHarvest.create!(incoming_harvest_dic)
         return {"link" => "\\backend\\incoming_harvests\\"+incomingHarvest['id'].to_s}
       end
     end
