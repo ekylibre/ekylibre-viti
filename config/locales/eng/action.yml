@@ -25,6 +25,11 @@ eng:
         not_defined: "To define"
     labels:
       cadastral_land_parcel_zones: "Cadastral land parcels"
+    leaflet:
+      home:
+        toolbar:
+          buttons:
+            home: "Centrer"
     messages:
       unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
     production:

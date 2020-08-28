@@ -159,20 +159,20 @@
         error: () =>
         complete: () =>
 
-  $.loadMap = ->
+  $.loadCartographyMap = ->
     return unless $("*[data-cvi-cartography]").length
     $el = $("*[data-cvi-cartography]").first()
     opts = $el.data("cvi-cartography")
     E.map = new E.Map($el[0], opts)
 
-  $.reloadMap = (keepBounds = true ) ->
+  $.reloadCartographyMap = (keepBounds = true ) ->
     map = E.map
     currentBounds = map.getBounds() if keepBounds
     $(map.el.children).remove()
     $.loadMap()
     E.map.fitBounds(currentBounds) if keepBounds
 
-  $(document).ready $.loadMap
+  $(document).ready $.loadCartographyMap
 
   $(document).on E.Events.Map.ready, "*[data-cvi-cartography]", (e) ->
     $(e.target).css('visibility', 'visible')

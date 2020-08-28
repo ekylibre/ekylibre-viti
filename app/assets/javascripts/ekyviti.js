@@ -11,7 +11,7 @@
 // about supported directives.
 //
 
-//= require main.js
+//= require eky-cartography.js
 //= require map
 //= require map/cvi_map_config
 //= require_tree ./

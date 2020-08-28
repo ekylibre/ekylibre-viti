@@ -25,6 +25,11 @@ fra:
         not_defined: "A définir"
     labels:
       cadastral_land_parcel_zones: "Parcelles cadastrales"
+    leaflet:
+      home:
+        toolbar:
+          buttons:
+            home: "Centrer"
     messages:
       unvalid_cvi_cadastral_plant: "Au moins une référence de parcelle cadastrale n'a pas été reconnue. Veuillez corriger ou supprimer la/les référence(s) identifiée(s) en rouge." #?
     production:
