@@ -75,19 +75,19 @@ module Duke
           matching_element = nil
           matching_list = nil
           # Iterating through equipments
-          Worker.availables(at: intervention_date).each do |worker|
+          Worker.availables(at: params[:parsed][:intervention_date]).each do |worker|
             level, matching_element, matching_list = compare_elements(combo, worker[:name], index, level, worker[:id], new_workers, matching_element, matching_list)
             level, matching_element, matching_list = compare_elements(combo, worker[:name].split[0], index, level, worker[:id], new_workers, matching_element, matching_list)
           end
           unless Procedo::Procedure.find(procedure).parameters_of_type(:input).empty?
-            Matter.availables(at: intervention_date).where("nature_id=45").each do |input|
+            Matter.availables(at: params[:parsed][:intervention_date]).where("nature_id=45").each do |input|
               level, matching_element, matching_list = compare_elements(combo, input[:name], index, level, input[:id], new_inputs, matching_element, matching_list)
             end
           end
           CropGroup.all.each do |cropg|
             level, matching_element, matching_list = compare_elements(combo, cropg[:name], index, level, cropg[:id], new_crop_groups, matching_element, matching_list)
           end
-          Equipment.availables(at: intervention_date).each do |eq|
+          Equipment.availables(at: params[:parsed][:intervention_date]).each do |eq|
             level, matching_element, matching_list = compare_elements(combo, eq[:name], index, level, eq[:id], new_equipments, matching_element, matching_list)
           end
           # If we recognized something, and there's no interferences, we append it to the correct matching_list

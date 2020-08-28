@@ -8,8 +8,32 @@ module Duke
       # Create validation sentence for InterventionSkill
       I18n.locale = :fra
       sentence = I18n.t("duke.interventions.save_intervention_#{rand(0...3)}")
-      sentence += "#{Procedo::Procedure.find(params[:procedure]).human_name}"
-      sentence += "#{speak_inputs(params[:inputs])}#{speak_tool(params[:equipments])}#{speak_crop_groups(params[:crop_groups])}#{speak_workers(params[:workers])}"
+      sentence += "<br>&#8226 Procédure : #{Procedo::Procedure.find(params[:procedure]).human_name}"
+      sentence += "<br>&#8226 Date : #{params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")}"
+      unless params[:workers].to_a.empty?
+        sentence += "<br>&#8226 Travailleurs : "
+        params[:workers].each do |worker|
+          sentence += "#{worker[:name]}, "
+        end
+      end
+      unless params[:crop_groups].to_a.empty?
+        sentence += "<br>&#8226 Groupements : "
+        params[:crop_groups].each do |cg|
+          sentence += "#{cg[:name]}, "
+        end
+      end
+      unless params[:equipments].to_a.empty?
+        sentence += "<br>&#8226 Equipement : "
+        params[:equipments].each do |eq|
+          sentence += "#{eq[:name]}, "
+        end
+      end
+      unless params[:inputs].to_a.empty?
+        sentence += "<br>&#8226 Intrants : "
+        params[:inputs].each do |input|
+          sentence += "#{input[:input][:name]}, "
+        end
+      end
       return sentence
     end
 
