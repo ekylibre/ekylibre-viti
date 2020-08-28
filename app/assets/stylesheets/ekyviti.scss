@@ -13,4 +13,7 @@
  *= require_self
  */
 
-@import 'cartography_fix';
+@import 'leaflet/label';
+@import 'leaflet/leaflet_cartography';
+
+@import '*';
