@@ -19,28 +19,33 @@
   - k.multi_choice :state, %i[planted removed_with_authorization].map{ |s| [s.tl, s] }
   - k.helper do
     - max = @cvi_statement.cvi_cadastral_plants.maximum('area_value').in_hectare
-    .range-slider
+    %div.label-container
       %label= CviCadastralPlant.human_attribute_name(:area)
+    .range-slider
       %span.range-minimum= 0.in_hectare.l(precision: 0)
       %input{ name: :area, data: { slider: { min: 0, max: max.to_f, value: range_slider_values(max.to_f, params[:area]), step: 0.0001, tooltip_split: true }, provide: 'slider' } }
       %span.range-maximum= max.to_s(:short_form_unit)
   - k.helper do
-    %label= CviCadastralPlant.human_attribute_name(:designation_of_origin_name)
+    %div.label-container
+      %label= CviCadastralPlant.human_attribute_name(:designation_of_origin_name)
     = select_tag(:designation_of_origin_name, options_for_select(([""] + FormattedCviCadastralPlant.where(cvi_statement_id:@cvi_statement.id).collect(&:designation_of_origin_name)).compact.uniq.sort, selected: params[:designation_of_origin_name]))
   - k.helper do
-    %label= CviCadastralPlant.human_attribute_name(:vine_variety_name)
+    %div.label-container
+      %label= CviCadastralPlant.human_attribute_name(:vine_variety_name)
     = select_tag(:vine_variety_name, options_for_select(([""] + FormattedCviCadastralPlant.where(cvi_statement_id:@cvi_statement.id).collect(&:vine_variety_name)).uniq.sort , selected: params[:vine_variety_name]))
   - k.helper do
     - max = @cvi_statement.cvi_cadastral_plants.maximum('inter_row_distance_value')
-    .range-slider
+    %div.label-container
       %label= CviCadastralPlant.human_attribute_name(:inter_row_distance)
+    .range-slider
       %span.range-minimum= 0
       %input{ name: :inter_row_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_row_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
       %span.range-maximum= max.to_i
   - k.helper do
     - max = @cvi_statement.cvi_cadastral_plants.maximum('inter_vine_plant_distance_value')
-    .range-slider
+    %div.label-container
       %label= CviCadastralPlant.human_attribute_name(:inter_vine_plant_distance)
+    .range-slider
       %span.range-minimum= 0
       %input{ name: :inter_vine_plant_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_vine_plant_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
       %span.range-maximum= max.to_i
