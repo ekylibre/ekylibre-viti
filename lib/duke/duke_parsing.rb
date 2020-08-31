@@ -365,9 +365,25 @@ module Duke
 
     def extract_sanitarystate(content, parameters)
       # Extracting sanitary state data
+      sanitary_regex = '(état sanitaire) *(.*?)(destination|tav|\d{1,3} *(kg|hecto|kilo|hl|tonne)|cuve|degré|température|pourcentage|alcool|ph|péage|azote|acidité|malique|manuel|mécanique|hectare|$)'
+      sanitary_match = content.match(sanitary_regex)
       sanitarystate = ""
+      if sanitary_match
+        sanitarystate += sanitary_match[2]
+        content[sanitary_match[1]] = ""
+        content[sanitary_match[2]] = ""
+      end
+      puts "après le match : content : #{content} \n\n et sanit : #{sanitarystate}"
       if content.include? "sain " || content.include?("sein")
         sanitarystate += "sain "
+      end
+      if content.include?("correct")
+        content["correct"] = ""
+        sanitarystate += "correct "
+      end
+      if content.include?("normal")
+        content["normal"] = ""
+        sanitarystate += "normal "
       end
       if content.include?("botrytis") || content.include?("beau titre is")
         sanitarystate += "botrytis "
