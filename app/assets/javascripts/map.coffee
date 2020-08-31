@@ -24,7 +24,7 @@
       @ghostLabelCluster = L.ghostLabelCluster {type: 'number', innerClassName: 'leaflet-ghost-label-collapsed', margin: -3 }
       @ghostLabelCluster.addTo @_cartography.getMap()
       ghostIconPane = @_cartography.getMap().createPane('ghost-icon')
-      ghostIconPane.style.zIndex = 6
+      ghostIconPane.style.zIndex = 600
       makerPane = @_cartography.getMap().getPane('markerPane')
       makerPane.style.zIndex = 1000
 
