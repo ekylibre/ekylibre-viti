@@ -129,9 +129,6 @@ module Duke
         dic[:pressing_schedule] = parsed[:parameters]['pressing']['program']
         dic[:pressing_started_at] = parsed[:parameters]['pressing']['hour']
       end
-      if !parsed[:parameters]['operatorymode'].nil?
-        dic[:harvest_nature] = parsed[:parameters]['operatorymode']
-      end
       if !parsed[:parameters]['complementary'].nil?
         if parsed[:parameters]['complementary'].key?('ComplementaryDecantation')
           dic[:sedimentation_duration] = parsed[:parameters]['complementary']['ComplementaryDecantation'].delete("^0-9")
@@ -437,20 +434,6 @@ module Duke
       return content, parameters
     end
 
-    def extract_operatoryMode(content, parameters)
-      # Extracting operatorymode data
-      if content.include?('manuel')
-        content['manuel'] = ""
-        parameters['operatorymode'] = "manual_f"
-      elsif content.include?('mécanique')
-        content['mécanique'] == ""
-        parameters['operatorymode'] = "mechanical"
-      else
-        parameters['operatorymode'] = nil
-      end
-      return content, parameters
-    end
-
     def extract_pressing(content, parameters)
       # pressing values can only be added by clicking on a button, and are empty by default
       parameters['pressing'] = nil
@@ -550,7 +533,6 @@ module Duke
       content, parameters = extract_sanitarystate(content, parameters)
       content, parameters = extract_malic(content, parameters)
       content, parameters = extrat_h2SO4(content, parameters)
-      content, parameters = extract_operatoryMode(content, parameters)
       content, parameters = extract_pressing(content, parameters)
       content, parameters = extract_complementary(content, parameters)
       return content, parameters
