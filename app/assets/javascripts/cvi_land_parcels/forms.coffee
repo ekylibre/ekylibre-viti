@@ -42,7 +42,7 @@ ekylibre.cviLandParcels.editForm ||= {}
     cancel: ->
       this.count = 0
       E.cviLandParcels.list.render()
-      $.reloadMap()
+      $.reloadCartographyMap()
   }
 
 )(ekylibre, jQuery)

@@ -169,7 +169,7 @@
     map = E.map
     currentBounds = map.getBounds() if keepBounds
     $(map.el.children).remove()
-    $.loadMap()
+    $.loadCartographyMap()
     E.map.fitBounds(currentBounds) if keepBounds
 
   $(document).ready $.loadCartographyMap
