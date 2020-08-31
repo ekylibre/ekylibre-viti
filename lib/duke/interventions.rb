@@ -10,7 +10,8 @@ module Duke
         inputs = []
         crop_groups = []
         # Finding when it happened and how long it lasted, + getting cleaned user_input
-        duration, user_input = extract_duration_fr(params[:user_input].downcase)
+        user_input = clear_string(params[:user_input])
+        duration, user_input = extract_duration_fr(user_input)
         intervention_date, user_input = extract_date_fr(user_input)
         # Create all combos of 1 to 4 words from the inputs , with their indexes, to use for matching
         user_inputs_combos = self.create_words_combo(user_input)
@@ -45,7 +46,7 @@ module Duke
             matching_list = add_to_recognize_final(matching_element, matching_list, [equipments,workers,inputs,crop_groups], user_input)
           end
         end
-        add_input_rate(params[:user_input], inputs)
+        add_input_rate(user_input, inputs)
         parsed = {:inputs => inputs,
                   :workers => workers,
                   :equipments => equipments,
@@ -67,8 +68,8 @@ module Duke
         new_inputs = []
         new_crop_groups = []
         procedure = params[:parsed][:procedure]
-        # Loading FuzzyMatcher
-        user_inputs_combos = create_words_combo(params[:user_input].downcase)
+        user_input = clear_string(params[:user_input])
+        user_inputs_combos = create_words_combo(user_input)
         user_inputs_combos.each do |index, combo|
           # Define minimum matching level, initialize matching_element and recognized matching_list to None
           level = 0.90
@@ -92,10 +93,10 @@ module Duke
           end
           # If we recognized something, and there's no interferences, we append it to the correct matching_list
           unless matching_element.nil?
-            add_to_recognize_final(matching_element, matching_list, [new_equipments,new_workers,new_inputs,new_crop_groups], params[:user_input].downcase)
+            add_to_recognize_final(matching_element, matching_list, [new_equipments,new_workers,new_inputs,new_crop_groups], user_input)
           end
         end
-        add_input_rate(params[:user_input], new_inputs)
+        add_input_rate(user_input, new_inputs)
         parsed = {:inputs => uniq_conc(new_inputs,params[:parsed][:inputs].to_a),
                   :workers => uniq_conc(new_workers,params[:parsed][:workers].to_a),
                   :equipments => uniq_conc(new_equipments,params[:parsed][:equipments].to_a),

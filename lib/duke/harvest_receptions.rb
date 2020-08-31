@@ -8,7 +8,8 @@ module Duke
         species = []
         destination = []
         # Finding when it happened and how long it lasted, + getting cleaned user_input
-        duration, user_input = extract_duration_fr(params[:user_input].downcase)
+        user_input = clear_string(params[:user_input])
+        duration, user_input = extract_duration_fr(user_input)
         intervention_date, user_input = extract_date_fr(user_input)
         user_input, parameters = extract_reception_parameters(user_input)
         # Create all combos of 1 to 4 words from the inputs , with their indexes, to use for matching
@@ -83,6 +84,7 @@ module Duke
       else
         parsed[:parameters][parameter] = value.to_s.gsub(',','.')
       end
+      parsed[:user_input] += " - #{params[:user_input]}"
       what_next, sentence, optional = find_missing_parameters(parsed)
       if what_next == params[:current_asking]
         return {:asking_again => "cancel"}
@@ -93,7 +95,8 @@ module Duke
     def handle_modify_quantity_tav(params)
       parsed = params[:parsed]
       new_params = {}
-      content, new_params = extract_quantity(params[:user_input].downcase, new_params)
+      content = clear_string(params[:user_input])
+      content, new_params = extract_quantity(content, new_params)
       content, new_params = extract_conflicting_degrees(content, new_params)
       content, new_params = extract_tav(content, new_params)
       unless new_params['quantity'].nil?
@@ -102,7 +105,7 @@ module Duke
       unless new_params['tav'].nil?
         parsed[:parameters]['tav'] = new_params['tav']
       end
-      parsed[:user_input] = params[:parsed][:user_input] << ' - ' << params[:user_input]
+      parsed[:user_input] += " - #{params[:user_input]}"
       what_next, sentence, optional = find_missing_parameters(parsed)
       if what_next == params[:current_asking]
         return {:asking_again => "cancel"}
@@ -112,7 +115,8 @@ module Duke
 
     def handle_modify_date(params)
       parsed = params[:parsed]
-      duration, user_input = extract_duration_fr(params[:user_input].downcase)
+      user_input = clear_string(params[:user_input])
+      duration, user_input = extract_duration_fr(user_input)
       intervention_date, user_input = extract_date_fr(user_input)
       parsed[:duration] = choose_duration(duration, parsed[:duration])
       parsed[:intervention_date] = choose_date(intervention_date, parsed[:intervention_date])
@@ -154,7 +158,8 @@ module Duke
       Ekylibre::Tenant.switch params['tenant'] do
         targets = []
         crop_groups = []
-        user_inputs_combos = self.create_words_combo(params[:user_input].downcase)
+        user_input = clear_string(params[:user_input])
+        user_inputs_combos = self.create_words_combo(user_input)
         # Iterate through all user's combo of words (with their indexes)
         user_inputs_combos.each do |index, combo|
           # Define minimum matching level, initialize matching_element and recognized matching_list to None
@@ -170,13 +175,13 @@ module Duke
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [targets, crop_groups], params[:user_input].downcase)
+            matching_list = add_to_recognize_final(matching_element, matching_list, [targets, crop_groups], user_input)
           end
         end
-        targets, crop_groups = extract_plant_area(params[:user_input].downcase, targets, crop_groups)
+        targets, crop_groups = extract_plant_area(user_input, targets, crop_groups)
         # If there's no new Target/Crop_group, But a percentage, it's the new area % foreach previous target
         if crop_groups.empty? and targets.empty?
-          pct_regex = params[:user_input].downcase.match(/(\d{1,2}) *(%|pour( )?cent(s)?)/)
+          pct_regex = user_input.match(/(\d{1,2}) *(%|pour( )?cent(s)?)/)
           if pct_regex
             parsed[:crop_groups].to_a.each { |crop_group| crop_group[:area] = pct_regex[1]}
             parsed[:targets].to_a.each { |target| target[:area] = pct_regex[1]}
@@ -184,7 +189,7 @@ module Duke
         else
           parsed[:targets] = targets
           parsed[:crop_groups] = crop_groups
-          parsed[:ambiguities] = find_ambiguity({:targets => targets, :crop_groups => crop_groups}, params[:user_input])
+          parsed[:ambiguities] = find_ambiguity({:targets => targets, :crop_groups => crop_groups}, user_input)
         end
       end
       parsed[:user_input] += ' - (Cibles) ' << params[:user_input]
@@ -199,7 +204,8 @@ module Duke
       parsed = params[:parsed]
       Ekylibre::Tenant.switch params['tenant'] do
         destination = []
-        user_inputs_combos = self.create_words_combo(params[:user_input].downcase)
+        user_input = clear_string(params[:user_input])
+        user_inputs_combos = self.create_words_combo(user_input)
         # Iterate through all user's combo of words (with their indexes)
         user_inputs_combos.each do |index, combo|
           # Define minimum matching level, initialize matching_element and recognized matching_list to None
@@ -212,11 +218,11 @@ module Duke
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [destination], params[:user_input].downcase)
+            matching_list = add_to_recognize_final(matching_element, matching_list, [destination], user_input)
           end
         end
         parsed[:destination] = destination
-        parsed[:ambiguities] = find_ambiguity({:destination => destination}, params[:user_input])
+        parsed[:ambiguities] = find_ambiguity({:destination => destination}, user_input)
       end
       parsed[:user_input] += ' (Destination) ' << params[:user_input]
       what_next, sentence, optional = find_missing_parameters(parsed)
@@ -233,7 +239,8 @@ module Duke
         new_species = []
         new_destination = [] # Cellar Press
         # Finding when it happened and how long it lasted, + getting cleaned user_input
-        duration, user_input = extract_duration_fr(params[:user_input].downcase)
+        user_input = clear_string(params[:user_input])
+        duration, user_input = extract_duration_fr(user_input)
         intervention_date, user_input = extract_date_fr(user_input)
         new_date = choose_date(params[:parsed][:intervention_date], intervention_date)
         new_duration = choose_duration(params[:parsed][:duration], duration)
@@ -261,8 +268,8 @@ module Duke
             matching_list = add_to_recognize_final(matching_element, matching_list, [new_targets, new_species, new_destination, new_crop_groups], user_input)
           end
         end
-        new_targets, new_crop_groups = extract_plant_area(user_input.downcase, new_targets, new_crop_groups)
-        ambiguities = find_ambiguity({:destination => new_destination, :crop_groups => new_crop_groups, :targets => new_targets}, params[:user_input])
+        new_targets, new_crop_groups = extract_plant_area(user_input, new_targets, new_crop_groups)
+        ambiguities = find_ambiguity({:destination => new_destination, :crop_groups => new_crop_groups, :targets => new_targets}, user_input)
         parsed = {:targets =>  uniq_conc(new_targets,params[:parsed][:targets].to_a),
                   :crop_groups => uniq_conc(new_crop_groups, params[:parsed][:crop_groups].to_a),
                   :species =>  uniq_conc(new_species,params[:parsed][:species].to_a),
@@ -271,7 +278,7 @@ module Duke
                   :parameters => params[:parsed][:parameters],
                   :duration => new_duration,
                   :intervention_date => new_date,
-                  :user_input => params[:parsed][:user_input] << ' - (Autre) ' << params[:user_input]}
+                  :user_input => "#{params[:parsed][:user_input]} - (Autre) #{params[:user_input]}"}
         # Find if crucials parameters haven't been given, to ask again to the user
         what_next, sentence, optional = find_missing_parameters(parsed)
         return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
@@ -306,7 +313,7 @@ module Duke
     end
 
     def handle_add_analysis(params)
-      user_input, new_parameters = extract_reception_parameters(params[:user_input])
+      user_input, new_parameters = extract_reception_parameters(clear_string(params[:user_input]))
       new_parameters = concatenate_analysis(params[:parsed][:parameters], new_parameters)
       params[:parsed][:parameters] = new_parameters
       params[:parsed][:user_input] += " - (Analyse) #{params[:user_input]}"
@@ -317,10 +324,10 @@ module Duke
 
     def handle_add_pressing(params)
       new_parameters = params[:parsed][:parameters]
-      pressing_date, user_input = extract_date_fr(params[:user_input])
+      pressing_date, user_input = extract_date_fr(clear_string(params[:user_input]))
       new_parameters['pressing'] = {'hour' => pressing_date, 'program' => user_input}
       params[:parsed][:parameters] = new_parameters
-      params[:parsed][:user_input] += " - (Pressurage) params[:user_input]"
+      params[:parsed][:user_input] += " - (Pressurage) #{params[:user_input]}"
       # Find if crucials parameters haven't been given, to ask again to the user
       what_next, sentence, optional = find_missing_parameters(params[:parsed])
       return  { :parsed => params[:parsed], :asking_again => what_next, :sentence => sentence, :optional => optional}

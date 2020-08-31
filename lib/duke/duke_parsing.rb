@@ -605,7 +605,7 @@ module Duke
 
     def compare_elements(string1, string2, indexes, level, key, append_list, saved_hash, rec_list)
         # We check the fuzz distance between two elements, if it's greater than the min_matching_level or the current best distance, this is the new recordman
-        distance = @@fuzzloader.getDistance(string1.downcase, string2.downcase)
+        distance = @@fuzzloader.getDistance(string1, clear_string(string2))
         if distance > level
           return distance, { :key => key, :name => string2, :indexes => indexes , :distance => distance}, append_list
         end
@@ -658,7 +658,7 @@ module Duke
             ambig = []
             aTarg_name = content.split()[aTarg[:indexes][0]..aTarg[:indexes][-1]].join(" ")
             Plant.availables(at: parsed[:intervention_date]).each do |plant|
-              if aTarg[:key] != plant[:id] and (aTarg[:distance] - @@fuzzloader.getDistance(plant[:name].downcase, aTarg_name.downcase)).between?(0,0.02)
+              if aTarg[:key] != plant[:id] and (aTarg[:distance] - @@fuzzloader.getDistance(clear_string(plant[:name]), clear_string(aTarg_name))).between?(0,0.02)
                 ambig.push({"key" => plant[:id].to_s, "name" => plant[:name]})
               end
             end
@@ -672,7 +672,7 @@ module Duke
             ambig = []
             aDest_name = content.split()[aDest[:indexes][0]..aDest[:indexes][-1]].join(" ")
             Matter.availables(at: parsed[:intervention_date]).where("variety='tank'").each do |tank|
-              if aDest[:key] != tank[:id] and (aDest[:distance] - @@fuzzloader.getDistance(tank[:name].downcase, aDest_name.downcase)).between?(0,0.02)
+              if aDest[:key] != tank[:id] and (aDest[:distance] - @@fuzzloader.getDistance(clear_string(tank[:name]), clear_string(aDest_name))).between?(0,0.02)
                 ambig.push({"key" => tank[:id].to_s, "name" => tank[:name]})
               end
             end
@@ -686,7 +686,7 @@ module Duke
             ambig = []
             aCG_name = content.split()[aCG[:indexes][0]..aCG[:indexes][-1]].join(" ")
             CropGroup.all.where("target = 'plant'").each do |cropg|
-              if aCG[:key] != cropg[:id] and (aCG[:distance] - @@fuzzloader.getDistance(cropg[:name].downcase, aCG_name.downcase)).between?(0,0.02)
+              if aCG[:key] != cropg[:id] and (aCG[:distance] - @@fuzzloader.getDistance(clear_string(cropg[:name]), clear_string(aCG_name))).between?(0,0.02)
                 ambig.push({"key" => cropg[:id].to_s, "name" => cropg[:name]})
               end
             end
@@ -698,6 +698,14 @@ module Duke
         end
       end
       return ambiguities
+    end
+
+    def clear_string(fstr)
+      useless_dic = [/\bnum(e|é)ro\b/, /n ?°/, /\bà\b/, /\ble\b/, /\bla\b/, /\bau\b/, /\bsur\b/, /\bde\b/, /\bdu\b/, /#/]
+      useless_dic.each do |rgx|
+        fstr = fstr.gsub(rgx, "")
+      end
+      return fstr.gsub(/\s+/, " ").downcase
     end
 
     def key_duplicate?(list, saved_hash)
