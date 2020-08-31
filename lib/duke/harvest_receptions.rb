@@ -287,7 +287,7 @@ module Duke
 
     def handle_parse_disambiguation(params)
       parsed = params[:parsed]
-      ambElement = params[:optional][-1]
+      ambElement = params[:optional][-2]
       ambType, ambArray = parsed.find { |key, value| value.is_a?(Array) and value.any? { |subhash| subhash[:name] == ambElement[:name]}}
       ambHash = ambArray.find {|hash| hash[:name] == ambElement[:name]}
       begin

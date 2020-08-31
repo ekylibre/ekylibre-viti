@@ -664,6 +664,7 @@ module Duke
             end
             unless ambig.empty?
               ambig.push({"key" => aTarg[:key].to_s, "name" => aTarg[:name]})
+              ambig.push({"key" => "inSentenceName", "name" => aTarg_name})
               ambiguities.push(ambig)
             end
           end
@@ -678,6 +679,7 @@ module Duke
             end
             unless ambig.empty?
               ambig.push({"key" => aDest[:key].to_s, "name" => aDest[:name]})
+              ambig.push({"key" => "inSentenceName", "name" => aDest_name})
               ambiguities.push(ambig)
             end
           end
@@ -692,6 +694,7 @@ module Duke
             end
             unless ambig.empty?
               ambig.push({"key" => aCG[:key].to_s, "name" => aCG[:name]})
+              ambig.push({"key" => "inSentenceName", "name" => aCG_name})
               ambiguities.push(ambig)
             end
           end
