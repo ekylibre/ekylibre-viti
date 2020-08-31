@@ -44,7 +44,8 @@ module Duke
                   :parameters => parameters,
                   :duration => duration,
                   :intervention_date => intervention_date,
-                  :user_input => params[:user_input]}
+                  :user_input => params[:user_input],
+                  :retry => 0}
         parsed[:ambiguities] = find_ambiguity(parsed, user_input)
         # Find if crucials parameters haven't been given, to ask again to the user
         what_next, sentence, optional = find_missing_parameters(parsed)
@@ -65,7 +66,13 @@ module Duke
           value = hasNumbers[0].gsub(',','.').gsub(' ','')
         else
           # If we couldn't find one, we cancel the functionnality
-          return {:asking_again => "cancel"}
+          parsed[:retry] += 1
+          if parsed[:retry] == 2
+            return {:asking_again => "cancel"}
+          else
+            what_next, sentence, optional = find_missing_parameters(parsed)
+            return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
+          end
         end
       # If we have a value, we should check if watson didn't return an integer instead of a float
       elsif match_to_float
@@ -85,10 +92,8 @@ module Duke
         parsed[:parameters][parameter] = value.to_s.gsub(',','.')
       end
       parsed[:user_input] += " - #{params[:user_input]}"
+      parsed[:retry] = 0
       what_next, sentence, optional = find_missing_parameters(parsed)
-      if what_next == params[:current_asking]
-        return {:asking_again => "cancel"}
-      end
       return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
@@ -107,9 +112,6 @@ module Duke
       end
       parsed[:user_input] += " - #{params[:user_input]}"
       what_next, sentence, optional = find_missing_parameters(parsed)
-      if what_next == params[:current_asking]
-        return {:asking_again => "cancel"}
-      end
       return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
@@ -122,9 +124,6 @@ module Duke
       parsed[:intervention_date] = choose_date(intervention_date, parsed[:intervention_date])
       parsed[:user_input] = params[:parsed][:user_input] << ' - ' << params[:user_input]
       what_next, sentence, optional = find_missing_parameters(parsed)
-      if what_next == params[:current_asking]
-        return {:asking_again => "cancel"}
-      end
       return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
@@ -137,7 +136,13 @@ module Duke
         if hasNumbers
           value = hasNumbers[0].gsub(',','.').gsub(' ','')
         else
-          return {:asking_again => "cancel"}
+          parsed[:retry] += 1
+          if parsed[:retry] == 2
+            return {:asking_again => "cancel"}
+          else
+            what_next, sentence, optional = find_missing_parameters(parsed)
+            return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
+          end
         end
       # If we have a value, we should check if watson didn't return an integer instead of a float
       elsif params[:user_input].match(/#{value}(\.\d{1,2})/)
@@ -146,10 +151,8 @@ module Duke
       end
       parsed[:destination][params[:optional]][:quantity] = value.to_s.gsub(',','.')
       parsed[:user_input] += ' - (Quantité) ' << params[:user_input]
+      parsed[:retry] = 0
       what_next, sentence, optional = find_missing_parameters(parsed)
-      if what_next == params[:current_asking] and optional == params[:optional]
-        return {:asking_again => "cancel"}
-      end
       return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
@@ -195,8 +198,14 @@ module Duke
       parsed[:user_input] += ' - (Cibles) ' << params[:user_input]
       what_next, sentence, optional = find_missing_parameters(parsed)
       if what_next == params[:current_asking]
-        return {:asking_again => "cancel"}
+        parsed[:retry] += 1
+        if parsed[:retry] == 2
+          return {:asking_again => "cancel"}
+        else
+          return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
+        end
       end
+      parsed[:retry] = 0
       return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
@@ -227,8 +236,14 @@ module Duke
       parsed[:user_input] += ' (Destination) ' << params[:user_input]
       what_next, sentence, optional = find_missing_parameters(parsed)
       if what_next == params[:current_asking] and optional == params[:optional]
-        return {:asking_again => "cancel"}
+        parsed[:retry] += 1
+        if parsed[:retry] == 2
+          return {:asking_again => "cancel"}
+        else
+          return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
+        end
       end
+      parsed[:retry] = 0
       return  { :parsed => parsed, :asking_again => what_next, :sentence => sentence, :optional => optional}
     end
 
