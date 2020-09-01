@@ -370,7 +370,6 @@ module Duke
         content[sanitary_match[1]] = ""
         content[sanitary_match[2]] = ""
       end
-      puts "après le match : content : #{content} \n\n et sanit : #{sanitarystate}"
       if content.include? "sain " || content.include?("sein")
         sanitarystate += "sain "
       end

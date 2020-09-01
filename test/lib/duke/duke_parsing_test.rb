@@ -34,26 +34,26 @@ module Duke
     end
 
     test '(not)? adding a recognized element to its list' do
-      target_list = [{:key=>4, :name=>"Jeunes plants", :indexes=>[3, 4], :distance=>0.97}]
-      saved_hash_no_index = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[3, 4, 5, 6], :distance=>0.95}
-      saved_hash_yes_index = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[3, 4, 5, 6], :distance=>0.98}
-      saved_hash_no_other_list = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[10, 11], :distance=>0.98}
-      saved_hash_yes_other_list = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[7, 8], :distance=>0.99}
-      saved_hash_yes = {:key=>6, :name=>"Plantations nouvelles 2019", :indexes=>[5, 6], :distance=>0.95}
-      all_lists = [[{:key=>8, :name=>"Massey-Fergusson 140", :indexes=>[7, 8], :distance=>0.92}],
-                   [{:key=>74, :name=>"Frédéric", :indexes=>[10], :distance=>1.0}],
+      target_list = [{:key=>4, :name=>"Jeunes plants", :indexes=>[2,3], :distance=>0.97}]
+      saved_hash_no_index = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[2, 3, 4, 5], :distance=>0.90}
+      saved_hash_yes_index = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[2, 3, 4, 5], :distance=>0.92}
+      saved_hash_no_other_list = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[4, 5, 6, 7], :distance=>0.94}
+      saved_hash_yes_other_list = {:key=>2, :name=>"Bouleytreau-Verrier", :indexes=>[4, 5, 6, 7], :distance=>0.99}
+      saved_hash_yes = {:key=>6, :name=>"Plantations nouvelles 2019", :indexes=>[9, 10, 11], :distance=>0.95}
+      all_lists = [[],
+                   [{:key=>74, :name=>"Frédéric", :indexes=>[7], :distance=>1.0}],
                    [],
                    target_list]
       # No changes to the list, overlapping indexes and greater distance for the previous item
-      _(DukeParsing.add_to_recognize_final(saved_hash_no_index, target_list, all_lists)).must_equal target_list, "Item in the same list with overlapping indexes"
+      _(DukeParsing.add_to_recognize_final(saved_hash_no_index, target_list, all_lists, "les jeunes plantes et bouleytreau verrier par Frédéric et plantations nouvelles 2019")).must_equal target_list, "Item in the same list with overlapping indexes"
       # Changes to the list, overlapping indexes and greater distance
-      _(DukeParsing.add_to_recognize_final(saved_hash_yes_index, target_list, all_lists)).must_equal  [saved_hash_yes_index], "Distance is greater for the new item"
+      _(DukeParsing.add_to_recognize_final(saved_hash_yes_index, target_list, all_lists, "les jeunes plantes et bouleytreau verrier par Frédéric et plantations nouvelles 2019r")).must_equal  [saved_hash_yes_index], "Distance is greater for the new item"
       # No changes to the list, item in another list but its distance is greater
-      _(DukeParsing.add_to_recognize_final(saved_hash_no_other_list, target_list, all_lists)).must_equal target_list, "Item in another list with same indexes"
+      _(DukeParsing.add_to_recognize_final(saved_hash_no_other_list, target_list, all_lists, "les jeunes plantes et bouleytreau verrier par Frédéric et plantations nouvelles 2019")).must_equal target_list, "Item in another list with same indexes"
       # Changes to the list, item in another list with overlapping indexes and a smaller distance
-      _(DukeParsing.add_to_recognize_final(saved_hash_yes_other_list, target_list, all_lists)).must_equal [saved_hash_yes_other_list], "Item in another list with same indexes"
+      _(DukeParsing.add_to_recognize_final(saved_hash_yes_other_list, target_list, all_lists, "les jeunes plantes et bouleytreau verrier par Frédéric et plantations nouvelles 2019")).must_equal [saved_hash_yes_other_list], "Item in another list with same indexes"
       # Changes to the list, basic case, nothing should interrupt
-      _(DukeParsing.add_to_recognize_final(saved_hash_yes, target_list, all_lists)).must_equal [target_list[0], saved_hash_yes], "Basic case not working"
+      _(DukeParsing.add_to_recognize_final(saved_hash_yes, target_list, all_lists, "les jeunes plantes et bouleytreau verrier par Frédéric et plantations nouvelles 2019")).must_equal [target_list[0], saved_hash_yes], "Basic case not working"
     end
 
     test 'concatenate two recognized elements arrays' do
@@ -108,7 +108,7 @@ module Duke
                                                {"rate" => 12.4, "unit" => "hl"},
                                                 "Coma Quantity regex failed")
       assert_equal(DukeParsing.extract_quantity("3.8 tonnes", {})[1]['quantity'],
-                                               {"rate" => 3.8, "unit" => "tonne"},
+                                               {"rate" => 3.8, "unit" => "t"},
                                                 "Dot Quantity regex failed")
       assert_equal(DukeParsing.extract_conflicting_degrees("température de 17,4 degrés", {})[1]['temperature'],
                                                             "17.4",
@@ -155,9 +155,6 @@ module Duke
       assert_equal(DukeParsing.extract_malic("Acide malique à 3,5", {})[1]['malic'],
                                              "3.5",
                                              "Malic regex failed")
-      assert_equal(DukeParsing.extract_operatoryMode("Récolte manuelle", {})[1]['operatorymode'],
-                                                     "manuel",
-                                                     "OperatoryMode regex failed")
       assert_equal(DukeParsing.extract_duration_fr("Pendant 45 minutes")[0],
                                                    45,
                                                    "Did not match work duration correctly")
@@ -167,21 +164,23 @@ module Duke
       assert_equal(DukeParsing.extract_duration_fr("Travail de 3h40")[0],
                                                    220,
                                                    "Did not match work duration correctly")
-      yes = Date.yesterday
+      yest = Date.yesterday
       assert_equal(DukeParsing.extract_date_fr("hier à 13h54")[0],
-                                               DateTime.new(yes.year, yes.month, yes.day, 13, 54, 0, "+02:00"),
+                                               DateTime.new(yest.year, yest.month, yest.day, 13, 54, 0, "+02:00"),
                                                "Did not match work duration correctly")
       assert_equal(DukeParsing.extract_date_fr("Le 14 juillet au matin")[0],
-                                               DateTime.new(yes.year, 7, 14, 10, 0, 0, "+02:00"),
+                                               DateTime.new(yest.year, 7, 14, 10, 0, 0, "+02:00"),
                                                "Did not match work duration correctly")
     end
     test 'plant area extraction' do
-      assert_equal(DukeParsing.extract_plant_area("50% de bernessard", [{:key=>85, :name=>"Bernessard", :indexes=>[2], :distance=>1}]),
-                                                  [{:key=>85, :name=>"Bernessard", :indexes=>[2], :distance=>1, :area=>50}],
+      assert_equal(DukeParsing.extract_plant_area("50% de bernessard", [{:key=>85, :name=>"Bernessard", :indexes=>[2], :distance=>1}], []),
+                                                  [[{:key=>85, :name=>"Bernessard", :indexes=>[2], :distance=>1, :area=>50}], []],
                                                   "Could not find percentage of a plant")
 
-      assert_equal(DukeParsing.extract_plant_area("Sur Bernessard", [{:key=>85, :name=>"Bernessard", :indexes=>[1], :distance=>1}]),
-                                                  [{:key=>85, :name=>"Bernessard", :indexes=>[1], :distance=>1, :area=>100}],
+      assert_equal(DukeParsing.extract_plant_area("Sur Bernessard et les jeunes plants", [{:key=>85, :name=>"Bernessard", :indexes=>[1], :distance=>1}],
+                                                                                         [{:key=>1, :name=>"Jeunes Plants", :indexes=>[4,5], :distance=>1}]),
+                                                  [[{:key=>85, :name=>"Bernessard", :indexes=>[1], :distance=>1, :area=>100}],
+                                                   [{:key=>1, :name=>"Jeunes Plants", :indexes=>[4,5], :distance=>1, :area=>100}]],
                                                   "Does not attribute 100% of a plant when not specified")
     end
   end
