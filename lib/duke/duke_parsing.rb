@@ -653,49 +653,27 @@ module Duke
     def find_ambiguity(parsed, content)
       ambiguities = []
       parsed.each do |key, reco|
-        if key == :targets and !reco.empty?
-          reco.each do |aTarg|
+        if [:targets, :destination, :crop_groups].include?(key)
+          reco.each do |anItem|
             ambig = []
-            aTarg_name = content.split()[aTarg[:indexes][0]..aTarg[:indexes][-1]].join(" ")
-            Plant.availables(at: parsed[:intervention_date]).each do |plant|
-              if aTarg[:key] != plant[:id] and (aTarg[:distance] - @@fuzzloader.getDistance(clear_string(plant[:name]), clear_string(aTarg_name))).between?(0,0.02)
-                ambig.push({"key" => plant[:id].to_s, "name" => plant[:name]})
+            anItem_name = content.split()[anItem[:indexes][0]..anItem[:indexes][-1]].join(" ")
+            if key == :targets
+              iterator = Plant.availables(at: parsed[:intervention_date])
+            elsif key == :destination
+              iterator = Matter.availables(at: parsed[:intervention_date]).where("variety='tank'")
+            elsif key == :crop_groups
+              iterator = CropGroup.all.where("target = 'plant'")
+            end
+            iterator.each do |product|
+              if anItem[:key] != product[:id] and (anItem[:distance] - @@fuzzloader.getDistance(clear_string(product[:name]), clear_string(anItem_name))).between?(0,0.02)
+                ambig.push({"key" => product[:id].to_s, "name" => product[:name]})
               end
             end
             unless ambig.empty?
-              ambig.push({"key" => aTarg[:key].to_s, "name" => aTarg[:name]})
-              ambig.push({"key" => "inSentenceName", "name" => aTarg_name})
-              ambiguities.push(ambig)
-            end
-          end
-        elsif key == :destination and !reco.empty?
-          reco.each do |aDest|
-            ambig = []
-            aDest_name = content.split()[aDest[:indexes][0]..aDest[:indexes][-1]].join(" ")
-            Matter.availables(at: parsed[:intervention_date]).where("variety='tank'").each do |tank|
-              if aDest[:key] != tank[:id] and (aDest[:distance] - @@fuzzloader.getDistance(clear_string(tank[:name]), clear_string(aDest_name))).between?(0,0.02)
-                ambig.push({"key" => tank[:id].to_s, "name" => tank[:name]})
-              end
-            end
-            unless ambig.empty?
-              ambig.push({"key" => aDest[:key].to_s, "name" => aDest[:name]})
-              ambig.push({"key" => "inSentenceName", "name" => aDest_name})
-              ambiguities.push(ambig)
-            end
-          end
-        elsif key == :crop_groups and !reco.empty?
-          reco.each do |aCG|
-            ambig = []
-            aCG_name = content.split()[aCG[:indexes][0]..aCG[:indexes][-1]].join(" ")
-            CropGroup.all.where("target = 'plant'").each do |cropg|
-              if aCG[:key] != cropg[:id] and (aCG[:distance] - @@fuzzloader.getDistance(clear_string(cropg[:name]), clear_string(aCG_name))).between?(0,0.02)
-                ambig.push({"key" => cropg[:id].to_s, "name" => cropg[:name]})
-              end
-            end
-            unless ambig.empty?
-              ambig.push({"key" => aCG[:key].to_s, "name" => aCG[:name]})
-              ambig.push({"key" => "inSentenceName", "name" => aCG_name})
-              ambiguities.push(ambig)
+              ambig.push({"key" => anItem[:key].to_s, "name" => anItem[:name]})
+              ambig.push({"key" => "inSentenceName", "name" => anItem_name})
+              # Only save ambiguities between max 7 elements
+              ambiguities.push(ambig.drop((ambig.length - 9 if ambig.length - 9 > 0 ) || 0))
             end
           end
         end

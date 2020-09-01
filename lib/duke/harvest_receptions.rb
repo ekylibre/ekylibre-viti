@@ -312,13 +312,16 @@ module Duke
       rescue
         if params[:user_input] == "Tous"
           params[:optional].each_with_index do |ambiguate, index|
-            unless index+1 == params[:optional].length
+            # Last two values are the one that's already added, and the inSentenceName value -> useless
+            unless [1,2].include?(params[:optional].length - index)
               hashClone = ambHash.clone()
               hashClone[:name] = ambiguate[:name].to_s
               hashClone[:key] = ambiguate[:key].to_s
               ambArray.push(hashClone)
             end
           end
+        elsif params[:user_input] == "Aucun"
+          ambArray.delete(ambHash)
         end
       ensure
         parsed[:ambiguities].shift
@@ -340,6 +343,10 @@ module Duke
     def handle_add_pressing(params)
       new_parameters = params[:parsed][:parameters]
       pressing_date, user_input = extract_date_fr(clear_string(params[:user_input]))
+      useless_pressing_words = [/d(é|e)but(.)*/, /commenc(.)/, /\b(à|a|dès|vers|démarr(.))\b/]
+      useless_pressing_words.each do |word|
+        user_input = user_input.gsub(word, "")
+      end 
       new_parameters['pressing'] = {'hour' => pressing_date, 'program' => user_input}
       params[:parsed][:parameters] = new_parameters
       params[:parsed][:user_input] += " - (Pressurage) #{params[:user_input]}"
