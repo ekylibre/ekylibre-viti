@@ -36,16 +36,16 @@
         - analysis.items.each do |item|
           %dl
             %dt= Nomen::Indicator.find(item.indicator_name).human_name
-            %dd= attribute_item(item, :value).last
+            %dd= Maybe(attribute_item(item, :value).last).or_else { '-' }
 
   - unless resource.additional_informations.empty?
     - c.cobble(:additional_informations) do
       = attributes_list(resource, stamps: false) do |l|
         - l.attribute :pressing_schedule
         - l.attribute :pressing_started_at
-        - l.custom WineIncomingHarvest.human_attribute_name(:sedimentation_duration), resource.sedimentation_duration ? "#{resource.sedimentation_duration} min" : ''
+        - l.custom WineIncomingHarvest.human_attribute_name(:sedimentation_duration), resource.sedimentation_duration.present? ? "#{resource.sedimentation_duration} min" : '-'
         - l.attribute :vehicle_trailer
-        - l.custom WineIncomingHarvest.human_attribute_name(:harvest_transportation_duration), resource.harvest_transportation_duration ? "#{resource.harvest_transportation_duration} min" : ''
-        - l.custom WineIncomingHarvest.human_attribute_name(:last_load), resource.last_load ? { true: :y.tl, false: :n.tl }[resource.last_load.to_sym] : ''
-        - l.custom WineIncomingHarvest.human_attribute_name(:harvest_nature), resource.harvest_nature ? resource.harvest_nature.tl : ''
+        - l.custom WineIncomingHarvest.human_attribute_name(:harvest_transportation_duration), resource.harvest_transportation_duration.present? ? "#{resource.harvest_transportation_duration} min" : '-'
+        - l.custom WineIncomingHarvest.human_attribute_name(:last_load), resource.last_load ? { true: :y.tl, false: :n.tl }[resource.last_load.to_sym] : '-'
+        - l.custom WineIncomingHarvest.human_attribute_name(:harvest_nature), resource.harvest_nature.present? ? resource.harvest_nature.tl : '-'
         - l.attribute :harvest_dock

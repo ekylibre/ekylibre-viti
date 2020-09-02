@@ -27,6 +27,7 @@ module Backend
       t.column :received_at
       t.column :quantity_value, on_select: :sum, value_method: :quantity, datatype: :bigdecimal
       t.column :quantity_unit, label_method: :human_quantity_unit_name
+      t.column :tavp
     end
 
     list(:plants, model: :wine_incoming_harvest_plant, joins: :plant, conditions: { wine_incoming_harvest_id: 'params[:id]'.c }) do |t|
