@@ -14,4 +14,4 @@
 //= require main.js
 //= require map
 //= require map/cvi_map_config
-//= require incoming_harvest
+//= require wine_incoming_harvest

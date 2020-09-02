@@ -1,5 +1,5 @@
 module Backend
-  class IncomingHarvestPlantsController < Backend::BaseController
+  class WineIncomingHarvestPlantsController < Backend::BaseController
 
     def net_harvest_area
       plant = Plant.find_by_id(params[:plant_id])
