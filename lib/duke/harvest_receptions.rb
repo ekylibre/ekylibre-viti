@@ -418,8 +418,8 @@ module Duke
           plants_attributes: targets_attributes}
 
         incoming_harvest_dic = create_incoming_harvest_attr(harvest_dic, parsed)
-        incomingHarvest = IncomingHarvest.create!(incoming_harvest_dic)
-        return {"link" => "\\backend\\incoming_harvests\\"+incomingHarvest['id'].to_s}
+        incomingHarvest = WineIncomingHarvest.create!(incoming_harvest_dic)
+        return {"link" => "\\backend\\wine_incoming_harvests\\"+incomingHarvest['id'].to_s}
       end
     end
   end
