@@ -8,8 +8,32 @@ module Duke
       # Create validation sentence for InterventionSkill
       I18n.locale = :fra
       sentence = I18n.t("duke.interventions.save_intervention_#{rand(0...3)}")
-      sentence += "#{Procedo::Procedure.find(params[:procedure]).human_name}"
-      sentence += "#{speak_inputs(params[:inputs])}#{speak_tool(params[:equipments])}#{speak_crop_groups(params[:crop_groups])}#{speak_workers(params[:workers])}"
+      sentence += "<br>&#8226 Procédure : #{Procedo::Procedure.find(params[:procedure]).human_name}"
+      sentence += "<br>&#8226 Date : #{params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")}"
+      unless params[:workers].to_a.empty?
+        sentence += "<br>&#8226 Travailleurs : "
+        params[:workers].each do |worker|
+          sentence += "#{worker[:name]}, "
+        end
+      end
+      unless params[:crop_groups].to_a.empty?
+        sentence += "<br>&#8226 Groupements : "
+        params[:crop_groups].each do |cg|
+          sentence += "#{cg[:name]}, "
+        end
+      end
+      unless params[:equipments].to_a.empty?
+        sentence += "<br>&#8226 Equipement : "
+        params[:equipments].each do |eq|
+          sentence += "#{eq[:name]}, "
+        end
+      end
+      unless params[:inputs].to_a.empty?
+        sentence += "<br>&#8226 Intrants : "
+        params[:inputs].each do |input|
+          sentence += "#{input[:input][:name]}, "
+        end
+      end
       return sentence
     end
 
@@ -52,17 +76,25 @@ module Duke
       unless params[:parameters]['nitrogen'].nil?
         sentence+= "<br>&#8226 Azote : #{params[:parameters]['nitrogen']} mg/mL"
       end
-      unless params[:parameters]['operatorymode'].nil?
-        sentence+= "<br>&#8226 Mode Opératoire : #{params[:parameters]['operatorymode']}"
-      end
       unless params[:parameters]['pressing'].nil?
         sentence+= "<br>&#8226 Pressurage spécifié"
       end
-      unless params[:parameters]['so2'].nil?
-        sentence+= "<br>&#8226 Sulfites : #{params[:parameters]['so2']} g/hL"
-      end
-      unless params[:parameters]['co2'].nil?
-        sentence+= "<br>&#8226 Glace carbonique : #{params[:parameters]['so2']} kg/hL"
+      unless params[:parameters]['complementary'].nil?
+        if params[:parameters]['complementary'].key?('ComplementaryDecantation')
+          sentence+= "<br>&#8226 Temps de décantation : #{params[:parameters]['complementary']['ComplementaryDecantation'].delete("^0-9")} mins"
+        end
+        if params[:parameters]['complementary'].key?('ComplementaryTrailer')
+          sentence+= "<br>&#8226 Transporteur : #{params[:parameters]['complementary']['ComplementaryTrailer']}"
+        end
+        if params[:parameters]['complementary'].key?('ComplementaryTime')
+          sentence+= "<br>&#8226 Durée de transport : #{params[:parameters]['complementary']['ComplementaryTime'].delete("^0-9")} mins"
+        end
+        if params[:parameters]['complementary'].key?('ComplementaryDock')
+          sentence+= "<br>&#8226 Quai de réception : #{params[:parameters]['complementary']['ComplementaryDock']}"
+        end
+        if params[:parameters]['complementary'].key?('ComplementaryNature')
+          sentence+= "<br>&#8226 Nature des vendanges : #{I18n.t('labels.'+params[:parameters]['complementary']['ComplementaryNature'])}"
+        end
       end
       return sentence
     end
@@ -80,89 +112,6 @@ module Duke
       end
     end
 
-    def speak_species(reco_species)
-      # Function that helps speak species in interventionSkill
-      if reco_species.nil?
-        return ""
-      elsif reco_species.length() == 0
-        return ""
-      elsif reco_species.length() == 1
-        return " de variété "+reco_species[0]['name']
-      elsif reco_species.length() == 2
-        return " de variété "+reco_species[0][:name]+" et "+reco_species[1][:name]
-      elsif reco_species.length() == 3
-        return " de variété "+reco_species[0][:name]+", "+reco_species[1][:name]+" et "+reco_species[2][:name]
-      else
-        return " avec "+ reco_species.length().to_s+" variétés"
-      end
-    end
-
-
-    def speak_tool(reco_equipment)
-      # Function that helps speak tools in interventionSkill
-      if reco_equipment.length() == 0
-        return ""
-      elsif reco_equipment.length() == 1
-        return " avec l'outil "+reco_equipment[0][:name]
-      elsif reco_equipment.length() == 2
-        return " avec les outils "+reco_equipment[0][:name]+" et "+reco_equipment[1][:name]
-      elsif reco_equipment.length() == 3
-        return " avec les outils "+reco_equipment[0][:name]+", "+reco_equipment[1][:name]+" et "+reco_equipment[2][:name]
-      else
-        return " avec "+ reco_equipment.length().to_s+" outils"
-      end
-    end
-
-
-    def speak_crop_groups(reco_crop_groups)
-      # Function that helps speak crop_groups in interventionSkill
-      if reco_crop_groups.length() == 0
-        return ""
-      elsif reco_crop_groups.length() == 1
-        return " sur "+reco_crop_groups[0][:name]
-      elsif reco_crop_groups.length() == 2
-        return " sur "+reco_crop_groups[0][:name]+" et "+reco_crop_groups[1][:name]
-      elsif reco_crop_groups.length() == 3
-        return " sur "+reco_crop_groups[0][:name]+", "+reco_crop_groups[1][:name]+" et "+reco_crop_groups[2][:name]
-      else
-        return " sur "+ reco_crop_groups.length().to_s+" regroupements de parcelles"
-      end
-    end
-
-
-    def speak_workers(reco_workers)
-      # Function that helps speak workers in interventionSkill
-      if reco_workers.nil?
-        return ""
-      elsif reco_workers.length() == 0
-        return ""
-      elsif reco_workers.length() == 1
-        return " par "+reco_workers[0][:name]
-      elsif reco_workers.length() == 2
-        return " par "+reco_workers[0][:name]+" et "+reco_workers[1][:name]
-      elsif reco_workers.length() == 3
-        return " par "+reco_workers[0][:name]+", "+reco_workers[1][:name]+" et "+reco_workers[2][:name]
-      else
-        return " par "+ reco_workers.length().to_s+" travailleurs"
-      end
-    end
-
-
-    def speak_inputs(reco_inputs)
-      # Function that helps speak inputs in interventionSkill
-      if reco_inputs.length() == 0
-        return ""
-      elsif reco_inputs.length() == 1
-        return " de "+reco_inputs[0][:input][:name]
-      elsif reco_inputs.length() == 2
-        return " de "+reco_inputs[0][:input][:name]+" et de "+reco_inputs[1][:input][:name]
-      elsif reco_inputs.length() == 3
-        return " de "+reco_inputs[0][:input][:name]+", de "+reco_inputs[1][:input][:name]+" et de"+reco_inputs[2][:input][:name]
-      else
-        return " de "+ reco_inputs.length().to_s+" intrants"
-      end
-    end
-
     def create_analysis_attributes(parsed)
       attributes =    {"0"=>{"_destroy"=>"false", "indicator_name"=>"estimated_harvest_alcoholic_volumetric_concentration", "measure_value_value"=> parsed[:parameters]['tav'], "measure_value_unit"=>"volume_percent"}}
       attributes[1] = {"_destroy"=>"false", "indicator_name"=>"potential_hydrogen", "decimal_value"=> parsed[:parameters]['ph'] } unless parsed[:parameters]['ph'].nil?
@@ -170,8 +119,34 @@ module Duke
       attributes[3] = {"_destroy"=>"false", "indicator_name"=>"assimilated_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['nitrogen'], "measure_value_unit"=>"milligram_per_liter"} unless parsed[:parameters]['nitrogen'].nil?
       attributes[4] = {"_destroy"=>"false", "indicator_name"=>"total_acid_concentration", "measure_value_value"=>parsed[:parameters]['h2so4'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['h2so4'].nil?
       attributes[5] = {"_destroy"=>"false", "indicator_name"=>"malic_acid_concentration", "measure_value_value"=>parsed[:parameters]['malic'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['malic'].nil?
-      attributes[6] ={"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> parsed[:parameters]['sanitarystate']} unless parsed[:parameters]['sanitarystate'].nil?
+      attributes[6] = {"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> parsed[:parameters]['sanitarystate']} unless parsed[:parameters]['sanitarystate'].nil?
       return attributes
+    end
+
+    def create_incoming_harvest_attr(dic, parsed)
+      I18n.locale = :fra
+      if !parsed[:parameters]['pressing'].nil?
+        dic[:pressing_schedule] = parsed[:parameters]['pressing']['program']
+        dic[:pressing_started_at] = parsed[:parameters]['pressing']['hour']
+      end
+      if !parsed[:parameters]['complementary'].nil?
+        if parsed[:parameters]['complementary'].key?('ComplementaryDecantation')
+          dic[:sedimentation_duration] = parsed[:parameters]['complementary']['ComplementaryDecantation'].delete("^0-9")
+        end
+        if parsed[:parameters]['complementary'].key?('ComplementaryTrailer')
+          dic[:vehicle_trailer] = parsed[:parameters]['complementary']['ComplementaryTrailer']
+        end
+        if parsed[:parameters]['complementary'].key?('ComplementaryTime')
+          dic[:harvest_transportation_duration] = parsed[:parameters]['complementary']['ComplementaryTime'].delete("^0-9")
+        end
+        if parsed[:parameters]['complementary'].key?('ComplementaryDock')
+          dic[:harvest_dock] = parsed[:parameters]['complementary']['ComplementaryDock']
+        end
+        if parsed[:parameters]['complementary'].key?('ComplementaryNature')
+          dic[:harvest_nature] = parsed[:parameters]['complementary']['ComplementaryNature']
+        end
+      end
+      return dic
     end
     # Extracting functions, regex / including
 
@@ -284,16 +259,16 @@ module Duke
 
     def extract_quantity(content, parameters)
       # Extracting quantity data
-      quantity_regex = '(\d{1,5}(\.|,)\d{1,2}|\d{1,5}) *(kilo|kg|hecto|hl|t\b|tonne)'
+      quantity_regex = '(\d{1,5}(\.|,)\d{1,2}|\d{1,5}) *(kilo|kg|hecto|expo|texto|hl|t\b|tonne)'
       quantity = content.match(quantity_regex)
       if quantity
         content[quantity[0]] = ""
         if quantity[3].match('(kilo|kg)')
           unit = "kg"
-        elsif quantity[3].match('(hecto|hl)')
+        elsif quantity[3].match('(hecto|hl|texto|expo)')
           unit = "hl"
         else
-          unit = "tonne"
+          unit = "t"
         end
         parameters['quantity'] = {"rate" => quantity[1].gsub(',','.').to_f, "unit" => unit} # rate is the first capturing group
       else
@@ -321,7 +296,7 @@ module Duke
 
     def extract_tav(content, parameters)
       # Extracting tav data
-      tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +((degré(s)?|°|%) *(de *|en *)?(d\'|de|en) *(alcool)|(de|en|du) *(tav(p)?|avp|t svp|t avait))'
+      tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) ((degré(s)?|°|%)|(de|en|d\')? *(tavp|tav|(t)? *avp|(t)? *svp|t avait|thé avait|thé à l\'épée|alcool|(entea|mta) *vp))'
       tav = content.match(tav_regex)
       unless parameters.key?('tav')
         if tav
@@ -336,7 +311,7 @@ module Duke
 
     def extract_temp(content, parameters)
       # Extracting temperature data
-      temp_regex = '(\d{1,2}|\d{1,2}\.\d{1,2}) +(degré|°)'
+      temp_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) +(degré|°)'
       temp = content.match(temp_regex)
       unless parameters.key?('temperature')
         if temp
@@ -369,8 +344,8 @@ module Duke
 
     def extract_nitrogen(content, parameters)
       # Extracting nitrogen data
-      nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par ml|\/ml|par millilitre)? ?+(d\'|de|en)? ?+(azote|sel d\'ammonium|substance(s)? azotée)'
-      second_nitrogen_regex = '((azote|sel d\'ammonium|substance azotée) *(est|était)? *(égal +|= ?|de +)?(à)? *)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
+      nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par ml|\/ml|par millilitre)? ?+(d\'|de|en)? ?+(azote *(assimilable)?|sel d\'ammonium|substance(s)? azotée)'
+      second_nitrogen_regex = '((azote *(assimilable)?|sel d\'ammonium|substance azotée) *(est|était)? *(égal +|= ?|de +)?(à)? *)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       nitrogen = content.match(nitrogen_regex)
       second_nitrogen = content.match(second_nitrogen_regex)
       if nitrogen
@@ -378,7 +353,7 @@ module Duke
         parameters['nitrogen'] = nitrogen[1].gsub(',','.') # nitrogen is the first capturing group
       elsif second_nitrogen
         content[second_nitrogen[0]] = ""
-        parameters['nitrogen'] = second_nitrogen[6].gsub(',','.') # nitrogen is the third capturing group
+        parameters['nitrogen'] = second_nitrogen[7].gsub(',','.') # nitrogen is the seventh capturing group
       else
         parameters['nitrogen'] = nil
       end
@@ -387,9 +362,24 @@ module Duke
 
     def extract_sanitarystate(content, parameters)
       # Extracting sanitary state data
+      sanitary_regex = '(état sanitaire) *(.*?)(destination|tav|\d{1,3} *(kg|hecto|kilo|hl|tonne)|cuve|degré|température|pourcentage|alcool|ph|péage|azote|acidité|malique|manuel|mécanique|hectare|$)'
+      sanitary_match = content.match(sanitary_regex)
       sanitarystate = ""
+      if sanitary_match
+        sanitarystate += sanitary_match[2]
+        content[sanitary_match[1]] = ""
+        content[sanitary_match[2]] = ""
+      end
       if content.include? "sain " || content.include?("sein")
         sanitarystate += "sain "
+      end
+      if content.include?("correct")
+        content["correct"] = ""
+        sanitarystate += "correct "
+      end
+      if content.include?("normal")
+        content["normal"] = ""
+        sanitarystate += "normal "
       end
       if content.include?("botrytis") || content.include?("beau titre is")
         sanitarystate += "botrytis "
@@ -443,61 +433,16 @@ module Duke
       return content, parameters
     end
 
-    def extract_operatoryMode(content, parameters)
-      # Extracting operatorymode data
-      if content.include?('manuel')
-        content['manuel'] = ""
-        parameters['operatorymode'] = "manuel"
-      elsif content.include?('mécanique')
-        content['mécanique'] == ""
-        parameters['operatorymode'] = "mecanique"
-      else
-        parameters['operatorymode'] = nil
-      end
-      return content, parameters
-    end
-
     def extract_pressing(content, parameters)
       # pressing values can only be added by clicking on a button, and are empty by default
       parameters['pressing'] = nil
       return content, parameters
     end
 
-    def extract_inputs(content, parameters)
-      # inputs values can only be added by clicking on a button, and are empty by default
-      parameters['so2'] = nil
-      parameters['co2'] = nil
+    def extract_complementary(content, parameters)
+      # pressing values can only be added by clicking on a button, and are empty by default
+      parameters['complementary'] = nil
       return content, parameters
-    end
-
-    def extract_SO2(content)
-      # Extracting TSO2 data
-      so2_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(g|gramme)?.?(par hl|\/hl|par hecto *(litre?))? ?+(d\'|de|en)? ?+(souffre|(t)?so2|dioxyde de souffre|anhydride sulfureux|sulfite|sulfate)'
-      second_so2_regex = '(souffre|(t)?so2|dioxyde de souffre|anhydride sulfureux|sulfite.?|sulfate.?) *(est|était)? *(égal +|= ?|de +|à +)?(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
-      so2 = content.match(so2_regex)
-      second_so2 = content.match(second_so2_regex)
-      if so2
-        return so2[1].gsub(',','.') # tso2 is the first capturing group
-      elsif second_so2
-        return second_so2[5].gsub(',','.') # tso2 is the third capturing group
-      else
-        return nil
-      end
-    end
-
-    def extract_co2(content)
-      # Extracting carbonic ice data
-      co2_regex = '(\d{1,3}|\d{1,3}\.\d{1,2}) +(kg|kilo(gramme)?)?.?(par hl|\/hl|par hecto *(litre?))? ?+(d\'|de|en)? ?+(glace carbonique|neige carbonique|glace sèche|co2)'
-      second_co2_regex = '(co2|neige carbonique|glace sèche|glace carbonique) *(est|était)? *(égal +|= ?|de +|à +)?(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
-      co2 = content.match(co2_regex)
-      second_co2 = content.match(second_co2_regex)
-      if co2
-        return co2[1].gsub(',','.') # co2 is the first capturing group
-      elsif second_co2
-        return second_co2[4].gsub(',','.') # co2 is the third capturing group
-      else
-        return nil
-      end
     end
 
     def extract_plant_area(content, targets, crop_groups)
@@ -587,9 +532,8 @@ module Duke
       content, parameters = extract_sanitarystate(content, parameters)
       content, parameters = extract_malic(content, parameters)
       content, parameters = extrat_h2SO4(content, parameters)
-      content, parameters = extract_operatoryMode(content, parameters)
       content, parameters = extract_pressing(content, parameters)
-      content, parameters = extract_inputs(content, parameters)
+      content, parameters = extract_complementary(content, parameters)
       return content, parameters
     end
 
@@ -660,7 +604,7 @@ module Duke
 
     def compare_elements(string1, string2, indexes, level, key, append_list, saved_hash, rec_list)
         # We check the fuzz distance between two elements, if it's greater than the min_matching_level or the current best distance, this is the new recordman
-        distance = @@fuzzloader.getDistance(string1.downcase, string2.downcase)
+        distance = @@fuzzloader.getDistance(string1, clear_string(string2))
         if distance > level
           return distance, { :key => key, :name => string2, :indexes => indexes , :distance => distance}, append_list
         end
@@ -708,51 +652,40 @@ module Duke
     def find_ambiguity(parsed, content)
       ambiguities = []
       parsed.each do |key, reco|
-        if key == :targets and !reco.empty?
-          reco.each do |aTarg|
+        if [:targets, :destination, :crop_groups].include?(key)
+          reco.each do |anItem|
             ambig = []
-            aTarg_name = content.split()[aTarg[:indexes][0]..aTarg[:indexes][-1]].join(" ")
-            Plant.availables(at: parsed[:intervention_date]).each do |plant|
-              if aTarg[:key] != plant[:id] and (aTarg[:distance] - @@fuzzloader.getDistance(plant[:name].downcase, aTarg_name.downcase)).between?(0,0.02)
-                ambig.push({"key" => plant[:id].to_s, "name" => plant[:name]})
+            anItem_name = content.split()[anItem[:indexes][0]..anItem[:indexes][-1]].join(" ")
+            if key == :targets
+              iterator = Plant.availables(at: parsed[:intervention_date])
+            elsif key == :destination
+              iterator = Matter.availables(at: parsed[:intervention_date]).where("variety='tank'")
+            elsif key == :crop_groups
+              iterator = CropGroup.all.where("target = 'plant'")
+            end
+            iterator.each do |product|
+              if anItem[:key] != product[:id] and (anItem[:distance] - @@fuzzloader.getDistance(clear_string(product[:name]), clear_string(anItem_name))).between?(0,0.02)
+                ambig.push({"key" => product[:id].to_s, "name" => product[:name]})
               end
             end
             unless ambig.empty?
-              ambig.push({"key" => aTarg[:key].to_s, "name" => aTarg[:name]})
-              ambiguities.push(ambig)
-            end
-          end
-        elsif key == :destination and !reco.empty?
-          reco.each do |aDest|
-            ambig = []
-            aDest_name = content.split()[aDest[:indexes][0]..aDest[:indexes][-1]].join(" ")
-            Matter.availables(at: parsed[:intervention_date]).where("variety='tank'").each do |tank|
-              if aDest[:key] != tank[:id] and (aDest[:distance] - @@fuzzloader.getDistance(tank[:name].downcase, aDest_name.downcase)).between?(0,0.02)
-                ambig.push({"key" => tank[:id].to_s, "name" => tank[:name]})
-              end
-            end
-            unless ambig.empty?
-              ambig.push({"key" => aDest[:key].to_s, "name" => aDest[:name]})
-              ambiguities.push(ambig)
-            end
-          end
-        elsif key == :crop_groups and !reco.empty?
-          reco.each do |aCG|
-            ambig = []
-            aCG_name = content.split()[aCG[:indexes][0]..aCG[:indexes][-1]].join(" ")
-            CropGroup.all.where("target = 'plant'").each do |cropg|
-              if aCG[:key] != cropg[:id] and (aCG[:distance] - @@fuzzloader.getDistance(cropg[:name].downcase, aCG_name.downcase)).between?(0,0.02)
-                ambig.push({"key" => cropg[:id].to_s, "name" => cropg[:name]})
-              end
-            end
-            unless ambig.empty?
-              ambig.push({"key" => aCG[:key].to_s, "name" => aCG[:name]})
-              ambiguities.push(ambig)
+              ambig.push({"key" => anItem[:key].to_s, "name" => anItem[:name]})
+              ambig.push({"key" => "inSentenceName", "name" => anItem_name})
+              # Only save ambiguities between max 7 elements
+              ambiguities.push(ambig.drop((ambig.length - 9 if ambig.length - 9 > 0 ) || 0))
             end
           end
         end
       end
       return ambiguities
+    end
+
+    def clear_string(fstr)
+      useless_dic = [/\bnum(e|é)ro\b/, /n ?°/, /\bà\b/, /\ble\b/, /\bla\b/, /\bau\b/, /\bsur\b/, /\bde\b/, /\bdu\b/, /#/]
+      useless_dic.each do |rgx|
+        fstr = fstr.gsub(rgx, "")
+      end
+      return fstr.gsub(/\s+/, " ").downcase
     end
 
     def key_duplicate?(list, saved_hash)

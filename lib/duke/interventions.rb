@@ -10,7 +10,8 @@ module Duke
         inputs = []
         crop_groups = []
         # Finding when it happened and how long it lasted, + getting cleaned user_input
-        duration, user_input = extract_duration_fr(params[:user_input].downcase)
+        user_input = clear_string(params[:user_input])
+        duration, user_input = extract_duration_fr(user_input)
         intervention_date, user_input = extract_date_fr(user_input)
         # Create all combos of 1 to 4 words from the inputs , with their indexes, to use for matching
         user_inputs_combos = self.create_words_combo(user_input)
@@ -45,7 +46,7 @@ module Duke
             matching_list = add_to_recognize_final(matching_element, matching_list, [equipments,workers,inputs,crop_groups], user_input)
           end
         end
-        add_input_rate(params[:user_input], inputs)
+        add_input_rate(user_input, inputs)
         parsed = {:inputs => inputs,
                   :workers => workers,
                   :equipments => equipments,
@@ -67,35 +68,35 @@ module Duke
         new_inputs = []
         new_crop_groups = []
         procedure = params[:parsed][:procedure]
-        # Loading FuzzyMatcher
-        user_inputs_combos = create_words_combo(params[:user_input].downcase)
+        user_input = clear_string(params[:user_input])
+        user_inputs_combos = create_words_combo(user_input)
         user_inputs_combos.each do |index, combo|
           # Define minimum matching level, initialize matching_element and recognized matching_list to None
           level = 0.90
           matching_element = nil
           matching_list = nil
           # Iterating through equipments
-          Worker.availables(at: intervention_date).each do |worker|
+          Worker.availables(at: params[:parsed][:intervention_date]).each do |worker|
             level, matching_element, matching_list = compare_elements(combo, worker[:name], index, level, worker[:id], new_workers, matching_element, matching_list)
             level, matching_element, matching_list = compare_elements(combo, worker[:name].split[0], index, level, worker[:id], new_workers, matching_element, matching_list)
           end
           unless Procedo::Procedure.find(procedure).parameters_of_type(:input).empty?
-            Matter.availables(at: intervention_date).where("nature_id=45").each do |input|
+            Matter.availables(at: params[:parsed][:intervention_date]).where("nature_id=45").each do |input|
               level, matching_element, matching_list = compare_elements(combo, input[:name], index, level, input[:id], new_inputs, matching_element, matching_list)
             end
           end
           CropGroup.all.each do |cropg|
             level, matching_element, matching_list = compare_elements(combo, cropg[:name], index, level, cropg[:id], new_crop_groups, matching_element, matching_list)
           end
-          Equipment.availables(at: intervention_date).each do |eq|
+          Equipment.availables(at: params[:parsed][:intervention_date]).each do |eq|
             level, matching_element, matching_list = compare_elements(combo, eq[:name], index, level, eq[:id], new_equipments, matching_element, matching_list)
           end
           # If we recognized something, and there's no interferences, we append it to the correct matching_list
           unless matching_element.nil?
-            add_to_recognize_final(matching_element, matching_list, [new_equipments,new_workers,new_inputs,new_crop_groups], params[:user_input].downcase)
+            add_to_recognize_final(matching_element, matching_list, [new_equipments,new_workers,new_inputs,new_crop_groups], user_input)
           end
         end
-        add_input_rate(params[:user_input], new_inputs)
+        add_input_rate(user_input, new_inputs)
         parsed = {:inputs => uniq_conc(new_inputs,params[:parsed][:inputs].to_a),
                   :workers => uniq_conc(new_workers,params[:parsed][:workers].to_a),
                   :equipments => uniq_conc(new_equipments,params[:parsed][:equipments].to_a),
