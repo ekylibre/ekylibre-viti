@@ -21,16 +21,16 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
-# == Table: incoming_harvest_plants
+# == Table: wine_incoming_harvest_storages
 #
 #
 
-class IncomingHarvestInput < Ekylibre::Record::Base
-  belongs_to :incoming_harvest
-  belongs_to :input, class_name: 'Product'
+class WineIncomingHarvestStorage < Ekylibre::Record::Base
+  belongs_to :wine_incoming_harvest
+  belongs_to :storage, class_name: 'Product'
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
   # ]VALIDATORS]
   # before link campaign depends on received_at
   composed_of :quantity, class_name: 'Measure', mapping: [%w[quantity_value to_d], %w[quantity_unit unit]]
-
+  refers_to :quantity_unit, class_name: 'Unit'
 end

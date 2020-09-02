@@ -3473,7 +3473,7 @@ imports:
   updater_id:
     type: integer
     references: user
-incoming_harvest_inputs:
+wine_incoming_harvest_inputs:
   created_at:
     type: datetime
     required: true
@@ -3483,9 +3483,9 @@ incoming_harvest_inputs:
   id:
     type: integer
     required: true
-  incoming_harvest_id:
+  wine_incoming_harvest_id:
     type: integer
-    references: incoming_harvest
+    references: wine_incoming_harvest
   input_id:
     type: integer
     references: product
@@ -3503,7 +3503,7 @@ incoming_harvest_inputs:
   updater_id:
     type: integer
     references: user
-incoming_harvest_plants:
+wine_incoming_harvest_plants:
   created_at:
     type: datetime
     required: true
@@ -3518,9 +3518,9 @@ incoming_harvest_plants:
   id:
     type: integer
     required: true
-  incoming_harvest_id:
+  wine_incoming_harvest_id:
     type: integer
-    references: incoming_harvest
+    references: wine_incoming_harvest
   plant_id:
     type: integer
     references: plant
@@ -3530,7 +3530,7 @@ incoming_harvest_plants:
   updater_id:
     type: integer
     references: user
-incoming_harvest_storages:
+wine_incoming_harvest_storages:
   created_at:
     type: datetime
     required: true
@@ -3540,9 +3540,9 @@ incoming_harvest_storages:
   id:
     type: integer
     required: true
-  incoming_harvest_id:
+  wine_incoming_harvest_id:
     type: integer
-    references: incoming_harvest
+    references: wine_incoming_harvest
   quantity_value:
     type: decimal
     precision: 19
@@ -3560,7 +3560,7 @@ incoming_harvest_storages:
   updater_id:
     type: integer
     references: user
-incoming_harvests:
+wine_incoming_harvests:
   additional_informations:
     type: jsonb
   analysis_id:

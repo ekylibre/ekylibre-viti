@@ -327,7 +327,7 @@ fra:
       new: "Nouvel import"
       run: "Exécuter l’import\_: %{name}"
       show: "Import\_: %{name}"
-    backend/incoming_harvests:
+    backend/wine_incoming_harvests:
       edit: "Modifier la réception de vendange\_: %{number}"
       index: "Réceptions de vendange"
       show: "Réception de vendange\_: %{number}"

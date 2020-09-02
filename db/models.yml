@@ -88,10 +88,10 @@
 - guide_analysis_point
 - identifier
 - import
-- incoming_harvest
-- incoming_harvest_input
-- incoming_harvest_plant
-- incoming_harvest_storage
+- wine_incoming_harvest
+- wine_incoming_harvest_input
+- wine_incoming_harvest_plant
+- wine_incoming_harvest_storage
 - incoming_payment
 - incoming_payment_mode
 - inspection

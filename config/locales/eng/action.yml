@@ -418,10 +418,10 @@ eng:
       run: "Run import"
       show: "Import: %{nature}"
       # template_file: "Template file import: %{name}"
-    backend/incoming_harvests:
-      edit: "Edit incoming harvest\_: %{number}"
-      index: "Incoming harvests"
-      show: "Incoming harvest\_: %{number}"
+    backend/wine_incoming_harvests:
+      edit: "Edit wine incoming harvest\_: %{number}"
+      index: "Wine incoming harvests"
+      show: "Wine incoming harvest\_: %{number}"
     backend/incoming_payment_modes:
       edit: "Edit incoming payment mode: %{name}"
       index: "Incoming payment modes"

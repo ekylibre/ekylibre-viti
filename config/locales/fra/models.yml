@@ -184,24 +184,6 @@ fra:
         commune: "Commune" #?
         land_parcel_id: "Réf. cadastrale id" #?
         state: "Etat" #?
-      incoming_harvest:
-        harvest_dock: "Quai de réception de la vendange"
-        harvest_nature: "Type de vendange"
-        harvest_transportation_duration: "Durée de transport"
-        last_load: "Dernier chargement"
-        pressing_schedule: "Programme de pressurage"
-        pressing_started_at: "Heure de démarrage du pressurage"
-        quantity_unit: "Unité"
-        quantity_value: "Quantité"
-        sedimentation_duration: "Temps de décantation"
-        ticket_number: "Ticket"
-        vehicle_trailer: "Id. du véhicule de transport"
-      incoming_harvest_plant:
-        harvest_percentage_received: "Superficie récoltée (%)"
-        net_harvest_area: "Superficie récoltée (ha)"
-        plant: "Culture"
-      incoming_harvest_storage:
-        storage: "Equipment"
       incoming_payment: #?
         to_bank_at: "À encaisser le" #?
       inspection: #?
@@ -419,6 +401,24 @@ fra:
         locked: "Compte verrouillé" #?
         maximal_grantable_reduction_percentage: "Taux de réduction autorisé (%)" #?
         name: "Nom d’utilisateur" #?
+      wine_incoming_harvest:
+        harvest_dock: "Quai de réception de la vendange"
+        harvest_nature: "Type de vendange"
+        harvest_transportation_duration: "Durée de transport"
+        last_load: "Dernier chargement"
+        pressing_schedule: "Programme de pressurage"
+        pressing_started_at: "Heure de démarrage du pressurage"
+        quantity_unit: "Unité"
+        quantity_value: "Quantité"
+        sedimentation_duration: "Temps de décantation"
+        ticket_number: "Ticket"
+        vehicle_trailer: "Id. du véhicule de transport"
+      wine_incoming_harvest_plant:
+        harvest_percentage_received: "Superficie récoltée (%)"
+        net_harvest_area: "Superficie récoltée (ha)"
+        plant: "Culture"
+      wine_incoming_harvest_storage:
+        storage: "Equipment"
       worker: #?
         variety: "Qualification" #?
     errors:

@@ -681,7 +681,7 @@ eng:
         entities: "Thirds"
         fixed_assets: "Fixed assets"
         gaps: "Gaps"
-        # incoming_harvests: "Incoming harvests"
+        # wine_incoming_harvests: "Wine incoming harvests"
         incoming_payments: "Incoming payments"
         inspections: "Inspections"
         interventions: "Interventions"

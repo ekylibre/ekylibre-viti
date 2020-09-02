@@ -21,12 +21,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
-# == Table: incoming_harvest_plants
+# == Table: wine_incoming_harvest_plants
 #
 #
 
-class IncomingHarvestPlant < Ekylibre::Record::Base
-  belongs_to :incoming_harvest
+class WineIncomingHarvestPlant < Ekylibre::Record::Base
+  belongs_to :wine_incoming_harvest
   belongs_to :plant, class_name: 'Plant'
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
   # ]VALIDATORS]

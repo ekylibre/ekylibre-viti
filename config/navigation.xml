@@ -971,15 +971,15 @@
         <page to="backend/equipments#list_trackings"/>
         <page to="backend/equipments#picture"/>
       </item>
-      <item name="incoming_harvests">
-        <page to="backend/incoming_harvests#index"/>
-        <page to="backend/incoming_harvests#create"/>
-        <page to="backend/incoming_harvests#destroy"/>
-        <page to="backend/incoming_harvests#edit"/>
-        <page to="backend/incoming_harvests#list"/>
-        <page to="backend/incoming_harvests#new"/>
-        <page to="backend/incoming_harvests#show"/>
-        <page to="backend/incoming_harvests#update"/>
+      <item name="wine_incoming_harvests">
+        <page to="backend/wine_incoming_harvests#index"/>
+        <page to="backend/wine_incoming_harvests#create"/>
+        <page to="backend/wine_incoming_harvests#destroy"/>
+        <page to="backend/wine_incoming_harvests#edit"/>
+        <page to="backend/wine_incoming_harvests#list"/>
+        <page to="backend/wine_incoming_harvests#new"/>
+        <page to="backend/wine_incoming_harvests#show"/>
+        <page to="backend/wine_incoming_harvests#update"/>
       </item>
     </group>
     <group name="quality" icon="beaker">

@@ -21,17 +21,17 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
-# == Table: incoming_harvests
+# == Table: wine_incoming_harvests
 #
 #
 
-class IncomingHarvest < Ekylibre::Record::Base
+class WineIncomingHarvest < Ekylibre::Record::Base
   include Attachable
   belongs_to :analysis, class_name: 'Analysis'
   belongs_to :campaign, class_name: 'Campaign'
-  has_many :inputs, class_name: 'IncomingHarvestInput', dependent: :destroy
-  has_many :plants, class_name: 'IncomingHarvestPlant', dependent: :destroy
-  has_many :storages, class_name: 'IncomingHarvestStorage', dependent: :destroy
+  has_many :inputs, class_name: 'WineIncomingHarvestInput', dependent: :destroy
+  has_many :plants, class_name: 'WineIncomingHarvestPlant', dependent: :destroy
+  has_many :storages, class_name: 'WineIncomingHarvestStorage', dependent: :destroy
   # [VALIDATORS[ Do not edit these lines directly. Use `rake clean:validations`.
   validates :received_at, timeliness: { on_or_after: -> { Time.new(1, 1, 1).in_time_zone }, on_or_before: -> { Time.zone.now + 50.years } }, allow_blank: true
   validates :ticket_number, :number, length: { maximum: 500 }, allow_blank: true

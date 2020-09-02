@@ -133,24 +133,6 @@ eng:
       fixed_asset_depreciation:
         accounted: "Accounted"
         asset_amount: "Accountable value"
-      incoming_harvest:
-        harvest_dock: "Harvest dock"
-        harvest_nature: "Harvest nature"
-        harvest_transportation_duration: "Harvest transportation duration"
-        last_load: "Last load"
-        pressing_schedule: "Pressing schedule"
-        pressing_started_at: "Pressing started at"
-        quantity_unit: "Unit"
-        quantity_value: "Quantity"
-        sedimentation_duration: "Sedimentation duration"
-        ticket_number: "Ticket"
-        vehicle_trailer: "Vehicle trailer"
-      incoming_harvest_plant:
-        harvest_percentage_received: "Area harvested (%)"
-        net_harvest_area: "Area harvested (ha)"
-        plant: "Plant"
-      incoming_harvest_storage:
-        storage: "Equipment"
       intervention_working_period:
         started_at:
           one: "Started at is inferior than expected"
@@ -268,6 +250,24 @@ eng:
         deductible: "Deductible"
         fixed_asset_deductible: "Deductible on assets"
         intracommunity_payable: "Intracommunity payable"
+      wine_incoming_harvest:
+        harvest_dock: "Harvest dock"
+        harvest_nature: "Harvest nature"
+        harvest_transportation_duration: "Harvest transportation duration"
+        last_load: "Last load"
+        pressing_schedule: "Pressing schedule"
+        pressing_started_at: "Pressing started at"
+        quantity_unit: "Unit"
+        quantity_value: "Quantity"
+        sedimentation_duration: "Sedimentation duration"
+        ticket_number: "Ticket"
+        vehicle_trailer: "Vehicle trailer"
+      wine_incoming_harvest_plant:
+        harvest_percentage_received: "Area harvested (%)"
+        net_harvest_area: "Area harvested (ha)"
+        plant: "Plant"
+      wine_incoming_harvest_storage:
+        storage: "Equipment"
     errors:
       messages:
         <<: *error_messages
