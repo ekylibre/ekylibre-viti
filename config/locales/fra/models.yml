@@ -411,6 +411,7 @@ fra:
         quantity_unit: "Unité"
         quantity_value: "Quantité"
         sedimentation_duration: "Temps de décantation"
+        tavp: 'TAVP vendange'
         ticket_number: "Ticket"
         vehicle_trailer: "Id. du véhicule de transport"
       wine_incoming_harvest_plant:
@@ -418,7 +419,7 @@ fra:
         net_harvest_area: "Superficie récoltée (ha)"
         plant: "Culture"
       wine_incoming_harvest_storage:
-        storage: "Equipment"
+        storage: "Équipement"
       worker: #?
         variety: "Qualification" #?
     errors:
@@ -895,6 +896,7 @@ fra:
       vegetal_activity: "Activité végétale" #?
       version: "Version"
       wice_grid_serialized_query: "Requête de tableau en série" #?
+      wine_incoming_harvest: "Réception de vendange"
       worker: "Équipier"
       zone: "Zone"
   attributes:

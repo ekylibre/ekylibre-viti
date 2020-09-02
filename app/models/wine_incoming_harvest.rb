@@ -51,4 +51,13 @@ class WineIncomingHarvest < Ekylibre::Record::Base
   before_validation do
     self.campaign = Campaign.on(received_at)
   end
+
+  after_destroy do
+    analysis.reload
+    analysis.destroy!
+  end
+
+  def tavp
+    analysis&.items&.find_by(indicator_name: :estimated_harvest_alcoholic_volumetric_concentration)&.value&.round_l
+  end
 end

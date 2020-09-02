@@ -29,15 +29,15 @@ class SequenceManager
 
   def unique_predictable
     value = next_number
-    used_values = @managed.pluck(@column).to_set
-    value = value.succ while used_values.include? value
+    # used_values = @managed.pluck(@column).to_set
+    # value = value.succ while used_values.include? value
     value
   end
 
   def unique_reliable
     value = sequence.next_value!
-    used_values = @managed.pluck(@column).to_set
-    value = sequence.next_value! while used_values.include? value
+    # used_values = @managed.pluck(@column).to_set
+    # value = sequence.next_value! while used_values.include? value
     value
   end
 

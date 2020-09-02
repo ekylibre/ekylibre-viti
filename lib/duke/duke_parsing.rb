@@ -561,9 +561,9 @@ module Duke
       if unit == "hl"
         return sprintf('%.3f', value.to_f)
       elsif unit == "kg"
-        return sprintf('%.3f', value.to_f/160)
+        return sprintf('%.3f', value.to_f/130)
       else
-        return sprintf('%.3f', value.to_f/0.160)
+        return sprintf('%.3f', value.to_f/0.130)
       end
     end
 

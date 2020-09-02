@@ -260,6 +260,7 @@ eng:
         quantity_unit: "Unit"
         quantity_value: "Quantity"
         sedimentation_duration: "Sedimentation duration"
+        tavp: 'TAVP'
         ticket_number: "Ticket"
         vehicle_trailer: "Vehicle trailer"
       wine_incoming_harvest_plant:
@@ -543,6 +544,7 @@ eng:
       # variants/zone_variant: "Variants/zone variant"
       version: "Version"
       # wice_grid_serialized_query: "Wice grid serialized query"
+      wine_incoming_harvest: "Wine incoming harvest"
       worker: "Worker"
       zone: "Zone"
   attributes:

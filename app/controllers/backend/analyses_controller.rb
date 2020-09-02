@@ -47,7 +47,7 @@ module Backend
 
     list(conditions: analyses_conditions) do |t|
       t.action :edit
-      t.action :destroy
+      t.action :destroy, if: :destroyable?
       t.column :number, url: true
       t.column :reference_number, url: true
       t.column :nature
