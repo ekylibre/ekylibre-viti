@@ -66,3 +66,5 @@
             = link_to(destroy_user_session_path, :method => :delete, class: :signout) do
               %i
               = Authentication::SessionsController.human_action_name(:destroy)
+  %duke{data: {current_account: current_user.email, current_language: current_user.language, current_tenant: Ekylibre::Tenant.current, watson_region: WATSON_REGION,
+               watson_integration: WATSON_INTEGRATION_ID , watson_service: WATSON_SERVICE_INSTANCE_ID } }

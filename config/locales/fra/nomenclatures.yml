@@ -744,6 +744,13 @@ fra:
         tomato_crops: "Tomates" #?
         tool_maintaining: "Maintenance"
         vine_farming: "Production viticole"
+        triticale_crops: "Triticale" #?
+        turnip_crops: "Navets" #?
+        vetch_crops: "Vesce" #?
+        vine_wine: "Vignes & vin" #?
+        vines: "Vignes" #?
+        walnut_orchards: "Noyers" #?
+        watermelon_crops: "Pastèques" #?
         wine_making: "Vinification"
         works: "Travaux" #?
       name: "Familles d’activité"
@@ -905,6 +912,7 @@ fra:
         silage_analysis: "Analyse d’ensilage"
         soil_analysis: "Analyse de sol"
         unitary_cow_milk_analysis: "Analyse d’un contrôle laitier"
+        vine_harvesting_analysis: "Analyse de vendange"
         water_analysis: "Analyse d’eau"
       name: "Types d’analyses"
       property_natures:
@@ -2358,10 +2366,13 @@ fra:
           period: "Périodique"
       items:
         aluminium_concentration: "Teneur en aluminium"
+        amino_nitrogen_concentration: "Teneur en azote aminée"
+        ammoniacal_nitrogen_concentration: "Teneur en azote ammoniacal"
         animal_life_state: "Phase du bioprocessus de vie d’un animal"
         application_width: "Largeur de travail"
         approved_input_dose: "Dose autorisée"
         approved_input_volume: "Dose autorisée"
+        assimilated_nitrogen_concentration: "Teneur en azote assimilable"
         atmospheric_pressure: "Pression atmosphérique"
         available_water_capacity_per_area: "Réserve utile d’eau (RU)"
         average_atmospheric_pressure: "Pression atmosphérique moyenne"
@@ -2402,6 +2413,8 @@ fra:
         energy: "Énergie"
         entry_date: "Date d'entrée"
         entry_reason: "Motif d'entrée"
+        estimated_harvest_alcoholic_volumetric_concentration: "TAVP vendange"
+        estimated_pressed_harvest_alcoholic_volumetric_concentration: "TAVP jus de presse"
         exit_date: "Date de sortie"
         exit_reason: "Motif de sortie"
         fat_matter_concentration_index: "Taux butyreux (TB)"
@@ -2440,6 +2453,7 @@ fra:
         lipolysis: "Lipolyse"
         livestock_unit: "Unité de gros bétail (UGB)"
         magnesium_concentration: "Teneur en magnésium"
+        malic_acid_concentration: "Teneur en acide malique"
         mammalia_birth_condition: "Condition de mise bas"
         mammalia_birth_count: "Cycle de naissance"
         mammalia_reproduction_event_abortion: "Avortement"
@@ -2475,6 +2489,7 @@ fra:
         mother_identification_number: "Numéro d'identification de la mère"
         mother_race_code: "Code de la race de la mère"
         motor_power: "Puissance du moteur"
+        must_tasting: "Dégustation des moûts"
         net_length: "Longueur nette"
         net_mass: "Masse nette"
         net_surface_area: "Surface nette"
@@ -2513,6 +2528,7 @@ fra:
         rows_count: "Nombre de rangs"
         rows_interval: "Intervalle inter-rangs"
         rows_orientation: "Orientation des rangs"
+        sanitary_vine_harvesting_state: "Etat sanitaire de la vendange"
         seedling_area_density: "Plants par surface"
         seedling_count: "Nombre de plants"
         sex: "Sexe"
@@ -2537,6 +2553,7 @@ fra:
         theoretical_working_speed: "Vitesse de travail théorique"
         thousand_grains_mass: "Poids de mille grains"
         tiller_count: "Nombre de talles"
+        total_acid_concentration: "Acidité totale"
         total_bacteria_concentration: "Dénombrement des germes totaux"
         unique_synthesis_index: "Index de synthèse unique (ISU)"
         untreated_zone_length: "Zone Non Traitée (ZNT)"
