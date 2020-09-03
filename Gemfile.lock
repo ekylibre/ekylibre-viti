@@ -1,7 +1,6 @@
 GIT
   remote: git@gitlab.com:ekylibre-integration/ekylibre_ekyviti.git
   revision: 1cc81f8438c89bb9a472ac1176d91e4f9a534242
-  branch: feature/vine-harvest
   specs:
     ekylibre_ekyviti (0.0.1)
       capistrano-git-with-submodules (~> 2.0)

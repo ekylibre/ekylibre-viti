@@ -1,3 +1,4 @@
-gem 'ekylibre_ekyviti', git: 'git@gitlab.com:ekylibre-integration/ekylibre_ekyviti.git', branch: 'feature/vine-harvest'
+# gem 'ekylibre_ekyviti', git: 'git@gitlab.com:ekylibre-integration/ekylibre_ekyviti.git', branch: 'feature/vine-harvest'
+gem 'ekylibre_ekyviti', git: 'git@gitlab.com:ekylibre-integration/ekylibre_ekyviti.git'
 #gem 'ekylibre_ekyviti', path: '../ekylibre_ekyviti'
 gem 'cartography', git: 'https://gitlab.com/ekylibre/cartography.git', branch: 'ekyviti'
