@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.14
--- Dumped by pg_dump version 11.4 (Ubuntu 11.4-1.pgdg18.10+1)
+-- Dumped from database version 9.6.18
+-- Dumped by pg_dump version 12.3 (Ubuntu 12.3-1.pgdg18.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -252,8 +252,6 @@ $$;
 
 
 SET default_tablespace = '';
-
-SET default_with_oids = false;
 
 --
 -- Name: master_vine_varieties; Type: TABLE; Schema: lexicon; Owner: -
@@ -1216,11 +1214,11 @@ CREATE TABLE public.intervention_parameters (
     usage_id character varying,
     allowed_entry_factor interval,
     allowed_harvest_factor interval,
-    specie_variety jsonb DEFAULT '{}'::jsonb,
     imputation_ratio numeric(19,4),
     reference_data jsonb DEFAULT '{}'::jsonb,
     using_live_data boolean DEFAULT true,
-    applications_frequency interval
+    applications_frequency interval,
+    specie_variety jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -4703,158 +4701,6 @@ ALTER SEQUENCE public.imports_id_seq OWNED BY public.imports.id;
 
 
 --
--- Name: incoming_harvest_inputs; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.incoming_harvest_inputs (
-    id integer NOT NULL,
-    incoming_harvest_id integer NOT NULL,
-    input_id integer NOT NULL,
-    quantity_value numeric(19,4) NOT NULL,
-    quantity_unit character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    creator_id integer,
-    updater_id integer,
-    lock_version integer DEFAULT 0 NOT NULL
-);
-
-
---
--- Name: incoming_harvest_inputs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.incoming_harvest_inputs_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: incoming_harvest_inputs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.incoming_harvest_inputs_id_seq OWNED BY public.incoming_harvest_inputs.id;
-
-
---
--- Name: incoming_harvest_plants; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.incoming_harvest_plants (
-    id integer NOT NULL,
-    incoming_harvest_id integer NOT NULL,
-    plant_id integer NOT NULL,
-    harvest_percentage_received numeric(19,4) NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    creator_id integer,
-    updater_id integer,
-    lock_version integer DEFAULT 0 NOT NULL
-);
-
-
---
--- Name: incoming_harvest_plants_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.incoming_harvest_plants_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: incoming_harvest_plants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.incoming_harvest_plants_id_seq OWNED BY public.incoming_harvest_plants.id;
-
-
---
--- Name: incoming_harvest_storages; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.incoming_harvest_storages (
-    id integer NOT NULL,
-    incoming_harvest_id integer NOT NULL,
-    storage_id integer NOT NULL,
-    quantity_value numeric(19,4) NOT NULL,
-    quantity_unit character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    creator_id integer,
-    updater_id integer,
-    lock_version integer DEFAULT 0 NOT NULL
-);
-
-
---
--- Name: incoming_harvest_storages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.incoming_harvest_storages_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: incoming_harvest_storages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.incoming_harvest_storages_id_seq OWNED BY public.incoming_harvest_storages.id;
-
-
---
--- Name: incoming_harvests; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.incoming_harvests (
-    id integer NOT NULL,
-    number character varying,
-    ticket_number character varying,
-    description text,
-    campaign_id integer NOT NULL,
-    analysis_id integer,
-    received_at timestamp without time zone NOT NULL,
-    quantity_value numeric(19,4) NOT NULL,
-    quantity_unit character varying NOT NULL,
-    additional_informations jsonb DEFAULT '{}'::jsonb,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    creator_id integer,
-    updater_id integer,
-    lock_version integer DEFAULT 0 NOT NULL
-);
-
-
---
--- Name: incoming_harvests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.incoming_harvests_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: incoming_harvests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.incoming_harvests_id_seq OWNED BY public.incoming_harvests.id;
-
-
---
 -- Name: incoming_payment_modes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -5483,11 +5329,11 @@ CREATE TABLE public.journal_entries (
     real_balance numeric(19,4) DEFAULT 0.0 NOT NULL,
     resource_prism character varying,
     financial_year_exchange_id integer,
+    reference_number character varying,
     continuous_number integer,
     validated_at timestamp without time zone,
-    reference_number character varying,
-    providers jsonb,
-    provider jsonb
+    provider jsonb,
+    providers jsonb
 );
 
 
@@ -9379,34 +9225,6 @@ ALTER TABLE ONLY public.imports ALTER COLUMN id SET DEFAULT nextval('public.impo
 
 
 --
--- Name: incoming_harvest_inputs id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.incoming_harvest_inputs ALTER COLUMN id SET DEFAULT nextval('public.incoming_harvest_inputs_id_seq'::regclass);
-
-
---
--- Name: incoming_harvest_plants id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.incoming_harvest_plants ALTER COLUMN id SET DEFAULT nextval('public.incoming_harvest_plants_id_seq'::regclass);
-
-
---
--- Name: incoming_harvest_storages id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.incoming_harvest_storages ALTER COLUMN id SET DEFAULT nextval('public.incoming_harvest_storages_id_seq'::regclass);
-
-
---
--- Name: incoming_harvests id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.incoming_harvests ALTER COLUMN id SET DEFAULT nextval('public.incoming_harvests_id_seq'::regclass);
-
-
---
 -- Name: incoming_payment_modes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -10961,38 +10779,6 @@ ALTER TABLE ONLY public.identifiers
 
 ALTER TABLE ONLY public.imports
     ADD CONSTRAINT imports_pkey PRIMARY KEY (id);
-
-
---
--- Name: incoming_harvest_inputs incoming_harvest_inputs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.incoming_harvest_inputs
-    ADD CONSTRAINT incoming_harvest_inputs_pkey PRIMARY KEY (id);
-
-
---
--- Name: incoming_harvest_plants incoming_harvest_plants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.incoming_harvest_plants
-    ADD CONSTRAINT incoming_harvest_plants_pkey PRIMARY KEY (id);
-
-
---
--- Name: incoming_harvest_storages incoming_harvest_storages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.incoming_harvest_storages
-    ADD CONSTRAINT incoming_harvest_storages_pkey PRIMARY KEY (id);
-
-
---
--- Name: incoming_harvests incoming_harvests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.incoming_harvests
-    ADD CONSTRAINT incoming_harvests_pkey PRIMARY KEY (id);
 
 
 --
@@ -15397,188 +15183,6 @@ CREATE INDEX index_imports_on_updated_at ON public.imports USING btree (updated_
 --
 
 CREATE INDEX index_imports_on_updater_id ON public.imports USING btree (updater_id);
-
-
---
--- Name: index_incoming_harvest_inputs_on_created_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_inputs_on_created_at ON public.incoming_harvest_inputs USING btree (created_at);
-
-
---
--- Name: index_incoming_harvest_inputs_on_creator_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_inputs_on_creator_id ON public.incoming_harvest_inputs USING btree (creator_id);
-
-
---
--- Name: index_incoming_harvest_inputs_on_incoming_harvest_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_inputs_on_incoming_harvest_id ON public.incoming_harvest_inputs USING btree (incoming_harvest_id);
-
-
---
--- Name: index_incoming_harvest_inputs_on_input_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_inputs_on_input_id ON public.incoming_harvest_inputs USING btree (input_id);
-
-
---
--- Name: index_incoming_harvest_inputs_on_updated_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_inputs_on_updated_at ON public.incoming_harvest_inputs USING btree (updated_at);
-
-
---
--- Name: index_incoming_harvest_inputs_on_updater_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_inputs_on_updater_id ON public.incoming_harvest_inputs USING btree (updater_id);
-
-
---
--- Name: index_incoming_harvest_plants_on_created_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_plants_on_created_at ON public.incoming_harvest_plants USING btree (created_at);
-
-
---
--- Name: index_incoming_harvest_plants_on_creator_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_plants_on_creator_id ON public.incoming_harvest_plants USING btree (creator_id);
-
-
---
--- Name: index_incoming_harvest_plants_on_incoming_harvest_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_plants_on_incoming_harvest_id ON public.incoming_harvest_plants USING btree (incoming_harvest_id);
-
-
---
--- Name: index_incoming_harvest_plants_on_plant_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_plants_on_plant_id ON public.incoming_harvest_plants USING btree (plant_id);
-
-
---
--- Name: index_incoming_harvest_plants_on_updated_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_plants_on_updated_at ON public.incoming_harvest_plants USING btree (updated_at);
-
-
---
--- Name: index_incoming_harvest_plants_on_updater_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_plants_on_updater_id ON public.incoming_harvest_plants USING btree (updater_id);
-
-
---
--- Name: index_incoming_harvest_storages_on_created_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_storages_on_created_at ON public.incoming_harvest_storages USING btree (created_at);
-
-
---
--- Name: index_incoming_harvest_storages_on_creator_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_storages_on_creator_id ON public.incoming_harvest_storages USING btree (creator_id);
-
-
---
--- Name: index_incoming_harvest_storages_on_incoming_harvest_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_storages_on_incoming_harvest_id ON public.incoming_harvest_storages USING btree (incoming_harvest_id);
-
-
---
--- Name: index_incoming_harvest_storages_on_storage_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_storages_on_storage_id ON public.incoming_harvest_storages USING btree (storage_id);
-
-
---
--- Name: index_incoming_harvest_storages_on_updated_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_storages_on_updated_at ON public.incoming_harvest_storages USING btree (updated_at);
-
-
---
--- Name: index_incoming_harvest_storages_on_updater_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvest_storages_on_updater_id ON public.incoming_harvest_storages USING btree (updater_id);
-
-
---
--- Name: index_incoming_harvests_on_analysis_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvests_on_analysis_id ON public.incoming_harvests USING btree (analysis_id);
-
-
---
--- Name: index_incoming_harvests_on_campaign_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvests_on_campaign_id ON public.incoming_harvests USING btree (campaign_id);
-
-
---
--- Name: index_incoming_harvests_on_created_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvests_on_created_at ON public.incoming_harvests USING btree (created_at);
-
-
---
--- Name: index_incoming_harvests_on_creator_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvests_on_creator_id ON public.incoming_harvests USING btree (creator_id);
-
-
---
--- Name: index_incoming_harvests_on_number; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvests_on_number ON public.incoming_harvests USING btree (number);
-
-
---
--- Name: index_incoming_harvests_on_ticket_number; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvests_on_ticket_number ON public.incoming_harvests USING btree (ticket_number);
-
-
---
--- Name: index_incoming_harvests_on_updated_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvests_on_updated_at ON public.incoming_harvests USING btree (updated_at);
-
-
---
--- Name: index_incoming_harvests_on_updater_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_incoming_harvests_on_updater_id ON public.incoming_harvests USING btree (updater_id);
 
 
 --
@@ -21219,17 +20823,17 @@ CREATE RULE delete_product_populations AS
 
 
 --
--- Name: registered_hydro_items deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+-- Name: cadastral_land_parcel_zones deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
 --
 
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_hydro_items FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.cadastral_land_parcel_zones FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
--- Name: registered_enterprises deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+-- Name: datasource_credits deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
 --
 
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_enterprises FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.datasource_credits FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
@@ -21240,17 +20844,17 @@ CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lex
 
 
 --
--- Name: phenological_stages deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+-- Name: intervention_model_items deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
 --
 
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.phenological_stages FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.intervention_model_items FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
--- Name: registered_crop_zones deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+-- Name: intervention_models deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
 --
 
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_crop_zones FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.intervention_models FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
@@ -21268,10 +20872,101 @@ CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lex
 
 
 --
--- Name: user_roles deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+-- Name: master_vine_varieties deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
 --
 
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.user_roles FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.master_vine_varieties FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: phenological_stages deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.phenological_stages FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_agroedi_codes deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_agroedi_codes FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_building_zones deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_building_zones FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_chart_of_accounts deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_chart_of_accounts FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_crop_zones deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_crop_zones FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_enterprises deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_enterprises FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_hydro_items deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_hydro_items FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_legal_positions deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_legal_positions FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_pfi_crops deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_crops FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_pfi_doses deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_doses FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_pfi_segments deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_segments FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_pfi_targets deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_targets FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: registered_pfi_treatment_types deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_treatment_types FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
@@ -21286,13 +20981,6 @@ CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lex
 --
 
 CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_phytosanitary_products FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_phytosanitary_usages deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_phytosanitary_usages FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
@@ -21317,129 +21005,10 @@ CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lex
 
 
 --
--- Name: master_vine_varieties deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+-- Name: registered_phytosanitary_usages deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
 --
 
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.master_vine_varieties FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_pfi_crops deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_crops FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_pfi_targets deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_targets FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_pfi_doses deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_doses FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_pfi_treatment_types deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_treatment_types FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_pfi_segments deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_pfi_segments FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: intervention_models deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.intervention_models FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: intervention_model_items deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.intervention_model_items FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: technical_workflow_sequences deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflow_sequences FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: technical_workflows deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflows FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: technical_workflow_procedures deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflow_procedures FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: technical_workflow_procedure_items deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflow_procedure_items FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_agroedi_codes deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_agroedi_codes FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_seeds deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_seeds FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_chart_of_accounts deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_chart_of_accounts FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_legal_positions deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_legal_positions FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: registered_building_zones deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_building_zones FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: cadastral_land_parcel_zones deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.cadastral_land_parcel_zones FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_phytosanitary_usages FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
@@ -21457,24 +21026,52 @@ CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lex
 
 
 --
+-- Name: registered_seeds deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.registered_seeds FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: technical_workflow_procedure_items deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflow_procedure_items FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: technical_workflow_procedures deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflow_procedures FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: technical_workflow_sequences deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflow_sequences FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: technical_workflows deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.technical_workflows FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: user_roles deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.user_roles FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
 -- Name: variant_categories deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
 --
 
 CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variant_categories FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: variant_natures deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variant_natures FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
-
-
---
--- Name: variants deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
---
-
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variants FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
@@ -21485,10 +21082,10 @@ CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lex
 
 
 --
--- Name: variant_units deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+-- Name: variant_natures deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
 --
 
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variant_units FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variant_natures FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
@@ -21499,10 +21096,17 @@ CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lex
 
 
 --
--- Name: datasource_credits deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+-- Name: variant_units deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
 --
 
-CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.datasource_credits FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variant_units FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
+
+
+--
+-- Name: variants deny_changes; Type: TRIGGER; Schema: lexicon; Owner: -
+--
+
+CREATE TRIGGER deny_changes BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON lexicon.variants FOR EACH STATEMENT EXECUTE PROCEDURE lexicon.deny_changes();
 
 
 --
@@ -22744,8 +22348,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190325145542');
 
 INSERT INTO schema_migrations (version) VALUES ('20190329164621');
 
-INSERT INTO schema_migrations (version) VALUES ('201904291110001');
-
 INSERT INTO schema_migrations (version) VALUES ('20190429111001');
 
 INSERT INTO schema_migrations (version) VALUES ('20190502082326');
@@ -22769,8 +22371,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190614123521');
 INSERT INTO schema_migrations (version) VALUES ('20190617200314');
 
 INSERT INTO schema_migrations (version) VALUES ('20190619021714');
-
-INSERT INTO schema_migrations (version) VALUES ('201906190217143');
 
 INSERT INTO schema_migrations (version) VALUES ('20190703060513');
 
@@ -22933,3 +22533,4 @@ INSERT INTO schema_migrations (version) VALUES ('20200622101923');
 INSERT INTO schema_migrations (version) VALUES ('20200730114601');
 
 INSERT INTO schema_migrations (version) VALUES ('20200902094919');
+
