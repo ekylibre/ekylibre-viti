@@ -300,7 +300,7 @@ module Duke
 
     def extract_conflicting_degrees(content, parameters)
       # Conflicts between TAV "degré" and temperature "degré", so we need to check first for explicit values
-      second_tav_regex = '(degré d\'alcool|alcool|degré|tavp|tav|avp|t svp|pourcentage|t avait) *(jus de presse)? *(est|était)? *(égal +(a *|à *)?|= *|de *|à *)?(\d{1,2}(\.|,)\d{1,2}|\d{1,2}) *(degré)?'
+      second_tav_regex = '(degré d\'alcool|alcool|degré|tavp|t avp2|tav|avp|t svp|pourcentage|t avait) *(jus de presse)? *(est|était)? *(égal +(a *|à *)?|= *|de *|à *)?(\d{1,2}(\.|,)\d{1,2}|\d{1,2}) *(degré)?'
       second_temp_regex = '(température|temp) *(est|était)? *(égal *|= *|de *|à *)?(\d{1,2}(\.|,)\d{1,2}|\d{1,2}) *(degré)?'
       tav = content.match(second_tav_regex)
       if tav
@@ -317,7 +317,7 @@ module Duke
 
     def extract_tav(content, parameters)
       # Extracting tav data
-      tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) ((degré(s)?|°|%)|(de|en|d\')? *(tavp|tav|(t)? *avp|(t)? *svp|t avait|thé avait|thé à l\'épée|alcool|(entea|mta) *vp))'
+      tav_regex = '(\d{1,2}|\d{1,2}(\.|,)\d{1,2}) ((degré(s)?|°|%)|(de|en|d\')? *(tavp|t avp|tav|(t)? *avp|(t)? *svp|t avait|thé avait|thé à l\'épée|alcool|(entea|mta) *vp))'
       tav = content.match(tav_regex)
       unless parameters.key?('tav')
         if tav
