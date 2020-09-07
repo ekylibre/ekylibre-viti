@@ -5,7 +5,6 @@ module Duke
       Ekylibre::Tenant.switch params['tenant'] do
         targets = []
         crop_groups = []
-        species = []
         destination = []
         # Finding when it happened and how long it lasted, + getting cleaned user_input
         user_input = clear_string(params[:user_input])
@@ -21,7 +20,6 @@ module Duke
           matching_list = nil
           # Iterating through varieties
           Plant.availables(at: intervention_date).each do |pl|
-            level, matching_element, matching_list = compare_elements(combo, pl['specie_variety']['specie_variety_name'], index, level, pl['specie_variety']['specie_variety_name'], species, matching_element, matching_list)
             level, matching_element, matching_list = compare_elements(combo, pl[:name], index, level, pl[:id], targets, matching_element, matching_list)
           end
           CropGroup.all.where("target = 'plant'").each do |cropg|
@@ -32,13 +30,12 @@ module Duke
           end
           # If we recognized something, we append it to the correct matching_list and we remove what matched from the user_input
           unless matching_element.nil?
-            matching_list = add_to_recognize_final(matching_element, matching_list, [targets, species, destination, crop_groups], user_input)
+            matching_list = add_to_recognize_final(matching_element, matching_list, [targets, destination, crop_groups], user_input)
           end
         end
         targets, crop_groups = extract_plant_area(user_input, targets, crop_groups)
         parsed = {:targets => targets,
                   :crop_groups => crop_groups,
-                  :species => species,
                   :destination => destination,
                   :parameters => parameters,
                   :intervention_date => intervention_date,
