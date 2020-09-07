@@ -269,7 +269,7 @@ module Duke
         return DateTime.new(now.year, now.month, now.day, 17, 0, 0), content
       elsif content.include? "midi"
         content["midi"] = ""
-        return DateTime.new(now.year, now.month, now.day, 13, 0, 0), content
+        return DateTime.new(now.year, now.month, now.day, 12, 0, 0), content
       elsif content.include? "soir"
         content["soir"] = ""
         return DateTime.new(now.year, now.month, now.day, 20, 0, 0), content
@@ -755,7 +755,7 @@ module Duke
                 # Only save ambiguities between max 7 elements
                 ambiguities.push(ambig.drop((ambig.length - 9 if ambig.length - 9 > 0 ) || 0))
               end
-            end 
+            end
           end
         end
       end

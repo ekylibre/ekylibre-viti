@@ -210,6 +210,7 @@ module Duke
       Ekylibre::Tenant.switch params['tenant'] do
         destination = []
         user_input = clear_string(params[:user_input])
+        user_input.gsub("que","cuve")
         user_inputs_combos = self.create_words_combo(user_input)
         # Iterate through all user's combo of words (with their indexes)
         user_inputs_combos.each do |index, combo|
