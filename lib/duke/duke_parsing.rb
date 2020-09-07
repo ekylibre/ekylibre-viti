@@ -491,7 +491,7 @@ module Duke
     end
 
     def extract_decantation_time(content)
-      decantation_regex = /((pendant|à|(temps de )*décantation (de)?|duran.) *)([5-9]|1[0-9]|2[03]) *(heure(s)?|h|:) *([0-5]?[0-9])?/
+      decantation_regex = /((pendant|(temps de )*décantation (de)?|duran.) *)([5-9]|1[0-9]|2[03]) *(heure(s)?|h|:) *([0-5]?[0-9])?/
       decantation = content.match(decantation_regex)
       decantation_time = 0
       if decantation
@@ -684,7 +684,7 @@ module Duke
 
     def compare_elements(string1, string2, indexes, level, key, append_list, saved_hash, rec_list)
         # We check the fuzz distance between two elements, if it's greater than the min_matching_level or the current best distance, this is the new recordman
-        # We only compare with item_part before "|" 
+        # We only compare with item_part before "|"
         item_to_match = clear_string(string2).split(" | ")[0]
         distance = @@fuzzloader.getDistance(string1, item_to_match)
         if distance > level
