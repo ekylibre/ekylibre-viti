@@ -684,7 +684,9 @@ module Duke
 
     def compare_elements(string1, string2, indexes, level, key, append_list, saved_hash, rec_list)
         # We check the fuzz distance between two elements, if it's greater than the min_matching_level or the current best distance, this is the new recordman
-        distance = @@fuzzloader.getDistance(string1, clear_string(string2))
+        # We only compare with item_part before "|" 
+        item_to_match = clear_string(string2).split(" | ")[0]
+        distance = @@fuzzloader.getDistance(string1, item_to_match)
         if distance > level
           return distance, { :key => key, :name => string2, :indexes => indexes , :distance => distance}, append_list
         end
