@@ -9,13 +9,6 @@ module Duke
       I18n.locale = :fra
       sentence = I18n.t("duke.interventions.save_intervention_#{rand(0...3)}")
       sentence += "<br>&#8226 Procédure : #{Procedo::Procedure.find(params[:procedure]).human_name}"
-      sentence += "<br>&#8226 Date : #{params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")}"
-      unless params[:workers].to_a.empty?
-        sentence += "<br>&#8226 Travailleurs : "
-        params[:workers].each do |worker|
-          sentence += "#{worker[:name]}, "
-        end
-      end
       unless params[:crop_groups].to_a.empty?
         sentence += "<br>&#8226 Groupements : "
         params[:crop_groups].each do |cg|
@@ -28,56 +21,75 @@ module Duke
           sentence += "#{eq[:name]}, "
         end
       end
+      unless params[:workers].to_a.empty?
+        sentence += "<br>&#8226 Travailleurs : "
+        params[:workers].each do |worker|
+          sentence += "#{worker[:name]}, "
+        end
+      end
       unless params[:inputs].to_a.empty?
         sentence += "<br>&#8226 Intrants : "
         params[:inputs].each do |input|
           sentence += "#{input[:input][:name]}, "
         end
       end
-      return sentence
+      sentence += "<br>&#8226 Date : #{params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")}"
+      return sentence.gsub(/, <br>&#8226/, "<br>&#8226")
     end
 
     def speak_harvest_reception(params)
       # Create validation sentence for HarvestReceptionSkill
       I18n.locale = :fra
       sentence = I18n.t("duke.harvest_reception.save_harvest_reception_#{rand(0...2)}")
-      unless params[:targets].to_a.empty?
-        sentence+= "<br>&#8226 Culture(s) : "
-        params[:targets].each do |target|
-          sentence += "#{target[:area].to_s}% #{target[:name]}, "
-        end
-      end
       unless params[:crop_groups].to_a.empty?
         sentence+= "<br>&#8226 Groupement(s) : "
         params[:crop_groups].each do |crop_group|
           sentence += "#{crop_group[:area].to_s}% #{crop_group[:name]}, "
         end
       end
+      unless params[:targets].to_a.empty?
+        sentence+= "<br>&#8226 Culture(s) : "
+        params[:targets].each do |target|
+          sentence += "#{target[:area].to_s}% #{target[:name]}, "
+        end
+      end
       sentence+= "<br>&#8226 Quantité : #{params[:parameters]['quantity']['rate'].to_s} #{params[:parameters]['quantity']['unit']}"
-      sentence+= "<br>&#8226 Date : #{params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")}"
+      sentence+= "<br>&#8226 TAVP : #{params[:parameters]['tav'].to_s} % vol"
       sentence+= "<br>&#8226 Destination : "
       params[:destination].each do |destination|
         sentence+= destination[:name]
         sentence+= " (#{destination[:quantity].to_s} hl), " if destination.key?('quantity')
       end
-      sentence+= "<br>&#8226 TAVP : #{params[:parameters]['tav'].to_s} % vol"
+      sentence+= "<br>&#8226 Date : #{params[:intervention_date].to_datetime.strftime("%d/%m/%Y - %H:%M")}"
       unless params[:parameters]['temperature'].nil?
         sentence+= "<br>&#8226 Température : #{params[:parameters]['temperature']} °C"
       end
-      unless params[:parameters]['h2so4'].nil?
-        sentence+= "<br>&#8226 H2SO4 : #{params[:parameters]['h2so4']} g/L"
-      end
-      unless params[:parameters]['malic'].nil?
-        sentence+= "<br>&#8226 Acide Malique : #{params[:parameters]['malic']} g/L"
+      unless params[:parameters]['sanitarystate'].nil?
+        sentence+= "<br>&#8226 État sanitaire spécifié"
       end
       unless params[:parameters]['ph'].nil?
         sentence+= "<br>&#8226 pH : #{params[:parameters]['ph']}"
       end
-      unless params[:parameters]['nitrogen'].nil?
-        sentence+= "<br>&#8226 Azote : #{params[:parameters]['nitrogen']} mg/mL"
+      unless params[:parameters]['h2so4'].nil?
+        sentence+= "<br>&#8226 Acidité totale : #{params[:parameters]['h2so4']} g H2SO4/L"
+      end
+      unless params[:parameters]['malic'].nil?
+        sentence+= "<br>&#8226 Acide Malique : #{params[:parameters]['malic']} g/L"
+      end
+      unless params[:parameters]['amino_nitrogen'].nil?
+        sentence+= "<br>&#8226 Azote aminée : #{params[:parameters]['amino_nitrogen']} mg/L"
+      end
+      unless params[:parameters]['ammoniacal_nitrogen'].nil?
+        sentence+= "<br>&#8226 Azote ammoniacal : #{params[:parameters]['ammoniacal_nitrogen']} mg/L"
+      end
+      unless params[:parameters]['assimilated_nitrogen'].nil?
+        sentence+= "<br>&#8226 Azote assimilé : #{params[:parameters]['assimilated_nitrogen']} mg/L"
       end
       unless params[:parameters]['pressing'].nil?
         sentence+= "<br>&#8226 Pressurage spécifié"
+      end
+      unless params[:parameters]['pressing_tavp'].nil?
+        sentence+= "<br>&#8226 TAVP jus de presse : #{params[:parameters]['pressing_tavp'].to_s} % vol "
       end
       unless params[:parameters]['complementary'].nil?
         if params[:parameters]['complementary'].key?('ComplementaryDecantation')
@@ -93,10 +105,13 @@ module Duke
           sentence+= "<br>&#8226 Quai de réception : #{params[:parameters]['complementary']['ComplementaryDock']}"
         end
         if params[:parameters]['complementary'].key?('ComplementaryNature')
-          sentence+= "<br>&#8226 Nature des vendanges : #{I18n.t('labels.'+params[:parameters]['complementary']['ComplementaryNature'])}"
+          sentence+= "<br>&#8226 Type de vendange : #{I18n.t('labels.'+params[:parameters]['complementary']['ComplementaryNature'])}"
+        end
+        if params[:parameters]['complementary'].key?('ComplementaryLastLoad')
+          sentence+= "<br>&#8226 Dernier chargement"
         end
       end
-      return sentence
+      return sentence.gsub(/, <br>&#8226/, "<br>&#8226")
     end
 
     def speak_destination_hl(params)
@@ -116,20 +131,23 @@ module Duke
       attributes =    {"0"=>{"_destroy"=>"false", "indicator_name"=>"estimated_harvest_alcoholic_volumetric_concentration", "measure_value_value"=> parsed[:parameters]['tav'], "measure_value_unit"=>"volume_percent"}}
       attributes[1] = {"_destroy"=>"false", "indicator_name"=>"potential_hydrogen", "decimal_value"=> parsed[:parameters]['ph'] } unless parsed[:parameters]['ph'].nil?
       attributes[2] = {"_destroy"=>"false", "indicator_name"=>"temperature", "measure_value_value"=> parsed[:parameters]['temperature'], "measure_value_unit"=>"celsius"} unless parsed[:parameters]['temperature'].nil?
-      attributes[3] = {"_destroy"=>"false", "indicator_name"=>"assimilated_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['nitrogen'], "measure_value_unit"=>"milligram_per_liter"} unless parsed[:parameters]['nitrogen'].nil?
-      attributes[4] = {"_destroy"=>"false", "indicator_name"=>"total_acid_concentration", "measure_value_value"=>parsed[:parameters]['h2so4'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['h2so4'].nil?
-      attributes[5] = {"_destroy"=>"false", "indicator_name"=>"malic_acid_concentration", "measure_value_value"=>parsed[:parameters]['malic'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['malic'].nil?
-      attributes[6] = {"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> parsed[:parameters]['sanitarystate']} unless parsed[:parameters]['sanitarystate'].nil?
+      attributes[3] = {"_destroy"=>"false", "indicator_name"=>"assimilated_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['assimilated_nitrogen'], "measure_value_unit"=>"milligram_per_liter"} unless parsed[:parameters]['assimilated_nitrogen'].nil?
+      attributes[4] = {"_destroy"=>"false", "indicator_name"=>"amino_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['amino_nitrogen'], "measure_value_unit"=>"milligram_per_liter"} unless parsed[:parameters]['amino_nitrogen'].nil?
+      attributes[5] = {"_destroy"=>"false", "indicator_name"=>"ammoniacal_nitrogen_concentration", "measure_value_value"=> parsed[:parameters]['ammoniacal_nitrogen'], "measure_value_unit"=>"milligram_per_liter"} unless parsed[:parameters]['ammoniacal_nitrogen'].nil?
+      attributes[6] = {"_destroy"=>"false", "indicator_name"=>"total_acid_concentration", "measure_value_value"=>parsed[:parameters]['h2so4'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['h2so4'].nil?
+      attributes[7] = {"_destroy"=>"false", "indicator_name"=>"malic_acid_concentration", "measure_value_value"=>parsed[:parameters]['malic'], "measure_value_unit"=>"gram_per_liter"} unless parsed[:parameters]['malic'].nil?
+      attributes[8] = {"_destroy"=>"false", "indicator_name"=>"sanitary_vine_harvesting_state", "string_value"=> parsed[:parameters]['sanitarystate']} unless parsed[:parameters]['sanitarystate'].nil?
+      attributes[9] = {"measure_value_unit" =>"volume_percent","indicator_name" => "estimated_pressed_harvest_alcoholic_volumetric_concentration", "measure_value_value" => parsed[:parameters]['pressing_tavp']} unless parsed[:parameters]['pressing_tavp'].nil?
       return attributes
     end
 
     def create_incoming_harvest_attr(dic, parsed)
       I18n.locale = :fra
-      if !parsed[:parameters]['pressing'].nil?
+      unless parsed[:parameters]['pressing'].nil?
         dic[:pressing_schedule] = parsed[:parameters]['pressing']['program']
-        dic[:pressing_started_at] = parsed[:parameters]['pressing']['hour']
+        dic[:pressing_started_at] = parsed[:parameters]['pressing']['hour'].to_datetime.strftime("%H:%M")
       end
-      if !parsed[:parameters]['complementary'].nil?
+      unless parsed[:parameters]['complementary'].nil?
         if parsed[:parameters]['complementary'].key?('ComplementaryDecantation')
           dic[:sedimentation_duration] = parsed[:parameters]['complementary']['ComplementaryDecantation'].delete("^0-9")
         end
@@ -144,6 +162,9 @@ module Duke
         end
         if parsed[:parameters]['complementary'].key?('ComplementaryNature')
           dic[:harvest_nature] = parsed[:parameters]['complementary']['ComplementaryNature']
+        end
+        if parsed[:parameters]['complementary'].key?('ComplementaryLastLoad')
+          dic[:last_load] = "true"
         end
       end
       return dic
@@ -279,12 +300,12 @@ module Duke
 
     def extract_conflicting_degrees(content, parameters)
       # Conflicts between TAV "degré" and temperature "degré", so we need to check first for explicit values
-      second_tav_regex = '(degré d\'alcool|alcool|degré|tavp|tav|avp|t svp|pourcentage|t avait) *(est|était)? *(égal +(a *|à *)?|= *|de *|à *)?(\d{1,2}(\.|,)\d{1,2}|\d{1,2}) *(degré)?'
+      second_tav_regex = '(degré d\'alcool|alcool|degré|tavp|tav|avp|t svp|pourcentage|t avait) *(jus de presse)? *(est|était)? *(égal +(a *|à *)?|= *|de *|à *)?(\d{1,2}(\.|,)\d{1,2}|\d{1,2}) *(degré)?'
       second_temp_regex = '(température|temp) *(est|était)? *(égal *|= *|de *|à *)?(\d{1,2}(\.|,)\d{1,2}|\d{1,2}) *(degré)?'
       tav = content.match(second_tav_regex)
       if tav
         content[tav[0]] = ""
-        parameters['tav'] = tav[5].gsub(',','.') # rate is the fifth capturing group
+        parameters['tav'] = tav[6].gsub(',','.') # rate is the fifth capturing group
       end
       temp = content.match(second_temp_regex)
       if temp
@@ -342,20 +363,56 @@ module Duke
       return content, parameters
     end
 
-    def extract_nitrogen(content, parameters)
+    def extract_amino_nitrogen(content, parameters)
       # Extracting nitrogen data
-      nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par ml|\/ml|par millilitre)? ?+(d\'|de|en)? ?+(azote *(assimilable)?|sel d\'ammonium|substance(s)? azotée)'
+      nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par l|\/l|par litre)? ?+(d\'|de|en)? *azote aminé'
+      second_nitrogen_regex = '(azote aminé *(est|était)? *(égal +|= ?|de +)?(à)? *)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
+      nitrogen = content.match(nitrogen_regex)
+      second_nitrogen = content.match(second_nitrogen_regex)
+      if nitrogen
+        content[nitrogen[0]] = ""
+        parameters['amino_nitrogen'] = nitrogen[1].gsub(',','.') # nitrogen is the first capturing group
+      elsif second_nitrogen
+        content[second_nitrogen[0]] = ""
+        parameters['amino_nitrogen'] = second_nitrogen[5].gsub(',','.') # nitrogen is the seventh capturing group
+      else
+        parameters['amino_nitrogen'] = nil
+      end
+      return content, parameters
+    end
+
+    def extract_ammoniacal_nitrogen(content, parameters)
+      # Extracting nitrogen data
+      nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par l|\/l|par litre)? ?+(d\'|de|en)? *azote ammonia'
+      second_nitrogen_regex = '(azote (ammoniacal|ammoniaque) *(est|était)? *(égal +|= ?|de +)?(à)? *)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
+      nitrogen = content.match(nitrogen_regex)
+      second_nitrogen = content.match(second_nitrogen_regex)
+      if nitrogen
+        content[nitrogen[0]] = ""
+        parameters['ammoniacal_nitrogen'] = nitrogen[1].gsub(',','.') # nitrogen is the first capturing group
+      elsif second_nitrogen
+        content[second_nitrogen[0]] = ""
+        parameters['ammoniacal_nitrogen'] = second_nitrogen[6].gsub(',','.') # nitrogen is the seventh capturing group
+      else
+        parameters['ammoniacal_nitrogen'] = nil
+      end
+      return content, parameters
+    end
+
+    def extract_assimilated_nitrogen(content, parameters)
+      # Extracting nitrogen data
+      nitrogen_regex = '(\d{1,3}|\d{1,3}(\.|,)\d{1,2}) +(mg|milligramme)?.?(par l|\/l|par litre)? ?+(d\'|de|en)? ?+(azote *(assimilable)?|sel d\'ammonium|substance(s)? azotée)'
       second_nitrogen_regex = '((azote *(assimilable)?|sel d\'ammonium|substance azotée) *(est|était)? *(égal +|= ?|de +)?(à)? *)(\d{1,3}(\.|,)\d{1,2}|\d{1,3})'
       nitrogen = content.match(nitrogen_regex)
       second_nitrogen = content.match(second_nitrogen_regex)
       if nitrogen
         content[nitrogen[0]] = ""
-        parameters['nitrogen'] = nitrogen[1].gsub(',','.') # nitrogen is the first capturing group
+        parameters['assimilated_nitrogen'] = nitrogen[1].gsub(',','.') # nitrogen is the first capturing group
       elsif second_nitrogen
         content[second_nitrogen[0]] = ""
-        parameters['nitrogen'] = second_nitrogen[7].gsub(',','.') # nitrogen is the seventh capturing group
+        parameters['assimilated_nitrogen'] = second_nitrogen[7].gsub(',','.') # nitrogen is the seventh capturing group
       else
-        parameters['nitrogen'] = nil
+        parameters['assimilated_nitrogen'] = nil
       end
       return content, parameters
     end
@@ -433,9 +490,29 @@ module Duke
       return content, parameters
     end
 
+    def extract_decantation_time(content)
+      decantation_regex = /((pendant|à|(temps de )*décantation (de)?|duran.) *)([5-9]|1[0-9]|2[03]) *(heure(s)?|h|:) *([0-5]?[0-9])?/
+      decantation = content.match(decantation_regex)
+      decantation_time = 0
+      if decantation
+        content[decantation[0]] = ""
+        decantation_time = decantation[5].to_i * 60
+        unless decantation[8].nil?
+          decantation_time += decantation[8].to_i
+        end
+      end
+      return decantation_time, content
+    end
+
     def extract_pressing(content, parameters)
       # pressing values can only be added by clicking on a button, and are empty by default
       parameters['pressing'] = nil
+      return content, parameters
+    end
+
+    def extract_pressing_tavp(content, parameters)
+      # pressing values can only be added by clicking on a button, and are empty by default
+      parameters['pressing_tavp'] = nil
       return content, parameters
     end
 
@@ -509,7 +586,7 @@ module Duke
       # For harvesing receptions, concatenate previous found parameters and new one given by the user
       final_parameters =  new_parameters.dup.map(&:dup).to_h
       new_parameters.each do |key, value|
-        if key == "quantiy"
+        if ['key','tav'].include?(key)
           final_parameters[key] = parameters[key]
         elsif value.nil?
           unless parameters[key].nil?
@@ -528,12 +605,15 @@ module Duke
       content, parameters = extract_tav(content, parameters)
       content, parameters = extract_temp(content, parameters)
       content, parameters = extract_ph(content, parameters)
-      content, parameters = extract_nitrogen(content, parameters)
+      content, parameters = extract_amino_nitrogen(content, parameters)
+      content, parameters = extract_ammoniacal_nitrogen(content, parameters)
+      content, parameters = extract_assimilated_nitrogen(content, parameters)
       content, parameters = extract_sanitarystate(content, parameters)
       content, parameters = extract_malic(content, parameters)
       content, parameters = extrat_h2SO4(content, parameters)
       content, parameters = extract_pressing(content, parameters)
       content, parameters = extract_complementary(content, parameters)
+      content, parameters = extract_pressing_tavp(content,parameters)
       return content, parameters
     end
 
@@ -681,7 +761,7 @@ module Duke
     end
 
     def clear_string(fstr)
-      useless_dic = [/\bnum(e|é)ro\b/, /n ?°/, /\bà\b/, /\ble\b/, /\bla\b/, /\bau\b/, /\bsur\b/, /\bde\b/, /\bdu\b/, /#/]
+      useless_dic = [/\bnum(e|é)ro\b/, /n ?°/, /(#|-|_|\/|\\)/]
       useless_dic.each do |rgx|
         fstr = fstr.gsub(rgx, "")
       end
