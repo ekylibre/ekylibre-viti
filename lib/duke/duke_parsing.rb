@@ -734,26 +734,28 @@ module Duke
       parsed.each do |key, reco|
         if [:targets, :destination, :crop_groups].include?(key)
           reco.each do |anItem|
-            ambig = []
-            anItem_name = content.split()[anItem[:indexes][0]..anItem[:indexes][-1]].join(" ")
-            if key == :targets
-              iterator = Plant.availables(at: parsed[:intervention_date])
-            elsif key == :destination
-              iterator = Matter.availables(at: parsed[:intervention_date]).where("variety='tank'")
-            elsif key == :crop_groups
-              iterator = CropGroup.all.where("target = 'plant'")
-            end
-            iterator.each do |product|
-              if anItem[:key] != product[:id] and (anItem[:distance] - @@fuzzloader.getDistance(clear_string(product[:name]), clear_string(anItem_name))).between?(0,0.02)
-                ambig.push({"key" => product[:id].to_s, "name" => product[:name]})
+            unless anItem[:distance] == 1
+              ambig = []
+              anItem_name = content.split()[anItem[:indexes][0]..anItem[:indexes][-1]].join(" ")
+              if key == :targets
+                iterator = Plant.availables(at: parsed[:intervention_date])
+              elsif key == :destination
+                iterator = Matter.availables(at: parsed[:intervention_date]).where("variety='tank'")
+              elsif key == :crop_groups
+                iterator = CropGroup.all.where("target = 'plant'")
               end
-            end
-            unless ambig.empty?
-              ambig.push({"key" => anItem[:key].to_s, "name" => anItem[:name]})
-              ambig.push({"key" => "inSentenceName", "name" => anItem_name})
-              # Only save ambiguities between max 7 elements
-              ambiguities.push(ambig.drop((ambig.length - 9 if ambig.length - 9 > 0 ) || 0))
-            end
+              iterator.each do |product|
+                if anItem[:key] != product[:id] and (anItem[:distance] - @@fuzzloader.getDistance(clear_string(product[:name]), clear_string(anItem_name))).between?(0,0.02)
+                  ambig.push({"key" => product[:id].to_s, "name" => product[:name]})
+                end
+              end
+              unless ambig.empty?
+                ambig.push({"key" => anItem[:key].to_s, "name" => anItem[:name]})
+                ambig.push({"key" => "inSentenceName", "name" => anItem_name})
+                # Only save ambiguities between max 7 elements
+                ambiguities.push(ambig.drop((ambig.length - 9 if ambig.length - 9 > 0 ) || 0))
+              end
+            end 
           end
         end
       end
