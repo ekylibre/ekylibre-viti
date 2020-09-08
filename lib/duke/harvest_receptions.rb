@@ -296,12 +296,17 @@ module Duke
     def handle_add_pressing(params)
       new_parameters = params[:parsed][:parameters]
       decantation_time, user_input = extract_decantation_time(clear_string(params[:user_input]))
-      pressing_date, user_input = extract_date_fr(user_input)
-      useless_pressing_words = [/d(é|e)but(er|é|e|a)*/, /commenc(er|é|e|a)/, /\b(à|a|dès|vers|démarr(é|er|e))\b/]
+      decantation_input = user_input.clone
+      pressing_date, user_input = extract_hour(user_input)
+      # If decant_user_input == user_input => we didn't find anything to provide the hour, so pressing date is nil
+      if decantation_input.gsub(/\s+/, "") == user_input.gsub(/\s+/, "")
+        pressing_date = nil
+      end
+      useless_pressing_words = [/d(e|é)marrage/, /d(é|e)but(er|é|e|a)*/, /commenc(er|é|e|a)/, /\b(à|a|dès|vers|démarr(é|er|e))\b/]
       useless_pressing_words.each do |word|
         user_input = user_input.gsub(word, "")
       end
-      new_parameters['pressing'] = {'hour' => pressing_date, 'program' => user_input}
+      new_parameters['pressing'] = {'hour' => pressing_date, 'program' => user_input.gsub(/\s+/, " ")}
       params[:parsed][:parameters] = new_parameters
       params[:parsed][:user_input] += " - (Pressurage) #{params[:user_input]}"
       unless decantation_time == 0
