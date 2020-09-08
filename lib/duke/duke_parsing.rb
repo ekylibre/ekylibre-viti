@@ -83,7 +83,7 @@ module Duke
         sentence+= "<br>&#8226 Azote ammoniacal : #{params[:parameters]['ammoniacal_nitrogen']} mg/L"
       end
       unless params[:parameters]['assimilated_nitrogen'].nil?
-        sentence+= "<br>&#8226 Azote assimilé : #{params[:parameters]['assimilated_nitrogen']} mg/L"
+        sentence+= "<br>&#8226 Azote assimilable : #{params[:parameters]['assimilated_nitrogen']} mg/L"
       end
       unless params[:parameters]['pressing'].nil?
         sentence+= "<br>&#8226 Pressurage spécifié"
@@ -258,7 +258,7 @@ module Duke
       # Extract hour from a string, returns a DateTime object with appropriate date
       # Default value is Time.now
       now = DateTime.now
-      time_regex = '\b([5-9]|1[0-9]|2[03]) *(h|heure(s)?|:) *([0-5]?[0-9])?\b'
+      time_regex = '\b(00|[0-9]|1[0-9]|2[03]) *(h|heure(s)?|:) *([0-5]?[0-9])?\b'
       time = content.match(time_regex)
       if time
         if !time[4].nil?
@@ -280,6 +280,9 @@ module Duke
       elsif content.include? "soir"
         content["soir"] = ""
         return DateTime.new(now.year, now.month, now.day, 20, 0, 0), content
+      elsif content.include? "minuit"
+        content["minuit"] = ""
+        return DateTime.new(now.year, now.month, now.day, 0, 0, 0), content
       else
         return DateTime.now, content
       end
