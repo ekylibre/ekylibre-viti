@@ -297,7 +297,7 @@ module Duke
       new_parameters = params[:parsed][:parameters]
       decantation_time, user_input = extract_decantation_time(clear_string(params[:user_input]))
       pressing_date, user_input = extract_date_fr(user_input)
-      useless_pressing_words = [/d(é|e)but(.)*/, /commenc(e|é|er|a)/, /\b(à|a|dès|vers|démarr(é|e|er))\b/]
+      useless_pressing_words = [/d(é|e)but(er|é|e|a)*/, /commenc(er|é|e|a)/, /\b(à|a|dès|vers|démarr(é|er|e))\b/]
       useless_pressing_words.each do |word|
         user_input = user_input.gsub(word, "")
       end

@@ -256,11 +256,16 @@ module Duke
       # Extract hour from a string, returns a DateTime object with appropriate date
       # Default value is Time.now
       now = DateTime.now
-      time_regex = '([5-9]|1[0-9]|2[03]) *(h|heure(s)?|:) *([0-5]?[0-9])'
+      time_regex = '([5-9]|1[0-9]|2[03]) *(h|heure(s)?|:) *([0-5]?[0-9])?'
       time = content.match(time_regex)
       if time
-        content[time[0]] = ""
-        return DateTime.new(now.year, now.month, now.day, time[1].to_i, time[4].to_i, 0), content
+        if !time[4].nil?
+          content[time[0]] = ""
+          return DateTime.new(now.year, now.month, now.day, time[1].to_i, time[4].to_i, 0), content
+        else
+          content[time[0]] = ""
+          return DateTime.new(now.year, now.month, now.day, time[1].to_i, 0, 0), content
+        end 
       elsif content.include? "matin"
         content["matin"] = ""
         return DateTime.new(now.year, now.month, now.day, 10, 0, 0), content
@@ -492,13 +497,21 @@ module Duke
 
     def extract_decantation_time(content)
       decantation_regex = /((pendant|(temps de )*décantation (de)?|duran.) *)([5-9]|1[0-9]|2[03]) *(heure(s)?|h|:) *([0-5]?[0-9])?/
+      second_decantation_regex = /([5-9]|1[0-9]|2[03]) *(heure(s)?|h|:) *([0-5]?[0-9])? *(de)? * décantation/
       decantation = content.match(decantation_regex)
+      second_decantation = content.match(second_decantation_regex)
       decantation_time = 0
       if decantation
         content[decantation[0]] = ""
         decantation_time = decantation[5].to_i * 60
         unless decantation[8].nil?
           decantation_time += decantation[8].to_i
+        end
+      elsif second_decantation
+        content[second_decantation[0]] = ""
+        decantation_time = second_decantation[1].to_i * 60
+        unless second_decantation[4].nil?
+          decantation_time += second_decantation[4].to_i
         end
       end
       return decantation_time, content
