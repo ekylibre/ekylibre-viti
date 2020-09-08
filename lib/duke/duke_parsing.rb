@@ -145,7 +145,9 @@ module Duke
       I18n.locale = :fra
       unless parsed[:parameters]['pressing'].nil?
         dic[:pressing_schedule] = parsed[:parameters]['pressing']['program']
-        dic[:pressing_started_at] = parsed[:parameters]['pressing']['hour'].to_datetime.strftime("%H:%M")
+        unless parsed[:parameters]['pressing']['hour'].nil?
+          dic[:pressing_started_at] = parsed[:parameters]['pressing']['hour'].to_datetime.strftime("%H:%M")
+        end
       end
       unless parsed[:parameters]['complementary'].nil?
         if parsed[:parameters]['complementary'].key?('ComplementaryDecantation')
@@ -256,7 +258,7 @@ module Duke
       # Extract hour from a string, returns a DateTime object with appropriate date
       # Default value is Time.now
       now = DateTime.now
-      time_regex = '([5-9]|1[0-9]|2[03]) *(h|heure(s)?|:) *([0-5]?[0-9])?'
+      time_regex = '\b([5-9]|1[0-9]|2[03]) *(h|heure(s)?|:) *([0-5]?[0-9])?\b'
       time = content.match(time_regex)
       if time
         if !time[4].nil?
