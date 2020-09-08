@@ -265,7 +265,7 @@ module Duke
         else
           content[time[0]] = ""
           return DateTime.new(now.year, now.month, now.day, time[1].to_i, 0, 0), content
-        end 
+        end
       elsif content.include? "matin"
         content["matin"] = ""
         return DateTime.new(now.year, now.month, now.day, 10, 0, 0), content
@@ -496,8 +496,8 @@ module Duke
     end
 
     def extract_decantation_time(content)
-      decantation_regex = /((pendant|(temps de )*décantation (de)?|duran.) *)([5-9]|1[0-9]|2[03]) *(heure(s)?|h|:) *([0-5]?[0-9])?/
-      second_decantation_regex = /([5-9]|1[0-9]|2[03]) *(heure(s)?|h|:) *([0-5]?[0-9])? *(de)? * décantation/
+      decantation_regex = /((pendant|(temps de )*décantation (de)?|duran.) *)(\d{1,3}) *(heure(s)?|h|:) *([0-5]?[0-9])?/
+      second_decantation_regex = /(\d{1,3}) *(heure(s)?|h|:) *([0-5]?[0-9])? *(de)? * décantation/
       decantation = content.match(decantation_regex)
       second_decantation = content.match(second_decantation_regex)
       decantation_time = 0
