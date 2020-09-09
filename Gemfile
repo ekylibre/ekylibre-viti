@@ -214,6 +214,9 @@ gem 'twitter-typeahead-rails'
 # Iconic font
 gem 'agric', '~> 4.1'
 
+# Duke String Matching
+gem 'fuzzy-string-match', require: "fuzzystringmatch"
+
 # Web services
 gem 'mechanize'
 gem 'rest-client', require: false
@@ -227,7 +230,7 @@ gem 'bootstrap-slider-rails'
 
 # Using git until we have a proper release system for cartography
 #gem 'cartography', github: 'ekylibre/cartography'
-gem 'cartography', git: 'https://gitlab.com/ekylibre/cartography.git', branch: 'ekyviti'
+# gem 'cartography', git: 'https://gitlab.com/ekylibre/cartography.git', branch: 'ekyviti'
 #gem 'cartography', path: '../cartography'
 gem 'gpgme'
 
@@ -303,7 +306,7 @@ group :test do
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
-gemfiles = Dir.glob File.expand_path('../{Gemfile.local,Gemfile.plugins,plugins/*/Gemfile}', __FILE__)
+gemfiles = Dir.glob(File.expand_path('../{plugins/*/Gemfile,Gemfile.*}', __FILE__)).keep_if{|e| e !~/(.lock)$/}
 gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
 gemfiles.each do |file|
   next unless File.readable?(file)

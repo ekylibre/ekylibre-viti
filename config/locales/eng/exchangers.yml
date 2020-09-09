@@ -91,6 +91,8 @@ eng:
     # panier_local_base: "Panier local base"
     panier_local_incoming_payments: "Panier local incoming payments"
     panier_local_sales: "Panier Local sales"
+    quadra_fec_txt: "FEC import (TXT) - Quadra"
+    sage_i_seven_journal_entries: "Accountancy (ECX) ‒ Sagei7"
     synel_animals: "Synel animals"
     synel_inventory: "Synel inventory"
     synest_inventory: "Synest inventory"

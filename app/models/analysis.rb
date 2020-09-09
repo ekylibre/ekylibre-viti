@@ -59,6 +59,7 @@ class Analysis < Ekylibre::Record::Base
   belongs_to :sensor
   belongs_to :host, class_name: 'Product', foreign_key: :host_id
   has_many :items, class_name: 'AnalysisItem', foreign_key: :analysis_id, inverse_of: :analysis, dependent: :destroy
+  has_one :wine_incoming_harvest
 
   has_geometry :geolocation, type: :point
 
@@ -89,6 +90,10 @@ class Analysis < Ekylibre::Record::Base
 
   after_save do
     reload.items.each(&:save!)
+  end
+
+  protect(on: :destroy) do
+    wine_incoming_harvest.present?
   end
 
   # Measure a product for a given indicator

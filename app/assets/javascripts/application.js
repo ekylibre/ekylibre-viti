@@ -62,7 +62,7 @@
 //= require leaflet/label
 //= require autosize
 //= require plugins
-//= require main.js
+//= require ekyviti
 //= require leaflet-cartography/label
 //= require_tree .
 //= require tour
