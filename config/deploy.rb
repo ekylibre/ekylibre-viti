@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.12.0'
+lock '3.14.1'
 
 set :application, 'ekylibre'
 set :repo_url, 'git@gitlab.com:ekylibre-integration/ekyviti.git'
