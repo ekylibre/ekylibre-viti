@@ -111,17 +111,17 @@ class InterventionWorkingPeriod < Ekylibre::Record::Base
     end
   end
 
-  after_commit :update_temporality, unless: -> { intervention.blank? || Intervention.find_by(id: intervention_id).nil? }
+  after_save :update_temporality, unless: -> { intervention.blank? || Intervention.find_by(id: intervention_id).nil? }
   after_destroy :update_temporality, unless: -> { intervention.blank? || Intervention.find_by(id: intervention_id).nil? }
 
   def last_activity_production_started_on
     targets = intervention&.targets || []
-    targets.map { |t| t.activity_production&.started_on }.compact.max
+    targets.map { |t| t.best_activity_production&.started_on }.compact.max
   end
 
   def first_activity_production_stopped_on
     targets = intervention&.targets || []
-    targets.map { |t| t.activity_production&.stopped_on }.compact.min
+    targets.map { |t| t.best_activity_production&.stopped_on }.compact.min
   end
 
   def validate_started_stopped_at

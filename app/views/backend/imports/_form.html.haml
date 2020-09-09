@@ -1,5 +1,6 @@
 = field_set do
-  = f.input :nature, collection: ActiveExchanger::Base.importers_selection
+  = f.input :nature, collection: @exchanger_selection
   = f.input :archive
   = f.custom_fields
-  %a{href:"/backend/imports/template_file", download:"", style:"display:none",id:"cvi_file_template_link"}=I18n.t 'labels.download_cvi_template_file'
+  %a{download: "", style: "display:none", id: "template_file_link"}
+    = :download_template_file.tl

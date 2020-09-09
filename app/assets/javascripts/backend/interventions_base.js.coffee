@@ -122,8 +122,9 @@
                 element.mapeditor "edit", value
                 try
                   element.mapeditor "view", "edit"
-            else if element.is('select') and value?
-              element.find("option[value='#{value}']")[0].selected = true
+            else if element.is('select')
+              v = if value == null then '' else value
+              element.find("option[value='#{v}']")[0].selected = true
             else
               valueType = typeof value
               update = true

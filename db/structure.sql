@@ -2938,7 +2938,7 @@ CREATE TABLE public.cvi_cadastral_plants (
     vine_variety_id character varying,
     area_value numeric(19,4),
     area_unit character varying,
-    planting_campaign character varying NOT NULL,
+    planting_campaign character varying,
     rootstock_id character varying,
     inter_vine_plant_distance_value numeric(19,4),
     inter_vine_plant_distance_unit character varying,
@@ -22531,6 +22531,10 @@ INSERT INTO schema_migrations (version) VALUES ('20200611090747');
 INSERT INTO schema_migrations (version) VALUES ('20200622101923');
 
 INSERT INTO schema_migrations (version) VALUES ('20200730114601');
+
+INSERT INTO schema_migrations (version) VALUES ('20200820094522');
+
+INSERT INTO schema_migrations (version) VALUES ('20200820095810');
 
 INSERT INTO schema_migrations (version) VALUES ('20200902094919');
 

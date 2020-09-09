@@ -60,9 +60,6 @@
 //= require leaflet/easy-button
 //= require leaflet/modal
 //= require leaflet/label
-//= require d3
-//= require d3/tip
-//= require timeline-chart.js
 //= require autosize
 //= require plugins
 //= require ekyviti
@@ -74,7 +71,6 @@
 //= require vue
 //= require sortablejs/Sortable.min.js
 //= require vuedraggable/dist/vuedraggable.js
-//= require chart.js/dist/Chart.min.js
 //= require vue-chartjs/dist/vue-chartjs.min.js
 
 //= require ext-plugins/vuejs/vue-chartjs

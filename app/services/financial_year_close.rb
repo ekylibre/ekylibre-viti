@@ -579,11 +579,21 @@ class FinancialYearClose
       copy_generated_documents(timing, 'trial_balance', "#{template.nature.human_name} - #{printer.key}", document.file.path)
     end
 
+    def generate_general_ledger_documents(timing, params)
+      template = DocumentTemplate.find_by_nature(:general_ledger)
+      printer = Printers::GeneralLedgerPrinter.new(**params.merge(template: template))
+      pdf_data = printer.run_pdf
+      document = printer.archive_report_template(pdf_data, nature: template.nature, key: printer.key, template: template, document_name: printer.document_name)
+
+      copy_generated_documents(timing, 'general_ledger', "#{template.nature.human_name} - #{printer.key}", document.file.path)
+    end
+
     def generate_journals_documents(timing, params)
       template = DocumentTemplate.find_by_nature(:journal_ledger)
       full_params = params.merge(
         states: %i[confirmed],
         started_on: @year.started_on.to_s,
+        stopped_on: @year.stopped_on.to_s,
         period: "#{@year.started_on}_#{@year.stopped_on}",
         template: template
       )

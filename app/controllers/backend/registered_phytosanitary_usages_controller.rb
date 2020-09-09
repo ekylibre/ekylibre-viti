@@ -58,7 +58,7 @@ module Backend
                           else
                             compare_applications_count(usage, application_validator.compute_usage_application(product))
                           end
-
+      
 
       render json: { usage_infos: usage_dataset, usage_application: usage_applications, modified: modified }
     end
@@ -94,7 +94,7 @@ module Backend
           RegisteredPhytosanitaryUsage.find(params[:id])
         end
       end
-
+      
       def compute_dataset(usage)
         state_label = t("enumerize.registered_phytosanitary_usage.state.#{usage.state}")
         {
@@ -126,7 +126,7 @@ module Backend
           { stop: :applications_count_bigger_than_max.tl }
         end
       end
-
+          
       def compute_authorization(lights_hash, authorization_name)
         if %i[go].include?(lights_hash.keys.first)
           { authorization_name => 'allowed' }

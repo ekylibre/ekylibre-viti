@@ -71,7 +71,6 @@ class InterventionParameter < Ekylibre::Record::Base
   belongs_to :intervention, inverse_of: :parameters
   belongs_to :usage, class_name: 'RegisteredPhytosanitaryUsage'
 
-
   serialize :specie_variety, HashSerializer
   store_accessor :specie_variety, :specie_variety_name
 

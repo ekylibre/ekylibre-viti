@@ -31,7 +31,7 @@ eng:
       invalid_date: "%{attribute} is not a valid date"
       invalid_datetime: "%{attribute} is not a valid datetime"
       invalid_population_for_unitary_product: "The equipment %{name} cannot have a population of %{population} as it is supposed to be unique."
-      invalid_shape: "The geographic shape for %{attribute} is invalid"
+      invalid_shape: "The geographic shape is invalid"
       invalid_time: "%{attribute} is not a valid time"
       invalid_token: "%{attribute} is invalid. Invalid token %{error}. Expected tokens are %{accepted}."
       is: "%{attribute} must be a %{thing}"
@@ -279,6 +279,11 @@ eng:
               truncation_error:
                 one: "Unable to change the length of %{value} to match the configuration (%{standard_length} characters), the last character can't be removed."
                 other: "Unable to change the length of %{value} to match the configuration (%{standard_length} characters), the last %{count} characters can't be removed."
+        intervention_target:
+          attributes:
+            product:
+              target_dont_exist_after: "%{target} chosen don't exist after %{date}"
+              target_dont_exist_before: "%{target} chosen don't exist before %{date}"
     models:
       account: "Account"
       account_balance: "Account balance"

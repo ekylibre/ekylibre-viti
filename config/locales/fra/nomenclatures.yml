@@ -743,6 +743,13 @@ fra:
         tobacco_crops: "Tabac" #?
         tomato_crops: "Tomates" #?
         tool_maintaining: "Maintenance"
+        triticale_crops: "Triticale" #?
+        turnip_crops: "Navets" #?
+        vetch_crops: "Vesce" #?
+        vine_wine: "Vignes & vin" #?
+        vines: "Vignes" #?
+        walnut_orchards: "Noyers" #?
+        watermelon_crops: "Pastèques" #?
         vine_farming: "Production viticole"
         triticale_crops: "Triticale" #?
         turnip_crops: "Navets" #?

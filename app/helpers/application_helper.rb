@@ -486,7 +486,8 @@ module ApplicationHelper
   def dropdown_menu_button(name, options = {})
     menu = Ekylibre::Support::Lister.new(:item, :separator)
     yield menu
-    return nil unless menu.any?
+    return nil if menu.empty?
+
     menu_size = menu.size
     default_item = menu.detect_and_extract! do |item|
       item.args[2].is_a?(Hash) && item.args[2][:by_default]
@@ -509,6 +510,7 @@ module ApplicationHelper
     html_options = { class: 'btn-group' + (options[:dropup] ? ' dropup' : '') }
     html_options[:class] << ' ' + options[:class].to_s if options[:class]
     html_options[:id] = options[:id] if options[:id]
+    html_options[:title] = options[:title].to_s if options[:title]
     content_tag(:div, html_options) do
       if default_item
         html = tool_to(default_item.args.first, default_item.args.second,
@@ -1022,7 +1024,7 @@ module ApplicationHelper
 
   def modal_header(title, options = {})
     title_id = options[:title_id] || title.parameterize.underscore.camelcase(:lower)
-    content_tag(:div, class: 'modal-header') do
+    content_tag(:div, class: 'modal-header modal-header-generic') do
       if options[:close_button].is_a? FalseClass
         content_tag(:h4, title, class: 'modal-title', id: title_id)
       else

@@ -261,7 +261,7 @@ class Journal < Ekylibre::Record::Base
       Journal.create_with(code: 'RESU', name: 'Résultat')
              .find_or_create_by!(nature: 'forward')
     end
-
+    
     private
       # @deprecated
       def condition_builder
