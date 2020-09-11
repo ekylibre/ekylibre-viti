@@ -64,6 +64,7 @@ module Backend
       return unless @cvi_cultivable_zone = find_and_check(:cvi_cultivable_zone)
 
       @cvi_cultivable_zone.attributes = permitted_params
+      @cvi_cultivable_zone.shape = CviCultivableZoneService::ShapeCalculator.calculate(@cvi_cultivable_zone, permitted_params[:shape])
       if @cvi_cultivable_zone.save
         notify_success(:record_x_updated, record: @cvi_cultivable_zone.model_name.human, column: @cvi_cultivable_zone.human_attribute_name(:name), name: @cvi_cultivable_zone.send(:name))
       else
