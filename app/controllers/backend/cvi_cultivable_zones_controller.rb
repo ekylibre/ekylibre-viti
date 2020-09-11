@@ -120,11 +120,7 @@ module Backend
         cvi_cultivable_zone.update_shape!
         cvi_cultivable_zone.complete!
         redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
-<<<<<<< HEAD
       else
-=======
-      else 
->>>>>>> origin/master
         notify_error(:cvi_land_parcels_planting_campaign_invalid.tl)
         redirect_to action: 'show', id: cvi_cultivable_zone.id
       end
