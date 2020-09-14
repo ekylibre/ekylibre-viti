@@ -4,7 +4,8 @@
 = kujaku do |k|
   - k.text
   - k.helper do
-    %label= :use.tl
+    %div.label-container
+      %label= :use.tl
     = select_tag(:label, options_for_select([""] + @labels.flatten.map{ |s| [s.name, s.name]}))
 
 = toolbar do |t|
