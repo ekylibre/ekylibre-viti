@@ -79,17 +79,5 @@ Rails.application.routes.draw do
     namespace :visualizations do
       resource :weather_vine_spraying_map_cells_visualizations, only: :show
     end
-    resources :wine_incoming_harvests, concerns: :list do
-      member do
-        get :list_plants
-        get :list_storages
-      end
-    end
-
-    resources :wine_incoming_harvest_plants, only: [] do
-      collection do
-        get :net_harvest_area
-      end
-    end
   end
 end

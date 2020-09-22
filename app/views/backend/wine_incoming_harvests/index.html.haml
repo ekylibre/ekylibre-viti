@@ -1,9 +1,0 @@
-/ - financial_year = FinancialYear.find_by(id: params[:current_financial_year])
-/ - financial_year ||= FinancialYear.current
-/ - main_financial_year_selector(financial_year)
-
-= kujaku do |k|
-  - k.text
-  - k.helper :journal_period_crit
-
-= main_list

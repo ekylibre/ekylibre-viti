@@ -1,6 +1,0 @@
-.nested-fields
-  = f.referenced_association :plant, source: { scope: :plants }
-  = f.input :harvest_percentage_received, wrapper: :append do
-    = f.input_field :harvest_percentage_received, class: 'harvest-percentage-received'
-    %span.net-harvest-area= f.object.harvest_percentage_received ? "(#{f.object.net_harvest_area.round_l})" : ''
-  = link_to_remove_nested_association(:plants, f)
