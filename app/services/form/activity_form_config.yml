@@ -1,0 +1,15 @@
+vine_farming:
+  production_nature: false
+  inspections: false
+  countings: false
+  distributions: false
+  seasons: false
+  tactics: false
+  production_nature: true
+  production_cycle:
+    display_style: 'block'
+    default_value: 'perennial'
+  life_duration:
+    display_style: 'block'
+    required: false
+    
