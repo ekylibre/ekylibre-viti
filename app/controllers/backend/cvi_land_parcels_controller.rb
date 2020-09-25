@@ -1,7 +1,6 @@
 module Backend
   class CviLandParcelsController < Backend::CviBaseController
     manage_restfully only: %i[edit]
-    before_action :new_vine_activity_params, only: %i[edit edit_multiple update update_multiple]
 
     def index
       records = CviCultivableZone.find(params[:id]).cvi_land_parcels.collect do |r|
