@@ -90,20 +90,6 @@ module Backend
       end
     end
 
-    def new_vine_activity_params
-      vine_default_production = MasterProductionNature.find_by(specie: 'vitis')
-      @new_vine_activity_params = {
-        family: 'vine_farming',
-        production_nature_id: vine_default_production&.id,
-        cultivation_variety: 'vitis',
-        production_cycle: 'perennial',
-        countings_hidden: true,
-        seasons_hidden: true,
-        tactics_hidden: true,
-        inspections_hidden: true
-      }
-    end
-
     private
 
     def update_params
