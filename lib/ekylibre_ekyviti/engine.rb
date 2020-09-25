@@ -1,5 +1,11 @@
 module EkylibreEkyviti
   class Engine < ::Rails::Engine
+    if Rails.env.development?
+      config.to_prepare do
+        ::Form::ActivityFormConfig.prepend Form::ActivityFormConfigExt
+      end
+    end
+
     config.after_initialize do
       ::Backend::BaseController.prepend_view_path EkylibreEkyviti::Engine.root.join('app/views')
     end
@@ -23,6 +29,7 @@ module EkylibreEkyviti
     initializer :i18n do |app|
       app.config.i18n.load_path += Dir[EkylibreEkyviti::Engine.root.join('config', 'locales', '**', '*.yml')]
     end
+
 
     initializer :restfully_manageable do |app|
       app.config.x.restfully_manageable.view_paths << EkylibreEkyviti::Engine.root.join('app', 'views')
