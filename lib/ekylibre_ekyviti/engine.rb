@@ -24,10 +24,6 @@ module EkylibreEkyviti
       app.config.i18n.load_path += Dir[EkylibreEkyviti::Engine.root.join('config', 'locales', '**', '*.yml')]
     end
 
-    # initializer :extend_controllers do |_app|
-    #   ::Backend::ActivitiesController.include Backend::ActivitiesControllerExt
-    # end
-
     initializer :restfully_manageable do |app|
       app.config.x.restfully_manageable.view_paths << EkylibreEkyviti::Engine.root.join('app', 'views')
     end
