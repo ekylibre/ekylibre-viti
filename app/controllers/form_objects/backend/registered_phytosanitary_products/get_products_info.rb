@@ -105,7 +105,7 @@ module FormObjects
             if !modified && input.reference_data['product'].present?
               InterventionParameter::LoggedPhytosanitaryProduct.new(input.reference_data['product'])
             else
-              product&.phytosanitary_product
+              product.phytosanitary_product
             end
           end
       end

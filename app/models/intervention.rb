@@ -170,6 +170,11 @@ class Intervention < Ekylibre::Record::Base
   scope :of_activities, lambda { |*activities|
     where(id: InterventionTarget.of_activities(activities.flatten))
   }
+
+  scope :of_activity_family, ->(activity_family) {
+    where(procedure_name: Procedo::Procedure.of_activity_family(activity_family).map(&:name))
+  }
+
   scope :ordered_by, ->(by = :started_at) { reorder(by) }
 
   scope :provisional, -> { where('stopped_at > ?', Time.zone.now) }
@@ -360,6 +365,8 @@ class Intervention < Ekylibre::Record::Base
     update_costing
 
     add_activity_production_to_output if procedure.of_category?(:planting)
+
+    reconcile_receptions
   end
 
   after_create do
@@ -1022,6 +1029,14 @@ class Intervention < Ekylibre::Record::Base
 
   def using_phytosanitary?
     PHYTO_PROCEDURE_NAMES.include?(procedure_name)
+  end
+
+  # @private
+  # Lifecycle: called after save
+  private def reconcile_receptions
+    receptions.each do |reception|
+      reception.update(reconciliation_state: 'reconcile') if reception.reconciliation_state != 'reconcile'
+    end
   end
 
   class << self

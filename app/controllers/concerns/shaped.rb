@@ -1,7 +1,5 @@
 module Shaped
   extend ActiveSupport::Concern
-  #include Shaped::Validity
-  #include Shaped::Cache
 
   included do
     before_save :set_calculated_area, on: %i[create update], if: :shape_changed?
@@ -23,7 +21,4 @@ module Shaped
     self.calculated_area = Measure.new(shape.area, :square_meter).convert(:hectare)
   end
 
-  # def surface_area(unit = :hectare)
-  #   surface.in(:square_meter).convert(unit)
-  # end
 end

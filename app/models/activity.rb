@@ -119,6 +119,8 @@ class Activity < Ekylibre::Record::Base
   scope :main, -> { where(nature: 'main') }
   scope :wine, -> { where(family: 'vine_farming') }
 
+  scope :of_support_variety, -> (variety) { where(support_variety: variety) }
+
   scope :of_campaign, lambda { |campaign|
     if campaign
       c = campaign.is_a?(Campaign) || campaign.is_a?(ActiveRecord::Relation) ? campaign : campaign.map { |c| c.is_a?(Campaign) ? c : Campaign.find(c) }

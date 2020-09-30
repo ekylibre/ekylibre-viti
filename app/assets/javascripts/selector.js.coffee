@@ -85,6 +85,7 @@
       else
         @initializing = false
       @element.prop("widgetInitialized", true)
+      @element.trigger("selector:created")
 
     value: (newValue, callback = false) ->
       if newValue is null or newValue is undefined or newValue is ""
@@ -239,6 +240,9 @@
             menu.hide()
         error: (request, status, error) ->
           alert "Selector failure on #{url} (#{status}): #{error}"
+
+    close: ->
+      @_closeMenu()
 
     _closeMenu: ->
       # console.log "closeMenu"
@@ -410,6 +414,11 @@
   $(document).on 'selector:change', '[data-filter-unroll]', (e) ->
     filterableUnroll.filter $(this)
 
+  $(document).on 'selector:menu-opened', '.selector', (e) ->
+    $currentDropDown = $(this)
+    $('.selector').not($currentDropDown).each ->
+      $($(this).find('input[data-selector]').get(0)).selector('close')
+
   filterableUnroll =
     filter: ($filteringUnroll) ->
       filterId = $filteringUnroll.selector('value')
@@ -457,6 +466,5 @@
           retrievedIds.push $(this).selector('value')
 
       { retrieved_ids: retrievedIds, selected_value: selectedValue }
-
   return
 ) ekylibre, jQuery

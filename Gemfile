@@ -12,7 +12,7 @@ end
 
 ruby '>= 2.3.8', '< 3.0.0'
 
-gem 'elastic-apm'
+gem 'elastic-apm', '~> 3.4.0'
 gem 'piwik_analytics', github: 'ekylibre/piwik-ruby-tracking'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -87,8 +87,8 @@ gem 'rake', '~>12.0'
 gem 'timecop'
 
 # Manipulate map data
-# gem 'charta', '~> 0.1.14'
 gem 'charta', gitlab: 'ekylibre/charta', branch: 'rails-4'
+gem 'geocoder'
 
 # active_list alternative
 gem 'font-awesome-sass', '~> 5.8.1'
@@ -97,8 +97,7 @@ gem 'wice_grid' # , github: "leikind/wice_grid", branch: "rails3"
 
 # Background jobs
 gem 'sidekiq', '~> 4.0'
-gem 'sidekiq-cron', '~> 0.6'
-gem 'rufus-scheduler', '~> 3.4.0'
+gem 'sidekiq-cron', '~> 1.1'
 gem 'sidekiq-unique-jobs', '~> 4.0'
 
 # Decorator pattern
@@ -120,7 +119,7 @@ gem 'exception_notification'
 gem 'active_list', gitlab: 'ekylibre/active_list', branch: 'master'
 
 gem 'haml'
-gem 'simple_calendar'
+gem 'simple_calendar', '~> 2.3.0'
 
 # Models helpers
 gem 'acts_as_list'

@@ -1512,7 +1512,7 @@ ita:
     down: "Giù"
     # download: "Download"
     # download_archive: "Download archive (ZIP)"
-    # download_cvi_template_file: "Download CVR template file"
+    # download_template_file: "Download template file"
     downpayment: "Acconto"
     draft: "Bozza"
     # draft_entries_to_validate: "There are draft entries to validate"
