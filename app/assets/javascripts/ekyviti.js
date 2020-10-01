@@ -11,7 +11,6 @@
 // about supported directives.
 //
 
-//= require eky-cartography.js
 //= require map
 //= require map/cvi_map_config
 //= require wine_incoming_harvest
