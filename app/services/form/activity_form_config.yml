@@ -11,5 +11,5 @@ vine_farming:
     default_value: 'perennial'
   life_duration:
     display_style: 'block'
-    required: false
+    required: true
     
