@@ -56,9 +56,9 @@ module Backend
       t.column :net_harvest_areas_sum
       t.column :quantity_value, on_select: :sum, value_method: :quantity, datatype: :bigdecimal
       t.column :quantity_unit, label_method: :human_quantity_unit_name
-      t.column :human_species_variesties_names
       t.column :human_storages_names
       t.column :tavp
+      t.column :human_species_variesties_names
     end
 
     list(:plants, model: :wine_incoming_harvest_plant, joins: :plant, conditions: { wine_incoming_harvest_id: 'params[:id]'.c }) do |t|
@@ -66,6 +66,8 @@ module Backend
       t.column :net_surface_area, through: :plant, label: :total_area_in_hectare, datatype: :measure, class: 'center'
       t.column :harvest_percentage_received, label_method: :displayed_harvest_percentage, class: 'center'
       t.column :net_harvest_area, datatype: :measure, class: 'center'
+      t.column :harvest_quantity, class: 'center'
+      t.column :plant_specie_name, class: 'center'
     end
 
     list(:storages, model: :wine_incoming_harvest_storage, conditions: { wine_incoming_harvest_id: 'params[:id]'.c }) do |t|

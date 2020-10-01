@@ -15,9 +15,6 @@
       .med-info.important
         %span.title= Nomen::Indicator.find(:estimated_harvest_alcoholic_volumetric_concentration).human_name
         %span.value= tavp_item.value.round_l
-    .med-info.important
-      %span.title= :human_species_variesties_names.tl
-      %span.value= resource.human_species_variesties_names
 
   = attributes_list(resource) do |l|
     - l.attribute :number
