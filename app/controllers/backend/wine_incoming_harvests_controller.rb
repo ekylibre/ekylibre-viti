@@ -67,6 +67,7 @@ module Backend
       t.column :harvest_percentage_received, label_method: :displayed_harvest_percentage, class: 'center'
       t.column :net_harvest_area, datatype: :measure, class: 'center'
       t.column :harvest_quantity, class: 'center'
+      t.column :rows_harvested, label_method: :displayed_rows_harvested, class: 'center'
       t.column :plant_specie_name, class: 'center'
     end
 
