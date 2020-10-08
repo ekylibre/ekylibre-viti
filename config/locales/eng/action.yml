@@ -43,6 +43,9 @@ eng:
         required: "required"
         vine_variety_name: "Variety of vine"
   labels:
+    vineyard_area: "Vineyard area"
+    productive_plants_yield: "Productive plant yield"
+    young_plants_yield: "Young plant yield"
     add_crop: "Add crop"
     add_plant: "Add plant"
     add_tank: "Add tank"

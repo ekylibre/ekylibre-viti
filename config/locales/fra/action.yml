@@ -43,6 +43,9 @@ fra:
         required: "Obligatoire"
         vine_variety_name: "Cépage"
   labels:
+    vineyard_area: "Surface encepagée"
+    productive_plants_yield: "Pieds productifs estimés"
+    young_plants_yield: "Jeunes plants estimés"
     add_crop: "Ajouter une parcelle/culture"
     add_plant: "Ajouter une culture"
     add_tank: "Ajouter une cuve"
