@@ -24,6 +24,7 @@ module ConvertCvi
                    created_activity_production.started_on
       assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i, activity.production_stopped_on.month, activity.production_stopped_on.day),
                    created_activity_production.stopped_on
+      assert_equal @cvi_land_parce.name, @created_activity_production.custom_name
     end
 
     test 'open_activity for all campaign from the planting campaign to the next campaign' do

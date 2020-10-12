@@ -57,7 +57,8 @@ module ConvertCvi
         stopped_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i,
                              activity.production_stopped_on.month,
                              activity.production_stopped_on.day),
-        providers: { 'cvi_land_parcel_id' => cvi_land_parcel.id }
+        providers: { 'cvi_land_parcel_id' => cvi_land_parcel.id },
+        custom_name: cvi_land_parcel.name
       )
     end
 
