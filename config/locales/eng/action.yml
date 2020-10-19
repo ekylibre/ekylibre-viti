@@ -44,6 +44,7 @@ eng:
         required: "required"
         vine_variety_name: "Variety of vine"
   labels:
+    variety: "Variety"
     add_crop: "Add crop"
     add_use: "Add use"
     are_you_sure_you_want_to_reset_cvi_conversion: "Are you sure you want to reset cvi conversion"

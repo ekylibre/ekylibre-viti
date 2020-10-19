@@ -44,6 +44,7 @@ fra:
         required: "Obligatoire"
         vine_variety_name: "Cépage"
   labels:
+    variety: "Variété"
     add_crop: "Ajouter une parcelle/culture"
     add_use: "Ajouter un usage"
     are_you_sure_you_want_to_reset_cvi_conversion: "Êtes-vous sûr(e) de vouloir réinitialiser la conversion du parcellaire\_?" #?
