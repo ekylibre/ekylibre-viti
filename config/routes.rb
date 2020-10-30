@@ -64,6 +64,7 @@ Rails.application.routes.draw do
       member do
         get :list_plants
         get :list_storages
+        get :list_presses
       end
     end
 

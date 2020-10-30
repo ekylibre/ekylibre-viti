@@ -75,5 +75,13 @@ module Backend
       t.column :storage, url: true
       t.column :quantity, label: :volume_in_winery, datatype: :measure, class: 'center'
     end
+
+    list(:presses, model: :wine_incoming_harvest_press, conditions: { wine_incoming_harvest_id: 'params[:id]'.c }) do |t|
+      t.column :press, url: true
+      t.column :quantity, label: :volume_in_winery, datatype: :measure, class: 'center'
+      t.column :pressing_schedule
+      t.column :pressing_started_at, label_method: :decorated_pressing_started_at
+    end
+
   end
 end
