@@ -12,4 +12,7 @@ vine_farming:
   life_duration:
     display_style: 'block'
     required: true
+  start_state_of_production:
+    display_style: 'block'
+    required: true
     
