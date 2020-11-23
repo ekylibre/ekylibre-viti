@@ -34,7 +34,15 @@ module Backend
       @cvi_land_parcels = CviLandParcel.find(params[:ids])
       @cvi_land_parcel = CviLandParcel.new(update_multiple_params)
       @cvi_cultivable_zone = @cvi_land_parcels.first.cvi_cultivable_zone
-      unless @cvi_land_parcel.valid_for_update_multiple?
+      @cvi_land_parcel.tap do |r|
+        r.valid?
+        r.errors.delete(:name)
+        r.errors.delete(:inter_vine_plant_distance_value) if r.errors.added?(:inter_vine_plant_distance_value, :blank)
+        r.errors.delete(:inter_row_distance_value) if r.errors.added?(:inter_row_distance_value, :blank)
+        r.errors.delete(:vine_variety_id) if r.errors.added?(:vine_variety_id, :blank)
+        r.errors.delete(:activity_id) if r.errors.added?(:activity_id, :blank)
+      end
+      unless @cvi_land_parcel.errors.empty?
         notify_error_now :records_cannot_be_saved.tl
         response.headers['X-Return-Code'] = 'invalid'
         render :edit_multiple
@@ -104,13 +112,14 @@ module Backend
     end
 
     private
-      def update_params
-        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :activity_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :land_modification_date, :rootstock_id)
-              .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
-      end
 
-      def update_multiple_params
-        params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :activity_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :land_modification_date, :rootstock_id)
-      end
+    def update_params
+      params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :activity_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :shape, :land_modification_date, :rootstock_id)
+            .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
+    end
+
+    def update_multiple_params
+      params.require(:cvi_land_parcel).permit(:name, :designation_of_origin_id, :vine_variety_id, :activity_id, :planting_campaign, :state, :inter_row_distance_value, :inter_vine_plant_distance_value, :land_modification_date, :rootstock_id)
+    end
   end
 end

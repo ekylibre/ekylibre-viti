@@ -1,0 +1,9 @@
+fra:
+  access:
+    resources:
+      cvi_cadastral_plants: "Parcelles cadastrales du cvi"
+      cvi_cultivable_zones: "Zone cultivable du cvi"
+      cvi_land_parcels: "Parcelles culturales du cvi"
+      cvi_statements: "Casier Viticole Informatisé"
+      cvi_statement_conversions: "Casier Viticole Informatisé Converti"
+      cadastral_land_parcel_zones: "Parcelles cadastrales"

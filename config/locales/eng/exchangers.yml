@@ -1,0 +1,4 @@
+eng:
+  exchangers:
+    ekylibre_cvi_csv: "Computerised Vineyard Register (CSV)"
+    ekylibre_cvi_json: "Computerised Vineyard Register (JSON)"

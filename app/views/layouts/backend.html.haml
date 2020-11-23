@@ -1,0 +1,49 @@
+!!! 5
+%html.turbolinks-progress-bar.backend{xmlns: "http://www.w3.org/1999/xhtml", 'xmlns:svg' => 'http://www.w3.org/2000/svg', 'xmlns:xlink' => 'http://www.w3.org/1999/xlink', dir: t("i18n.dir"), lang: t("i18n.iso2"), "xml:lang" => t("i18n.iso2"), data: {lang_iso3: I18n.locale}}
+  %head
+    = title_tag
+    = csrf_meta_tags
+    = viewport_tag
+    = icon_tags
+    -#= plugins_link_tag
+    = theme_link_tag
+    = matomo_tag
+    = javascript_pack_tag :legacy
+    = javascript_pack_tag :application
+    = javascript_include_tag :application, "data-turbolinks-track" => true
+  - attrs = {}
+  - if content_for?(:tour)
+    - attrs[:data] ||= {}
+    - attrs[:data][:tour] = content_for(:tour)
+  %body.body-backend{ attrs }
+    = navigation_tag
+    - attrs = {}
+    #wrap{attrs}
+      %aside#side.visible
+        .inner
+          = extensions_tag(:side_top)
+          - if Preference[:use_global_search]
+            .snippet.snippet-search
+              = form_tag(backend_search_path, :method => :get, :class => "search snippet-content") do
+                = search_field_tag(:q, params[:q], :placeholder => tl(:search_placeholder))
+
+          = side_tag
+          - if content_for?(:aside)
+            = content_for(:aside)
+          = extensions_tag(:side_bottom)
+          %footer#legals= legals_sentence
+      #main
+        %header.header
+          = heading_toolbar_tag
+          = heading_tag
+        #content
+          = extensions_tag(:content_top)
+          = subheading_tag
+          = view_toolbar_tag
+          = main_toolbar_tag
+          = meta_toolbar_tag
+          #notifications-tag
+          = notifications_tag
+          = main_state_bar_tag
+          #core= yield
+    = yield :popover
