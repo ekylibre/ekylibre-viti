@@ -4,12 +4,8 @@ module EkylibreEkyviti
       ::Backend::BaseController.prepend_view_path EkylibreEkyviti::Engine.root.join('app/views')
     end
 
-    initializer :themes do |app|
-      app.config.themes += %w[bordeaux cognac]
-    end
-
     initializer 'ekylibre_ekyviti.assets.precompile' do |app|
-      app.config.assets.precompile += %w(ekyviti.scss ekyviti.js themes/bordeaux/all.css themes/cognac/all.css, *.svg)
+      app.config.assets.precompile += %w(ekyviti.scss ekyviti.js *.svg)
     end
 
     initializer :extend_navigation do |_app|
@@ -35,6 +31,7 @@ module EkylibreEkyviti
     initializer :extend_measure do |_app|
       ::Measure.prepend EkylibreEkyviti::MeasureExt
     end
+
     initializer :beehive do |app|
       app.config.x.beehive.cell_controller_types << :weather_vine_spraying_map
     end
