@@ -42,6 +42,12 @@ module Backend
       code << "  c << higher\n"
       code << "end\n"
 
+      # Current campaign
+      code << "if current_campaign\n"
+      code << "  c[0] << \" AND EXTRACT(YEAR FROM #{WineIncomingHarvest.table_name}.received_at) = ?\"\n"
+      code << "  c << current_campaign.harvest_year\n"
+      code << "end\n"
+
       code << "c\n"
       code.c
     end
@@ -81,6 +87,76 @@ module Backend
       t.column :quantity, label: :volume_in_winery, datatype: :measure, class: 'center'
       t.column :pressing_schedule
       t.column :pressing_started_at, label_method: :decorated_pressing_started_at
+    end
+
+    def index
+      respond_to do |format|
+        format.html do
+        end
+        format.odt do
+          filename = "Reception_de_vendange"
+          @dataset_wine_incoming_harvest = wine_incoming_harvest_data
+          send_data to_odt(@dataset_wine_incoming_harvest, filename, params).generate, type: 'application/vnd.oasis.opendocument.text', disposition: 'attachment', filename: filename << '.odt'
+        end
+        format.pdf do
+          to_pdf
+        end
+      end
+    end
+
+    protected
+
+    def wine_incoming_harvest_data
+      report = HashWithIndifferentAccess.new
+      report[:items] = []
+      WineIncomingHarvest.where(campaign: current_campaign).map{|v|report[:items] << v.wine_incoming_harvest_reporting}
+      report
+    end
+
+    def to_pdf
+      filename = "#{:wine_incoming_harvest.tl} #{current_campaign.name}"
+      key = "#{filename}-#{Time.zone.now.l(format: '%Y-%m-%d-%H:%M:%S')}"
+      @dataset_wine_incoming_harvest = wine_incoming_harvest_data
+      file_odt = to_odt(@dataset_wine_incoming_harvest, filename, params).generate
+      tmp_dir = Ekylibre::Tenant.private_directory.join('tmp')
+      uuid = SecureRandom.uuid
+      source = tmp_dir.join(uuid + '.odt')
+      dest = tmp_dir.join(uuid + '.pdf')
+      FileUtils.mkdir_p tmp_dir
+      File.write source, file_odt
+      `soffice  --headless --convert-to pdf --outdir #{Shellwords.escape(tmp_dir.to_s)} #{Shellwords.escape(source)}`
+      Document.create!(
+                 nature: 'wine_incoming_harvest_report',
+                 key: key,
+                 name: filename,
+                 file: File.open(dest),
+                 file_file_name: "#{key}.pdf"
+               )
+      send_data(File.read(dest), type: 'application/pdf', disposition: 'attachment', filename: filename + '.pdf')
+    end
+
+    def to_odt(order_reporting, filename, _params)
+      # TODO: add a generic template system path
+      report = ODFReport::Report.new(Rails.root.join('config', 'locales', 'fra', 'reporting', 'wine_incoming_harvest.odt')) do |r|
+        # TODO: add a helper with generic metod to implemend header and footer
+        e = Entity.of_company
+        company_address = e.default_mail_address.present? ? e.default_mail_address.coordinate : '-'
+        r.add_field 'COMPANY_ADDRESS', company_address
+        r.add_field 'CURRENT_CAMPAIGN', "#{:campaign.tl} #{current_campaign.name}"
+        r.add_field 'PRINTED_AT', Time.zone.now.l(format: '%d/%m/%Y %T')
+
+        r.add_table('W_ITEMS', order_reporting[:items], header: true) do |t|
+          t.add_column(:wine_harvest_number)
+          t.add_column(:wine_harvest_ticket_number)
+          t.add_column(:wine_harvest_received_at)
+          t.add_column(:wine_harvest_plants_name)
+          t.add_column(:wine_net_harvest_area)
+          t.add_column(:quantity)
+          t.add_column(:wine_harvest_storages_name)
+          t.add_column(:wine_harvest_tavp)
+          t.add_column(:wine_harvest_species_name)
+        end
+      end
     end
 
   end

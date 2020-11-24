@@ -2,6 +2,13 @@
 / - financial_year ||= FinancialYear.current
 / - main_financial_year_selector(financial_year)
 
+- main_toolbar do |t|
+  = dropdown_menu_button(:export.ta, icon: :download) do |d|
+    - d.item :export_as_odt.tl, params: params.merge(format: :odt)
+    - d.item :export_as_pdf.tl, html_options: { data: { no_turbolink: true } }, params: params.merge(format: :pdf)
+
+- main_period_selector(:year)
+
 = kujaku do |k|
   - k.text
   - k.helper :journal_period_crit

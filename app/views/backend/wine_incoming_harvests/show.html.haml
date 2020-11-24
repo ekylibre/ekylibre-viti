@@ -40,7 +40,7 @@
           %dl
             %dt= Nomen::Indicator.find(item.indicator_name).human_name
             %dd= Maybe(attribute_item(item, :value).last).or_else { '-' }
-
+            
   - unless resource.additional_informations.empty?
     - c.cobble(:additional_informations) do
       = attributes_list(resource, stamps: false) do |l|
