@@ -39,7 +39,7 @@ SELECT
 	END AS cadastral_reference,
 	
 	designation_of_origins.product_human_name_fra AS designation_of_origin_name,
-	INITCAP(vine_varieties.specie_name) AS vine_variety_name,
+	INITCAP(vine_varieties.short_name) AS vine_variety_name,
 	area_value,
 	area_formatted(area_value) AS area_formatted,
 	COALESCE(planting_campaign,'9999') planting_campaign,
@@ -49,7 +49,7 @@ SELECT
 	  WHEN rootstock_id IS NULL THEN 
 	    NULL	
 	  ELSE
-	   INITCAP(rootstocks.specie_name)
+	   INITCAP(rootstocks.short_name)
 	END AS rootstock,
 	
 	inter_vine_plant_distance_value :: int AS inter_vine_plant_distance_value,
@@ -107,8 +107,8 @@ SELECT
 	COALESCE(planting_campaign,'9999') planting_campaign,
 	
 	product_human_name_fra AS designation_of_origin_name,
-	vine_varieties.specie_name AS vine_variety_name,
-	INITCAP(rootstocks.specie_name) AS rootstock,
+	vine_varieties.short_name AS vine_variety_name,
+	INITCAP(rootstocks.short_name) AS rootstock,
 
 	declared_area_value,
 	calculated_area_value,

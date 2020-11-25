@@ -60,7 +60,7 @@ module ConvertCvi
       converter.call
       vine_variety = cvi_land_parcel.vine_variety
       created_plant = Plant.last
-      specie_variety = { 'specie_variety_name' => vine_variety.specie_name, 'specie_variety_uuid' => vine_variety.id, 'specie_variety_providers' => vine_variety.class.name }
+      specie_variety = { 'specie_variety_name' => vine_variety.short_name, 'specie_variety_uuid' => vine_variety.id, 'specie_variety_providers' => vine_variety.class.name }
       assert_equal cvi_land_parcel.shape, created_plant.initial_shape
       assert_equal Date.new(2000, 4, 5), created_plant.initial_dead_at
       assert_equal 'rent', created_plant.type_of_occupancy

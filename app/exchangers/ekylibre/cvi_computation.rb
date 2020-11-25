@@ -18,7 +18,7 @@ module Ekylibre
       'Superficie_ar' => :ar_area,
       'Superficie_ca' => :ca_area,
       'Campagne_Plantation' => :planting_campaign,
-      'Porte-greffe_Code_Douane' => :rootstock,
+      'rootstock_Code_Douane' => :rootstock,
       'Ecart_Pied' => :inter_vine_plant_distance,
       'Ecart_Rang' => :inter_row_distance,
       'Etat' => :state,
@@ -80,7 +80,7 @@ module Ekylibre
                                 designation_of_origins.first
                               end
 
-      vine_variety = RegisteredVineVariety.find_by(specie_name: h_cvi_statement[:grape_variety], category_name: ['Cépage', 'Hybride'])
+      vine_variety = RegisteredVineVariety.find_by(short_name: h_cvi_statement[:grape_variety], category_name: ['variety', 'hybrid'])
       unless vine_variety
         message = :unknown_vine_variety.tl(value: h_cvi_statement[:grape_variety])
         w.error message
@@ -95,7 +95,7 @@ module Ekylibre
       end
 
       unless h_cvi_statement[:rootstock].blank? || h_cvi_statement[:rootstock] == 'NC99'
-        rootstock = RegisteredVineVariety.find_by(customs_code: h_cvi_statement[:rootstock], category_name: 'Porte-greffe')
+        rootstock = RegisteredVineVariety.find_by(custom_code: h_cvi_statement[:rootstock], category_name: 'rootstock')
         unless rootstock
           message = :unknown_rootstock.tl(value: h_cvi_statement[:rootstock])
           w.error message

@@ -31,7 +31,7 @@
           %td= cvi_cadastral_plant.area.to_s(:ha_a_ca)
           %td= cvi_cadastral_plant.cadastral_reference
           %td= cvi_cadastral_plant.planting_campaign
-          %td= cvi_cadastral_plant.rootstock&.specie_name
+          %td= cvi_cadastral_plant.rootstock&.short_name
           %td= "#{ccp_clp.percentage.round(3)  * 100} %"
       %tr
         %td{class: "align-right"}= :declared_area.tl
