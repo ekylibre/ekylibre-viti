@@ -80,7 +80,7 @@ module Ekylibre
                                 designation_of_origins.first
                               end
 
-      vine_variety = MasterVineVariety.find_by(specie_name: h_cvi_statement[:grape_variety], category_name: ['Cépage', 'Hybride'])
+      vine_variety = RegisteredVineVariety.find_by(specie_name: h_cvi_statement[:grape_variety], category_name: ['Cépage', 'Hybride'])
       unless vine_variety
         message = :unknown_vine_variety.tl(value: h_cvi_statement[:grape_variety])
         w.error message
@@ -95,7 +95,7 @@ module Ekylibre
       end
 
       unless h_cvi_statement[:rootstock].blank? || h_cvi_statement[:rootstock] == 'NC99'
-        rootstock = MasterVineVariety.find_by(customs_code: h_cvi_statement[:rootstock], category_name: 'Porte-greffe')
+        rootstock = RegisteredVineVariety.find_by(customs_code: h_cvi_statement[:rootstock], category_name: 'Porte-greffe')
         unless rootstock
           message = :unknown_rootstock.tl(value: h_cvi_statement[:rootstock])
           w.error message

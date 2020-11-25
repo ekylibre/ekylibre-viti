@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :cadastral_land_parcel_zones, only: %i[index]
 
     resources :registered_protected_designation_of_origins, concerns: %i[unroll]
-    resources :master_vine_varieties, concerns: %i[unroll] do
+    resources :registered_vine_varieties, concerns: %i[unroll] do
       collection do
         get :unroll_vine_varieties
         get :unroll_rootstocks
