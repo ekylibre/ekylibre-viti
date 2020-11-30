@@ -26,11 +26,11 @@
     = select_tag(:plant_name, options_for_select(([""] + WineIncomingHarvestPlant.where(wine_incoming_harvest_id:WineIncomingHarvest.all.ids).map(&:plant).collect(&:name)).uniq.sort , selected: params[:plant_name]))
   - k.helper do
     %div.label-container
-      - max = WineIncomingHarvest.all.map{|w| w.tavp.to_f}.max + 1
-      .range-slider
-        %label= WineIncomingHarvest.human_attribute_name(:tavp)
-        %span.range-minimum= 0
-        %input{ name: :tavp, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:tavp]), step: 0.1, tooltip_split: true }, provide: 'slider' } }
-        %span.range-maximum= max.to_f
+      - max = WineIncomingHarvest.all.map{|w| w.tavp.to_f}.max
+      %label= WineIncomingHarvest.human_attribute_name(:tavp)
+    .range-slider
+      %span.range-minimum= 0
+      %input{ name: :tavp, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:tavp]), step: 0.1, tooltip_split: true }, provide: 'slider' } }
+      %span.range-maximum= max.to_f
 
 = main_list 
