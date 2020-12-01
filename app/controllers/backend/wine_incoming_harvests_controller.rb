@@ -137,7 +137,8 @@ module Backend
 
     def to_odt(order_reporting, filename, _params)
       # TODO: add a generic template system path
-      report = ODFReport::Report.new(Rails.root.join('config', 'locales', 'fra', 'reporting', 'wine_incoming_harvest.odt')) do |r|
+      language = current_user.language
+      report = ODFReport::Report.new(EkylibreEkyviti::Engine.root.join('config', 'locales', language, 'reporting', 'wine_incoming_harvest.odt')) do |r|
         # TODO: add a helper with generic metod to implemend header and footer
         e = Entity.of_company
         company_address = e.default_mail_address.present? ? e.default_mail_address.coordinate : '-'
