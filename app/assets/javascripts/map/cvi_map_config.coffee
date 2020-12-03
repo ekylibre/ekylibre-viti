@@ -11,7 +11,6 @@
       klass = 'blue'
 
     addLabel = () ->
-      debugger
       positionLatLng = layer.getCenter()
       centerPixels = layer._map.latLngToContainerPoint(positionLatLng)
       name = layer.feature.properties.name
@@ -53,6 +52,7 @@
       E.map.ghostLabelCluster.refresh()
 
     layer.on 'add', ->
+      addLabel()
       E.map.ghostLabelCluster.bind layer.label, layer unless layer.label is undefined
       E.map.ghostLabelCluster.refresh()
 
