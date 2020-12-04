@@ -82,14 +82,14 @@ module Ekylibre
 
       vine_variety = MasterVineVariety.find_by(specie_name: h_cvi_statement[:grape_variety], category_name: ['Cépage', 'Hybride'])
       unless vine_variety
-        message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_vine_variety', value: h_cvi_statement[:grape_variety])
+        message = :unknown_vine_variety.tl(value: h_cvi_statement[:grape_variety])
         w.error message
         raise message
       end
 
       registered_postal_zone = RegisteredPostalZone.find_by(code: h_cvi_statement[:insee_number])
       unless registered_postal_zone
-        message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_insee_number', value: h_cvi_statement[:insee_number])
+        message = :unknown_insee_number.tl(value: h_cvi_statement[:insee_number])
         w.error message
         raise message
       end
@@ -97,7 +97,7 @@ module Ekylibre
       unless h_cvi_statement[:rootstock].blank? || h_cvi_statement[:rootstock] == 'NC99'
         rootstock = MasterVineVariety.find_by(customs_code: h_cvi_statement[:rootstock], category_name: 'Porte-greffe')
         unless rootstock
-          message = ::I18n.translate('exchangers.ekylibre_cvi.errors.unknown_rootstock', value: h_cvi_statement[:rootstock])
+          message = :unknown_rootstock.tl(value: h_cvi_statement[:rootstock])
           w.error message
           raise message
         end

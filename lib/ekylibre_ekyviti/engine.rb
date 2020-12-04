@@ -9,7 +9,7 @@ module EkylibreEkyviti
     end
 
     initializer 'ekylibre_ekyviti.assets.precompile' do |app|
-      app.config.assets.precompile += %w(ekyviti.scss ekyviti.js themes/bordeaux/all.css themes/cognac/all.css)
+      app.config.assets.precompile += %w(ekyviti.scss ekyviti.js themes/bordeaux/all.css themes/cognac/all.css *.svg)
     end
 
     initializer :extend_navigation do |_app|
