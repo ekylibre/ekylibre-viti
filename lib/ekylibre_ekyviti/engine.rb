@@ -25,7 +25,8 @@ module EkylibreEkyviti
     end
 
     initializer :ekylibre_ekyviti_extend_controllers do |_app|
-      ::Backend::ActivitiesController.include Backend::ActivitiesControllerExt
+      ::Backend::ActivitiesController.include EkylibreEkyviti::ActivitiesControllerExt
+      ::Backend::PlantsController.include EkylibreEkyviti::PlantsControllerExt
     end
 
     initializer :ekylibre_ekyviti_restfully_manageable do |app|
