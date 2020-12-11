@@ -24,7 +24,8 @@ module ConvertCvi
     def create_cultivable_zone
       CultivableZone.create_with(
         name: cvi_cultivable_zone.name,
-        shape: cvi_cultivable_zone.shape
+        shape: cvi_cultivable_zone.shape,
+        work_number: "ZC##{CultivableZone.count + 1}_CVI"
       ).find_or_create_by(name: cvi_cultivable_zone.name)
     end
 

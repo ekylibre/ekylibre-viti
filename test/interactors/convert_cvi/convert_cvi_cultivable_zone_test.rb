@@ -8,7 +8,7 @@ module ConvertCvi
       it 'create new cultivable zone with correct attributes' do
         returned_cultivable_zone = ConvertCviCultivableZone.call(cvi_cultivable_zone)
         assert_equal cvi_cultivable_zone.name, returned_cultivable_zone.name
-        assert_equal "Convert from CVI ID : #{cvi_cultivable_zone.cvi_statement_id}", returned_cultivable_zone.description
+        assert_equal "ZC##{CultivableZone.count}_CVI", returned_cultivable_zone.work_number
         assert_equal cvi_cultivable_zone.shape.convert_to(:multi_polygon), returned_cultivable_zone.shape
       end
 
