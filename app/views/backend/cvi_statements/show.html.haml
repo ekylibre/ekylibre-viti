@@ -50,7 +50,7 @@
       %input{ name: :inter_vine_plant_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_vine_plant_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
       %span.range-maximum= max.to_i
 
-= cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
+= cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: false, fullscreen:true, layers:true}, position: 'topright'),
                   class: 'map-fullwidth map-halfheight') do |c|
   - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
   - c.simple :cvi_cadastral_plants, :main, index: true, async_url: backend_cvi_cadastral_plants_url(id: params[:id])
