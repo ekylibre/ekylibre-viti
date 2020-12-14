@@ -26,7 +26,8 @@
    
     layer.setStyle(style)
 
-    layer._map.on 'zoomend', ->
+    handleLabels = () ->
+      return unless layer._map
       if layer._map.getZoom() == 16
         layer.label.removeFrom(layer._map) if layer.label
         E.map.ghostLabelCluster.removeLayer target: { label: layer.label } unless layer.label is undefined
@@ -43,11 +44,15 @@
         addLabel()
         layer.label.addTo(layer._map)
 
+
+    layer._map.on 'zoomend', handleLabels
+
     layer.on 'remove', ->
       E.map.ghostLabelCluster.removeLayer target: { label: layer.label } unless layer.label is undefined
       E.map.ghostLabelCluster.refresh()
 
     layer.on 'add', ->
+      addLabel()
       E.map.ghostLabelCluster.bind layer.label, layer unless layer.label is undefined
       E.map.ghostLabelCluster.refresh()
 
