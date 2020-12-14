@@ -1,4 +1,4 @@
-module Backend
+module EkylibreEkyviti
   module ActivitiesControllerExt
     extend ActiveSupport::Concern
 

@@ -21,11 +21,10 @@ Gem::Specification.new do |s|
   s.add_dependency 'capistrano-git-with-submodules', '~> 2.0'
   s.add_dependency 'capistrano-nvm'
   s.add_dependency 'capistrano-rails'
-  s.add_dependency "rails", "~> 4.2.11.1"
+
   # Encapsulate application's business logic.
   s.add_dependency 'interactor-rails'
 
-  s.add_development_dependency "pg"
   s.add_development_dependency "rubocop"
   s.add_development_dependency "rubocop-rails"
 end

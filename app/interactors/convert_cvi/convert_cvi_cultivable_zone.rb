@@ -24,7 +24,6 @@ module ConvertCvi
     def create_cultivable_zone
       CultivableZone.create_with(
         name: cvi_cultivable_zone.name,
-        description: "Convert from CVI ID : #{cvi_cultivable_zone.cvi_statement_id}",
         shape: cvi_cultivable_zone.shape
       ).find_or_create_by(name: cvi_cultivable_zone.name)
     end
