@@ -29,13 +29,16 @@ eng:
         not_defined: "To define"
     labels:
       cadastral_land_parcel_zones: "Cadastral land parcels"
-    messages:
-      unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
+    notifications:
+      levels:
+        error: "Error!"
+      messages:
+        unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
     production:
       start_state_of_production:
-        n_2_3_leaf: "N2 (3rd leaf)"
-        n_3_4_leaf: "N3 (2nd leaf)"
-        n_4_5_leaf: "N4 (5th leaf)"
+        n_2_3_leaf: "N+2 (3rd leaf)"
+        n_3_4_leaf: "N+3 (2nd leaf)"
+        n_4_5_leaf: "N+4 (5th leaf)"
     templates:
       actions:
         edit: "Edit"
