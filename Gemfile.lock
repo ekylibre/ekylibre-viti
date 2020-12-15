@@ -167,7 +167,6 @@ GEM
 
 PLATFORMS
   ruby
-  x86_64-linux
 
 DEPENDENCIES
   ekylibre_ekyviti!
@@ -175,4 +174,4 @@ DEPENDENCIES
   rubocop-rails
 
 BUNDLED WITH
-   2.2.0
+   2.0.2

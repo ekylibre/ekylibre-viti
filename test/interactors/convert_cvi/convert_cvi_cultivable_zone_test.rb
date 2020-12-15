@@ -21,10 +21,11 @@ module ConvertCvi
       end
 
       describe "there is a cultivable_zone with the same name as cvi_cultivable_zone" do
-        it 'return the existing cultivable zone' do
+        it 'return a new cultivable zone with correct name' do
           cultivable_zone = create(:cultivable_zone, name: cvi_cultivable_zone.name)
           returned_cultivable_zone = ConvertCviCultivableZone.call(cvi_cultivable_zone)
-          assert_equal cultivable_zone.id, returned_cultivable_zone.id
+          assert_not_equal cultivable_zone.id, returned_cultivable_zone.id
+          assert_equal "#{cvi_cultivable_zone.name} (1)", returned_cultivable_zone.name
         end
       end
     end
