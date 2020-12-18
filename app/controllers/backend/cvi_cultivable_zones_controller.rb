@@ -64,6 +64,7 @@ module Backend
       return unless @cvi_cultivable_zone = find_and_check(:cvi_cultivable_zone)
 
       @cvi_cultivable_zone.attributes = permitted_params
+      @cvi_cultivable_zone.shape = CviCultivableZoneService::ShapeCalculator.calculate(@cvi_cultivable_zone, permitted_params[:shape])
       if @cvi_cultivable_zone.save
         notify_success(:record_x_updated, record: @cvi_cultivable_zone.model_name.human, column: @cvi_cultivable_zone.human_attribute_name(:name), name: @cvi_cultivable_zone.send(:name))
       else
@@ -120,7 +121,7 @@ module Backend
         cvi_cultivable_zone.update_shape!
         cvi_cultivable_zone.complete!
         redirect_to backend_cvi_statement_conversion_path(cvi_cultivable_zone.cvi_statement)
-      else 
+      else
         notify_error(:cvi_land_parcels_planting_campaign_invalid.tl)
         redirect_to action: 'show', id: cvi_cultivable_zone.id
       end
@@ -154,7 +155,7 @@ module Backend
 
     def permitted_params
       params.require(:cvi_cultivable_zone).permit(:name, :shape)
-        .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
+            .tap { |h| h['shape'] = h['shape'] && Charta.new_geometry(h['shape']).to_rgeo }
     end
   end
 end

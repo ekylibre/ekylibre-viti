@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigation>
+  <part name="tools">
+    <group name="cartography">
+      '<item name="cvi_statements">
+        <page to="backend/cvi_statements#index"/>
+        <page to="backend/cvi_statements#show"/>
+        <page to="backend/cvi_statement_conversions#show"/>
+        <page to="backend/cvi_cultivable_zones#show"/>
+      </item>'
+    </group>
+  </part>
+</navigation>

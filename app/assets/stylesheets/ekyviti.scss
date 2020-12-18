@@ -13,4 +13,9 @@
  *= require_self
  */
 
-@import 'cartography_fix';
+@import "patch/variables";
+@import "patch/mixins";
+@import "patch/reset";
+
+@import 'leaflet/label';
+@import '*';
