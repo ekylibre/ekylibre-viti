@@ -4,12 +4,8 @@ module EkylibreEkyviti
       ::Backend::BaseController.prepend_view_path EkylibreEkyviti::Engine.root.join('app/views')
     end
 
-    initializer :ekylibre_ekyviti_themes do |app|
-      app.config.themes += %w[bordeaux cognac]
-    end
-
     initializer 'ekylibre_ekyviti.assets.precompile' do |app|
-      app.config.assets.precompile += %w(ekyviti.scss ekyviti.js themes/bordeaux/all.css themes/cognac/all.css *.svg)
+      app.config.assets.precompile += %w(ekyviti.scss ekyviti.js *.svg)
     end
 
     initializer :ekylibre_ekyviti_extend_with_ekyviti_navigation do |_app|

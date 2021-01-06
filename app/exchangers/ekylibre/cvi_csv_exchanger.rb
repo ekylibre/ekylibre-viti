@@ -2,6 +2,9 @@ module Ekylibre
   class CviCsvExchanger < ActiveExchanger::Base
     include CviComputation
 
+    category :plant_farming
+    vendor :ekylibre
+
     def check
       file_extension = File.extname(file)
       raise :wrong_file_extension.tl(file_extension: file_extension, required_file_extension: '.csv') if file_extension != '.csv'

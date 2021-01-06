@@ -24,7 +24,7 @@
       @ghostLabelCluster = L.ghostLabelCluster {type: 'number', innerClassName: 'leaflet-ghost-label-collapsed', margin: -3 }
       @ghostLabelCluster.addTo @_cartography.getMap()
       ghostIconPane = @_cartography.getMap().createPane('ghost-icon')
-      ghostIconPane.style.zIndex = 6
+      ghostIconPane.style.zIndex = 600
       makerPane = @_cartography.getMap().getPane('markerPane')
       makerPane.style.zIndex = 1000
 
@@ -159,20 +159,20 @@
         error: () =>
         complete: () =>
 
-  $.loadMap = ->
+  $.loadCartographyMap = ->
     return unless $("*[data-cvi-cartography]").length
     $el = $("*[data-cvi-cartography]").first()
     opts = $el.data("cvi-cartography")
     E.map = new E.Map($el[0], opts)
 
-  $.reloadMap = (keepBounds = true ) ->
+  $.reloadCartographyMap = (keepBounds = true ) ->
     map = E.map
     currentBounds = map.getBounds() if keepBounds
     $(map.el.children).remove()
-    $.loadMap()
+    $.loadCartographyMap()
     E.map.fitBounds(currentBounds) if keepBounds
 
-  $(document).ready $.loadMap
+  $(document).ready $.loadCartographyMap
 
   $(document).on E.Events.Map.ready, "*[data-cvi-cartography]", (e) ->
     $(e.target).css('visibility', 'visible')

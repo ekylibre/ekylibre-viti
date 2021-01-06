@@ -1,5 +1,4 @@
 $('#notifications-tag').append("<%=j notifications_tag %>")
 ekylibre.cviLandParcels.list.render()
 $("#cvi-cultibable-zone-action-button").html("<%= escape_javascript(render partial: 'backend/cvi_cultivable_zones/buttons', locals: { cvi_cultivable_zone: @cvi_cultivable_zone }) %>");
-debugger
-$.reloadMap()
+$.reloadCartographyMap()

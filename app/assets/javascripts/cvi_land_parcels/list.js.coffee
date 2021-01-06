@@ -124,13 +124,11 @@
         params = list.selectedCviLandParcels.map (id) ->
               "ids[]=#{id}"
             .join('&')
-        ekylibre.dialog.open "/backend/cvi_land_parcels/edit_multiple?#{params}",
-          returns:
-            success: (frame, data, status, request) =>
-              frame.dialog "close"
-            invalid: (frame, data, status, request) ->
-              frame.html request.responseText
-              frame.trigger('dialog:show')
+        ekylibre.Dialog.open "/backend/cvi_land_parcels/edit_multiple?#{params}",
+          success: (response) =>
+            eval(response.data)
+          error: (response) =>
+            console.error('Dialog error', response)
 
   }
   

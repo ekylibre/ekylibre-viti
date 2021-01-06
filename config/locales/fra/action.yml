@@ -29,6 +29,11 @@ fra:
         not_defined: "A définir"
     labels:
       cadastral_land_parcel_zones: "Parcelles cadastrales"
+    leaflet:
+      home:
+        toolbar:
+          buttons:
+            home: "Centrer"
     notifications:
       levels:
         error: "Erreur\_!"
@@ -85,15 +90,15 @@ fra:
     delete_cvi_cultivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
     delete_cvi_cultivable_zone_header: "Supprimer la Zone Cultivable"
     draw_the_cutting_line: "Dessinez le trait de découpe"
-    edit_analysis: "Modifier l'analyse"
     edit_cadastral_ref: "Editer la référence cadastrale"
     from_current_year: "À partir du"
     go_back: "Retour"
-    harvested_plants: "Cultures récoltées"
-    incoming_harvest_quantity: "Quantité de vendange"
     land_parcel_plant: "Parcelle/culture"
     land_parcels_plants: "Parcelles/cultures"
     major: "majoritaire"
+    edit_analysis: "Modifier l'analyse"
+    harvested_plants: "Cultures récoltées"
+    incoming_harvest_quantity: "Quantité de vendange"
     must_volume: "Volume moût (hl)"
     percentage: "Répartition"
     planted: "Plantées"
