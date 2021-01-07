@@ -11,7 +11,10 @@
 // about supported directives.
 //
 
-//= require main.js
 //= require map
 //= require map/cvi_map_config
+//= require_tree ./
+//= require_tree ./cvi_cadastral_plants
+//= require_tree ./cvi_cultivable_zones
+//= require_tree ./cvi_land_parcels
 //= require wine_incoming_harvest

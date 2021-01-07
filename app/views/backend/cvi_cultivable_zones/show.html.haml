@@ -1,4 +1,4 @@
-= cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
+= cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: false, fullscreen:true, layers:true}, position: 'topright'),
                   class: 'map-fullwidth map-halfheight') do |c|
   - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
   - c.simple :cvi_land_parcels, :main, index: true, async_url: backend_cvi_land_parcels_url(id: params[:id])
@@ -9,25 +9,30 @@
       - k.text
       - k.multi_choice :state, %i[planted removed_with_authorization].map{ |s| [s.tl, s] }
       - k.helper do
-        %label= CviLandParcel.human_attribute_name(:commune)
+        %div.label-container
+          %label= CviLandParcel.human_attribute_name(:commune)
         = select_tag(:communes, options_for_select(([""] + FormattedCviLandParcel.where(cvi_cultivable_zone_id: @cvi_cultivable_zone.id).collect(&:communes)).uniq.sort, selected: params[:designation_of_origin_name]))
       - k.helper do
-        %label= CviLandParcel.human_attribute_name(:designation_of_origin_name)
+        %div.label-container
+          %label= CviLandParcel.human_attribute_name(:designation_of_origin_name)
         = select_tag(:designation_of_origin_name, options_for_select(([""] + FormattedCviLandParcel.where(cvi_cultivable_zone_id: @cvi_cultivable_zone.id).collect(&:designation_of_origin_name)).compact.uniq.sort, selected: params[:designation_of_origin_name]))
       - k.helper do
-        %label= CviLandParcel.human_attribute_name(:vine_variety_name)
+        %div.label-container
+          %label= CviLandParcel.human_attribute_name(:vine_variety_name)
         = select_tag(:vine_variety_name, options_for_select(([""] + FormattedCviLandParcel.where(cvi_cultivable_zone_id: @cvi_cultivable_zone.id).collect(&:vine_variety_name)).uniq.sort , selected: params[:vine_variety_name]))
       - k.helper do
         - max = @cvi_cultivable_zone.cvi_land_parcels.maximum('inter_row_distance_value')
-        .range-slider
+        %div.label-container
           %label= CviLandParcel.human_attribute_name(:inter_row_distance_value)
+        .range-slider
           %span.range-minimum= 0
           %input{ name: :inter_row_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_row_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
           %span.range-maximum= max.to_i
       - k.helper do
         - max = @cvi_cultivable_zone.cvi_land_parcels.maximum('inter_vine_plant_distance_value')
-        .range-slider
+        %div.label-container
           %label= CviLandParcel.human_attribute_name(:inter_vine_plant_distance_value)
+        .range-slider
           %span.range-minimum= 0
           %input{ name: :inter_vine_plant_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_vine_plant_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
           %span.range-maximum= max.to_i

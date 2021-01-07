@@ -8,6 +8,18 @@ Rails.application.routes.draw do
   end
 
   namespace :backend do
+    resources :cadastral_land_parcel_zones, only: %i[index]
+
+    resources :registered_protected_designation_of_origins, concerns: %i[unroll]
+    resources :master_vine_varieties, concerns: %i[unroll] do
+      collection do
+        get :unroll_vine_varieties
+        get :unroll_rootstocks
+      end
+    end
+
+    resources :registered_postal_zones, only: [], concerns: %i[unroll]
+
     resources :cvi_statements, concerns: %i[list] do
       member do
         patch :update_campaign
@@ -54,12 +66,20 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { :format => 'js' } do
+    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { format: 'js' } do
       member do
         get :delete_modal
       end
     end
 
+    namespace :cells do
+      resource :weather_vine_spraying_map_cell, only: :show
+    end
+
+    namespace :visualizations do
+      resource :weather_vine_spraying_map_cells_visualizations, only: :show
+    end
+    
     resources :wine_incoming_harvests, concerns: :list do
       member do
         get :list_plants

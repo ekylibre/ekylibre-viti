@@ -1,0 +1,8 @@
+%div{ style:'display: flex; justify-content: space-between'}
+  - if sensor.partner_url.present?
+    %span
+      = link_to(:see_more_details.tl, sensor.partner_url)
+  - if sensor.alert_on? 'battery_life'
+    %i{ class: 'icon icon-battery-alert', style:'color: red;' }
+  - if sensor.alert_on? 'lost_connection'
+    %i{ class: 'icon icon-portable-wifi-off', style:'color: red;' }

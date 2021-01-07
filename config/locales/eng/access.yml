@@ -1,0 +1,9 @@
+eng:
+  access:
+    resources:
+      cvi_cadastral_plants: "Cvi cadastral plants"
+      cvi_cultivable_zones: "Cvi cultivable zones"
+      cvi_land_parcels: "Cvi land parcels"
+      cvi_statements: "Cvi statements"
+      cvi_statement_conversions: "Cvi statement conversions"
+      cadastral_land_parcel_zones: "Cadastral land parcel zones"

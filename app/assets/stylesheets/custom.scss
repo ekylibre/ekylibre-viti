@@ -1,0 +1,42 @@
+.active-list table.list tbody tr.edit-form > td {
+  overflow: visible;
+}
+
+div.ui-dialog{
+  overflow: visible;
+  div.dialog.ui-dialog-content{
+    overflow: visible;
+      form#new_cvi_land_parcel{
+        overflow: visible;
+      }
+  }
+}
+
+.fieldset.multi-columns{
+  div.fieldset-fields{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  div.control-group{
+    min-width:500px;
+    .controls{
+      max-width: 68%;
+      margin-left: 32%;
+    }
+  }
+}
+
+[id^=edit_cvi_land_parcel] {
+  span { 
+    display:block
+  }
+}
+
+.map-halfheight{
+  height: 50vh;
+}
+
+.label-important {
+  color: $invalid-color;
+}
