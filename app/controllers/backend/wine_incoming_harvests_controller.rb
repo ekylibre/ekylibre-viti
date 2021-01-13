@@ -73,8 +73,8 @@ module Backend
       t.column :harvest_percentage_received, label_method: :displayed_harvest_percentage, class: 'center'
       t.column :net_harvest_area, datatype: :measure, class: 'center'
       t.column :harvest_quantity, class: 'center'
-      t.column :rows_harvested, label_method: :displayed_rows_harvested, class: 'center'
-      t.column :plant_specie_name, class: 'center'
+      t.column :rows_harvested, class: 'center'
+      t.column :plant_specie_variety_name, class: 'center'
     end
 
     list(:storages, model: :wine_incoming_harvest_storage, conditions: { wine_incoming_harvest_id: 'params[:id]'.c }) do |t|
