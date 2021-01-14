@@ -19,11 +19,11 @@
   - k.helper do
     %div.label-container
       %label= WineIncomingHarvestStorage.human_attribute_name(:storage)
-    = select_tag(:wine_storage_name, options_for_select(([""] + WineIncomingHarvestStorage.all.collect(&:wine_incoming_harvest_storage_name)).uniq.sort, selected: params[:wine_storage_name]))
+    = select_tag(:wine_storage_name, options_for_select(([""] + WineIncomingHarvestStorage.all.collect(&:storage_name)).uniq.sort, selected: params[:wine_storage_name]))
   - k.helper do
     %div.label-container
       %label= WineIncomingHarvestPlant.human_attribute_name(:plant)
-    = select_tag(:plant_name, options_for_select(([""] + WineIncomingHarvestPlant.where(wine_incoming_harvest_id:WineIncomingHarvest.all.ids).map(&:plant).collect(&:name)).uniq.sort , selected: params[:plant_name]))
+    = select_tag(:plant_name, options_for_select(([""] + WineIncomingHarvestPlant.all.collect(&:plant_name)).uniq.sort, selected: params[:plant_name]))
   - k.helper do
     %div.label-container
       - max = WineIncomingHarvest.all.map{|w| w.tavp.to_f}.max
