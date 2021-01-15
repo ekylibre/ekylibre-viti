@@ -22,7 +22,17 @@ module ConvertCvi
       assert_equal Hash['cvi_land_parcel_id', cvi_land_parcel.id], created_activity_production.providers
       assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i - 1, activity.production_started_on.month, activity.production_started_on.day),
                    created_activity_production.started_on
-      assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i, activity.production_stopped_on.month, activity.production_stopped_on.day),
+      assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration, activity.production_stopped_on.month, activity.production_stopped_on.day),
+                   created_activity_production.stopped_on 
+    end
+
+    test 'create a new activity production with correct attributes when cvi land parcel age > activity life duration' do
+      cvi_land_parcel.update(planting_campaign: 1970, state: :planted)
+      converter.call
+      activity = cvi_land_parcel.activity
+      created_activity_production = ActivityProduction.last
+      created_activity_production.update(planting_campaign: Campaign.of(cvi_land_parcel.planting_campaign))
+      assert_equal Date.new(Time.zone.now.year + 1, activity.production_stopped_on.month, activity.production_stopped_on.day),
                    created_activity_production.stopped_on
     end
 
