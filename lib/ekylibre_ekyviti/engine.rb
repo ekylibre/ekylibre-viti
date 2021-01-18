@@ -35,9 +35,5 @@ module EkylibreEkyviti
     initializer :ekylibre_ekyviti_beehive do |app|
       app.config.x.beehive.cell_controller_types << :weather_vine_spraying_map
     end
-
-    initializer :i18n do |app|
-      app.config.i18n.load_path += Dir[EkylibreEkyviti::Engine.root.join('config', 'locales', '**', '*.yml')]
-    end
   end
 end
