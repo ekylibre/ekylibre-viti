@@ -15,6 +15,7 @@ module ConvertCvi
       converter.call
       activity = cvi_land_parcel.activity
       created_activity_production = ActivityProduction.last
+      assert_equal cvi_land_parcel.name, created_activity_production.custom_name
       assert_equal 'headland_cultivation', created_activity_production.support_nature
       assert_equal 'fruit', created_activity_production.usage
       assert_equal Campaign.of(cvi_land_parcel.planting_campaign), created_activity_production.planting_campaign
@@ -70,6 +71,7 @@ module ConvertCvi
       converter.call
       vine_variety = cvi_land_parcel.vine_variety
       created_plant = Plant.last
+      assert_equal "#{cvi_land_parcel.name} | #{vine_variety.specie_name}", created_plant.name
       specie_variety = { 'specie_variety_name' => vine_variety.specie_name, 'specie_variety_uuid' => vine_variety.id, 'specie_variety_providers' => vine_variety.class.name }
       assert_equal cvi_land_parcel.shape, created_plant.initial_shape
       assert_equal Date.new(2000, 4, 5), created_plant.initial_dead_at
