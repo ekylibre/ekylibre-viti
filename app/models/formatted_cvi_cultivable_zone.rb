@@ -1,4 +1,4 @@
-class FormattedCviCultivableZone < Ekylibre::Record::Base
+class FormattedCviCultivableZone < ApplicationRecord
   self.primary_key = 'id'
 
   enumerize :land_parcels_status, in: %i[not_started started completed], predicates: true

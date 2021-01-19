@@ -13,7 +13,7 @@
       %span.value= resource.quantity.round_l
     - if tavp_item
       .med-info.important
-        %span.title= Nomen::Indicator.find(:estimated_harvest_alcoholic_volumetric_concentration).human_name
+        %span.title= Onoma::Indicator.find(:estimated_harvest_alcoholic_volumetric_concentration).human_name
         %span.value= tavp_item.value.round_l
 
   = attributes_list(resource) do |l|
@@ -35,7 +35,7 @@
       .attributes-list
         - analysis.items.each do |item|
           %dl
-            %dt= Nomen::Indicator.find(item.indicator_name).human_name
+            %dt= Onoma::Indicator.find(item.indicator_name).human_name
             %dd= Maybe(attribute_item(item, :value).last).or_else { '-' }
 
   - unless resource.additional_informations.empty?

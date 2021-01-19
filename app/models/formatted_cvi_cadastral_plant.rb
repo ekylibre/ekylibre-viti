@@ -38,6 +38,6 @@
 #  state                           :string
 #  vine_variety_name               :string
 #
-class FormattedCviCadastralPlant < Ekylibre::Record::Base
+class FormattedCviCadastralPlant < ApplicationRecord
   enumerize :state, in: %i[planted removed_with_authorization], predicates: true
 end
