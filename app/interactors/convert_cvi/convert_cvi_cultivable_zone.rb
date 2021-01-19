@@ -22,7 +22,7 @@ module ConvertCvi
     attr_accessor :cvi_cultivable_zone
 
     def create_cultivable_zone
-      cz_with_same_name = CultivableZone.where("name ~('#{cvi_cultivable_zone.name}+( \(\d*\))?$')")
+      cz_with_same_name = CultivableZone.where("name ~ ?", "#{cvi_cultivable_zone.name}+( \(\d*\))?$")
       rank = " (#{cz_with_same_name.count})" if cz_with_same_name.any?
 
       CultivableZone.create(
