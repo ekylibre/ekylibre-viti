@@ -3,7 +3,7 @@
   = f.input :received_at, label: :reception_date_label.tl
   = f.input :quantity, label: :received_quantity.tl, wrapper: :append do
     = f.input :quantity_value, wrapper: :simplest
-    = f.input :quantity_unit, collection: %i[kilogram hectoliter].map { |u| [Nomen::Unit.find(u).human_name, u] }, include_blank: false, wrapper: :simplest
+    = f.input :quantity_unit, collection: %i[kilogram hectoliter].map { |u| [Onoma::Unit.find(u).human_name, u] }, include_blank: false, wrapper: :simplest
 
 = field_set :harvested_plants do
   .nested-association
@@ -30,11 +30,11 @@
   = f.input :harvest_description
   = f.input :sedimentation_duration, wrapper: :append do
     = f.input_field :sedimentation_duration, as: :integer
-    %span.add-on= Nomen::Unit.find(:minute).symbol
+    %span.add-on= Onoma::Unit.find(:minute).symbol
   = f.input :vehicle_trailer
   = f.input :harvest_transportation_duration, wrapper: :append do
     = f.input_field :harvest_transportation_duration, as: :integer
-    %span.add-on= Nomen::Unit.find(:minute).symbol
+    %span.add-on= Onoma::Unit.find(:minute).symbol
   = f.input :last_load, as: :radio_buttons, collection: [[:n.tl, false], [:y.tl, true]]
   = f.input :harvest_nature, as: :select, collection: [[:mechanical.tl, 'mechanical'], [:manual_f.tl, 'manual']]
   = f.input :harvest_dock

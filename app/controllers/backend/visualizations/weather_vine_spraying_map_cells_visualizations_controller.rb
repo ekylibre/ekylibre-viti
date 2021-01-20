@@ -7,8 +7,8 @@ module Backend
         config = {}
         data = []
         sensor_data = []
-        ind = Nomen::Indicator[:cumulated_rainfall]
-        unit = Nomen::Unit.find(ind.unit)
+        ind = Onoma::Indicator[:cumulated_rainfall]
+        unit = Onoma::Unit.find(ind.unit)
         activity_production_ids = params[:activity_production_ids]
 
         activity_productions = ActivityProduction.where(id: activity_production_ids)

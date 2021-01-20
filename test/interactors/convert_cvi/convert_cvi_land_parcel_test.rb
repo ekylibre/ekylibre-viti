@@ -15,6 +15,7 @@ module ConvertCvi
       converter.call
       activity = cvi_land_parcel.activity
       created_activity_production = ActivityProduction.last
+      assert_equal cvi_land_parcel.name, created_activity_production.custom_name
       assert_equal 'headland_cultivation', created_activity_production.support_nature
       assert_equal 'fruit', created_activity_production.usage
       assert_equal Campaign.of(cvi_land_parcel.planting_campaign), created_activity_production.planting_campaign
@@ -22,7 +23,17 @@ module ConvertCvi
       assert_equal Hash['cvi_land_parcel_id', cvi_land_parcel.id], created_activity_production.providers
       assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i - 1, activity.production_started_on.month, activity.production_started_on.day),
                    created_activity_production.started_on
-      assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i, activity.production_stopped_on.month, activity.production_stopped_on.day),
+      assert_equal Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration, activity.production_stopped_on.month, activity.production_stopped_on.day),
+                   created_activity_production.stopped_on 
+    end
+
+    test 'create a new activity production with correct attributes when cvi land parcel age > activity life duration' do
+      cvi_land_parcel.update(planting_campaign: 1970, state: :planted)
+      converter.call
+      activity = cvi_land_parcel.activity
+      created_activity_production = ActivityProduction.last
+      created_activity_production.update(planting_campaign: Campaign.of(cvi_land_parcel.planting_campaign))
+      assert_equal Date.new(Time.zone.now.year + 1, activity.production_stopped_on.month, activity.production_stopped_on.day),
                    created_activity_production.stopped_on
     end
 
@@ -60,6 +71,7 @@ module ConvertCvi
       converter.call
       vine_variety = cvi_land_parcel.vine_variety
       created_plant = Plant.last
+      assert_equal "#{cvi_land_parcel.name} | #{vine_variety.specie_name}", created_plant.name
       specie_variety = { 'specie_variety_name' => vine_variety.specie_name, 'specie_variety_uuid' => vine_variety.id, 'specie_variety_providers' => vine_variety.class.name }
       assert_equal cvi_land_parcel.shape, created_plant.initial_shape
       assert_equal Date.new(2000, 4, 5), created_plant.initial_dead_at
