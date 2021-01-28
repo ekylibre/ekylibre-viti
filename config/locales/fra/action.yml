@@ -94,6 +94,7 @@ fra:
     edit_cadastral_ref: "Editer la référence cadastrale"
     from_current_year: "À partir du"
     go_back: "Retour"
+    invalid_siret: "%{value} n'est pas un numéro de SIRET valide"
     land_parcel_plant: "Parcelle/culture"
     land_parcels_plants: "Parcelles/cultures"
     major: "majoritaire"

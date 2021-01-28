@@ -91,6 +91,7 @@ eng:
     go_back: "Back"
     harvested_plants: "Harvested plants"
     incoming_harvest_quantity: "Incoming harvest quantity"
+    invalid_siret: "SIRET number %{value} is not valid"
     land_parcel_plant: "Land parcel/plant"
     land_parcels_plants: "Land parcels/plants"
     major: "main"
