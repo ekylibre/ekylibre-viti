@@ -126,7 +126,7 @@ module Backend
       File.write source, file_odt
       `soffice  --headless --convert-to pdf --outdir #{Shellwords.escape(tmp_dir.to_s)} #{Shellwords.escape(source)}`
       Document.create!(
-                 nature: 'wine_incoming_harvest_report',
+                 nature: 'wine_incoming_harvest_register',
                  key: key,
                  name: filename,
                  file: File.open(dest),
