@@ -10,6 +10,7 @@ module ConvertCvi
             ConvertCviLandParcel.call(cvi_land_parcel, activity_open_from)
           end
         rescue StandardError => e
+          binding.pry
           context.fail!(error: e.message)
         end
       end
