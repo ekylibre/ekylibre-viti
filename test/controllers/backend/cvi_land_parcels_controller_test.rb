@@ -9,12 +9,12 @@ module Backend
       let(:cvi_cultivable_zone) { create(:cvi_cultivable_zone, :with_cvi_land_parcels) }
 
       it 'return the right number of cvi_land_parcel' do
-        get :index, id: cvi_cultivable_zone.id
+        get :index,  params: { id: cvi_cultivable_zone.id }
         assert_equal cvi_cultivable_zone.cvi_land_parcels.count, JSON.parse(response.body).count
       end
 
       it 'return object with id, shape, updated? keys' do
-        get :index, id: cvi_cultivable_zone.id
+        get :index,  params: { id: cvi_cultivable_zone.id }
         assert_equal %w[uuid shape name year vine_variety updated], JSON.parse(response.body).first.keys
       end
     end
@@ -24,7 +24,7 @@ module Backend
       let(:attributes) { attributes_for(:cvi_land_parcel) }
 
       it 'updates record' do
-        xhr :put, :update, id: cvi_land_parcel.id, cvi_land_parcel: attributes
+        xhr :put, :update,  params: { id: cvi_land_parcel.id, cvi_land_parcel: attributes }
         cvi_land_parcel = CviLandParcel.order('updated_at').last
         assert_equal attributes[:name], cvi_land_parcel.name
         assert_equal attributes[:planting_campaign], cvi_land_parcel.planting_campaign
@@ -39,7 +39,7 @@ module Backend
       end
 
       it 'responds with success' do
-        xhr :put, :update, id: cvi_land_parcel.id, cvi_land_parcel: attributes
+        xhr :put, :update,  params: { id: cvi_land_parcel.id, cvi_land_parcel: attributes }
         assert_response :success
       end
     end
@@ -50,7 +50,7 @@ module Backend
 
         it 'sets a flash message' do
           assert_difference 'flash.count', 1 do
-            xhr :post, :group, cvi_land_parcel_ids: cvi_land_parcels.map(&:id)
+            xhr :post, :group,  params: { cvi_land_parcel_ids: cvi_land_parcels.map(&:id) }
           end
         end
       end
@@ -59,7 +59,7 @@ module Backend
         let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2, :groupable) }
 
         it 'responds with success' do
-          xhr :post, :group, cvi_land_parcel_ids: cvi_land_parcels.map(&:id)
+          xhr :post, :group,  params: { cvi_land_parcel_ids: cvi_land_parcels.map(&:id) }
           assert_response :success
         end
       end
@@ -69,12 +69,12 @@ module Backend
       let(:cvi_land_parcels) { create_list(:cvi_land_parcel, 2) }
 
       it 'responds with success' do
-        xhr :get, :edit_multiple, ids: cvi_land_parcels.map(&:id)
+        xhr :get, :edit_multiple,  params: { ids: cvi_land_parcels.map(&:id) } 
         assert_response :success
       end
 
       it 'assigns objects' do
-        xhr :get, :edit_multiple, ids: cvi_land_parcels.map(&:id)
+        xhr :get, :edit_multiple,  params: { ids: cvi_land_parcels.map(&:id) }
         assert_not_nil assigns(:cvi_land_parcels)
         assert_not_nil assigns(:cvi_land_parcel)
       end
@@ -86,12 +86,12 @@ module Backend
       let(:params) { attributes_for(:cvi_land_parcel) }
 
       it 'responds with success' do
-        xhr :put, :update_multiple, ids: cvi_land_parcels.map(&:id), cvi_land_parcel: params
+        xhr :put, :update_multiple,  params: { ids: cvi_land_parcels.map(&:id), cvi_land_parcel: params }
         assert_response :success
       end
 
       it 'updates each cvi_land_parcels' do
-        xhr :put, :update_multiple, ids: cvi_land_parcels.map(&:id), cvi_land_parcel: params
+        xhr :put, :update_multiple,  params: { ids: cvi_land_parcels.map(&:id), cvi_land_parcel: params }
         updated_cvi_land_parcels = CviLandParcel.find(cvi_land_parcels.map(&:id))
         EXCEPTED_ATTRIBUTES = %w[id created_at updated_at declared_area_value shape calculated_area_value].freeze
         assert updated_cvi_land_parcels.first.attributes.except(*EXCEPTED_ATTRIBUTES) ==
