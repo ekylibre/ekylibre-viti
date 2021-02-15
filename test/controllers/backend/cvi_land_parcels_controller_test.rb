@@ -5,6 +5,8 @@ module Backend
   class CviLandParcelsControllerTest < Ekylibre::Testing::ApplicationControllerTestCase::WithFixtures
     test_restfully_all_actions except: %i[edit_multiple update_multiple index update group split pre_split index new_vine_activity_params]
 
+    EXCEPTED_ATTRIBUTES = %w[id created_at updated_at declared_area_value shape calculated_area_value].freeze
+
     setup do
       @cvi_cultivable_zone = create(:cvi_cultivable_zone, :with_cvi_land_parcels)
       @cvi_land_parcel = create(:cvi_land_parcel, :with_activity)
@@ -62,7 +64,6 @@ module Backend
       cvi_land_parcels =  create_list(:cvi_land_parcel, 2, cvi_cultivable_zone_id: cvi_cultivable_zone.id)
       put :update_multiple, params: { ids: cvi_land_parcels.map(&:id), cvi_land_parcel: attributes }, xhr: true
       updated_cvi_land_parcels = CviLandParcel.find(cvi_land_parcels.map(&:id))
-      EXCEPTED_ATTRIBUTES = %w[id created_at updated_at declared_area_value shape calculated_area_value].freeze
       assert updated_cvi_land_parcels.first.attributes.except(*EXCEPTED_ATTRIBUTES) ==
              updated_cvi_land_parcels.second.attributes.except(*EXCEPTED_ATTRIBUTES)
       assert_response :success, 'responds with success'

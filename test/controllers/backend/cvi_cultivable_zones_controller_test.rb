@@ -44,7 +44,7 @@ module Backend
     test 'test#reset' do
       get :reset, params: { id: cvi_cultivable_zone_with_cp.id }
       assert_equal 'started', cvi_cultivable_zone_with_cp.reload.land_parcels_status, 'sets cvi_land_parcels_status to started'
-      assert_in_delta cvi_cultivable_zone_with_cp.cvi_cadastral_plants.collect { |e| e.shape.area }.sum / 10_000, cvi_cultivable_zone_with_cp.reload.calculated_area_value.to_f, epsilon = 0.0001, 'updates cvi_cultivable_zone calculated_surface with the sum of associated cvi_cadastral_plant'
+      assert_in_delta cvi_cultivable_zone_with_cp.cvi_cadastral_plants.collect { |e| e.shape.area }.sum / 10_000, cvi_cultivable_zone_with_cp.reload.calculated_area_value.to_f, 0.0001, 'updates cvi_cultivable_zone calculated_surface with the sum of associated cvi_cadastral_plant'
     end
 
     test  '#edit_cvi_land_parcels sets cvi_land_parcels_status to started' do
