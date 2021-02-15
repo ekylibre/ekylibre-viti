@@ -20,9 +20,11 @@ module EkylibreEkyviti
       app.config.i18n.load_path += Dir[EkylibreEkyviti::Engine.root.join('config', 'locales', '**', '*.yml')]
     end
 
-    initializer :ekylibre_ekyviti_extend_controllers do |_app|
-      ::Backend::ActivitiesController.include EkylibreEkyviti::ActivitiesControllerExt
-      ::Backend::PlantsController.include EkylibreEkyviti::PlantsControllerExt
+    if (::ActiveRecord::Base.connection_pool.with_connection(&:active?) rescue false)
+      initializer :ekylibre_ekyviti_extend_controllers do |_app|
+        ::Backend::ActivitiesController.include EkylibreEkyviti::ActivitiesControllerExt
+        ::Backend::PlantsController.include EkylibreEkyviti::PlantsControllerExt
+      end
     end
 
     initializer :ekylibre_ekyviti_restfully_manageable do |app|
