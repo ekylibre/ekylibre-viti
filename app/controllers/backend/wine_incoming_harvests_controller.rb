@@ -61,18 +61,19 @@ module Backend
       t.column :human_plants_names
       t.column :net_harvest_areas_sum
       t.column :quantity_value, on_select: :sum, value_method: :quantity, datatype: :bigdecimal
-      t.column :quantity_unit, label_method: :human_quantity_unit_name
+      t.column :quantity_unit
       t.column :human_storages_names
-      t.column :tavp
+      t.column :tavp, class: 'center'
       t.column :human_species_variesties_names
     end
 
-    list(:plants, model: :wine_incoming_harvest_plant, joins: :plant, conditions: { wine_incoming_harvest_id: 'params[:id]'.c }) do |t|
+    list(:plants, model: :wine_incoming_harvest_plant, joins: :plant, conditions: { wine_incoming_harvest_id: 'params[:id]'.c }, order: { plant: :asc }) do |t|
       t.column :plant, url: true
-      t.column :net_surface_area, through: :plant, label: :total_area_in_hectare, datatype: :measure, class: 'center'
+      t.column :net_surface_area_plant, label: :total_area_in_hectare, datatype: :measure, class: 'center'
       t.column :harvest_percentage_received, label_method: :displayed_harvest_percentage, class: 'center'
-      t.column :net_harvest_area, datatype: :measure, class: 'center'
+      t.column :net_harvest_area, label_method: :displayed_net_harvest_area, class: 'center'
       t.column :harvest_quantity, class: 'center'
+      t.column :quantity_unit, class: 'center'
       t.column :rows_harvested, class: 'center'
       t.column :plant_specie_variety_name, class: 'center'
     end
@@ -84,7 +85,7 @@ module Backend
 
     list(:presses, model: :wine_incoming_harvest_press, conditions: { wine_incoming_harvest_id: 'params[:id]'.c }) do |t|
       t.column :press, url: true
-      t.column :quantity, label: :volume_in_winery, datatype: :measure, class: 'center'
+      t.column :quantity_value, label: :volume_in_winery, datatype: :measure, class: 'center'
       t.column :pressing_schedule
       t.column :pressing_started_at, label_method: :decorated_pressing_started_at
     end
@@ -152,7 +153,8 @@ module Backend
           t.add_column(:wine_harvest_received_at)
           t.add_column(:wine_harvest_plants_name)
           t.add_column(:wine_net_harvest_area)
-          t.add_column(:quantity)
+          t.add_column(:quantity_value)
+          t.add_column(:quantity_unit)
           t.add_column(:wine_harvest_storages_name)
           t.add_column(:wine_harvest_tavp)
           t.add_column(:wine_harvest_species_name)
