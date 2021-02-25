@@ -13,6 +13,7 @@
 
 //= require map
 //= require map/cvi_map_config
+//= require map/cvi_map
 //= require_tree ./
 //= require_tree ./cvi_cadastral_plants
 //= require_tree ./cvi_cultivable_zones
