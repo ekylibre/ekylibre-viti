@@ -158,6 +158,7 @@ fra:
     year_long: "Année"
   notifications:
     messages:
+      can_not_convert_cvi_statement: "Veuillez corriger ou supprimer la/les référence(s) identifiée(s) en rouge avant de lancer la conversion."
       can_not_group_cvi_land_parcels: "Les parcelles ne peuvent pas être regroupées car le cépage, le produit, la densité, l'activité ou l’état diffère. Veuillez vérifier les valeurs avant de regrouper les parcelles."
       can_not_group_no_intersection: "Les %{name_pluralized} n’ont pas pu être regroupées. Si vous souhaitez les regrouper, éditez l’une des deux %{name_pluralized} de façon à ce que leurs contours aient au moins un point d’intersection."
       can_not_split_grouped: "La parcelle ne peut pas être dissociée car elle provient déjà du regroupement de plusieurs parcelles. Veuillez choisir une autre parcelle ou réinitialiser la Zone cultivable."
