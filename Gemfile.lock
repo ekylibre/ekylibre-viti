@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ekylibre_ekyviti (1.0.1)
+    ekylibre_ekyviti (1.1.0)
       capistrano-git-with-submodules (~> 2.0)
       capistrano-nvm
       capistrano-rails
@@ -150,7 +150,7 @@ GEM
     sshkit (1.21.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    thor (1.0.1)
+    thor (1.1.0)
     thread_safe (0.3.6)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)

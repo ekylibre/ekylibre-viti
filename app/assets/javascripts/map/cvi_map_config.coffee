@@ -19,7 +19,9 @@
         nameIndex = parseInt(matchnameIndex[1])
         offset = L.point(0, (nameIndex - 1) * 1.1 * layer._map.getZoom())
         positionLatLng = layer._map.containerPointToLatLng(centerPixels.add(offset))
-      name = "#{layer.feature.properties.name} | #{layer.feature.properties.vine_variety} | #{layer.feature.properties.year}"
+      year = layer.feature.properties.year
+      displayedYear =  if year? then ('| ' + year) else ''
+      name = "#{layer.feature.properties.name} | #{layer.feature.properties.vine_variety} #{displayedYear}"
       layer.label = new L.GhostLabel( { baseClassName: '', className: "simple-label #{klass}", pane: 'ghost-icon' } ).setContent(name).setLatLng(positionLatLng)
               
     style = { color: color, fillOpacity: 0, opacity: 1, fill: true, weight: 2 }

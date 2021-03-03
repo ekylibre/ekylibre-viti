@@ -1,0 +1,8 @@
+.nested-fields
+  = f.referenced_association :press, source: { scope: { can: 'press(wine)' } }, label: :press.tl, new: false
+  = f.input :quantity_value, label: :must_volume.tl
+  = f.input :quantity_unit, as: :hidden, input_html: { value: :hectoliter }
+  = f.input :pressing_schedule
+  = f.input :pressing_started_at do 
+    = f.time_field  :pressing_started_at, input_html: { value: f.object.pressing_started_at&.strftime('%H:%M') }
+  = link_to_remove_nested_association(:presses, f)

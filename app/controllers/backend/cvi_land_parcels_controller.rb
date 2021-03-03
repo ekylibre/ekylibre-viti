@@ -37,6 +37,7 @@ module Backend
       @cvi_land_parcel.tap do |r|
         r.valid?
         r.errors.delete(:name)
+        r.errors.delete(:shape)
         r.errors.delete(:inter_vine_plant_distance_value) if r.errors.added?(:inter_vine_plant_distance_value, :blank)
         r.errors.delete(:inter_row_distance_value) if r.errors.added?(:inter_row_distance_value, :blank)
         r.errors.delete(:vine_variety_id) if r.errors.added?(:vine_variety_id, :blank)

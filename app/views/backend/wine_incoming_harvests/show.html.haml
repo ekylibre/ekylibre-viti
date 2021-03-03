@@ -29,6 +29,9 @@
   - c.cobble(:storages, title: :winery_destination.tl) do
     = cobble_list(:storages)
 
+  - c.cobble(:presses, title: :winery_press.tl) do
+    = cobble_list(:presses)
+
   - if analysis
     - c.cobble(:analysis) do
       / TODO: Dirty, would need to spend more time to have a proper behavior handled by attributes_list helper
@@ -37,12 +40,11 @@
           %dl
             %dt= Onoma::Indicator.find(item.indicator_name).human_name
             %dd= Maybe(attribute_item(item, :value).last).or_else { '-' }
-
+            
   - unless resource.additional_informations.empty?
     - c.cobble(:additional_informations) do
       = attributes_list(resource, stamps: false) do |l|
-        - l.attribute :pressing_schedule
-        - l.attribute :pressing_started_at
+        - l.attribute :harvest_description
         - l.custom WineIncomingHarvest.human_attribute_name(:sedimentation_duration), resource.sedimentation_duration.present? ? "#{resource.sedimentation_duration} min" : '-'
         - l.attribute :vehicle_trailer
         - l.custom WineIncomingHarvest.human_attribute_name(:harvest_transportation_duration), resource.harvest_transportation_duration.present? ? "#{resource.harvest_transportation_duration} min" : '-'
