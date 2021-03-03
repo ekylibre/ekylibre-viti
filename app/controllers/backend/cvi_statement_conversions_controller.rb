@@ -21,10 +21,15 @@ module Backend
 
     def create
       cvi_statement = CviStatement.find(params[:id])
-      campaign = Campaign.find_or_create_by(harvest_year: params[:campaign].to_i)
-      cvi_statement.update(campaign_id: campaign.id)
-      GenerateCviCultivableZones.call(cvi_statement: cvi_statement)
-      redirect_to action: 'show', id: cvi_statement.id
+      result = GenerateCviCultivableZones.call(cvi_statement: cvi_statement)
+      if result.success?
+        campaign = Campaign.find_or_create_by(harvest_year: params[:campaign].to_i)
+        cvi_statement.update(campaign_id: campaign.id)
+        redirect_to action: 'show', id: cvi_statement.id
+      else
+        notify_error(result.error)
+        redirect_to backend_cvi_statement_path(cvi_statement)
+      end
     end
 
     def reset
