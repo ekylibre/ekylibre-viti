@@ -19,8 +19,9 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency 'capistrano-git-with-submodules', '~> 2.0'
-  s.add_dependency 'capistrano-nvm'
-  s.add_dependency 'capistrano-rails'
+  s.add_dependency 'capistrano', '3.15.0'
+  s.add_dependency 'capistrano-nvm', '0.0.7'
+  s.add_dependency 'capistrano-rails', '1.6.1'
   s.add_dependency 'rails', '4.2.11.1'
 
   # Encapsulate application's business logic.
