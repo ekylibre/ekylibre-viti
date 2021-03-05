@@ -2,6 +2,8 @@ module Backend
   class CviCadastralPlantsController < Backend::CviBaseController
     manage_restfully only: %i[edit destroy]
 
+    before_action :find_cvi_statement, only: [:update, :destroy]
+
     def index
       records = CviStatement.find(params[:id]).cvi_cadastral_plants.collect do |r|
         { uuid: r.id, shape: r.land_parcel.shape.to_json_object, cadastral_ref: r.cadastral_reference } if r.land_parcel
@@ -13,7 +15,6 @@ module Backend
       return unless @cvi_cadastral_plant = find_and_check(:cvi_cadastral_plant)
       previous_cadastral_land_parcel = @cvi_cadastral_plant
       @cvi_cadastral_plant.attributes = permitted_params
-      @cvi_statement = @cvi_cadastral_plant.cvi_statement
 
       cadastral_land_parcel = CadastralLandParcelZone.find_with(RegisteredPostalZone.find(permitted_params[:location_attributes][:registered_postal_zone_id])&.code,
                                                                                           permitted_params[:section],
@@ -31,5 +32,12 @@ module Backend
     end
 
     def delete_modal; end
+
+    private
+
+      def find_cvi_statement
+        cvi_cadastral_plant = CviCadastralPlant.find(params[:id])
+        @cvi_statement = cvi_cadastral_plant.cvi_statement if cvi_cadastral_plant.present?
+      end
   end
 end

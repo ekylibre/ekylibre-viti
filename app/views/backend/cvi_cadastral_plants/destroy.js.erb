@@ -2,3 +2,6 @@ $("#delete-modal").modal('hide');
 $('#notifications-tag').append("<%=j notifications_tag %>")
 ekylibre.list.render()
 $.reloadCartographyMap(false)
+if (<%= @cvi_statement&.convertible? %>){
+    $('a.select-campaign').attr('disabled', false);
+}
