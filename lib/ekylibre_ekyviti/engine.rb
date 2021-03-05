@@ -19,12 +19,11 @@ module EkylibreEkyviti
     initializer :ekylibre_ekyviti_i18n do |app|
       app.config.i18n.load_path += Dir[EkylibreEkyviti::Engine.root.join('config', 'locales', '**', '*.yml')]
     end
-
-    if (::ActiveRecord::Base.connection_pool.with_connection(&:active?) rescue false)
-      initializer :ekylibre_ekyviti_extend_controllers do |_app|
-        ::Backend::ActivitiesController.include EkylibreEkyviti::ActivitiesControllerExt
-        ::Backend::PlantsController.include EkylibreEkyviti::PlantsControllerExt
-      end
+    # TODO: don't execute if db is not created yet
+    # if (::ActiveRecord::Base.connection_pool.with_connection(&:active?) rescue false)
+    initializer :ekylibre_ekyviti_extend_controllers do |_app|
+      ::Backend::ActivitiesController.include EkylibreEkyviti::ActivitiesControllerExt
+      ::Backend::PlantsController.include EkylibreEkyviti::PlantsControllerExt
     end
 
     initializer :ekylibre_ekyviti_restfully_manageable do |app|
@@ -34,6 +33,7 @@ module EkylibreEkyviti
     initializer :ekylibre_ekyviti_extend_measure do |_app|
       ::Measure.prepend EkylibreEkyviti::MeasureExt
     end
+
     initializer :ekylibre_ekyviti_beehive do |app|
       app.config.x.beehive.cell_controller_types << :weather_vine_spraying_map
     end
