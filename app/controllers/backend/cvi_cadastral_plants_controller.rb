@@ -13,6 +13,7 @@ module Backend
       return unless @cvi_cadastral_plant = find_and_check(:cvi_cadastral_plant)
       previous_cadastral_land_parcel = @cvi_cadastral_plant
       @cvi_cadastral_plant.attributes = permitted_params
+      @cvi_statement = @cvi_cadastral_plant.cvi_statement
 
       cadastral_land_parcel = CadastralLandParcelZone.find_with(RegisteredPostalZone.find(permitted_params[:location_attributes][:registered_postal_zone_id])&.code,
                                                                                           permitted_params[:section],
