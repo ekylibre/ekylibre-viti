@@ -19,12 +19,6 @@ module EkylibreEkyviti
     initializer :ekylibre_ekyviti_i18n do |app|
       app.config.i18n.load_path += Dir[EkylibreEkyviti::Engine.root.join('config', 'locales', '**', '*.yml')]
     end
-    # TODO: don't execute if db is not created yet
-    # if (::ActiveRecord::Base.connection_pool.with_connection(&:active?) rescue false)
-    initializer :ekylibre_ekyviti_extend_controllers do |_app|
-      ::Backend::ActivitiesController.include EkylibreEkyviti::ActivitiesControllerExt
-      ::Backend::PlantsController.include EkylibreEkyviti::PlantsControllerExt
-    end
 
     initializer :ekylibre_ekyviti_restfully_manageable do |app|
       app.config.x.restfully_manageable.view_paths << EkylibreEkyviti::Engine.root.join('app', 'views')
