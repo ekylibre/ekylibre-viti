@@ -4,39 +4,44 @@ module Backend
 
     def self.cvi_land_parcels_conditions
       code = ''
-      code = search_conditions(formatted_cvi_land_parcels: %i[name state localities communes planting_campaign designation_of_origin_name vine_variety_name rootstock]) + " ||= []\n"
+      code = search_conditions(cvi_land_parcels: %i[name planting_campaign],
+                               registered_protected_designation_of_origins: %i[product_human_name_fra],
+                               master_vine_varieties: %i[specie_name],
+                               "rootstocks_cvi_land_parcels" => %i[specie_name],
+                               locations: %i[locality],
+                               registered_postal_zones: %i[city_name]) + " ||= []\n"
 
-      code << "c[0] << ' AND #{FormattedCviLandParcel.table_name}.cvi_cultivable_zone_id = ?'\n"
+      code << "c[0] << ' AND cvi_land_parcels.cvi_cultivable_zone_id = ?'\n"
       code << "c << params[:id].to_i\n"
 
       # state
       code << "unless params[:state].blank? \n"
-      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.state IN (?)'\n"
+      code << "  c[0] << ' AND cvi_land_parcels.state IN (?)'\n"
       code << "  c << params[:state]\n"
       code << "end\n"
 
       # communes
       code << "unless params[:communes].blank? \n"
-      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.communes ILIKE (?)'\n"
+      code << "  c[0] << ' AND registered_postal_zones.city_name ILIKE (?)'\n"
       code << "  c <<  '%' + params[:communes] + '%'\n"
       code << "end\n"
 
       # designation_of_origin_name
       code << "unless params[:designation_of_origin_name].blank? \n"
-      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.designation_of_origin_name = ?'\n"
+      code << "  c[0] << ' AND registered_protected_designation_of_origins.product_human_name_fra = ?'\n"
       code << "  c << params[:designation_of_origin_name]\n"
       code << "end\n"
 
       # vine_variety_name
       code << "unless params[:vine_variety_name].blank? \n"
-      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.vine_variety_name = ?'\n"
+      code << "  c[0] << ' AND master_vine_varieties.specie_name = ?'\n"
       code << "  c << params[:vine_variety_name]\n"
       code << "end\n"
 
       # inter_row_distance
       code << "if params[:inter_row_distance_value] \n"
       code << "  lower,higher = params[:inter_row_distance_value].split(',').map(&:to_i)\n"
-      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.inter_row_distance_value BETWEEN ? AND ?'\n"
+      code << "  c[0] << ' AND cvi_land_parcels.inter_row_distance_value BETWEEN ? AND ?'\n"
       code << "  c << lower\n"
       code << "  c << higher\n"
       code << "end\n"
@@ -44,7 +49,7 @@ module Backend
       # inter_vine_plant_distance
       code << "if params[:inter_vine_plant_distance_value]\n"
       code << "  lower,higher = params[:inter_vine_plant_distance_value].split(',').map(&:to_i)\n"
-      code << "  c[0] << ' AND #{FormattedCviLandParcel.table_name}.inter_vine_plant_distance_value BETWEEN ? AND ?'\n"
+      code << "  c[0] << ' AND cvi_land_parcels.inter_vine_plant_distance_value BETWEEN ? AND ?'\n"
       code << "  c << lower\n"
       code << "  c << higher\n"
       code << "end\n"
@@ -127,20 +132,33 @@ module Backend
       end
     end
 
-    list(:cvi_land_parcels, selectable: true, order: 'name DESC', model: :formatted_cvi_land_parcels, conditions: cvi_land_parcels_conditions, line_class: "'activity-undefined' if RECORD.activity_name == 'not_defined'".c) do |t|
+    list(:cvi_land_parcels, selectable: true,
+                            order: 'name DESC',
+                            select:
+                              [
+                                'cvi_land_parcels.*',
+                                ['activities.name', 'activity_name']
+                              ],
+                            joins:
+                              "LEFT JOIN locations ON cvi_land_parcels.id = locations.localizable_id AND locations.localizable_type = 'CviLandParcel'
+                               LEFT JOIN registered_postal_zones ON locations.registered_postal_zone_id = registered_postal_zones.id
+                               LEFT JOIN activities ON cvi_land_parcels.activity_id = activities.id",
+                            conditions: cvi_land_parcels_conditions,
+                            count: 'DISTINCT cvi_land_parcels.id',
+                            group: 'cvi_land_parcels.id, activities.name, registered_protected_designation_of_origins.id, master_vine_varieties.id, rootstocks_cvi_land_parcels.id') do |t|
       t.column :id, hidden: true
       t.action :edit, url: { controller: 'cvi_land_parcels', action: 'edit', remote: true }
       t.column :name
-      t.column :communes
-      t.column :localities
-      t.column :designation_of_origin_name
-      t.column :vine_variety_name
-      t.column :declared_area_formatted, label: :declared_area
-      t.column :calculated_area_formatted, label: :calculated_area
-      t.column :rootstock
+      t.column :communes, label_method: "locations.collect(&:city_name).compact.uniq.sort.join(', ')"
+      t.column :localities, label_method: "locations.pluck(:locality).compact.uniq.sort.join(', ')"
+      t.column :product_human_name_fra, through: :designation_of_origin
+      t.column :vine_variety_name, through: :vine_variety
+      t.column :calculated_area, label_method: 'calculated_area&.to_s(:ha_a_ca)', sort: :calculated_area_value
+      t.column :declared_area, label_method: 'declared_area&.to_s(:ha_a_ca)', sort: :declared_area_value
+      t.column :rootstock_name, through: :rootstock
       t.column :planting_campaign
-      t.column :inter_vine_plant_distance_value
-      t.column :inter_row_distance_value
+      t.column :inter_vine_plant_distance_value, label_method: 'inter_vine_plant_distance_value&.to_i'
+      t.column :inter_row_distance_value, label_method: 'inter_row_distance_value&.to_i'
       t.column :state
       t.column :activity_name, label: :activity
     end

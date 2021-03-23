@@ -59,7 +59,8 @@ eng:
     cadastral_reference: "Cadastral reference"
     cadastral_references: "associated cadastral ref."
     calculated_area: "calculated area"
-    communes: "commune(s)"
+    commune: "Commune"
+    communes: "Commune(s)"
     complete: "Complete"
     confirm: "Confirm"
     confirm_cvi_land_parcels: "Confirm cvi land parcels" #?
