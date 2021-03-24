@@ -12,10 +12,6 @@ module EkylibreEkyviti
       EkylibreEkyviti::ExtNavigation.add_navigation_xml_to_existing_tree
     end
 
-    initializer :ekylibre_ekyviti_extend_lexicon do |_app|
-      ::Lexicon.include EkylibreEkyviti::Lexicon
-    end
-
     initializer :ekylibre_ekyviti_i18n do |app|
       app.config.i18n.load_path += Dir[EkylibreEkyviti::Engine.root.join('config', 'locales', '**', '*.yml')]
     end
