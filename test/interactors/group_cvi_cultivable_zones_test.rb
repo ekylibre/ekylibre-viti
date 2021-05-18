@@ -15,11 +15,11 @@ class GroupCviCultivableZonesTest < Ekylibre::Testing::ApplicationTestCase::With
     cvi_cadastral_plants = cvi_cultivable_zones.flat_map(&:cvi_cadastral_plants)
     result = GroupCviCultivableZones.call(cvi_cultivable_zones: cvi_cultivable_zones)
     cvi_cultivable_zone = result.new_cvi_cultivable_zone
-    assert_equal cvi_cultivable_zones.map(&:declared_area).sum, cvi_cultivable_zone.declared_area
-    assert_equal name, cvi_cultivable_zone.name
-    assert_equal locations, cvi_cultivable_zone.locations
-    assert_equal cvi_land_parcels.pluck(:id).sort, cvi_cultivable_zone.cvi_land_parcels.pluck(:id).sort
-    assert_equal cvi_cadastral_plants, cvi_cultivable_zone.cvi_cadastral_plants
+    assert_equal cvi_cultivable_zones.map(&:declared_area).sum, cvi_cultivable_zone.declared_area, 'Declared areas are equals'
+    assert_equal name, cvi_cultivable_zone.name, 'Names are equals'
+    assert_equal locations, cvi_cultivable_zone.locations, 'Locations are equals'
+    assert_equal cvi_land_parcels.pluck(:id).sort, cvi_cultivable_zone.cvi_land_parcels.pluck(:id).sort, 'Cvi land parcels are associated to cvi cultivable zone'
+    assert_equal cvi_cadastral_plants.pluck(:id).sort, cvi_cultivable_zone.cvi_cadastral_plants.pluck(:id).sort, 'Cvi cadastral plants are associated to cvi cultivable zone'
   end
 
   test('#call if cvi_cultivable_zones are groupable, it destroy grouped cvi_cultivable_zones') do
