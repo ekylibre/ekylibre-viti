@@ -23,15 +23,15 @@
 }
 
 .simple-label .leaflet-ghost-label-collapsed {
-  // color: $active-color;
+  color: $active-color;
   background: rgba(255, 255, 255, 0.5);
   font-weight: bold;
   /* text-shadow: none; */
   display: block;
-  // min-width: $lh-normal;
+  min-width: $lh-normal;
   /* height: 20px; */
   border-radius: 50%;
-  // border: $menu-border;
+  border: $menu-border;
   /* background-color: white; */
   text-align: center;
 }

@@ -22,11 +22,15 @@ module ConvertCvi
     attr_accessor :cvi_cultivable_zone
 
     def create_cultivable_zone
-      CultivableZone.create_with(
-        name: cvi_cultivable_zone.name,
-        description: "Convert from CVI ID : #{cvi_cultivable_zone.cvi_statement_id}",
-        shape: cvi_cultivable_zone.shape
-      ).find_or_create_by(name: cvi_cultivable_zone.name)
+      name_match_rule = cvi_cultivable_zone.name + '+(\s\(\d*\))?$' # match "zone_name", "zone_name (1)" ,etc.
+      cz_with_same_name = CultivableZone.where("name ~ ?", name_match_rule)
+      rank = " (#{cz_with_same_name.count})" if cz_with_same_name.any?
+
+      CultivableZone.create(
+        name: "#{cvi_cultivable_zone.name}#{rank}",
+        shape: cvi_cultivable_zone.shape,
+        work_number: "ZC##{CultivableZone.count + 1}_CVI"
+      )
     end
 
     def find_matching_cultivable_zones
@@ -34,7 +38,9 @@ module ConvertCvi
       cvi_cz_shape = cvi_cultivable_zone.shape
       # check if cover at 95%
       cvi_cz_inside_cultivable_zone = CultivableZone.shape_covering(cvi_cz_shape, 0.05)
-      unless cvi_cz_inside_cultivable_zone.any?
+      if cvi_cz_inside_cultivable_zone.any?
+        cvi_cz_inside_cultivable_zone
+      else
         # check if match at 95%
         CultivableZone.shape_matching(cvi_cz_shape, 0.05)
       end

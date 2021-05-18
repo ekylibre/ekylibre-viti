@@ -46,17 +46,16 @@ module ConvertCvi
                              else
                                activity.productions.create(cultivable_zone: cultivable_zone, support_shape: cvi_land_parcel.shape)
                              end
-
+      
       activity_production.update!(
         support_nature: :headland_cultivation,
         usage: :fruit,
         planting_campaign: planting_campaign,
         started_on: Date.new(cvi_land_parcel.planting_campaign.to_i - 1,
-                             activity.production_started_on.month,
-                             activity.production_started_on.day),
-        stopped_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i,
-                             activity.production_stopped_on.month,
-                             activity.production_stopped_on.day),
+                    activity.production_started_on.month,
+                    activity.production_started_on.day),
+        stopped_on: custom_stopped_on,
+        custom_name: cvi_land_parcel.name,
         providers: { 'cvi_land_parcel_id' => cvi_land_parcel.id }
       )
     end
@@ -81,7 +80,7 @@ module ConvertCvi
       vine_variety = cvi_land_parcel.vine_variety
       certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra if cvi_land_parcel.designation_of_origin
       plant = Plant.create!(variant_id: variant.id,
-                            name: "#{name}#{index}",
+                            name: "#{cvi_land_parcel.name} | #{vine_variety.specie_name}",
                             initial_born_at: start_at,
                             dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                             initial_shape: cvi_land_parcel.shape,
@@ -101,5 +100,16 @@ module ConvertCvi
     private
 
     attr_accessor :activity, :context, :cvi_land_parcel, :activity_production, :activity_open_from, :planting_campaign, :cultivable_zone
+
+    def custom_stopped_on
+      return cvi_land_parcel.land_modification_date if cvi_land_parcel.state == :removed_with_authorization
+     
+      if cvi_land_parcel.state == :planted && Date.today.year - cvi_land_parcel.planting_campaign.to_i > activity.life_duration
+        Date.new(Time.zone.now.year + 1, activity.production_stopped_on.month, activity.production_stopped_on.day)
+      else
+        Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration, activity.production_stopped_on.month, activity.production_stopped_on.day)
+      end
+    end
+    
   end
 end

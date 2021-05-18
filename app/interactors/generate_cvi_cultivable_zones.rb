@@ -1,5 +1,10 @@
 class GenerateCviCultivableZones < ApplicationInteractor
   def call
+    cvi_statement = CviStatement.find(context.cvi_statement.id)
+    unless cvi_statement.convertible?
+      context.fail!(error: ::I18n.t(:can_not_convert_cvi_statement, scope: [:notifications, :messages]))
+    end
+
     get_cvi_cultivable_zones_properties
     ActiveRecord::Base.transaction do
       create_cvi_cultivables_zones
@@ -7,7 +12,6 @@ class GenerateCviCultivableZones < ApplicationInteractor
   end
 
   private
-
   def get_cvi_cultivable_zones_properties
     result = ActiveRecord::Base.connection.execute("
       SELECT ARRAY_AGG(id) AS cvi_cadastral_plant_ids,

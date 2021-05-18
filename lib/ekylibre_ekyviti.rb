@@ -1,7 +1,7 @@
-require_dependency "ekylibre_ekyviti/engine"
-require_dependency "ekylibre_ekyviti/ext_navigation"
-require_dependency "ekylibre_ekyviti/lexicon"
-require_dependency "ekylibre_ekyviti/measure_ext"
+require "ekylibre_ekyviti/engine"
+require "ekylibre_ekyviti/plugin"
+require "ekylibre_ekyviti/ext_navigation"
+require "ekylibre_ekyviti/measure_ext"
 
 module EkylibreEkyviti
 end
