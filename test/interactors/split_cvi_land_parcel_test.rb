@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class SplitCviLandParcelTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
-  DIFFERENT_ATTRIBUTES = %w[id name vine_variety_id shape declared_area_value declared_area_unit calculated_area_value calculated_area_unit created_at updated_at].freeze
+  DIFFERENT_ATTRIBUTES = %w[id name vine_variety_id shape declared_area_value declared_area_unit calculated_area_value calculated_area_unit created_at updated_at lock_version creator_id updater_id].freeze
 
   setup do
     @cvi_land_parcel = create(:cvi_land_parcel, :old_splitted)

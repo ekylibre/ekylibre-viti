@@ -93,4 +93,5 @@
           %span.value= resource.cadastral_sub_plant_count
         .med-info
           %span.title= CviStatement.human_attribute_name(:total_area)
-          %span.value= resource.total_area_formatted
+          %span.value= resource.total_area.to_s(:ha_a_ca)
+
