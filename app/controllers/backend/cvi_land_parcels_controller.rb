@@ -11,6 +11,7 @@ module Backend
 
     def update
       return unless @cvi_land_parcel = find_and_check(:cvi_land_parcel)
+
       @cvi_cultivable_zone = @cvi_land_parcel.cvi_cultivable_zone
 
       @cvi_land_parcel.attributes = update_params

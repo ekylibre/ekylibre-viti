@@ -12,6 +12,7 @@ class GenerateCviCultivableZones < ApplicationInteractor
   end
 
   private
+
   def get_cvi_cultivable_zones_properties
     result = ActiveRecord::Base.connection.execute("
       SELECT ARRAY_AGG(id) AS cvi_cadastral_plant_ids,

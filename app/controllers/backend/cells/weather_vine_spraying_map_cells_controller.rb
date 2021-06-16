@@ -3,12 +3,12 @@ module Backend
     class WeatherVineSprayingMapCellsController < Backend::Cells::BaseController
       def show
         @campaign = if params[:campaign_ids]
-                       Campaign.find(params[:campaign_ids]).last
-                     elsif params[:campaign_id]
-                       Campaign.find(params[:campaign_id])
-                     else
-                       current_campaign
-                     end
+                      Campaign.find(params[:campaign_ids]).last
+                    elsif params[:campaign_id]
+                      Campaign.find(params[:campaign_id])
+                    else
+                      current_campaign
+                    end
 
         @activity_production_ids = params[:activity_production_ids] if params[:activity_production_ids]
         @activity_production_ids = params[:activity_production_id] if params[:activity_production_id]
@@ -22,7 +22,6 @@ module Backend
           campaign: @campaign,
           visualization: params[:visualization]
         }
-
       end
     end
   end

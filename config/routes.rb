@@ -79,7 +79,7 @@ Rails.application.routes.draw do
     namespace :visualizations do
       resource :weather_vine_spraying_map_cells_visualizations, only: :show
     end
-    
+
     resources :wine_incoming_harvests, concerns: :list do
       member do
         get :list_plants

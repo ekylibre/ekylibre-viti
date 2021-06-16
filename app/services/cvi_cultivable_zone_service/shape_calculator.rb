@@ -16,9 +16,9 @@ module CviCultivableZoneService
                                   ), 0.000000001
                                 )
                               ) AS shape")
-                        .joins(:cvi_cultivable_zone)
-                        .find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id)
-                        .shape.to_rgeo                  
+                     .joins(:cvi_cultivable_zone)
+                     .find_by(cvi_cultivable_zone_id: cvi_cultivable_zone.id)
+                     .shape.to_rgeo
       else
         shape
       end

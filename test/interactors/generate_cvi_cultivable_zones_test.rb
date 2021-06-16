@@ -2,7 +2,7 @@ require 'test_helper'
 
 class GenerateCviCultivableZonesTest < Ekylibre::Testing::ApplicationTestCase::WithFixtures
   setup do
-    @cvi_statement = create(:cvi_statement, :with_cvi_cadastral_plants) 
+    @cvi_statement = create(:cvi_statement, :with_cvi_cadastral_plants)
   end
 
   attr_reader :cvi_statement

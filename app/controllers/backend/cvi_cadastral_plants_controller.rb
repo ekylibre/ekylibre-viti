@@ -11,13 +11,14 @@ module Backend
 
     def update
       return unless @cvi_cadastral_plant = find_and_check(:cvi_cadastral_plant)
+
       previous_cadastral_land_parcel = @cvi_cadastral_plant
       @cvi_cadastral_plant.attributes = permitted_params
       @cvi_statement = @cvi_cadastral_plant.cvi_statement
 
       cadastral_land_parcel = RegisteredCadastralParcel.find_with(RegisteredPostalZone.find(permitted_params[:location_attributes][:registered_postal_zone_id])&.code,
-                                                                                          permitted_params[:section],
-                                                                                          permitted_params[:work_number]).first
+                                                                  permitted_params[:section],
+                                                                  permitted_params[:work_number]).first
       @cvi_cadastral_plant.land_parcel = cadastral_land_parcel
       if previous_cadastral_land_parcel != cadastral_land_parcel
         @cvi_cadastral_plant.cadastral_ref_updated = true
