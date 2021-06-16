@@ -32,22 +32,21 @@ module EkylibreEkyviti
       Ekylibre::Application.instance.plugins << EkylibreEkyviti::Plugin.new
     end
 
-    initializer :ekylibre_ekyviti_javascript do
-      Rails.root.join('tmp', 'plugins', 'javascript-addons', 'plugins.js.coffee').open('a') do |f|
-        f.write(
-          "#= require eky-cartography \n
-           #= require ekyviti \n"
-        )
+    initializer :ekylibre_ekyviti_import_javascripts do
+      tmp_file = Rails.root.join('tmp', 'plugins', 'javascript-addons', 'plugins.js.coffee')
+      tmp_file.open('a') do |f|
+        %w[eky-cartography ekyviti].each do |import|
+          f.puts("#= require #{import}")
+        end
       end
     end
 
-    initializer :ekylibre_ekyviti_stylesheet do
-      Rails.root.join('tmp', 'plugins', 'theme-addons', 'themes', 'tekyla', 'plugins.scss').open('a') do |f|
-        f.write <<~SCSS
-          // ekyviti
-          @import 'cartography';
-          @import 'ekyviti';
-        SCSS
+    initializer :ekylibre_ekyviti_import_stylesheets do
+      tmp_file = Rails.root.join('tmp', 'plugins', 'theme-addons', 'themes', 'tekyla', 'plugins.scss')
+      tmp_file.open('a') do |f|
+        %w[cartography ekyviti].each do |import|
+          f.puts("@import \"#{import}\";")
+        end
       end
     end
   end
