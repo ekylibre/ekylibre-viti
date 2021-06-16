@@ -2,6 +2,7 @@ module ConvertCvi
   class ConvertCviLandParcel
     def initialize(cvi_land_parcel, activity_open_from)
       @cvi_land_parcel = cvi_land_parcel
+      @cvi_statement = cvi_land_parcel.cvi_statement
       @activity_open_from = activity_open_from
       @activity = cvi_land_parcel.activity
       @planting_campaign = Campaign.of(cvi_land_parcel.planting_campaign)
@@ -39,31 +40,36 @@ module ConvertCvi
       # find existing productions by shape matching and provider
       if activity.productions.any?
         productions = activity.productions.support_shape_matching(cvi_land_parcel.shape, 0.02)
-        productions = activity.productions.where('providers @> ?', { cvi_land_parcel_id: cvi_land_parcel.id }.to_json) if productions.empty?
+        productions = activity.productions.of_provider_data('cvi_land_parcel_id', cvi_land_parcel.id.to_s) if productions.empty?
       end
+
       @activity_production = if productions.present?
                                productions.first
                              else
-                               activity.productions.create(cultivable_zone: cultivable_zone, support_shape: cvi_land_parcel.shape)
+                               activity.productions.create(
+                                 ActivityProductions::DefaultAttributesValueBuilder
+                                   .new(activity, planting_campaign)
+                                   .build
+                                   .merge( { cultivable_zone: cultivable_zone, support_shape: cvi_land_parcel.shape })
+                               )
                              end
 
       activity_production.update!(
         support_nature: :headland_cultivation,
         usage: :fruit,
-        planting_campaign: planting_campaign,
+        starting_year: cvi_land_parcel.planting_campaign.to_i,
         started_on: Date.new(cvi_land_parcel.planting_campaign.to_i - 1,
                              activity.production_started_on.month,
                              activity.production_started_on.day),
-        stopped_on: Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration.to_i,
-                             activity.production_stopped_on.month,
-                             activity.production_stopped_on.day),
-        providers: { 'cvi_land_parcel_id' => cvi_land_parcel.id }
+        stopped_on: production_stopped_on,
+        custom_name: cvi_land_parcel.name,
+        provider: build_provider(cvi_statement.id, cvi_land_parcel.id)
       )
     end
 
     def create_plant
       # create only if no plant exist with the current cvi_land_parcel_id
-      return if Plant.where('providers @> ?', { cvi_land_parcel_id: cvi_land_parcel.id }.to_json).any?
+      return if Plant.of_provider_data('cvi_land_parcel_id', cvi_land_parcel.id.to_s).any?
 
       # WAITING FOR Conditionning branch
       # category = ProductNatureCategory.import_from_lexicon(:amortized_plant)
@@ -81,7 +87,7 @@ module ConvertCvi
       vine_variety = cvi_land_parcel.vine_variety
       certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra if cvi_land_parcel.designation_of_origin
       plant = Plant.create!(variant_id: variant.id,
-                            name: "#{name}#{index}",
+                            name: "#{cvi_land_parcel.name} | #{vine_variety.specie_name}",
                             initial_born_at: start_at,
                             dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                             initial_shape: cvi_land_parcel.shape,
@@ -91,7 +97,7 @@ module ConvertCvi
                             type_of_occupancy: (type_of_occupancy == 'tenant_farming' ? :rent : type_of_occupancy),
                             initial_owner: (Entity.of_company if type_of_occupancy == :owner),
                             activity_production_id: activity_production.id,
-                            providers: { cvi_land_parcel_id: cvi_land_parcel.id })
+                            provider: build_provider(cvi_statement.id, cvi_land_parcel.id))
       plant.read!(:rows_interval, cvi_land_parcel.inter_row_distance_value.in(cvi_land_parcel.inter_row_distance_unit.to_sym), at: start_at)
       plant.read!(:plants_interval, cvi_land_parcel.inter_vine_plant_distance_value.in(cvi_land_parcel.inter_vine_plant_distance_unit.to_sym), at: start_at)
       plant.read!(:certification_label, certification_label, at: start_at) if certification_label
@@ -100,6 +106,27 @@ module ConvertCvi
 
     private
 
-    attr_accessor :activity, :context, :cvi_land_parcel, :activity_production, :activity_open_from, :planting_campaign, :cultivable_zone
+    attr_accessor :activity, :context, :cvi_land_parcel, :activity_production, :activity_open_from, :planting_campaign, :cultivable_zone, :cvi_statement
+
+    def build_provider(cvi_statement_id, cvi_land_parcel_id)
+      {
+        vendor: 'ekylibre',
+        name: 'cvi_statement',
+        id: cvi_statement_id,
+        data: {
+          cvi_land_parcel_id: cvi_land_parcel_id
+        }
+      }
+    end
+
+    def production_stopped_on
+      return cvi_land_parcel.land_modification_date if cvi_land_parcel.state == :removed_with_authorization
+
+      if cvi_land_parcel.state == :planted && Date.today.year - cvi_land_parcel.planting_campaign.to_i > activity.life_duration
+        Date.new(Time.zone.now.year + 1, activity.production_stopped_on.month, activity.production_stopped_on.day)
+      else
+        Date.new(cvi_land_parcel.planting_campaign.to_i + activity.life_duration, activity.production_stopped_on.month, activity.production_stopped_on.day)
+      end
+    end
   end
 end

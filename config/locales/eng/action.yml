@@ -29,13 +29,16 @@ eng:
         not_defined: "To define"
     labels:
       cadastral_land_parcel_zones: "Cadastral land parcels"
-    messages:
-      unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
+    notifications:
+      levels:
+        error: "Error!"
+      messages:
+        unvalid_cvi_cadastral_plant: "One or more land parcel zones in list have not been found. Please delete/correct the element shown in red in list below."
     production:
       start_state_of_production:
-        n_2_3_leaf: "N2 (3rd leaf)"
-        n_3_4_leaf: "N3 (2nd leaf)"
-        n_4_5_leaf: "N4 (5th leaf)"
+        n_2_3_leaf: "N+2 (3rd leaf)"
+        n_3_4_leaf: "N+3 (2nd leaf)"
+        n_4_5_leaf: "N+4 (5th leaf)"
     templates:
       actions:
         edit: "Edit"
@@ -56,7 +59,8 @@ eng:
     cadastral_reference: "Cadastral reference"
     cadastral_references: "associated cadastral ref."
     calculated_area: "calculated area"
-    communes: "commune(s)"
+    commune: "Commune"
+    communes: "Commune(s)"
     complete: "Complete"
     confirm: "Confirm"
     confirm_cvi_land_parcels: "Confirm cvi land parcels" #?
@@ -88,6 +92,7 @@ eng:
     go_back: "Back"
     harvested_plants: "Harvested plants"
     incoming_harvest_quantity: "Incoming harvest quantity"
+    invalid_siret: "SIRET number %{value} is not valid"
     land_parcel_plant: "Land parcel/plant"
     land_parcels_plants: "Land parcels/plants"
     major: "main"
@@ -134,6 +139,7 @@ eng:
     volume_in_winery: "volume in winery"
     warning_could_not_use_ift: "Warning, if production nature is not setted, treatment frequency index won't be calculated."
     weather_vine_spraying_map: "Cumulated rainfall since last spraying intervention"
+    wine_incoming_harvest: "Wine incoming harvest"
     wine_production: "wine production"
     winery_destination: "Winery destination"
     wrong_file_extension: "Wrong file extension %{file_extension}, required %{required_file_exension}"
@@ -141,6 +147,7 @@ eng:
     year_long: "Year"
   notifications:
     messages:
+      can_not_convert_cvi_statement: "Please delete/correct the element shown in red in list below before converting."
       can_not_group_cvi_land_parcels: "CVI land parcels can't be grouped, because vine variety, designation of origin, inter vine plant distance, inter row distance, state or activity is different. Please check these values before retrying."
       can_not_group_no_intersection: "%{name_pluralized} can't be grouped because its doesn't have any intersection points."
       can_not_split_grouped: "CVI land parcels can't be splited, because it's already composed of multiple land parcels. Please select another land parcel"

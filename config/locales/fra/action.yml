@@ -29,13 +29,21 @@ fra:
         not_defined: "A définir"
     labels:
       cadastral_land_parcel_zones: "Parcelles cadastrales"
-    messages:
-      unvalid_cvi_cadastral_plant: "Au moins une référence de parcelle cadastrale n'a pas été reconnue. Veuillez corriger ou supprimer la/les référence(s) identifiée(s) en rouge." #?
+    leaflet:
+      home:
+        toolbar:
+          buttons:
+            home: "Centrer"
+    notifications:
+      levels:
+        error: "Erreur\_!"
+      messages:
+        unvalid_cvi_cadastral_plant: "Au moins une référence de parcelle cadastrale n'a pas été reconnue. Veuillez corriger ou supprimer la/les référence(s) identifiée(s) en rouge."
     production:
       start_state_of_production:
-        n_2_3_leaf: "N2 (3ème feuille)"
-        n_3_4_leaf: "N3 (4ème feuille)"
-        n_4_5_leaf: "N4 (5ème feuille"
+        n_2_3_leaf: "N+2 (3ème feuille)"
+        n_3_4_leaf: "N+3 (4ème feuille)"
+        n_4_5_leaf: "N+4 (5ème feuille"
     templates:
       actions:
         edit: "Modifier"
@@ -50,12 +58,14 @@ fra:
   labels:
     add_crop: "Ajouter une parcelle/culture"
     add_plant: "Ajouter une culture"
+    add_press: "Ajouter un pressoir"
     add_tank: "Ajouter une cuve"
     add_use: "Ajouter un usage"
     are_you_sure_you_want_to_reset_cvi_conversion: "Êtes-vous sûr(e) de vouloir réinitialiser la conversion du parcellaire\_?" #?
     cadastral_reference: "Réf. cadastrale"
     cadastral_references: "Réf. cadastrale(s) associée(s)"
     calculated_area: "Superficie calculée"
+    commune: "Commune"
     communes: "Commune(s)"
     complete: "Terminer"
     confirm: "Confirmer"
@@ -82,20 +92,26 @@ fra:
     delete_cvi_cultivable_zone_body: "<b>Attention !</b><br>Vous allez supprimer une Zone Cultivable et tout son parcellaire associé.<br>Pour la re-créer, vous devrez ré-initialiser la conversion de la totalité de votre CVI. <br><br>Voulez-vous supprimer définitivement cette Zone Cultivable à convertir ?"
     delete_cvi_cultivable_zone_header: "Supprimer la Zone Cultivable"
     draw_the_cutting_line: "Dessinez le trait de découpe"
-    edit_analysis: "Modifier l'analyse"
     edit_cadastral_ref: "Editer la référence cadastrale"
     from_current_year: "À partir du"
     go_back: "Retour"
-    harvested_plants: "Cultures récoltées"
-    incoming_harvest_quantity: "Quantité de vendange"
+    hectoliter: "Hectolitre"
+    invalid_siret: "%{value} n'est pas un numéro de SIRET valide"
+    kilogram: "Kilogramme"
     land_parcel_plant: "Parcelle/culture"
     land_parcels_plants: "Parcelles/cultures"
     major: "majoritaire"
+    manual_f: "manuelle"
+    mechanical: "Mécanique"
+    edit_analysis: "Modifier l'analyse"
+    harvested_plants: "Cultures récoltées"
+    incoming_harvest_quantity: "Quantité de vendange"
     must_volume: "Volume moût (hl)"
     percentage: "Répartition"
     planted: "Plantées"
     planting_campaign: "Campagne de plantation"
     production_campaign_period: "Campagne annuelle de production"
+    press: "Pressoir"
     production_nature: "Production de référence"
     rain: "Pluviométrie"
     reception_date_label: "Date de réception"
@@ -134,6 +150,8 @@ fra:
     volume_in_winery: "Volume de moût apporté en cuverie (hl)"
     warning_could_not_use_ift: "Attention, si la production de référence n'est pas renseignée, les IFT ne pourront pas être calculés."
     weather_vine_spraying_map: "Cumul de pluie depuis la dernière intervention de pulvérisation"
+    winery_press: "Pressurage"
+    wine_incoming_harvest: "Réception de vendange"
     wine_production: "production viticole"
     winery_destination: "Destination en cuverie"
     wrong_file_extension: "L'extension du fichier: %{file_extension} est invalide, %{required_file_exension} requis"
@@ -141,6 +159,7 @@ fra:
     year_long: "Année"
   notifications:
     messages:
+      can_not_convert_cvi_statement: "Veuillez corriger ou supprimer la/les référence(s) identifiée(s) en rouge avant de lancer la conversion."
       can_not_group_cvi_land_parcels: "Les parcelles ne peuvent pas être regroupées car le cépage, le produit, la densité, l'activité ou l’état diffère. Veuillez vérifier les valeurs avant de regrouper les parcelles."
       can_not_group_no_intersection: "Les %{name_pluralized} n’ont pas pu être regroupées. Si vous souhaitez les regrouper, éditez l’une des deux %{name_pluralized} de façon à ce que leurs contours aient au moins un point d’intersection."
       can_not_split_grouped: "La parcelle ne peut pas être dissociée car elle provient déjà du regroupement de plusieurs parcelles. Veuillez choisir une autre parcelle ou réinitialiser la Zone cultivable."

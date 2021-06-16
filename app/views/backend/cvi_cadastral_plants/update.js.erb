@@ -1,3 +1,6 @@
 $('#notifications-tag').append("<%=j notifications_tag %>")
 ekylibre.list.render()
-$.reloadMap()
+$.reloadCartographyMap()
+if (<%= @cvi_statement.convertible? %> ){
+    $('a.select-campaign').attr('disabled', false);
+}

@@ -1,7 +1,6 @@
 module Backend
   class CviLandParcelsController < Backend::CviBaseController
     manage_restfully only: %i[edit]
-    before_action :new_vine_activity_params, only: %i[edit edit_multiple update update_multiple]
 
     def index
       records = CviCultivableZone.find(params[:id]).cvi_land_parcels.collect do |r|
@@ -37,6 +36,7 @@ module Backend
       @cvi_land_parcel.tap do |r|
         r.valid?
         r.errors.delete(:name)
+        r.errors.delete(:shape)
         r.errors.delete(:inter_vine_plant_distance_value) if r.errors.added?(:inter_vine_plant_distance_value, :blank)
         r.errors.delete(:inter_row_distance_value) if r.errors.added?(:inter_row_distance_value, :blank)
         r.errors.delete(:vine_variety_id) if r.errors.added?(:vine_variety_id, :blank)
@@ -95,20 +95,6 @@ module Backend
         notify_error(result.error)
         render partial: 'notify'
       end
-    end
-
-    def new_vine_activity_params
-      vine_default_production = MasterProductionNature.find_by(specie: 'vitis')
-      @new_vine_activity_params = {
-        family: 'vine_farming',
-        production_nature_id: vine_default_production&.id,
-        cultivation_variety: 'vitis',
-        production_cycle: 'perennial',
-        countings_hidden: true,
-        seasons_hidden: true,
-        tactics_hidden: true,
-        inspections_hidden: true
-      }
     end
 
     private

@@ -5,8 +5,8 @@
   - if resource.cvi_cultivable_zones.any?
     = tool_to(:resume_cvi_conversion.tl, backend_cvi_statement_conversion_path(resource), icon: :gear)
     = tool_to(:reset_cvi_conversion.tl, reset_backend_cvi_statement_conversion_path(@cvi_statement),icon: :gear, data:{ confirm: :are_you_sure_you_want_to_reset_cvi_conversion.tl})
-  - else 
-    = tool_to(:convert_cvi.tl, 'javascript:void(0)', class:'select-campaign', icon: :gear, data:{cvi_statement: params[:id]})
+  - else
+    = tool_to(:convert_cvi.tl, 'javascript:void(0)', class:'select-campaign', icon: :gear, disabled: !resource.convertible?, data:{cvi_statement: params[:id]})
 
 = render partial: 'campaign_selection_modal', locals: { cvi_statement: resource }
 = modal(id: "delete-modal", class:'vertical-center', size: :medium) do
@@ -28,11 +28,11 @@
   - k.helper do
     %div.label-container
       %label= CviCadastralPlant.human_attribute_name(:designation_of_origin_name)
-    = select_tag(:designation_of_origin_name, options_for_select(([""] + FormattedCviCadastralPlant.where(cvi_statement_id:@cvi_statement.id).collect(&:designation_of_origin_name)).compact.uniq.sort, selected: params[:designation_of_origin_name]))
+    = select_tag(:designation_of_origin_name, options_for_select(([""] + CviCadastralPlant.joins(:designation_of_origin).where(cvi_statement_id: @cvi_statement.id).pluck(:product_human_name_fra)).compact.uniq.sort, selected: params[:designation_of_origin_name]))
   - k.helper do
     %div.label-container
       %label= CviCadastralPlant.human_attribute_name(:vine_variety_name)
-    = select_tag(:vine_variety_name, options_for_select(([""] + FormattedCviCadastralPlant.where(cvi_statement_id:@cvi_statement.id).collect(&:vine_variety_name)).uniq.sort , selected: params[:vine_variety_name]))
+    = select_tag(:vine_variety_name, options_for_select(([""] + CviCadastralPlant.joins(:vine_variety).where(cvi_statement_id: @cvi_statement.id).pluck(:specie_name)).compact.uniq.sort , selected: params[:vine_variety_name]))
   - k.helper do
     - max = @cvi_statement.cvi_cadastral_plants.maximum('inter_row_distance_value')
     %div.label-container
@@ -50,7 +50,7 @@
       %input{ name: :inter_vine_plant_distance_value, data: { slider: { min: 0, max: max, value: range_slider_values(max.to_f, params[:inter_vine_plant_distance_value]), step: 1, tooltip_split: true }, provide: 'slider' } }
       %span.range-maximum= max.to_i
 
-= cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: true, layers:true}, position: 'topright'),
+= cvi_cartography(map_config(mode: 'productions-index', controls: {zoom: true, home: false, fullscreen:true, layers:true}, position: 'topright'),
                   class: 'map-fullwidth map-halfheight') do |c|
   - c.serie :main, Charta.new_geometry("GEOMETRYCOLLECTION EMPTY").to_json_feature_collection()
   - c.simple :cvi_cadastral_plants, :main, index: true, async_url: backend_cvi_cadastral_plants_url(id: params[:id])
@@ -93,4 +93,5 @@
           %span.value= resource.cadastral_sub_plant_count
         .med-info
           %span.title= CviStatement.human_attribute_name(:total_area)
-          %span.value= resource.total_area_formatted
+          %span.value= resource.total_area.to_s(:ha_a_ca)
+
