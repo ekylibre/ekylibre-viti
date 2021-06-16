@@ -1,13 +1,13 @@
 module Backend
-  class CadastralLandParcelZonesController < Backend::BaseController
+  class RegisteredCadastralParcelsController < Backend::BaseController
     respond_to :json
 
     def index
-      records_in_bounding_box = CadastralLandParcelZone.in_bounding_box(params[:bounding_box])
+      records_in_bounding_box = RegisteredCadastralParcel.in_bounding_box(params[:bounding_box])
 
       records_not_in_cvi = records_in_bounding_box.joins(<<~SQL).where('land_parcel_id IS NULL')
         LEFT JOIN cvi_cadastral_plants
-        ON cadastral_land_parcel_zones.id = cvi_cadastral_plants.land_parcel_id
+        ON registered_cadastral_parcels.id = cvi_cadastral_plants.land_parcel_id
       SQL
 
       records = records_not_in_cvi.collect do |r|

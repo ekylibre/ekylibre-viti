@@ -79,7 +79,7 @@
 
     getBounds: ->
       @_cartography.map.getBounds()
-    
+
     fitBounds: (bounds) ->
       @_cartography.map.fitBounds(bounds)
 
@@ -116,7 +116,7 @@
       if @getZoom() >= 17
         selectedIds = $('.map').data('selected-ids') || []
         selectedIdsParams = if selectedIds && selectedIds.length > 0 then "&selected_ids=#{selectedIds}" else ""
-        url = '/backend/cadastral_land_parcel_zones' + "?bounding_box=#{@boundingBox()}" + selectedIdsParams
+        url = '/backend/registered_cadastral_parcels' + "?bounding_box=#{@boundingBox()}" + selectedIdsParams
 
         onSuccess = (data) =>
           onEachFeature = (feature, layer) =>
