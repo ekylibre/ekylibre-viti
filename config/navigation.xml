@@ -10,4 +10,18 @@
       </item>'
     </group>
   </part>
+  <part name="production">
+    <group name="production">
+      <item name="wine_incoming_harvests">
+        <page to="backend/wine_incoming_harvests#index"/>
+        <page to="backend/wine_incoming_harvests#create"/>
+        <page to="backend/wine_incoming_harvests#destroy"/>
+        <page to="backend/wine_incoming_harvests#edit"/>
+        <page to="backend/wine_incoming_harvests#list"/>
+        <page to="backend/wine_incoming_harvests#new"/>
+        <page to="backend/wine_incoming_harvests#show"/>
+        <page to="backend/wine_incoming_harvests#update"/>
+      </item>
+    </group>
+  </part>
 </navigation>

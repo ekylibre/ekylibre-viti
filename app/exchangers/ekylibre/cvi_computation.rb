@@ -143,7 +143,7 @@ module Ekylibre
 
     def convert_types(h_cvi_statement)
       %i[extraction_date land_modification_date].each do |key|
-        h_cvi_statement[key] = Date.soft_parse(h_cvi_statement[key]) if h_cvi_statement[key].present?
+        h_cvi_statement[key] = Date.parse(h_cvi_statement[key]) if h_cvi_statement[key].present?
       end
 
       %i[inter_vine_plant_distance inter_row_distance].each do |header|

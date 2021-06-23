@@ -67,7 +67,7 @@ module Backend
       t.column :human_species_variesties_names
     end
 
-    list(:plants, model: :wine_incoming_harvest_plant, joins: :plant, conditions: { wine_incoming_harvest_id: 'params[:id]'.c }, order: { plant: :asc }) do |t|
+    list(:plants, model: :wine_incoming_harvest_plant, joins: :plant, conditions: { wine_incoming_harvest_id: 'params[:id]'.c }, order: 'products.name ASC') do |t|
       t.column :plant, url: true
       t.column :net_surface_area_plant, label: :total_area_in_hectare, datatype: :measure, class: 'center'
       t.column :harvest_percentage_received, label_method: :displayed_harvest_percentage, class: 'center'

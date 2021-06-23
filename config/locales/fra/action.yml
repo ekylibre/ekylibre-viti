@@ -65,6 +65,7 @@ fra:
     cadastral_reference: "Réf. cadastrale"
     cadastral_references: "Réf. cadastrale(s) associée(s)"
     calculated_area: "Superficie calculée"
+    commune: "Commune"
     communes: "Commune(s)"
     complete: "Terminer"
     confirm: "Confirmer"
