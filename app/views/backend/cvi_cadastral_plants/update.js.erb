@@ -1,4 +1,4 @@
-$('#notifications-tag').append("<%=j notifications_tag %>")
+$("<%=j notifications_tag %>").insertBefore("#core");
 ekylibre.list.render()
 $.reloadCartographyMap()
 if (<%= @cvi_statement.convertible? %> ){
