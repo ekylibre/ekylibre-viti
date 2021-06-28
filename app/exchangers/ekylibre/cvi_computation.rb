@@ -87,7 +87,7 @@ module Ekylibre
         raise message
       end
 
-      registered_postal_zone = RegisteredPostalZone.find_by(code: h_cvi_statement[:insee_number])
+      registered_postal_zone = RegisteredPostalCode.find_by(code: h_cvi_statement[:insee_number])
       unless registered_postal_zone
         message = :unknown_insee_number.tl(value: h_cvi_statement[:insee_number])
         w.error message
@@ -107,7 +107,7 @@ module Ekylibre
       work_number = h_cvi_statement[:work_number]
       section = h_cvi_statement[:section]
 
-      cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
+      cadastral_land_parcel_zone = RegisteredCadastralParcel.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
       CviCadastralPlant.create!(
         h_cvi_statement.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }
           .merge(cvi_statement_id: cvi_statement.id,

@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :registered_postal_zones, only: [], concerns: %i[unroll]
+    resources :registered_postal_codes, only: [], concerns: %i[unroll]
 
     resources :cvi_statements, concerns: %i[list] do
       member do
