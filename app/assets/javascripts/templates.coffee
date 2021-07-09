@@ -63,7 +63,7 @@ ekylibre.templates ||= {}
             #{I18n.t("#{i18nRoot}.vine_variety_name")}
           </label>
           <div class='controls'>
-            <input data-selector='/backend/master_vine_varieties/unroll_vine_varieties' data-selector-id='new_cvi_land_parcels_vine_variety_#{index}_id' class='string optional' type='text' value='#{oldObj.vineVarietyId}' name='new_cvi_land_parcels[#{index}][vine_variety_id]' id='new_cvi_land_parcels_vine_variety_#{index}_id'>
+            <input data-selector='/backend/registered_vine_varieties/unroll_vine_varieties' data-selector-id='new_cvi_land_parcels_vine_variety_#{index}_id' class='string optional' type='text' value='#{oldObj.vineVarietyId}' name='new_cvi_land_parcels[#{index}][vine_variety_id]' id='new_cvi_land_parcels_vine_variety_#{index}_id'>
           </div>
         </div>
         <div class='control-group string optional disabled'>
