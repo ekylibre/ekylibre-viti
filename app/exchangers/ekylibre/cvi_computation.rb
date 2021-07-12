@@ -68,7 +68,7 @@ module Ekylibre
     def import_cvi_cadastral_plants(h_cvi_statement)
       cvi_statement = CviStatement.find_by(cvi_number: h_cvi_statement[:cvi_number])
       product_name = h_cvi_statement[:product].to_s.lower
-      designation_of_origins = RegisteredProtectedDesignationOfOrigin.where("unaccent(product_human_name_fra) ILIKE unaccent(?)", "%#{product_name}%")
+      designation_of_origins = RegisteredQualityAndOriginSign.where("unaccent(product_human_name_fra) ILIKE unaccent(?)", "%#{product_name}%")
 
       designation_of_origin = if product_name == ""
                                 nil
