@@ -170,9 +170,7 @@ module Ekylibre
     end
 
     def format_planting_campaign(h_cvi_statement)
-      return if h_cvi_statement[:planting_campaign].to_s != "9999" || h_cvi_statement[:planting_campaign].to_s != ''
-
-      h_cvi_statement[:planting_campaign] = nil
+      h_cvi_statement[:planting_campaign] = nil if h_cvi_statement[:planting_campaign].to_s == "9999" || h_cvi_statement[:planting_campaign].to_s == ''
     end
 
     def convert_states(h_cvi_statement)
