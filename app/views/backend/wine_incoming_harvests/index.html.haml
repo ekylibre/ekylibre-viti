@@ -3,9 +3,10 @@
 / - main_financial_year_selector(financial_year)
 
 - main_toolbar do |t|
-  = dropdown_menu_button(:export.ta, icon: :download) do |d|
-    - d.item :export_as_odt.tl, params: params.merge(format: :odt)
-    - d.item :export_as_pdf.tl, html_options: { data: { no_turbolink: true } }, params: params.merge(format: :pdf)
+  = dropdown_menu_button(:reception_report.tl, icon: :print) do |d|
+    - d.item :pdf_format.tl, html_options: { data: { no_turbolink: true } }, params: params.merge(format: :pdf) 
+    - d.item :odt_format.tl, params: params.merge(format: :odt)
+    
 
 - main_period_selector(:year)
 
