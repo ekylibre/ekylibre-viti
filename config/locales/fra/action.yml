@@ -1,10 +1,10 @@
 fra:
   actions:
     backend/crop_groups:
-      edit: "Modifier le groupement de parcellaire\_: %{name}"
-      index: "Groupements de parcellaire"
-      new: "Nouveau groupement de parcellaire"
-      show: "Groupement de parcellaire\_: %{name}"
+      edit: "Modifier le groupement parcellaire\_: %{name}"
+      index: "Groupements parcellaire"
+      new: "Nouveau groupement parcellaire"
+      show: "Groupement parcellaire\_: %{name}"
     backend/cvi_cultivable_zones:
       show: "Zone cultivable : %{name}"
     backend/cvi_land_parcels:
@@ -107,13 +107,16 @@ fra:
     harvested_plants: "Cultures récoltées"
     incoming_harvest_quantity: "Quantité de vendange"
     must_volume: "Volume moût (hl)"
+    odt_format: "Format tableur ODT"
     percentage: "Répartition"
+    pdf_format: "Format PDF"
     planted: "Plantées"
     planting_campaign: "Campagne de plantation"
     production_campaign_period: "Campagne annuelle de production"
     press: "Pressoir"
     production_nature: "Production de référence"
     rain: "Pluviométrie"
+    reception_report: "Rapport des réceptions"
     reception_date_label: "Date de réception"
     reception_ticket: "Ticket de réception"
     records_cannot_be_saved: "Les enregistrements n'ont pas pu être sauvegardés."
