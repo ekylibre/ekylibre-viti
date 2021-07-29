@@ -87,7 +87,7 @@ module ConvertCvi
       vine_variety = cvi_land_parcel.vine_variety
       certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra if cvi_land_parcel.designation_of_origin
       plant = Plant.create!(variant_id: variant.id,
-                            name: "#{cvi_land_parcel.name} | #{vine_variety.specie_name}",
+                            name: "#{cvi_land_parcel.name} | #{vine_variety.short_name}",
                             initial_born_at: start_at,
                             dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                             initial_shape: cvi_land_parcel.shape,

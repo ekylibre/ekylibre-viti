@@ -19,7 +19,7 @@
       - k.helper do
         %div.label-container
           %label= CviLandParcel.human_attribute_name(:vine_variety_name)
-        = select_tag(:vine_variety_name, options_for_select(([""] + CviLandParcel.joins(:vine_variety).where(cvi_cultivable_zone_id: @cvi_cultivable_zone.id).pluck(:specie_name)).compact.uniq.sort , selected: params[:vine_variety_name]))
+        = select_tag(:vine_variety_name, options_for_select(([""] + CviLandParcel.joins(:vine_variety).where(cvi_cultivable_zone_id: @cvi_cultivable_zone.id).pluck(:short_name)).compact.uniq.sort , selected: params[:vine_variety_name]))
       - k.helper do
         - max = @cvi_cultivable_zone.cvi_land_parcels.maximum('inter_row_distance_value')
         %div.label-container
