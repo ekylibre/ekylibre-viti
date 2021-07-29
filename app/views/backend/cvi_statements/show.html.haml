@@ -32,7 +32,7 @@
   - k.helper do
     %div.label-container
       %label= CviCadastralPlant.human_attribute_name(:vine_variety_name)
-    = select_tag(:vine_variety_name, options_for_select(([""] + CviCadastralPlant.joins(:vine_variety).where(cvi_statement_id: @cvi_statement.id).pluck(:specie_name)).compact.uniq.sort , selected: params[:vine_variety_name]))
+    = select_tag(:vine_variety_name, options_for_select(([""] + CviCadastralPlant.joins(:vine_variety).where(cvi_statement_id: @cvi_statement.id).pluck(:short_name)).compact.uniq.sort , selected: params[:vine_variety_name]))
   - k.helper do
     - max = @cvi_statement.cvi_cadastral_plants.maximum('inter_row_distance_value')
     %div.label-container

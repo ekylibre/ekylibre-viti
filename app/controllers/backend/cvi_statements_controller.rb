@@ -14,7 +14,7 @@ module Backend
       code = search_conditions(cvi_cadastral_plants: %i[state],
                                registered_quality_and_origin_signs: %i[product_human_name_fra],
                                registered_vine_varieties: %i[short_name],
-                               "rootstocks_cvi_cadastral_plants" => %i[specie_name],
+                               "rootstocks_cvi_cadastral_plants" => %i[short_name],
                                locations: %i[locality],
                                registered_postal_codes: %i[city_name]) + " ||= []\n"
 
@@ -43,7 +43,7 @@ module Backend
 
       # # vine_variety_name
       code << "unless params[:vine_variety_name].blank? \n"
-      code << "  c[0] << ' AND registered_vine_varieties.specie_name = ?'\n"
+      code << "  c[0] << ' AND registered_vine_varieties.short_name = ?'\n"
       code << "  c << params[:vine_variety_name]\n"
       code << "end\n"
 

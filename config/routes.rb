@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   namespace :backend do
     resources :cadastral_land_parcel_zones, only: %i[index]
 
-    resources :registered_protected_designation_of_origins, concerns: %i[unroll]
+    resources :registered_quality_and_origin_signs, concerns: %i[unroll]
     resources :registered_vine_varieties, concerns: %i[unroll] do
       collection do
         get :unroll_vine_varieties
