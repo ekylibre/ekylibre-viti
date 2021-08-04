@@ -5,11 +5,11 @@ module Backend
     def self.cvi_land_parcels_conditions
       code = ''
       code = search_conditions(cvi_land_parcels: %i[name planting_campaign],
-                               registered_protected_designation_of_origins: %i[product_human_name_fra],
-                               master_vine_varieties: %i[specie_name],
-                               "rootstocks_cvi_land_parcels" => %i[specie_name],
+                               registered_quality_and_origin_signs: %i[product_human_name_fra],
+                               registered_vine_varieties: %i[short_name],
+                               "rootstocks_cvi_land_parcels" => %i[short_name],
                                locations: %i[locality],
-                               registered_postal_zones: %i[city_name]) + " ||= []\n"
+                               registered_postal_codes: %i[city_name]) + " ||= []\n"
 
       code << "c[0] << ' AND cvi_land_parcels.cvi_cultivable_zone_id = ?'\n"
       code << "c << params[:id].to_i\n"
@@ -22,19 +22,19 @@ module Backend
 
       # communes
       code << "unless params[:communes].blank? \n"
-      code << "  c[0] << ' AND registered_postal_zones.city_name ILIKE (?)'\n"
+      code << "  c[0] << ' AND registered_postal_codes.city_name ILIKE (?)'\n"
       code << "  c <<  '%' + params[:communes] + '%'\n"
       code << "end\n"
 
       # designation_of_origin_name
       code << "unless params[:designation_of_origin_name].blank? \n"
-      code << "  c[0] << ' AND registered_protected_designation_of_origins.product_human_name_fra = ?'\n"
+      code << "  c[0] << ' AND registered_quality_and_origin_signs.product_human_name_fra = ?'\n"
       code << "  c << params[:designation_of_origin_name]\n"
       code << "end\n"
 
       # vine_variety_name
       code << "unless params[:vine_variety_name].blank? \n"
-      code << "  c[0] << ' AND master_vine_varieties.specie_name = ?'\n"
+      code << "  c[0] << ' AND registered_vine_varieties.short_name = ?'\n"
       code << "  c << params[:vine_variety_name]\n"
       code << "end\n"
 
@@ -141,11 +141,11 @@ module Backend
                               ],
                             joins:
                               "LEFT JOIN locations ON cvi_land_parcels.id = locations.localizable_id AND locations.localizable_type = 'CviLandParcel'
-                               LEFT JOIN registered_postal_zones ON locations.registered_postal_zone_id = registered_postal_zones.id
+                               LEFT JOIN registered_postal_codes ON locations.registered_postal_zone_id = registered_postal_codes.id
                                LEFT JOIN activities ON cvi_land_parcels.activity_id = activities.id",
                             conditions: cvi_land_parcels_conditions,
                             count: 'DISTINCT cvi_land_parcels.id',
-                            group: 'cvi_land_parcels.id, activities.name, registered_protected_designation_of_origins.id, master_vine_varieties.id, rootstocks_cvi_land_parcels.id') do |t|
+                            group: 'cvi_land_parcels.id, activities.name, registered_quality_and_origin_signs.id, registered_vine_varieties.id, rootstocks_cvi_land_parcels.id') do |t|
       t.column :id, hidden: true
       t.action :edit, url: { controller: 'cvi_land_parcels', action: 'edit', remote: true }
       t.column :name

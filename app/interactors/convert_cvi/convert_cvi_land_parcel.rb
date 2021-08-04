@@ -78,7 +78,7 @@ module ConvertCvi
 
       type_of_occupancy = cvi_land_parcel.cvi_cadastral_plants.first.type_of_occupancy.presence if cvi_land_parcel.cvi_cadastral_plants.present?
 
-      name = "#{activity.name} #{planting_campaign.name} #{cultivable_zone.name} #{cvi_land_parcel.vine_variety.specie_name}"
+      name = "#{activity.name} #{planting_campaign.name} #{cultivable_zone.name} #{cvi_land_parcel.vine_variety.short_name}"
       plant_with_same_name = Plant.where('name like ?', "#{name}%").count
       index = " n° #{plant_with_same_name + 1}" if plant_with_same_name.positive?
 
@@ -87,11 +87,11 @@ module ConvertCvi
       vine_variety = cvi_land_parcel.vine_variety
       certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra if cvi_land_parcel.designation_of_origin
       plant = Plant.create!(variant_id: variant.id,
-                            name: "#{cvi_land_parcel.name} | #{vine_variety.specie_name}",
+                            name: "#{cvi_land_parcel.name} | #{vine_variety.short_name}",
                             initial_born_at: start_at,
                             dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                             initial_shape: cvi_land_parcel.shape,
-                            specie_variety: { specie_variety_name: vine_variety.specie_name,
+                            specie_variety: { specie_variety_name: vine_variety.short_name,
                                               specie_variety_uuid: vine_variety.id,
                                               specie_variety_providers: vine_variety.class.name },
                             type_of_occupancy: (type_of_occupancy == 'tenant_farming' ? :rent : type_of_occupancy),

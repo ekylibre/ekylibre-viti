@@ -12,11 +12,11 @@ module Backend
     def self.cvi_cadastral_plants_conditions
       code = ''
       code = search_conditions(cvi_cadastral_plants: %i[state],
-                               registered_protected_designation_of_origins: %i[product_human_name_fra],
-                               master_vine_varieties: %i[specie_name],
-                               "rootstocks_cvi_cadastral_plants" => %i[specie_name],
+                               registered_quality_and_origin_signs: %i[product_human_name_fra],
+                               registered_vine_varieties: %i[short_name],
+                               "rootstocks_cvi_cadastral_plants" => %i[short_name],
                                locations: %i[locality],
-                               registered_postal_zones: %i[city_name]) + " ||= []\n"
+                               registered_postal_codes: %i[city_name]) + " ||= []\n"
 
       code << "c[0] << ' AND cvi_cadastral_plants.cvi_statement_id = ?'\n"
       code << "c << params[:id].to_i\n"
@@ -37,13 +37,13 @@ module Backend
 
       # # designation_of_origin_name
       code << "unless params[:designation_of_origin_name].blank? \n"
-      code << "  c[0] << ' AND registered_protected_designation_of_origins.product_human_name_fra = ?'\n"
+      code << "  c[0] << ' AND registered_quality_and_origin_signs.product_human_name_fra = ?'\n"
       code << "  c << params[:designation_of_origin_name]\n"
       code << "end\n"
 
       # # vine_variety_name
       code << "unless params[:vine_variety_name].blank? \n"
-      code << "  c[0] << ' AND master_vine_varieties.specie_name = ?'\n"
+      code << "  c[0] << ' AND registered_vine_varieties.short_name = ?'\n"
       code << "  c << params[:vine_variety_name]\n"
       code << "end\n"
 
@@ -79,7 +79,7 @@ module Backend
       t.column :state
     end
 
-    list(:cvi_cadastral_plants, order: 'land_parcel_id DESC', 
+    list(:cvi_cadastral_plants, order: 'land_parcel_id DESC',
                                 conditions: cvi_cadastral_plants_conditions,
                                 select:
                                 [

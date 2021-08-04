@@ -21,7 +21,7 @@ module Backend
                                 joins:
                                   "LEFT JOIN locations as locations ON cvi_cultivable_zones.id = locations.localizable_id AND locations.localizable_type = 'CviCultivableZone'
                                    LEFT JOIN cvi_cadastral_plants ON cvi_cultivable_zones.id = cvi_cadastral_plants.cvi_cultivable_zone_id
-                                   LEFT JOIN registered_postal_zones ON locations.registered_postal_zone_id = registered_postal_zones.id",
+                                   LEFT JOIN registered_postal_codes ON locations.registered_postal_zone_id = registered_postal_codes.id",
                                 group: "cvi_cultivable_zones.id",
                                 count: 'DISTINCT cvi_cultivable_zones.id',
                                 conditions: { cvi_statement_id: 'params[:id]'.c },

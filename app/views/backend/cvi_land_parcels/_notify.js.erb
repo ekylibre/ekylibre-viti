@@ -1,5 +1,5 @@
 <% attributes ||= [] %>
-$('#notifications-tag').append("<%=j notifications_tag %>")
+$("<%=j notifications_tag %>").insertBefore("#core");
 <%if attributes.any? %>
 ekylibre.cviLandParcels.list.formatUngroupableRow(<%=ids.to_json.html_safe%>, <%=attributes.to_json.html_safe %>)
 <%end%>

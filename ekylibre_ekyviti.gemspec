@@ -18,8 +18,8 @@ Gem::Specification.new do |s|
   s.require_path = ['lib']
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency 'capistrano-git-with-submodules', '~> 2.0'
   s.add_dependency 'capistrano', '3.15.0'
+  s.add_dependency 'capistrano-git-with-submodules', '~> 2.0'
   s.add_dependency 'capistrano-nvm', '0.0.7'
   s.add_dependency 'capistrano-rails', '1.6.1'
   s.add_dependency 'rails', '5.0.7.2'

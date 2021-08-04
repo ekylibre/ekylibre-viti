@@ -68,7 +68,7 @@ module Ekylibre
     def import_cvi_cadastral_plants(h_cvi_statement)
       cvi_statement = CviStatement.find_by(cvi_number: h_cvi_statement[:cvi_number])
       product_name = h_cvi_statement[:product].to_s.lower
-      designation_of_origins = RegisteredProtectedDesignationOfOrigin.where("unaccent(product_human_name_fra) ILIKE unaccent(?)", "%#{product_name}%")
+      designation_of_origins = RegisteredQualityAndOriginSign.where("unaccent(product_human_name_fra) ILIKE unaccent(?)", "%#{product_name}%")
 
       designation_of_origin = if product_name == ""
                                 nil
@@ -80,14 +80,14 @@ module Ekylibre
                                 designation_of_origins.first
                               end
 
-      vine_variety = MasterVineVariety.find_by(specie_name: h_cvi_statement[:grape_variety], category_name: ['Cépage', 'Hybride'])
+      vine_variety = RegisteredVineVariety.where(category: ['variety', 'hybrid']).where('short_name ILIKE ?', "%#{h_cvi_statement[:grape_variety]}%").first
       unless vine_variety
         message = :unknown_vine_variety.tl(value: h_cvi_statement[:grape_variety])
         w.error message
         raise message
       end
 
-      registered_postal_zone = RegisteredPostalZone.find_by(code: h_cvi_statement[:insee_number])
+      registered_postal_zone = RegisteredPostalCode.find_by(code: h_cvi_statement[:insee_number])
       unless registered_postal_zone
         message = :unknown_insee_number.tl(value: h_cvi_statement[:insee_number])
         w.error message
@@ -95,7 +95,7 @@ module Ekylibre
       end
 
       unless h_cvi_statement[:rootstock].blank? || h_cvi_statement[:rootstock] == 'NC99'
-        rootstock = MasterVineVariety.find_by(customs_code: h_cvi_statement[:rootstock], category_name: 'Porte-greffe')
+        rootstock = RegisteredVineVariety.find_by(custom_code: h_cvi_statement[:rootstock], category: 'rootstock')
         unless rootstock
           message = :unknown_rootstock.tl(value: h_cvi_statement[:rootstock])
           w.error message
@@ -107,7 +107,7 @@ module Ekylibre
       work_number = h_cvi_statement[:work_number]
       section = h_cvi_statement[:section]
 
-      cadastral_land_parcel_zone = CadastralLandParcelZone.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
+      cadastral_land_parcel_zone = RegisteredCadastralParcel.where('id LIKE ? and section = ? and work_number =?', insee_number, section, work_number).first
       CviCadastralPlant.create!(
         h_cvi_statement.to_h.select { |key, _| CVI_CADASTRAL_PLANT_KEYS.include? key }
           .merge(cvi_statement_id: cvi_statement.id,

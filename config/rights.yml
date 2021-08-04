@@ -1,6 +1,6 @@
 # THESE FOLLOWING ACTIONS ARE PUBLICLY ACCESSIBLE
-#     - "backend/master_vine_varieties#unroll_rootstocks"
-#     - "backend/master_vine_varieties#unroll_vine_varieties"
+#     - "backend/registered_vine_varieties#unroll_rootstocks"
+#     - "backend/registered_vine_varieties#unroll_vine_varieties"
 #     - "backend/registered_postal_zones#unroll"
 #     - "backend/registered_protected_designation_of_origins#unroll"
 

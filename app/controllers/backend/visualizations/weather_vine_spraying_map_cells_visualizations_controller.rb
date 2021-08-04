@@ -15,13 +15,13 @@ module Backend
 
         if activity_productions.any?
 
-          activity_productions.includes(:activity, :campaign, :cultivable_zone, interventions: [:outputs, :participations, tools: :product, inputs: :product]).find_each do |support|
-
+          activity_productions.includes(:activity, :campaign, :cultivable_zone, interventions: [:outputs, :participations, { tools: :product, inputs: :product }]).find_each do |support|
             # get all real interventions of vine protections during campaign
             interventions = support.interventions.real.of_category(:vine_protection)
 
             support_shape = support.support_shape
             next unless support_shape && interventions.any?
+
             popup_content = []
 
             # for support
@@ -41,6 +41,7 @@ module Backend
             end
 
             next unless rainfall_geo_analyses.any?
+
             # get only one sensor to avoid double or tripe sum for cumulated_rainfall
             ref_sensor_id = rainfall_geo_analyses.pluck(:sensor_id).uniq.first
             sensor = Sensor.find(ref_sensor_id) if ref_sensor_id
@@ -52,6 +53,7 @@ module Backend
             popup_lines << { label: sensor.human_attribute_name(:last_transmission_at), content: transmission.localize } if transmission.present?
             s_analysis.items.map do |item|
               next unless item.value.respond_to? :l
+
               popup_lines << { label: item.human_indicator_name, content: item.value.l }
             end
 
@@ -61,7 +63,7 @@ module Backend
               sensor_id: sensor.id,
               name: sensor.name,
               shape: s_analysis.geolocation,
-              shape_color: '#' + Digest::MD5.hexdigest(sensor.model_euid)[0, 6].upcase,
+              shape_color: "##{Digest::MD5.hexdigest(sensor.model_euid)[0, 6].upcase}",
               group: sensor.model_euid.camelize,
               popup: { header: header_content, content: popup_lines }
             }
@@ -75,11 +77,12 @@ module Backend
             distance = Measure.new(shape.distance(sensor_position), :meter)
 
             next unless final_items.any?
-            cumulated_rainfall = final_items.map{|f| f.value }.compact.sum
+
+            cumulated_rainfall = final_items.map(&:value).compact.sum
 
             # build popup
             popup_content << { label: :last_intervention.tl, value: view_context.link_to(last_intervention.name, backend_intervention_path(last_intervention)) }
-            popup_content << { label: :date.tl , value: last_intervention.started_at.l }
+            popup_content << { label: :date.tl, value: last_intervention.started_at.l }
             popup_content << { label: ind.human_name, value: cumulated_rainfall.l(precision: 2) } # #{:manual_period.tl(start: start.l, finish: stop.l)}
             popup_content << { label: "#{:sensors.tl} | #{distance.l(precision: 2)}", value: view_context.link_to(sensor.name, backend_sensor_path(sensor)) }
 

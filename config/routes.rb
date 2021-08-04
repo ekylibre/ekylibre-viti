@@ -10,15 +10,15 @@ Rails.application.routes.draw do
   namespace :backend do
     resources :cadastral_land_parcel_zones, only: %i[index]
 
-    resources :registered_protected_designation_of_origins, concerns: %i[unroll]
-    resources :master_vine_varieties, concerns: %i[unroll] do
+    resources :registered_quality_and_origin_signs, concerns: %i[unroll]
+    resources :registered_vine_varieties, concerns: %i[unroll] do
       collection do
         get :unroll_vine_varieties
         get :unroll_rootstocks
       end
     end
 
-    resources :registered_postal_zones, only: [], concerns: %i[unroll]
+    resources :registered_postal_codes, only: [], concerns: %i[unroll]
 
     resources :cvi_statements, concerns: %i[list] do
       member do
@@ -79,7 +79,7 @@ Rails.application.routes.draw do
     namespace :visualizations do
       resource :weather_vine_spraying_map_cells_visualizations, only: :show
     end
-    
+
     resources :wine_incoming_harvests, concerns: :list do
       member do
         get :list_plants
