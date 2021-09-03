@@ -8,7 +8,7 @@ ekylibre.cviCadastralPlants ||= {}
 
     manageErrorMessage: ->
       if $("tr.invalid").length > 0 and $('#error').children().length == 0
-        $('#error').append(E.templates.invalidCviCadastralPlantMessage())
+        $('#error').append(E.ekyviti.templates.invalidCviCadastralPlantMessage())
   }
 
   $(document).ready ->

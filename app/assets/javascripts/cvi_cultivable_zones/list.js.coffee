@@ -60,8 +60,8 @@ ekylibre.cviCultivableZones ||= {}
         list.manageButtons()
 
     addButton: ->
-      $(E.templates.cviCultivableZonesButton()).insertBefore('#cvi_cultivable_zones-list tr:first')
-      $(E.templates.cviCultivableZonesButton()).insertAfter('#cvi_cultivable_zones-list tr:last')
+      $(E.ekyviti.templates.cviCultivableZonesButton()).insertBefore('#cvi_cultivable_zones-list tr:first')
+      $(E.ekyviti.templates.cviCultivableZonesButton()).insertAfter('#cvi_cultivable_zones-list tr:last')
 
     formatRow: ->
       $('[id^=cvi_cultivable_zones] tr th:nth-child(11) > i').remove().html(I18n.t("front-end.active_list.labels.manage_land_parcels"))

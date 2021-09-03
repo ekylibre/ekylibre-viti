@@ -11,9 +11,9 @@
 // about supported directives.
 //
 
-//= require map
+//= require map/cvi_map
 //= require map/cvi_map_config
-//= require_tree ./
+//= require_tree ./shared
 //= require_tree ./cvi_cadastral_plants
 //= require_tree ./cvi_cultivable_zones
 //= require_tree ./cvi_land_parcels
