@@ -29,7 +29,7 @@ ekylibre.cviLandParcels.editForm ||= {}
       $form.find(".split-form").remove()
       this.count = new_objects.length
       for element in new_objects
-        $form.append(E.templates.splitLandParcelForm(old , element))
+        $form.append(E.ekyviti.templates.splitLandParcelForm(old , element))
       $("input[data-selector]").each ->
         $(this).selector()
 
@@ -42,7 +42,7 @@ ekylibre.cviLandParcels.editForm ||= {}
     cancel: ->
       this.count = 0
       E.cviLandParcels.list.render()
-      $.reloadMap()
+      $.reloadCartographyMap()
   }
 
 )(ekylibre, jQuery)

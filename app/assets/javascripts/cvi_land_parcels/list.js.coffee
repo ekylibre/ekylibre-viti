@@ -93,8 +93,8 @@
         list.manageButtons()
 
     addButtons: ->
-      $(E.templates.cviLandParcelsButtons()).insertBefore('#cvi_land_parcels-list tr:first')
-      $(E.templates.cviLandParcelsButtons()).insertAfter('#cvi_land_parcels-list tr:last')
+      $(E.ekyviti.templates.cviLandParcelsButtons()).insertBefore('#cvi_land_parcels-list tr:first')
+      $(E.ekyviti.templates.cviLandParcelsButtons()).insertAfter('#cvi_land_parcels-list tr:last')
     
     formatUngroupableRow: (ids, attributes) ->
       list = this
