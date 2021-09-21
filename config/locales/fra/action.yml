@@ -126,7 +126,7 @@ fra:
     reset_cvi_cutlivable_zone_body: "<b>Attention !</b><br>Vous allez réinitialiser le parcellaire de cette Zone cultivable. Si vous confirmez, toutes les modifications déjà enregistrées seront perdues.<br><br>Souhaitez-vous confirmer cette réinitialisation?"
     reset_cvi_cutlivable_zone_header: "Réinitialiser le parcellaire d'une Zone cultivable"
     resume_cvi_conversion: "Reprendre la conversion en cours"
-    rootstock: "rootstock"
+    rootstock: "Porte-greffe"
     select_cvi_campaign_intro: "<p class='h4'>Les parcelles cadastrales de votre CVI vont être converties en parcellaire pour une campagne de production viticole.</p><p class='h4'>Veuillez choisir le 1er millésime à partir duquel vous souhaitez créer votre parcellaire et les productions associées:</p>"
     split: "Dissocier"
     start_state_of_production: "1ère année de production (plantation année N)"
