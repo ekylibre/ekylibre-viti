@@ -92,7 +92,13 @@ module Backend
                                     "cadastral_reference"
                                   ]
                                 ],
-                                left_joins: [:designation_of_origin, { location: :registered_postal_zone }, :vine_variety, :rootstock],
+                                joins: <<-SQL,
+                                  LEFT JOIN "locations" ON "locations"."localizable_id" = "cvi_cadastral_plants"."id" AND "locations"."localizable_type" = 'CviCadastralPlant'
+                                  LEFT JOIN "registered_postal_codes" ON "registered_postal_codes"."id" = "locations"."registered_postal_zone_id"
+                                  LEFT JOIN "registered_quality_and_origin_signs" ON "registered_quality_and_origin_signs"."id" = "cvi_cadastral_plants"."designation_of_origin_id"
+                                  LEFT JOIN "registered_vine_varieties" ON "registered_vine_varieties"."id" = "cvi_cadastral_plants"."vine_variety_id"
+                                  LEFT JOIN "registered_vine_varieties" "rootstocks_cvi_cadastral_plants" ON "rootstocks_cvi_cadastral_plants"."id" = "cvi_cadastral_plants"."rootstock_id"
+                                SQL
                                 count: 'DISTINCT cvi_cadastral_plants.id',
                                 line_class: "('invalid' unless RECORD.land_parcel_id) || ('edited' if RECORD.cadastral_ref_updated)".c) do |t|
       t.column :land_parcel_id, hidden: true
