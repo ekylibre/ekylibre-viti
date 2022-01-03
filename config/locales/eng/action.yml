@@ -1,10 +1,5 @@
 eng:
   actions:
-    backend/crop_groups:
-      edit: "Edit crop group: %{name}"
-      index: "Crop groups"
-      new: "New crop group"
-      show: "Crop group: %{name}"
     backend/cvi_cultivable_zones:
       show: "Cvi cultivable zone: %{name}"
     backend/cvi_land_parcels:

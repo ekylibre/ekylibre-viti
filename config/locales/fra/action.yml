@@ -1,10 +1,5 @@
 fra:
   actions:
-    backend/crop_groups:
-      edit: "Modifier le groupement parcellaire\_: %{name}"
-      index: "Groupements parcellaire"
-      new: "Nouveau groupement parcellaire"
-      show: "Groupement parcellaire\_: %{name}"
     backend/cvi_cultivable_zones:
       show: "Zone cultivable : %{name}"
     backend/cvi_land_parcels:
