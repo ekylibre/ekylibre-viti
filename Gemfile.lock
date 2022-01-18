@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ekylibre_ekyviti (1.2.0)
+    ekylibre_ekyviti (1.2.2)
       capistrano (= 3.15.0)
       capistrano-git-with-submodules (~> 2.0)
       capistrano-nvm (= 0.0.7)
