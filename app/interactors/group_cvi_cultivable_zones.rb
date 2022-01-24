@@ -64,7 +64,7 @@ class GroupCviCultivableZones < ApplicationInteractor
   end
 
   def update_associated_locations
-    locations = Location.where(localizable_id: context.cvi_cultivable_zones.collect(&:id), localizable_type: 'CviCultivableZone').uniq
+    locations = Location.where(localizable_id: context.cvi_cultivable_zones.collect(&:id), localizable_type: 'CviCultivableZone').distinct
     locations.update_all(localizable_id: context.new_cvi_cultivable_zone.id)
   end
 
