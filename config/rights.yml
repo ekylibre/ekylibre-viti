@@ -84,3 +84,17 @@ cadastral_land_parcel_zones:
   read:
     actions:
     - "backend/cadastral_land_parcel_zones#index"
+
+wine_incoming_harvests:
+  read:
+    actions:
+      - "backend/wine_incoming_harvests#index"
+      - "backend/wine_incoming_harvests#show"
+      - "backend/wine_incoming_harvests#list"
+  write:
+    dependencies:
+    - read-wine_incoming_harvests
+    actions:
+      - "backend/wine_incoming_harvests#create"
+      - "backend/wine_incoming_harvests#update"
+      - "backend/wine_incoming_harvests#destroy"
