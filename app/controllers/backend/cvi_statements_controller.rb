@@ -106,7 +106,7 @@ module Backend
       t.action :delete_modal, url: { controller: 'cvi_cadastral_plants', action: 'delete_modal', remote: true }, icon_name: 'delete'
       t.column :city_name, through: :location, label: :commune
       t.column :locality, through: :location
-      t.column :cadastral_reference
+      t.column :cadastral_reference, label: :cadastral_reference
       t.column :product_human_name_fra, through: :designation_of_origin
       t.column :vine_variety_name, through: :vine_variety
       t.column :area, label_method: 'area&.to_s(:ha_a_ca)', sort: :area_value
