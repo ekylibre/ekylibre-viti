@@ -101,7 +101,7 @@ module Backend
                                 SQL
                                 count: 'DISTINCT cvi_cadastral_plants.id',
                                 line_class: "('invalid' unless RECORD.land_parcel_id) || ('edited' if RECORD.cadastral_ref_updated)".c) do |t|
-      t.column :land_parcel_id, hidden: true
+      t.column :land_parcel_id, hidden: true, label: :land_parcel
       t.action :edit, url: { controller: 'cvi_cadastral_plants', action: 'edit', remote: true }
       t.action :delete_modal, url: { controller: 'cvi_cadastral_plants', action: 'delete_modal', remote: true }, icon_name: 'delete'
       t.column :city_name, through: :location, label: :commune
