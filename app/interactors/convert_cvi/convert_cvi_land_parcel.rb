@@ -77,17 +77,18 @@ module ConvertCvi
       # variant = ProductNatureVariant.new(category: category, nature: nature)
 
       type_of_occupancy = cvi_land_parcel.cvi_cadastral_plants.first.type_of_occupancy.presence if cvi_land_parcel.cvi_cadastral_plants.present?
+      vine_variety = cvi_land_parcel.vine_variety
 
-      name = "#{activity.name} #{planting_campaign.name} #{cultivable_zone.name} #{cvi_land_parcel.vine_variety.short_name}"
-      plant_with_same_name = Plant.where('name like ?', "#{name}%").count
-      index = " n° #{plant_with_same_name + 1}" if plant_with_same_name.positive?
+      plant_name = "#{cvi_land_parcel.name} | #{vine_variety.short_name}"
+      plant_with_same_name = Plant.where('name like ?', "#{plant_name}%").count
+      plant_name += " n° #{plant_with_same_name + 1}" if plant_with_same_name.positive?
 
       variant = ProductNatureVariant.import_from_nomenclature(:vine_grape_crop)
       start_at = Time.zone.local(cvi_land_parcel.planting_campaign.to_i, 1, 1)
-      vine_variety = cvi_land_parcel.vine_variety
+
       certification_label = cvi_land_parcel.designation_of_origin.product_human_name_fra if cvi_land_parcel.designation_of_origin
       plant = Plant.create!(variant_id: variant.id,
-                            name: "#{cvi_land_parcel.name} | #{vine_variety.short_name}",
+                            name: plant_name,
                             initial_born_at: start_at,
                             dead_at: (cvi_land_parcel.land_modification_date if cvi_land_parcel.state == 'removed_with_authorization'),
                             initial_shape: cvi_land_parcel.shape,
@@ -102,6 +103,9 @@ module ConvertCvi
       plant.read!(:plants_interval, cvi_land_parcel.inter_vine_plant_distance_value.in(cvi_land_parcel.inter_vine_plant_distance_unit.to_sym), at: start_at)
       plant.read!(:certification_label, certification_label, at: start_at) if certification_label
       plant.read!(:shape, cvi_land_parcel.shape, at: start_at, force: true)
+      plant.read!(:missing_vine_stock, 0, at: start_at)
+      plant.reload
+      plant.read!(:plants_count, plant.estimated_vine_stock(at: start_at), at: start_at)
     end
 
     private
