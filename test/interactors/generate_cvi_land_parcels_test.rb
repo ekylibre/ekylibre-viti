@@ -28,6 +28,6 @@ class GenerateCviLandParcelsTest < Ekylibre::Testing::ApplicationTestCase::WithF
     cvi_cadastral_plant = CviCadastralPlant.last
     cvi_land_parcel = CviLandParcel.find_by(name: cvi_cadastral_plant.cadastral_reference)
     assert_equal :polygon, cvi_land_parcel.shape.type
-    assert_in_delta cvi_cadastral_plant.shape.area, cvi_land_parcel.shape.area, 0.00001
+    assert_in_delta cvi_cadastral_plant.shape.area, cvi_land_parcel.shape.area, 0.5
   end
 end
