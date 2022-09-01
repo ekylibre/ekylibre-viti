@@ -50,14 +50,17 @@ module Backend
     end
 
     test '#convert redirect to cvi_statements index if it succeed' do
-      post :convert, params: { id: @cvi_statement_ready_to_convert.id }
-      assert_redirected_to backend_cvi_statements_path
+      ConvertCvi::Base.stub :call, OpenStruct.new(success?: true) do
+        post :convert, params: { id: @cvi_statement_ready_to_convert.id }
+        assert_redirected_to backend_cvi_statements_path
+      end
     end
 
     test '#convert redirect to cvi_statements_conversion show if it failed' do
-      @cvi_statement_ready_to_convert.cvi_land_parcels.first.update_attribute('activity_id', nil)
-      post :convert, params: { id: @cvi_statement_ready_to_convert.id }
-      assert_redirected_to backend_cvi_statement_conversion_path(@cvi_statement_ready_to_convert.id)
+      ConvertCvi::Base.stub :call, OpenStruct.new(success?: false) do
+        post :convert, params: { id: @cvi_statement_ready_to_convert.id }
+        assert_redirected_to backend_cvi_statement_conversion_path(@cvi_statement_ready_to_convert.id)
+      end
     end
   end
 end
