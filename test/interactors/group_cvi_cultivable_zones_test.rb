@@ -24,7 +24,7 @@ class GroupCviCultivableZonesTest < Ekylibre::Testing::ApplicationTestCase::With
 
   test('#call if cvi_cultivable_zones are groupable, it destroy grouped cvi_cultivable_zones') do
     GroupCviCultivableZones.call(cvi_cultivable_zones: cvi_cultivable_zones)
-    assert_empty CviCultivableZone.find(cvi_cultivable_zones.map(&:id))
+    assert_empty CviCultivableZone.where(id: cvi_cultivable_zones.map(&:id))
   end
 
   test('#call if cvi_cultivable_zones are groupable, and one of cvi_cultivable_zones don\'t have any cvi_land_parcels  created yet') do
