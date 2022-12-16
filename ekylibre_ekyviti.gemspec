@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.require_path = ['lib']
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency 'rails', '~> 5.1.7'
+  s.add_dependency 'rails', '~> 5.2'
   # Encapsulate application's business logic.
   s.add_dependency 'interactor-rails'
 
