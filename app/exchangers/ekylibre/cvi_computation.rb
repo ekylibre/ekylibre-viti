@@ -67,18 +67,23 @@ module Ekylibre
 
     def import_cvi_cadastral_plants(h_cvi_statement)
       cvi_statement = CviStatement.find_by(cvi_number: h_cvi_statement[:cvi_number])
-      product_name = h_cvi_statement[:product].to_s.lower
-      designation_of_origins = RegisteredQualityAndOriginSign.where("unaccent(product_human_name_fra) ILIKE unaccent(?)", "%#{product_name}%")
+      
+      designation_of_origin = nil
+      if h_cvi_statement[:product].present?
+        product_name = h_cvi_statement[:product].to_s.lower 
 
-      designation_of_origin = if product_name == ""
-                                nil
-                              elsif designation_of_origins.length > 1
-                                designation_of_origins.min_by do |doo|
-                                  (doo.product_human_name_fra.length - product_name.length).abs
+        # designation_of_origins = RegisteredQualityAndOriginSign.where("unaccent(product_human_name_fra) ILIKE unaccent(?)", "%#{product_name}%")
+
+        designation_of_origins = RegisteredQualityAndOriginSign.where("similarity(unaccent(product_human_name_fra), unaccent(?)) >= 0.5", product_name)
+
+        designation_of_origin = if designation_of_origins.length > 1
+                                  designation_of_origins.min_by do |doo|
+                                    (doo.product_human_name_fra.length - product_name.length).abs
+                                  end
+                                else
+                                  designation_of_origins.first
                                 end
-                              else
-                                designation_of_origins.first
-                              end
+      end
 
       vine_variety = RegisteredVineVariety.where(category: ['variety', 'hybrid']).where('short_name ILIKE ?', "%#{h_cvi_statement[:grape_variety]}%").first
       unless vine_variety
@@ -170,7 +175,7 @@ module Ekylibre
     end
 
     def format_planting_campaign(h_cvi_statement)
-      h_cvi_statement[:planting_campaign] = nil if h_cvi_statement[:planting_campaign].to_s == "9999" || h_cvi_statement[:planting_campaign].to_s == ''
+      h_cvi_statement[:planting_campaign] = nil if (h_cvi_statement[:planting_campaign].to_s == "9999" || h_cvi_statement[:planting_campaign].to_s == "9999-9999" || h_cvi_statement[:planting_campaign].to_s == '')
     end
 
     def convert_states(h_cvi_statement)

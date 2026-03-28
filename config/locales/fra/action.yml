@@ -54,7 +54,7 @@ fra:
     add_crop: "Ajouter une parcelle/culture"
     add_plant: "Ajouter une culture"
     add_press: "Ajouter un pressoir"
-    add_tank: "Ajouter une cuve"
+    add_wine_tank: "Ajouter une cuve"
     add_use: "Ajouter un usage"
     are_you_sure_you_want_to_reset_cvi_conversion: "Êtes-vous sûr(e) de vouloir réinitialiser la conversion du parcellaire\_?" #?
     cadastral_reference: "Réf. cadastrale"
@@ -100,7 +100,7 @@ fra:
     mechanical: "Mécanique"
     edit_analysis: "Modifier l'analyse"
     harvested_plants: "Cultures récoltées"
-    incoming_harvest_quantity: "Quantité de vendange"
+    wine_incoming_harvest_quantity: "Quantité de vendange"
     must_volume: "Volume moût (hl)"
     odt_format: "Format tableur ODT"
     percentage: "Répartition"
