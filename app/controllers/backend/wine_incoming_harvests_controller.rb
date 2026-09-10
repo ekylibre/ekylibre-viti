@@ -126,13 +126,13 @@ module Backend
       FileUtils.mkdir_p tmp_dir
       File.write source, file_odt
       `soffice  --headless --convert-to pdf --outdir #{Shellwords.escape(tmp_dir.to_s)} #{Shellwords.escape(source)}`
-      Document.create!(
-                 nature: 'wine_incoming_harvest_register',
-                 key: key,
-                 name: filename,
-                 file: File.open(dest),
-                 file_file_name: "#{key}.pdf"
-               )
+      # Paperclip acceptait un File sous `file:` et le nom sous
+      # `file_file_name:`. Depuis le passage du cœur à Active Storage (lot A.3
+      # du plan v6) le contenu s'attache explicitement, et `file_file_name`
+      # n'est plus une colonne : elle est relue depuis le blob.
+      document = Document.new(nature: 'wine_incoming_harvest_register', key: key, name: filename)
+      document.file.attach(io: File.open(dest), filename: "#{key}.pdf", content_type: 'application/pdf')
+      document.save!
       send_data(File.read(dest), type: 'application/pdf', disposition: 'attachment', filename: filename + '.pdf')
     end
 

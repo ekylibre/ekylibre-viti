@@ -18,7 +18,11 @@ Gem::Specification.new do |s|
   s.require_path = ['lib']
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency 'rails', '~> 5.2'
+  # Borne relâchée pour la montée (lot B du plan v6 d'Ekylibre). Le couplage a
+  # été mesuré avant : les 9 références à ActiveRecord du plugin sont toutes
+  # des API publiques et stables — `Base.transaction`, `RecordNotFound` et un
+  # `connection.execute` de SQL PostGIS brut. Rien d'interne.
+  s.add_dependency 'rails', '>= 5.2', '< 9'
   # Encapsulate application's business logic.
   s.add_dependency 'interactor-rails'
 
