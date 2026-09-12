@@ -66,7 +66,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cvi_cadastral_plants, only: %i[destroy edit patch update], defaults: { format: 'js' } do
+    # `:patch` n'est pas une action REST — c'est le verbe HTTP de `update`, que
+    # la liste mentionne déjà. Rails 8.0 refuse ce qui n'est pas une des sept
+    # actions ; le contrôleur n'a de toute façon que `index`, `update` et
+    # `delete_modal`.
+    resources :cvi_cadastral_plants, only: %i[destroy edit update], defaults: { format: 'js' } do
       member do
         get :delete_modal
       end
